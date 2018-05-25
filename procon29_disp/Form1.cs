@@ -47,10 +47,14 @@ namespace procon29_disp
                 //{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, }
             };
 
-
+           
             procon = new Procon29_Display(pointarray);
+            procon.Message = "This is Procon29 Visualizar, okay?\n";
             procon.PointMapCheck();
             procon.Show(pictureBox1);
+
+            messageBox.Text += procon.Message;
+            messageBox.Select(messageBox.Text.Length, 0);
         }
 
         //Resizeイベントハンドラ
@@ -63,7 +67,9 @@ namespace procon29_disp
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            procon.Show(pictureBox1);
+            procon.ClickedShow(pictureBox1);
+            messageBox.Text = procon.Message;
+            messageBox.Select(messageBox.Text.Length, 0);
         }
 
         private void mouseMove(object sender, MouseEventArgs e)
