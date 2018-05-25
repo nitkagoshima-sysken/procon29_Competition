@@ -276,7 +276,18 @@ namespace procon29_disp
             Bitmap canvas = new Bitmap(((pictureBox.Width <= 0) ? 1 : pictureBox.Width), ((pictureBox.Height <= 0) ? 1 : pictureBox.Height));
             //ImageオブジェクトのGraphicsオブジェクトを作成する
             Graphics graphics = Graphics.FromImage(canvas);
-            
+
+            System.Drawing.Point systemCursorPosition = System.Windows.Forms.Cursor.Position;
+            System.Drawing.Point pictureBoxCursorPosition = pictureBox.PointToClient(systemCursorPosition);
+            Point clickedFieldPoint = new Point(
+                x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
+                y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
+            if ((clickedFieldPoint.X < field.GetLength(1)) && (clickedFieldPoint.Y < field.GetLength(0)))
+                ClickedField = new Point(
+                    x: clickedFieldPoint.X,
+                    y: clickedFieldPoint.Y);
+
+            Message += "[Info] Clicked (" + ClickedField.X.ToString() + ", " + ClickedField.Y.ToString() + ")\n";
 
             MakePictureBox(pictureBox, canvas, graphics);
 
