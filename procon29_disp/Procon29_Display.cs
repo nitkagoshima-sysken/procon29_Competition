@@ -119,7 +119,7 @@ namespace procon29_disp
             AgentPosition[(int)Team.FilstTeam, (int)Agent.FilstAgent] = initPositionOfFilstAgentOfFirstTeam;
             AgentPosition[(int)Team.FilstTeam, (int)Agent.SecondAgent] = initPositionOfSecondAgentOfFirstTeam;
             AgentPosition[(int)Team.LastTeam, (int)Agent.FilstAgent] = initPositionOfFilstAgentOfLastTeam;
-            AgentPosition[(int)Team.FilstTeam, (int)Agent.SecondAgent] = initPositionOfSecondAgentOfLastTeam;
+            AgentPosition[(int)Team.LastTeam, (int)Agent.SecondAgent] = initPositionOfSecondAgentOfLastTeam;
             for (int i = 0; i < 12; i++)
             {
                 for (int j = 0; j < 12; j++)
@@ -253,9 +253,41 @@ namespace procon29_disp
                         font: PointFont,
                         brush: Brushes.DarkGray,
                         x: (float)(i + 0.1) * fieldWidth,
-                        y: j * fieldHeight);
+                        y: (float)(j + 0.2) * fieldHeight);
                 }
             }
+
+            PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
+            graphics.DrawString(
+                s: "F1",
+                font: PointFont,
+                brush: Brushes.Orange,
+                x: (float)(AgentPosition[(int)Team.FilstTeam, (int)Agent.FilstAgent].X + 0.7) * fieldWidth,
+                y: AgentPosition[(int)Team.FilstTeam, (int)Agent.FilstAgent].Y * fieldHeight);
+
+            PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
+            graphics.DrawString(
+                s: "F2",
+                font: PointFont,
+                brush: Brushes.Orange,
+                x: (float)(AgentPosition[(int)Team.FilstTeam, (int)Agent.SecondAgent].X + 0.7) * fieldWidth,
+                y: AgentPosition[(int)Team.FilstTeam, (int)Agent.SecondAgent].Y * fieldHeight);
+            PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
+
+            graphics.DrawString(
+                s: "L1",
+                font: PointFont,
+                brush: Brushes.LightGreen,
+                x: (float)(AgentPosition[(int)Team.LastTeam, (int)Agent.FilstAgent].X + 0.7) * fieldWidth,
+                y: AgentPosition[(int)Team.LastTeam, (int)Agent.FilstAgent].Y * fieldHeight);
+            PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
+
+            graphics.DrawString(
+                s: "L2",
+                font: PointFont,
+                brush: Brushes.LightGreen,
+                x: (float)(AgentPosition[(int)Team.LastTeam, (int)Agent.SecondAgent].X + 0.7) * fieldWidth,
+                y: AgentPosition[(int)Team.LastTeam, (int)Agent.SecondAgent].Y * fieldHeight);
 
             System.Drawing.Point systemCursorPosition = System.Windows.Forms.Cursor.Position;
             System.Drawing.Point pictureBoxCursorPosition = pictureBox.PointToClient(systemCursorPosition);
