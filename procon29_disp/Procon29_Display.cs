@@ -227,6 +227,13 @@ namespace procon29_disp
 
         public void RemoveArea(Team team, Agent agent) => field[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsArea[(int)team] = false;
 
+        public void MoveAgent(Team team, Agent agent, Point where)
+        {
+            AgentPosition[(int)team, (int)agent] = where;
+            MakeArea(team: team, agent: agent);
+            Message += "[Info][MoveAgent] AgentPosition[" + team.ToString() + "][" +agent.ToString()+ "] = " + AgentPosition[(int)team, (int)agent] + "\n";
+        }
+
         public Bitmap MakePictureBox(PictureBox pictureBox, Bitmap canvas, Graphics graphics)
         {
             var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / field.GetLength(0);
