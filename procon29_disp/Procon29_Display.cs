@@ -173,7 +173,7 @@ namespace procon29_disp
 
         public static string PointFamilyName => pointFamilyName;
         public Point[,] AgentPosition { get => agentPosition; set => agentPosition = value; }
-        public int Turn { get => turn; set => turn = value; }
+        public int Turn { get { return turn; } private set { turn = value; } }
 
         public void PointMapCheck()
         {
