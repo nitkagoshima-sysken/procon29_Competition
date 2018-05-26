@@ -227,7 +227,22 @@ namespace procon29_disp
             {
                 for (int j = 0; j < field.GetLength(1); j++)
                 {
-                    graphics.FillRectangle(
+                    if (field[j, i].IsArea[0])
+                        graphics.FillRectangle(
+                        brush: new SolidBrush(Color.DarkGreen),
+                        x: i * fieldWidth,
+                        y: j * fieldHeight,
+                        width: fieldWidth,
+                        height: fieldHeight);
+                    else if (field[j, i].IsArea[1])
+                        graphics.FillRectangle(
+                        brush: new SolidBrush(Color.DarkOrange),
+                        x: i * fieldWidth,
+                        y: j * fieldHeight,
+                        width: fieldWidth,
+                        height: fieldHeight);
+                    else
+                        graphics.FillRectangle(
                         brush: BackGroundSolidBrush,
                         x: i * fieldWidth,
                         y: j * fieldHeight,
