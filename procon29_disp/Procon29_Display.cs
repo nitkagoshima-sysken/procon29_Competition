@@ -339,8 +339,8 @@ namespace procon29_disp
                     width: fieldWidth,
                     height: fieldHeight);
 
-            graphics.FillRectangle(
-                brush: ClickedSolidBrush,
+            graphics.DrawRectangle(
+                pen: new Pen(color: Color.LightSkyBlue, width: 5),
                 x: ClickedField.X * fieldWidth,
                 y: ClickedField.Y * fieldHeight,
                 width: fieldWidth,
