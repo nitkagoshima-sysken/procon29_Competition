@@ -43,7 +43,6 @@ namespace procon29_disp
                 initPositionOfFilstAgentOfLastTeam: new Point(0, 3),
                 initPositionOfSecondAgentOfLastTeam: new Point(0, 9));
 
-            procon.Message = "This is Procon29 Visualizar, okay?\n";
             procon.PointMapCheck();
             procon.Show(pictureBox1);
 
