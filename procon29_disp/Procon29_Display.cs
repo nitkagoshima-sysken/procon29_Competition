@@ -131,6 +131,10 @@ namespace procon29_disp
                 }
             }
             turn = 1;
+            Message += "[Info] AgentPosition[(int)Team.FilstTeam, (int)Agent.FilstAgent] = " + initPositionOfFilstAgentOfFirstTeam.ToString() + "\n";
+            Message += "[Info] AgentPosition[(int)Team.FilstTeam, (int)Agent.SecondAgent] = " + initPositionOfSecondAgentOfFirstTeam.ToString() + "\n";
+            Message += "[Info] AgentPosition[(int)Team.LastTeam, (int)Agent.FilstAgent] = " + initPositionOfFilstAgentOfLastTeam.ToString() + "\n";
+            Message += "[Info] AgentPosition[(int)Team.LastTeam, (int)Agent.SecondAgent] = " + initPositionOfSecondAgentOfLastTeam.ToString() + "\n";
         }
 
         /// <summary>
