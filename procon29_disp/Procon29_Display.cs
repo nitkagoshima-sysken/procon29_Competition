@@ -31,11 +31,11 @@ namespace procon29_disp
         /// <summary>
         /// 1人目のエージェントを表します。
         /// </summary>
-        Filst,
+        One,
         /// <summary>
         /// 2人目のエージェントを表します。
         /// </summary>
-        Second
+        Two
     }
 
     /// <summary>
@@ -116,10 +116,10 @@ namespace procon29_disp
             Point initPositionOfFilstAgentOfLastTeam,
             Point initPositionOfSecondAgentOfLastTeam)
         {
-            AgentPosition[(int)Team.Filst, (int)Agent.Filst] = initPositionOfFilstAgentOfFirstTeam;
-            AgentPosition[(int)Team.Filst, (int)Agent.Second] = initPositionOfSecondAgentOfFirstTeam;
-            AgentPosition[(int)Team.Last, (int)Agent.Filst] = initPositionOfFilstAgentOfLastTeam;
-            AgentPosition[(int)Team.Last, (int)Agent.Second] = initPositionOfSecondAgentOfLastTeam;
+            AgentPosition[(int)Team.Filst, (int)Agent.One] = initPositionOfFilstAgentOfFirstTeam;
+            AgentPosition[(int)Team.Filst, (int)Agent.Two] = initPositionOfSecondAgentOfFirstTeam;
+            AgentPosition[(int)Team.Last, (int)Agent.One] = initPositionOfFilstAgentOfLastTeam;
+            AgentPosition[(int)Team.Last, (int)Agent.Two] = initPositionOfSecondAgentOfLastTeam;
             for (int i = 0; i < 12; i++)
             {
                 for (int j = 0; j < 12; j++)
@@ -137,10 +137,10 @@ namespace procon29_disp
             Message += "[Info][Init] AgentPosition[(int)Team.LastTeam, (int)Agent.SecondAgent] = " + initPositionOfSecondAgentOfLastTeam.ToString() + "\n";
             Message += "[Info][Init] Turn = " + Turn.ToString() + "\n";
 
-            MakeArea(team: Team.Filst, agent: Agent.Filst);
-            MakeArea(team: Team.Filst, agent: Agent.Second);
-            MakeArea(team: Team.Last, agent: Agent.Filst);
-            MakeArea(team: Team.Last, agent: Agent.Second);
+            MakeArea(team: Team.Filst, agent: Agent.One);
+            MakeArea(team: Team.Filst, agent: Agent.Two);
+            MakeArea(team: Team.Last, agent: Agent.One);
+            MakeArea(team: Team.Last, agent: Agent.Two);
         }
 
         /// <summary>
@@ -299,32 +299,32 @@ namespace procon29_disp
                 s: "F1",
                 font: PointFont,
                 brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
-                x: (float)(AgentPosition[(int)Team.Filst, (int)Agent.Filst].X + 0.7) * fieldWidth,
-                y: AgentPosition[(int)Team.Filst, (int)Agent.Filst].Y * fieldHeight);
+                x: (float)(AgentPosition[(int)Team.Filst, (int)Agent.One].X + 0.7) * fieldWidth,
+                y: AgentPosition[(int)Team.Filst, (int)Agent.One].Y * fieldHeight);
 
             PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
             graphics.DrawString(
                 s: "F2",
                 font: PointFont,
                 brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
-                x: (float)(AgentPosition[(int)Team.Filst, (int)Agent.Second].X + 0.7) * fieldWidth,
-                y: AgentPosition[(int)Team.Filst, (int)Agent.Second].Y * fieldHeight);
+                x: (float)(AgentPosition[(int)Team.Filst, (int)Agent.Two].X + 0.7) * fieldWidth,
+                y: AgentPosition[(int)Team.Filst, (int)Agent.Two].Y * fieldHeight);
             PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
 
             graphics.DrawString(
                 s: "L1",
                 font: PointFont,
                 brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
-                x: (float)(AgentPosition[(int)Team.Last, (int)Agent.Filst].X + 0.7) * fieldWidth,
-                y: AgentPosition[(int)Team.Last, (int)Agent.Filst].Y * fieldHeight);
+                x: (float)(AgentPosition[(int)Team.Last, (int)Agent.One].X + 0.7) * fieldWidth,
+                y: AgentPosition[(int)Team.Last, (int)Agent.One].Y * fieldHeight);
             PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
 
             graphics.DrawString(
                 s: "L2",
                 font: PointFont,
                 brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
-                x: (float)(AgentPosition[(int)Team.Last, (int)Agent.Second].X + 0.7) * fieldWidth,
-                y: AgentPosition[(int)Team.Last, (int)Agent.Second].Y * fieldHeight);
+                x: (float)(AgentPosition[(int)Team.Last, (int)Agent.Two].X + 0.7) * fieldWidth,
+                y: AgentPosition[(int)Team.Last, (int)Agent.Two].Y * fieldHeight);
 
             System.Drawing.Point systemCursorPosition = System.Windows.Forms.Cursor.Position;
             System.Drawing.Point pictureBoxCursorPosition = pictureBox.PointToClient(systemCursorPosition);
