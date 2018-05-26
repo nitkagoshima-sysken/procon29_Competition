@@ -232,14 +232,14 @@ namespace procon29_disp
                 {
                     if (field[i, j].IsArea[(int)Team.FilstTeam])
                         graphics.FillRectangle(
-                        brush: new SolidBrush(Color.FromArgb(127, Color.DarkOrange)),
+                        brush: new SolidBrush(Color.DarkOrange),
                         x: i * fieldWidth,
                         y: j * fieldHeight,
                         width: fieldWidth,
                         height: fieldHeight);
                     else if (field[i, j].IsArea[(int)Team.LastTeam])
                         graphics.FillRectangle(
-                        brush: new SolidBrush(Color.FromArgb(127, Color.DarkGreen)),
+                        brush: new SolidBrush(Color.LimeGreen),
                         x: i * fieldWidth,
                         y: j * fieldHeight,
                         width: fieldWidth,
@@ -273,11 +273,11 @@ namespace procon29_disp
                 for (int j = 0; j < field.GetLength(1); j++)
                 {
                     graphics.DrawString(
-                        s: Map[j, i].Point.ToString(),
-                        font: PointFont,
-                        brush: Brushes.DarkGray,
-                        x: (float)(i + 0.1) * fieldWidth,
-                        y: (float)(j + 0.2) * fieldHeight);
+                    s: Map[j, i].Point.ToString(),
+                    font: PointFont,
+                    brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
+                    x: (float)(i + 0.1) * fieldWidth,
+                    y: (float)(j + 0.2) * fieldHeight);
                 }
             }
 
@@ -285,7 +285,7 @@ namespace procon29_disp
             graphics.DrawString(
                 s: "F1",
                 font: PointFont,
-                brush: Brushes.Orange,
+                brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
                 x: (float)(AgentPosition[(int)Team.FilstTeam, (int)Agent.FilstAgent].X + 0.7) * fieldWidth,
                 y: AgentPosition[(int)Team.FilstTeam, (int)Agent.FilstAgent].Y * fieldHeight);
 
@@ -293,7 +293,7 @@ namespace procon29_disp
             graphics.DrawString(
                 s: "F2",
                 font: PointFont,
-                brush: Brushes.Orange,
+                brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
                 x: (float)(AgentPosition[(int)Team.FilstTeam, (int)Agent.SecondAgent].X + 0.7) * fieldWidth,
                 y: AgentPosition[(int)Team.FilstTeam, (int)Agent.SecondAgent].Y * fieldHeight);
             PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
@@ -301,7 +301,7 @@ namespace procon29_disp
             graphics.DrawString(
                 s: "L1",
                 font: PointFont,
-                brush: Brushes.LightGreen,
+                brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
                 x: (float)(AgentPosition[(int)Team.LastTeam, (int)Agent.FilstAgent].X + 0.7) * fieldWidth,
                 y: AgentPosition[(int)Team.LastTeam, (int)Agent.FilstAgent].Y * fieldHeight);
             PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
@@ -309,7 +309,7 @@ namespace procon29_disp
             graphics.DrawString(
                 s: "L2",
                 font: PointFont,
-                brush: Brushes.LightGreen,
+                brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
                 x: (float)(AgentPosition[(int)Team.LastTeam, (int)Agent.SecondAgent].X + 0.7) * fieldWidth,
                 y: AgentPosition[(int)Team.LastTeam, (int)Agent.SecondAgent].Y * fieldHeight);
 
@@ -374,7 +374,7 @@ namespace procon29_disp
                     x: clickedFieldPoint.X,
                     y: clickedFieldPoint.Y);
 
-            Message += "[Info] Clicked (" + ClickedField.X.ToString() + ", " + ClickedField.Y.ToString() + ")\n";
+            Message += "[Info] ClickedField = " + clickedField.ToString() + "\n";
 
             MakePictureBox(pictureBox, canvas, graphics);
 
