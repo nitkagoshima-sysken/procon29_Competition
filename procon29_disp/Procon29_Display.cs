@@ -53,6 +53,7 @@ namespace procon29_disp
         private Point clickedField;
         private Font pointFont;
         private Point[] initPosition = new Point[2];
+        private Point[,] agentPosition = new Point[2, 2];
 
         /// <summary>
         /// <code>Procon29_Display</code>を初期化します。
@@ -103,6 +104,37 @@ namespace procon29_disp
         }
 
         /// <summary>
+        /// <code>Procon29_Display</code>を初期化します。
+        /// </summary>
+        /// <param name="field"><code>turn</code>は<code>1</code>にセットされます。</param>
+        /// <param name="initPositionOfFilstAgentOfFirstTeam">先攻チームの1番目のエージェントの初期位置を設定します。</param>
+        /// <param name="initPositionOfSecondAgentOfFirstTeam">先攻チームの2番目のエージェントの初期位置を設定します。</param>
+        /// <param name="initPositionOfFilstAgentOfLastTeam">後攻チームの1番目のエージェントの初期位置を設定します。</param>
+        /// <param name="initPositionOfSecondAgentOfLastTeam">後攻チームの2番目のエージェントの初期位置を設定します。</param>
+        public Procon29_Display(int[,] field,
+            Point initPositionOfFilstAgentOfFirstTeam,
+            Point initPositionOfSecondAgentOfFirstTeam,
+            Point initPositionOfFilstAgentOfLastTeam,
+            Point initPositionOfSecondAgentOfLastTeam)
+        {
+            AgentPosition[(int)Team.FilstTeam, (int)Agent.FilstAgent] = initPositionOfFilstAgentOfFirstTeam;
+            AgentPosition[(int)Team.FilstTeam, (int)Agent.SecondAgent] = initPositionOfSecondAgentOfFirstTeam;
+            AgentPosition[(int)Team.LastTeam, (int)Agent.FilstAgent] = initPositionOfFilstAgentOfLastTeam;
+            AgentPosition[(int)Team.FilstTeam, (int)Agent.SecondAgent] = initPositionOfSecondAgentOfLastTeam;
+            for (int i = 0; i < 12; i++)
+            {
+                for (int j = 0; j < 12; j++)
+                {
+                    this.field[i, j] = new Field
+                    {
+                        Point = field[i, j]
+                    };
+                }
+            }
+            turn = 1;
+        }
+
+        /// <summary>
         /// フィールドのポイントの状態を設定または、取得します。
         /// </summary>
         public Field[,] Map
@@ -138,10 +170,10 @@ namespace procon29_disp
 
         public static string PointFamilyName => pointFamilyName;
         /// <summary>
-        /// 初期位置を設定します。
+        /// 初期位置を設定または取得します。
         /// </summary>
         public Point[] InitPosition { get => initPosition; set => initPosition = value; }
-
+        public Point[,] AgentPosition { get => agentPosition; set => agentPosition = value; }
 
         public void PointMapCheck()
         {
