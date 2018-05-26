@@ -55,6 +55,8 @@ namespace procon29_disp
 
             messageBox.Text += procon.Message;
             messageBox.Select(messageBox.Text.Length, 0);
+
+            
         }
 
         //Resizeイベントハンドラ

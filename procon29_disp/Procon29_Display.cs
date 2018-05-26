@@ -8,7 +8,6 @@ using System.Windows.Forms;
 
 namespace procon29_disp
 {
-
     /// <summary>
     /// チームが先攻か後攻かを表すための列挙体
     /// </summary>
@@ -44,15 +43,16 @@ namespace procon29_disp
     /// </summary>
     class Procon29_Display
     {
-        private const string pointFamilyName = "Impact";
-        public Field[,] field = new Field[12, 12];
         private int turn;
+        private string message;
+        public Field[,] field = new Field[12, 12];
+        private const string pointFamilyName = "Impact";
         private SolidBrush backGroundSolidBrush = new SolidBrush(Color.FromArgb(48, 48, 48));
         private SolidBrush selectSolidBrush = new SolidBrush(Color.FromArgb(50, Color.DarkGray));
         private SolidBrush clickedSolidBrush = new SolidBrush(Color.FromArgb(100, Color.SkyBlue));
-        private string message;
         private Point clickedField;
         private Font pointFont;
+        private Point[] initPosition = new Point[2];
 
         /// <summary>
         /// <code>Procon29_Display</code>を初期化します。
@@ -102,40 +102,6 @@ namespace procon29_disp
             turn = 1;
         }
 
-        public void PointMapCheck()
-        {
-            if (field.GetLength(0) > 12 || field.GetLength(1) > 12)
-                message += "[ERROR] 'field' was not declare array smaller than 12 * 12" + "\n";
-            if (!HorizontallySymmetricalCheck())
-                message += "[ERROR] 'field' was not declare horizontally symmetric array" + "\n";
-            if (!VerticallySymmetricalCheck())
-                message += "[ERROR] 'field' was not declare vertically symmetric array" + "\n";
-        }
-
-        private bool VerticallySymmetricalCheck()
-        {
-            for (int i = 0; i < field.GetLength(1); i++)
-            {
-                for (int j = 0; j < field.GetLength(0) / 2; j++)
-                {
-                    if (field[i, j].Point != field[(field.GetLength(0) - 1) - i, j].Point) return false;
-                }
-            }
-            return true;
-        }
-
-        private bool HorizontallySymmetricalCheck()
-        {
-            for (int j = 0; j < field.GetLength(0); j++)
-            {
-                for (int i = 0; i < field.GetLength(1) / 2; i++)
-                {
-                    if (field[i, j].Point != field[i, (field.GetLength(1) - 1) - j].Point) return false;
-                }
-            }
-            return true;
-        }
-
         /// <summary>
         /// フィールドのポイントの状態を設定または、取得します。
         /// </summary>
@@ -171,6 +137,45 @@ namespace procon29_disp
         public Font PointFont { get => pointFont; set => pointFont = value; }
 
         public static string PointFamilyName => pointFamilyName;
+        /// <summary>
+        /// 初期位置を設定します。
+        /// </summary>
+        public Point[] InitPosition { get => initPosition; set => initPosition = value; }
+
+
+        public void PointMapCheck()
+        {
+            if (field.GetLength(0) > 12 || field.GetLength(1) > 12)
+                message += "[Error] 'field' was not declare array smaller than 12 * 12" + "\n";
+            if (!HorizontallySymmetricalCheck())
+                message += "[Error] 'field' was not declare horizontally symmetric array" + "\n";
+            if (!VerticallySymmetricalCheck())
+                message += "[Error] 'field' was not declare vertically symmetric array" + "\n";
+        }
+
+        private bool VerticallySymmetricalCheck()
+        {
+            for (int i = 0; i < field.GetLength(1); i++)
+            {
+                for (int j = 0; j < field.GetLength(0) / 2; j++)
+                {
+                    if (field[i, j].Point != field[(field.GetLength(0) - 1) - i, j].Point) return false;
+                }
+            }
+            return true;
+        }
+
+        private bool HorizontallySymmetricalCheck()
+        {
+            for (int j = 0; j < field.GetLength(0); j++)
+            {
+                for (int i = 0; i < field.GetLength(1) / 2; i++)
+                {
+                    if (field[i, j].Point != field[i, (field.GetLength(1) - 1) - j].Point) return false;
+                }
+            }
+            return true;
+        }
 
         /// <summary>
         /// 現在のターンをパスします。
@@ -179,7 +184,6 @@ namespace procon29_disp
         {
             turn++;
         }
-
 
         public Bitmap MakePictureBox(PictureBox pictureBox, Bitmap canvas, Graphics graphics)
         {
