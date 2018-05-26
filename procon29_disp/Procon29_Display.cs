@@ -131,11 +131,11 @@ namespace procon29_disp
                 }
             }
             Turn = 1;
-            Message += "[Info] AgentPosition[(int)Team.FilstTeam, (int)Agent.FilstAgent] = " + initPositionOfFilstAgentOfFirstTeam.ToString() + "\n";
-            Message += "[Info] AgentPosition[(int)Team.FilstTeam, (int)Agent.SecondAgent] = " + initPositionOfSecondAgentOfFirstTeam.ToString() + "\n";
-            Message += "[Info] AgentPosition[(int)Team.LastTeam, (int)Agent.FilstAgent] = " + initPositionOfFilstAgentOfLastTeam.ToString() + "\n";
-            Message += "[Info] AgentPosition[(int)Team.LastTeam, (int)Agent.SecondAgent] = " + initPositionOfSecondAgentOfLastTeam.ToString() + "\n";
-            Message += "[Info] Turn = " + Turn.ToString() + "\n";
+            Message += "[Info][Init] AgentPosition[(int)Team.FilstTeam, (int)Agent.FilstAgent] = " + initPositionOfFilstAgentOfFirstTeam.ToString() + "\n";
+            Message += "[Info][Init] AgentPosition[(int)Team.FilstTeam, (int)Agent.SecondAgent] = " + initPositionOfSecondAgentOfFirstTeam.ToString() + "\n";
+            Message += "[Info][Init] AgentPosition[(int)Team.LastTeam, (int)Agent.FilstAgent] = " + initPositionOfFilstAgentOfLastTeam.ToString() + "\n";
+            Message += "[Info][Init] AgentPosition[(int)Team.LastTeam, (int)Agent.SecondAgent] = " + initPositionOfSecondAgentOfLastTeam.ToString() + "\n";
+            Message += "[Info][Init] Turn = " + Turn.ToString() + "\n";
 
             MakeArea(team: Team.FilstTeam, agent: Agent.FilstAgent);
             MakeArea(team: Team.FilstTeam, agent: Agent.SecondAgent);
@@ -387,7 +387,7 @@ namespace procon29_disp
                     x: clickedFieldPoint.X,
                     y: clickedFieldPoint.Y);
 
-            Message += "[Info] ClickedField = " + clickedField.ToString() + "\n";
+            Message += "[Info][ClickedShow] ClickedField = " + clickedField.ToString() + "\n";
 
             MakePictureBox(pictureBox, canvas, graphics);
 
