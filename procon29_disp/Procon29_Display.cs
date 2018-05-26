@@ -136,6 +136,9 @@ namespace procon29_disp
             Message += "[Info] AgentPosition[(int)Team.LastTeam, (int)Agent.FilstAgent] = " + initPositionOfFilstAgentOfLastTeam.ToString() + "\n";
             Message += "[Info] AgentPosition[(int)Team.LastTeam, (int)Agent.SecondAgent] = " + initPositionOfSecondAgentOfLastTeam.ToString() + "\n";
             Message += "[Info] Turn = " + Turn.ToString() + "\n";
+
+            this.field[AgentPosition[(int)Team.FilstTeam, (int)Agent.FilstAgent].X, AgentPosition[(int)Team.FilstTeam, (int)Agent.FilstAgent].Y].IsArea[(int)Team.FilstTeam] = true;
+            this.field[AgentPosition[(int)Team.LastTeam, (int)Agent.FilstAgent].X, AgentPosition[(int)Team.LastTeam, (int)Agent.FilstAgent].Y].IsArea[(int)Team.LastTeam] = true;
         }
 
         /// <summary>
@@ -227,16 +230,16 @@ namespace procon29_disp
             {
                 for (int j = 0; j < field.GetLength(1); j++)
                 {
-                    if (field[j, i].IsArea[0])
+                    if (field[i, j].IsArea[(int)Team.FilstTeam])
                         graphics.FillRectangle(
-                        brush: new SolidBrush(Color.DarkGreen),
+                        brush: new SolidBrush(Color.FromArgb(127, Color.DarkOrange)),
                         x: i * fieldWidth,
                         y: j * fieldHeight,
                         width: fieldWidth,
                         height: fieldHeight);
-                    else if (field[j, i].IsArea[1])
+                    else if (field[i, j].IsArea[(int)Team.LastTeam])
                         graphics.FillRectangle(
-                        brush: new SolidBrush(Color.DarkOrange),
+                        brush: new SolidBrush(Color.FromArgb(127, Color.DarkGreen)),
                         x: i * fieldWidth,
                         y: j * fieldHeight,
                         width: fieldWidth,
