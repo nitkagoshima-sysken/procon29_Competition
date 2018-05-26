@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Procon29_Disp", "procon29_disp\Procon29_Disp.csproj", "{518C428C-FE3B-4D37-8287-8F009864850C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Procon29_Disp", "Procon29_Disp\Procon29_Disp.csproj", "{518C428C-FE3B-4D37-8287-8F009864850C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Procon29_Algo", "Procon29_Algo\Procon29_Algo.vcxproj", "{26334BC8-430D-4898-BE6D-B10872BC3BDE}"
 EndProject
