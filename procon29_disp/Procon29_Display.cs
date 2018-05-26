@@ -52,7 +52,6 @@ namespace procon29_disp
         private SolidBrush clickedSolidBrush = new SolidBrush(Color.FromArgb(100, Color.SkyBlue));
         private Point clickedField;
         private Font pointFont;
-        private Point[] initPosition = new Point[2];
         private Point[,] agentPosition = new Point[2, 2];
 
         /// <summary>
@@ -169,10 +168,6 @@ namespace procon29_disp
         public Font PointFont { get => pointFont; set => pointFont = value; }
 
         public static string PointFamilyName => pointFamilyName;
-        /// <summary>
-        /// 初期位置を設定または取得します。
-        /// </summary>
-        public Point[] InitPosition { get => initPosition; set => initPosition = value; }
         public Point[,] AgentPosition { get => agentPosition; set => agentPosition = value; }
 
         public void PointMapCheck()
