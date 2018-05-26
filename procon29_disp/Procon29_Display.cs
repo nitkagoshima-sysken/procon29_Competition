@@ -67,7 +67,7 @@ namespace procon29_disp
                     field[i, j] = new Field();
                 }
             }
-            turn = 1;
+            Turn = 1;
         }
 
 
@@ -79,7 +79,7 @@ namespace procon29_disp
         public Procon29_Display(Field[,] field)
         {
             this.field = field;
-            turn = 1;
+            Turn = 1;
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace procon29_disp
                     };
                 }
             }
-            turn = 1;
+            Turn = 1;
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace procon29_disp
                     };
                 }
             }
-            turn = 1;
+            Turn = 1;
             Message += "[Info] AgentPosition[(int)Team.FilstTeam, (int)Agent.FilstAgent] = " + initPositionOfFilstAgentOfFirstTeam.ToString() + "\n";
             Message += "[Info] AgentPosition[(int)Team.FilstTeam, (int)Agent.SecondAgent] = " + initPositionOfSecondAgentOfFirstTeam.ToString() + "\n";
             Message += "[Info] AgentPosition[(int)Team.LastTeam, (int)Agent.FilstAgent] = " + initPositionOfFilstAgentOfLastTeam.ToString() + "\n";
@@ -155,7 +155,7 @@ namespace procon29_disp
         /// </summary>
         public Team TurnTeam
         {
-            get { return (turn % 2 == 1) ? Team.FilstTeam : Team.LastTeam; }
+            get { return (Turn % 2 == 1) ? Team.FilstTeam : Team.LastTeam; }
         }
 
         /// <summary>
@@ -173,6 +173,7 @@ namespace procon29_disp
 
         public static string PointFamilyName => pointFamilyName;
         public Point[,] AgentPosition { get => agentPosition; set => agentPosition = value; }
+        public int Turn { get => turn; set => turn = value; }
 
         public void PointMapCheck()
         {
@@ -213,7 +214,7 @@ namespace procon29_disp
         /// </summary>
         public void Pass()
         {
-            turn++;
+            Turn++;
         }
 
         public Bitmap MakePictureBox(PictureBox pictureBox, Bitmap canvas, Graphics graphics)
