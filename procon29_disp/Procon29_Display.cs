@@ -137,8 +137,10 @@ namespace procon29_disp
             Message += "[Info] AgentPosition[(int)Team.LastTeam, (int)Agent.SecondAgent] = " + initPositionOfSecondAgentOfLastTeam.ToString() + "\n";
             Message += "[Info] Turn = " + Turn.ToString() + "\n";
 
-            this.field[AgentPosition[(int)Team.FilstTeam, (int)Agent.FilstAgent].X, AgentPosition[(int)Team.FilstTeam, (int)Agent.FilstAgent].Y].IsArea[(int)Team.FilstTeam] = true;
-            this.field[AgentPosition[(int)Team.LastTeam, (int)Agent.FilstAgent].X, AgentPosition[(int)Team.LastTeam, (int)Agent.FilstAgent].Y].IsArea[(int)Team.LastTeam] = true;
+            MakeArea(team: Team.FilstTeam, agent: Agent.FilstAgent);
+            MakeArea(team: Team.FilstTeam, agent: Agent.SecondAgent);
+            MakeArea(team: Team.LastTeam, agent: Agent.FilstAgent);
+            MakeArea(team: Team.LastTeam, agent: Agent.SecondAgent);
         }
 
         /// <summary>
@@ -220,6 +222,8 @@ namespace procon29_disp
         {
             Turn++;
         }
+
+        public void MakeArea(Team team, Agent agent) => field[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsArea[(int)team] = true;
 
         public Bitmap MakePictureBox(PictureBox pictureBox, Bitmap canvas, Graphics graphics)
         {
