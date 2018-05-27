@@ -178,8 +178,10 @@ namespace procon29_disp
         public Font PointFont { get => pointFont; set => pointFont = value; }
 
         public static string PointFamilyName => pointFamilyName;
-        public Point[,] AgentPosition { get => agentPosition; set => agentPosition = value; }
+        private Point[,] AgentPosition { get => agentPosition; set => agentPosition = value; }
         public int Turn { get { return turn; } private set { turn = value; } }
+
+        public Point GetAgentPosition(Team team, Agent agent) => AgentPosition[(int)team, (int)agent];
 
         public void PointMapCheck()
         {
@@ -232,6 +234,7 @@ namespace procon29_disp
             AgentPosition[(int)team, (int)agent] = where;
             MakeArea(team: team, agent: agent);
             Message += "[Info][MoveAgent] AgentPosition[" + team.ToString() + "][" +agent.ToString()+ "] = " + AgentPosition[(int)team, (int)agent] + "\n";
+            Turn++;
         }
 
         public Bitmap MakePictureBox(PictureBox pictureBox, Bitmap canvas, Graphics graphics)
