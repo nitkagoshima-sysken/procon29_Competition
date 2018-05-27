@@ -12,6 +12,8 @@ namespace procon29_disp
 {
     public partial class Form1 : Form
     {
+        Team selectedTeam;
+        Agent selectedAgent;
         Procon29_Display procon = new Procon29_Display();
         /// <summary>
         /// Form1
@@ -20,7 +22,7 @@ namespace procon29_disp
         {
             InitializeComponent();
 
-            this.pictureBox1.MouseMove += new MouseEventHandler(mouseMove);
+            this.FieldDisplay.MouseMove += new MouseEventHandler(FieldDisplay_MouseMove);
             this.Resize += new System.EventHandler(this.Form1_Resize);
 
             procon = new Procon29_Display(
@@ -44,11 +46,12 @@ namespace procon29_disp
                 initPositionOfSecondAgentOfLastTeam: new Point(0, 9));
 
             procon.PointMapCheck();
-            procon.Show(pictureBox1);
+            procon.Show(FieldDisplay);
 
             messageBox.Text += procon.Message;
             messageBox.Select(messageBox.Text.Length, 0);
 
+            procon.MoveAgent(Team.Filst, Agent.One, new Point(10, 3));
         }
 
         //Resizeイベントハンドラ
@@ -56,19 +59,24 @@ namespace procon29_disp
         {
             Control c = (Control)sender;
             //Console.WriteLine("フォームのサイズが{0}x{1}に変更されました", c.Width, c.Height);
-            procon.Show(pictureBox1);
+            procon.Show(FieldDisplay);
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void FieldDisplay_MouseClick(object sender, MouseEventArgs e)
         {
-            procon.ClickedShow(pictureBox1);
+            procon.ClickedShow(FieldDisplay);
             messageBox.Text = procon.Message;
             messageBox.Select(messageBox.Text.Length, 0);
         }
 
-        private void mouseMove(object sender, MouseEventArgs e)
+        private void FieldDisplay_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            procon.Show(pictureBox1);
+            procon.DoubleClickedShow();
+        }
+
+        private void FieldDisplay_MouseMove(object sender, MouseEventArgs e)
+        {
+            procon.Show(FieldDisplay);
         }
     }
 }

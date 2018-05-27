@@ -53,6 +53,8 @@ namespace procon29_disp
         private Point clickedField;
         private Font pointFont;
         private Point[,] agentPosition = new Point[2, 2];
+        private Team selectedTeam;
+        private Agent selectedAgent;
 
         /// <summary>
         /// <code>Procon29_Display</code>を初期化します。
@@ -390,6 +392,27 @@ namespace procon29_disp
                     x: clickedFieldPoint.X,
                     y: clickedFieldPoint.Y);
 
+            if (ClickedField == GetAgentPosition(Team.Filst, Agent.One))
+            {
+                selectedTeam = Team.Filst;
+                selectedAgent = Agent.One;
+            }
+            else if (ClickedField == GetAgentPosition(Team.Filst, Agent.Two))
+            {
+                selectedTeam = Team.Filst;
+                selectedAgent = Agent.Two;
+            }
+            else if (ClickedField == GetAgentPosition(Team.Last, Agent.One))
+            {
+                selectedTeam = Team.Last;
+                selectedAgent = Agent.One;
+            }
+            else if (ClickedField == GetAgentPosition(Team.Last, Agent.Two))
+            {
+                selectedTeam = Team.Last;
+                selectedAgent = Agent.Two;
+            }
+
             Message += "[Info][ClickedShow] ClickedField = " + clickedField.ToString() + "\n";
 
             MakePictureBox(pictureBox, canvas, graphics);
@@ -402,5 +425,9 @@ namespace procon29_disp
             pictureBox.Image = canvas;
         }
 
+        public void DoubleClickedShow()
+        {
+            MoveAgent(selectedTeam, selectedAgent, ClickedField);
+        }
     }
 }
