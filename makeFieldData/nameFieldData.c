@@ -23,7 +23,7 @@ int main(int argc,char* argv[]){
 
   srand((unsigned)time(NULL));
 
-  if(type = 1){
+  if(type == 1){
     for(i = 0;i<vertical;i++){
       for(j = 0;j<=side/2;j++){
         point = (rand()%33)-16;
@@ -31,7 +31,7 @@ int main(int argc,char* argv[]){
         data[i][side-1-j] = point;
       }
     }
-  }else if(type = 2){
+  }else if(type == 2){
     for(i = 0;i<=vertical/2;i++){
       for(j = 0;j<side;j++){
         point = (rand()%33)-16;
@@ -39,11 +39,13 @@ int main(int argc,char* argv[]){
         data[vertical-1-i][j] = point;
       }
     }
-  }else if(type = 1){
+  }else if(type == 3){
     for(i = 0;i<=vertical/2;i++){
       for(j = 0;j<=side/2;j++){
         point = (rand()%33)-16;
         data[i][j] = point;
+        data[i][side-1-j] = point;
+        data[vertical-1-i][j] = point;
         data[vertical-1-i][side-1-j] = point;
       }
     }
