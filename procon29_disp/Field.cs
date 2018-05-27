@@ -98,6 +98,9 @@ namespace procon29_disp
             }
         }
 
+        /// <summary>
+        /// Fieldの初期化を行います。
+        /// </summary>
         public Field()
         {
             Point = 0;
