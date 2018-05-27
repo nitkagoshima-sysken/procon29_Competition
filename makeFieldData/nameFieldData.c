@@ -3,8 +3,6 @@
 #include <time.h>
 #include <string.h>
 
-#include "nameFieldData.h"
-
 int main(int argc,char* argv[]){
   if(argc < 5){
     fprintf(stderr,"入力データが不足しています。\n");
@@ -31,6 +29,22 @@ int main(int argc,char* argv[]){
         point = (rand()%33)-16;
         data[i][j] = point;
         data[i][side-1-j] = point;
+      }
+    }
+  }else if(type = 2){
+    for(i = 0;i<=vertical/2;i++){
+      for(j = 0;j<side;j++){
+        point = (rand()%33)-16;
+        data[i][j] = point;
+        data[vertical-1-i][j] = point;
+      }
+    }
+  }else if(type = 1){
+    for(i = 0;i<=vertical/2;i++){
+      for(j = 0;j<=side/2;j++){
+        point = (rand()%33)-16;
+        data[i][j] = point;
+        data[vertical-1-i][side-1-j] = point;
       }
     }
   }
