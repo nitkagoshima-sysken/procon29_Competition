@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#include <unistd.h>
+
+#include "getopt.h"
 
 void makeField(int,int,int,char*);
 
