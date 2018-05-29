@@ -3,18 +3,38 @@
 #include <time.h>
 #include <string.h>
 
+#include "getopt.h"
+
+void makeField(int,int,int,char*);
+
 int main(int argc,char* argv[]){
-  if(argc < 5){
-    fprintf(stderr,"入力データが不足しています。\n");
-    fprintf(stderr,"%s <vertical> <side> <type> <outfilename>\n",argv[0]);
-    fprintf(stderr,"type = 1:左右対称 2:上下対称 3:上下左右対称\n");
-    exit(1);
+  int vertical = 12;
+  int side = 12;
+  int type = 3;
+  int opt;
+  char* filename = "code.txt";
+
+  opterr = 0;
+
+  while((opt = getopt(argc, argv,"v:s:t:")) != -1){
+    switch(opt){
+      case 'v':vertical = atoi(optarg);break;
+      case 's':side = atoi(optarg);break;
+      case 't':type = atoi(optarg);break;
+      default: printf("Usage: %s [-v argment] [-s argment] [-y argment] filename ...\n", argv[0]);break;
+    }
   }
 
-  int vertical = atoi(argv[1]);
-  int side = atoi(argv[2]);
-  int type = atoi(argv[3]);
+  argc -= optind;
+  argv += optind;
 
+  if(argv[0] != NULL)filename = argv[0];
+  makeField(vertical, side, type ,filename);
+
+  return 0;
+}
+
+void makeField(int vertical, int side, int type, char* filename){
   int data[12][12];
   int i,j;
   int point;
@@ -51,7 +71,7 @@ int main(int argc,char* argv[]){
     }
   }
 
-  fp = fopen(argv[4],"w");
+  fp = fopen(filename,"w");
 
   fprintf(fp,"%d %d:",vertical,side);
 
@@ -65,6 +85,4 @@ int main(int argc,char* argv[]){
   fprintf(fp,"%d %d:%d %d:",rand()%vertical-1,rand()%side-1,rand()%vertical-1,rand()%side-1);
 
   fclose(fp);
-
-  return 0;
 }
