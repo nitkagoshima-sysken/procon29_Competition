@@ -24,7 +24,7 @@ int main(int argc,char* argv[]){
       case 's':side = atoi(optarg);break;
       case 't':type = atoi(optarg);break;
       case 'n':number = atoi(optarg);break;
-      default: printf("Usage: %s [-v argment] [-s argment] [-y argment] filename ...\n", argv[0]);break;
+      default: printf("Usage: %s [-v argment] [-s argment] [-t argment] [-n argment] filename ...\n", argv[0]);break;
     }
   }
 
@@ -44,10 +44,7 @@ char* makeFileName(char* filename, int number, int size){
   result = calloc(strlen(filename)+size+1,sizeof(char));
 
   for(i=0;filename[i]!='.';i++)result[i]=filename[i];
-  for(j=size;j>0;j--){
-    result[i+j-1]= number%10 + '0';
-    number /= 10;
-  }
+  for(j=size;j>0;j--,number/=10)result[i+j-1]= number%10 + '0';
   for(;filename[i]!='\0';i++)result[i+size] = filename[i];
 
   return result;
@@ -57,6 +54,7 @@ void makeField(int vertical, int side, int type, int number, char* filename){
   int data[12][12];
   int i,j,size,k;
   int point;
+  char* madefilename;
 
   FILE *fp;
 
@@ -67,7 +65,6 @@ void makeField(int vertical, int side, int type, int number, char* filename){
   if(number==1)size = 0;
 
   for(k=1;k<=number;k++){
-
     if(type == 1){
       for(i = 0;i<vertical;i++){
         for(j = 0;j<=side/2;j++){
@@ -96,14 +93,18 @@ void makeField(int vertical, int side, int type, int number, char* filename){
       }
     }
 
-    fp = fopen(makeFileName(filename, k, size),"w");
+    madefilename = makeFileName(filename, k, size);
+    fp = fopen(madefilename,"w");
+    if(fp == NULL){
+      fprintf(stderr,"Can't open file:\"%s\"\n");
+      exit(1)
+    }
+    free(madefilename);
 
     fprintf(fp,"%d %d:",vertical,side);
 
     for(i = 0;i < vertical;i++){
-      for(j = 0;j < side;j++){
-        fprintf(fp,"%d ",data[i][j]);
-      }
+      for(j = 0;j < side;j++)fprintf(fp,"%d ",data[i][j]);
       fprintf(fp,":");
     }
 
