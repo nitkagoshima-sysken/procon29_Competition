@@ -5,3 +5,7 @@ This program creates test field data.
 
 ## Install
 `make`
+
+## You want to remove some  datafile
+`make dataclean`
+File to delete: .txt .csv

@@ -65,7 +65,8 @@ void makeField(int vertical, int side, int type, int number, char* filename){
   if(number==1)size = 0;
 
   for(k=1;k<=number;k++){
-    if(type == 1){
+    switch(type){
+      case 1:
       for(i = 0;i<vertical;i++){
         for(j = 0;j<=side/2;j++){
           point = (rand()%33)-16;
@@ -73,7 +74,8 @@ void makeField(int vertical, int side, int type, int number, char* filename){
           data[i][side-1-j] = point;
         }
       }
-    }else if(type == 2){
+      break;
+      case 2:
       for(i = 0;i<=vertical/2;i++){
         for(j = 0;j<side;j++){
           point = (rand()%33)-16;
@@ -81,7 +83,8 @@ void makeField(int vertical, int side, int type, int number, char* filename){
           data[vertical-1-i][j] = point;
         }
       }
-    }else if(type == 3){
+      break;
+      case 3:
       for(i = 0;i<=vertical/2;i++){
         for(j = 0;j<=side/2;j++){
           point = (rand()%33)-16;
@@ -91,13 +94,14 @@ void makeField(int vertical, int side, int type, int number, char* filename){
           data[vertical-1-i][side-1-j] = point;
         }
       }
+      break;
     }
 
     madefilename = makeFileName(filename, k, size);
     fp = fopen(madefilename,"w");
     if(fp == NULL){
-      fprintf(stderr,"Can't open file:\"%s\"\n");
-      exit(1)
+      fprintf(stderr,"Can't open file:\"%s\"\n",filename);
+      exit(1);
     }
     free(madefilename);
 

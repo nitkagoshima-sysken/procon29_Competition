@@ -3,4 +3,4 @@ all:
 clean:
 	rm -f Generator
 dataclean:
-	rm -f *.txt
+	rm -f *.txt *.csv
