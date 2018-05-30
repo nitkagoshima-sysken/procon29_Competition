@@ -3,9 +3,10 @@ This program creates test field data.
 ## Usage
 `./Generator [-v vertical] [-s side] [-t type] [-n number] filename`
 
-## Install
+## Build
 `make`
 
 ## You want to remove some  datafile
 `make dataclean`
+
 File to delete: .txt .csv
