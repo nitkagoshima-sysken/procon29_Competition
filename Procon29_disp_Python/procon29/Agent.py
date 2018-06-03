@@ -111,7 +111,6 @@ class AgentData:
                     for k in range(self.x-j):
                         if self.get[i][j+k] == 0:
                             del self.buffer[:]
-                            self.LogFile.LogWrite('{}\n'.format(self.get), logtype=100)
                             self.get[i][j+k] = self.TerritoryFill(j+k, i)
         for i in range(len(self.get)):
             for j in range(len(self.get[0])):
@@ -124,7 +123,6 @@ class AgentData:
 
     def TerritoryFill(self, x, y):
         self.buffer.append((x, y))
-        self.LogFile.LogWrite('{}\n'.format(self.buffer), logtype=100)
         if self.get[y-1][x] == -1 or self.get[y][x+1] == -1 or self.get[y+1][x] == -1 or self.get[y][x-1] == -1 or\
             self.get[y-1][x] == -2 or self.get[y][x+1] == -2 or self.get[y+1][x] == -2 or self.get[y][x-1] == -2:
             self.get[y][x] = -2

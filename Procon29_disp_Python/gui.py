@@ -117,6 +117,7 @@ def handler(event):
     if Id_num == 10:
         log.LogWrite('Open file select dialog\n', logtype=procon29.SYSTEM_LOG)
         dialog = wx.FileDialog(None,'Select File','./')
+        dialog.SetWildcard('*.png')
         dialog.ShowModal()
         image = dialog.GetPath()
         data = decode(Image.open(image))
@@ -169,8 +170,8 @@ def handler(event):
     elif Id_num == 20:
         log.LogWrite('Open about info\n', logtype=procon29.SYSTEM_LOG)
         info = adv.AboutDialogInfo()
-        info.SetName('PPAP -Procon Python Application Project-')
-        info.SetVersion('1.0.0')
+        info.SetName('PPAP -Procon29 Python Application Project-')
+        info.SetVersion('1.0.1')
         info.SetCopyright('Copyright (c) 2018 Glaz egy.')
         adv.AboutBox(info)
     elif Id_num == 100:
@@ -331,7 +332,8 @@ nowturn = 1
 debag_flag = False
 passcode = ['e71d2f7f7ae998e3e9c4509c31e577a98371b234f36e466402998c8817860049']
 
-frame = wx.Frame(None, -1, 'PPAP -Procon Python Application Project-', size=(800,900), style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN | wx.MINIMIZE_BOX)
+frame = wx.Frame(None, -1, 'PPAP -Procon29 Python Application Project-', size=(800,900), style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN | wx.MINIMIZE_BOX)
+
 
 panel = wx.Panel(frame,-1)
 field = []
