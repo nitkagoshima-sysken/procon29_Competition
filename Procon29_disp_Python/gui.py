@@ -2,10 +2,10 @@
 
 from pyzbar.pyzbar import decode
 from PIL import Image
+from wx import adv
 import procon29
 import os
 import wx
-from wx import adv
 import hashlib
 import sys
 
@@ -211,6 +211,7 @@ def handler(event):
             step_end = False
             blue_flag = [True, True]
             field[0].MovableColoring(agent_data[1], (agent[2], agent[3]), clear=True)
+            field[0].Coloring(agent_data[0], (agent[0], agent[1]))
             field[0].MovableColoring(agent_data[0], (agent[0], agent[1]))
             log.LogWrite('Cancel step\n')
     elif Id_num == 202:
@@ -315,9 +316,6 @@ def handler(event):
 text = ''
 next_blue = [0, 0]
 next_red = [0, 0]
-next_all = []
-app = wx.App()
-log_name = 'game.log'
 play_color = 'blue'
 load_file_flag = False
 blue_turn = 0
@@ -332,8 +330,9 @@ nowturn = 1
 debag_flag = False
 passcode = ['e71d2f7f7ae998e3e9c4509c31e577a98371b234f36e466402998c8817860049']
 
-frame = wx.Frame(None, -1, 'PPAP -Procon29 Python Application Project-', size=(800,900), style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN | wx.MINIMIZE_BOX)
+app = wx.App()
 
+frame = wx.Frame(None, -1, 'PPAP -Procon29 Python Application Project-', size=(800,900), style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN | wx.MINIMIZE_BOX)
 
 panel = wx.Panel(frame,-1)
 field = []
@@ -364,7 +363,7 @@ bluepoint_text = wx.StaticText(panel, -1, '青\n取得済み得点:0 \n領域得
 redpoint_text = wx.StaticText(panel, -1, '赤\n取得済み得点:0 \n領域得点:0', style=wx.SIMPLE_BORDER, pos=(0,99))
 turnunm = wx.StaticText(panel, -1, '現在ターン数:1\n全ターン数:0\n残りターン数:0', style=wx.SIMPLE_BORDER, pos=(680,51), size=(100,50))
 
-log = procon29.SystemControl.LogControl(log_name)
+log = procon29.SystemControl.LogControl('game.log')
 
 agent_data = []
 
