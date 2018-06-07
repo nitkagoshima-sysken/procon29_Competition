@@ -79,16 +79,6 @@ namespace procon29_disp
         }
 
         /// <summary>
-        /// そのマスに先攻チームのエージェントがいるかを取得します。
-        /// </summary>
-        public bool IsPlayerOfFilstTeam { get => IsPlayer[0, 0] || IsPlayer[0, 1]; }
- 
-        /// <summary>
-        /// そのマスに後攻チームのエージェントがいるかを取得します。
-        /// </summary>
-        public bool IsPlayerOfLastTeam { get => IsPlayer[1, 0] || IsPlayer[1, 1]; }
-
-        /// <summary>
         /// そのマスにタイルが置かれているかを表します。
         /// <code>isArea[0]</code>で先攻チームのタイルが置かれているかを表します。
         /// <code>isArea[1]</code>で後攻チームのタイルが置かれているかを表します。
@@ -109,7 +99,6 @@ namespace procon29_disp
         public Field()
         {
             Point = 0;
-            IsPlayer = new bool[2, 2];
             IsArea = new bool[2];
         }
 
