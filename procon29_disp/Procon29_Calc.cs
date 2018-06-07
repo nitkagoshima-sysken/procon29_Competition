@@ -11,7 +11,7 @@ namespace procon29_disp
     /// <summary>
     /// procon29におけるフィールドの管理、ポイント計算などの全般を行います。
     /// </summary>
-    class Procon29_Display
+    class Procon29_Calc
     {
         private int turn;
         private string message;
@@ -30,7 +30,7 @@ namespace procon29_disp
         /// <code>Procon29_Display</code>を初期化します。
         /// <code>turn</code>は<code>1</code>にセットされます。
         /// </summary>
-        public Procon29_Display()
+        public Procon29_Calc()
         {
             for (int i = 0; i < 12; i++)
             {
@@ -42,13 +42,12 @@ namespace procon29_disp
             Turn = 1;
         }
 
-
         /// <summary>
         /// <code>Procon29_Display</code>を初期化します。
         /// <code>turn</code>は<code>1</code>にセットされます。
         /// </summary>
         /// <param name="field">競技フィールドにおける各マスのポイントのデータを格納します。</param>
-        public Procon29_Display(Field[,] field)
+        public Procon29_Calc(Field[,] field)
         {
             this.field = field;
             Turn = 1;
@@ -59,7 +58,7 @@ namespace procon29_disp
         /// <code>turn</code>は<code>1</code>にセットされます。
         /// </summary>
         /// <param name="field">競技フィールドにおける各マスのポイントのデータを格納します。</param>
-        public Procon29_Display(int[,] field)
+        public Procon29_Calc(int[,] field)
         {
             for (int i = 0; i < 12; i++)
             {
@@ -79,7 +78,7 @@ namespace procon29_disp
         /// </summary>
         /// <param name="field">フィールドのポイントを設定します。</param>
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public Procon29_Display(int[,] field, Point[,] initPosition)
+        public Procon29_Calc(int[,] field, Point[,] initPosition)
         {
             for (int i = 0; i < field.GetLength(0); i++)
             {

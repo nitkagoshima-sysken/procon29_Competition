@@ -14,7 +14,7 @@ namespace procon29_disp
     {
         Team selectedTeam;
         Agent selectedAgent;
-        Procon29_Display procon = new Procon29_Display();
+        Procon29_Calc procon = new Procon29_Calc();
         /// <summary>
         /// Form1
         /// </summary>
@@ -25,7 +25,7 @@ namespace procon29_disp
             this.FieldDisplay.MouseMove += new MouseEventHandler(FieldDisplay_MouseMove);
             this.Resize += new System.EventHandler(this.Form1_Resize);
 
-            procon = new Procon29_Display(
+            procon = new Procon29_Calc(
                 field: new int[,] {
                     { -6, 15,  0,  7,  0, -1, 13, -8, -7, -7,  2, -3, },
                     {  8,  1, -5,  0, -2, -8, 10, -3,-15, 14, -4, -3, },
