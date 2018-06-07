@@ -7,6 +7,36 @@ using System.Threading.Tasks;
 namespace procon29_disp
 {
     /// <summary>
+    /// チームが先攻か後攻かを表すための列挙体
+    /// </summary>
+    enum Team
+    {
+        /// <summary>
+        /// 先攻のチームを表します。
+        /// </summary>
+        Filst,
+        /// <summary>
+        /// 後攻のチームを表します。
+        /// </summary>
+        Last
+    }
+
+    /// <summary>
+    /// チームのエージェントを表すための列挙体
+    /// </summary>
+    enum Agent
+    {
+        /// <summary>
+        /// 1人目のエージェントを表します。
+        /// </summary>
+        One,
+        /// <summary>
+        /// 2人目のエージェントを表します。
+        /// </summary>
+        Two
+    }
+
+    /// <summary>
     /// 競技フィールドにおける任意の1マスのデータ構造を表します。
     /// </summary>
     public class Field
