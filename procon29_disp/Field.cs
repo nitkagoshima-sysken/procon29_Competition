@@ -79,23 +79,6 @@ namespace procon29_disp
         }
 
         /// <summary>
-        /// そのマスにエージェントがいるかを設定、または取得します。
-        /// <code>isPoint[0,0]</code>で先攻チームの1人目のエージェントがいるかを設定、または取得します。
-        /// <code>isPoint[0,1]</code>で先攻チームの2人目のエージェントがいるかを設定、または取得します。
-        /// <code>isPoint[1,0]</code>で後攻チームの1人目のエージェントがいるかを設定、または取得します。
-        /// <code>isPoint[1,1]</code>で後攻チームの2人目のエージェントがいるかを設定、または取得します。
-        /// </summary>
-        public bool[,] IsPlayer
-        {
-            get => isAgent;
-            set
-            {
-                if (value.GetLength(0) != 2 || value.GetLength(1) != 2) throw new ArgumentException();
-                else isAgent = value;
-            }
-        }
-
-        /// <summary>
         /// そのマスに先攻チームのエージェントがいるかを取得します。
         /// </summary>
         public bool IsPlayerOfFilstTeam { get => IsPlayer[0, 0] || IsPlayer[0, 1]; }
