@@ -188,6 +188,7 @@ namespace procon29_disp
         }
 
         public void MakeArea(Team team, Agent agent) => field[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsArea[(int)team] = true;
+        public void MakeArea(int team, int agent) => MakeArea((Team)team, (Agent)agent);
 
         public void RemoveArea(Team team, Agent agent) => field[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsArea[(int)team] = false;
 
