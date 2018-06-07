@@ -97,12 +97,9 @@ namespace procon29_disp
                 for (int j = 0; j < 2; j++)
                 {
                     AgentPosition[i, j] = initPosition[i, j];
+                    MakeArea(team: i, agent: j);
                 }
             }
-            MakeArea(team: Team.A, agent: Agent.One);
-            MakeArea(team: Team.A, agent: Agent.Two);
-            MakeArea(team: Team.B, agent: Agent.One);
-            MakeArea(team: Team.B, agent: Agent.Two);
         }
 
         /// <summary>
