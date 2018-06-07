@@ -75,6 +75,37 @@ namespace procon29_disp
         }
 
         /// <summary>
+        /// Procon29_Displayを初期化します。
+        /// </summary>
+        /// <param name="field">フィールドのポイントを設定します。</param>
+        /// <param name="initPosition">エージェントの初期位置を設定します。</param>
+        public Procon29_Display(int[,] field, Point[,] initPosition)
+        {
+            for (int i = 0; i < field.GetLength(0); i++)
+            {
+                for (int j = 0; j < field.GetLength(1); j++)
+                {
+                    this.field[i, j] = new Field
+                    {
+                        Point = field[i, j]
+                    };
+                }
+            }
+            Turn = 1;
+            for (int i = 0; i < 2; i++)
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    AgentPosition[i, j] = initPosition[i, j];
+                }
+            }
+            MakeArea(team: Team.A, agent: Agent.One);
+            MakeArea(team: Team.A, agent: Agent.Two);
+            MakeArea(team: Team.B, agent: Agent.One);
+            MakeArea(team: Team.B, agent: Agent.Two);
+        }
+
+        /// <summary>
         /// <code>Procon29_Display</code>を初期化します。
         /// </summary>
         /// <param name="field"><code>turn</code>は<code>1</code>にセットされます。</param>
@@ -83,10 +114,10 @@ namespace procon29_disp
         /// <param name="initPositionOfFilstAgentOfLastTeam">後攻チームの1番目のエージェントの初期位置を設定します。</param>
         /// <param name="initPositionOfSecondAgentOfLastTeam">後攻チームの2番目のエージェントの初期位置を設定します。</param>
         public Procon29_Display(int[,] field,
-            Point initPositionOfFilstAgentOfFirstTeam,
-            Point initPositionOfSecondAgentOfFirstTeam,
-            Point initPositionOfFilstAgentOfLastTeam,
-            Point initPositionOfSecondAgentOfLastTeam)
+        Point initPositionOfFilstAgentOfFirstTeam,
+        Point initPositionOfSecondAgentOfFirstTeam,
+        Point initPositionOfFilstAgentOfLastTeam,
+        Point initPositionOfSecondAgentOfLastTeam)
         {
             AgentPosition[(int)Team.A, (int)Agent.One] = initPositionOfFilstAgentOfFirstTeam;
             AgentPosition[(int)Team.A, (int)Agent.Two] = initPositionOfSecondAgentOfFirstTeam;
@@ -205,7 +236,7 @@ namespace procon29_disp
         {
             AgentPosition[(int)team, (int)agent] = where;
             MakeArea(team: team, agent: agent);
-            Message += "[Info][MoveAgent] AgentPosition[" + team.ToString() + "][" +agent.ToString()+ "] = " + AgentPosition[(int)team, (int)agent] + "\n";
+            Message += "[Info][MoveAgent] AgentPosition[" + team.ToString() + "][" + agent.ToString() + "] = " + AgentPosition[(int)team, (int)agent] + "\n";
             Turn++;
         }
 
