@@ -40,10 +40,11 @@ namespace procon29_disp
                     {  8,  1, -5,  0, -2, -8, 10, -3,-15, 14, -4, -3, },
                     { -6, 15,  0,  7,  0, -1, 13, -8, -7, -7,  2, -3, },
                 },
-                initPositionOfFilstAgentOfFirstTeam: new Point(11, 3),
-                initPositionOfSecondAgentOfFirstTeam: new Point(11, 9),
-                initPositionOfFilstAgentOfLastTeam: new Point(0, 3),
-                initPositionOfSecondAgentOfLastTeam: new Point(0, 9));
+                initPosition: new Point[,]
+                {
+                    { new Point(11, 3), new Point(11, 9) },
+                    { new Point(0, 3), new Point(0, 9) },
+                });
 
             procon.PointMapCheck();
             procon.Show(FieldDisplay);

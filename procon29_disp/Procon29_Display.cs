@@ -106,47 +106,6 @@ namespace procon29_disp
         }
 
         /// <summary>
-        /// <code>Procon29_Display</code>を初期化します。
-        /// </summary>
-        /// <param name="field"><code>turn</code>は<code>1</code>にセットされます。</param>
-        /// <param name="initPositionOfFilstAgentOfFirstTeam">先攻チームの1番目のエージェントの初期位置を設定します。</param>
-        /// <param name="initPositionOfSecondAgentOfFirstTeam">先攻チームの2番目のエージェントの初期位置を設定します。</param>
-        /// <param name="initPositionOfFilstAgentOfLastTeam">後攻チームの1番目のエージェントの初期位置を設定します。</param>
-        /// <param name="initPositionOfSecondAgentOfLastTeam">後攻チームの2番目のエージェントの初期位置を設定します。</param>
-        public Procon29_Display(int[,] field,
-        Point initPositionOfFilstAgentOfFirstTeam,
-        Point initPositionOfSecondAgentOfFirstTeam,
-        Point initPositionOfFilstAgentOfLastTeam,
-        Point initPositionOfSecondAgentOfLastTeam)
-        {
-            AgentPosition[(int)Team.A, (int)Agent.One] = initPositionOfFilstAgentOfFirstTeam;
-            AgentPosition[(int)Team.A, (int)Agent.Two] = initPositionOfSecondAgentOfFirstTeam;
-            AgentPosition[(int)Team.B, (int)Agent.One] = initPositionOfFilstAgentOfLastTeam;
-            AgentPosition[(int)Team.B, (int)Agent.Two] = initPositionOfSecondAgentOfLastTeam;
-            for (int i = 0; i < 12; i++)
-            {
-                for (int j = 0; j < 12; j++)
-                {
-                    this.field[i, j] = new Field
-                    {
-                        Point = field[i, j]
-                    };
-                }
-            }
-            Turn = 1;
-            Message += "[Info][Init] AgentPosition[(int)Team.FilstTeam, (int)Agent.FilstAgent] = " + initPositionOfFilstAgentOfFirstTeam.ToString() + "\n";
-            Message += "[Info][Init] AgentPosition[(int)Team.FilstTeam, (int)Agent.SecondAgent] = " + initPositionOfSecondAgentOfFirstTeam.ToString() + "\n";
-            Message += "[Info][Init] AgentPosition[(int)Team.LastTeam, (int)Agent.FilstAgent] = " + initPositionOfFilstAgentOfLastTeam.ToString() + "\n";
-            Message += "[Info][Init] AgentPosition[(int)Team.LastTeam, (int)Agent.SecondAgent] = " + initPositionOfSecondAgentOfLastTeam.ToString() + "\n";
-            Message += "[Info][Init] Turn = " + Turn.ToString() + "\n";
-
-            MakeArea(team: Team.A, agent: Agent.One);
-            MakeArea(team: Team.A, agent: Agent.Two);
-            MakeArea(team: Team.B, agent: Agent.One);
-            MakeArea(team: Team.B, agent: Agent.Two);
-        }
-
-        /// <summary>
         /// フィールドのポイントの状態を設定または、取得します。
         /// </summary>
         public Field[,] Map
