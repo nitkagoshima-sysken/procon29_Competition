@@ -27,54 +27,7 @@ namespace procon29_disp
         private Agent selectedAgent;
 
         /// <summary>
-        /// <code>Procon29_Display</code>を初期化します。
-        /// <code>turn</code>は<code>1</code>にセットされます。
-        /// </summary>
-        public Procon29_Calc()
-        {
-            for (int i = 0; i < 12; i++)
-            {
-                for (int j = 0; j < 12; j++)
-                {
-                    field[i, j] = new Field();
-                }
-            }
-            Turn = 1;
-        }
-
-        /// <summary>
-        /// <code>Procon29_Display</code>を初期化します。
-        /// <code>turn</code>は<code>1</code>にセットされます。
-        /// </summary>
-        /// <param name="field">競技フィールドにおける各マスのポイントのデータを格納します。</param>
-        public Procon29_Calc(Field[,] field)
-        {
-            this.field = field;
-            Turn = 1;
-        }
-
-        /// <summary>
-        /// <code>Procon29_Display</code>を初期化します。
-        /// <code>turn</code>は<code>1</code>にセットされます。
-        /// </summary>
-        /// <param name="field">競技フィールドにおける各マスのポイントのデータを格納します。</param>
-        public Procon29_Calc(int[,] field)
-        {
-            for (int i = 0; i < 12; i++)
-            {
-                for (int j = 0; j < 12; j++)
-                {
-                    this.field[i, j] = new Field
-                    {
-                        Point = field[i, j]
-                    };
-                }
-            }
-            Turn = 1;
-        }
-
-        /// <summary>
-        /// Procon29_Displayを初期化します。
+        /// Procon29_Calcを初期化します。
         /// </summary>
         /// <param name="field">フィールドのポイントを設定します。</param>
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>

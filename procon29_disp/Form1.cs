@@ -14,7 +14,7 @@ namespace procon29_disp
     {
         Team selectedTeam;
         Agent selectedAgent;
-        Procon29_Calc procon = new Procon29_Calc();
+        Procon29_Calc procon;
         /// <summary>
         /// Form1
         /// </summary>
