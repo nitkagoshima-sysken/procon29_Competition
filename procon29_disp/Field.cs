@@ -48,14 +48,6 @@ namespace procon29_disp
         /// </summary>
         private int point;
         /// <summary>
-        /// そのマスにエージェントがいるかを表します。
-        /// <code>isPoint[0,0]</code>で先攻チームの1人目のエージェントがいるかを表します。
-        /// <code>isPoint[0,1]</code>で先攻チームの2人目のエージェントがいるかを表します。
-        /// <code>isPoint[1,0]</code>で後攻チームの1人目のエージェントがいるかを表します。
-        /// <code>isPoint[1,1]</code>で後攻チームの2人目のエージェントがいるかを表します。
-        /// </summary>
-        private bool[,] isAgent;
-        /// <summary>
         /// そのマスにタイルが置かれているかを表します。
         /// <code>isArea[0]</code>で先攻チームのタイルが置かれているかを表します。
         /// <code>isArea[1]</code>で後攻チームのタイルが置かれているかを表します。
