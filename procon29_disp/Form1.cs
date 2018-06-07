@@ -51,7 +51,7 @@ namespace procon29_disp
             messageBox.Text += procon.Message;
             messageBox.Select(messageBox.Text.Length, 0);
 
-            procon.MoveAgent(Team.Filst, Agent.One, new Point(10, 3));
+            procon.MoveAgent(Team.A, Agent.One, new Point(10, 3));
         }
 
         //Resizeイベントハンドラ

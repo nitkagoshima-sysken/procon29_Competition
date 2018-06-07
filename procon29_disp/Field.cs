@@ -12,13 +12,13 @@ namespace procon29_disp
     enum Team
     {
         /// <summary>
-        /// 先攻のチームを表します。
+        /// チームAを表します。
         /// </summary>
-        Filst,
+        A,
         /// <summary>
-        /// 後攻のチームを表します。
+        /// チームBを表します。
         /// </summary>
-        Last
+        B
     }
 
     /// <summary>

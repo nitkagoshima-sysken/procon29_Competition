@@ -88,10 +88,10 @@ namespace procon29_disp
             Point initPositionOfFilstAgentOfLastTeam,
             Point initPositionOfSecondAgentOfLastTeam)
         {
-            AgentPosition[(int)Team.Filst, (int)Agent.One] = initPositionOfFilstAgentOfFirstTeam;
-            AgentPosition[(int)Team.Filst, (int)Agent.Two] = initPositionOfSecondAgentOfFirstTeam;
-            AgentPosition[(int)Team.Last, (int)Agent.One] = initPositionOfFilstAgentOfLastTeam;
-            AgentPosition[(int)Team.Last, (int)Agent.Two] = initPositionOfSecondAgentOfLastTeam;
+            AgentPosition[(int)Team.A, (int)Agent.One] = initPositionOfFilstAgentOfFirstTeam;
+            AgentPosition[(int)Team.A, (int)Agent.Two] = initPositionOfSecondAgentOfFirstTeam;
+            AgentPosition[(int)Team.B, (int)Agent.One] = initPositionOfFilstAgentOfLastTeam;
+            AgentPosition[(int)Team.B, (int)Agent.Two] = initPositionOfSecondAgentOfLastTeam;
             for (int i = 0; i < 12; i++)
             {
                 for (int j = 0; j < 12; j++)
@@ -109,10 +109,10 @@ namespace procon29_disp
             Message += "[Info][Init] AgentPosition[(int)Team.LastTeam, (int)Agent.SecondAgent] = " + initPositionOfSecondAgentOfLastTeam.ToString() + "\n";
             Message += "[Info][Init] Turn = " + Turn.ToString() + "\n";
 
-            MakeArea(team: Team.Filst, agent: Agent.One);
-            MakeArea(team: Team.Filst, agent: Agent.Two);
-            MakeArea(team: Team.Last, agent: Agent.One);
-            MakeArea(team: Team.Last, agent: Agent.Two);
+            MakeArea(team: Team.A, agent: Agent.One);
+            MakeArea(team: Team.A, agent: Agent.Two);
+            MakeArea(team: Team.B, agent: Agent.One);
+            MakeArea(team: Team.B, agent: Agent.Two);
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace procon29_disp
         /// </summary>
         public Team TurnTeam
         {
-            get { return (Turn % 2 == 1) ? Team.Filst : Team.Last; }
+            get { return (Turn % 2 == 1) ? Team.A : Team.B; }
         }
 
         /// <summary>
@@ -218,14 +218,14 @@ namespace procon29_disp
             {
                 for (int j = 0; j < field.GetLength(1); j++)
                 {
-                    if (field[i, j].IsArea[(int)Team.Filst])
+                    if (field[i, j].IsArea[(int)Team.A])
                         graphics.FillRectangle(
                         brush: new SolidBrush(Color.DarkOrange),
                         x: i * fieldWidth,
                         y: j * fieldHeight,
                         width: fieldWidth,
                         height: fieldHeight);
-                    else if (field[i, j].IsArea[(int)Team.Last])
+                    else if (field[i, j].IsArea[(int)Team.B])
                         graphics.FillRectangle(
                         brush: new SolidBrush(Color.LimeGreen),
                         x: i * fieldWidth,
@@ -274,32 +274,32 @@ namespace procon29_disp
                 s: "F1",
                 font: PointFont,
                 brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
-                x: (float)(AgentPosition[(int)Team.Filst, (int)Agent.One].X + 0.7) * fieldWidth,
-                y: AgentPosition[(int)Team.Filst, (int)Agent.One].Y * fieldHeight);
+                x: (float)(AgentPosition[(int)Team.A, (int)Agent.One].X + 0.7) * fieldWidth,
+                y: AgentPosition[(int)Team.A, (int)Agent.One].Y * fieldHeight);
 
             PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
             graphics.DrawString(
                 s: "F2",
                 font: PointFont,
                 brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
-                x: (float)(AgentPosition[(int)Team.Filst, (int)Agent.Two].X + 0.7) * fieldWidth,
-                y: AgentPosition[(int)Team.Filst, (int)Agent.Two].Y * fieldHeight);
+                x: (float)(AgentPosition[(int)Team.A, (int)Agent.Two].X + 0.7) * fieldWidth,
+                y: AgentPosition[(int)Team.A, (int)Agent.Two].Y * fieldHeight);
             PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
 
             graphics.DrawString(
                 s: "L1",
                 font: PointFont,
                 brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
-                x: (float)(AgentPosition[(int)Team.Last, (int)Agent.One].X + 0.7) * fieldWidth,
-                y: AgentPosition[(int)Team.Last, (int)Agent.One].Y * fieldHeight);
+                x: (float)(AgentPosition[(int)Team.B, (int)Agent.One].X + 0.7) * fieldWidth,
+                y: AgentPosition[(int)Team.B, (int)Agent.One].Y * fieldHeight);
             PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
 
             graphics.DrawString(
                 s: "L2",
                 font: PointFont,
                 brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
-                x: (float)(AgentPosition[(int)Team.Last, (int)Agent.Two].X + 0.7) * fieldWidth,
-                y: AgentPosition[(int)Team.Last, (int)Agent.Two].Y * fieldHeight);
+                x: (float)(AgentPosition[(int)Team.B, (int)Agent.Two].X + 0.7) * fieldWidth,
+                y: AgentPosition[(int)Team.B, (int)Agent.Two].Y * fieldHeight);
 
             System.Drawing.Point systemCursorPosition = System.Windows.Forms.Cursor.Position;
             System.Drawing.Point pictureBoxCursorPosition = pictureBox.PointToClient(systemCursorPosition);
@@ -362,24 +362,24 @@ namespace procon29_disp
                     x: clickedFieldPoint.X,
                     y: clickedFieldPoint.Y);
 
-            if (ClickedField == GetAgentPosition(Team.Filst, Agent.One))
+            if (ClickedField == GetAgentPosition(Team.A, Agent.One))
             {
-                selectedTeam = Team.Filst;
+                selectedTeam = Team.A;
                 selectedAgent = Agent.One;
             }
-            else if (ClickedField == GetAgentPosition(Team.Filst, Agent.Two))
+            else if (ClickedField == GetAgentPosition(Team.A, Agent.Two))
             {
-                selectedTeam = Team.Filst;
+                selectedTeam = Team.A;
                 selectedAgent = Agent.Two;
             }
-            else if (ClickedField == GetAgentPosition(Team.Last, Agent.One))
+            else if (ClickedField == GetAgentPosition(Team.B, Agent.One))
             {
-                selectedTeam = Team.Last;
+                selectedTeam = Team.B;
                 selectedAgent = Agent.One;
             }
-            else if (ClickedField == GetAgentPosition(Team.Last, Agent.Two))
+            else if (ClickedField == GetAgentPosition(Team.B, Agent.Two))
             {
-                selectedTeam = Team.Last;
+                selectedTeam = Team.B;
                 selectedAgent = Agent.Two;
             }
 
