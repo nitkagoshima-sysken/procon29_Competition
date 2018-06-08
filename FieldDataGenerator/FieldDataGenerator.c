@@ -5,8 +5,13 @@
 
 #include "getopt.h"
 
+#define MAX_POINT 16
+
 void makeField(int, int,int,int,char*);
 char* makeFileName(char*, int ,int);
+int makePoint(double);
+
+double rate_of_minus = 0.3;
 
 int main(int argc,char* argv[]){
   int vertical = 12;
@@ -18,13 +23,14 @@ int main(int argc,char* argv[]){
 
   opterr = 0;
 
-  while((opt = getopt(argc, argv,"v:s:t:n:")) != -1){
+  while((opt = getopt(argc, argv,"v:s:t:n:r:")) != -1){
     switch(opt){
       case 'v':vertical = atoi(optarg);break;
       case 's':side = atoi(optarg);break;
       case 't':type = atoi(optarg);break;
       case 'n':number = atoi(optarg);break;
-      default: printf("Usage: %s [-v argment] [-s argment] [-y argment] filename ...\n", argv[0]);break;
+      case 'r':rate_of_minus = atof(optarg);break;
+      default: printf("Usage: %s [-v argment] [-s argment] [-y argment] [-r rate_of_minus] filename ...\n", argv[0]);break;
     }
   }
 
@@ -53,6 +59,10 @@ char* makeFileName(char* filename, int number, int size){
   return result;
 }
 
+int makePoint(double minus){
+  return ((rand()%100 < minus*100)*(-2)+1)*(rand()%(MAX_POINT+1));
+}
+
 void makeField(int vertical, int side, int type, int number, char* filename){
   int data[12][12];
   int i,j,size,k;
@@ -71,7 +81,8 @@ void makeField(int vertical, int side, int type, int number, char* filename){
     if(type == 1){
       for(i = 0;i<vertical;i++){
         for(j = 0;j<=side/2;j++){
-          point = (rand()%33)-16;
+          //point = (rand()%33)-16;
+          point = makePoint(rate_of_minus);
           data[i][j] = point;
           data[i][side-1-j] = point;
         }
@@ -79,7 +90,7 @@ void makeField(int vertical, int side, int type, int number, char* filename){
     }else if(type == 2){
       for(i = 0;i<=vertical/2;i++){
         for(j = 0;j<side;j++){
-          point = (rand()%33)-16;
+          point = makePoint(rate_of_minus);
           data[i][j] = point;
           data[vertical-1-i][j] = point;
         }
@@ -87,7 +98,7 @@ void makeField(int vertical, int side, int type, int number, char* filename){
     }else if(type == 3){
       for(i = 0;i<=vertical/2;i++){
         for(j = 0;j<=side/2;j++){
-          point = (rand()%33)-16;
+          point = makePoint(rate_of_minus);
           data[i][j] = point;
           data[i][side-1-j] = point;
           data[vertical-1-i][j] = point;
