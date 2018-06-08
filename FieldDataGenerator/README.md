@@ -1,7 +1,7 @@
 # FieldDataGenerator
 This program creates test field data.
 ## Usage
-`./Generator [-v vertical] [-s side] [-t type] [-n number] filename`
+`./Generator [-v vertical] [-s side] [-t type] [-n number] [-r rate_of_minus] filename`
 
 ## Build
 `make`
