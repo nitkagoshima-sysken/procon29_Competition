@@ -15,7 +15,7 @@ namespace procon29_disp
     {
         private int turn;
         private string message;
-        public Field[,] field = new Field[12, 12];
+        private Field[,] fields = new Field[12, 12];
         private const string pointFamilyName = "Impact";
         private SolidBrush backGroundSolidBrush = new SolidBrush(Color.FromArgb(48, 48, 48));
         private SolidBrush selectSolidBrush = new SolidBrush(Color.FromArgb(50, Color.DarkGray));
@@ -37,7 +37,7 @@ namespace procon29_disp
             {
                 for (int j = 0; j < field.GetLength(1); j++)
                 {
-                    this.field[i, j] = new Field
+                    this.Fields[i, j] = new Field
                     {
                         Point = field[i, j]
                     };
@@ -61,10 +61,10 @@ namespace procon29_disp
         {
             set
             {
-                field = value;
+                Fields = value;
                 PointMapCheck();
             }
-            get { return field; }
+            get { return Fields; }
         }
 
         /// <summary>
@@ -92,11 +92,13 @@ namespace procon29_disp
         public Point[,] AgentPosition { get => agentPosition; set => agentPosition = value; }
         public int Turn { get { return turn; } private set { turn = value; } }
 
+        public Field[,] Fields { get => fields; set => fields = value; }
+
         public Point GetAgentPosition(Team team, Agent agent) => AgentPosition[(int)team, (int)agent];
 
         public void PointMapCheck()
         {
-            if (field.GetLength(0) > 12 || field.GetLength(1) > 12)
+            if (Fields.GetLength(0) > 12 || Fields.GetLength(1) > 12)
                 message += "[Error] 'field' was not declare array smaller than 12 * 12" + "\n";
             if (!HorizontallySymmetricalCheck())
                 message += "[Error] 'field' was not declare horizontally symmetric array" + "\n";
@@ -106,11 +108,11 @@ namespace procon29_disp
 
         private bool VerticallySymmetricalCheck()
         {
-            for (int i = 0; i < field.GetLength(1); i++)
+            for (int i = 0; i < Fields.GetLength(1); i++)
             {
-                for (int j = 0; j < field.GetLength(0) / 2; j++)
+                for (int j = 0; j < Fields.GetLength(0) / 2; j++)
                 {
-                    if (field[i, j].Point != field[(field.GetLength(0) - 1) - i, j].Point) return false;
+                    if (Fields[i, j].Point != Fields[(Fields.GetLength(0) - 1) - i, j].Point) return false;
                 }
             }
             return true;
@@ -118,11 +120,11 @@ namespace procon29_disp
 
         private bool HorizontallySymmetricalCheck()
         {
-            for (int j = 0; j < field.GetLength(0); j++)
+            for (int j = 0; j < Fields.GetLength(0); j++)
             {
-                for (int i = 0; i < field.GetLength(1) / 2; i++)
+                for (int i = 0; i < Fields.GetLength(1) / 2; i++)
                 {
-                    if (field[i, j].Point != field[i, (field.GetLength(1) - 1) - j].Point) return false;
+                    if (Fields[i, j].Point != Fields[i, (Fields.GetLength(1) - 1) - j].Point) return false;
                 }
             }
             return true;
@@ -136,10 +138,10 @@ namespace procon29_disp
             Turn++;
         }
 
-        public void MakeArea(Team team, Agent agent) => field[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsArea[(int)team] = true;
+        public void MakeArea(Team team, Agent agent) => Fields[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsArea[(int)team] = true;
         public void MakeArea(int team, int agent) => MakeArea((Team)team, (Agent)agent);
 
-        public void RemoveArea(Team team, Agent agent) => field[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsArea[(int)team] = false;
+        public void RemoveArea(Team team, Agent agent) => Fields[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsArea[(int)team] = false;
 
         public void MoveAgent(Team team, Agent agent, Point where)
         {

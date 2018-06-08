@@ -64,21 +64,21 @@ namespace procon29_disp
 
         public Bitmap MakePictureBox(PictureBox pictureBox, Bitmap canvas, Graphics graphics)
         {
-            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.field.GetLength(0);
-            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.field.GetLength(1);
+            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Fields.GetLength(0);
+            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.Fields.GetLength(1);
 
-            for (int i = 0; i < Procon29_Calc.field.GetLength(0); i++)
+            for (int i = 0; i < Procon29_Calc.Fields.GetLength(0); i++)
             {
-                for (int j = 0; j < Procon29_Calc.field.GetLength(1); j++)
+                for (int j = 0; j < Procon29_Calc.Fields.GetLength(1); j++)
                 {
-                    if (Procon29_Calc.field[i, j].IsArea[(int)Team.A])
+                    if (Procon29_Calc.Fields[i, j].IsArea[(int)Team.A])
                         graphics.FillRectangle(
                         brush: new SolidBrush(Color.DarkOrange),
                         x: i * fieldWidth,
                         y: j * fieldHeight,
                         width: fieldWidth,
                         height: fieldHeight);
-                    else if (Procon29_Calc.field[i, j].IsArea[(int)Team.B])
+                    else if (Procon29_Calc.Fields[i, j].IsArea[(int)Team.B])
                         graphics.FillRectangle(
                         brush: new SolidBrush(Color.LimeGreen),
                         x: i * fieldWidth,
@@ -95,9 +95,9 @@ namespace procon29_disp
                 }
             }
 
-            for (int i = 0; i < Procon29_Calc.field.GetLength(0); i++)
+            for (int i = 0; i < Procon29_Calc.Fields.GetLength(0); i++)
             {
-                for (int j = 0; j < Procon29_Calc.field.GetLength(1); j++)
+                for (int j = 0; j < Procon29_Calc.Fields.GetLength(1); j++)
                 {
                     graphics.DrawRectangle(
                         pen: Pens.Black,
@@ -109,9 +109,9 @@ namespace procon29_disp
             }
 
             PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 2.0f);
-            for (int i = 0; i < Procon29_Calc.field.GetLength(0); i++)
+            for (int i = 0; i < Procon29_Calc.Fields.GetLength(0); i++)
             {
-                for (int j = 0; j < Procon29_Calc.field.GetLength(1); j++)
+                for (int j = 0; j < Procon29_Calc.Fields.GetLength(1); j++)
                 {
                     graphics.DrawString(
                     s: Procon29_Calc.Map[j, i].Point.ToString(),
@@ -159,7 +159,7 @@ namespace procon29_disp
             Point selectedFieldPoint = new Point(
                 x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
                 y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
-            if ((selectedFieldPoint.X < Procon29_Calc.field.GetLength(1)) && (selectedFieldPoint.Y < Procon29_Calc.field.GetLength(0)))
+            if ((selectedFieldPoint.X < Procon29_Calc.Fields.GetLength(1)) && (selectedFieldPoint.Y < Procon29_Calc.Fields.GetLength(0)))
                 graphics.FillRectangle(
                     brush: SelectSolidBrush,
                     x: selectedFieldPoint.X * fieldWidth,
@@ -197,8 +197,8 @@ namespace procon29_disp
 
         public void ClickedShow(PictureBox pictureBox)
         {
-            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.field.GetLength(0);
-            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.field.GetLength(1);
+            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Fields.GetLength(0);
+            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.Fields.GetLength(1);
 
             //描画先とするImageオブジェクトを作成する
             Bitmap canvas = new Bitmap(((pictureBox.Width <= 0) ? 1 : pictureBox.Width), ((pictureBox.Height <= 0) ? 1 : pictureBox.Height));
@@ -210,7 +210,7 @@ namespace procon29_disp
             Point clickedFieldPoint = new Point(
                 x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
                 y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
-            if ((clickedFieldPoint.X < Procon29_Calc.field.GetLength(1)) && (clickedFieldPoint.Y < Procon29_Calc.field.GetLength(0)))
+            if ((clickedFieldPoint.X < Procon29_Calc.Fields.GetLength(1)) && (clickedFieldPoint.Y < Procon29_Calc.Fields.GetLength(0)))
                 ClickedField = new Point(
                     x: clickedFieldPoint.X,
                     y: clickedFieldPoint.Y);
