@@ -14,7 +14,9 @@ namespace procon29_disp
     {
         Team selectedTeam;
         Agent selectedAgent;
+        
         Procon29_Calc procon;
+        Procon29_Show show;
         /// <summary>
         /// Form1
         /// </summary>
@@ -47,7 +49,13 @@ namespace procon29_disp
                 });
 
             procon.PointMapCheck();
-            procon.Show(FieldDisplay);
+            //procon.Show(FieldDisplay);
+
+            TeamDesign[] teamDesigns = new TeamDesign[2] {
+                new TeamDesign(name:"A", agentColor:Color.DarkGreen, areaColor:Color.DarkGreen),
+                new TeamDesign(name:"B", agentColor:Color.LimeGreen, areaColor:Color.LimeGreen),
+            };
+            show = new Procon29_Show(procon, teamDesigns);
 
             messageBox.Text += procon.Message;
             messageBox.Select(messageBox.Text.Length, 0);
@@ -60,24 +68,28 @@ namespace procon29_disp
         {
             Control c = (Control)sender;
             //Console.WriteLine("フォームのサイズが{0}x{1}に変更されました", c.Width, c.Height);
-            procon.Show(FieldDisplay);
+            //procon.Show(FieldDisplay);
+            show.Show(FieldDisplay);
         }
 
         private void FieldDisplay_MouseClick(object sender, MouseEventArgs e)
         {
-            procon.ClickedShow(FieldDisplay);
+            show.ClickedShow(FieldDisplay);
+            //procon.ClickedShow(FieldDisplay);
             messageBox.Text = procon.Message;
             messageBox.Select(messageBox.Text.Length, 0);
         }
 
         private void FieldDisplay_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            procon.DoubleClickedShow();
+            show.DoubleClickedShow();
+            //procon.DoubleClickedShow();
         }
 
         private void FieldDisplay_MouseMove(object sender, MouseEventArgs e)
         {
-            procon.Show(FieldDisplay);
+            show.Show(FieldDisplay);
+            //procon.Show(FieldDisplay);
         }
     }
 }

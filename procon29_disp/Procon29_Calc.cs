@@ -89,7 +89,7 @@ namespace procon29_disp
         public Font PointFont { get => pointFont; set => pointFont = value; }
 
         public static string PointFamilyName => pointFamilyName;
-        private Point[,] AgentPosition { get => agentPosition; set => agentPosition = value; }
+        public Point[,] AgentPosition { get => agentPosition; set => agentPosition = value; }
         public int Turn { get { return turn; } private set { turn = value; } }
 
         public Point GetAgentPosition(Team team, Agent agent) => AgentPosition[(int)team, (int)agent];
