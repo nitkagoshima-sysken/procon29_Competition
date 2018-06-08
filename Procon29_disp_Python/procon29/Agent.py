@@ -111,7 +111,7 @@ class AgentData:
                     for k in range(self.x-j):
                         if self.get[i][j+k] == 0:
                             del self.buffer[:]
-                            self.get[i][j+k] = self.TerritoryFill(j+k, i)
+                            self.TerritoryFill(j+k, i)
         for i in range(len(self.get)):
             for j in range(len(self.get[0])):
                 if self.get[i][j] == 2:

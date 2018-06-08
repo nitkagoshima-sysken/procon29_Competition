@@ -2,7 +2,6 @@
 
 from datetime import datetime
 import procon29
-import wx
 
 type_dic = {procon29.GAME_LOG:'[Game Log] ',\
             procon29.SYSTEM_LOG:'[System Log] ',\

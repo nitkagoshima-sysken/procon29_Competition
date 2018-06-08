@@ -72,10 +72,6 @@ class Field:
         self.log.LogWrite('Coloring of next ({},{}):{}\n'\
                         .format(int(next/1000), next%1000, col), logtype=procon29.SYSTEM_LOG)
 
-    def Destroy(self):
-        self.field.Destroy()
-        self.log.LogWrite('Clear ALL', logtype=procon29.SYSTEM_LOG)
-
     def FieldTypeAnalysis(self):
         typenum = 0
         if self.point[0][0] == self.point[self.y-1][0] and\
@@ -87,3 +83,7 @@ class Field:
             self.point[self.y-1][2] == self.point[self.y-1][self.x-3]:
             typenum += 1
         return typenum
+
+    def Destroy(self):
+        self.field.Destroy()
+        self.log.LogWrite('Clear ALL', logtype=procon29.SYSTEM_LOG)
