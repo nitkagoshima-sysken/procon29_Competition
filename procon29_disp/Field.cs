@@ -101,6 +101,5 @@ namespace procon29_disp
             Point = 0;
             IsArea = new bool[2];
         }
-
     }
 }
