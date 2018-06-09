@@ -19,9 +19,9 @@ namespace procon29_disp
 
         public TeamDesign(string name, Color agentColor, Color areaColor)
         {
-            name = Name;
-            agentColor = AgentColor;
-            areaColor = AreaColor;
+            Name = name;
+            AgentColor = agentColor;
+            AreaColor = areaColor;
         }
     }
 
