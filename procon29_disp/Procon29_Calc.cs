@@ -20,6 +20,7 @@ namespace procon29_disp
         //private Point clickedField;
         //private Font pointFont;
         private Point[,] agentPosition = new Point[2, 2];
+        private string[,] shortName = new string[2,2] { { "A1", "A2", }, { "B1", "B2", }, };
 
         /// <summary>
         /// Procon29_Calcを初期化します。
@@ -77,6 +78,7 @@ namespace procon29_disp
         public Point[,] AgentPosition { get => agentPosition; set => agentPosition = value; }
         public int Turn { get { return turn; } private set { turn = value; } }
         public Field[,] Fields { get => fields; set => fields = value; }
+        public string[,] ShortName { get => shortName; set => shortName = value; }
 
         public Point GetAgentPosition(Team team, Agent agent) => AgentPosition[(int)team, (int)agent];
 
