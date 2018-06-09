@@ -31,23 +31,21 @@ namespace procon29_disp
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>
         public Procon29_Calc(int[,] field, Point[,] initPosition)
         {
-            for (int i = 0; i < field.GetLength(0); i++)
+            Fields = new Field[field.GetLength(1), field.GetLength(0)];
+            for (int y = 0; y < field.GetLength(0); y++)
             {
-                for (int j = 0; j < field.GetLength(1); j++)
+                for (int x = 0; x < field.GetLength(1); x++)
                 {
-                    this.Fields[i, j] = new Field
-                    {
-                        Point = field[i, j]
-                    };
+                    this.Fields[y, x] = new Field { Point = field[x, y] };
                 }
             }
             Turn = 1;
-            for (int i = 0; i < 2; i++)
+            for (int t = 0; t < 2; t++)
             {
-                for (int j = 0; j < 2; j++)
+                for (int a = 0; a < 2; a++)
                 {
-                    AgentPosition[i, j] = initPosition[i, j];
-                    MakeArea(team: i, agent: j);
+                    AgentPosition[t, a] = initPosition[t, a];
+                    MakeArea(team: t, agent: a);
                 }
             }
         }
@@ -113,7 +111,7 @@ namespace procon29_disp
         /// </summary>
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームの直接的なエリアのポイントの合計</returns>
-        public int SumDirectArea(Team team) => FieldList.Sum(x => ((x.IsArea[(int)team]) ? x.Point : 0));
+        public int SumDirectArea(Team team) => FieldList.Sum(x => ((x.IsArea[(int)team] == true) ? x.Point : 0));
 
         /// <summary>
         /// 指定したチームが囲んだエリアのポイントの絶対値の合計を計算します。

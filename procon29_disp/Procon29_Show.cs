@@ -67,58 +67,58 @@ namespace procon29_disp
             var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Fields.GetLength(0);
             var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.Fields.GetLength(1);
 
-            for (int i = 0; i < Procon29_Calc.Fields.GetLength(0); i++)
+            for (int y = 0; y < Procon29_Calc.Fields.GetLength(0); y++)
             {
-                for (int j = 0; j < Procon29_Calc.Fields.GetLength(1); j++)
+                for (int x = 0; x < Procon29_Calc.Fields.GetLength(1); x++)
                 {
-                    if (Procon29_Calc.Fields[i, j].IsArea[(int)Team.A])
+                    if (Procon29_Calc.Fields[x, y].IsArea[(int)Team.A])
                         graphics.FillRectangle(
                         brush: new SolidBrush(Color.DarkOrange),
-                        x: i * fieldWidth,
-                        y: j * fieldHeight,
+                        x: x * fieldWidth,
+                        y: y * fieldHeight,
                         width: fieldWidth,
                         height: fieldHeight);
-                    else if (Procon29_Calc.Fields[i, j].IsArea[(int)Team.B])
+                    else if (Procon29_Calc.Fields[x, y].IsArea[(int)Team.B])
                         graphics.FillRectangle(
                         brush: new SolidBrush(Color.LimeGreen),
-                        x: i * fieldWidth,
-                        y: j * fieldHeight,
+                        x: x * fieldWidth,
+                        y: y * fieldHeight,
                         width: fieldWidth,
                         height: fieldHeight);
                     else
                         graphics.FillRectangle(
                         brush: BackGroundSolidBrush,
-                        x: i * fieldWidth,
-                        y: j * fieldHeight,
+                        x: x * fieldWidth,
+                        y: y * fieldHeight,
                         width: fieldWidth,
                         height: fieldHeight);
                 }
             }
 
-            for (int i = 0; i < Procon29_Calc.Fields.GetLength(0); i++)
+            for (int y = 0; y < Procon29_Calc.Fields.GetLength(0); y++)
             {
-                for (int j = 0; j < Procon29_Calc.Fields.GetLength(1); j++)
+                for (int x = 0; x < Procon29_Calc.Fields.GetLength(1); x++)
                 {
                     graphics.DrawRectangle(
                         pen: Pens.Black,
-                        x: j * fieldWidth,
-                        y: i * fieldHeight,
+                        x: x * fieldWidth,
+                        y: y * fieldHeight,
                         width: fieldWidth,
                         height: fieldHeight);
                 }
             }
 
             PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 2.0f);
-            for (int i = 0; i < Procon29_Calc.Fields.GetLength(0); i++)
+            for (int y = 0; y < Procon29_Calc.Fields.GetLength(0); y++)
             {
-                for (int j = 0; j < Procon29_Calc.Fields.GetLength(1); j++)
+                for (int x = 0; x < Procon29_Calc.Fields.GetLength(1); x++)
                 {
                     graphics.DrawString(
-                    s: Procon29_Calc.Map[j, i].Point.ToString(),
+                    s: Procon29_Calc.Map[x, y].Point.ToString(),
                     font: PointFont,
                     brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
-                    x: (float)(i + 0.1) * fieldWidth,
-                    y: (float)(j + 0.2) * fieldHeight);
+                    x: (float)(x + 0.1) * fieldWidth,
+                    y: (float)(y + 0.2) * fieldHeight);
                 }
             }
 
