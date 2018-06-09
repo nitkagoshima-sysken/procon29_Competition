@@ -16,11 +16,8 @@ namespace procon29_disp
     class Procon29_Calc
     {
         private int turn;
-        //private string message;
         private Field[,] fields = new Field[12, 12];
         private const string pointFamilyName = "Impact";
-        //private Point clickedField;
-        //private Font pointFont;
         private Point[,] agentPosition = new Point[2, 2];
         public static readonly string[,] ShortTeamAgentName = new string[2, 2] { { "A1", "A2", }, { "B1", "B2", }, };
 
@@ -71,9 +68,6 @@ namespace procon29_disp
             get { return (Turn % 2 == 1) ? Team.A : Team.B; }
         }
 
-        //public string Message { get => message; set => message = value; }
-        //public Point ClickedField { get => clickedField; set => clickedField = value; }
-        //public Font PointFont { get => pointFont; set => pointFont = value; }
         public static string PointFamilyName => pointFamilyName;
         public Point[,] AgentPosition { get => agentPosition; set => agentPosition = value; }
         public int Turn { get { return turn; } private set { turn = value; } }
@@ -172,7 +166,6 @@ namespace procon29_disp
         {
             AgentPosition[(int)team, (int)agent] = where;
             MakeArea(team: team, agent: agent);
-            //Message += "[Info][MoveAgent] AgentPosition[" + team.ToString() + "][" + agent.ToString() + "] = " + AgentPosition[(int)team, (int)agent] + "\n";
             Turn++;
         }
     }

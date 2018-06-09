@@ -17,6 +17,8 @@ namespace procon29_disp
         
         Procon29_Calc procon;
         Procon29_Show show;
+        Procon29_Logger log;
+        TeamDesign[] teamDesigns;
         /// <summary>
         /// Form1
         /// </summary>
@@ -49,45 +51,55 @@ namespace procon29_disp
                 });
 
             procon.PointMapCheck();
-            //procon.Show(FieldDisplay);
 
-            TeamDesign[] teamDesigns = new TeamDesign[2] {
-                new TeamDesign(name:"A", agentColor:Color.DarkGreen, areaColor:Color.DarkGreen),
-                new TeamDesign(name:"B", agentColor:Color.LimeGreen, areaColor:Color.LimeGreen),
+            teamDesigns = new TeamDesign[2] {
+                new TeamDesign(name:"Orange", agentColor:Color.DarkOrange, areaColor:Color.DarkOrange),
+                new TeamDesign(name:"Lime", agentColor:Color.LimeGreen, areaColor:Color.LimeGreen),
             };
             show = new Procon29_Show(procon, teamDesigns);
+            log = new Procon29_Logger(messageBox);
+            log.WriteLine(Color.LightGray, "Test");
+            log.WriteLine(Color.LightGray, procon.Sum().ToString());
+            log.WriteLine(Color.LightGray, procon.SumAbs().ToString());
+            log.WriteLine(Color.LightGray, procon.SumDirectArea(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Team A");
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "name: " + teamDesigns[(int)Team.A].Name);
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Team B");
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "name: " + teamDesigns[(int)Team.B].Name);
+            
             messageBox.Select(messageBox.Text.Length, 0);
 
-            procon.MoveAgent(Team.A, Agent.One, new Point(10, 3));
+            this.MoveAgent(Team.A, Agent.One, new Point(10, 3));
+            log.WriteLine(Color.LightGray, procon.SumDirectArea(Team.A).ToString());
         }
 
         //Resizeイベントハンドラ
         private void Form1_Resize(object sender, EventArgs e)
         {
             Control c = (Control)sender;
-            //Console.WriteLine("フォームのサイズが{0}x{1}に変更されました", c.Width, c.Height);
-            //procon.Show(FieldDisplay);
             show.Show(FieldDisplay);
         }
 
         private void FieldDisplay_MouseClick(object sender, MouseEventArgs e)
         {
             show.ClickedShow(FieldDisplay);
-            //procon.ClickedShow(FieldDisplay);
-            //messageBox.Text = procon.Message;
             messageBox.Select(messageBox.Text.Length, 0);
         }
 
         private void FieldDisplay_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             show.DoubleClickedShow();
-            //procon.DoubleClickedShow();
         }
 
         private void FieldDisplay_MouseMove(object sender, MouseEventArgs e)
         {
             show.Show(FieldDisplay);
-            //procon.Show(FieldDisplay);
+        }
+
+        private void MoveAgent(Team team, Agent agent, Point where)
+        {
+            procon.MoveAgent(team, agent, where);
+            log.WriteLine(teamDesigns[(int)agent].AreaColor, Procon29_Calc.ShortTeamAgentName[(int)team, (int)agent] + " moved to " + where);
         }
     }
 }
