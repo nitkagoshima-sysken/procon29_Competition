@@ -97,7 +97,8 @@ namespace procon29_disp
         }
 
         public int AllPoint { get => FieldList.Sum(x => x.Point); }
-        
+        public int AllAbsPoint { get => FieldList.Sum(x => ((x.Point > 0) ? x.Point : -x.Point)); }
+
         public void PointMapCheck()
         {
             if (Fields.GetLength(0) > 12 || Fields.GetLength(1) > 12) ;
