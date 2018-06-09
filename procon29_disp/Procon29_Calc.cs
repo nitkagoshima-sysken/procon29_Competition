@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 //using System.Windows.Forms;
@@ -20,7 +22,7 @@ namespace procon29_disp
         //private Point clickedField;
         //private Font pointFont;
         private Point[,] agentPosition = new Point[2, 2];
-        public static readonly string[,] ShortTeamAgentName = new string[2,2] { { "A1", "A2", }, { "B1", "B2", }, };
+        public static readonly string[,] ShortTeamAgentName = new string[2, 2] { { "A1", "A2", }, { "B1", "B2", }, };
 
         /// <summary>
         /// Procon29_Calcを初期化します。
@@ -77,9 +79,22 @@ namespace procon29_disp
         public static string PointFamilyName => pointFamilyName;
         public Point[,] AgentPosition { get => agentPosition; set => agentPosition = value; }
         public int Turn { get { return turn; } private set { turn = value; } }
-        public Field[,] Fields { get => fields; set => fields = value; }        
+        public Field[,] Fields { get => fields; set => fields = value; }
 
         public Point GetAgentPosition(Team team, Agent agent) => AgentPosition[(int)team, (int)agent];
+
+        public List<Field> FieldList
+        {
+            get
+            {
+                var list = new List<Field>();
+                foreach (var item in Fields)
+                {
+                    list.Add(item);
+                }
+                return list;
+            }
+        }
 
         public void PointMapCheck()
         {
