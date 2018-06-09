@@ -96,8 +96,32 @@ namespace procon29_disp
             }
         }
 
-        public int Sum { get => FieldList.Sum(x => x.Point); }
-        public int SumAbs { get => FieldList.Sum(x => ((x.Point > 0) ? x.Point : -x.Point)); }
+        /// <summary>
+        /// すべてのフィールドのポイントの和を計算します。
+        /// </summary>
+        /// <returns>すべてのフィールドのポイントの和</returns>
+        public int Sum() => FieldList.Sum(x => x.Point);
+
+        /// <summary>
+        /// すべてのフィールドのポイントの絶対値の和を計算します。
+        /// </summary>
+        /// <returns>すべてのフィールドのポイントの絶対値の和</returns>
+        public int SumAbs() => FieldList.Sum(x => ((x.Point > 0) ? x.Point : -x.Point));
+
+        /// <summary>
+        /// 指定したチームの直接的なエリアのポイントの合計を計算します。
+        /// </summary>
+        /// <param name="team">計算するチーム</param>
+        /// <returns>指定したチームの直接的なエリアのポイントの合計</returns>
+        public int SumDirectArea(Team team) => FieldList.Sum(x => ((x.IsArea[(int)team]) ? x.Point : 0));
+
+        /// <summary>
+        /// 指定したチームが囲んだエリアのポイントの絶対値の合計を計算します。
+        /// </summary>
+        /// <param name="team">計算するチーム</param>
+        /// <returns>指定したチームが囲んだエリアのポイントの絶対値の合計</returns>
+        public int SumIndirectArea(Team team) { throw new NotImplementedException(); }
+
 
         public void PointMapCheck()
         {
