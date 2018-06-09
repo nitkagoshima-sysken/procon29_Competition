@@ -78,7 +78,7 @@ namespace procon29_disp
         public Point[,] AgentPosition { get => agentPosition; set => agentPosition = value; }
         public int Turn { get { return turn; } private set { turn = value; } }
         public Field[,] Fields { get => fields; set => fields = value; }
-        public string[,] ShortName { get => shortName; set => shortName = value; }
+        public string[,] ShortName { get => shortName; }
 
         public Point GetAgentPosition(Team team, Agent agent) => AgentPosition[(int)team, (int)agent];
 
