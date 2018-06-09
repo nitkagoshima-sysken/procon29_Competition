@@ -56,8 +56,6 @@ namespace procon29_disp
                 new TeamDesign(name:"B", agentColor:Color.LimeGreen, areaColor:Color.LimeGreen),
             };
             show = new Procon29_Show(procon, teamDesigns);
-
-            messageBox.Text += procon.Message;
             messageBox.Select(messageBox.Text.Length, 0);
 
             procon.MoveAgent(Team.A, Agent.One, new Point(10, 3));
@@ -76,7 +74,7 @@ namespace procon29_disp
         {
             show.ClickedShow(FieldDisplay);
             //procon.ClickedShow(FieldDisplay);
-            messageBox.Text = procon.Message;
+            //messageBox.Text = procon.Message;
             messageBox.Select(messageBox.Text.Length, 0);
         }
 

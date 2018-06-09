@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+//using System.Windows.Forms;
 
 namespace procon29_disp
 {
@@ -14,17 +14,12 @@ namespace procon29_disp
     class Procon29_Calc
     {
         private int turn;
-        private string message;
+        //private string message;
         private Field[,] fields = new Field[12, 12];
         private const string pointFamilyName = "Impact";
-        private SolidBrush backGroundSolidBrush = new SolidBrush(Color.FromArgb(48, 48, 48));
-        private SolidBrush selectSolidBrush = new SolidBrush(Color.FromArgb(50, Color.DarkGray));
-        private SolidBrush clickedSolidBrush = new SolidBrush(Color.FromArgb(100, Color.SkyBlue));
-        private Point clickedField;
-        private Font pointFont;
+        //private Point clickedField;
+        //private Font pointFont;
         private Point[,] agentPosition = new Point[2, 2];
-        private Team selectedTeam;
-        private Agent selectedAgent;
 
         /// <summary>
         /// Procon29_Calcを初期化します。
@@ -75,35 +70,24 @@ namespace procon29_disp
             get { return (Turn % 2 == 1) ? Team.A : Team.B; }
         }
 
-        /// <summary>
-        /// フィールドの背景色を取得します。
-        /// </summary>
-        public SolidBrush BackGroundSolidBrush { get => backGroundSolidBrush; }
-        /// <summary>
-        /// フィールドがマウス上に乗っているときの背景色を取得します。
-        /// </summary>
-        public SolidBrush SelectSolidBrush { get => selectSolidBrush; }
-        public string Message { get => message; set => message = value; }
-        public Point ClickedField { get => clickedField; set => clickedField = value; }
-        public SolidBrush ClickedSolidBrush { get => clickedSolidBrush; set => clickedSolidBrush = value; }
-        public Font PointFont { get => pointFont; set => pointFont = value; }
-
+        //public string Message { get => message; set => message = value; }
+        //public Point ClickedField { get => clickedField; set => clickedField = value; }
+        //public Font PointFont { get => pointFont; set => pointFont = value; }
         public static string PointFamilyName => pointFamilyName;
         public Point[,] AgentPosition { get => agentPosition; set => agentPosition = value; }
         public int Turn { get { return turn; } private set { turn = value; } }
-
         public Field[,] Fields { get => fields; set => fields = value; }
 
         public Point GetAgentPosition(Team team, Agent agent) => AgentPosition[(int)team, (int)agent];
 
         public void PointMapCheck()
         {
-            if (Fields.GetLength(0) > 12 || Fields.GetLength(1) > 12)
-                message += "[Error] 'field' was not declare array smaller than 12 * 12" + "\n";
-            if (!HorizontallySymmetricalCheck())
-                message += "[Error] 'field' was not declare horizontally symmetric array" + "\n";
-            if (!VerticallySymmetricalCheck())
-                message += "[Error] 'field' was not declare vertically symmetric array" + "\n";
+            if (Fields.GetLength(0) > 12 || Fields.GetLength(1) > 12) ;
+            //message += "[Error] 'field' was not declare array smaller than 12 * 12" + "\n";
+            if (!HorizontallySymmetricalCheck()) ;
+            //message += "[Error] 'field' was not declare horizontally symmetric array" + "\n";
+            if (!VerticallySymmetricalCheck()) ;
+            //message += "[Error] 'field' was not declare vertically symmetric array" + "\n";
         }
 
         private bool VerticallySymmetricalCheck()
@@ -147,7 +131,7 @@ namespace procon29_disp
         {
             AgentPosition[(int)team, (int)agent] = where;
             MakeArea(team: team, agent: agent);
-            Message += "[Info][MoveAgent] AgentPosition[" + team.ToString() + "][" + agent.ToString() + "] = " + AgentPosition[(int)team, (int)agent] + "\n";
+            //Message += "[Info][MoveAgent] AgentPosition[" + team.ToString() + "][" + agent.ToString() + "] = " + AgentPosition[(int)team, (int)agent] + "\n";
             Turn++;
         }
     }
