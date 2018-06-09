@@ -32,12 +32,23 @@ namespace procon29_disp
         public static string PointFamilyName => pointFamilyName;
         public Point ClickedField { get => clickedField; set => clickedField = value; }
 
+        /// <summary>
+        /// Procon29_Showの初期化を行います。
+        /// </summary>
+        /// <param name="procon29_Calc">表示するProcon29_Calc</param>
+        /// <param name="teamDesigns">表示するときのチームデザイン</param>
         public Procon29_Show(Procon29_Calc procon29_Calc, TeamDesign[] teamDesigns)
         {
             Procon29_Calc = procon29_Calc;
             TeamDesign = teamDesign;
         }
 
+        /// <summary>
+        /// Procon29_Showの初期化を行います。
+        /// </summary>
+        /// <param name="procon29_Calc">表示するProcon29_Calc</param>
+        /// <param name="teamDesigns">表示するときのチームデザイン</param>
+        /// <param name="pictureBox">表示する場所</param>
         public Procon29_Show(Procon29_Calc procon29_Calc, TeamDesign[] teamDesigns, PictureBox pictureBox)
         {
             Procon29_Calc = procon29_Calc;
@@ -45,6 +56,13 @@ namespace procon29_disp
             PictureBox = pictureBox;
         }
 
+        /// <summary>
+        /// PictureBoxを新たに生成します。
+        /// </summary>
+        /// <param name="pictureBox">表示するPictureBox</param>
+        /// <param name="canvas">表示するBitmap</param>
+        /// <param name="graphics">表示するGraphics</param>
+        /// <returns></returns>
         public Bitmap MakePictureBox(PictureBox pictureBox, Bitmap canvas, Graphics graphics)
         {
             var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Fields.GetLength(0);
@@ -161,6 +179,10 @@ namespace procon29_disp
             return canvas;
         }
 
+        /// <summary>
+        /// 表示を行います。
+        /// </summary>
+        /// <param name="pictureBox">表示するPictureBoxを指定します</param>
         public void Show(PictureBox pictureBox)
         {
             //描画先とするImageオブジェクトを作成する
@@ -178,6 +200,10 @@ namespace procon29_disp
             pictureBox.Image = canvas;
         }
 
+        /// <summary>
+        /// クリックした際の表示を行います。
+        /// </summary>
+        /// <param name="pictureBox">表示するPictureBoxを指定します</param>
         public void ClickedShow(PictureBox pictureBox)
         {
             var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Fields.GetLength(0);
@@ -229,6 +255,9 @@ namespace procon29_disp
             pictureBox.Image = canvas;
         }
 
+        /// <summary>
+        /// ダブルクリックした際の表示を行います。
+        /// </summary>
         public void DoubleClickedShow()
         {
             Procon29_Calc.MoveAgent(selectedTeam, selectedAgent, ClickedField);
