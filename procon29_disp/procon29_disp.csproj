@@ -70,6 +70,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Procon29_Calc.cs" />
+    <Compile Include="Procon29_Logger.cs" />
     <Compile Include="Procon29_Show.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
