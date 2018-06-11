@@ -14,7 +14,7 @@ namespace procon29_disp
     {
         Team selectedTeam;
         Agent selectedAgent;
-        
+
         Procon29_Calc procon;
         Procon29_Show show;
         Procon29_Logger log;
@@ -67,7 +67,7 @@ namespace procon29_disp
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "name: " + teamDesigns[(int)Team.A].Name);
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Team B");
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "name: " + teamDesigns[(int)Team.B].Name);
-            
+
             messageBox.Select(messageBox.Text.Length, 0);
 
             this.MoveAgent(Team.A, Agent.One, new Point(10, 3));
@@ -92,10 +92,20 @@ namespace procon29_disp
             show.DoubleClickedShow();
         }
 
+        /// <summary>
+        /// FieldDisplay_MouseMoveのための変数
+        /// </summary>
         System.DateTime time = System.DateTime.Now;
 
+        /// <summary>
+        /// マウスが動いたときのイベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FieldDisplay_MouseMove(object sender, MouseEventArgs e)
         {
+            // 最後にイベントが実行された時刻から何ミリ秒たったかを計算し、それが1ミリ秒以上だった場合は、画面を更新する。
+            // こうすることによって、イベントの渋滞を防ぐ。
             var delta = DateTime.Now - time;
             if (delta.TotalMilliseconds >= 1.0) show.Show(FieldDisplay);
             time = DateTime.Now;
