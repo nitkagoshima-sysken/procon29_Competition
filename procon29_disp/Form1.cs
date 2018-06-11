@@ -72,6 +72,7 @@ namespace procon29_disp
 
             this.MoveAgent(Team.A, Agent.One, new Point(10, 3));
             log.WriteLine(Color.LightGray, procon.SumDirectArea(Team.A).ToString());
+            show.Show(FieldDisplay);
         }
 
         //Resizeイベントハンドラ
