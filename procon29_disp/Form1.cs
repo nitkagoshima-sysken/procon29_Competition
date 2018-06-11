@@ -19,6 +19,7 @@ namespace procon29_disp
         Procon29_Show show;
         Procon29_Logger log;
         TeamDesign[] teamDesigns;
+
         /// <summary>
         /// Form1
         /// </summary>
@@ -91,9 +92,13 @@ namespace procon29_disp
             show.DoubleClickedShow();
         }
 
+        System.DateTime time = System.DateTime.Now;
+
         private void FieldDisplay_MouseMove(object sender, MouseEventArgs e)
         {
-            show.Show(FieldDisplay);
+            var delta = DateTime.Now - time;
+            if (delta.TotalMilliseconds >= 1.0) show.Show(FieldDisplay);
+            time = DateTime.Now;
         }
 
         private void MoveAgent(Team team, Agent agent, Point where)

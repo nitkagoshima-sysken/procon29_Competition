@@ -34,10 +34,14 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.messageBox = new System.Windows.Forms.RichTextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.メニューToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.編集ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.表示ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // FieldDisplay
@@ -48,7 +52,7 @@
             this.FieldDisplay.Location = new System.Drawing.Point(4, 4);
             this.FieldDisplay.Margin = new System.Windows.Forms.Padding(4);
             this.FieldDisplay.Name = "FieldDisplay";
-            this.FieldDisplay.Size = new System.Drawing.Size(521, 406);
+            this.FieldDisplay.Size = new System.Drawing.Size(521, 399);
             this.FieldDisplay.TabIndex = 0;
             this.FieldDisplay.TabStop = false;
             this.FieldDisplay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseClick);
@@ -64,11 +68,11 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tableLayoutPanel1.Controls.Add(this.FieldDisplay, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 1, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(13, 27);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(13, 34);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(757, 414);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(757, 407);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // tableLayoutPanel2
@@ -85,7 +89,7 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 0F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(222, 408);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(222, 401);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
             // pictureBox2
@@ -108,18 +112,40 @@
             this.messageBox.ForeColor = System.Drawing.Color.LightGray;
             this.messageBox.Location = new System.Drawing.Point(3, 3);
             this.messageBox.Name = "messageBox";
-            this.messageBox.Size = new System.Drawing.Size(216, 402);
+            this.messageBox.Size = new System.Drawing.Size(216, 395);
             this.messageBox.TabIndex = 1;
             this.messageBox.Text = "";
             // 
             // menuStrip1
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.メニューToolStripMenuItem,
+            this.編集ToolStripMenuItem,
+            this.表示ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(782, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(782, 31);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // メニューToolStripMenuItem
+            // 
+            this.メニューToolStripMenuItem.Name = "メニューToolStripMenuItem";
+            this.メニューToolStripMenuItem.Size = new System.Drawing.Size(82, 27);
+            this.メニューToolStripMenuItem.Text = "メニュー";
+            // 
+            // 編集ToolStripMenuItem
+            // 
+            this.編集ToolStripMenuItem.Name = "編集ToolStripMenuItem";
+            this.編集ToolStripMenuItem.Size = new System.Drawing.Size(52, 27);
+            this.編集ToolStripMenuItem.Text = "編集";
+            // 
+            // 表示ToolStripMenuItem
+            // 
+            this.表示ToolStripMenuItem.Name = "表示ToolStripMenuItem";
+            this.表示ToolStripMenuItem.Size = new System.Drawing.Size(52, 27);
+            this.表示ToolStripMenuItem.Text = "表示";
             // 
             // Form1
             // 
@@ -137,6 +163,8 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -150,6 +178,9 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem メニューToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 編集ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 表示ToolStripMenuItem;
     }
 }
 
