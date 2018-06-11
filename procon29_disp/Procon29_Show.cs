@@ -76,7 +76,7 @@ namespace procon29_disp
                     // タイルの色表示
                     for (int i = 0; i < 2; i++)
                     {
-                        if (Procon29_Calc.Fields[x, y].IsArea[i])
+                        if (Procon29_Calc.Fields[x, y].IsDirectArea[i])
                             graphics.FillRectangle(
                             brush: new SolidBrush(TeamDesign[i].AgentColor),
                             x: x * fieldWidth,
@@ -84,7 +84,7 @@ namespace procon29_disp
                             width: fieldWidth,
                             height: fieldHeight);
                     }
-                    if (!Procon29_Calc.Fields[x, y].IsArea[(int)Team.A] && !Procon29_Calc.Fields[x, y].IsArea[(int)Team.B])
+                    if (!Procon29_Calc.Fields[x, y].IsDirectArea[(int)Team.A] && !Procon29_Calc.Fields[x, y].IsDirectArea[(int)Team.B])
                         graphics.FillRectangle(
                         brush: BackGroundSolidBrush,
                         x: x * fieldWidth,

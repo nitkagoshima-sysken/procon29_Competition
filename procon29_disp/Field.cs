@@ -52,7 +52,9 @@ namespace procon29_disp
         /// <code>isArea[0]</code>で先攻チームのタイルが置かれているかを表します。
         /// <code>isArea[1]</code>で後攻チームのタイルが置かれているかを表します。
         /// </summary>
-        private bool[] isArea;
+        private bool[] isDirectArea;
+        private bool[] isIndirectArea;
+        private bool[] isAreaCheck;
 
         /// <summary>
         /// そのマスにおける、ポイントを設定、または取得します。
@@ -80,18 +82,16 @@ namespace procon29_disp
 
         /// <summary>
         /// そのマスにタイルが置かれているかを表します。
-        /// <code>isArea[0]</code>で先攻チームのタイルが置かれているかを表します。
-        /// <code>isArea[1]</code>で後攻チームのタイルが置かれているかを表します。
         /// </summary>
-        public bool[] IsArea
-        {
-            get => isArea;
-            set
-            {
-                if (value.Length != 2) throw new ArgumentException();
-                else isArea = value;
-            }
-        }
+        public bool[] IsDirectArea { get => isDirectArea; set => isDirectArea = value; }
+        /// <summary>
+        /// そのマスがタイルに囲まれているかを表します。
+        /// </summary>
+        public bool[] IsIndirectArea { get => isIndirectArea; set => isIndirectArea = value; }
+        /// <summary>
+        /// そのマスの囲み判定が行われたかを表します。
+        /// </summary>
+        public bool[] IsAreaCheck { get => isAreaCheck; set => isAreaCheck = value; }
 
         /// <summary>
         /// Fieldの初期化を行います。
@@ -99,7 +99,7 @@ namespace procon29_disp
         public Field()
         {
             Point = 0;
-            IsArea = new bool[2];
+            IsDirectArea = new bool[2];
         }
     }
 }

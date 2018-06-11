@@ -105,7 +105,7 @@ namespace procon29_disp
         /// </summary>
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームの直接的なエリアのポイントの合計</returns>
-        public int SumDirectArea(Team team) => FieldList.Sum(x => ((x.IsArea[(int)team] == true) ? x.Point : 0));
+        public int SumDirectArea(Team team) => FieldList.Sum(x => ((x.IsDirectArea[(int)team] == true) ? x.Point : 0));
 
         /// <summary>
         /// 指定したチームが囲んだエリアのポイントの絶対値の合計を計算します。
@@ -157,10 +157,10 @@ namespace procon29_disp
             Turn++;
         }
 
-        public void MakeArea(Team team, Agent agent) => Fields[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsArea[(int)team] = true;
+        public void MakeArea(Team team, Agent agent) => Fields[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsDirectArea[(int)team] = true;
         public void MakeArea(int team, int agent) => MakeArea((Team)team, (Agent)agent);
 
-        public void RemoveArea(Team team, Agent agent) => Fields[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsArea[(int)team] = false;
+        public void RemoveArea(Team team, Agent agent) => Fields[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsDirectArea[(int)team] = false;
 
         public void MoveAgent(Team team, Agent agent, Point where)
         {
