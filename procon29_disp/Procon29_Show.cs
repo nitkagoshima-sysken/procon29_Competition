@@ -40,7 +40,7 @@ namespace procon29_disp
         public Procon29_Show(Procon29_Calc procon29_Calc, TeamDesign[] teamDesigns)
         {
             Procon29_Calc = procon29_Calc;
-            TeamDesign = teamDesign;
+            TeamDesign = teamDesigns;
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace procon29_disp
         public Procon29_Show(Procon29_Calc procon29_Calc, TeamDesign[] teamDesigns, PictureBox pictureBox)
         {
             Procon29_Calc = procon29_Calc;
-            TeamDesign = teamDesign;
+            TeamDesign = teamDesigns;
             PictureBox = pictureBox;
         }
 
@@ -68,52 +68,37 @@ namespace procon29_disp
             var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Fields.GetLength(0);
             var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.Fields.GetLength(1);
 
+            PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 2.0f);
             for (int y = 0; y < Procon29_Calc.Fields.GetLength(0); y++)
             {
                 for (int x = 0; x < Procon29_Calc.Fields.GetLength(1); x++)
                 {
-                    if (Procon29_Calc.Fields[x, y].IsArea[(int)Team.A])
-                        graphics.FillRectangle(
-                        brush: new SolidBrush(Color.DarkOrange),
-                        x: x * fieldWidth,
-                        y: y * fieldHeight,
-                        width: fieldWidth,
-                        height: fieldHeight);
-                    else if (Procon29_Calc.Fields[x, y].IsArea[(int)Team.B])
-                        graphics.FillRectangle(
-                        brush: new SolidBrush(Color.LimeGreen),
-                        x: x * fieldWidth,
-                        y: y * fieldHeight,
-                        width: fieldWidth,
-                        height: fieldHeight);
-                    else
+                    // タイルの色表示
+                    for (int i = 0; i < 2; i++)
+                    {
+                        if (Procon29_Calc.Fields[x, y].IsArea[i])
+                            graphics.FillRectangle(
+                            brush: new SolidBrush(TeamDesign[i].AgentColor),
+                            x: x * fieldWidth,
+                            y: y * fieldHeight,
+                            width: fieldWidth,
+                            height: fieldHeight);
+                    }
+                    if (!Procon29_Calc.Fields[x, y].IsArea[(int)Team.A] && !Procon29_Calc.Fields[x, y].IsArea[(int)Team.B])
                         graphics.FillRectangle(
                         brush: BackGroundSolidBrush,
                         x: x * fieldWidth,
                         y: y * fieldHeight,
                         width: fieldWidth,
                         height: fieldHeight);
-                }
-            }
-
-            for (int y = 0; y < Procon29_Calc.Fields.GetLength(0); y++)
-            {
-                for (int x = 0; x < Procon29_Calc.Fields.GetLength(1); x++)
-                {
+                    // 枠の表示
                     graphics.DrawRectangle(
                         pen: Pens.Black,
                         x: x * fieldWidth,
                         y: y * fieldHeight,
                         width: fieldWidth,
                         height: fieldHeight);
-                }
-            }
-
-            PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 2.0f);
-            for (int y = 0; y < Procon29_Calc.Fields.GetLength(0); y++)
-            {
-                for (int x = 0; x < Procon29_Calc.Fields.GetLength(1); x++)
-                {
+                    // 得点表示
                     graphics.DrawString(
                     s: Procon29_Calc.Map[x, y].Point.ToString(),
                     font: PointFont,
@@ -122,38 +107,22 @@ namespace procon29_disp
                     y: (float)(y + 0.2) * fieldHeight);
                 }
             }
+            pointFont.Dispose();
 
             PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
-            graphics.DrawString(
-                s: "F1",
-                font: PointFont,
-                brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
-                x: (float)(Procon29_Calc.AgentPosition[(int)Team.A, (int)Agent.One].X + 0.7) * fieldWidth,
-                y: Procon29_Calc.AgentPosition[(int)Team.A, (int)Agent.One].Y * fieldHeight);
-
-            PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
-            graphics.DrawString(
-                s: "F2",
-                font: PointFont,
-                brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
-                x: (float)(Procon29_Calc.AgentPosition[(int)Team.A, (int)Agent.Two].X + 0.7) * fieldWidth,
-                y: Procon29_Calc.AgentPosition[(int)Team.A, (int)Agent.Two].Y * fieldHeight);
-            PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
-
-            graphics.DrawString(
-                s: "L1",
-                font: PointFont,
-                brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
-                x: (float)(Procon29_Calc.AgentPosition[(int)Team.B, (int)Agent.One].X + 0.7) * fieldWidth,
-                y: Procon29_Calc.AgentPosition[(int)Team.B, (int)Agent.One].Y * fieldHeight);
-            PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
-
-            graphics.DrawString(
-                s: "L2",
-                font: PointFont,
-                brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
-                x: (float)(Procon29_Calc.AgentPosition[(int)Team.B, (int)Agent.Two].X + 0.7) * fieldWidth,
-                y: Procon29_Calc.AgentPosition[(int)Team.B, (int)Agent.Two].Y * fieldHeight);
+            for (int team = 0; team < 2; team++)
+            {
+                for (int agent = 0; agent < 2; agent++)
+                {
+                    graphics.DrawString(
+                        s: Procon29_Calc.ShortTeamAgentName[team, agent],
+                        font: PointFont,
+                        brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
+                        x: (float)(Procon29_Calc.AgentPosition[team, agent].X + 0.7) * fieldWidth,
+                        y: Procon29_Calc.AgentPosition[team, agent].Y * fieldHeight);
+                }
+            }
+            pointFont.Dispose();
 
             System.Drawing.Point systemCursorPosition = System.Windows.Forms.Cursor.Position;
             System.Drawing.Point pictureBoxCursorPosition = pictureBox.PointToClient(systemCursorPosition);
@@ -167,7 +136,6 @@ namespace procon29_disp
                     y: selectedFieldPoint.Y * fieldHeight,
                     width: fieldWidth,
                     height: fieldHeight);
-
             graphics.DrawRectangle(
                 pen: new Pen(color: Color.LightSkyBlue, width: 5),
                 x: ClickedField.X * fieldWidth,
@@ -175,7 +143,6 @@ namespace procon29_disp
                 width: fieldWidth,
                 height: fieldHeight);
 
-            PointFont.Dispose();
             return canvas;
         }
 
@@ -224,25 +191,16 @@ namespace procon29_disp
                     x: clickedFieldPoint.X,
                     y: clickedFieldPoint.Y);
 
-            if (ClickedField == Procon29_Calc.GetAgentPosition(Team.A, Agent.One))
+            for (int team = 0; team < 2; team++)
             {
-                selectedTeam = Team.A;
-                selectedAgent = Agent.One;
-            }
-            else if (ClickedField == Procon29_Calc.GetAgentPosition(Team.A, Agent.Two))
-            {
-                selectedTeam = Team.A;
-                selectedAgent = Agent.Two;
-            }
-            else if (ClickedField == Procon29_Calc.GetAgentPosition(Team.B, Agent.One))
-            {
-                selectedTeam = Team.B;
-                selectedAgent = Agent.One;
-            }
-            else if (ClickedField == Procon29_Calc.GetAgentPosition(Team.B, Agent.Two))
-            {
-                selectedTeam = Team.B;
-                selectedAgent = Agent.Two;
+                for (int agent = 0; agent < 2; agent++)
+                {
+                    if (ClickedField == Procon29_Calc.AgentPosition[team, agent])
+                    {
+                        selectedTeam = (Team)team;
+                        selectedAgent = (Agent)agent;
+                    }
+                }
             }
 
             MakePictureBox(pictureBox, canvas, graphics);
