@@ -16,11 +16,11 @@ namespace procon29_disp
         /// <summary>
         /// 先攻のチームを表します。
         /// </summary>
-        FilstTeam,
+        Filst,
         /// <summary>
         /// 後攻のチームを表します。
         /// </summary>
-        LastTeam
+        Last
     }
 
     /// <summary>
@@ -31,11 +31,11 @@ namespace procon29_disp
         /// <summary>
         /// 1人目のエージェントを表します。
         /// </summary>
-        FilstAgent,
+        One,
         /// <summary>
         /// 2人目のエージェントを表します。
         /// </summary>
-        SecondAgent
+        Two
     }
 
     /// <summary>
@@ -52,7 +52,9 @@ namespace procon29_disp
         private SolidBrush clickedSolidBrush = new SolidBrush(Color.FromArgb(100, Color.SkyBlue));
         private Point clickedField;
         private Font pointFont;
-        private Point[] initPosition = new Point[2];
+        private Point[,] agentPosition = new Point[2, 2];
+        private Team selectedTeam;
+        private Agent selectedAgent;
 
         /// <summary>
         /// <code>Procon29_Display</code>を初期化します。
@@ -67,7 +69,7 @@ namespace procon29_disp
                     field[i, j] = new Field();
                 }
             }
-            turn = 1;
+            Turn = 1;
         }
 
 
@@ -79,7 +81,7 @@ namespace procon29_disp
         public Procon29_Display(Field[,] field)
         {
             this.field = field;
-            turn = 1;
+            Turn = 1;
         }
 
         /// <summary>
@@ -99,7 +101,48 @@ namespace procon29_disp
                     };
                 }
             }
-            turn = 1;
+            Turn = 1;
+        }
+
+        /// <summary>
+        /// <code>Procon29_Display</code>を初期化します。
+        /// </summary>
+        /// <param name="field"><code>turn</code>は<code>1</code>にセットされます。</param>
+        /// <param name="initPositionOfFilstAgentOfFirstTeam">先攻チームの1番目のエージェントの初期位置を設定します。</param>
+        /// <param name="initPositionOfSecondAgentOfFirstTeam">先攻チームの2番目のエージェントの初期位置を設定します。</param>
+        /// <param name="initPositionOfFilstAgentOfLastTeam">後攻チームの1番目のエージェントの初期位置を設定します。</param>
+        /// <param name="initPositionOfSecondAgentOfLastTeam">後攻チームの2番目のエージェントの初期位置を設定します。</param>
+        public Procon29_Display(int[,] field,
+            Point initPositionOfFilstAgentOfFirstTeam,
+            Point initPositionOfSecondAgentOfFirstTeam,
+            Point initPositionOfFilstAgentOfLastTeam,
+            Point initPositionOfSecondAgentOfLastTeam)
+        {
+            AgentPosition[(int)Team.Filst, (int)Agent.One] = initPositionOfFilstAgentOfFirstTeam;
+            AgentPosition[(int)Team.Filst, (int)Agent.Two] = initPositionOfSecondAgentOfFirstTeam;
+            AgentPosition[(int)Team.Last, (int)Agent.One] = initPositionOfFilstAgentOfLastTeam;
+            AgentPosition[(int)Team.Last, (int)Agent.Two] = initPositionOfSecondAgentOfLastTeam;
+            for (int i = 0; i < 12; i++)
+            {
+                for (int j = 0; j < 12; j++)
+                {
+                    this.field[i, j] = new Field
+                    {
+                        Point = field[i, j]
+                    };
+                }
+            }
+            Turn = 1;
+            Message += "[Info][Init] AgentPosition[(int)Team.FilstTeam, (int)Agent.FilstAgent] = " + initPositionOfFilstAgentOfFirstTeam.ToString() + "\n";
+            Message += "[Info][Init] AgentPosition[(int)Team.FilstTeam, (int)Agent.SecondAgent] = " + initPositionOfSecondAgentOfFirstTeam.ToString() + "\n";
+            Message += "[Info][Init] AgentPosition[(int)Team.LastTeam, (int)Agent.FilstAgent] = " + initPositionOfFilstAgentOfLastTeam.ToString() + "\n";
+            Message += "[Info][Init] AgentPosition[(int)Team.LastTeam, (int)Agent.SecondAgent] = " + initPositionOfSecondAgentOfLastTeam.ToString() + "\n";
+            Message += "[Info][Init] Turn = " + Turn.ToString() + "\n";
+
+            MakeArea(team: Team.Filst, agent: Agent.One);
+            MakeArea(team: Team.Filst, agent: Agent.Two);
+            MakeArea(team: Team.Last, agent: Agent.One);
+            MakeArea(team: Team.Last, agent: Agent.Two);
         }
 
         /// <summary>
@@ -120,7 +163,7 @@ namespace procon29_disp
         /// </summary>
         public Team TurnTeam
         {
-            get { return (turn % 2 == 1) ? Team.FilstTeam : Team.LastTeam; }
+            get { return (Turn % 2 == 1) ? Team.Filst : Team.Last; }
         }
 
         /// <summary>
@@ -137,11 +180,10 @@ namespace procon29_disp
         public Font PointFont { get => pointFont; set => pointFont = value; }
 
         public static string PointFamilyName => pointFamilyName;
-        /// <summary>
-        /// 初期位置を設定します。
-        /// </summary>
-        public Point[] InitPosition { get => initPosition; set => initPosition = value; }
+        private Point[,] AgentPosition { get => agentPosition; set => agentPosition = value; }
+        public int Turn { get { return turn; } private set { turn = value; } }
 
+        public Point GetAgentPosition(Team team, Agent agent) => AgentPosition[(int)team, (int)agent];
 
         public void PointMapCheck()
         {
@@ -182,7 +224,19 @@ namespace procon29_disp
         /// </summary>
         public void Pass()
         {
-            turn++;
+            Turn++;
+        }
+
+        public void MakeArea(Team team, Agent agent) => field[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsArea[(int)team] = true;
+
+        public void RemoveArea(Team team, Agent agent) => field[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsArea[(int)team] = false;
+
+        public void MoveAgent(Team team, Agent agent, Point where)
+        {
+            AgentPosition[(int)team, (int)agent] = where;
+            MakeArea(team: team, agent: agent);
+            Message += "[Info][MoveAgent] AgentPosition[" + team.ToString() + "][" +agent.ToString()+ "] = " + AgentPosition[(int)team, (int)agent] + "\n";
+            Turn++;
         }
 
         public Bitmap MakePictureBox(PictureBox pictureBox, Bitmap canvas, Graphics graphics)
@@ -194,7 +248,22 @@ namespace procon29_disp
             {
                 for (int j = 0; j < field.GetLength(1); j++)
                 {
-                    graphics.FillRectangle(
+                    if (field[i, j].IsArea[(int)Team.Filst])
+                        graphics.FillRectangle(
+                        brush: new SolidBrush(Color.DarkOrange),
+                        x: i * fieldWidth,
+                        y: j * fieldHeight,
+                        width: fieldWidth,
+                        height: fieldHeight);
+                    else if (field[i, j].IsArea[(int)Team.Last])
+                        graphics.FillRectangle(
+                        brush: new SolidBrush(Color.LimeGreen),
+                        x: i * fieldWidth,
+                        y: j * fieldHeight,
+                        width: fieldWidth,
+                        height: fieldHeight);
+                    else
+                        graphics.FillRectangle(
                         brush: BackGroundSolidBrush,
                         x: i * fieldWidth,
                         y: j * fieldHeight,
@@ -222,13 +291,45 @@ namespace procon29_disp
                 for (int j = 0; j < field.GetLength(1); j++)
                 {
                     graphics.DrawString(
-                        s: Map[j, i].Point.ToString(),
-                        font: PointFont,
-                        brush: Brushes.DarkGray,
-                        x: (float)(i + 0.1) * fieldWidth,
-                        y: j * fieldHeight);
+                    s: Map[j, i].Point.ToString(),
+                    font: PointFont,
+                    brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
+                    x: (float)(i + 0.1) * fieldWidth,
+                    y: (float)(j + 0.2) * fieldHeight);
                 }
             }
+
+            PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
+            graphics.DrawString(
+                s: "F1",
+                font: PointFont,
+                brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
+                x: (float)(AgentPosition[(int)Team.Filst, (int)Agent.One].X + 0.7) * fieldWidth,
+                y: AgentPosition[(int)Team.Filst, (int)Agent.One].Y * fieldHeight);
+
+            PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
+            graphics.DrawString(
+                s: "F2",
+                font: PointFont,
+                brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
+                x: (float)(AgentPosition[(int)Team.Filst, (int)Agent.Two].X + 0.7) * fieldWidth,
+                y: AgentPosition[(int)Team.Filst, (int)Agent.Two].Y * fieldHeight);
+            PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
+
+            graphics.DrawString(
+                s: "L1",
+                font: PointFont,
+                brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
+                x: (float)(AgentPosition[(int)Team.Last, (int)Agent.One].X + 0.7) * fieldWidth,
+                y: AgentPosition[(int)Team.Last, (int)Agent.One].Y * fieldHeight);
+            PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
+
+            graphics.DrawString(
+                s: "L2",
+                font: PointFont,
+                brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
+                x: (float)(AgentPosition[(int)Team.Last, (int)Agent.Two].X + 0.7) * fieldWidth,
+                y: AgentPosition[(int)Team.Last, (int)Agent.Two].Y * fieldHeight);
 
             System.Drawing.Point systemCursorPosition = System.Windows.Forms.Cursor.Position;
             System.Drawing.Point pictureBoxCursorPosition = pictureBox.PointToClient(systemCursorPosition);
@@ -243,8 +344,8 @@ namespace procon29_disp
                     width: fieldWidth,
                     height: fieldHeight);
 
-            graphics.FillRectangle(
-                brush: ClickedSolidBrush,
+            graphics.DrawRectangle(
+                pen: new Pen(color: Color.LightSkyBlue, width: 5),
                 x: ClickedField.X * fieldWidth,
                 y: ClickedField.Y * fieldHeight,
                 width: fieldWidth,
@@ -291,7 +392,28 @@ namespace procon29_disp
                     x: clickedFieldPoint.X,
                     y: clickedFieldPoint.Y);
 
-            Message += "[Info] Clicked (" + ClickedField.X.ToString() + ", " + ClickedField.Y.ToString() + ")\n";
+            if (ClickedField == GetAgentPosition(Team.Filst, Agent.One))
+            {
+                selectedTeam = Team.Filst;
+                selectedAgent = Agent.One;
+            }
+            else if (ClickedField == GetAgentPosition(Team.Filst, Agent.Two))
+            {
+                selectedTeam = Team.Filst;
+                selectedAgent = Agent.Two;
+            }
+            else if (ClickedField == GetAgentPosition(Team.Last, Agent.One))
+            {
+                selectedTeam = Team.Last;
+                selectedAgent = Agent.One;
+            }
+            else if (ClickedField == GetAgentPosition(Team.Last, Agent.Two))
+            {
+                selectedTeam = Team.Last;
+                selectedAgent = Agent.Two;
+            }
+
+            Message += "[Info][ClickedShow] ClickedField = " + clickedField.ToString() + "\n";
 
             MakePictureBox(pictureBox, canvas, graphics);
 
@@ -303,5 +425,9 @@ namespace procon29_disp
             pictureBox.Image = canvas;
         }
 
+        public void DoubleClickedShow()
+        {
+            MoveAgent(selectedTeam, selectedAgent, ClickedField);
+        }
     }
 }
