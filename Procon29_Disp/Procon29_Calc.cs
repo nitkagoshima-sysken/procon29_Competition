@@ -29,9 +29,9 @@ namespace procon29_disp
         public Procon29_Calc(int[,] field, Point[,] initPosition)
         {
             Fields = new Field[field.GetLength(1), field.GetLength(0)];
-            for (int y = 0; y < field.GetLength(0); y++)
+            for (int y = 0; y < Height; y++)
             {
-                for (int x = 0; x < field.GetLength(1); x++)
+                for (int x = 0; x < Width; x++)
                 {
                     this.Fields[y, x] = new Field { Point = field[x, y] };
                     //Fields[y, x].IsDirectArea[0] = false;
@@ -113,14 +113,21 @@ namespace procon29_disp
         /// </summary>
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームの直接的なエリアのポイントの合計</returns>
-        public int SumDirectArea(Team team) => FieldList.Sum(x => ((x.IsDirectArea[(int)team] == true) ? x.Point : 0));
+        public int DirectPoint(Team team) => FieldList.Sum(x => ((x.IsDirectArea[(int)team] == true) ? x.Point : 0));
 
         /// <summary>
         /// 指定したチームが囲んだエリアのポイントの絶対値の合計を計算します。
         /// </summary>
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームが囲んだエリアのポイントの絶対値の合計</returns>
-        public int SumIndirectArea(Team team) => FieldList.Sum(x => ((x.IsIndirectArea[(int)team] == true) ? Math.Abs(x.Point) : 0));
+        public int IndirectPoint(Team team) => FieldList.Sum(x => ((x.IsIndirectArea[(int)team] == true) ? Math.Abs(x.Point) : 0));
+
+        /// <summary>
+        /// 指定したチームの合計ポイントを計算します。
+        /// </summary>
+        /// <param name="team">計算するチーム</param>
+        /// <returns></returns>
+        public int TotalPoint(Team team) => DirectPoint(team) + IndirectPoint(team);
 
         /// <summary>
         /// マップが対称であるか規定内の大きさか判定します。
