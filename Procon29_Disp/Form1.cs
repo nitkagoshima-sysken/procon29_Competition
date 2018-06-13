@@ -19,7 +19,7 @@ namespace procon29_disp
         Procon29_Show show;
         Procon29_Logger log;
         TeamDesign[] teamDesigns;
-        
+
         /// <summary>
         /// Form1
         /// </summary>
@@ -60,9 +60,6 @@ namespace procon29_disp
             show = new Procon29_Show(procon, teamDesigns);
             log = new Procon29_Logger(messageBox);
             log.WriteLine(Color.LightGray, "Test");
-            //log.WriteLine(Color.LightGray, procon.Sum().ToString());
-            //log.WriteLine(Color.LightGray, procon.SumAbs().ToString());
-            //log.WriteLine(Color.LightGray, procon.SumDirectArea(Team.A).ToString());
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Team A");
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "name: " + teamDesigns[(int)Team.A].Name);
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Team B");
@@ -73,6 +70,8 @@ namespace procon29_disp
             this.MoveAgent(Team.A, Agent.One, new Point(10, 3));
             //log.WriteLine(Color.LightGray, procon.SumDirectArea(Team.A).ToString());
             show.Show(FieldDisplay);
+
+            CSVtoList("100, 102,");
         }
 
         //Resizeイベントハンドラ
@@ -91,10 +90,6 @@ namespace procon29_disp
         private void FieldDisplay_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             show.DoubleClickedShow();
-            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   DirectArea: " + procon.SumDirectArea(Team.A).ToString());
-            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A IndirectArea: " + procon.SumIndirectArea(Team.A).ToString());
-            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   DirectArea: " + procon.SumDirectArea(Team.B).ToString());
-            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B IndirectArea: " + procon.SumIndirectArea(Team.B).ToString());
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Direct Point: " + procon.DirectPoint(Team.A).ToString());
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A Indirect Point: " + procon.IndirectPoint(Team.A).ToString());
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A    Total Point: " + procon.TotalPoint(Team.A).ToString());
@@ -126,6 +121,59 @@ namespace procon29_disp
         {
             procon.MoveAgent(team, agent, where);
             //log.WriteLine(teamDesigns[(int)agent].AreaColor, Procon29_Calc.ShortTeamAgentName[(int)team, (int)agent] + " moved to " + where);
+        }
+
+        /// <summary>
+        /// CSVファイルをListに変換します。
+        /// </summary>
+        /// <param name="str">変換する文字列</param>
+        /// <returns></returns>
+        public static List<int> CSVtoList(string str)
+        {
+
+            var list = new List<int>();
+
+            //前後の改行を削除しておく
+            str = str.Trim(new char[] { '\r', '\n' });
+            //1行のCSVから各フィールドを取得するための正規表現
+            System.Text.RegularExpressions.Regex regex =
+                new System.Text.RegularExpressions.Regex(
+                    @"(\d*,)+",
+                    System.Text.RegularExpressions.RegexOptions.None);
+
+            //1つの行からフィールドを取り出す
+            System.Text.RegularExpressions.Match match = regex.Match(str);
+            if (match.Success)
+            {
+                for (int i = 0; i < match.Groups[0].Captures.Count; i++)
+                {
+                    string field = match.Groups[0].Captures[i].Value;
+                    //前後の空白を削除
+                    field = field.Trim();
+                    field = field.Replace(",", "");
+                    list.Add(int.Parse(field));
+                }
+            }
+            return new List<int>();
+        }
+
+        /// <summary>
+        /// 指定された文字列内にある文字列が幾つあるか数える
+        /// </summary>
+        /// <param name="strInput">strFindが幾つあるか数える文字列</param>
+        /// <param name="strFind">数える文字列</param>
+        /// <returns>strInput内にstrFindが幾つあったか</returns>
+        public static int CountString(string strInput, string strFind)
+        {
+            int foundCount = 0;
+            int sPos = strInput.IndexOf(strFind);
+            while (sPos > -1)
+            {
+                foundCount++;
+                sPos = strInput.IndexOf(strFind, sPos + 1);
+            }
+
+            return foundCount;
         }
     }
 }
