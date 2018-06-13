@@ -19,7 +19,7 @@ namespace procon29_disp
         Procon29_Show show;
         Procon29_Logger log;
         TeamDesign[] teamDesigns;
-
+        
         /// <summary>
         /// Form1
         /// </summary>
@@ -60,9 +60,9 @@ namespace procon29_disp
             show = new Procon29_Show(procon, teamDesigns);
             log = new Procon29_Logger(messageBox);
             log.WriteLine(Color.LightGray, "Test");
-            log.WriteLine(Color.LightGray, procon.Sum().ToString());
-            log.WriteLine(Color.LightGray, procon.SumAbs().ToString());
-            log.WriteLine(Color.LightGray, procon.SumDirectArea(Team.A).ToString());
+            //log.WriteLine(Color.LightGray, procon.Sum().ToString());
+            //log.WriteLine(Color.LightGray, procon.SumAbs().ToString());
+            //log.WriteLine(Color.LightGray, procon.SumDirectArea(Team.A).ToString());
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Team A");
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "name: " + teamDesigns[(int)Team.A].Name);
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Team B");
@@ -71,7 +71,7 @@ namespace procon29_disp
             messageBox.Select(messageBox.Text.Length, 0);
 
             this.MoveAgent(Team.A, Agent.One, new Point(10, 3));
-            log.WriteLine(Color.LightGray, procon.SumDirectArea(Team.A).ToString());
+            //log.WriteLine(Color.LightGray, procon.SumDirectArea(Team.A).ToString());
             show.Show(FieldDisplay);
         }
 
@@ -91,6 +91,10 @@ namespace procon29_disp
         private void FieldDisplay_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             show.DoubleClickedShow();
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   DirectArea: " + procon.SumDirectArea(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A IndirectArea: " + procon.SumIndirectArea(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   DirectArea: " + procon.SumDirectArea(Team.B).ToString());
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B IndirectArea: " + procon.SumIndirectArea(Team.B).ToString());
         }
 
         /// <summary>
@@ -115,7 +119,7 @@ namespace procon29_disp
         private void MoveAgent(Team team, Agent agent, Point where)
         {
             procon.MoveAgent(team, agent, where);
-            log.WriteLine(teamDesigns[(int)agent].AreaColor, Procon29_Calc.ShortTeamAgentName[(int)team, (int)agent] + " moved to " + where);
+            //log.WriteLine(teamDesigns[(int)agent].AreaColor, Procon29_Calc.ShortTeamAgentName[(int)team, (int)agent] + " moved to " + where);
         }
     }
 }

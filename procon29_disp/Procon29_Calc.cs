@@ -34,6 +34,10 @@ namespace procon29_disp
                 for (int x = 0; x < field.GetLength(1); x++)
                 {
                     this.Fields[y, x] = new Field { Point = field[x, y] };
+                    //Fields[y, x].IsDirectArea[0] = false;
+                    //Fields[y, x].IsDirectArea[1] = false;
+                    //Fields[y, x].IsIndirectArea[0] = true;
+                    //Fields[y, x].IsIndirectArea[1] = true;
                 }
             }
             Turn = 1;
@@ -73,7 +77,11 @@ namespace procon29_disp
         public int Turn { get { return turn; } private set { turn = value; } }
         public Field[,] Fields { get => fields; set => fields = value; }
 
+        public int Width { get => Map.GetLength(0); }
+        public int Height { get => Map.GetLength(1); }
+
         public Point GetAgentPosition(Team team, Agent agent) => AgentPosition[(int)team, (int)agent];
+
 
         public List<Field> FieldList
         {
@@ -112,7 +120,7 @@ namespace procon29_disp
         /// </summary>
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームが囲んだエリアのポイントの絶対値の合計</returns>
-        public int SumIndirectArea(Team team) { throw new NotImplementedException(); }
+        public int SumIndirectArea(Team team) => FieldList.Sum(x => ((x.IsIndirectArea[(int)team] == true) ? Math.Abs(x.Point) : 0));
 
 
         public void PointMapCheck()
@@ -149,6 +157,50 @@ namespace procon29_disp
             return true;
         }
 
+        bool IsFillable(int team, Point point) => 0 <= point.X && point.X < Width && 0 <= point.Y && point.Y < Height && !Map[point.X, point.Y].IsDirectArea[team];
+
+        private void FillFalse(Team team, Point point) => FillFalse((int)team, point);
+
+        private void FillFalse(int team, Point point)
+        {
+            Stack<Point> stack = new Stack<Point>();
+            stack.Push(point);
+
+            while (stack.Count > 0)
+            {
+                point = stack.Pop();
+                if (IsFillable(team, point)) //make sure we stay within bounds
+                {
+                    if (Map[point.X, point.Y].IsIndirectArea[team] == true)
+                    {
+                        Map[point.X, point.Y].IsIndirectArea[team] = false;
+                        stack.Push(new Point(point.X - 1, point.Y));
+                        stack.Push(new Point(point.X + 1, point.Y));
+                        stack.Push(new Point(point.X, point.Y - 1));
+                        stack.Push(new Point(point.X, point.Y + 1));
+                    }
+                }
+            }
+            return;
+        }
+
+        private void CheckIndirectArea(Team team)
+        {
+            foreach (var item in Map)
+            {
+                item.IsIndirectArea[(int)team] = true;
+            }
+
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    if (x == 0 || x == Width - 1 || y == 0 || y == Height - 1)
+                        FillFalse(team, new Point(x, y));
+                }
+            }
+        }
+
         /// <summary>
         /// 現在のターンをパスします。
         /// </summary>
@@ -160,13 +212,41 @@ namespace procon29_disp
         public void MakeArea(Team team, Agent agent) => Fields[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsDirectArea[(int)team] = true;
         public void MakeArea(int team, int agent) => MakeArea((Team)team, (Agent)agent);
 
-        public void RemoveArea(Team team, Agent agent) => Fields[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsDirectArea[(int)team] = false;
+        public void DestroyArea(Team team, Point point) => Fields[point.X, point.Y].IsDirectArea[(int)team] = false;
 
         public void MoveAgent(Team team, Agent agent, Point where)
         {
-            AgentPosition[(int)team, (int)agent] = where;
-            MakeArea(team: team, agent: agent);
+            bool movable = false;
+            foreach (int otherteam in Enum.GetValues(typeof(Team)))
+            {
+                if (otherteam != (int)team)
+                {
+                    movable = Map[where.X, where.Y].IsDirectArea[otherteam];
+                    if (movable)
+                    {
+                        DestroyArea(team: (Team)otherteam, point: where);
+                        CheckIndirectArea((Team)otherteam);
+                        break;
+                    }
+                }
+            }
+            if (!movable)
+            {
+                AgentPosition[(int)team, (int)agent] = where;
+                MakeArea(team: team, agent: agent);
+            }
+
+            CheckIndirectArea(team);
+
             Turn++;
+            foreach (var item in Map)
+            {
+                if (item.IsDirectArea[0]) item.IsIndirectArea[0] = false;
+                if (item.IsDirectArea[1]) item.IsIndirectArea[1] = false;
+            }
         }
+
+
+
     }
 }

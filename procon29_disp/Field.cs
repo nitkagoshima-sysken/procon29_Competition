@@ -100,6 +100,8 @@ namespace procon29_disp
         {
             Point = 0;
             IsDirectArea = new bool[2];
+            IsIndirectArea = new bool[2];
+            IsAreaCheck = new bool[2];
         }
     }
 }

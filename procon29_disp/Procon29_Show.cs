@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,11 +14,12 @@ namespace procon29_disp
         private Procon29_Calc procon29_Calc;
         private TeamDesign[] teamDesign;
         private PictureBox pictureBox;
+        private Procon29_Logger procon29_Logger;
         private SolidBrush backGroundSolidBrush = new SolidBrush(Color.FromArgb(48, 48, 48));
         private SolidBrush selectSolidBrush = new SolidBrush(Color.FromArgb(50, Color.DarkGray));
         private SolidBrush clickedSolidBrush = new SolidBrush(Color.FromArgb(100, Color.SkyBlue));
         private Font pointFont;
-        private Point clickedField;
+        private Point clickedField;       
         private const string pointFamilyName = "Impact";
         private Team selectedTeam;
         private Agent selectedAgent;
@@ -31,6 +33,7 @@ namespace procon29_disp
         public Font PointFont { get => pointFont; set => pointFont = value; }
         public static string PointFamilyName => pointFamilyName;
         public Point ClickedField { get => clickedField; set => clickedField = value; }
+        internal Procon29_Logger Procon29_Logger { get => procon29_Logger; set => procon29_Logger = value; }
 
         /// <summary>
         /// Procon29_Showの初期化を行います。
@@ -49,11 +52,13 @@ namespace procon29_disp
         /// <param name="procon29_Calc">表示するProcon29_Calc</param>
         /// <param name="teamDesigns">表示するときのチームデザイン</param>
         /// <param name="pictureBox">表示する場所</param>
-        public Procon29_Show(Procon29_Calc procon29_Calc, TeamDesign[] teamDesigns, PictureBox pictureBox)
+        public Procon29_Show(Procon29_Calc procon29_Calc, TeamDesign[] teamDesigns, PictureBox pictureBox, Procon29_Logger procon29_Logger)
         {
             Procon29_Calc = procon29_Calc;
             TeamDesign = teamDesigns;
             PictureBox = pictureBox;
+            Procon29_Logger = procon29_Logger;
+
         }
 
         /// <summary>
@@ -73,6 +78,44 @@ namespace procon29_disp
             {
                 for (int x = 0; x < Procon29_Calc.Fields.GetLength(1); x++)
                 {
+                    //背景色の表示
+                    if (!Procon29_Calc.Fields[x, y].IsDirectArea[(int)Team.A] && !Procon29_Calc.Fields[x, y].IsDirectArea[(int)Team.B])
+                        graphics.FillRectangle(
+                        brush: BackGroundSolidBrush,
+                        x: x * fieldWidth,
+                        y: y * fieldHeight,
+                        width: fieldWidth,
+                        height: fieldHeight);
+                    //囲み領域の表示
+                    if (Procon29_Calc.Fields[x, y].IsIndirectArea[(int)Team.A] && Procon29_Calc.Fields[x, y].IsIndirectArea[(int)Team.B])
+                    {
+                        graphics.FillRectangle(
+                            brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[1].AgentColor),
+                            x: x * fieldWidth,
+                            y: y * fieldHeight,
+                            width: fieldWidth / 2,
+                            height: fieldHeight);
+                        graphics.FillRectangle(
+                            brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[0].AgentColor),
+                            x: x * fieldWidth + fieldWidth / 2,
+                            y: y * fieldHeight,
+                            width: fieldWidth / 2,
+                            height: fieldHeight);
+                    }
+                    else if (Procon29_Calc.Fields[x, y].IsIndirectArea[(int)Team.A])
+                        graphics.FillRectangle(
+                            brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[0].AgentColor),
+                            x: x * fieldWidth,
+                            y: y * fieldHeight,
+                            width: fieldWidth,
+                            height: fieldHeight);
+                    else if (Procon29_Calc.Fields[x, y].IsIndirectArea[(int)Team.B])
+                        graphics.FillRectangle(
+                            brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[1].AgentColor),
+                            x: x * fieldWidth,
+                            y: y * fieldHeight,
+                            width: fieldWidth,
+                            height: fieldHeight);
                     // タイルの色表示
                     for (int i = 0; i < 2; i++)
                     {
@@ -84,13 +127,6 @@ namespace procon29_disp
                             width: fieldWidth,
                             height: fieldHeight);
                     }
-                    if (!Procon29_Calc.Fields[x, y].IsDirectArea[(int)Team.A] && !Procon29_Calc.Fields[x, y].IsDirectArea[(int)Team.B])
-                        graphics.FillRectangle(
-                        brush: BackGroundSolidBrush,
-                        x: x * fieldWidth,
-                        y: y * fieldHeight,
-                        width: fieldWidth,
-                        height: fieldHeight);
                     // 枠の表示
                     graphics.DrawRectangle(
                         pen: Pens.Black,
