@@ -122,7 +122,9 @@ namespace procon29_disp
         /// <returns>指定したチームが囲んだエリアのポイントの絶対値の合計</returns>
         public int SumIndirectArea(Team team) => FieldList.Sum(x => ((x.IsIndirectArea[(int)team] == true) ? Math.Abs(x.Point) : 0));
 
-
+        /// <summary>
+        /// マップが対称であるか規定内の大きさか判定します。
+        /// </summary>
         public void PointMapCheck()
         {
             if (Fields.GetLength(0) > 12 || Fields.GetLength(1) > 12) ;
@@ -133,6 +135,10 @@ namespace procon29_disp
             //message += "[Error] 'field' was not declare vertically symmetric array" + "\n";
         }
 
+        /// <summary>
+        /// 上下対称か判定します。
+        /// </summary>
+        /// <returns>上下対称なら真、そうでなければ偽が返ってきます。</returns>
         private bool VerticallySymmetricalCheck()
         {
             for (int i = 0; i < Fields.GetLength(1); i++)
@@ -145,6 +151,10 @@ namespace procon29_disp
             return true;
         }
 
+        /// <summary>
+        /// 左右対称か判定します。
+        /// </summary>
+        /// <returns>左右対称なら真、そうでなければ偽が返ってきます。</returns>
         private bool HorizontallySymmetricalCheck()
         {
             for (int j = 0; j < Fields.GetLength(0); j++)
@@ -157,10 +167,26 @@ namespace procon29_disp
             return true;
         }
 
+        /// <summary>
+        /// そのフィールドが塗れるか判定します。
+        /// </summary>
+        /// <param name="team">チーム</param>
+        /// <param name="point">フィールド</param>
+        /// <returns>そのフィールドが塗れるなら真、そうでなければ偽が返ってきます。</returns>
         bool IsFillable(int team, Point point) => 0 <= point.X && point.X < Width && 0 <= point.Y && point.Y < Height && !Map[point.X, point.Y].IsDirectArea[team];
 
+        /// <summary>
+        /// 指定したフィールドを基準にIsIndirectAreaをfalseで塗りつぶします。
+        /// </summary>
+        /// <param name="team">チーム</param>
+        /// <param name="point">始点にするフィールド</param>
         private void FillFalse(Team team, Point point) => FillFalse((int)team, point);
 
+        /// <summary>
+        /// 指定したフィールドを基準にIsIndirectAreaをfalseで塗りつぶします。
+        /// </summary>
+        /// <param name="team">チーム</param>
+        /// <param name="point">始点にするフィールド</param>
         private void FillFalse(int team, Point point)
         {
             Stack<Point> stack = new Stack<Point>();
@@ -184,6 +210,10 @@ namespace procon29_disp
             return;
         }
 
+        /// <summary>
+        /// あるフィールドが囲まれているか判定します。
+        /// </summary>
+        /// <param name="team">チーム</param>
         private void CheckIndirectArea(Team team)
         {
             foreach (var item in Map)
@@ -209,11 +239,33 @@ namespace procon29_disp
             Turn++;
         }
 
+        /// <summary>
+        /// 自分のフィールドにタイルを置きます。
+        /// </summary>
+        /// <param name="team">対象となるチーム</param>
+        /// <param name="agent">対象となるエージェント</param>
         public void MakeArea(Team team, Agent agent) => Fields[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsDirectArea[(int)team] = true;
+
+        /// <summary>
+        /// 自分のフィールドにタイルを置きます。
+        /// </summary>
+        /// <param name="team">対象となるチーム</param>
+        /// <param name="agent">対象となるエージェント</param>
         public void MakeArea(int team, int agent) => MakeArea((Team)team, (Agent)agent);
 
+        /// <summary>
+        /// 相手のフィールドに置いてあるタイルを破壊します。
+        /// </summary>
+        /// <param name="team">対象となるチーム</param>
+        /// <param name="point">対象となるエージェント</param>
         public void DestroyArea(Team team, Point point) => Fields[point.X, point.Y].IsDirectArea[(int)team] = false;
 
+        /// <summary>
+        /// 指定したところにエージェントが移動します。
+        /// </summary>
+        /// <param name="team">移動するチーム</param>
+        /// <param name="agent">移動するエージェント</param>
+        /// <param name="where">移動する場所</param>
         public void MoveAgent(Team team, Agent agent, Point where)
         {
             bool movable = false;
