@@ -170,22 +170,22 @@ namespace procon29_disp
         /// <summary>
         /// そのフィールドが塗れるか判定します。
         /// </summary>
-        /// <param name="team">チーム</param>
-        /// <param name="point">フィールド</param>
+        /// <param name="team">対象となるチーム</param>
+        /// <param name="point">対象となるフィールド</param>
         /// <returns>そのフィールドが塗れるなら真、そうでなければ偽が返ってきます。</returns>
         bool IsFillable(int team, Point point) => 0 <= point.X && point.X < Width && 0 <= point.Y && point.Y < Height && !Map[point.X, point.Y].IsDirectArea[team];
 
         /// <summary>
         /// 指定したフィールドを基準にIsIndirectAreaをfalseで塗りつぶします。
         /// </summary>
-        /// <param name="team">チーム</param>
+        /// <param name="team">対象となるチーム</param>
         /// <param name="point">始点にするフィールド</param>
         private void FillFalse(Team team, Point point) => FillFalse((int)team, point);
 
         /// <summary>
         /// 指定したフィールドを基準にIsIndirectAreaをfalseで塗りつぶします。
         /// </summary>
-        /// <param name="team">チーム</param>
+        /// <param name="team">対象となるチーム</param>
         /// <param name="point">始点にするフィールド</param>
         private void FillFalse(int team, Point point)
         {
@@ -213,7 +213,7 @@ namespace procon29_disp
         /// <summary>
         /// あるフィールドが囲まれているか判定します。
         /// </summary>
-        /// <param name="team">チーム</param>
+        /// <param name="team">対象となるチーム</param>
         private void CheckIndirectArea(Team team)
         {
             foreach (var item in Map)
