@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,10 +74,16 @@ namespace procon29_disp
 
 
 
-            foreach (var item in Field.CSVToFields("4, 2, 1, 2, 3, 4, 5, 6, 7, 8,"))
-            {
-                Console.WriteLine(item.Point);
-            }
+            //foreach (var item in Field.CSVToFields("4, 2, 1, 2, 3, 4, 5, 6, 7, 8,"))
+            //{
+            //    Console.WriteLine(item.Point);
+            //}
+
+            //foreach (var item in Procon29_CSV.SpaceCSVToList("4 2 1 2 3 4 5 6 7 8 "))
+            //{
+            //    Console.WriteLine(item);
+            //}
+            Procon29_CSV.ToPQRData("12 12:6 -13 -2 -16 0 16 16 0 -16 -2 -13 6:-12 -15 10 14 0 5 5 0 14 10 -15 -12:6 11 13 -14 -12 12 12 -12 -14 13 11 6:12 3 -11 10 7 0 0 7 10 -11 3 12:1 -10 3 -4 12 14 14 12 -4 3 -10 1:12 6 9 5 4 -9 -9 4 5 9 6 12:12 6 9 5 4 -9 -9 4 5 9 6 12:1 -10 3 -4 12 14 14 12 -4 3 -10 1:12 3 -11 10 7 0 0 7 10 -11 3 12:6 11 13 -14 -12 12 12 -12 -14 13 11 6:-12 -15 10 14 0 5 5 0 14 10 -15 -12:6 -13 -2 -16 0 16 16 0 -16 -2 -13 6:-1 2:1 2:");
         }
 
         //Resizeイベントハンドラ
@@ -153,8 +160,13 @@ namespace procon29_disp
             //ダイアログを表示する
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                //OKボタンがクリックされたとき、選択されたファイル名を表示する
-                Console.WriteLine(openFileDialog.FileName);
+                //OKボタンがクリックされたとき、選択されたファイル名を開き、データを読み込む                
+                using (StreamReader sr = new StreamReader(openFileDialog.FileName, Encoding.GetEncoding("Shift_JIS")))
+                {
+                    var text = sr.ReadToEnd();
+                    Console.WriteLine(text);
+
+                }
             }
         }
     }
