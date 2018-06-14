@@ -150,19 +150,30 @@ namespace procon29_disp
                 //OKボタンがクリックされたとき、選択されたファイル名を開き、データを読み込む                
                 using (StreamReader sr = new StreamReader(openFileDialog.FileName, Encoding.GetEncoding("Shift_JIS")))
                 {
-                    //try
-                    //{
+                    try
+                    {
                         var pqr = sr.ReadToEnd();
                         Console.WriteLine(pqr);
                         var pqr_data = Procon29_CSV.ToPQRData(pqr);
+                        if (pqr_data.One.X < 0 || pqr_data.One.Y < 0)
+                        {
+                            MessageBox.Show("1人目のエージェントの位置" + pqr_data.One + "が不正です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            pqr_data.One = new Point(0, 0);
+                        }
+                        if (pqr_data.Two.X < 0 || pqr_data.Two.Y < 0)
+                        {
+                            MessageBox.Show("2人目のエージェントの位置" + pqr_data.One + "が不正です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            pqr_data.Two = new Point(0, 0);
+                        }
+
                         procon = new Procon29_Calc(pqr_data.Fields, new Point[2, 2] { { pqr_data.One, pqr_data.Two }, { new Point(0, 3), new Point(0, 9) } });
                         show = new Procon29_Show(procon, teamDesigns);
                         show.Show(FieldDisplay);
-                    //}
-                    //catch (Exception)
-                    //{
-                    //    MessageBox.Show("不正なPQR形式です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    //}
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("不正なPQR形式です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
