@@ -43,6 +43,7 @@ class Agent:
             self.next[1] = next
             self.logfile.LogWrite('{} Next set ({},{}) & Overlap\n'.format(self.color, int(next/1000), next%1000))
         else:
+            self.next[0] = False
             self.next[1] = next
             self.logfile.LogWrite('{} Next set ({},{})\n'.format(self.color, int(next/1000), next%1000))
     
