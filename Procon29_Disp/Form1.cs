@@ -71,19 +71,6 @@ namespace procon29_disp
             this.MoveAgent(Team.A, Agent.One, new Point(10, 3));
             //log.WriteLine(Color.LightGray, procon.SumDirectArea(Team.A).ToString());
             show.Show(FieldDisplay);
-
-
-
-            //foreach (var item in Field.CSVToFields("4, 2, 1, 2, 3, 4, 5, 6, 7, 8,"))
-            //{
-            //    Console.WriteLine(item.Point);
-            //}
-
-            //foreach (var item in Procon29_CSV.SpaceCSVToList("4 2 1 2 3 4 5 6 7 8 "))
-            //{
-            //    Console.WriteLine(item);
-            //}
-            Procon29_CSV.ToPQRData("12 12:6 -13 -2 -16 0 16 16 0 -16 -2 -13 6:-12 -15 10 14 0 5 5 0 14 10 -15 -12:6 11 13 -14 -12 12 12 -12 -14 13 11 6:12 3 -11 10 7 0 0 7 10 -11 3 12:1 -10 3 -4 12 14 14 12 -4 3 -10 1:12 6 9 5 4 -9 -9 4 5 9 6 12:12 6 9 5 4 -9 -9 4 5 9 6 12:1 -10 3 -4 12 14 14 12 -4 3 -10 1:12 3 -11 10 7 0 0 7 10 -11 3 12:6 11 13 -14 -12 12 12 -12 -14 13 11 6:-12 -15 10 14 0 5 5 0 14 10 -15 -12:6 -13 -2 -16 0 16 16 0 -16 -2 -13 6:-1 2:1 2:");
         }
 
         //Resizeイベントハンドラ
@@ -148,9 +135,9 @@ namespace procon29_disp
             openFileDialog.InitialDirectory = "";
             //[ファイルの種類]に表示される選択肢を指定する
             //指定しないとすべてのファイルが表示される
-            openFileDialog.Filter = "CSVファイル(*.csv)|*.csv|すべてのファイル(*.*)|*.*";
+            openFileDialog.Filter = "PQRファイル(*.pqr)|*.pqr|すべてのファイル(*.*)|*.*";
             //[ファイルの種類]ではじめに選択されるものを指定する
-            //1番目の「CSVファイル」が選択されているようにする
+            //1番目の「PQRファイル」が選択されているようにする
             openFileDialog.FilterIndex = 1;
             //タイトルを設定する
             openFileDialog.Title = "開くファイルを選択してください";
@@ -163,9 +150,19 @@ namespace procon29_disp
                 //OKボタンがクリックされたとき、選択されたファイル名を開き、データを読み込む                
                 using (StreamReader sr = new StreamReader(openFileDialog.FileName, Encoding.GetEncoding("Shift_JIS")))
                 {
-                    var text = sr.ReadToEnd();
-                    Console.WriteLine(text);
-
+                    //try
+                    //{
+                        var pqr = sr.ReadToEnd();
+                        Console.WriteLine(pqr);
+                        var pqr_data = Procon29_CSV.ToPQRData(pqr);
+                        procon = new Procon29_Calc(pqr_data.Fields, new Point[2, 2] { { pqr_data.One, pqr_data.Two }, { new Point(0, 3), new Point(0, 9) } });
+                        show = new Procon29_Show(procon, teamDesigns);
+                        show.Show(FieldDisplay);
+                    //}
+                    //catch (Exception)
+                    //{
+                    //    MessageBox.Show("不正なPQR形式です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //}
                 }
             }
         }

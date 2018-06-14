@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace procon29_disp
 {
@@ -71,7 +72,7 @@ namespace procon29_disp
             //1行のCSVから各フィールドを取得するための正規表現
             System.Text.RegularExpressions.Regex regex =
                 new System.Text.RegularExpressions.Regex(
-                    @"(\d*\s)+",
+                    @"(-?\d*\s)+",
                     System.Text.RegularExpressions.RegexOptions.None);
 
             //1つの行からフィールドを取り出す
@@ -87,6 +88,11 @@ namespace procon29_disp
             return list;
         }
 
+        /// <summary>
+        /// PQR形式の文字列をPQR構造体に変換します。
+        /// </summary>
+        /// <param name="str">変換する文字列</param>
+        /// <returns></returns>
         public static PQRData ToPQRData(string str)
         {
             PQRData pqr = new PQRData();
@@ -107,6 +113,7 @@ namespace procon29_disp
             {
                 list.Clear();
                 list = SpaceCSVToList(m.Groups["size"].Value.Replace(":", " "));
+                if (list.Count != 2) throw new Exception();
                 pqr.Size = new Size(list[0], list[1]);
 
                 pqr.Fields = new int[pqr.Size.Height, pqr.Size.Width];
@@ -121,12 +128,12 @@ namespace procon29_disp
                 }
 
                 list.Clear();
-                list = SpaceCSVToList(m.Groups["one"].Value.Replace(":"," "));
+                list = SpaceCSVToList(m.Groups["one"].Value.Replace(":", " "));
                 pqr.One = new Point(list[0], list[1]);
 
                 list.Clear();
                 list = SpaceCSVToList(m.Groups["two"].Value.Replace(":", " "));
-                pqr.One = new Point(list[0], list[1]);
+                pqr.Two = new Point(list[0], list[1]);
             }
 
             return pqr;
