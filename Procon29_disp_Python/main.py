@@ -14,8 +14,16 @@ wxId = {wx.ID_OK:0,
         wx.ID_CANCEL:1}
 
 class SelectDialog(wx.Dialog):
-    def __init__(self, parent, id, title, text, size=(400, 100)):
-        wx.Dialog.__init__(self, None, -1, title, size=size)
+    """
+    Dialog fo select class.
+    parent : Select parent object. Default=None
+    id : Object id set. Default=wx.ID_ANY
+    title : Dialog title setting.
+    text : Dialog out string.
+    size : Dialog size setting.
+    """
+    def __init__(self, parent=None, id=wx.ID_ANY, title='', text='', size=(400, 100)):
+        wx.Dialog.__init__(self, parent, id, title, size=size)
         self.text = wx.StaticText(self, -1, text,style=wx.SIMPLE_BORDER)
         button1 = wx.Button(self, wx.ID_OK, '1')
         button1.SetDefault()
@@ -32,10 +40,14 @@ class SelectDialog(wx.Dialog):
         self.SetSizer(sizer)
 
 class Flags():
+    """
+    Color flag class.
+    """
     def __init__(self):
         self.flag = [True, True]
         self.turn = 0
         self.end = False
+        self.next = [0,0]
     
     def Clear(self):
         self.flag = [True, True]
@@ -75,21 +87,21 @@ def createbutton(text):
     agent_data.append(procon29.Agent.AgentData('red', log, field[0].point))
     agent1_y, agent1_x = map(int,text[field[0].y+1].strip().split(' '))
     agent2_y, agent2_x = map(int,text[field[0].y+2].strip().split(' '))
-    next_blue[0], next_blue[1]= (agent1_x)*1000+(agent1_y), (agent2_x)*1000+(agent2_y)
+    blue_flags.next[0], blue_flags.next[1]= (agent1_x)*1000+(agent1_y), (agent2_x)*1000+(agent2_y)
     field_type = field[0].FieldTypeAnalysis()
     if field_type == 0:
-        next_red[0], next_red[1]= (field[0].x-agent1_x+1)*1000+(field[0].y-agent2_y+1), (field[0].x-agent2_x+1)*1000+(field[0].y-agent1_y+1)
+        red_flags.next[0], red_flags.next[1]= (field[0].x-agent1_x+1)*1000+(field[0].y-agent2_y+1), (field[0].x-agent2_x+1)*1000+(field[0].y-agent1_y+1)
         log.LogWrite('Field type: VERTICAL&HORIZONTAL\n', logtype=procon29.GAME_LOG)
     elif field_type == -1:
-        next_red[0], next_red[1]= (agent1_x)*1000+(field[0].y-agent1_y+1), (agent2_x)*1000+(field[0].y-agent2_y+1)
+        red_flags.next[0], red_flags.next[1]= (agent1_x)*1000+(field[0].y-agent1_y+1), (agent2_x)*1000+(field[0].y-agent2_y+1)
         log.LogWrite('Field type: HORIZONTAL\n', logtype=procon29.GAME_LOG)
     elif field_type == 1:
-        next_red[0], next_red[1]= (field[0].x-agent1_x+1)*1000+(agent1_y), (field[0].x-agent2_x+1)*1000+(agent2_y)
+        red_flags.next[0], red_flags.next[1]= (field[0].x-agent1_x+1)*1000+(agent1_y), (field[0].x-agent2_x+1)*1000+(agent2_y)
         log.LogWrite('Field type: VERTICAL\n', logtype=procon29.GAME_LOG)
-    agent.append(procon29.Agent.Agent(next_blue[0], field[0].field_out, log, 'blue'))
-    agent.append(procon29.Agent.Agent(next_blue[1], field[0].field_out, log, 'blue'))
-    agent.append(procon29.Agent.Agent(next_red[0], field[0].field_out, log, 'red'))
-    agent.append(procon29.Agent.Agent(next_red[1], field[0].field_out, log, 'red'))
+    agent.append(procon29.Agent.Agent(blue_flags.next[0], field[0].field_out, log, 'blue'))
+    agent.append(procon29.Agent.Agent(blue_flags.next[1], field[0].field_out, log, 'blue'))
+    agent.append(procon29.Agent.Agent(red_flags.next[0], field[0].field_out, log, 'red'))
+    agent.append(procon29.Agent.Agent(red_flags.next[1], field[0].field_out, log, 'red'))
     agent_data[0].GetPoint([agent[0].next, agent[1].next], agent_data[1])
     agent_data[1].GetPoint([agent[2].next, agent[3].next], agent_data[0])
     agent[0].TurnSet(agent_data[1].GetPosition)
@@ -110,12 +122,12 @@ def turnendfunc():
     red_flags.Clear()
     for i in range(2):
         for j in range(2):
-            if next_blue[i] == next_red[j]:
+            if blue_flags.next[i] == red_flags.next[j]:
                 overlaperror = wx.MessageDialog(None, '行動対象の座標が重なりました。双方移動できません({},{})'\
-                                            .format(int(next_blue[i]/1000),next_blue[i]%1000))
+                                            .format(int(blue_flags.next[i]/1000), blue_flags.next[i]%1000))
                 overlaperror.ShowModal()
                 overlaperror.Destroy()
-                log.LogWrite('Overlap ({},{})'.format(int(next_blue[i]/1000),next_blue[i]%1000))
+                log.LogWrite('Overlap ({},{})'.format(int(blue_flags.next[i]/1000), blue_flags.next[i]%1000))
                 agent[i].next[1] = 0
                 agent[j+2].next[1] = 0
     field[0].MovableColoring(agent_data[1], (agent[2], agent[3]), clear=True)
@@ -168,7 +180,7 @@ def move(agent, agent_data, flags, eagent, Id_num):
         if result == wx.ID_YES:
             agent_main.NextSet(Id_num, overlap=True)
             field[0].NextColoring(agent_main.next[1], agent_data.NextColor)
-            next_blue[0] = Id_num
+            flags.next[num] = Id_num
         else:
             flags.flag[num] = True
             flags.turn -= 1
@@ -176,7 +188,7 @@ def move(agent, agent_data, flags, eagent, Id_num):
     else:
         agent_main.NextSet(Id_num)
         field[0].NextColoring(agent_main.next[1], agent_data.NextColor)
-        next_blue[0] = Id_num
+        flags.next[num] = Id_num
 
 def Menu_handler(event):
     global load_file_flag
@@ -315,7 +327,7 @@ def Button_handler(event):
                 errordialog.ShowModal()
                 errordialog.Destroy()
         else:
-            if (Id_num in agent[0].movable or Id_num in agent[1].movable) and Id_num not in (agent[2].now, agent[3].now):
+            if (Id_num in agent[0].movable or Id_num in agent[1].movable) and Id_num not in (agent[2].now, agent[3].now) and not blue_flags.end:
                 move([agent[0], agent[1]], agent_data[0], blue_flags, (agent[2], agent[3]), Id_num)
             elif (Id_num in agent[2].movable or Id_num in agent[3].movable) and Id_num not in (agent[0].now, agent[1].now) and blue_flags.end:
                 move([agent[2], agent[3]], agent_data[1], red_flags, (agent[0], agent[1]), Id_num)
@@ -343,8 +355,6 @@ def check_handler(event):
             
 
 text = ''
-next_blue = [0, 0]
-next_red = [0, 0]
 play_color = 'blue'
 load_file_flag = False
 step_end = False

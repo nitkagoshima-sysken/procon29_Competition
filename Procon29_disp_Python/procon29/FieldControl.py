@@ -4,6 +4,12 @@ import wx
 import procon29
 
 class Field:
+    """
+    Field control class.
+    qrdata : Input qrdata.
+    field : Panel object of field.
+    logfile : logfile select.
+    """
     def __init__(self, qrdata, field, logfile):
         self.y, self.x = map(int,qrdata[0].split(' '))
         self.field_out = []
@@ -26,6 +32,9 @@ class Field:
 
     
     def Coloring(self, agent_data, agent, out_get=False, out_now=False):
+        """
+        Now position and Get position coloring method.
+        """
         if out_get == False:
             self.GetHide(agent_data, agent)
         else:
@@ -44,6 +53,9 @@ class Field:
                                 .format(int(agent[i].now/1000), agent[i].now%1000, agent_data.Color), logtype=procon29.SYSTEM_LOG)
 
     def FillColoring(self, agent_data, out=False):
+        """
+        Fill coloring method.
+        """
         if out == False:
             self.FillHide(agent_data)
         else:
@@ -54,6 +66,9 @@ class Field:
                                 .format(int(agent_data.GetField[i]/1000), agent_data.GetField[i]%1000, '#FFFFFF'), logtype=procon29.SYSTEM_LOG)
 
     def FillHide(self, agent_data):
+        """
+        Fill coloring clear method.
+        """
         for i in range(len(agent_data.GetField)):
             self.panel[int(agent_data.GetField[i]%1000)-1][int(agent_data.GetField[i]/1000)-1]\
             .SetBackgroundColour('')
@@ -69,6 +84,9 @@ class Field:
             .SetBackgroundColour('')
     
     def MovableColoring(self, agent_data, agent, clear=False, out=False):
+        """
+        Movable and Removable coloring method.
+        """
         if clear == True:
             self.MoveColoring(agent_data, agent)
         elif out == False:
@@ -102,6 +120,9 @@ class Field:
                                     .format(int(agent.removable[j]/1000), agent.removable[j]%1000, agent_data.RemovableColor), logtype=procon29.SYSTEM_LOG)
     
     def MoveColoring(self, agent_data, agent):
+        """
+        Movable and Removable coloring clear method.
+        """
         for i in range(2):
             for j in range(len(agent[i].movable)):
                 if agent[i].movable[j] not in agent_data.GetPosition:
@@ -113,6 +134,9 @@ class Field:
                     .SetBackgroundColour('')
     
     def NextColoring(self, next, col, clear=False):
+        """
+        Next position coloring medhod.
+        """
         if clear:
             self.panel[int(next%1000)-1][int(next/1000)-1]\
             .SetBackgroundColour('')
@@ -123,6 +147,9 @@ class Field:
                             .format(int(next/1000), next%1000, col), logtype=procon29.SYSTEM_LOG)
 
     def FieldTypeAnalysis(self):
+        """
+        Analysising fiedl type method.
+        """
         typenum = 0
         if self.point[0][0] == self.point[self.y-1][0] and\
             self.point[1][0] == self.point[self.y-2][0] and\
@@ -135,5 +162,8 @@ class Field:
         return typenum
 
     def Destroy(self):
+        """
+        Destroy field object method.
+        """
         self.field.Destroy()
         self.log.LogWrite('Clear ALL', logtype=procon29.SYSTEM_LOG)
