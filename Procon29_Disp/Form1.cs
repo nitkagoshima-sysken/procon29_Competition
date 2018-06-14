@@ -127,6 +127,35 @@ namespace procon29_disp
             procon.MoveAgent(team, agent, where);
             //log.WriteLine(teamDesigns[(int)agent].AreaColor, Procon29_Calc.ShortTeamAgentName[(int)team, (int)agent] + " moved to " + where);
         }
-        
+
+        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //OpenFileDialogクラスのインスタンスを作成
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            //はじめのファイル名を指定する
+            //はじめに「ファイル名」で表示される文字列を指定する
+            openFileDialog.FileName = "";
+            //はじめに表示されるフォルダを指定する
+            //指定しない（空の文字列）の時は、現在のディレクトリが表示される
+            openFileDialog.InitialDirectory = "";
+            //[ファイルの種類]に表示される選択肢を指定する
+            //指定しないとすべてのファイルが表示される
+            openFileDialog.Filter = "CSVファイル(*.csv)|*.csv|すべてのファイル(*.*)|*.*";
+            //[ファイルの種類]ではじめに選択されるものを指定する
+            //1番目の「CSVファイル」が選択されているようにする
+            openFileDialog.FilterIndex = 1;
+            //タイトルを設定する
+            openFileDialog.Title = "開くファイルを選択してください";
+            //ダイアログボックスを閉じる前に現在のディレクトリを復元するようにする
+            openFileDialog.RestoreDirectory = true;
+
+            //ダイアログを表示する
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                //OKボタンがクリックされたとき、選択されたファイル名を表示する
+                Console.WriteLine(openFileDialog.FileName);
+            }
+        }
     }
 }
