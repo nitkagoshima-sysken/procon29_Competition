@@ -53,6 +53,7 @@ class AgentData:
         self.Color = color
         self.AllPoint = point
         self.buffer = []
+        self.GetField = []
         self.x, self.y = len(point[0]), len(point)
         self.get = [[0 for i in range(self.x+2)]for j in range(self.y+2)]
         self.TerritoryPoint = 0
@@ -60,10 +61,12 @@ class AgentData:
             self.GetColor = '#0077FF'
             self.MovableColor = '#00FFFF'
             self.NextColor = '#7700FF'
+            self.FillColor = '#007777'
         elif color == 'red':
             self.GetColor = '#FF7700'
             self.MovableColor = '#FFFF00'
             self.NextColor = '#FF0077'
+            self.FillColor = '#778800'
         self.RemovableColor = '#FF77FF'
         self.LogFile = logfile
     
@@ -95,7 +98,7 @@ class AgentData:
                                 .format(enemy.Color, int(rm[1]/1000), int(rm[1]%1000), self.AllPoint[int(rm[1]%1000)-1][int(rm[1]/1000)-1]))
 
     def FieldPointSearch(self):
-        getfield = []
+        self.GetField = []
         self.TerritoryPoint = 0
         for i in range(self.y+2):
             for j in range(self.x+2):
@@ -115,11 +118,11 @@ class AgentData:
         for i in range(len(self.get)):
             for j in range(len(self.get[0])):
                 if self.get[i][j] == 2:
-                    getfield.append(j*1000+i)
-        getfield = [item for item in getfield if item not in self.GetPosition]
-        self.LogFile.LogWrite('Territory Posirion{}\n'.format(getfield))
-        for i in range(len(getfield)):
-            self.TerritoryPoint += abs(self.AllPoint[getfield[i]%1000-1][int(getfield[i]/1000)-1])
+                    self.GetField.append(j*1000+i)
+        self.GetField = [item for item in self.GetField if item not in self.GetPosition]
+        self.LogFile.LogWrite('Territory Posirion{}\n'.format(self.GetField))
+        for i in range(len(self.GetField)):
+            self.TerritoryPoint += abs(self.AllPoint[self.GetField[i]%1000-1][int(self.GetField[i]/1000)-1])
 
     def TerritoryFill(self, x, y):
         self.buffer.append((x, y))

@@ -19,28 +19,61 @@ class Field:
                     self.field_size.append(j*1000+i)
         self.field_out = [item for item in self.field_out if item not in self.field_size]
         for i in range(self.y):
-            self.point.append(list(map(int,qrdata[i+1].strip().split(' '))))
+            self.point.append(list(map(int, qrdata[i+1].strip().split(' '))))
         for i in range(self.y):
             self.panel.append([wx.Button(field, (j+1)*1000+(i+1), str(self.point[i][j]), size=(50,50), pos=(50*j,50*i))\
                             for j in range(self.x)])
 
     
-    def Coloring(self, agent_data, agent):
+    def Coloring(self, agent_data, agent, out_get=False, out_now=False):
+        if out_get == False:
+            self.GetHide(agent_data, agent)
+        else:
+            for i in range(len(agent_data.GetPosition)):
+                self.panel[agent_data.GetPosition[i]%1000-1][int(agent_data.GetPosition[i]/1000)-1]\
+                .SetBackgroundColour(agent_data.GetColor)
+                self.log.LogWrite('Coloring of get ({},{}):{}\n'\
+                                .format(int(agent_data.GetPosition[i]/1000), agent_data.GetPosition[i]%1000, agent_data.GetColor), logtype=procon29.SYSTEM_LOG)
+        if out_now == False:
+            self.NowHide(agent_data, agent)
+        else:
+            for i in range(2):
+                self.panel[int(agent[i].now%1000)-1][int(agent[i].now/1000)-1]\
+                .SetBackgroundColour(agent_data.Color)
+                self.log.LogWrite('Coloring of now ({},{}):{}\n'\
+                                .format(int(agent[i].now/1000), agent[i].now%1000, agent_data.Color), logtype=procon29.SYSTEM_LOG)
+
+    def FillColoring(self, agent_data, out=False):
+        if out == False:
+            self.FillHide(agent_data)
+        else:
+            for i in range(len(agent_data.GetField)):
+                self.panel[int(agent_data.GetField[i]%1000)-1][int(agent_data.GetField[i]/1000)-1]\
+                .SetBackgroundColour(agent_data.FillColor)
+                self.log.LogWrite('Coloring of Fill ({},{}):{}\n'\
+                                .format(int(agent_data.GetField[i]/1000), agent_data.GetField[i]%1000, '#FFFFFF'), logtype=procon29.SYSTEM_LOG)
+
+    def FillHide(self, agent_data):
+        for i in range(len(agent_data.GetField)):
+            self.panel[int(agent_data.GetField[i]%1000)-1][int(agent_data.GetField[i]/1000)-1]\
+            .SetBackgroundColour('')
+
+    def GetHide(self, agent_data, agent):
         for i in range(len(agent_data.GetPosition)):
             self.panel[agent_data.GetPosition[i]%1000-1][int(agent_data.GetPosition[i]/1000)-1]\
-            .SetBackgroundColour(agent_data.GetColor)
-            self.log.LogWrite('Coloring of get ({},{}):{}\n'\
-                            .format(int(agent_data.GetPosition[i]/1000), agent_data.GetPosition[i]%1000, agent_data.GetColor), logtype=procon29.SYSTEM_LOG)
+            .SetBackgroundColour('')
+
+    def NowHide(self, agent_data, agent):
         for i in range(2):
             self.panel[int(agent[i].now%1000)-1][int(agent[i].now/1000)-1]\
-            .SetBackgroundColour(agent_data.Color)
-            self.log.LogWrite('Coloring of now ({},{}):{}\n'\
-                            .format(int(agent[i].now/1000), agent[i].now%1000, agent_data.Color), logtype=procon29.SYSTEM_LOG)
+            .SetBackgroundColour('')
     
-    def MovableColoring(self, agent_data, agent, clear=False):
+    def MovableColoring(self, agent_data, agent, clear=False, out=False):
         if clear == True:
             self.MoveColoring(agent_data, agent)
-        else:
+        elif out == False:
+            self.MoveColoring(agent_data, agent)
+        elif str(type(agent)) == "<class 'tuple'>":
             for i in range(2):
                 for j in range(len(agent[i].movable)):
                     if agent[i].movable[j] not in agent_data.GetPosition and agent[i].movable[j] != agent[i].next:
@@ -54,6 +87,19 @@ class Field:
                         .SetBackgroundColour(agent_data.RemovableColor)
                         self.log.LogWrite('Coloring of removable ({},{}):{}\n'\
                                         .format(int(agent[i].removable[j]/1000), agent[i].removable[j]%1000, agent_data.RemovableColor), logtype=procon29.SYSTEM_LOG)
+        else:
+            for j in range(len(agent.movable)):
+                if agent.movable[j] not in agent_data.GetPosition and agent.movable[j] != agent.next:
+                    self.log.LogWrite('Coloring of movable ({},{}):{}\n'\
+                                    .format(int(agent.movable[j]/1000), agent.movable[j]%1000, agent_data.MovableColor), logtype=procon29.SYSTEM_LOG)
+                    self.panel[agent.movable[j]%1000-1][int(agent.movable[j]/1000)-1]\
+                    .SetBackgroundColour(agent_data.MovableColor)
+            for j in range(len(agent.removable)):
+                if agent.removable[j] not in agent_data.GetPosition:
+                    self.panel[int(agent.removable[j]%1000)-1][int(agent.removable[j]/1000)-1]\
+                    .SetBackgroundColour(agent_data.RemovableColor)
+                    self.log.LogWrite('Coloring of removable ({},{}):{}\n'\
+                                    .format(int(agent.removable[j]/1000), agent.removable[j]%1000, agent_data.RemovableColor), logtype=procon29.SYSTEM_LOG)
     
     def MoveColoring(self, agent_data, agent):
         for i in range(2):
@@ -66,11 +112,15 @@ class Field:
                     self.panel[int(agent[i].removable[j]%1000)-1][int(agent[i].removable[j]/1000)-1]\
                     .SetBackgroundColour('')
     
-    def NextColoring(self, next, col):
-        self.panel[int(next%1000)-1][int(next/1000)-1]\
-        .SetBackgroundColour(col)
-        self.log.LogWrite('Coloring of next ({},{}):{}\n'\
-                        .format(int(next/1000), next%1000, col), logtype=procon29.SYSTEM_LOG)
+    def NextColoring(self, next, col, clear=False):
+        if clear:
+            self.panel[int(next%1000)-1][int(next/1000)-1]\
+            .SetBackgroundColour('')
+        else:
+            self.panel[int(next%1000)-1][int(next/1000)-1]\
+            .SetBackgroundColour(col)
+            self.log.LogWrite('Coloring of next ({},{}):{}\n'\
+                            .format(int(next/1000), next%1000, col), logtype=procon29.SYSTEM_LOG)
 
     def FieldTypeAnalysis(self):
         typenum = 0

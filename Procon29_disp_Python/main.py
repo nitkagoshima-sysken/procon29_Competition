@@ -3,21 +3,44 @@
 from pyzbar.pyzbar import decode
 from PIL import Image
 from wx import adv
+import configparser as config
 import procon29
 import os
 import wx
 import hashlib
 import sys
 
-def clear_flag():
-    global blue_turn
-    global red_turn
-    global blue_flag
-    global red_flag
-    blue_flag = [True, True]
-    red_flag = [True, True]
-    blue_turn = 0
-    red_turn = 0
+wxId = {wx.ID_OK:0,
+        wx.ID_CANCEL:1}
+
+class SelectDialog(wx.Dialog):
+    def __init__(self, parent, id, title, text, size=(400, 100)):
+        wx.Dialog.__init__(self, None, -1, title, size=size)
+        self.text = wx.StaticText(self, -1, text,style=wx.SIMPLE_BORDER)
+        button1 = wx.Button(self, wx.ID_OK, '1')
+        button1.SetDefault()
+        button2 = wx.Button(self, wx.ID_CANCEL, '2')
+
+        button_sizer = wx.StdDialogButtonSizer()
+        button_sizer.AddButton(button1)
+        button_sizer.AddButton(button2)
+        button_sizer.Realize()
+
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        sizer.Add(self.text, 1, wx.EXPAND | wx.ALL, 3)
+        sizer.Add(button_sizer, 0, wx.EXPAND | wx.ALL, 5)
+        self.SetSizer(sizer)
+
+class Flags():
+    def __init__(self):
+        self.flag = [True, True]
+        self.turn = 0
+        self.end = False
+    
+    def Clear(self):
+        self.flag = [True, True]
+        self.turn = 0
+        self.end = False
 
 def GameEndCheck():
     global nowturn
@@ -25,6 +48,25 @@ def GameEndCheck():
     if turn == nowturn:
         return True
     
+def col_func(blue_red, turn_exit):
+    if col_check_blue[0] and blue_red:
+        field[0].Coloring(agent_data[0], (agent[0], agent[1]), out_now=col_check_blue[0])
+    elif turn_exit and blue_red:
+        field[0].Coloring(agent_data[0], (agent[0], agent[1]), out_now=col_check_blue[1], out_get=col_check_blue[3])
+    elif blue_red:
+        field[0].Coloring(agent_data[0], (agent[0], agent[1]), out_now=col_check_blue[1], out_get=col_check_blue[3])
+        field[0].MovableColoring(agent_data[0], (agent[0], agent[1]), out=col_check_blue[2])
+        field[0].FillColoring(agent_data[0], out=col_check_blue[4])
+        field[0].FillColoring(agent_data[1], out=col_check_red[4])
+    if col_check_red[0] and blue_red == False:
+        field[0].Coloring(agent_data[1], (agent[2], agent[3]), out_now=col_check_red[0], out_get=turn_end)
+    elif turn_exit and blue_red == False:
+        field[0].Coloring(agent_data[1], (agent[2], agent[3]), out_now=col_check_red[1], out_get=col_check_red[3])
+    elif blue_red == False:
+        field[0].Coloring(agent_data[1], (agent[2], agent[3]), out_now=col_check_red[1], out_get=col_check_red[3])
+        field[0].MovableColoring(agent_data[1], (agent[2], agent[3]), out=col_check_red[2])
+        field[0].FillColoring(agent_data[0], out=col_check_blue[4])
+        field[0].FillColoring(agent_data[1], out=col_check_red[4])
 
 def createbutton(text):
     global field_type
@@ -58,14 +100,14 @@ def createbutton(text):
                                 .format(agent_data[0].Point, agent_data[0].TerritoryPoint))
     redpoint_text.SetLabel('赤\n取得済み得点:{} \n領域得点:{}'\
                                 .format(agent_data[1].Point, agent_data[1].TerritoryPoint))
-    field[0].Coloring(agent_data[0], (agent[0], agent[1]))
-    field[0].MovableColoring(agent_data[0], (agent[0], agent[1]))
-    field[0].Coloring(agent_data[1], (agent[2], agent[3]))
+    col_func(True, False)
+    col_func(False, True)
 
-def trunendfunc():
+def turnendfunc():
     global endflag
     global nowturn
-    clear_flag()
+    blue_flags.Clear()
+    red_flags.Clear()
     for i in range(2):
         for j in range(2):
             if next_blue[i] == next_red[j]:
@@ -77,9 +119,10 @@ def trunendfunc():
                 agent[i].next[1] = 0
                 agent[j+2].next[1] = 0
     field[0].MovableColoring(agent_data[1], (agent[2], agent[3]), clear=True)
+    field[0].MovableColoring(agent_data[0], (agent[0], agent[1]), clear=True)
     agent_data[0].GetPoint([agent[0].next, agent[1].next], agent_data[1])
-    agent_data[0].FieldPointSearch()
     agent_data[1].GetPoint([agent[2].next, agent[3].next], agent_data[0])
+    agent_data[0].FieldPointSearch()
     agent_data[1].FieldPointSearch()
     agent[0].TurnSet(agent_data[1].GetPosition)
     agent[1].TurnSet(agent_data[1].GetPosition)
@@ -89,11 +132,11 @@ def trunendfunc():
                                 .format(agent_data[0].Point, agent_data[0].TerritoryPoint))
     redpoint_text.SetLabel('赤\n取得済み得点:{} \n領域得点:{}'\
                                 .format(agent_data[1].Point, agent_data[1].TerritoryPoint))
-    field[0].Coloring(agent_data[0], (agent[0], agent[1]))
-    field[0].Coloring(agent_data[1], (agent[2], agent[3]))
+    col_func(True, False)
+    col_func(False, True)
     endflag = GameEndCheck()
     if endflag != True:
-        field[0].MovableColoring(agent_data[0], (agent[0], agent[1]))
+        col_func(True, False)
         nowturn += 1
     turnunm.SetLabel('現在ターン数:{}\n全ターン数:{}\n残りターン数:{}'.format(nowturn, turn, turn-nowturn))
     if endflag:
@@ -102,15 +145,41 @@ def trunendfunc():
         gameenddialog.Destroy()
         log.LogWrite('End game')
 
-def handler(event):
+def move(agent, agent_data, flags, eagent, Id_num):
+    flags.turn += 1
+    if Id_num in agent[0].movable and Id_num in agent[1].movable:
+        checkdialog = SelectDialog(None, -1, text='移動可能領域が重なっています。移動する方を選択してください', title='移動可能領域重複')
+        num = wxId[checkdialog.ShowModal()]
+        agent_main = agent[num]
+    elif Id_num in agent[0].movable:
+        agent_main = agent[0]
+        num = 0
+    elif Id_num in agent[1].movable:
+        agent_main = agent[1]
+        num = 1
+    del agent[:]
+    if flags.flag[num] == False:
+        field[0].NextColoring(agent_main.next[1], agent_data.NextColor, clear=True)
+        field[0].MovableColoring(agent_data, agent_main, out=True)
+    flags.flag[num] = False
+    if Id_num in agent_main.removable:
+        dialog = wx.MessageDialog(None, '相手の取得済み地点です。対象地点を取り除きますか？', '取得地点排除確認', style=wx.YES_NO)
+        result = dialog.ShowModal()
+        if result == wx.ID_YES:
+            agent_main.NextSet(Id_num, overlap=True)
+            field[0].NextColoring(agent_main.next[1], agent_data.NextColor)
+            next_blue[0] = Id_num
+        else:
+            flags.flag[num] = True
+            flags.turn -= 1
+        dialog.Destroy()
+    else:
+        agent_main.NextSet(Id_num)
+        field[0].NextColoring(agent_main.next[1], agent_data.NextColor)
+        next_blue[0] = Id_num
+
+def Menu_handler(event):
     global load_file_flag
-    global blue_turn
-    global red_turn
-    global blue_flag
-    global red_flag
-    global now_mode
-    global now_color
-    global step_end
     global turn
     global debag_flag
     Id_num = event.GetId()
@@ -146,7 +215,8 @@ def handler(event):
         del field[0]
         del agent[:]
         del agent_data[:]
-        clear_flag()
+        blue_flags.Clear()
+        red_flags.Clear()
         bluepoint_text = wx.StaticText(panel, -1, '青\n取得済み得点:0 \n領域得点:0', style=wx.SIMPLE_BORDER, pos=(0,51))
         redpoint_text = wx.StaticText(panel, -1, '赤\n取得済み得点:0 \n領域得点:0', style=wx.SIMPLE_BORDER, pos=(0,99))
         log.LogWrite('Clear All\n')
@@ -171,10 +241,15 @@ def handler(event):
         log.LogWrite('Open about info\n', logtype=procon29.SYSTEM_LOG)
         info = adv.AboutDialogInfo()
         info.SetName('PPAP -Procon29 Python Application Project-')
-        info.SetVersion('1.0.1')
+        info.SetVersion('1.5.1')
         info.SetCopyright('Copyright (c) 2018 Glaz egy.')
         adv.AboutBox(info)
-    elif Id_num == 100:
+    
+def Radio_handler(event):
+    global now_mode
+    global now_color
+    Id_num = event.GetId()
+    if Id_num == 100:
         mode = event.GetSelection()
         log.LogWrite('Chenge mode {}->{}\n'.format(now_mode+1, mode+1), logtype=procon29.SYSTEM_LOG)
         now_mode = mode
@@ -200,143 +275,100 @@ def handler(event):
             pass
     elif Id_num == 200:
         pass
-    elif Id_num == 201:
-        if red_flag[0] != True or red_flag[1] != True:
-            red_turn = 0
-            red_flag = [True, True]
-            field[0].MovableColoring(agent_data[1], (agent[2], agent[3]))
-            log.LogWrite('Cancel step\n')
-        elif blue_flag[0] != True or blue_flag[1] != True:
-            blue_turn = 0
-            step_end = False
-            blue_flag = [True, True]
-            field[0].MovableColoring(agent_data[1], (agent[2], agent[3]), clear=True)
-            field[0].Coloring(agent_data[0], (agent[0], agent[1]))
-            field[0].MovableColoring(agent_data[0], (agent[0], agent[1]))
-            log.LogWrite('Cancel step\n')
-    elif Id_num == 202:
-        if load_file_flag:
-            if red_turn == 2:
-                trunendfunc()
-                step_end = False
-            elif blue_turn == 2:
-                log.LogWrite('Blue step finished\n')
-                field[0].MovableColoring(agent_data[0], (agent[0], agent[1]), clear=True)
-                field[0].Coloring(agent_data[1], (agent[2], agent[3]))
-                field[0].MovableColoring(agent_data[1], (agent[2], agent[3]))
-                step_end = True
+
+def Button_handler(event):
+    global load_file_flag
+    global step_end
+    global debag_flag
+    Id_num = event.GetId()
+    if debag_flag:
+        move([agent[0], agent[1]], agent_data[0], blue_flags, (agent[2], agent[3]), Id_num)
+        turnendfunc()
+    else:
+        if Id_num == 201:
+            if red_flags.flag[0] != True or red_flags.flag[1] != True:
+                red_flags.Clear()
+                col_func(False, False)
+                log.LogWrite('Cancel step\n')
+            elif blue_flags.flag[0] != True or blue_flags.flag[1] != True:
+                blue_flags.Clear()
+                field[0].MovableColoring(agent_data[1], (agent[2], agent[3]), clear=True)
+                col_func(True, False)
+                log.LogWrite('Cancel step\n')
+        elif Id_num == 202:
+            if load_file_flag:
+                if red_flags.flag == False_list:
+                    turnendfunc()
+                elif blue_flags.flag == False_list and blue_flags.end == False:
+                    log.LogWrite('Blue step finished\n')
+                    field[0].MovableColoring(agent_data[0], (agent[0], agent[1]), clear=True)
+                    col_func(False, False)
+                    blue_flags.end = True
+                else:
+                    log.LogWrite('No finish all step\n', logtype=procon29.ERROR)
+                    errordialog = wx.MessageDialog(None, '全ての工程が終了していません', '移動未終了',style=wx.ICON_EXCLAMATION)
+                    errordialog.ShowModal()
+                    errordialog.Destroy()
             else:
-                log.LogWrite('No finish all step\n', logtype=procon29.ERROR)
-                errordialog = wx.MessageDialog(None, '全ての工程が終了していません', '移動未終了',style=wx.ICON_EXCLAMATION)
+                log.LogWrite('No open file\n', logtype=procon29.ERROR)
+                errordialog = wx.MessageDialog(None, 'ファイルが開かれていません', 'ゲームスタートエラー',style=wx.ICON_EXCLAMATION)
                 errordialog.ShowModal()
                 errordialog.Destroy()
         else:
-            log.LogWrite('No open file\n', logtype=procon29.ERROR)
-            errordialog = wx.MessageDialog(None, 'ファイルが開かれていません', 'ゲームスタートエラー',style=wx.ICON_EXCLAMATION)
-            errordialog.ShowModal()
-            errordialog.Destroy()
-    else:
-        overlapdialog = wx.MessageDialog(None, '相手の取得済み地点です。対象地点を取り除きますか？', '取得視点排除確認', style=wx.YES_NO)
-        if Id_num in agent[0].movable and blue_flag[0] and Id_num not in [agent[2].now, agent[3].now]:
-            blue_flag[0] = False
-            blue_turn += 1
-            if Id_num in agent[0].removable:
-                result = overlapdialog.ShowModal()
-                if result == wx.ID_YES:
-                    agent[0].NextSet(Id_num, overlap=True)
-                    field[0].NextColoring(agent[0].next[1], agent_data[0].NextColor)
-                    next_blue[0] = Id_num
-                else:
-                    blue_flag[0] = True
-                    blue_turn -= 1
+            if (Id_num in agent[0].movable or Id_num in agent[1].movable) and Id_num not in (agent[2].now, agent[3].now):
+                move([agent[0], agent[1]], agent_data[0], blue_flags, (agent[2], agent[3]), Id_num)
+            elif (Id_num in agent[2].movable or Id_num in agent[3].movable) and Id_num not in (agent[0].now, agent[1].now) and blue_flags.end:
+                move([agent[2], agent[3]], agent_data[1], red_flags, (agent[0], agent[1]), Id_num)
             else:
-                agent[0].NextSet(Id_num)
-                field[0].NextColoring(agent[0].next[1], agent_data[0].NextColor)
-                next_blue[0] = Id_num
-        elif Id_num in agent[1].movable and blue_flag[1] and Id_num not in [agent[2].now, agent[3].now]:
-            blue_flag[1] = False
-            blue_turn += 1
-            if Id_num in agent[1].removable:
-                result = overlapdialog.ShowModal()
-                if result == wx.ID_YES:
-                    agent[1].NextSet(Id_num, overlap=True)
-                    field[0].NextColoring(agent[1].next[1], agent_data[0].NextColor)
-                    next_blue[1] = Id_num
-                else:
-                    blue_flag[1] = True
-                    blue_turn -= 1
-            else:
-                agent[1].NextSet(Id_num)
-                field[0].NextColoring(agent[1].next[1], agent_data[0].NextColor)
-                next_blue[1] = Id_num
-        elif Id_num in agent[2].movable and red_flag[0] and Id_num not in [agent[0].now, agent[1].now]:
-            red_flag[0] = False
-            red_turn += 1
-            if Id_num in agent[2].removable:
-                result = overlapdialog.ShowModal()
-                if result == wx.ID_YES:
-                    agent[2].NextSet(Id_num, overlap=True)
-                    field[0].NextColoring(agent[2].next[1], agent_data[1].NextColor)
-                    next_red[0] = Id_num
-                else:
-                    blue_flag[0] = True
-                    blue_turn -= 1
-            else:
-                agent[2].NextSet(Id_num)
-                field[0].NextColoring(agent[2].next[1], agent_data[1].NextColor)
-                next_red[0] = Id_num
-        elif Id_num in agent[3].movable and red_flag[1] and Id_num not in [agent[0].now, agent[1].now]:
-            red_flag[1] = False
-            red_turn += 1
-            if Id_num in agent[3].removable:
-                result = overlapdialog.ShowModal()
-                if result == wx.ID_YES:
-                    agent[3].NextSet(Id_num, overlap=True)
-                    field[0].NextColoring(agent[3].next[1], agent_data[1].NextColor)
-                    next_red[1] = Id_num
-                else:
-                    blue_flag[1] = True
-                    blue_turn -= 1
-            else:
-                agent[3].NextSet(Id_num)
-                field[0].NextColoring(agent[3].next[1], agent_data[1].NextColor)
-                next_red[1] = Id_num
-        elif blue_turn == 2 and step_end != True:
-            log.LogWrite('Finished all step\n', logtype=procon29.ERROR)
-            errordialog = wx.MessageDialog(None, '全ての工程は終了しています', '移動終了済み',style=wx.ICON_EXCLAMATION)
-            errordialog.ShowModal()
-            errordialog.Destroy()
-        else:
-            log.LogWrite('Can not move position ({},{})\n'.format(int(Id_num/1000), Id_num%1000), logtype=procon29.ERROR)
-            errordialog = wx.MessageDialog(None, '移動できない地点です ({0},{1})'.format(int(Id_num/1000), Id_num%1000), '移動可能エリア外',style=wx.ICON_EXCLAMATION)
-            errordialog.ShowModal()
-            errordialog.Destroy()
-        overlapdialog.Destroy()
+                log.LogWrite('Can not move position ({},{})\n'.format(int(Id_num/1000), Id_num%1000), logtype=procon29.ERROR)
+                errordialog = wx.MessageDialog(None, '移動できない地点です ({0},{1})'.format(int(Id_num/1000), Id_num%1000), '移動可能エリア外',style=wx.ICON_EXCLAMATION)
+                errordialog.ShowModal()
+                errordialog.Destroy()
+    
+def check_handler(event):
+    global col_check_blue
+    global col_check_red
+    if event.GetId() == 300:
+        if coloring_select_blue.IsChecked(0):
+            coloring_select_blue.SetCheckedItems((0,))
+        for i in range(len(col_set)):
+            col_check_blue[i] = coloring_select_blue.IsChecked(i)
+        col_func(True, False)
+    if event.GetId() == 301:
+        if coloring_select_red.IsChecked(0):
+            coloring_select_red.SetCheckedItems((0,))
+        for i in range(len(col_set)):
+            col_check_red[i] = coloring_select_red.IsChecked(i)
+        col_func(False, (blue_flags.flag[0] and blue_flags.flag[1]))
+            
 
 text = ''
 next_blue = [0, 0]
 next_red = [0, 0]
 play_color = 'blue'
 load_file_flag = False
-blue_turn = 0
-red_turn = 0
 step_end = False
-blue_flag = [True, True]
-red_flag = [True, True]
+blue_flags = Flags()
+red_flags = Flags()
 field_type = 0
 endflag = False
 turn = 10
 nowturn = 1
 debag_flag = False
 passcode = ['e71d2f7f7ae998e3e9c4509c31e577a98371b234f36e466402998c8817860049']
+col_check_blue = [True for i in range(5)]
+col_check_blue[0] = False
+col_check_red = [True for i in range(5)]
+col_check_red[0] = False
+False_list = [False, False]
 
 app = wx.App()
-
 frame = wx.Frame(None, -1, 'PPAP -Procon29 Python Application Project-', size=(800,900), style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN | wx.MINIMIZE_BOX)
 
 panel = wx.Panel(frame,-1)
 field = []
 agent = []
+agent_data = []
 
 mode_type = ('手動入力モード','疑似対戦モード','実対戦モード','学習モード')
 mode_select = wx.RadioBox(panel, 100, 'モードセレクト', choices=mode_type)
@@ -365,7 +397,13 @@ turnunm = wx.StaticText(panel, -1, '現在ターン数:1\n全ターン数:0\n残
 
 log = procon29.SystemControl.LogControl('game.log')
 
-agent_data = []
+col_set = ('現在地のみ','現在地','移動可能','移動済み','獲得領域')
+wx.StaticText(panel, -1, '青表示色選択', pos=(0,150))
+coloring_select_blue = wx.CheckListBox(panel, 300, choices=col_set, pos=(0,170), size=(100,100))
+coloring_select_blue.SetCheckedItems((1,2,3,4))
+wx.StaticText(panel, -1, '赤表示色選択', pos=(0,275))
+coloring_select_red = wx.CheckListBox(panel, 301, choices=col_set, pos=(0,295), size=(100,100))
+coloring_select_red.SetCheckedItems((1,2,3,4))
 
 #Setting menubar
 menu_bar = wx.MenuBar()
@@ -387,9 +425,10 @@ help_menu.Append(about)
 menu_bar.Append(help_menu, 'ヘルプ')
 frame.SetMenuBar(menu_bar)
 
-frame.Bind(wx.EVT_MENU, handler)
-frame.Bind(wx.EVT_BUTTON, handler)
-frame.Bind(wx.EVT_RADIOBOX, handler)
+frame.Bind(wx.EVT_MENU, Menu_handler)
+frame.Bind(wx.EVT_BUTTON, Button_handler)
+frame.Bind(wx.EVT_RADIOBOX, Radio_handler)
+frame.Bind(wx.EVT_CHECKLISTBOX, check_handler)
 
 frame.Show()
 app.MainLoop()

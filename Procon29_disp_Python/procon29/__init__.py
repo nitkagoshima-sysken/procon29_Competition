@@ -5,6 +5,8 @@ SYSTEM_LOG = 1
 FILE_LOG = 10
 ERROR = 11
 DEBAG = 100
+ID_1 = 101
+ID_2 = 110
 
 from . import Agent
 from . import SystemControl
