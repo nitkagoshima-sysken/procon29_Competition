@@ -71,7 +71,12 @@ namespace procon29_disp
             //log.WriteLine(Color.LightGray, procon.SumDirectArea(Team.A).ToString());
             show.Show(FieldDisplay);
 
-            CSVtoList("100, 102,");
+
+
+            foreach (var item in Field.CSVToFields("4, 2, 1, 2, 3, 4, 5, 6, 7, 8,"))
+            {
+                Console.WriteLine(item.Point);
+            }
         }
 
         //Resizeイベントハンドラ
@@ -122,58 +127,6 @@ namespace procon29_disp
             procon.MoveAgent(team, agent, where);
             //log.WriteLine(teamDesigns[(int)agent].AreaColor, Procon29_Calc.ShortTeamAgentName[(int)team, (int)agent] + " moved to " + where);
         }
-
-        /// <summary>
-        /// CSVファイルをListに変換します。
-        /// </summary>
-        /// <param name="str">変換する文字列</param>
-        /// <returns></returns>
-        public static List<int> CSVtoList(string str)
-        {
-
-            var list = new List<int>();
-
-            //前後の改行を削除しておく
-            str = str.Trim(new char[] { '\r', '\n' });
-            //1行のCSVから各フィールドを取得するための正規表現
-            System.Text.RegularExpressions.Regex regex =
-                new System.Text.RegularExpressions.Regex(
-                    @"(\d*,)+",
-                    System.Text.RegularExpressions.RegexOptions.None);
-
-            //1つの行からフィールドを取り出す
-            System.Text.RegularExpressions.Match match = regex.Match(str);
-            if (match.Success)
-            {
-                for (int i = 0; i < match.Groups[0].Captures.Count; i++)
-                {
-                    string field = match.Groups[0].Captures[i].Value;
-                    //前後の空白を削除
-                    field = field.Trim();
-                    field = field.Replace(",", "");
-                    list.Add(int.Parse(field));
-                }
-            }
-            return new List<int>();
-        }
-
-        /// <summary>
-        /// 指定された文字列内にある文字列が幾つあるか数える
-        /// </summary>
-        /// <param name="strInput">strFindが幾つあるか数える文字列</param>
-        /// <param name="strFind">数える文字列</param>
-        /// <returns>strInput内にstrFindが幾つあったか</returns>
-        public static int CountString(string strInput, string strFind)
-        {
-            int foundCount = 0;
-            int sPos = strInput.IndexOf(strFind);
-            while (sPos > -1)
-            {
-                foundCount++;
-                sPos = strInput.IndexOf(strFind, sPos + 1);
-            }
-
-            return foundCount;
-        }
+        
     }
 }
