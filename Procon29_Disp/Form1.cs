@@ -112,9 +112,37 @@ namespace procon29_disp
             // 最後にイベントが実行された時刻から何ミリ秒たったかを計算し、それが1ミリ秒以上だった場合は、画面を更新する。
             // こうすることによって、イベントの渋滞を防ぐ。
             var delta = DateTime.Now - time;
-            if (delta.TotalMilliseconds >= 1.0) show.Show(FieldDisplay);
+            if (delta.TotalMilliseconds >= 1.0)
+            {
+                show.Show(FieldDisplay);
+                // フィールド内にいるときは、フィールドの情報を表示する。
+                if(0 <= show.CursorPosition(FieldDisplay).X &&
+                    show.CursorPosition(FieldDisplay).X < procon.Width &&
+                    0 <= show.CursorPosition(FieldDisplay).Y &&
+                    show.CursorPosition(FieldDisplay).Y < procon.Height)
+                {
+                    var f = procon.Map[show.CursorPosition(FieldDisplay).X, show.CursorPosition(FieldDisplay).Y];
+                    // 情報を表示
+                    toolStripStatusLabel1.Text = (show.CursorPosition(FieldDisplay) + " Point: " + f.Point);                  
+                    // 囲まれているか判定
+                    if (f.IsIndirectArea[0] && f.IsIndirectArea[1]) toolStripStatusLabel1.Text += " (Surrounded by both)";
+                    else if (f.IsIndirectArea[0])
+                    {
+                        toolStripStatusLabel1.Text += " (Surrounded by " + teamDesigns[0].Name + ")";
+                        toolStripStatusLabel1.ForeColor = teamDesigns[0].AgentColor;
+                    }
+                    else if (f.IsIndirectArea[1])
+                    {
+                        toolStripStatusLabel1.Text += " (Surrounded by " + teamDesigns[1].Name + ")";
+                        toolStripStatusLabel1.ForeColor = teamDesigns[1].AgentColor;
+                    }
+                    // タイルがおかれているか判定
+                    if (f.IsDirectArea[0]) toolStripStatusLabel1.ForeColor = teamDesigns[0].AgentColor;
+                    else if (f.IsDirectArea[1]) toolStripStatusLabel1.ForeColor = teamDesigns[1].AgentColor;
+                    else if ((!f.IsIndirectArea[0] && !f.IsIndirectArea[1])) toolStripStatusLabel1.ForeColor = Color.LightGray;
+                }
+            }
             time = DateTime.Now;
-            Console.WriteLine(show.CursorPosition(FieldDisplay)  ); 
         }
 
         private void MoveAgent(Team team, Agent agent, Point where)
@@ -182,6 +210,10 @@ namespace procon29_disp
                     }
                 }
             }
+        }
+
+        private void toolStripStatusLabel1_Click(object sender, EventArgs e)
+        {
         }
     }
 }
