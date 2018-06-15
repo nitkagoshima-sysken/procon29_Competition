@@ -10,6 +10,18 @@ using System.Threading.Tasks;
 
 namespace procon29_disp
 {
+    enum Arrow10Key
+    {
+        Up = 8,
+        UpLeft = 7,
+        Left = 4,
+        DownLeft = 1,
+        Down = 2,
+        DownRight = 3,
+        Right = 6,
+        UpRight = 9,
+    }
+
     /// <summary>
     /// procon29におけるフィールドの管理、ポイント計算などの全般を行います。
     /// </summary>
