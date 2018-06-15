@@ -94,7 +94,7 @@ namespace procon29_disp
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A    Total Point: " + procon.TotalPoint(Team.A).ToString());
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Direct Point: " + procon.DirectPoint(Team.B).ToString());
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B Indirect Point: " + procon.IndirectPoint(Team.B).ToString());
-            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B    Total Point: " + procon.TotalPoint(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B    Total Point: " + procon.TotalPoint(Team.B).ToString());
         }
 
         /// <summary>
