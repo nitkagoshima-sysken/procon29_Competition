@@ -110,6 +110,15 @@ namespace procon29_disp
         }
 
         /// <summary>
+        /// 上下対称なら真、そうでなければ偽が返ってきます。
+        /// </summary>
+        public bool IsVerticallySymmetrical { get => isVerticallySymmetrical; private set => isVerticallySymmetrical = value; }
+        /// <summary>
+        /// 左右対称なら真、そうでなければ偽が返ってきます。
+        /// </summary>
+        public bool IsHorizontallySymmetrical { get => isHorizontallySymmetrical; private set => isHorizontallySymmetrical = value; }
+
+        /// <summary>
         /// すべてのフィールドのポイントの和を計算します。
         /// </summary>
         /// <returns>すべてのフィールドのポイントの和</returns>
@@ -139,7 +148,7 @@ namespace procon29_disp
         /// 指定したチームの合計ポイントを計算します。
         /// </summary>
         /// <param name="team">計算するチーム</param>
-        /// <returns></returns>
+        /// <returns>指定したチームの合計ポイント</returns>
         public int TotalPoint(Team team) => DirectPoint(team) + IndirectPoint(team);
 
         /// <summary>
@@ -149,10 +158,8 @@ namespace procon29_disp
         {
             if (Fields.GetLength(0) > 12 || Fields.GetLength(1) > 12) ;
             //message += "[Error] 'field' was not declare array smaller than 12 * 12" + "\n";
-            if (!HorizontallySymmetricalCheck()) ;
-            //message += "[Error] 'field' was not declare horizontally symmetric array" + "\n";
-            if (!VerticallySymmetricalCheck()) ;
-            //message += "[Error] 'field' was not declare vertically symmetric array" + "\n";
+            IsHorizontallySymmetrical = HorizontallySymmetricalCheck();
+            IsVerticallySymmetrical =  VerticallySymmetricalCheck();
         }
 
         /// <summary>
