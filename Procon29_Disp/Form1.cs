@@ -122,6 +122,11 @@ namespace procon29_disp
             //log.WriteLine(teamDesigns[(int)agent].AreaColor, Procon29_Calc.ShortTeamAgentName[(int)team, (int)agent] + " moved to " + where);
         }
 
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            Console.WriteLine(e.KeyCode);
+        }
+
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //OpenFileDialogクラスのインスタンスを作成
