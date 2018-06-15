@@ -159,7 +159,7 @@ namespace procon29_disp
                     try
                     {
                         var pqr = sr.ReadToEnd();
-                        Console.WriteLine(pqr);
+                        log.WriteLine(Color.LightGray, pqr);
                         var pqr_data = Procon29_CSV.ToPQRData(pqr);
                         if (pqr_data.One.X < 0 || pqr_data.One.Y < 0)
                         {
