@@ -3,7 +3,8 @@
 #include <time.h>
 #include <string.h>
 
-#include "getopt.h"
+//#include "getopt.h"
+#include "FieldDataGenerator.h"
 
 #define MAX_POINT 16
 
@@ -118,7 +119,7 @@ void makeField(int vertical, int side, int type, int number, char* filename){
       fprintf(fp,":");
     }
 
-    fprintf(fp,"%d %d:%d %d:",rand()%vertical-1,rand()%side-1,rand()%vertical-1,rand()%side-1);
+    fprintf(fp,"%d %d:%d %d:",rand()%vertical+1,rand()%side+1,rand()%vertical+1,rand()%side+1);
 
     fclose(fp);
   }
