@@ -257,5 +257,19 @@ namespace procon29_disp
             Procon29_Calc.MoveAgent(selectedTeam, selectedAgent, ClickedField);
         }
 
+        /// <summary>
+        /// カーソルがどのフィールドの上にいるかを計算します。
+        /// </summary>
+        /// <returns></returns>
+        public Point CursorPosition(PictureBox pictureBox)
+        {
+            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Fields.GetLength(0);
+            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.Fields.GetLength(1);
+            System.Drawing.Point systemCursorPosition = System.Windows.Forms.Cursor.Position;
+            System.Drawing.Point pictureBoxCursorPosition = pictureBox.PointToClient(systemCursorPosition);
+            return new Point(
+                x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
+                y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));           
+        }
     }
 }

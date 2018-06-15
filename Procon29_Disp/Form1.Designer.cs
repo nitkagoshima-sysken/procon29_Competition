@@ -34,14 +34,18 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.messageBox = new System.Windows.Forms.RichTextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.メニューToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.編集ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.表示ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // FieldDisplay
@@ -52,7 +56,7 @@
             this.FieldDisplay.Location = new System.Drawing.Point(4, 4);
             this.FieldDisplay.Margin = new System.Windows.Forms.Padding(4);
             this.FieldDisplay.Name = "FieldDisplay";
-            this.FieldDisplay.Size = new System.Drawing.Size(521, 399);
+            this.FieldDisplay.Size = new System.Drawing.Size(521, 386);
             this.FieldDisplay.TabIndex = 0;
             this.FieldDisplay.TabStop = false;
             this.FieldDisplay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseClick);
@@ -72,7 +76,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(757, 407);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(757, 394);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // tableLayoutPanel2
@@ -89,7 +93,7 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 0F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(222, 401);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(222, 388);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
             // pictureBox2
@@ -108,11 +112,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.messageBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.messageBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.messageBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.messageBox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.messageBox.ForeColor = System.Drawing.Color.LightGray;
             this.messageBox.Location = new System.Drawing.Point(3, 3);
             this.messageBox.Name = "messageBox";
-            this.messageBox.Size = new System.Drawing.Size(216, 395);
+            this.messageBox.ReadOnly = true;
+            this.messageBox.Size = new System.Drawing.Size(216, 382);
             this.messageBox.TabIndex = 1;
             this.messageBox.Text = "";
             // 
@@ -120,32 +126,61 @@
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.メニューToolStripMenuItem,
-            this.編集ToolStripMenuItem,
-            this.表示ToolStripMenuItem});
+            this.FileToolStripMenuItem,
+            this.EditToolStripMenuItem,
+            this.ViewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(782, 31);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // メニューToolStripMenuItem
+            // FileToolStripMenuItem
             // 
-            this.メニューToolStripMenuItem.Name = "メニューToolStripMenuItem";
-            this.メニューToolStripMenuItem.Size = new System.Drawing.Size(82, 27);
-            this.メニューToolStripMenuItem.Text = "メニュー";
+            this.FileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenToolStripMenuItem});
+            this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
+            this.FileToolStripMenuItem.Size = new System.Drawing.Size(82, 27);
+            this.FileToolStripMenuItem.Text = "ファイル";
             // 
-            // 編集ToolStripMenuItem
+            // EditToolStripMenuItem
             // 
-            this.編集ToolStripMenuItem.Name = "編集ToolStripMenuItem";
-            this.編集ToolStripMenuItem.Size = new System.Drawing.Size(52, 27);
-            this.編集ToolStripMenuItem.Text = "編集";
+            this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
+            this.EditToolStripMenuItem.Size = new System.Drawing.Size(52, 27);
+            this.EditToolStripMenuItem.Text = "編集";
             // 
-            // 表示ToolStripMenuItem
+            // ViewToolStripMenuItem
             // 
-            this.表示ToolStripMenuItem.Name = "表示ToolStripMenuItem";
-            this.表示ToolStripMenuItem.Size = new System.Drawing.Size(52, 27);
-            this.表示ToolStripMenuItem.Text = "表示";
+            this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
+            this.ViewToolStripMenuItem.Size = new System.Drawing.Size(52, 27);
+            this.ViewToolStripMenuItem.Text = "表示";
+            // 
+            // OpenToolStripMenuItem
+            // 
+            this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.OpenToolStripMenuItem.Text = "開く";
+            this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 429);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(782, 24);
+            this.statusStrip1.TabIndex = 5;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolStripStatusLabel1.ForeColor = System.Drawing.Color.LightGray;
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(80, 19);
+            this.toolStripStatusLabel1.Text = "{} Point:";
             // 
             // Form1
             // 
@@ -153,18 +188,23 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(782, 453);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.menuStrip1);
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Procon29 Visualizar";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -178,9 +218,12 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem メニューToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 編集ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 表示ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem EditToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ViewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem OpenToolStripMenuItem;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
 
