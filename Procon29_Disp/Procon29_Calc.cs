@@ -32,6 +32,7 @@ namespace procon29_disp
         private const string pointFamilyName = "Impact";
         private Point[,] agentPosition = new Point[2, 2];
         public static readonly string[,] ShortTeamAgentName = new string[2, 2] { { "A1", "A2", }, { "B1", "B2", }, };
+        private bool isVerticallySymmetrical, isHorizontallySymmetrical;
 
         /// <summary>
         /// Procon29_Calcを初期化します。
