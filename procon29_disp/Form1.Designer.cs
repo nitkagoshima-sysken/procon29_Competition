@@ -109,10 +109,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.messageBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.messageBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.messageBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.messageBox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.messageBox.ForeColor = System.Drawing.Color.LightGray;
             this.messageBox.Location = new System.Drawing.Point(3, 3);
             this.messageBox.Name = "messageBox";
+            this.messageBox.ReadOnly = true;
             this.messageBox.Size = new System.Drawing.Size(216, 395);
             this.messageBox.TabIndex = 1;
             this.messageBox.Text = "";
@@ -165,10 +167,12 @@
             this.ClientSize = new System.Drawing.Size(782, 453);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.menuStrip1);
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Procon29 Visualizar";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);

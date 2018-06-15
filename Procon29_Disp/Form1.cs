@@ -114,6 +114,7 @@ namespace procon29_disp
             var delta = DateTime.Now - time;
             if (delta.TotalMilliseconds >= 1.0) show.Show(FieldDisplay);
             time = DateTime.Now;
+            Console.WriteLine(show.CursorPosition(FieldDisplay)  ); 
         }
 
         private void MoveAgent(Team team, Agent agent, Point where)
