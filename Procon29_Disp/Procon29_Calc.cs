@@ -331,6 +331,22 @@ namespace procon29_disp
         /// </summary>
         /// <param name="team">移動するチーム</param>
         /// <param name="agent">移動するエージェント</param>
+        /// <param name="arrow10Key">移動する方向</param>
+        public void MoveAgent(Team team, Agent agent, Arrow10Key arrow10Key)
+        {
+            MoveAgent(
+                team,
+                agent,
+                new Point(
+                    AgentPosition[(int)team, (int)agent].X + arrow10Key.ToPoint().X,
+                    AgentPosition[(int)team, (int)agent].Y + arrow10Key.ToPoint().Y));
+        }
+
+        /// <summary>
+        /// 指定したところにエージェントが移動します。
+        /// </summary>
+        /// <param name="team">移動するチーム</param>
+        /// <param name="agent">移動するエージェント</param>
         /// <param name="where">移動する場所</param>
         public void MoveAgent(Team team, Agent agent, Point where)
         {
@@ -363,7 +379,5 @@ namespace procon29_disp
                 if (item.IsDirectArea[1]) item.IsIndirectArea[1] = false;
             }
         }
-
-
     }
 }
