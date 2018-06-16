@@ -13,13 +13,13 @@ namespace procon29_disp
     enum Arrow10Key
     {
         Up = 8,
-        UpLeft = 7,
-        Left = 4,
-        DownLeft = 1,
-        Down = 2,
-        DownRight = 3,
-        Right = 6,
         UpRight = 9,
+        Right = 6,
+        DownRight = 3,
+        Down = 2,
+        DownLeft = 1,
+        Left = 4,
+        UpLeft = 7,
     }
 
     /// <summary>
@@ -159,7 +159,7 @@ namespace procon29_disp
             if (Fields.GetLength(0) > 12 || Fields.GetLength(1) > 12) ;
             //message += "[Error] 'field' was not declare array smaller than 12 * 12" + "\n";
             IsHorizontallySymmetrical = HorizontallySymmetricalCheck();
-            IsVerticallySymmetrical =  VerticallySymmetricalCheck();
+            IsVerticallySymmetrical = VerticallySymmetricalCheck();
         }
 
         /// <summary>
