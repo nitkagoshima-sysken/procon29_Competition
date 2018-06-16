@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace procon29_disp
 {
+    /// <summary>
+    /// 10キーを使うときの構造体です。
+    /// </summary>
     enum Arrow10Key
     {
         Up = 8,
@@ -20,6 +23,42 @@ namespace procon29_disp
         DownLeft = 1,
         Left = 4,
         UpLeft = 7,
+    }
+
+    /// <summary>
+    /// Arrow10Keyの拡張メソッドを使うためのクラス
+    /// </summary>
+    static class Arrow10KeyExtensions
+    {
+        /// <summary>
+        /// Arrow10KeyをPoint型に変換します。
+        /// </summary>
+        /// <param name="arrow10Key">変換するArrow10Key</param>
+        /// <returns></returns>
+        public static Point ToPoint(this Arrow10Key arrow10Key)
+        {
+            switch (arrow10Key)
+            {
+                case Arrow10Key.Up:
+                    return new Point(0, -1);
+                case Arrow10Key.UpRight:
+                    return new Point(1, -1);
+                case Arrow10Key.Right:
+                    return new Point(1, 0);
+                case Arrow10Key.DownRight:
+                    return new Point(1, 1);
+                case Arrow10Key.Down:
+                    return new Point(0, 1);
+                case Arrow10Key.DownLeft:
+                    return new Point(-1, 1);
+                case Arrow10Key.Left:
+                    return new Point(-1, 0);
+                case Arrow10Key.UpLeft:
+                    return new Point(-1, -1);
+                default:
+                    return new Point(0, 0);
+            }
+        }
     }
 
     /// <summary>
@@ -324,7 +363,6 @@ namespace procon29_disp
                 if (item.IsDirectArea[1]) item.IsIndirectArea[1] = false;
             }
         }
-
 
 
     }
