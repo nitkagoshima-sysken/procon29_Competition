@@ -15,7 +15,7 @@ namespace procon29_disp
     {
         Team selectedTeam;
         Agent selectedAgent;
-        
+
         Procon29_Calc procon;
         Procon29_Show show;
         Procon29_Logger log;
@@ -116,14 +116,14 @@ namespace procon29_disp
             {
                 show.Show(FieldDisplay);
                 // フィールド内にいるときは、フィールドの情報を表示する。
-                if(0 <= show.CursorPosition(FieldDisplay).X &&
+                if (0 <= show.CursorPosition(FieldDisplay).X &&
                     show.CursorPosition(FieldDisplay).X < procon.Width &&
                     0 <= show.CursorPosition(FieldDisplay).Y &&
                     show.CursorPosition(FieldDisplay).Y < procon.Height)
                 {
                     var f = procon.Map[show.CursorPosition(FieldDisplay).X, show.CursorPosition(FieldDisplay).Y];
                     // 情報を表示
-                    toolStripStatusLabel1.Text = (show.CursorPosition(FieldDisplay) + " Point: " + f.Point);                  
+                    toolStripStatusLabel1.Text = (show.CursorPosition(FieldDisplay) + " Point: " + f.Point);
                     // 囲まれているか判定
                     if (f.IsIndirectArea[0] && f.IsIndirectArea[1]) toolStripStatusLabel1.Text += " (Surrounded by both)";
                     else if (f.IsIndirectArea[0])
@@ -153,7 +153,66 @@ namespace procon29_disp
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
+            var isAct = false;
+            e.SuppressKeyPress = true;
             Console.WriteLine(e.KeyCode);
+            try
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.NumPad1:
+                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.DownLeft);
+                        break;
+                    case Keys.NumPad2:
+                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.Down);
+                        break;
+                    case Keys.NumPad3:
+                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.DownRight);
+                        break;
+                    case Keys.NumPad4:
+                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.Left);
+                        break;
+                    case Keys.NumPad6:
+                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.Right);
+                        break;
+                    case Keys.NumPad7:
+                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.UpLeft);
+                        break;
+                    case Keys.NumPad8:
+                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.Up);
+                        break;
+                    case Keys.NumPad9:
+                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.UpRight);
+                        break;
+                    default:
+                        e.SuppressKeyPress = false;
+                        break;
+                }
+                show.ClickedField =
+                    new Point(
+                        procon.AgentPosition[
+                            (int)show.SelectedTeamAndAgent.Item1,
+                            (int)show.SelectedTeamAndAgent.Item2]
+                            .X,
+                        procon.AgentPosition[
+                            (int)show.SelectedTeamAndAgent.Item1,
+                            (int)show.SelectedTeamAndAgent.Item2]
+                            .Y);
+                if (e.SuppressKeyPress)
+                {
+                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Direct Point: " + procon.DirectPoint(Team.A).ToString());
+                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A Indirect Point: " + procon.IndirectPoint(Team.A).ToString());
+                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A    Total Point: " + procon.TotalPoint(Team.A).ToString());
+                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Direct Point: " + procon.DirectPoint(Team.B).ToString());
+                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B Indirect Point: " + procon.IndirectPoint(Team.B).ToString());
+                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B    Total Point: " + procon.TotalPoint(Team.B).ToString());
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("不正なキー入力です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            show.Show(FieldDisplay);
         }
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
