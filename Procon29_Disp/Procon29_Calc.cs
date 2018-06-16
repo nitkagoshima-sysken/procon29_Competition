@@ -181,7 +181,7 @@ namespace procon29_disp
                     AgentPosition[t, a] = initPosition[t, a];
                     MakeArea(team: t, agent: a);
                 }
-            }
+            }            
         }
 
         /// <summary>
