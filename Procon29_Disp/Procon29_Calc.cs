@@ -11,17 +11,41 @@ using System.Threading.Tasks;
 namespace procon29_disp
 {
     /// <summary>
-    /// 10キーを使うときの構造体です。
+    /// 方向を表します。
     /// </summary>
     enum Arrow10Key
     {
+        /// <summary>
+        /// 上を表します。
+        /// </summary>
         Up = 8,
+        /// <summary>
+        /// 右上を表します。
+        /// </summary>
         UpRight = 9,
+        /// <summary>
+        /// 右を表します。
+        /// </summary>
         Right = 6,
+        /// <summary>
+        /// 右下を表します
+        /// </summary>
         DownRight = 3,
+        /// <summary>
+        /// 下を表します。
+        /// </summary>
         Down = 2,
+        /// <summary>
+        /// 左下を示します。
+        /// </summary>
         DownLeft = 1,
+        /// <summary>
+        /// 左を示します。
+        /// </summary>
         Left = 4,
+        /// <summary>
+        /// 左上を示します。
+        /// </summary>
         UpLeft = 7,
     }
 
@@ -75,14 +99,17 @@ namespace procon29_disp
         /// そのエージェントが動いたか設定または取得します。
         /// </summary>
         public bool IsMove { get => isMove; set => isMove = value; }
+
         /// <summary>
         /// そのエージェントがタイルを破壊したか設定または取得します。
         /// </summary>
         public bool IsDestory { get => isDestory; set => isDestory = value; }
+        
         /// <summary>
         /// コメントを設定または取得します。
         /// </summary>
         public string Comment { get => comment; set => comment = value; }
+        
         /// <summary>
         /// そのエージェントがどの方向に行動を起こしたか設定または取得します。
         /// </summary>
@@ -102,12 +129,17 @@ namespace procon29_disp
         /// どのエージェントがどの方向に動いたかを配列で設定または取得します。
         /// </summary>
         public AgentActiveData[,] AgentActiveData { get => agentActiveData; set => agentActiveData = value; }
+        
         /// <summary>
+        /// ターン終了時のマップを設定または取得します。
+        /// </summary>
         public Field[,] MapHistory { get => mapHistory; set => mapHistory = value; }
+        
+        /// <summary>
         /// コメントを設定または取得します。
         /// </summary>
         public string Comment { get => comment; set => comment = value; }
-    }
+    }    
 
     /// <summary>
     /// procon29におけるフィールドの管理、ポイント計算などの全般を行います。
@@ -173,17 +205,47 @@ namespace procon29_disp
             get { return (Turn % 2 == 1) ? Team.A : Team.B; }
         }
 
+        /// <summary>
+        /// フォントの名前を設定または取得します。
+        /// </summary>
         public static string PointFamilyName => pointFamilyName;
+
+        /// <summary>
+        /// エージェントの位置をを設定または取得します。
+        /// </summary>
         public Point[,] AgentPosition { get => agentPosition; set => agentPosition = value; }
+
+        /// <summary>
+        /// ターンを設定または取得します。
+        /// </summary>
         public int Turn { get { return turn; } private set { turn = value; } }
+
+        /// <summary>
+        /// フィールドを設定または取得します。
+        /// </summary>
         public Field[,] Fields { get => fields; set => fields = value; }
 
+        /// <summary>
+        /// フィールドの幅を取得します。
+        /// </summary>
         public int Width { get => Map.GetLength(0); }
+
+        /// <summary>
+        /// フィールドの高さを取得します。
+        /// </summary>
         public int Height { get => Map.GetLength(1); }
 
+        /// <summary>
+        /// エージェントの位置を設定または取得します。
+        /// </summary>
+        /// <param name="team"></param>
+        /// <param name="agent"></param>
+        /// <returns></returns>
         public Point GetAgentPosition(Team team, Agent agent) => AgentPosition[(int)team, (int)agent];
 
-
+        /// <summary>
+        /// フィールドのリストを返します。
+        /// </summary>
         public List<Field> FieldList
         {
             get
@@ -207,8 +269,16 @@ namespace procon29_disp
         public bool IsHorizontallySymmetrical { get => isHorizontallySymmetrical; private set => isHorizontallySymmetrical = value; }
 
         /// <summary>
+        /// エージェントの略称を返します。
+        /// </summary>
         public static string[,] ShortTeamAgentName => shortTeamAgentName;
+
+        /// <summary>
+        /// フィールドの歴史を設定または取得します。
+        /// </summary>
         internal List<TurnData> TurnDatas { get => turnDatas; set => turnDatas = value; }
+
+        /// <summary>
         /// すべてのフィールドのポイントの和を計算します。
         /// </summary>
         /// <returns>すべてのフィールドのポイントの和</returns>

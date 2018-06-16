@@ -11,6 +11,9 @@ using System.Windows.Forms;
 
 namespace procon29_disp
 {
+    /// <summary>
+    /// メインフォームです。
+    /// </summary>
     public partial class MainForm : Form
     {
         Team selectedTeam;
@@ -159,6 +162,12 @@ namespace procon29_disp
             time = DateTime.Now;
         }
 
+        /// <summary>
+        /// エージェントを動かします。
+        /// </summary>
+        /// <param name="team"></param>
+        /// <param name="agent"></param>
+        /// <param name="where"></param>
         private void MoveAgent(Team team, Agent agent, Point where)
         {
             procon.MoveAgent(team, agent, where);

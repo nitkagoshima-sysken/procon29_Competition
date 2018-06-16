@@ -23,28 +23,59 @@ namespace procon29_disp
         private const string pointFamilyName = "Impact";
         private (Team, Agent) selectedTeamAndAgent;
 
-        internal Procon29_Calc Procon29_Calc { get => procon29_Calc; set => procon29_Calc = value; }
-        internal TeamDesign[] TeamDesign { get => teamDesign; set => teamDesign = value; }
         /// <summary>
-        /// 描画対称となるPictureBoxを設定または取得します。
+        /// 描画する対象となるProcon29_Calcを設定または取得します。
+        /// </summary>
+        internal Procon29_Calc Procon29_Calc { get => procon29_Calc; set => procon29_Calc = value; }
+
+        /// <summary>
+        /// 描画するときの色を設定または取得します。
+        /// </summary>
+        internal TeamDesign[] TeamDesign { get => teamDesign; set => teamDesign = value; }
+
+        /// <summary>
+        /// 描画する対象となるPictureBoxを設定または取得します。
         /// </summary>
         public PictureBox PictureBox { get => pictureBox; set => pictureBox = value; }
+        
         /// <summary>
         /// 背景をどのように塗りつぶすか設定または取得します。
         /// </summary>
         public SolidBrush BackGroundSolidBrush { get => backGroundSolidBrush; set => backGroundSolidBrush = value; }
+        
         /// <summary>
         /// 選択したフィールドをどのように塗りつぶすか設定または取得します。
         /// </summary>
         public SolidBrush SelectSolidBrush { get => selectSolidBrush; set => selectSolidBrush = value; }
+        
         /// <summary>
         /// クリックしたフィールドをどのように塗りつぶすか設定または取得します。
         /// </summary>
         public SolidBrush ClickedSolidBrush { get => clickedSolidBrush; set => clickedSolidBrush = value; }
+
+        /// <summary>
+        /// フォントの設定または取得します。
+        /// </summary>
         public Font PointFont { get => pointFont; set => pointFont = value; }
+
+        /// <summary>
+        /// フォントの設定または取得します。
+        /// </summary>
         public static string PointFamilyName => pointFamilyName;
+
+        /// <summary>
+        /// クリックしたときのフィールドの場所の設定または取得します。
+        /// </summary>
         public Point ClickedField { get => clickedField; set => clickedField = value; }
+
+        /// <summary>
+        /// ログを書き込むためのProcon29_Loggerを設定または取得します。
+        /// </summary>
         internal Procon29_Logger Procon29_Logger { get => procon29_Logger; set => procon29_Logger = value; }
+
+        /// <summary>
+        /// 選択したチームとエージェントの設定または取得します。
+        /// </summary>
         public (Team, Agent) SelectedTeamAndAgent { get => selectedTeamAndAgent; set => selectedTeamAndAgent = value; }
 
         /// <summary>

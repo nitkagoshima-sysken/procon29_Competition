@@ -53,6 +53,9 @@ namespace procon29_disp
 
     }
 
+    /// <summary>
+    /// いろいろなデータを宣言させます。
+    /// </summary>
     static class Procon29_CSV
     {
 
