@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace procon29_disp
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         Team selectedTeam;
         Agent selectedAgent;
@@ -22,14 +22,14 @@ namespace procon29_disp
         TeamDesign[] teamDesigns;
 
         /// <summary>
-        /// Form1
+        /// MainForm
         /// </summary>
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
 
             this.FieldDisplay.MouseMove += new MouseEventHandler(FieldDisplay_MouseMove);
-            this.Resize += new System.EventHandler(this.Form1_Resize);
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
 
             procon = new Procon29_Calc(
                 field: new int[,] {
@@ -73,19 +73,33 @@ namespace procon29_disp
             show.Show(FieldDisplay);
         }
 
-        //Resizeイベントハンドラ
-        private void Form1_Resize(object sender, EventArgs e)
+        /// <summary>
+        /// MainFormの画面の大きさを変更したときに実行されます。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainForm_Resize(object sender, EventArgs e)
         {
             Control c = (Control)sender;
             show.Show(FieldDisplay);
         }
 
+        /// <summary>
+        /// FieldDisplay内でクリックしたときに実行されます。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FieldDisplay_MouseClick(object sender, MouseEventArgs e)
         {
             show.ClickedShow(FieldDisplay);
             messageBox.Select(messageBox.Text.Length, 0);
         }
 
+        /// <summary>
+        /// FieldDisplay内でダブルクリックしたときに実行されます。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FieldDisplay_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             show.DoubleClickedShow();
@@ -151,7 +165,12 @@ namespace procon29_disp
             //log.WriteLine(teamDesigns[(int)agent].AreaColor, Procon29_Calc.ShortTeamAgentName[(int)team, (int)agent] + " moved to " + where);
         }
 
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        /// <summary>
+        /// Form1内でキーを押したときに実行されます。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
             var isAct = false;
             e.SuppressKeyPress = true;
@@ -215,6 +234,11 @@ namespace procon29_disp
             show.Show(FieldDisplay);
         }
 
+        /// <summary>
+        /// 「ファイル」の「開く」を押したときに実行されます。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //OpenFileDialogクラスのインスタンスを作成
