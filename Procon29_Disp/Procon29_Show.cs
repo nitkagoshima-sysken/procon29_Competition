@@ -13,22 +13,10 @@ namespace procon29_disp
     {
         private Procon29_Calc procon29_Calc;
         private TeamDesign[] teamDesign;
-        /// <summary>
-        /// 対称となるPictureBoxに描画します。
-        /// </summary>
         private PictureBox pictureBox;
         private Procon29_Logger procon29_Logger;
-        /// <summary>
-        /// 背景をどのように塗りつぶすか指定します。
-        /// </summary>
         private SolidBrush backGroundSolidBrush = new SolidBrush(Color.FromArgb(48, 48, 48));
-        /// <summary>
-        /// 選択したフィールドをどのように塗りつぶすか指定します。
-        /// </summary>
         private SolidBrush selectSolidBrush = new SolidBrush(Color.FromArgb(50, Color.DarkGray));
-        /// <summary>
-        /// クリックしたフィールドをどのように塗りつぶすか指定します。
-        /// </summary>
         private SolidBrush clickedSolidBrush = new SolidBrush(Color.FromArgb(100, Color.SkyBlue));
         private Font pointFont;
         private Point clickedField;       
