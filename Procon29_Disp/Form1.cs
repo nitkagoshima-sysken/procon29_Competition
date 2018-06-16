@@ -15,7 +15,7 @@ namespace procon29_disp
     {
         Team selectedTeam;
         Agent selectedAgent;
-
+        
         Procon29_Calc procon;
         Procon29_Show show;
         Procon29_Logger log;

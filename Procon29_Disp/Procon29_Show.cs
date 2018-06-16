@@ -13,27 +13,51 @@ namespace procon29_disp
     {
         private Procon29_Calc procon29_Calc;
         private TeamDesign[] teamDesign;
+        /// <summary>
+        /// 対称となるPictureBoxに描画します。
+        /// </summary>
         private PictureBox pictureBox;
         private Procon29_Logger procon29_Logger;
+        /// <summary>
+        /// 背景をどのように塗りつぶすか指定します。
+        /// </summary>
         private SolidBrush backGroundSolidBrush = new SolidBrush(Color.FromArgb(48, 48, 48));
+        /// <summary>
+        /// 選択したフィールドをどのように塗りつぶすか指定します。
+        /// </summary>
         private SolidBrush selectSolidBrush = new SolidBrush(Color.FromArgb(50, Color.DarkGray));
+        /// <summary>
+        /// クリックしたフィールドをどのように塗りつぶすか指定します。
+        /// </summary>
         private SolidBrush clickedSolidBrush = new SolidBrush(Color.FromArgb(100, Color.SkyBlue));
         private Font pointFont;
         private Point clickedField;       
         private const string pointFamilyName = "Impact";
-        private Team selectedTeam;
-        private Agent selectedAgent;
+        private (Team, Agent) selectedTeamAndAgent;
 
         internal Procon29_Calc Procon29_Calc { get => procon29_Calc; set => procon29_Calc = value; }
         internal TeamDesign[] TeamDesign { get => teamDesign; set => teamDesign = value; }
+        /// <summary>
+        /// 描画対称となるPictureBoxを設定または取得します。
+        /// </summary>
         public PictureBox PictureBox { get => pictureBox; set => pictureBox = value; }
+        /// <summary>
+        /// 背景をどのように塗りつぶすか設定または取得します。
+        /// </summary>
         public SolidBrush BackGroundSolidBrush { get => backGroundSolidBrush; set => backGroundSolidBrush = value; }
+        /// <summary>
+        /// 選択したフィールドをどのように塗りつぶすか設定または取得します。
+        /// </summary>
         public SolidBrush SelectSolidBrush { get => selectSolidBrush; set => selectSolidBrush = value; }
+        /// <summary>
+        /// クリックしたフィールドをどのように塗りつぶすか設定または取得します。
+        /// </summary>
         public SolidBrush ClickedSolidBrush { get => clickedSolidBrush; set => clickedSolidBrush = value; }
         public Font PointFont { get => pointFont; set => pointFont = value; }
         public static string PointFamilyName => pointFamilyName;
         public Point ClickedField { get => clickedField; set => clickedField = value; }
         internal Procon29_Logger Procon29_Logger { get => procon29_Logger; set => procon29_Logger = value; }
+        public (Team, Agent) SelectedTeamAndAgent { get => selectedTeamAndAgent; set => selectedTeamAndAgent = value; }
 
         /// <summary>
         /// Procon29_Showの初期化を行います。
@@ -226,15 +250,14 @@ namespace procon29_disp
                 ClickedField = new Point(
                     x: clickedFieldPoint.X,
                     y: clickedFieldPoint.Y);
-
-            for (int team = 0; team < 2; team++)
+            
+            foreach (Team team in Enum.GetValues(typeof(Team)))
             {
-                for (int agent = 0; agent < 2; agent++)
+                foreach (Agent agent in Enum.GetValues(typeof(Agent)))
                 {
-                    if (ClickedField == Procon29_Calc.AgentPosition[team, agent])
+                    if (ClickedField == Procon29_Calc.AgentPosition[(int)team, (int)agent])
                     {
-                        selectedTeam = (Team)team;
-                        selectedAgent = (Agent)agent;
+                        SelectedTeamAndAgent = (team, agent);
                     }
                 }
             }
@@ -254,7 +277,7 @@ namespace procon29_disp
         /// </summary>
         public void DoubleClickedShow()
         {
-            Procon29_Calc.MoveAgent(selectedTeam, selectedAgent, ClickedField);
+            Procon29_Calc.MoveAgent(SelectedTeamAndAgent.Item1, SelectedTeamAndAgent.Item2, ClickedField);
         }
 
         /// <summary>
