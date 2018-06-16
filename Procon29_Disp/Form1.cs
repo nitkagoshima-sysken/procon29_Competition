@@ -172,13 +172,29 @@ namespace procon29_disp
         /// <param name="e"></param>
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            var isAct = false;
+            var isAct = true;
             e.SuppressKeyPress = true;
             Console.WriteLine(e.KeyCode);
             try
             {
                 switch (e.KeyCode)
                 {
+                    case Keys.Q:
+                        isAct = false;
+                        show.SelectedTeamAndAgent = (Team.A, Agent.One);
+                        break;
+                    case Keys.W:
+                        isAct = false;
+                        show.SelectedTeamAndAgent = (Team.A, Agent.Two);
+                        break;
+                    case Keys.E:
+                        isAct = false;
+                        show.SelectedTeamAndAgent = (Team.B, Agent.One);
+                        break;
+                    case Keys.R:
+                        isAct = false;
+                        show.SelectedTeamAndAgent = (Team.B, Agent.Two);
+                        break;
                     case Keys.NumPad1:
                         procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.DownLeft);
                         break;
@@ -204,6 +220,7 @@ namespace procon29_disp
                         procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.UpRight);
                         break;
                     default:
+                        isAct = false;
                         e.SuppressKeyPress = false;
                         break;
                 }
@@ -217,7 +234,7 @@ namespace procon29_disp
                             (int)show.SelectedTeamAndAgent.Item1,
                             (int)show.SelectedTeamAndAgent.Item2]
                             .Y);
-                if (e.SuppressKeyPress)
+                if (isAct)
                 {
                     log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Direct Point: " + procon.DirectPoint(Team.A).ToString());
                     log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A Indirect Point: " + procon.IndirectPoint(Team.A).ToString());
