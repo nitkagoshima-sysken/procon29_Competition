@@ -95,6 +95,7 @@ namespace procon29_disp
     struct TurnData
     {
         private AgentActiveData[,] agentActiveData;
+        private Field[,] mapHistory;
         private string comment;
 
         /// <summary>
@@ -102,6 +103,7 @@ namespace procon29_disp
         /// </summary>
         public AgentActiveData[,] AgentActiveData { get => agentActiveData; set => agentActiveData = value; }
         /// <summary>
+        public Field[,] MapHistory { get => mapHistory; set => mapHistory = value; }
         /// コメントを設定または取得します。
         /// </summary>
         public string Comment { get => comment; set => comment = value; }
@@ -116,8 +118,9 @@ namespace procon29_disp
         private Field[,] fields = new Field[12, 12];
         private const string pointFamilyName = "Impact";
         private Point[,] agentPosition = new Point[2, 2];
-        public static readonly string[,] ShortTeamAgentName = new string[2, 2] { { "A1", "A2", }, { "B1", "B2", }, };
+        private static readonly string[,] shortTeamAgentName = new string[2, 2] { { "A1", "A2", }, { "B1", "B2", }, };
         private bool isVerticallySymmetrical, isHorizontallySymmetrical;
+        private List<TurnData> turnDatas = new List<TurnData>();
 
         /// <summary>
         /// Procon29_Calcを初期化します。
@@ -204,6 +207,8 @@ namespace procon29_disp
         public bool IsHorizontallySymmetrical { get => isHorizontallySymmetrical; private set => isHorizontallySymmetrical = value; }
 
         /// <summary>
+        public static string[,] ShortTeamAgentName => shortTeamAgentName;
+        internal List<TurnData> TurnDatas { get => turnDatas; set => turnDatas = value; }
         /// すべてのフィールドのポイントの和を計算します。
         /// </summary>
         /// <returns>すべてのフィールドのポイントの和</returns>
