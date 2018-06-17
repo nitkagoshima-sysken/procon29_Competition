@@ -302,14 +302,14 @@ namespace procon29_disp
         /// </summary>
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームが囲んだエリアのポイントの絶対値の合計</returns>
-        public int SurroundingPoint(Team team) => FieldList.Sum(x => ((x.IsClosed[(int)team] == true) ? Math.Abs(x.Point) : 0));
+        public int ClosedPoint(Team team) => FieldList.Sum(x => ((x.IsClosed[(int)team] == true) ? Math.Abs(x.Point) : 0));
 
         /// <summary>
         /// 指定したチームの合計ポイントを計算します。
         /// </summary>
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームの合計ポイント</returns>
-        public int TotalPoint(Team team) => AreaPoint(team) + SurroundingPoint(team);
+        public int TotalPoint(Team team) => AreaPoint(team) + ClosedPoint(team);
 
         /// <summary>
         /// マップが対称であるか規定内の大きさか判定します。
