@@ -445,7 +445,7 @@ namespace procon29_disp
         /// </summary>
         /// <param name="team">対象となるチーム</param>
         /// <param name="point">対象となるエージェント</param>
-        public void DestroyArea(Team team, Point point) => Field[point.X, point.Y].IsTileOn[(int)team] = false;
+        public void RemoveTile(Team team, Point point) => Field[point.X, point.Y].IsTileOn[(int)team] = false;
 
         /// <summary>
         /// 指定したところにエージェントが移動します。
@@ -479,7 +479,7 @@ namespace procon29_disp
                     movable = Map[where.X, where.Y].IsTileOn[otherteam];
                     if (movable)
                     {
-                        DestroyArea(team: (Team)otherteam, point: where);
+                        RemoveTile(team: (Team)otherteam, point: where);
                         CheckIndirectArea((Team)otherteam);
                         break;
                     }
