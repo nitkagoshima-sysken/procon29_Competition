@@ -39,7 +39,7 @@ namespace procon29_disp
     /// <summary>
     /// 競技フィールドにおける任意の1マスのデータ構造を表します。
     /// </summary>
-    public class Field
+    public class Cell
     {
         /// <summary>
         /// そのマスにおける、ポイントを表します。
@@ -96,7 +96,7 @@ namespace procon29_disp
         /// <summary>
         /// Fieldの初期化を行います。
         /// </summary>
-        public Field()
+        public Cell()
         {
             Point = 0;
             IsDirectArea = new bool[2];
@@ -142,7 +142,7 @@ namespace procon29_disp
         /// </summary>
         /// <param name="list">変換するリスト</param>
         /// <returns></returns>
-        public static Field[,] ListWithHeightAndWidthToFields(List<int> list)
+        public static Cell[,] ListWithHeightAndWidthToFields(List<int> list)
         {
             var height = list[0];
             var width = list[1];
@@ -158,12 +158,12 @@ namespace procon29_disp
         /// <param name="height">フィールドの高さ</param>
         /// <param name="width">フィールドの幅</param>
         /// <returns></returns>
-        public static Field[,] ListToFields(List<int> list, int height, int width)
+        public static Cell[,] ListToFields(List<int> list, int height, int width)
         {
-            var fields = new Field[height, width];
+            var fields = new Cell[height, width];
             for (int i = 0; i < list.Count; i++)
             {
-                fields[i / width, i % width] = new Field();
+                fields[i / width, i % width] = new Cell();
                 fields[i / width, i % width].Point = list[i];
             }
             return fields;
@@ -174,6 +174,6 @@ namespace procon29_disp
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static Field[,] CSVToFields(string str) => ListWithHeightAndWidthToFields(CSVtoList(str));
+        public static Cell[,] CSVToFields(string str) => ListWithHeightAndWidthToFields(CSVtoList(str));
     }
 }

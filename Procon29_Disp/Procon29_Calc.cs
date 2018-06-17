@@ -122,7 +122,7 @@ namespace procon29_disp
     struct TurnData
     {
         private AgentActiveData[,] agentActiveData;
-        private Field[,] mapHistory;
+        private Cell[,] mapHistory;
         private string comment;
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace procon29_disp
         /// <summary>
         /// ターン終了時のマップを設定または取得します。
         /// </summary>
-        public Field[,] MapHistory { get => mapHistory; set => mapHistory = value; }
+        public Cell[,] MapHistory { get => mapHistory; set => mapHistory = value; }
         
         /// <summary>
         /// コメントを設定または取得します。
@@ -147,7 +147,7 @@ namespace procon29_disp
     class Procon29_Calc
     {
         private int turn;
-        private Field[,] fields = new Field[12, 12];
+        private Cell[,] fields = new Cell[12, 12];
         private const string pointFamilyName = "Impact";
         private Point[,] agentPosition = new Point[2, 2];
         private static readonly string[,] shortTeamAgentName = new string[2, 2] { { "A1", "A2", }, { "B1", "B2", }, };
@@ -161,12 +161,12 @@ namespace procon29_disp
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>
         public Procon29_Calc(int[,] field, Point[,] initPosition)
         {
-            Fields = new Field[field.GetLength(1), field.GetLength(0)];
+            Fields = new Cell[field.GetLength(1), field.GetLength(0)];
             for (int y = 0; y < Height; y++)
             {
                 for (int x = 0; x < Width; x++)
                 {
-                    this.Fields[y, x] = new Field { Point = field[x, y] };
+                    this.Fields[y, x] = new Cell { Point = field[x, y] };
                     //Fields[y, x].IsDirectArea[0] = false;
                     //Fields[y, x].IsDirectArea[1] = false;
                     //Fields[y, x].IsIndirectArea[0] = true;
@@ -187,7 +187,7 @@ namespace procon29_disp
         /// <summary>
         /// フィールドのポイントの状態を設定または、取得します。
         /// </summary>
-        public Field[,] Map
+        public Cell[,] Map
         {
             set
             {
@@ -223,7 +223,7 @@ namespace procon29_disp
         /// <summary>
         /// フィールドを設定または取得します。
         /// </summary>
-        public Field[,] Fields { get => fields; set => fields = value; }
+        public Cell[,] Fields { get => fields; set => fields = value; }
 
         /// <summary>
         /// フィールドの幅を取得します。
@@ -246,11 +246,11 @@ namespace procon29_disp
         /// <summary>
         /// フィールドのリストを返します。
         /// </summary>
-        public List<Field> FieldList
+        public List<Cell> FieldList
         {
             get
             {
-                var list = new List<Field>();
+                var list = new List<Cell>();
                 foreach (var item in Fields)
                 {
                     list.Add(item);
