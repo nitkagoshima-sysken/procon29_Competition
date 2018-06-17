@@ -147,7 +147,7 @@ namespace procon29_disp
     class Procon29_Calc
     {
         private int turn;
-        private Cell[,] fields = new Cell[12, 12];
+        private Cell[,] field = new Cell[12, 12];
         private const string pointFamilyName = "Impact";
         private Point[,] agentPosition = new Point[2, 2];
         private static readonly string[,] shortTeamAgentName = new string[2, 2] { { "A1", "A2", }, { "B1", "B2", }, };
@@ -161,12 +161,12 @@ namespace procon29_disp
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>
         public Procon29_Calc(int[,] field, Point[,] initPosition)
         {
-            Fields = new Cell[field.GetLength(1), field.GetLength(0)];
+            Field = new Cell[field.GetLength(1), field.GetLength(0)];
             for (int y = 0; y < Height; y++)
             {
                 for (int x = 0; x < Width; x++)
                 {
-                    this.Fields[y, x] = new Cell { Point = field[x, y] };
+                    this.Field[y, x] = new Cell { Point = field[x, y] };
                     //Fields[y, x].IsDirectArea[0] = false;
                     //Fields[y, x].IsDirectArea[1] = false;
                     //Fields[y, x].IsIndirectArea[0] = true;
@@ -191,10 +191,10 @@ namespace procon29_disp
         {
             set
             {
-                Fields = value;
+                Field = value;
                 PointMapCheck();
             }
-            get { return Fields; }
+            get { return Field; }
         }
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace procon29_disp
         /// <summary>
         /// フィールドを設定または取得します。
         /// </summary>
-        public Cell[,] Fields { get => fields; set => fields = value; }
+        public Cell[,] Field { get => field; set => field = value; }
 
         /// <summary>
         /// フィールドの幅を取得します。
@@ -251,7 +251,7 @@ namespace procon29_disp
             get
             {
                 var list = new List<Cell>();
-                foreach (var item in Fields)
+                foreach (var item in Field)
                 {
                     list.Add(item);
                 }
@@ -316,7 +316,7 @@ namespace procon29_disp
         /// </summary>
         public void PointMapCheck()
         {
-            if (Fields.GetLength(0) > 12 || Fields.GetLength(1) > 12) ;
+            if (Field.GetLength(0) > 12 || Field.GetLength(1) > 12) ;
             //message += "[Error] 'field' was not declare array smaller than 12 * 12" + "\n";
             IsHorizontallySymmetrical = HorizontallySymmetricalCheck();
             IsVerticallySymmetrical = VerticallySymmetricalCheck();
@@ -328,11 +328,11 @@ namespace procon29_disp
         /// <returns>上下対称なら真、そうでなければ偽が返ってきます。</returns>
         private bool VerticallySymmetricalCheck()
         {
-            for (int i = 0; i < Fields.GetLength(1); i++)
+            for (int i = 0; i < Field.GetLength(1); i++)
             {
-                for (int j = 0; j < Fields.GetLength(0) / 2; j++)
+                for (int j = 0; j < Field.GetLength(0) / 2; j++)
                 {
-                    if (Fields[i, j].Point != Fields[(Fields.GetLength(0) - 1) - i, j].Point) return false;
+                    if (Field[i, j].Point != Field[(Field.GetLength(0) - 1) - i, j].Point) return false;
                 }
             }
             return true;
@@ -344,11 +344,11 @@ namespace procon29_disp
         /// <returns>左右対称なら真、そうでなければ偽が返ってきます。</returns>
         private bool HorizontallySymmetricalCheck()
         {
-            for (int j = 0; j < Fields.GetLength(0); j++)
+            for (int j = 0; j < Field.GetLength(0); j++)
             {
-                for (int i = 0; i < Fields.GetLength(1) / 2; i++)
+                for (int i = 0; i < Field.GetLength(1) / 2; i++)
                 {
-                    if (Fields[i, j].Point != Fields[i, (Fields.GetLength(1) - 1) - j].Point) return false;
+                    if (Field[i, j].Point != Field[i, (Field.GetLength(1) - 1) - j].Point) return false;
                 }
             }
             return true;
@@ -431,7 +431,7 @@ namespace procon29_disp
         /// </summary>
         /// <param name="team">対象となるチーム</param>
         /// <param name="agent">対象となるエージェント</param>
-        public void MakeArea(Team team, Agent agent) => Fields[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsTileOn[(int)team] = true;
+        public void MakeArea(Team team, Agent agent) => Field[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsTileOn[(int)team] = true;
 
         /// <summary>
         /// 自分のフィールドにタイルを置きます。
@@ -445,7 +445,7 @@ namespace procon29_disp
         /// </summary>
         /// <param name="team">対象となるチーム</param>
         /// <param name="point">対象となるエージェント</param>
-        public void DestroyArea(Team team, Point point) => Fields[point.X, point.Y].IsTileOn[(int)team] = false;
+        public void DestroyArea(Team team, Point point) => Field[point.X, point.Y].IsTileOn[(int)team] = false;
 
         /// <summary>
         /// 指定したところにエージェントが移動します。

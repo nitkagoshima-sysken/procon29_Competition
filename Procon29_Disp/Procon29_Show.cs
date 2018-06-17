@@ -113,16 +113,16 @@ namespace procon29_disp
         /// <returns></returns>
         public Bitmap MakePictureBox(PictureBox pictureBox, Bitmap canvas, Graphics graphics)
         {
-            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Fields.GetLength(0);
-            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.Fields.GetLength(1);
+            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Field.GetLength(0);
+            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.Field.GetLength(1);
 
             PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 2.0f);
-            for (int y = 0; y < Procon29_Calc.Fields.GetLength(0); y++)
+            for (int y = 0; y < Procon29_Calc.Field.GetLength(0); y++)
             {
-                for (int x = 0; x < Procon29_Calc.Fields.GetLength(1); x++)
+                for (int x = 0; x < Procon29_Calc.Field.GetLength(1); x++)
                 {
                     //背景色の表示
-                    if (!Procon29_Calc.Fields[x, y].IsTileOn[(int)Team.A] && !Procon29_Calc.Fields[x, y].IsTileOn[(int)Team.B])
+                    if (!Procon29_Calc.Field[x, y].IsTileOn[(int)Team.A] && !Procon29_Calc.Field[x, y].IsTileOn[(int)Team.B])
                         graphics.FillRectangle(
                         brush: BackGroundSolidBrush,
                         x: x * fieldWidth,
@@ -130,7 +130,7 @@ namespace procon29_disp
                         width: fieldWidth,
                         height: fieldHeight);
                     //囲み領域の表示
-                    if (Procon29_Calc.Fields[x, y].IsSurrounded[(int)Team.A] && Procon29_Calc.Fields[x, y].IsSurrounded[(int)Team.B])
+                    if (Procon29_Calc.Field[x, y].IsSurrounded[(int)Team.A] && Procon29_Calc.Field[x, y].IsSurrounded[(int)Team.B])
                     {
                         graphics.FillRectangle(
                             brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[1].AgentColor),
@@ -145,14 +145,14 @@ namespace procon29_disp
                             width: fieldWidth / 2,
                             height: fieldHeight);
                     }
-                    else if (Procon29_Calc.Fields[x, y].IsSurrounded[(int)Team.A])
+                    else if (Procon29_Calc.Field[x, y].IsSurrounded[(int)Team.A])
                         graphics.FillRectangle(
                             brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[0].AgentColor),
                             x: x * fieldWidth,
                             y: y * fieldHeight,
                             width: fieldWidth,
                             height: fieldHeight);
-                    else if (Procon29_Calc.Fields[x, y].IsSurrounded[(int)Team.B])
+                    else if (Procon29_Calc.Field[x, y].IsSurrounded[(int)Team.B])
                         graphics.FillRectangle(
                             brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[1].AgentColor),
                             x: x * fieldWidth,
@@ -162,7 +162,7 @@ namespace procon29_disp
                     // タイルの色表示
                     for (int i = 0; i < 2; i++)
                     {
-                        if (Procon29_Calc.Fields[x, y].IsTileOn[i])
+                        if (Procon29_Calc.Field[x, y].IsTileOn[i])
                             graphics.FillRectangle(
                             brush: new SolidBrush(TeamDesign[i].AgentColor),
                             x: x * fieldWidth,
@@ -208,7 +208,7 @@ namespace procon29_disp
             Point selectedFieldPoint = new Point(
                 x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
                 y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
-            if ((selectedFieldPoint.X < Procon29_Calc.Fields.GetLength(1)) && (selectedFieldPoint.Y < Procon29_Calc.Fields.GetLength(0)))
+            if ((selectedFieldPoint.X < Procon29_Calc.Field.GetLength(1)) && (selectedFieldPoint.Y < Procon29_Calc.Field.GetLength(0)))
                 graphics.FillRectangle(
                     brush: SelectSolidBrush,
                     x: selectedFieldPoint.X * fieldWidth,
@@ -252,8 +252,8 @@ namespace procon29_disp
         /// <param name="pictureBox">表示するPictureBoxを指定します</param>
         public void ClickedShow(PictureBox pictureBox)
         {
-            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Fields.GetLength(0);
-            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.Fields.GetLength(1);
+            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Field.GetLength(0);
+            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.Field.GetLength(1);
 
             //描画先とするImageオブジェクトを作成する
             Bitmap canvas = new Bitmap(((pictureBox.Width <= 0) ? 1 : pictureBox.Width), ((pictureBox.Height <= 0) ? 1 : pictureBox.Height));
@@ -265,7 +265,7 @@ namespace procon29_disp
             Point clickedFieldPoint = new Point(
                 x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
                 y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
-            if ((clickedFieldPoint.X < Procon29_Calc.Fields.GetLength(1)) && (clickedFieldPoint.Y < Procon29_Calc.Fields.GetLength(0)))
+            if ((clickedFieldPoint.X < Procon29_Calc.Field.GetLength(1)) && (clickedFieldPoint.Y < Procon29_Calc.Field.GetLength(0)))
                 ClickedField = new Point(
                     x: clickedFieldPoint.X,
                     y: clickedFieldPoint.Y);
@@ -305,8 +305,8 @@ namespace procon29_disp
         /// <returns></returns>
         public Point CursorPosition(PictureBox pictureBox)
         {
-            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Fields.GetLength(0);
-            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.Fields.GetLength(1);
+            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Field.GetLength(0);
+            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.Field.GetLength(1);
             System.Drawing.Point systemCursorPosition = System.Windows.Forms.Cursor.Position;
             System.Drawing.Point pictureBoxCursorPosition = pictureBox.PointToClient(systemCursorPosition);
             return new Point(
