@@ -107,10 +107,10 @@ namespace procon29_disp
         {
             show.DoubleClickedShow();
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Direct Point: " + procon.AreaPoint(Team.A).ToString());
-            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A Indirect Point: " + procon.IndirectPoint(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A Indirect Point: " + procon.SurroundingPoint(Team.A).ToString());
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A    Total Point: " + procon.TotalPoint(Team.A).ToString());
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Direct Point: " + procon.AreaPoint(Team.B).ToString());
-            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B Indirect Point: " + procon.IndirectPoint(Team.B).ToString());
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B Indirect Point: " + procon.SurroundingPoint(Team.B).ToString());
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B    Total Point: " + procon.TotalPoint(Team.B).ToString());
         }
 
@@ -246,10 +246,10 @@ namespace procon29_disp
                 if (isAct)
                 {
                     log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Direct Point: " + procon.AreaPoint(Team.A).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A Indirect Point: " + procon.IndirectPoint(Team.A).ToString());
+                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A Indirect Point: " + procon.SurroundingPoint(Team.A).ToString());
                     log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A    Total Point: " + procon.TotalPoint(Team.A).ToString());
                     log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Direct Point: " + procon.AreaPoint(Team.B).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B Indirect Point: " + procon.IndirectPoint(Team.B).ToString());
+                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B Indirect Point: " + procon.SurroundingPoint(Team.B).ToString());
                     log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B    Total Point: " + procon.TotalPoint(Team.B).ToString());
                 }
             }
