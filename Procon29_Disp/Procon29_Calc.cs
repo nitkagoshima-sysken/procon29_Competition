@@ -179,7 +179,7 @@ namespace procon29_disp
                 for (int a = 0; a < 2; a++)
                 {
                     AgentPosition[t, a] = initPosition[t, a];
-                    MakeArea(team: t, agent: a);
+                    PutTile(team: t, agent: a);
                 }
             }            
         }
@@ -431,14 +431,14 @@ namespace procon29_disp
         /// </summary>
         /// <param name="team">対象となるチーム</param>
         /// <param name="agent">対象となるエージェント</param>
-        public void MakeArea(Team team, Agent agent) => Field[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsTileOn[(int)team] = true;
+        public void PutTile(Team team, Agent agent) => Field[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsTileOn[(int)team] = true;
 
         /// <summary>
         /// 自分のフィールドにタイルを置きます。
         /// </summary>
         /// <param name="team">対象となるチーム</param>
         /// <param name="agent">対象となるエージェント</param>
-        public void MakeArea(int team, int agent) => MakeArea((Team)team, (Agent)agent);
+        public void PutTile(int team, int agent) => PutTile((Team)team, (Agent)agent);
 
         /// <summary>
         /// 相手のフィールドに置いてあるタイルを破壊します。
@@ -488,7 +488,7 @@ namespace procon29_disp
             if (!movable)
             {
                 AgentPosition[(int)team, (int)agent] = where;
-                MakeArea(team: team, agent: agent);
+                PutTile(team: team, agent: agent);
             }
 
             CheckIndirectArea(team);
