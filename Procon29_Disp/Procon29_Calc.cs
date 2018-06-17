@@ -295,7 +295,7 @@ namespace procon29_disp
         /// </summary>
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームの直接的なエリアのポイントの合計</returns>
-        public int DirectPoint(Team team) => FieldList.Sum(x => ((x.IsTileOn[(int)team] == true) ? x.Point : 0));
+        public int AreaPoint(Team team) => FieldList.Sum(x => ((x.IsTileOn[(int)team] == true) ? x.Point : 0));
 
         /// <summary>
         /// 指定したチームが囲んだエリアのポイントの絶対値の合計を計算します。
@@ -309,7 +309,7 @@ namespace procon29_disp
         /// </summary>
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームの合計ポイント</returns>
-        public int TotalPoint(Team team) => DirectPoint(team) + IndirectPoint(team);
+        public int TotalPoint(Team team) => AreaPoint(team) + IndirectPoint(team);
 
         /// <summary>
         /// マップが対称であるか規定内の大きさか判定します。
