@@ -130,7 +130,7 @@ namespace procon29_disp
                         width: fieldWidth,
                         height: fieldHeight);
                     //囲み領域の表示
-                    if (Procon29_Calc.Field[x, y].IsSurrounded[(int)Team.A] && Procon29_Calc.Field[x, y].IsSurrounded[(int)Team.B])
+                    if (Procon29_Calc.Field[x, y].IsClosed[(int)Team.A] && Procon29_Calc.Field[x, y].IsClosed[(int)Team.B])
                     {
                         graphics.FillRectangle(
                             brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[1].AgentColor),
@@ -145,14 +145,14 @@ namespace procon29_disp
                             width: fieldWidth / 2,
                             height: fieldHeight);
                     }
-                    else if (Procon29_Calc.Field[x, y].IsSurrounded[(int)Team.A])
+                    else if (Procon29_Calc.Field[x, y].IsClosed[(int)Team.A])
                         graphics.FillRectangle(
                             brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[0].AgentColor),
                             x: x * fieldWidth,
                             y: y * fieldHeight,
                             width: fieldWidth,
                             height: fieldHeight);
-                    else if (Procon29_Calc.Field[x, y].IsSurrounded[(int)Team.B])
+                    else if (Procon29_Calc.Field[x, y].IsClosed[(int)Team.B])
                         graphics.FillRectangle(
                             brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[1].AgentColor),
                             x: x * fieldWidth,

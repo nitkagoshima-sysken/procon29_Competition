@@ -302,7 +302,7 @@ namespace procon29_disp
         /// </summary>
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームが囲んだエリアのポイントの絶対値の合計</returns>
-        public int SurroundingPoint(Team team) => FieldList.Sum(x => ((x.IsSurrounded[(int)team] == true) ? Math.Abs(x.Point) : 0));
+        public int SurroundingPoint(Team team) => FieldList.Sum(x => ((x.IsClosed[(int)team] == true) ? Math.Abs(x.Point) : 0));
 
         /// <summary>
         /// 指定したチームの合計ポイントを計算します。
@@ -384,9 +384,9 @@ namespace procon29_disp
                 point = stack.Pop();
                 if (IsFillable(team, point)) //make sure we stay within bounds
                 {
-                    if (Map[point.X, point.Y].IsSurrounded[team] == true)
+                    if (Map[point.X, point.Y].IsClosed[team] == true)
                     {
-                        Map[point.X, point.Y].IsSurrounded[team] = false;
+                        Map[point.X, point.Y].IsClosed[team] = false;
                         stack.Push(new Point(point.X - 1, point.Y));
                         stack.Push(new Point(point.X + 1, point.Y));
                         stack.Push(new Point(point.X, point.Y - 1));
@@ -405,7 +405,7 @@ namespace procon29_disp
         {
             foreach (var item in Map)
             {
-                item.IsSurrounded[(int)team] = true;
+                item.IsClosed[(int)team] = true;
             }
 
             for (int x = 0; x < Width; x++)
@@ -496,8 +496,8 @@ namespace procon29_disp
             Turn++;
             foreach (var item in Map)
             {
-                if (item.IsTileOn[0]) item.IsSurrounded[0] = false;
-                if (item.IsTileOn[1]) item.IsSurrounded[1] = false;
+                if (item.IsTileOn[0]) item.IsClosed[0] = false;
+                if (item.IsTileOn[1]) item.IsClosed[1] = false;
             }
         }
     }
