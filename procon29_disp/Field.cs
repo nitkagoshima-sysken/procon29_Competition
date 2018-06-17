@@ -53,7 +53,7 @@ namespace procon29_disp
         /// <code>isArea[1]</code>で後攻チームのタイルが置かれているかを表します。
         /// </summary>
         private bool[] isTileOn;
-        private bool[] isIndirectArea;
+        private bool[] isSurrounded;
         private bool[] isAreaCheck;
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace procon29_disp
         /// <summary>
         /// そのマスがタイルに囲まれているかを表します。
         /// </summary>
-        public bool[] IsIndirectArea { get => isIndirectArea; set => isIndirectArea = value; }
+        public bool[] IsSurrounded { get => isSurrounded; set => isSurrounded = value; }
         /// <summary>
         /// そのマスの囲み判定が行われたかを表します。
         /// </summary>
@@ -100,7 +100,7 @@ namespace procon29_disp
         {
             Point = 0;
             IsTileOn = new bool[2];
-            IsIndirectArea = new bool[2];
+            IsSurrounded = new bool[2];
             IsAreaCheck = new bool[2];
         }
 
