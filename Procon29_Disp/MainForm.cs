@@ -320,5 +320,11 @@ namespace procon29_disp
                 }
             }
         }
+
+        private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CreateNewForm f = new CreateNewForm();
+            f.ShowDialog(this);
+        }
     }
 }

@@ -15,6 +15,10 @@ namespace procon29_disp
         public CreateNewForm()
         {
             InitializeComponent();
+            //フォームが最大化されないようにする
+            this.MaximizeBox = false;
+            //フォームが最小化されないようにする
+            this.MinimizeBox = false;
         }
     }
 }
