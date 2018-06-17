@@ -122,7 +122,7 @@ namespace procon29_disp
                 for (int x = 0; x < Procon29_Calc.Fields.GetLength(1); x++)
                 {
                     //背景色の表示
-                    if (!Procon29_Calc.Fields[x, y].IsDirectArea[(int)Team.A] && !Procon29_Calc.Fields[x, y].IsDirectArea[(int)Team.B])
+                    if (!Procon29_Calc.Fields[x, y].IsTileOn[(int)Team.A] && !Procon29_Calc.Fields[x, y].IsTileOn[(int)Team.B])
                         graphics.FillRectangle(
                         brush: BackGroundSolidBrush,
                         x: x * fieldWidth,
@@ -162,7 +162,7 @@ namespace procon29_disp
                     // タイルの色表示
                     for (int i = 0; i < 2; i++)
                     {
-                        if (Procon29_Calc.Fields[x, y].IsDirectArea[i])
+                        if (Procon29_Calc.Fields[x, y].IsTileOn[i])
                             graphics.FillRectangle(
                             brush: new SolidBrush(TeamDesign[i].AgentColor),
                             x: x * fieldWidth,

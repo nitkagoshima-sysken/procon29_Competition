@@ -295,7 +295,7 @@ namespace procon29_disp
         /// </summary>
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームの直接的なエリアのポイントの合計</returns>
-        public int DirectPoint(Team team) => FieldList.Sum(x => ((x.IsDirectArea[(int)team] == true) ? x.Point : 0));
+        public int DirectPoint(Team team) => FieldList.Sum(x => ((x.IsTileOn[(int)team] == true) ? x.Point : 0));
 
         /// <summary>
         /// 指定したチームが囲んだエリアのポイントの絶対値の合計を計算します。
@@ -360,7 +360,7 @@ namespace procon29_disp
         /// <param name="team">対象となるチーム</param>
         /// <param name="point">対象となるフィールド</param>
         /// <returns>そのフィールドが塗れるなら真、そうでなければ偽が返ってきます。</returns>
-        bool IsFillable(int team, Point point) => 0 <= point.X && point.X < Width && 0 <= point.Y && point.Y < Height && !Map[point.X, point.Y].IsDirectArea[team];
+        bool IsFillable(int team, Point point) => 0 <= point.X && point.X < Width && 0 <= point.Y && point.Y < Height && !Map[point.X, point.Y].IsTileOn[team];
 
         /// <summary>
         /// 指定したフィールドを基準にIsIndirectAreaをfalseで塗りつぶします。
@@ -431,7 +431,7 @@ namespace procon29_disp
         /// </summary>
         /// <param name="team">対象となるチーム</param>
         /// <param name="agent">対象となるエージェント</param>
-        public void MakeArea(Team team, Agent agent) => Fields[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsDirectArea[(int)team] = true;
+        public void MakeArea(Team team, Agent agent) => Fields[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsTileOn[(int)team] = true;
 
         /// <summary>
         /// 自分のフィールドにタイルを置きます。
@@ -445,7 +445,7 @@ namespace procon29_disp
         /// </summary>
         /// <param name="team">対象となるチーム</param>
         /// <param name="point">対象となるエージェント</param>
-        public void DestroyArea(Team team, Point point) => Fields[point.X, point.Y].IsDirectArea[(int)team] = false;
+        public void DestroyArea(Team team, Point point) => Fields[point.X, point.Y].IsTileOn[(int)team] = false;
 
         /// <summary>
         /// 指定したところにエージェントが移動します。
@@ -476,7 +476,7 @@ namespace procon29_disp
             {
                 if (otherteam != (int)team)
                 {
-                    movable = Map[where.X, where.Y].IsDirectArea[otherteam];
+                    movable = Map[where.X, where.Y].IsTileOn[otherteam];
                     if (movable)
                     {
                         DestroyArea(team: (Team)otherteam, point: where);
@@ -496,8 +496,8 @@ namespace procon29_disp
             Turn++;
             foreach (var item in Map)
             {
-                if (item.IsDirectArea[0]) item.IsIndirectArea[0] = false;
-                if (item.IsDirectArea[1]) item.IsIndirectArea[1] = false;
+                if (item.IsTileOn[0]) item.IsIndirectArea[0] = false;
+                if (item.IsTileOn[1]) item.IsIndirectArea[1] = false;
             }
         }
     }

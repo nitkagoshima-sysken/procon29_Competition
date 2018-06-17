@@ -154,8 +154,8 @@ namespace procon29_disp
                         toolStripStatusLabel1.ForeColor = teamDesigns[1].AgentColor;
                     }
                     // タイルがおかれているか判定
-                    if (f.IsDirectArea[0]) toolStripStatusLabel1.ForeColor = teamDesigns[0].AgentColor;
-                    else if (f.IsDirectArea[1]) toolStripStatusLabel1.ForeColor = teamDesigns[1].AgentColor;
+                    if (f.IsTileOn[0]) toolStripStatusLabel1.ForeColor = teamDesigns[0].AgentColor;
+                    else if (f.IsTileOn[1]) toolStripStatusLabel1.ForeColor = teamDesigns[1].AgentColor;
                     else if ((!f.IsIndirectArea[0] && !f.IsIndirectArea[1])) toolStripStatusLabel1.ForeColor = Color.LightGray;
                 }
             }

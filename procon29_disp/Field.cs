@@ -52,7 +52,7 @@ namespace procon29_disp
         /// <code>isArea[0]</code>で先攻チームのタイルが置かれているかを表します。
         /// <code>isArea[1]</code>で後攻チームのタイルが置かれているかを表します。
         /// </summary>
-        private bool[] isDirectArea;
+        private bool[] isTileOn;
         private bool[] isIndirectArea;
         private bool[] isAreaCheck;
 
@@ -83,7 +83,7 @@ namespace procon29_disp
         /// <summary>
         /// そのマスにタイルが置かれているかを表します。
         /// </summary>
-        public bool[] IsDirectArea { get => isDirectArea; set => isDirectArea = value; }
+        public bool[] IsTileOn { get => isTileOn; set => isTileOn = value; }
         /// <summary>
         /// そのマスがタイルに囲まれているかを表します。
         /// </summary>
@@ -99,7 +99,7 @@ namespace procon29_disp
         public Cell()
         {
             Point = 0;
-            IsDirectArea = new bool[2];
+            IsTileOn = new bool[2];
             IsIndirectArea = new bool[2];
             IsAreaCheck = new bool[2];
         }
