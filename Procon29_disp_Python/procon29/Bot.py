@@ -15,7 +15,7 @@ class FakeBot():
         temp = -10
         temp_pos = 0
         for i in range(len(agent.movable)):
-            x, y = int(agent.movable[i]/1000)-1, agent.movable[i]%1000-1
+            x, y = int(agent.movable[i]/100)-1, agent.movable[i]%100-1
             if temp < self.filed_point[y][x] and agent.movable[i] not in agent_data.GetPosition and agent.movable[i] not in enow:
                 temp_pos = agent.movable[i]
                 temp = self.filed_point[y][x]

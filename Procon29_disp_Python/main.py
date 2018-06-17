@@ -9,6 +9,7 @@ import os
 import wx
 import hashlib
 import sys
+import win32con
 
 wxId = {wx.ID_OK:0,
         wx.ID_CANCEL:1}
@@ -105,16 +106,16 @@ def createbutton(text):
     agent_data.append(procon29.Agent.AgentData('red', log, field[0].point))
     agent1_y, agent1_x = map(int,text[field[0].y+1].strip().split(' '))
     agent2_y, agent2_x = map(int,text[field[0].y+2].strip().split(' '))
-    blue_flags.next[0], blue_flags.next[1]= (agent1_x)*1000+(agent1_y), (agent2_x)*1000+(agent2_y)
+    blue_flags.next[0], blue_flags.next[1]= (agent1_x)*100+(agent1_y), (agent2_x)*100+(agent2_y)
     field_type = field[0].FieldTypeAnalysis()
     if field_type == 0:
-        red_flags.next[0], red_flags.next[1]= (field[0].x-agent1_x+1)*1000+(field[0].y-agent2_y+1), (field[0].x-agent2_x+1)*1000+(field[0].y-agent1_y+1)
+        red_flags.next[0], red_flags.next[1]= (field[0].x-agent1_x+1)*100+(field[0].y-agent2_y+1), (field[0].x-agent2_x+1)*100+(field[0].y-agent1_y+1)
         log.LogWrite('Field type: VERTICAL&HORIZONTAL\n', logtype=procon29.GAME_LOG)
     elif field_type == -1:
-        red_flags.next[0], red_flags.next[1]= (agent1_x)*1000+(field[0].y-agent1_y+1), (agent2_x)*1000+(field[0].y-agent2_y+1)
+        red_flags.next[0], red_flags.next[1]= (agent1_x)*100+(field[0].y-agent1_y+1), (agent2_x)*100+(field[0].y-agent2_y+1)
         log.LogWrite('Field type: HORIZONTAL\n', logtype=procon29.GAME_LOG)
     elif field_type == 1:
-        red_flags.next[0], red_flags.next[1]= (field[0].x-agent1_x+1)*1000+(agent1_y), (field[0].x-agent2_x+1)*1000+(agent2_y)
+        red_flags.next[0], red_flags.next[1]= (field[0].x-agent1_x+1)*100+(agent1_y), (field[0].x-agent2_x+1)*100+(agent2_y)
         log.LogWrite('Field type: VERTICAL\n', logtype=procon29.GAME_LOG)
     agent.append(procon29.Agent.Agent(blue_flags.next[0], field[0].field_out, log, 'blue'))
     agent.append(procon29.Agent.Agent(blue_flags.next[1], field[0].field_out, log, 'blue'))
@@ -144,10 +145,10 @@ def turnendfunc():
         for j in range(2):
             if blue_flags.next[i] == red_flags.next[j]:
                 overlaperror = wx.MessageDialog(None, '行動対象の座標が重なりました。双方移動できません({},{})'\
-                                            .format(int(blue_flags.next[i]/1000), blue_flags.next[i]%1000))
+                                            .format(int(blue_flags.next[i]/100), blue_flags.next[i]%100))
                 overlaperror.ShowModal()
                 overlaperror.Destroy()
-                log.LogWrite('Overlap ({},{})'.format(int(blue_flags.next[i]/1000), blue_flags.next[i]%1000))
+                log.LogWrite('Overlap ({},{})'.format(int(blue_flags.next[i]/100), blue_flags.next[i]%100))
                 agent[i].next[1] = 0
                 agent[j+2].next[1] = 0
     field[0].MovableColoring(agent_data[1], (agent[2], agent[3]), clear=True)
@@ -261,7 +262,7 @@ def Menu_handler(event):
         bluepoint_text = wx.StaticText(panel, -1, '青\n取得済み得点:0 \n領域得点:0', style=wx.SIMPLE_BORDER, pos=(0,51))
         redpoint_text = wx.StaticText(panel, -1, '赤\n取得済み得点:0 \n領域得点:0', style=wx.SIMPLE_BORDER, pos=(0,99))
         log.LogWrite('Clear All\n')
-    elif Id_num == 13:
+    elif Id_num == procon29.EXIT:
         log.LogWrite('Quit Program\n', logtype=procon29.SYSTEM_LOG)
         sys.exit(0)
     elif Id_num == 14:
@@ -329,6 +330,7 @@ def Button_handler(event):
     global load_file_flag
     global step_end
     global debag_flag
+    print(event.GetEventType)
     Id_num = event.GetId()
     if debag_flag:
         move([agent[0], agent[1]], agent_data[0], blue_flags, (agent[2], agent[3]), Id_num)
@@ -359,8 +361,8 @@ def Button_handler(event):
             if (Id_num in agent[0].movable or Id_num in agent[1].movable) and Id_num not in (agent[2].now, agent[3].now):
                 move([agent[0], agent[1]], agent_data[0], blue_flags, (agent[2], agent[3]), Id_num)
             else:
-                log.LogWrite('Can not move position ({},{})\n'.format(int(Id_num/1000), Id_num%1000), logtype=procon29.ERROR)
-                errordialog = wx.MessageDialog(None, '移動できない地点です ({0},{1})'.format(int(Id_num/1000), Id_num%1000), '移動可能エリア外',style=wx.ICON_EXCLAMATION)
+                log.LogWrite('Can not move position ({},{})\n'.format(int(Id_num/100), Id_num%100), logtype=procon29.ERROR)
+                errordialog = wx.MessageDialog(None, '移動できない地点です ({0},{1})'.format(int(Id_num/100), Id_num%100), '移動可能エリア外',style=wx.ICON_EXCLAMATION)
                 errordialog.ShowModal()
                 errordialog.Destroy()
     else:
@@ -399,8 +401,8 @@ def Button_handler(event):
             elif (Id_num in agent[2].movable or Id_num in agent[3].movable) and Id_num not in (agent[0].now, agent[1].now) and blue_flags.end:
                 move([agent[2], agent[3]], agent_data[1], red_flags, (agent[0], agent[1]), Id_num)
             else:
-                log.LogWrite('Can not move position ({},{})\n'.format(int(Id_num/1000), Id_num%1000), logtype=procon29.ERROR)
-                errordialog = wx.MessageDialog(None, '移動できない地点です ({0},{1})'.format(int(Id_num/1000), Id_num%1000), '移動可能エリア外',style=wx.ICON_EXCLAMATION)
+                log.LogWrite('Can not move position ({},{})\n'.format(int(Id_num/100), Id_num%100), logtype=procon29.ERROR)
+                errordialog = wx.MessageDialog(None, '移動できない地点です ({0},{1})'.format(int(Id_num/100), Id_num%100), '移動可能エリア外',style=wx.ICON_EXCLAMATION)
                 errordialog.ShowModal()
                 errordialog.Destroy()
     
@@ -462,6 +464,7 @@ color_select.Disable()
 start = wx.Button(panel, 200, 'スタート', size=(80,50))
 start.Disable()
 cancel = wx.Button(panel, 201, 'キャンセル', size=(80,50))
+panel.RegisterHotKey(201, win32con.MOD_ALT, win32con.VK_F1)
 turn_end = wx.Button(panel, 202, 'ターンエンド',size=(80,50))
 layout = wx.BoxSizer(wx.HORIZONTAL)
 layout.Add(mode_select, border=10)
@@ -491,7 +494,7 @@ file_menu = wx.Menu()
 open_file = wx.MenuItem(file_menu, 10, 'ファイルを開く')
 start_game = wx.MenuItem(file_menu, 11, 'ゲームスタート')
 clear_disp = wx.MenuItem(file_menu, 12, '画面クリア')
-exit_app = wx.MenuItem(file_menu, 13, '終了')
+exit_app = wx.MenuItem(file_menu, procon29.EXIT, '終了')
 debag_mode = wx.MenuItem(file_menu, 14, 'デバッグモード')
 file_menu.Append(open_file)
 file_menu.Append(start_game)
@@ -507,6 +510,7 @@ frame.SetMenuBar(menu_bar)
 
 frame.Bind(wx.EVT_MENU, Menu_handler)
 frame.Bind(wx.EVT_BUTTON, Button_handler)
+frame.Bind(wx.EVT_HOTKEY, Button_handler)
 frame.Bind(wx.EVT_RADIOBOX, Radio_handler)
 frame.Bind(wx.EVT_CHECKLISTBOX, check_handler)
 
