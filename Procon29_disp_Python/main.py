@@ -3,12 +3,15 @@
 from pyzbar.pyzbar import decode
 from PIL import Image
 from wx import adv
+
 import configparser as config
+
 import procon29
 import os
 import wx
 import hashlib
 import sys
+
 import win32con
 
 wxId = {wx.ID_OK:0,
@@ -84,12 +87,14 @@ def FiledClear():
     redpoint_text = wx.StaticText(panel, -1, '赤\n取得済み得点:0 \n領域得点:0', style=wx.SIMPLE_BORDER, pos=(0,99))
     log.LogWrite('Clear All\n')
 
+
 def GameEndCheck():
     global nowturn
     global turn
     if turn == nowturn:
         return True
     
+
 def col_func(blue_red, turn_exit):
     if col_check_blue[0] and blue_red:
         field[0].Coloring(agent_data[0], (agent[0], agent[1]), out_now=col_check_blue[0])
@@ -138,12 +143,14 @@ def createbutton(text):
     agent[1].TurnSet(agent_data[1].GetPosition)
     agent[2].TurnSet(agent_data[0].GetPosition)
     agent[3].TurnSet(agent_data[0].GetPosition)
+
     if modes.auto:
         modes.AutoSet(log, field[0], [agent[2], agent[3]], red_flags)
     bluepoint_text.SetLabel('青\n取得済み得点:{} \n領域得点:{}'\
                                 .format(agent_data[0].Point, agent_data[0].TerritoryPoint))
     redpoint_text.SetLabel('赤\n取得済み得点:{} \n領域得点:{}'\
                                 .format(agent_data[1].Point, agent_data[1].TerritoryPoint))
+
     col_func(True, False)
     col_func(False, True)
 
@@ -291,6 +298,7 @@ def Menu_handler(event):
         log.LogWrite('Open about info\n', logtype=procon29.SYSTEM_LOG)
         info = adv.AboutDialogInfo()
         info.SetName('PPAP -Procon29 Python Application Project-')
+
         info.SetVersion('1.5.1')
         info.SetCopyright('Copyright (c) 2018 Glaz egy.')
         adv.AboutBox(info)
