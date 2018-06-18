@@ -260,9 +260,7 @@ paket-files/
 __pycache__/
 *.pyc
 
-Procon29_Disp/Resources/
-
 *.ico
-
+*.png
 *.tds
 *.pqr
