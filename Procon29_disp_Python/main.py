@@ -73,6 +73,17 @@ class Modes():
         self.bot = [procon29.Bot.FakeBot(log, field, agent[0].now, flags), procon29.Bot.FakeBot(log, field, agent[1].now, flags)]
         self.AutoSetFlag = True
 
+def FiledClear():
+    field[0].Destroy()
+    del field[0]
+    del agent[:]
+    del agent_data[:]
+    blue_flags.Clear()
+    red_flags.Clear()
+    bluepoint_text = wx.StaticText(panel, -1, '青\n取得済み得点:0 \n領域得点:0', style=wx.SIMPLE_BORDER, pos=(0,51))
+    redpoint_text = wx.StaticText(panel, -1, '赤\n取得済み得点:0 \n領域得点:0', style=wx.SIMPLE_BORDER, pos=(0,99))
+    log.LogWrite('Clear All\n')
+
 def GameEndCheck():
     global nowturn
     global turn
@@ -232,12 +243,17 @@ def Menu_handler(event):
     global debag_flag
     Id_num = event.GetId()
     if Id_num == 10:
+        if len(field) != 0:
+            FiledClear()
         log.LogWrite('Open file select dialog\n', logtype=procon29.SYSTEM_LOG)
         dialog = wx.FileDialog(None,'Select File','./')
         dialog.SetWildcard('*.png')
         dialog.ShowModal()
         image = dialog.GetPath()
-        data = decode(Image.open(image))
+        try:
+            data = decode(Image.open(image))
+        except AttributeError:
+            return
         log.LogWrite('File open {}\n'.format(image), logtype=procon29.FILE_LOG)
         text = data[0][0].decode('utf-8', 'ignore')
         text = list(text.split(':'))
@@ -253,15 +269,7 @@ def Menu_handler(event):
     elif Id_num == 11:
         start_func()
     elif Id_num == 12:
-        field[0].Destroy()
-        del field[0]
-        del agent[:]
-        del agent_data[:]
-        blue_flags.Clear()
-        red_flags.Clear()
-        bluepoint_text = wx.StaticText(panel, -1, '青\n取得済み得点:0 \n領域得点:0', style=wx.SIMPLE_BORDER, pos=(0,51))
-        redpoint_text = wx.StaticText(panel, -1, '赤\n取得済み得点:0 \n領域得点:0', style=wx.SIMPLE_BORDER, pos=(0,99))
-        log.LogWrite('Clear All\n')
+        FiledClear()
     elif Id_num == procon29.EXIT:
         log.LogWrite('Quit Program\n', logtype=procon29.SYSTEM_LOG)
         sys.exit(0)
@@ -330,7 +338,6 @@ def Button_handler(event):
     global load_file_flag
     global step_end
     global debag_flag
-    print(event.GetEventType)
     Id_num = event.GetId()
     if debag_flag:
         move([agent[0], agent[1]], agent_data[0], blue_flags, (agent[2], agent[3]), Id_num)
@@ -464,7 +471,6 @@ color_select.Disable()
 start = wx.Button(panel, 200, 'スタート', size=(80,50))
 start.Disable()
 cancel = wx.Button(panel, 201, 'キャンセル', size=(80,50))
-panel.RegisterHotKey(201, win32con.MOD_ALT, win32con.VK_F1)
 turn_end = wx.Button(panel, 202, 'ターンエンド',size=(80,50))
 layout = wx.BoxSizer(wx.HORIZONTAL)
 layout.Add(mode_select, border=10)
