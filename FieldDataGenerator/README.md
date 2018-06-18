@@ -1,5 +1,5 @@
 # FieldDataGenerator
-This program creates test field data.
+This program creates test field data(.pqr).
 ## Usage
 `./Generator [-v vertical] [-s side] [-t type] [-n number] [-r rate_of_minus] filename`
 
@@ -9,4 +9,4 @@ This program creates test field data.
 ## You want to remove some  datafile
 `make dataclean`
 
-File to delete: .txt .csv
+File to delete: .pqr
