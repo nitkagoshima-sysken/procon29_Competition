@@ -114,7 +114,8 @@ void makeField(int vertical, int side, int type, int number, char* filename){
 
     for(i = 0;i < vertical;i++){
       for(j = 0;j < side;j++){
-        fprintf(fp,"%d ",data[i][j]);
+        fprintf(fp,"%d",data[i][j]);
+	if(j<side-1)fprintf(fp," ");
       }
       fprintf(fp,":");
     }
