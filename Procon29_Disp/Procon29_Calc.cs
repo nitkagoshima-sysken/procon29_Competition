@@ -139,7 +139,27 @@ namespace procon29_disp
         /// コメントを設定または取得します。
         /// </summary>
         public string Comment { get => comment; set => comment = value; }
-    }    
+    }
+
+    /// <summary>
+    /// フィールドの拡張メソッドを定義するためのクラスです。
+    /// </summary>
+    static class FieldExpansion
+    {
+        /// <summary>
+        /// フィールドの幅を取得します。
+        /// </summary>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        public static int Width(this Cell[,] field) => field.GetLength(0);
+
+        /// <summary>
+        /// フィールドの高さを取得します。
+        /// </summary>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        public static int Height(this Cell[,] field) => field.GetLength(1);
+    }
 
     /// <summary>
     /// procon29におけるフィールドの管理、ポイント計算などの全般を行います。
