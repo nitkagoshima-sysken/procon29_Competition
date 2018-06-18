@@ -20,7 +20,7 @@ int main(int argc,char* argv[]){
   int type = 3;
   int number = 1;
   int opt,i;
-  char* filename = "code.txt";
+  char* filename = "code.pqr";
 
   opterr = 0;
 

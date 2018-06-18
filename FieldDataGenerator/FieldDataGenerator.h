@@ -8,19 +8,23 @@ char* optarg;
 
 char getopt(int argc,char** argv,const char* optstring){
   int i;
+  char result;
 
   opterr = 1;
-  optind = 1;
   optopt = 0;
 
   while(optind < argc){
-    if(argv[optind][0] == '-')
-    printf("ok");
+    if(argv[optind][0] == '-'){
+      result = argv[optind][1];
+      optarg = argv[optind+1];
+      optind += 2;
+      return result;
+    }
 
     optind++;
   }
 
-  return optopt;
+  return -1;
 }
 
 #endif
