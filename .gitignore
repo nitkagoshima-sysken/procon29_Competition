@@ -260,3 +260,5 @@ paket-files/
 __pycache__/
 *.pyc
 Procon29_disp_Python/icon\.ico
+
+Procon29_Disp/Resources/

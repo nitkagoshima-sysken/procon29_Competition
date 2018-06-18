@@ -19,9 +19,12 @@ namespace procon29_disp
         private SolidBrush selectSolidBrush = new SolidBrush(Color.FromArgb(50, Color.DarkGray));
         private SolidBrush clickedSolidBrush = new SolidBrush(Color.FromArgb(100, Color.SkyBlue));
         private Font pointFont;
-        private Point clickedField;       
+        private Point clickedField;
         private const string pointFamilyName = "Impact";
         private (Team, Agent) selectedTeamAndAgent;
+
+        private Bitmap test;
+        private Bitmap test2;
 
         /// <summary>
         /// 描画する対象となるProcon29_Calcを設定または取得します。
@@ -37,17 +40,17 @@ namespace procon29_disp
         /// 描画する対象となるPictureBoxを設定または取得します。
         /// </summary>
         public PictureBox PictureBox { get => pictureBox; set => pictureBox = value; }
-        
+
         /// <summary>
         /// 背景をどのように塗りつぶすか設定または取得します。
         /// </summary>
         public SolidBrush BackGroundSolidBrush { get => backGroundSolidBrush; set => backGroundSolidBrush = value; }
-        
+
         /// <summary>
         /// 選択したフィールドをどのように塗りつぶすか設定または取得します。
         /// </summary>
         public SolidBrush SelectSolidBrush { get => selectSolidBrush; set => selectSolidBrush = value; }
-        
+
         /// <summary>
         /// クリックしたフィールドをどのように塗りつぶすか設定または取得します。
         /// </summary>
@@ -87,6 +90,16 @@ namespace procon29_disp
         {
             Procon29_Calc = procon29_Calc;
             TeamDesign = teamDesigns;
+
+
+            // ResourceManagerを取得する
+            System.Resources.ResourceManager resource = Properties.Resources.ResourceManager;
+
+            //画像ファイルを読み込んで、Imageオブジェクトとして取得する
+            test = (Bitmap)resource.GetObject("A");
+
+            //画像ファイルを読み込んで、Imageオブジェクトとして取得する
+            test2 = (Bitmap)resource.GetObject("B");
         }
 
         /// <summary>
@@ -101,7 +114,6 @@ namespace procon29_disp
             TeamDesign = teamDesigns;
             PictureBox = pictureBox;
             Procon29_Logger = procon29_Logger;
-
         }
 
         /// <summary>
@@ -222,6 +234,39 @@ namespace procon29_disp
                 width: fieldWidth,
                 height: fieldHeight);
 
+
+            //エージェントを女の子にするところ
+            for (int y = 0; y < Procon29_Calc.Field.GetLength(0); y++)
+            {
+                for (int x = 0; x < Procon29_Calc.Field.GetLength(1); x++)
+                {
+                    Graphics g = Graphics.FromImage(canvas);
+
+                    float f = canvas.Height / 3000.0f;
+
+                    if (Procon29_Calc.AgentPosition[0, 0].X == x && Procon29_Calc.AgentPosition[0, 0].Y == y ||
+                        Procon29_Calc.AgentPosition[0, 1].X == x && Procon29_Calc.AgentPosition[0, 1].Y == y)
+                    {
+                        graphics.DrawImage(
+                            image: test,
+                            x: x * fieldWidth,
+                            y: (y - 1.5f) * fieldHeight,
+                            width: test.Width * f,
+                            height: test.Height * f);
+                    }
+                    if (Procon29_Calc.AgentPosition[1, 0].X == x && Procon29_Calc.AgentPosition[1, 0].Y == y ||
+                        Procon29_Calc.AgentPosition[1, 1].X == x && Procon29_Calc.AgentPosition[1, 1].Y == y)
+                    {
+                        graphics.DrawImage(
+                            image: test2,
+                            x: x * fieldWidth,
+                            y: (y - 1.5f) * fieldHeight,
+                            width: test2.Width * f,
+                            height: test2.Height * f);
+                    }
+                }
+            }
+
             return canvas;
         }
 
@@ -269,7 +314,7 @@ namespace procon29_disp
                 ClickedField = new Point(
                     x: clickedFieldPoint.X,
                     y: clickedFieldPoint.Y);
-            
+
             foreach (Team team in Enum.GetValues(typeof(Team)))
             {
                 foreach (Agent agent in Enum.GetValues(typeof(Agent)))
@@ -311,7 +356,7 @@ namespace procon29_disp
             System.Drawing.Point pictureBoxCursorPosition = pictureBox.PointToClient(systemCursorPosition);
             return new Point(
                 x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
-                y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));           
+                y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
         }
     }
 }
