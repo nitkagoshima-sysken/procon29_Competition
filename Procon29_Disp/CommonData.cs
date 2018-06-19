@@ -6,7 +6,4 @@ using System.Threading.Tasks;
 
 namespace procon29_disp
 {
-    static class CommonData
-    {
-    }
 }
