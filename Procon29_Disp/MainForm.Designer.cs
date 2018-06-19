@@ -28,10 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.FieldDisplay = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.messageBox = new System.Windows.Forms.RichTextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,27 +39,16 @@
             this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).BeginInit();
+            this.FieldDisplay = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.TurnEndButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
-            // 
-            // FieldDisplay
-            // 
-            this.FieldDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.FieldDisplay.Location = new System.Drawing.Point(4, 4);
-            this.FieldDisplay.Margin = new System.Windows.Forms.Padding(4);
-            this.FieldDisplay.Name = "FieldDisplay";
-            this.FieldDisplay.Size = new System.Drawing.Size(521, 386);
-            this.FieldDisplay.TabIndex = 0;
-            this.FieldDisplay.TabStop = false;
-            this.FieldDisplay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseClick);
-            this.FieldDisplay.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseDoubleClick);
             // 
             // tableLayoutPanel1
             // 
@@ -89,22 +76,15 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Controls.Add(this.pictureBox2, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.messageBox, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.TurnEndButton, 0, 2);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(532, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowCount = 3;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 0F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(222, 388);
             this.tableLayoutPanel2.TabIndex = 3;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox2.Location = new System.Drawing.Point(153, 3);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(66, 1);
-            this.pictureBox2.TabIndex = 2;
-            this.pictureBox2.TabStop = false;
             // 
             // messageBox
             // 
@@ -119,7 +99,7 @@
             this.messageBox.Location = new System.Drawing.Point(3, 3);
             this.messageBox.Name = "messageBox";
             this.messageBox.ReadOnly = true;
-            this.messageBox.Size = new System.Drawing.Size(216, 382);
+            this.messageBox.Size = new System.Drawing.Size(216, 304);
             this.messageBox.TabIndex = 1;
             this.messageBox.Text = "";
             // 
@@ -191,6 +171,45 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(80, 18);
             this.toolStripStatusLabel1.Text = "{} Point:";
             // 
+            // FieldDisplay
+            // 
+            this.FieldDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FieldDisplay.Location = new System.Drawing.Point(4, 4);
+            this.FieldDisplay.Margin = new System.Windows.Forms.Padding(4);
+            this.FieldDisplay.Name = "FieldDisplay";
+            this.FieldDisplay.Size = new System.Drawing.Size(521, 386);
+            this.FieldDisplay.TabIndex = 0;
+            this.FieldDisplay.TabStop = false;
+            this.FieldDisplay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseClick);
+            this.FieldDisplay.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseDoubleClick);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox2.Location = new System.Drawing.Point(153, 3);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(66, 1);
+            this.pictureBox2.TabIndex = 2;
+            this.pictureBox2.TabStop = false;
+            // 
+            // TurnEndButton
+            // 
+            this.TurnEndButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TurnEndButton.BackColor = System.Drawing.Color.RoyalBlue;
+            this.TurnEndButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TurnEndButton.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.TurnEndButton.ForeColor = System.Drawing.Color.LightGray;
+            this.TurnEndButton.Location = new System.Drawing.Point(3, 313);
+            this.TurnEndButton.Name = "TurnEndButton";
+            this.TurnEndButton.Size = new System.Drawing.Size(216, 72);
+            this.TurnEndButton.TabIndex = 3;
+            this.TurnEndButton.Text = "ターンエンド";
+            this.TurnEndButton.UseVisualStyleBackColor = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -206,14 +225,14 @@
             this.Name = "MainForm";
             this.Text = "Procon29 Visualizar";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
-            ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -234,6 +253,7 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripMenuItem CreateNewToolStripMenuItem;
+        private System.Windows.Forms.Button TurnEndButton;
     }
 }
 
