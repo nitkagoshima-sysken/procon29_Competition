@@ -183,6 +183,14 @@ namespace procon29_disp
         /// <param name="point">対称となるマス</param>
         /// <returns></returns>
         public static Point FlipHorizontalAndVertical(this Cell[,] field, Point point) => new Point(field.Width() - 1 - point.X, field.Height() - 1 - point.Y);
+
+        /// <summary>
+        /// フィールド上のセルをPoint型で取得します。
+        /// </summary>
+        /// <param name="field">対称となるフィールド</param>
+        /// <param name="point">対称となるマス</param>
+        /// <returns></returns>
+        public static Cell At(this Cell[,] field, Point point) => field[point.X, point.Y];
     }
 
     /// <summary>
@@ -475,6 +483,29 @@ namespace procon29_disp
                         FillFalse(team, new Point(x, y));
                 }
             }
+        }
+
+        /// <summary>
+        /// そのマスにエージェントがいるか、またはムーア近傍にいるかを判定します
+        /// </summary>
+        /// <param name="point">対象となるマス</param>
+        /// <returns>そのマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
+        public bool IsAgentInNeighborhood(Point point)
+        {
+            foreach (var item in AgentPosition)
+            {
+                for (int x = -1; x <= 1; x++)
+                {
+                    for (int y = -1; y <= 1; y++)
+                    {
+                        if (point.X == item.X + x && point.Y == item.Y + y)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
         }
 
         /// <summary>

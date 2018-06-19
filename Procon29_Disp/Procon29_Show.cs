@@ -310,10 +310,15 @@ namespace procon29_disp
             Point clickedFieldPoint = new Point(
                 x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
                 y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
-            if ((clickedFieldPoint.X < Procon29_Calc.Field.GetLength(1)) && (clickedFieldPoint.Y < Procon29_Calc.Field.GetLength(0)))
-                ClickedField = new Point(
-                    x: clickedFieldPoint.X,
-                    y: clickedFieldPoint.Y);
+            if (Procon29_Calc.IsAgentInNeighborhood(clickedFieldPoint))
+            {
+                if ((clickedFieldPoint.X < Procon29_Calc.Field.GetLength(1)) && (clickedFieldPoint.Y < Procon29_Calc.Field.GetLength(0)))
+                {
+                    ClickedField = new Point(
+                        x: clickedFieldPoint.X,
+                        y: clickedFieldPoint.Y);
+                }
+            }
 
             foreach (Team team in Enum.GetValues(typeof(Team)))
             {
