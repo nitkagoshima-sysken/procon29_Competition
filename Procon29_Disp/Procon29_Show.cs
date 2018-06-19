@@ -191,7 +191,7 @@ namespace procon29_disp
                         height: fieldHeight);
                     // 得点表示
                     graphics.DrawString(
-                    s: Procon29_Calc.Map[x, y].Point.ToString(),
+                    s: Procon29_Calc.Field[x, y].Point.ToString(),
                     font: PointFont,
                     brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
                     x: (float)(x + 0.1) * fieldWidth,

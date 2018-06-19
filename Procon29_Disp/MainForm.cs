@@ -134,11 +134,11 @@ namespace procon29_disp
                 show.Show(FieldDisplay);
                 // フィールド内にいるときは、フィールドの情報を表示する。
                 if (0 <= show.CursorPosition(FieldDisplay).X &&
-                    show.CursorPosition(FieldDisplay).X < procon.Width &&
+                    show.CursorPosition(FieldDisplay).X < procon.Field.Width() &&
                     0 <= show.CursorPosition(FieldDisplay).Y &&
-                    show.CursorPosition(FieldDisplay).Y < procon.Height)
+                    show.CursorPosition(FieldDisplay).Y < procon.Field.Height())
                 {
-                    var f = procon.Map[show.CursorPosition(FieldDisplay).X, show.CursorPosition(FieldDisplay).Y];
+                    var f = procon.Field[show.CursorPosition(FieldDisplay).X, show.CursorPosition(FieldDisplay).Y];
                     // 情報を表示
                     toolStripStatusLabel1.Text = (show.CursorPosition(FieldDisplay) + " Point: " + f.Point);
                     // 囲まれているか判定
@@ -309,7 +309,25 @@ namespace procon29_disp
                             pqr_data.Two = new Point(0, 0);
                         }
 
-                        procon = new Procon29_Calc(pqr_data.Fields, new Point[2, 2] { { pqr_data.One, pqr_data.Two }, { new Point(0, 3), new Point(0, 9) } });
+                        procon = new Procon29_Calc(pqr_data.Fields, new Point[2] { pqr_data.One, pqr_data.Two });
+                        //procon.PointMapCheck();
+
+                        //if (procon.IsHorizontallySymmetrical && procon.IsVerticallySymmetrical)
+                        //{
+                        //    procon.AgentPosition[1, 0] = procon.Field.FlipHorizontalAndVertical(procon.AgentPosition[0, 0]);
+                        //    procon.AgentPosition[1, 1] = procon.Field.FlipHorizontalAndVertical(procon.AgentPosition[0, 1]);
+                        //}
+                        //else if(procon.IsVerticallySymmetrical)
+                        //{
+                        //    procon.AgentPosition[1, 0] = procon.Field.FlipVertical(procon.AgentPosition[0, 0]);
+                        //    procon.AgentPosition[1, 1] = procon.Field.FlipVertical(procon.AgentPosition[0, 1]);
+                        //}
+                        //else if(procon.IsHorizontallySymmetrical)
+                        //{
+                        //    procon.AgentPosition[1, 0] = procon.Field.FlipHorizontal(procon.AgentPosition[0, 0]);
+                        //    procon.AgentPosition[1, 1] = procon.Field.FlipHorizontal(procon.AgentPosition[0, 1]);
+                        //}
+
                         show = new Procon29_Show(procon, teamDesigns);
                         show.Show(FieldDisplay);
                     }

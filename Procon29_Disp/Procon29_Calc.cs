@@ -104,12 +104,12 @@ namespace procon29_disp
         /// そのエージェントがタイルを破壊したか設定または取得します。
         /// </summary>
         public bool IsDestory { get => isDestory; set => isDestory = value; }
-        
+
         /// <summary>
         /// コメントを設定または取得します。
         /// </summary>
         public string Comment { get => comment; set => comment = value; }
-        
+
         /// <summary>
         /// そのエージェントがどの方向に行動を起こしたか設定または取得します。
         /// </summary>
@@ -129,12 +129,12 @@ namespace procon29_disp
         /// どのエージェントがどの方向に動いたかを配列で設定または取得します。
         /// </summary>
         public AgentActiveData[,] AgentActiveData { get => agentActiveData; set => agentActiveData = value; }
-        
+
         /// <summary>
         /// ターン終了時のマップを設定または取得します。
         /// </summary>
         public Cell[,] MapHistory { get => mapHistory; set => mapHistory = value; }
-        
+
         /// <summary>
         /// コメントを設定または取得します。
         /// </summary>
@@ -159,6 +159,30 @@ namespace procon29_disp
         /// <param name="field"></param>
         /// <returns></returns>
         public static int Height(this Cell[,] field) => field.GetLength(1);
+
+        /// <summary>
+        /// フィールド上で上下反転したときのマスの座標を取得します。
+        /// </summary>
+        /// <param name="field">対象となるフィールド</param>
+        /// <param name="point">対象となるマス</param>
+        /// <returns></returns>
+        public static Point FlipVertical(this Cell[,] field, Point point) => new Point(point.X, field.Height() - 1 - point.Y);
+
+        /// <summary>
+        /// フィールド上で左右反転したときのマスの座標を取得します。
+        /// </summary>
+        /// <param name="field">対象となるフィールド</param>
+        /// <param name="point">対象となるマス</param>
+        /// <returns></returns>
+        public static Point FlipHorizontal(this Cell[,] field, Point point) => new Point(field.Width() - 1 - point.X, point.Y);
+
+        /// <summary>
+        /// フィールド上で上下左右反転したときのマスの座標を取得します。
+        /// </summary>
+        /// <param name="field">対称となるフィールド</param>
+        /// <param name="point">対称となるマス</param>
+        /// <returns></returns>
+        public static Point FlipHorizontalAndVertical(this Cell[,] field, Point point) => new Point(field.Width() - 1 - point.X, field.Height() - 1 - point.Y);
     }
 
     /// <summary>
@@ -182,15 +206,11 @@ namespace procon29_disp
         public Procon29_Calc(int[,] field, Point[,] initPosition)
         {
             Field = new Cell[field.GetLength(1), field.GetLength(0)];
-            for (int y = 0; y < Height; y++)
+            for (int y = 0; y < Field.Height(); y++)
             {
-                for (int x = 0; x < Width; x++)
+                for (int x = 0; x < Field.Width(); x++)
                 {
-                    this.Field[y, x] = new Cell { Point = field[x, y] };
-                    //Fields[y, x].IsDirectArea[0] = false;
-                    //Fields[y, x].IsDirectArea[1] = false;
-                    //Fields[y, x].IsIndirectArea[0] = true;
-                    //Fields[y, x].IsIndirectArea[1] = true;
+                    Field[y, x] = new Cell { Point = field[x, y] };
                 }
             }
             Turn = 1;
@@ -201,20 +221,48 @@ namespace procon29_disp
                     AgentPosition[t, a] = initPosition[t, a];
                     PutTile(team: t, agent: a);
                 }
-            }            
+            }
         }
 
         /// <summary>
-        /// フィールドのポイントの状態を設定または、取得します。
+        /// Procon29_Calcを初期化します。
         /// </summary>
-        public Cell[,] Map
+        /// <param name="field">フィールドのポイントを設定します。</param>
+        /// <param name="initPosition">エージェントの初期位置を設定します。</param>
+        public Procon29_Calc(int[,] field, Point[] initPosition)
         {
-            set
+            Field = new Cell[field.GetLength(1), field.GetLength(0)];
+            for (int y = 0; y < Field.Height(); y++)
             {
-                Field = value;
-                PointMapCheck();
+                for (int x = 0; x < Field.Width(); x++)
+                {
+                    Field[y, x] = new Cell { Point = field[x, y] };
+                }
             }
-            get { return Field; }
+            Turn = 1;
+            for (int a = 0; a < 2; a++)
+            {
+                AgentPosition[0, a] = initPosition[a];
+                PutTile(team: 0, agent: a);
+            }
+            PointMapCheck();
+            if (IsHorizontallySymmetrical && IsVerticallySymmetrical)
+            {
+                AgentPosition[1, 0] = Field.FlipHorizontalAndVertical(AgentPosition[0, 0]);
+                AgentPosition[1, 1] = Field.FlipHorizontalAndVertical(AgentPosition[0, 1]);
+            }
+            else if (IsVerticallySymmetrical)
+            {
+                AgentPosition[1, 0] = Field.FlipVertical(AgentPosition[0, 0]);
+                AgentPosition[1, 1] = Field.FlipVertical(AgentPosition[0, 1]);
+            }
+            else if (IsHorizontallySymmetrical)
+            {
+                AgentPosition[1, 0] = Field.FlipHorizontal(AgentPosition[0, 0]);
+                AgentPosition[1, 1] = Field.FlipHorizontal(AgentPosition[0, 1]);
+            }
+            PutTile(team: 1, agent: 0);
+            PutTile(team: 1, agent: 1);
         }
 
         /// <summary>
@@ -246,16 +294,6 @@ namespace procon29_disp
         public Cell[,] Field { get => field; set => field = value; }
 
         /// <summary>
-        /// フィールドの幅を取得します。
-        /// </summary>
-        public int Width { get => Map.GetLength(0); }
-
-        /// <summary>
-        /// フィールドの高さを取得します。
-        /// </summary>
-        public int Height { get => Map.GetLength(1); }
-
-        /// <summary>
         /// エージェントの位置を設定または取得します。
         /// </summary>
         /// <param name="team"></param>
@@ -283,6 +321,7 @@ namespace procon29_disp
         /// 上下対称なら真、そうでなければ偽が返ってきます。
         /// </summary>
         public bool IsVerticallySymmetrical { get => isVerticallySymmetrical; private set => isVerticallySymmetrical = value; }
+
         /// <summary>
         /// 左右対称なら真、そうでなければ偽が返ってきます。
         /// </summary>
@@ -380,7 +419,7 @@ namespace procon29_disp
         /// <param name="team">対象となるチーム</param>
         /// <param name="point">対象となるフィールド</param>
         /// <returns>そのフィールドが塗れるなら真、そうでなければ偽が返ってきます。</returns>
-        bool IsFillable(int team, Point point) => 0 <= point.X && point.X < Width && 0 <= point.Y && point.Y < Height && !Map[point.X, point.Y].IsTileOn[team];
+        bool IsFillable(int team, Point point) => 0 <= point.X && point.X < Field.Width() && 0 <= point.Y && point.Y < Field.Height() && !Field[point.X, point.Y].IsTileOn[team];
 
         /// <summary>
         /// 指定したフィールドを基準にIsIndirectAreaをfalseで塗りつぶします。
@@ -404,9 +443,9 @@ namespace procon29_disp
                 point = stack.Pop();
                 if (IsFillable(team, point)) //make sure we stay within bounds
                 {
-                    if (Map[point.X, point.Y].IsClosed[team] == true)
+                    if (Field[point.X, point.Y].IsClosed[team] == true)
                     {
-                        Map[point.X, point.Y].IsClosed[team] = false;
+                        Field[point.X, point.Y].IsClosed[team] = false;
                         stack.Push(new Point(point.X - 1, point.Y));
                         stack.Push(new Point(point.X + 1, point.Y));
                         stack.Push(new Point(point.X, point.Y - 1));
@@ -423,16 +462,16 @@ namespace procon29_disp
         /// <param name="team">対象となるチーム</param>
         private void CheckIndirectArea(Team team)
         {
-            foreach (var item in Map)
+            foreach (var item in Field)
             {
                 item.IsClosed[(int)team] = true;
             }
 
-            for (int x = 0; x < Width; x++)
+            for (int x = 0; x < Field.Width(); x++)
             {
-                for (int y = 0; y < Height; y++)
+                for (int y = 0; y < Field.Height(); y++)
                 {
-                    if (x == 0 || x == Width - 1 || y == 0 || y == Height - 1)
+                    if (x == 0 || x == Field.Width() - 1 || y == 0 || y == Field.Height() - 1)
                         FillFalse(team, new Point(x, y));
                 }
             }
@@ -496,7 +535,7 @@ namespace procon29_disp
             {
                 if (otherteam != (int)team)
                 {
-                    movable = Map[where.X, where.Y].IsTileOn[otherteam];
+                    movable = Field[where.X, where.Y].IsTileOn[otherteam];
                     if (movable)
                     {
                         RemoveTile(team: (Team)otherteam, point: where);
@@ -514,7 +553,7 @@ namespace procon29_disp
             CheckIndirectArea(team);
 
             Turn++;
-            foreach (var item in Map)
+            foreach (var item in Field)
             {
                 if (item.IsTileOn[0]) item.IsClosed[0] = false;
                 if (item.IsTileOn[1]) item.IsClosed[1] = false;
