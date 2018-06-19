@@ -24,6 +24,8 @@ namespace procon29_disp
         Procon29_Logger log;
         TeamDesign[] teamDesigns;
 
+        CreateNewForm createNewForm = new CreateNewForm();
+
         /// <summary>
         /// MainForm
         /// </summary>
@@ -310,23 +312,6 @@ namespace procon29_disp
                         }
 
                         procon = new Procon29_Calc(pqr_data.Fields, new Point[2] { pqr_data.One, pqr_data.Two });
-                        //procon.PointMapCheck();
-
-                        //if (procon.IsHorizontallySymmetrical && procon.IsVerticallySymmetrical)
-                        //{
-                        //    procon.AgentPosition[1, 0] = procon.Field.FlipHorizontalAndVertical(procon.AgentPosition[0, 0]);
-                        //    procon.AgentPosition[1, 1] = procon.Field.FlipHorizontalAndVertical(procon.AgentPosition[0, 1]);
-                        //}
-                        //else if(procon.IsVerticallySymmetrical)
-                        //{
-                        //    procon.AgentPosition[1, 0] = procon.Field.FlipVertical(procon.AgentPosition[0, 0]);
-                        //    procon.AgentPosition[1, 1] = procon.Field.FlipVertical(procon.AgentPosition[0, 1]);
-                        //}
-                        //else if(procon.IsHorizontallySymmetrical)
-                        //{
-                        //    procon.AgentPosition[1, 0] = procon.Field.FlipHorizontal(procon.AgentPosition[0, 0]);
-                        //    procon.AgentPosition[1, 1] = procon.Field.FlipHorizontal(procon.AgentPosition[0, 1]);
-                        //}
 
                         show = new Procon29_Show(procon, teamDesigns);
                         show.Show(FieldDisplay);
@@ -338,11 +323,10 @@ namespace procon29_disp
                 }
             }
         }
-
+        
         private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CreateNewForm f = new CreateNewForm();
-            f.ShowDialog(this);
+            createNewForm.ShowDialog(this);
         }
     }
 }
