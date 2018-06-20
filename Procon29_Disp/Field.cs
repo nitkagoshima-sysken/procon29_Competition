@@ -39,7 +39,7 @@ namespace procon29_disp
     /// <summary>
     /// 競技フィールドにおける任意の1マスのデータ構造を表します。
     /// </summary>
-    public class Field
+    public class Cell
     {
         /// <summary>
         /// そのマスにおける、ポイントを表します。
@@ -52,8 +52,8 @@ namespace procon29_disp
         /// <code>isArea[0]</code>で先攻チームのタイルが置かれているかを表します。
         /// <code>isArea[1]</code>で後攻チームのタイルが置かれているかを表します。
         /// </summary>
-        private bool[] isDirectArea;
-        private bool[] isIndirectArea;
+        private bool[] isTileOn;
+        private bool[] isClosed;
         private bool[] isAreaCheck;
 
         /// <summary>
@@ -83,11 +83,11 @@ namespace procon29_disp
         /// <summary>
         /// そのマスにタイルが置かれているかを表します。
         /// </summary>
-        public bool[] IsDirectArea { get => isDirectArea; set => isDirectArea = value; }
+        public bool[] IsTileOn { get => isTileOn; set => isTileOn = value; }
         /// <summary>
         /// そのマスがタイルに囲まれているかを表します。
         /// </summary>
-        public bool[] IsIndirectArea { get => isIndirectArea; set => isIndirectArea = value; }
+        public bool[] IsClosed { get => isClosed; set => isClosed = value; }
         /// <summary>
         /// そのマスの囲み判定が行われたかを表します。
         /// </summary>
@@ -96,11 +96,11 @@ namespace procon29_disp
         /// <summary>
         /// Fieldの初期化を行います。
         /// </summary>
-        public Field()
+        public Cell()
         {
             Point = 0;
-            IsDirectArea = new bool[2];
-            IsIndirectArea = new bool[2];
+            IsTileOn = new bool[2];
+            IsClosed = new bool[2];
             IsAreaCheck = new bool[2];
         }
 
@@ -142,7 +142,7 @@ namespace procon29_disp
         /// </summary>
         /// <param name="list">変換するリスト</param>
         /// <returns></returns>
-        public static Field[,] ListWithHeightAndWidthToFields(List<int> list)
+        public static Cell[,] ListWithHeightAndWidthToFields(List<int> list)
         {
             var height = list[0];
             var width = list[1];
@@ -158,12 +158,12 @@ namespace procon29_disp
         /// <param name="height">フィールドの高さ</param>
         /// <param name="width">フィールドの幅</param>
         /// <returns></returns>
-        public static Field[,] ListToFields(List<int> list, int height, int width)
+        public static Cell[,] ListToFields(List<int> list, int height, int width)
         {
-            var fields = new Field[height, width];
+            var fields = new Cell[height, width];
             for (int i = 0; i < list.Count; i++)
             {
-                fields[i / width, i % width] = new Field();
+                fields[i / width, i % width] = new Cell();
                 fields[i / width, i % width].Point = list[i];
             }
             return fields;
@@ -174,6 +174,6 @@ namespace procon29_disp
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static Field[,] CSVToFields(string str) => ListWithHeightAndWidthToFields(CSVtoList(str));
+        public static Cell[,] CSVToFields(string str) => ListWithHeightAndWidthToFields(CSVtoList(str));
     }
 }

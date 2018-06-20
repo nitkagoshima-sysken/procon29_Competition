@@ -53,6 +53,9 @@ namespace procon29_disp
 
     }
 
+    /// <summary>
+    /// いろいろなデータを宣言させます。
+    /// </summary>
     static class Procon29_CSV
     {
 
@@ -128,11 +131,11 @@ namespace procon29_disp
 
                 list.Clear();
                 list = SpaceCSVToList(m.Groups["one"].Value.Replace(":", " "));
-                pqr.One = new Point(list[0], list[1]);
+                pqr.One = new Point(list[0] - 1, list[1] - 1);
 
                 list.Clear();
                 list = SpaceCSVToList(m.Groups["two"].Value.Replace(":", " "));
-                pqr.Two = new Point(list[0], list[1]);
+                pqr.Two = new Point(list[0] - 1, list[1] - 1);
             }
 
             return pqr;
