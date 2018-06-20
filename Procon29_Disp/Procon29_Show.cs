@@ -26,6 +26,9 @@ namespace procon29_disp
         private Bitmap test;
         private Bitmap test2;
 
+        public Point[,] wanttogo = new Point[2, 2];
+
+
         /// <summary>
         /// 描画する対象となるProcon29_Calcを設定または取得します。
         /// </summary>
@@ -100,6 +103,14 @@ namespace procon29_disp
 
             //画像ファイルを読み込んで、Imageオブジェクトとして取得する
             test2 = (Bitmap)resource.GetObject("B");
+
+            foreach (Team team in Enum.GetValues(typeof(Team)))
+            {
+                foreach (Agent agent in Enum.GetValues(typeof(Agent)))
+                {
+                    wanttogo[(int)team, (int)agent] = Procon29_Calc.GetAgentPosition(team, agent);
+                }
+            }
         }
 
         /// <summary>
@@ -267,6 +278,22 @@ namespace procon29_disp
                 }
             }
 
+            for (int t = 0; t < wanttogo.GetLength(0); t++)
+            {
+                for (int a = 0; a < wanttogo.GetLength(1); a++)
+                {
+                    if (wanttogo[t, a] != null)
+                    {
+                        graphics.FillEllipse(
+                            brush: new SolidBrush(color: Color.RoyalBlue),
+                            x: (wanttogo[t, a].X + 0.5f) * fieldWidth,
+                            y: (wanttogo[t, a].Y + 0.5f) * fieldHeight,
+                            width: fieldWidth / 4,
+                            height: fieldWidth / 4);
+                    }
+                }
+            }
+
             return canvas;
         }
 
@@ -346,7 +373,8 @@ namespace procon29_disp
         /// </summary>
         public void DoubleClickedShow()
         {
-            Procon29_Calc.MoveAgent(SelectedTeamAndAgent.Item1, SelectedTeamAndAgent.Item2, ClickedField);
+            wanttogo[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2] = ClickedField;
+            //Procon29_Calc.MoveAgent(SelectedTeamAndAgent.Item1, SelectedTeamAndAgent.Item2, ClickedField);
         }
 
         /// <summary>

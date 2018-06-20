@@ -209,6 +209,7 @@
             this.TurnEndButton.TabIndex = 3;
             this.TurnEndButton.Text = "ターンエンド";
             this.TurnEndButton.UseVisualStyleBackColor = false;
+            this.TurnEndButton.Click += new System.EventHandler(this.TurnEndButton_Click);
             // 
             // MainForm
             // 

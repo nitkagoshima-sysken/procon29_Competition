@@ -26,6 +26,7 @@ namespace procon29_disp
 
         CreateNewForm createNewForm = new CreateNewForm();
 
+
         /// <summary>
         /// MainForm
         /// </summary>
@@ -327,6 +328,18 @@ namespace procon29_disp
         private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             createNewForm.ShowDialog(this);
+        }
+
+        private void TurnEndButton_Click(object sender, EventArgs e)
+        {
+            foreach (Team team in Enum.GetValues(typeof(Team)))
+            {
+                foreach (Agent agent in Enum.GetValues(typeof(Agent)))
+                {
+                    MoveAgent(team, agent, show.wanttogo[(int)team, (int)agent]);
+                }
+            }
+            show.Show(FieldDisplay);
         }
     }
 }
