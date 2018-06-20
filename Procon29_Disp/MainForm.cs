@@ -66,7 +66,7 @@ namespace procon29_disp
             };
             show = new Procon29_Show(procon, teamDesigns);
             log = new Procon29_Logger(messageBox);
-            log.WriteLine(Color.LightGray, "Test");
+            log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 3.0)");
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Team A");
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "name: " + teamDesigns[(int)Team.A].Name);
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Team B");
