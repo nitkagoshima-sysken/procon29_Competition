@@ -324,7 +324,7 @@ namespace procon29_disp
                 }
             }
         }
-        
+
         private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             createNewForm.ShowDialog(this);
@@ -336,7 +336,24 @@ namespace procon29_disp
             {
                 foreach (Agent agent in Enum.GetValues(typeof(Agent)))
                 {
-                    MoveAgent(team, agent, show.wanttogo[(int)team, (int)agent]);
+                    var isIndependence = true;
+                    foreach (Team otherteam in Enum.GetValues(typeof(Team)))
+                    {
+                        foreach (Agent otheragent in Enum.GetValues(typeof(Agent)))
+                        {
+                            if (team == otherteam && agent == otheragent)
+                            {
+                                continue;
+                            }
+                            if (show.wanttogo[(int)team, (int)agent] == show.wanttogo[(int)otherteam, (int)otheragent])
+                            {
+                                isIndependence = false;
+                                break;
+                            }
+
+                        }
+                    }
+                    if (isIndependence) MoveAgent(team, agent, show.wanttogo[(int)team, (int)agent]);
                 }
             }
             show.Show(FieldDisplay);
