@@ -230,8 +230,8 @@ namespace Procon29_Visualizer
     /// </summary>
     class Calc
     {
-        private int turn;
-        private Cell[,] field = new Cell[12, 12];
+        private int turn = 0;
+        private Cell[,] field;
         private Point[,] agentPosition = new Point[2, 2];
         private static readonly string[,] shortTeamAgentName = new string[2, 2] { { "A1", "A2", }, { "B1", "B2", }, };
         private bool isVerticallySymmetrical, isHorizontallySymmetrical;
@@ -242,42 +242,25 @@ namespace Procon29_Visualizer
         /// </summary>
         /// <param name="point">フィールドのポイントを設定します。</param>
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public Calc(int[,] point, Point[,] initPosition)
+        public Calc(int[,] point, Point[] initPosition)
         {
-            Field = new Cell[point.GetLength(1), point.GetLength(0)];
             InitializationOfField(point);
-            Turn = 1;
-            for (int t = 0; t < 2; t++)
+            foreach (Agent agent in Enum.GetValues(typeof(Agent)))
             {
-                for (int a = 0; a < 2; a++)
-                {
-                    AgentPosition[t, a] = initPosition[t, a];
-                    PutTile(team: t, agent: a);
-                }
+                AgentPosition[0, (int)agent] = initPosition[(int)agent];
+                PutTile(team: 0, agent: agent);
             }
+            ComplementEnemysPosition();
         }
 
         /// <summary>
-        /// Procon29_Calcを初期化します。
+        /// QRコードには自分のチームの位置情報しか分からないため、
+        /// 敵の位置情報を自分の位置から補完します。
         /// </summary>
-        /// <param name="point">フィールドのポイントを設定します。</param>
-        /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public Calc(int[,] point, Point[] initPosition)
-        {            
-            InitializationOfField(point);
-            Turn = 1;
-            for (int a = 0; a < 2; a++)
-            {
-                AgentPosition[0, a] = initPosition[a];
-                PutTile(team: 0, agent: a);
-            }
+        private void ComplementEnemysPosition()
+        {
             PointMapCheck();
-            if (IsHorizontallySymmetrical && IsVerticallySymmetrical)
-            {
-                AgentPosition[1, 0] = Field.FlipVertical(AgentPosition[0, 0]);
-                AgentPosition[1, 1] = Field.FlipVertical(AgentPosition[0, 1]);
-            }
-            else if (IsVerticallySymmetrical)
+            if (IsVerticallySymmetrical)
             {
                 AgentPosition[1, 0] = Field.FlipVertical(AgentPosition[0, 0]);
                 AgentPosition[1, 1] = Field.FlipVertical(AgentPosition[0, 1]);
@@ -425,8 +408,7 @@ namespace Procon29_Visualizer
         /// </summary>
         public void PointMapCheck()
         {
-            if (Field.Width() > 12 || Field.Height() > 12) ;
-            //message += "[Error] 'field' was not declare array smaller than 12 * 12" + "\n";
+            if (Field.Width() > 12 || Field.Height() > 12) throw new IndexOutOfRangeException();
             IsHorizontallySymmetrical = Field.HorizontallySymmetricalCheck();
             IsVerticallySymmetrical = Field.VerticallySymmetricalCheck();
         }
@@ -657,7 +639,6 @@ namespace Procon29_Visualizer
 
             CheckEnclosedArea(team);
 
-            Turn++;
             foreach (var item in Field)
             {
                 if (item.IsTileOn[0]) item.IsEnclosed[0] = false;

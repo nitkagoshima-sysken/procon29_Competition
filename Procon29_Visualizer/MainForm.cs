@@ -40,6 +40,8 @@ namespace Procon29_Visualizer
             log = new Logger(messageBox);
             log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 3.0)");
 
+            // PQRファイルを直接読み込む
+            // ちなみにQR_code_sample.pdfで登場したQRコード
             var pqr = "8 11:-2 1 0 1 2 0 2 1 0 1 -2:1 3 2 -2 0 1 0 -2 2 3 1:1 3 2 1 0 -2 0 1 2 3 1:2 1 1 2 2 3 2 2 1 1 2:2 1 1 2 2 3 2 2 1 1 2:1 3 2 1 0 -2 0 1 2 3 1:1 3 2 -2 0 1 0 -2 2 3 1:-2 1 0 1 2 0 2 1 0 1 -2:2 2:7 10:";
             log.WriteLine(Color.LightGray, pqr);
             var pqr_data = DataConverter.ToPQRData(pqr);
@@ -95,9 +97,6 @@ namespace Procon29_Visualizer
         private void FieldDisplay_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             show.DoubleClickedShow();
-            
-            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 0]);
-            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 1]);
         }
 
         /// <summary>
@@ -167,7 +166,9 @@ namespace Procon29_Visualizer
         /// <param name="e"></param>
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            var isAct = true;
+            var team = show.SelectedTeamAndAgent.Item1;
+            var agent = show.SelectedTeamAndAgent.Item2;
+
             e.SuppressKeyPress = true;
             Console.WriteLine(e.KeyCode);
             try
@@ -175,69 +176,47 @@ namespace Procon29_Visualizer
                 switch (e.KeyCode)
                 {
                     case Keys.Q:
-                        isAct = false;
                         show.SelectedTeamAndAgent = (Team.A, Agent.One);
                         break;
                     case Keys.W:
-                        isAct = false;
                         show.SelectedTeamAndAgent = (Team.A, Agent.Two);
                         break;
                     case Keys.E:
-                        isAct = false;
                         show.SelectedTeamAndAgent = (Team.B, Agent.One);
                         break;
                     case Keys.R:
-                        isAct = false;
                         show.SelectedTeamAndAgent = (Team.B, Agent.Two);
                         break;
                     case Keys.NumPad1:
-                        calc.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.DownLeft);
+                        show.wanttogo[(int)team, (int)agent] = new Point(calc.AgentPosition[(int)team, (int)agent].X - 1, calc.AgentPosition[(int)team, (int)agent].Y + 1);
                         break;
                     case Keys.NumPad2:
-                        calc.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.Down);
+                        show.wanttogo[(int)team, (int)agent] = new Point(calc.AgentPosition[(int)team, (int)agent].X, calc.AgentPosition[(int)team, (int)agent].Y + 1);
                         break;
                     case Keys.NumPad3:
-                        calc.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.DownRight);
+                        show.wanttogo[(int)team, (int)agent] = new Point(calc.AgentPosition[(int)team, (int)agent].X + 1, calc.AgentPosition[(int)team, (int)agent].Y + 1);
                         break;
                     case Keys.NumPad4:
-                        calc.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.Left);
+                        show.wanttogo[(int)team, (int)agent] = new Point(calc.AgentPosition[(int)team, (int)agent].X - 1, calc.AgentPosition[(int)team, (int)agent].Y);
                         break;
                     case Keys.NumPad6:
-                        calc.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.Right);
+                        show.wanttogo[(int)team, (int)agent] = new Point(calc.AgentPosition[(int)team, (int)agent].X + 1, calc.AgentPosition[(int)team, (int)agent].Y);
                         break;
                     case Keys.NumPad7:
-                        calc.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.UpLeft);
+                        show.wanttogo[(int)team, (int)agent] = new Point(calc.AgentPosition[(int)team, (int)agent].X - 1, calc.AgentPosition[(int)team, (int)agent].Y - 1);
                         break;
                     case Keys.NumPad8:
-                        calc.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.Up);
+                        show.wanttogo[(int)team, (int)agent] = new Point(calc.AgentPosition[(int)team, (int)agent].X, calc.AgentPosition[(int)team, (int)agent].Y - 1);
                         break;
                     case Keys.NumPad9:
-                        calc.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.UpRight);
+                        show.wanttogo[(int)team, (int)agent] = new Point(calc.AgentPosition[(int)team, (int)agent].X + 1, calc.AgentPosition[(int)team, (int)agent].Y - 1);
                         break;
                     default:
-                        isAct = false;
                         e.SuppressKeyPress = false;
                         break;
                 }
-                show.ClickedField =
-                    new Point(
-                        calc.AgentPosition[
-                            (int)show.SelectedTeamAndAgent.Item1,
-                            (int)show.SelectedTeamAndAgent.Item2]
-                            .X,
-                        calc.AgentPosition[
-                            (int)show.SelectedTeamAndAgent.Item1,
-                            (int)show.SelectedTeamAndAgent.Item2]
-                            .Y);
-                if (isAct)
-                {
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Direct Point: " + calc.AreaPoint(Team.A).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A Indirect Point: " + calc.ClosedPoint(Team.A).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A    Total Point: " + calc.TotalPoint(Team.A).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Direct Point: " + calc.AreaPoint(Team.B).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B Indirect Point: " + calc.ClosedPoint(Team.B).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B    Total Point: " + calc.TotalPoint(Team.B).ToString());
-                }
+                show.ClickedField = calc.AgentPosition[(int)team, (int)agent];
+
             }
             catch (Exception)
             {
@@ -340,12 +319,17 @@ namespace Procon29_Visualizer
                 }
             }
             show.Showing(FieldDisplay);
-            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Direct Point: " + calc.AreaPoint(Team.A).ToString());
-            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A Indirect Point: " + calc.ClosedPoint(Team.A).ToString());
-            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A    Total Point: " + calc.TotalPoint(Team.A).ToString());
-            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Direct Point: " + calc.AreaPoint(Team.B).ToString());
-            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B Indirect Point: " + calc.ClosedPoint(Team.B).ToString());
-            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B    Total Point: " + calc.TotalPoint(Team.B).ToString());
+            log.WriteLine(Color.LightGray, "Turn : " + calc.Turn);
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Area Point: " + calc.AreaPoint(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Enclosed Point: " + calc.ClosedPoint(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "   Total Point: " + calc.TotalPoint(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 0]);
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 1]);
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Area Point: " + calc.AreaPoint(Team.B).ToString());
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Enclosed Point: " + calc.ClosedPoint(Team.B).ToString());
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "   Total Point: " + calc.TotalPoint(Team.B).ToString());
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 0]);
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);
         }
     }
 }
