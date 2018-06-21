@@ -145,13 +145,13 @@ namespace Procon29_Visualizer
                     // 情報を表示
                     toolStripStatusLabel1.Text = (show.CursorPosition(FieldDisplay) + " Point: " + f.Point);
                     // 囲まれているか判定
-                    if (f.IsClosed[0] && f.IsClosed[1]) toolStripStatusLabel1.Text += " (Surrounded by both)";
-                    else if (f.IsClosed[0])
+                    if (f.IsEnclosed[0] && f.IsEnclosed[1]) toolStripStatusLabel1.Text += " (Surrounded by both)";
+                    else if (f.IsEnclosed[0])
                     {
                         toolStripStatusLabel1.Text += " (Surrounded by " + teamDesigns[0].Name + ")";
                         toolStripStatusLabel1.ForeColor = teamDesigns[0].AgentColor;
                     }
-                    else if (f.IsClosed[1])
+                    else if (f.IsEnclosed[1])
                     {
                         toolStripStatusLabel1.Text += " (Surrounded by " + teamDesigns[1].Name + ")";
                         toolStripStatusLabel1.ForeColor = teamDesigns[1].AgentColor;
@@ -159,7 +159,7 @@ namespace Procon29_Visualizer
                     // タイルがおかれているか判定
                     if (f.IsTileOn[0]) toolStripStatusLabel1.ForeColor = teamDesigns[0].AgentColor;
                     else if (f.IsTileOn[1]) toolStripStatusLabel1.ForeColor = teamDesigns[1].AgentColor;
-                    else if ((!f.IsClosed[0] && !f.IsClosed[1])) toolStripStatusLabel1.ForeColor = Color.LightGray;
+                    else if ((!f.IsEnclosed[0] && !f.IsEnclosed[1])) toolStripStatusLabel1.ForeColor = Color.LightGray;
                 }
             }
             time = DateTime.Now;

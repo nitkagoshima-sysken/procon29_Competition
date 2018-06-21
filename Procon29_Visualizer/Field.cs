@@ -53,7 +53,7 @@ namespace Procon29_Visualizer
         /// <code>isArea[1]</code>で後攻チームのタイルが置かれているかを表します。
         /// </summary>
         private bool[] isTileOn;
-        private bool[] isClosed;
+        private bool[] isEnclosed;
         private bool[] isAreaCheck;
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Procon29_Visualizer
         /// <summary>
         /// そのマスがタイルに囲まれているかを表します。
         /// </summary>
-        public bool[] IsClosed { get => isClosed; set => isClosed = value; }
+        public bool[] IsEnclosed { get => isEnclosed; set => isEnclosed = value; }
         /// <summary>
         /// そのマスの囲み判定が行われたかを表します。
         /// </summary>
@@ -100,7 +100,7 @@ namespace Procon29_Visualizer
         {
             Point = 0;
             IsTileOn = new bool[2];
-            IsClosed = new bool[2];
+            IsEnclosed = new bool[2];
             IsAreaCheck = new bool[2];
         }
 

@@ -369,7 +369,7 @@ namespace Procon29_Visualizer
         /// </summary>
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームが囲んだエリアのポイントの絶対値の合計</returns>
-        public int ClosedPoint(Team team) => FieldList.Sum(x => ((x.IsClosed[(int)team] == true) ? Math.Abs(x.Point) : 0));
+        public int ClosedPoint(Team team) => FieldList.Sum(x => ((x.IsEnclosed[(int)team] == true) ? Math.Abs(x.Point) : 0));
 
         /// <summary>
         /// 指定したチームの合計ポイントを計算します。
@@ -451,9 +451,9 @@ namespace Procon29_Visualizer
                 point = stack.Pop();
                 if (IsFillable(team, point)) //make sure we stay within bounds
                 {
-                    if (Field[point.X, point.Y].IsClosed[team] == true)
+                    if (Field[point.X, point.Y].IsEnclosed[team] == true)
                     {
-                        Field[point.X, point.Y].IsClosed[team] = false;
+                        Field[point.X, point.Y].IsEnclosed[team] = false;
                         stack.Push(new Point(point.X - 1, point.Y));
                         stack.Push(new Point(point.X + 1, point.Y));
                         stack.Push(new Point(point.X, point.Y - 1));
@@ -472,7 +472,7 @@ namespace Procon29_Visualizer
         {
             foreach (var item in Field)
             {
-                item.IsClosed[(int)team] = true;
+                item.IsEnclosed[(int)team] = true;
             }
 
             for (int x = 0; x < Field.Width(); x++)
@@ -586,8 +586,8 @@ namespace Procon29_Visualizer
             Turn++;
             foreach (var item in Field)
             {
-                if (item.IsTileOn[0]) item.IsClosed[0] = false;
-                if (item.IsTileOn[1]) item.IsClosed[1] = false;
+                if (item.IsTileOn[0]) item.IsEnclosed[0] = false;
+                if (item.IsTileOn[1]) item.IsEnclosed[1] = false;
             }
         }
     }
