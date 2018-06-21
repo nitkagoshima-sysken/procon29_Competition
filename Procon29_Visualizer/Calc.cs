@@ -185,6 +185,38 @@ namespace Procon29_Visualizer
         public static Point FlipHorizontalAndVertical(this Cell[,] field, Point point) => new Point(field.Width() - 1 - point.X, field.Height() - 1 - point.Y);
 
         /// <summary>
+        /// 上下対称か判定します。
+        /// </summary>
+        /// <returns>上下対称なら真、そうでなければ偽が返ってきます。</returns>
+        public static bool VerticallySymmetricalCheck(this Cell[,] field)
+        {
+            for (int i = 0; i < field.GetLength(1); i++)
+            {
+                for (int j = 0; j < field.GetLength(0) / 2; j++)
+                {
+                    if (field[i, j].Point != field[(field.GetLength(0) - 1) - i, j].Point) return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 左右対称か判定します。
+        /// </summary>
+        /// <returns>左右対称なら真、そうでなければ偽が返ってきます。</returns>
+        public static bool HorizontallySymmetricalCheck(this Cell[,] field)
+        {
+            for (int j = 0; j < field.GetLength(0); j++)
+            {
+                for (int i = 0; i < field.GetLength(1) / 2; i++)
+                {
+                    if (field[i, j].Point != field[i, (field.GetLength(1) - 1) - j].Point) return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
         /// フィールド上のセルをPoint型で取得します。
         /// </summary>
         /// <param name="field">対称となるフィールド</param>
@@ -379,41 +411,10 @@ namespace Procon29_Visualizer
         {
             if (Field.GetLength(0) > 12 || Field.GetLength(1) > 12) ;
             //message += "[Error] 'field' was not declare array smaller than 12 * 12" + "\n";
-            IsHorizontallySymmetrical = HorizontallySymmetricalCheck();
-            IsVerticallySymmetrical = VerticallySymmetricalCheck();
+            IsHorizontallySymmetrical = Field.HorizontallySymmetricalCheck();
+            IsVerticallySymmetrical = Field.VerticallySymmetricalCheck();
         }
 
-        /// <summary>
-        /// 上下対称か判定します。
-        /// </summary>
-        /// <returns>上下対称なら真、そうでなければ偽が返ってきます。</returns>
-        private bool VerticallySymmetricalCheck()
-        {
-            for (int i = 0; i < Field.GetLength(1); i++)
-            {
-                for (int j = 0; j < Field.GetLength(0) / 2; j++)
-                {
-                    if (Field[i, j].Point != Field[(Field.GetLength(0) - 1) - i, j].Point) return false;
-                }
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// 左右対称か判定します。
-        /// </summary>
-        /// <returns>左右対称なら真、そうでなければ偽が返ってきます。</returns>
-        private bool HorizontallySymmetricalCheck()
-        {
-            for (int j = 0; j < Field.GetLength(0); j++)
-            {
-                for (int i = 0; i < Field.GetLength(1) / 2; i++)
-                {
-                    if (Field[i, j].Point != Field[i, (Field.GetLength(1) - 1) - j].Point) return false;
-                }
-            }
-            return true;
-        }
 
         /// <summary>
         /// そのフィールドが塗れるか判定します。
