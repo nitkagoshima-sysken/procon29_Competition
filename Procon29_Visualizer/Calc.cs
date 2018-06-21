@@ -222,7 +222,7 @@ namespace Procon29_Visualizer
         /// <param name="field">対称となるフィールド</param>
         /// <param name="point">対称となるマス</param>
         /// <returns></returns>
-        public static Cell At(this Cell[,] field, Point point) => field[point.X, point.Y];
+        public static Cell Take(this Cell[,] field, Point point) => field[point.X, point.Y];
     }
 
     /// <summary>
@@ -388,14 +388,35 @@ namespace Procon29_Visualizer
         /// </summary>
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームの直接的なエリアのポイントの合計</returns>
-        public int AreaPoint(Team team) => FieldList.Sum(x => ((x.IsTileOn[(int)team] == true) ? x.Point : 0));
+        public int AreaPoint(int team) => FieldList.Sum(x => ((x.IsTileOn[team] == true) ? x.Point : 0));
+
+        /// <summary>
+        /// 指定したチームの直接的なエリアのポイントの合計を計算します。
+        /// </summary>
+        /// <param name="team">計算するチーム</param>
+        /// <returns>指定したチームの直接的なエリアのポイントの合計</returns>
+        public int AreaPoint(Team team) => AreaPoint((int)team);
 
         /// <summary>
         /// 指定したチームが囲んだエリアのポイントの絶対値の合計を計算します。
         /// </summary>
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームが囲んだエリアのポイントの絶対値の合計</returns>
-        public int ClosedPoint(Team team) => FieldList.Sum(x => ((x.IsEnclosed[(int)team] == true) ? Math.Abs(x.Point) : 0));
+        public int ClosedPoint(int team) => FieldList.Sum(x => ((x.IsEnclosed[team] == true) ? Math.Abs(x.Point) : 0));
+
+        /// <summary>
+        /// 指定したチームが囲んだエリアのポイントの絶対値の合計を計算します。
+        /// </summary>
+        /// <param name="team">計算するチーム</param>
+        /// <returns>指定したチームが囲んだエリアのポイントの絶対値の合計</returns>
+        public int ClosedPoint(Team team) => ClosedPoint((int)team);
+
+        /// <summary>
+        /// 指定したチームの合計ポイントを計算します。
+        /// </summary>
+        /// <param name="team">計算するチーム</param>
+        /// <returns>指定したチームの合計ポイント</returns>
+        public int TotalPoint(int team) => AreaPoint(team) + ClosedPoint(team);
 
         /// <summary>
         /// 指定したチームの合計ポイントを計算します。
@@ -424,14 +445,7 @@ namespace Procon29_Visualizer
         bool IsFillable(int team, Point point) => 0 <= point.X && point.X < Field.Width() && 0 <= point.Y && point.Y < Field.Height() && !Field[point.X, point.Y].IsTileOn[team];
 
         /// <summary>
-        /// 指定したフィールドを基準にIsIndirectAreaをfalseで塗りつぶします。
-        /// </summary>
-        /// <param name="team">対象となるチーム</param>
-        /// <param name="point">始点にするフィールド</param>
-        private void FillFalseInIsEnclosed(Team team, Point point) => FillFalseInIsEnclosed((int)team, point);
-
-        /// <summary>
-        /// 指定したフィールドを基準にIsIndirectAreaをfalseで塗りつぶします。
+        /// 指定したフィールドを基準にIsEnclosedをfalseで塗りつぶします。
         /// </summary>
         /// <param name="team">対象となるチーム</param>
         /// <param name="point">始点にするフィールド</param>
@@ -459,16 +473,48 @@ namespace Procon29_Visualizer
         }
 
         /// <summary>
-        /// あるフィールドが囲まれているか判定します。
+        /// 指定したフィールドを基準にIsEnclosedをfalseで塗りつぶします。
         /// </summary>
         /// <param name="team">対象となるチーム</param>
-        private void CheckEnclosedArea(Team team)
-        {
-            foreach (var item in Field)
-            {
-                item.IsEnclosed[(int)team] = true;
-            }
+        /// <param name="point">始点にするフィールド</param>
+        private void FillFalseInIsEnclosed(Team team, Point point) => FillFalseInIsEnclosed((int)team, point);
 
+        /// <summary>
+        /// 対象となるチームのIsEnclosedをTrueで初期化します。
+        /// </summary>
+        /// <param name="team">対象となるチーム</param>
+        private void ResetTrueInIsEnclosed(int team)
+        {
+            foreach (var cell in Field)
+            {
+                cell.IsEnclosed[team] = true;
+            }
+        }
+
+        /// <summary>
+        /// 対象となるチームのIsEnclosedをTrueで初期化します。
+        /// </summary>
+        /// <param name="team">対象となるチーム</param>
+        private void ResetTrueInIsEnclosed(Team team) => ResetTrueInIsEnclosed((int)team);
+
+        /// <summary>
+        /// すべてのチームのIsEnclosedをTrueで初期化します。
+        /// </summary>
+        private void ResetTrueInIsEnclosed()
+        {
+            foreach (Team team in Enum.GetValues(typeof(Team)))
+            {
+                ResetTrueInIsEnclosed(team);
+            }
+        }
+
+        /// <summary>
+        /// 対象となるチームにおいてフィールドが囲まれているか判定します。
+        /// </summary>
+        /// <param name="team">対象となるチーム</param>
+        private void CheckEnclosedArea(int team)
+        {
+            ResetTrueInIsEnclosed(team);
             for (int x = 0; x < Field.Width(); x++)
             {
                 for (int y = 0; y < Field.Height(); y++)
@@ -480,22 +526,38 @@ namespace Procon29_Visualizer
         }
 
         /// <summary>
-        /// そのマスにエージェントがいるか、またはムーア近傍にいるかを判定します
+        /// 対象となるチームにおいてフィールドが囲まれているか判定します。
         /// </summary>
-        /// <param name="point">対象となるマス</param>
-        /// <returns>そのマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
-        public bool IsAgentInNeighborhood(Point point)
+        /// <param name="team">対象となるチーム</param>
+        private void CheckEnclosedArea(Team team) => CheckEnclosedArea((int)team);
+
+        /// <summary>
+        /// すべてのチームにおいてフィールドが囲まれているか判定します。
+        /// </summary>
+        private void CheckEnclosedArea()
         {
-            foreach (var item in AgentPosition)
+            foreach (Team team in Enum.GetValues(typeof(Team)))
             {
-                for (int x = -1; x <= 1; x++)
+                CheckEnclosedArea(team);
+            }
+        }
+
+        /// <summary>
+        /// 対象となるマスに対象となるエージェントがいるか、またはムーア近傍にいるかを判定します
+        /// </summary>
+        /// <param name="team">対象となるチーム</param>
+        /// <param name="agent">対象となるエージェント</param>
+        /// <param name="point">対象となるマス</param>
+        /// <returns>対象となるマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
+        public bool IsAgentInNeighborhood(int team, int agent, Point point)
+        {
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int y = -1; y <= 1; y++)
                 {
-                    for (int y = -1; y <= 1; y++)
+                    if (point.X == AgentPosition[team, agent].X + x && point.Y == AgentPosition[team, agent].Y + y)
                     {
-                        if (point.X == item.X + x && point.Y == item.Y + y)
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
             }
@@ -503,9 +565,35 @@ namespace Procon29_Visualizer
         }
 
         /// <summary>
-        /// 現在のターンをパスします。
+        /// 対象となるマスに対象となるエージェントがいるか、またはムーア近傍にいるかを判定します
         /// </summary>
-        public void Pass()
+        /// <param name="team">対象となるチーム</param>
+        /// <param name="agent">対象となるエージェント</param>
+        /// <param name="point">対象となるマス</param>
+        /// <returns>対象となるマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
+        public bool IsAgentInNeighborhood(Team team, Agent agent, Point point) => IsAgentInNeighborhood((int)team, (int)agent, point);
+
+        /// <summary>
+        /// 対象となるマスにエージェントがいるか、またはムーア近傍にいるかを判定します
+        /// </summary>
+        /// <param name="point">対象となるマス</param>
+        /// <returns>そのマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
+        public bool IsAgentInNeighborhood(Point point)
+        {
+            foreach (Team team in Enum.GetValues(typeof(Team)))
+            {
+                foreach (Agent agent in Enum.GetValues(typeof(Agent)))
+                {
+                    if (IsAgentInNeighborhood(team, agent, point)) return true;
+                }
+            }
+            return false;
+        }
+        
+        /// <summary>
+        /// ターンエンドします。
+        /// </summary>
+        public void TurnEnd()
         {
             Turn++;
         }
@@ -515,14 +603,14 @@ namespace Procon29_Visualizer
         /// </summary>
         /// <param name="team">対象となるチーム</param>
         /// <param name="agent">対象となるエージェント</param>
-        public void PutTile(Team team, Agent agent) => Field[AgentPosition[(int)team, (int)agent].X, AgentPosition[(int)team, (int)agent].Y].IsTileOn[(int)team] = true;
+        public void PutTile(int team, int agent) => Field.Take(AgentPosition[team, agent]).IsTileOn[team] = true;
 
         /// <summary>
         /// 自分のフィールドにタイルを置きます。
         /// </summary>
         /// <param name="team">対象となるチーム</param>
         /// <param name="agent">対象となるエージェント</param>
-        public void PutTile(int team, int agent) => PutTile((Team)team, (Agent)agent);
+        public void PutTile(Team team, Agent agent) => PutTile((int)team, (int)agent);
 
         /// <summary>
         /// 相手のフィールドに置いてあるタイルを破壊します。
