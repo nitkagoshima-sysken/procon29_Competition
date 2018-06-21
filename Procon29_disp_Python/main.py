@@ -72,15 +72,22 @@ class Modes():
         self.LearnSetFlag = False
 
     def AutoSet(self, log, field, agent, flags):
+        self.Clear()
         self.bot = [procon29.Bot.FakeBot(log, field, agent[0].now, flags), procon29.Bot.FakeBot(log, field, agent[1].now, flags)]
+        self.auto = True
         self.AutoSetFlag = True
 
     def LearnSet(self, log, field, agent, flags):
+        self.Clear()
         self.bot = [procon29.Bot.FakeBot(log, field, agent[0].now, flags[0]),\
                     procon29.Bot.FakeBot(log, field, agent[1].now, flags[0]),\
                     procon29.Bot.FakeBot(log, field, agent[2].now, flags[1]),\
                     procon29.Bot.FakeBot(log, field, agent[3].now, flags[1])]
+        self.learn = True
         self.LearnSetFlag = True
+
+class FormatError(Exception):
+    pass
 
 def FiledClear():
     global nowturn
@@ -251,6 +258,18 @@ def start_func():
         errordialog.ShowModal()
         errordialog.Destroy()
 
+def OpenFile(file):
+    if '.png' in file:
+        data = decode(Image.open(file))
+        text = data[0][0].decode('utf-8', 'ignore')
+        return list(text.split(':'))
+    elif '.pqr' in file:
+        f = open(file, 'r')
+        text = f.read()
+        return list(text.split(':\n'))
+    else:
+        raise FormatError(file)
+
 def Menu_handler(event):
     global load_file_flag
     global turn
@@ -261,17 +280,15 @@ def Menu_handler(event):
             FiledClear()
         log.LogWrite('Open file select dialog\n', logtype=procon29.SYSTEM_LOG)
         dialog = wx.FileDialog(None,'Select File','./')
-        dialog.SetWildcard('*.png')
+        dialog.SetWildcard('*.png;*.pqr')
         dialog.ShowModal()
-        image = dialog.GetPath()
+        filedata = dialog.GetPath()
         try:
-            data = decode(Image.open(image))
-        except AttributeError:
-            pass
+            text = OpenFile(filedata)
+        except FormatError:
+            log.LogWrite("Can't open file", logtype=procon29.ERROR)
         else:
-            log.LogWrite('File open {}\n'.format(image), logtype=procon29.FILE_LOG)
-            text = data[0][0].decode('utf-8', 'ignore')
-            text = list(text.split(':'))
+            log.LogWrite('File open {}\n'.format(filedata), logtype=procon29.FILE_LOG)
             createbutton(text)
             turndialog = wx.TextEntryDialog(None, 'ターン数を入力してください', 'ターン数決定')
             turndialog.SetValue('10')
@@ -306,7 +323,7 @@ def Menu_handler(event):
         log.LogWrite('Open about info\n', logtype=procon29.SYSTEM_LOG)
         info = adv.AboutDialogInfo()
         info.SetName('PPAP -Procon29 Python Application Project-')
-        info.SetVersion('1.5.1')
+        info.SetVersion('2.0.0')
         info.SetCopyright('Copyright (c) 2018 Glaz egy.')
         adv.AboutBox(info)
     
@@ -327,8 +344,6 @@ def Radio_handler(event):
             if modes.auto == False:
                 modes.AutoSet(log, field[0], [agent[2], agent[3]], red_flags)
             color_select.Enable()
-            modes.Clear()
-            modes.auto = True
             start.Enable()
         elif mode == 2:
             color_select.Disable()
@@ -339,8 +354,6 @@ def Radio_handler(event):
             if modes.learn == False:
                 modes.LearnSet(log, field[0], agent, [blue_flags, red_flags])
             color_select.Disable()
-            modes.Clear()
-            modes.learn = True
             start.Enable()
             cancel.Disable()
             turn_end.Disable()

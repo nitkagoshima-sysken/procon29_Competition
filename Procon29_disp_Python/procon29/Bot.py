@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
 
 class FakeBot():
-    def __init__(self, logfile, filed_data, position, flags):
+    def __init__(self, logfile, field_data, position, flags):
         self.log = logfile
         self.position = position
-        self.filed_point = filed_data.point
-        self.aim = self.AimCenterSwicth()
+        self.filed_point = field_data.point
         self.flags = flags
 
-    def AimCenterSwicth(self):
-        pass
 
     def NextPositionSet(self, agent, agent_data, enow, num):
         temp = -10
@@ -28,3 +25,13 @@ class FakeBot():
         else:
             agent.NextSet(pos)
             self.flags.next[num] = pos
+
+class MainBot(FakeBot):
+    def __init__(self, logfile, field_data, position, flags):
+        self.FakeBot.__init__(self, logfile, field_data, position, flags)
+        self.aim = self.AimCenterSwicth()
+        self.field = {'outpos' : field_data.field_out,
+                    'inpos' : field_data.field_size}
+    
+    def AimCenterSwicth(self):
+        pass

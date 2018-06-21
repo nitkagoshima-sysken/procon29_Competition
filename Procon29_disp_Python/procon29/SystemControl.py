@@ -15,5 +15,5 @@ class LogControl:
 
     def LogWrite(self, write_text, logtype=procon29.GAME_LOG, write_type='a'):
         log_file = open(self.name, write_type)
-        log_file.write(datetime.now().strftime("[%Y/%m/%d %H:%M:%S]")+type_dic[logtype]+write_text)
+        log_file.write(datetime.now().strftime("[%Y/%m/%d %H:%M:%S] ")+type_dic[logtype]+write_text)
         log_file.close()
