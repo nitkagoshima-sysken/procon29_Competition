@@ -462,7 +462,7 @@ namespace Procon29_Visualizer
         /// あるフィールドが囲まれているか判定します。
         /// </summary>
         /// <param name="team">対象となるチーム</param>
-        private void CheckIndirectArea(Team team)
+        private void CheckEnclosedArea(Team team)
         {
             foreach (var item in Field)
             {
@@ -564,7 +564,7 @@ namespace Procon29_Visualizer
                     if (movable)
                     {
                         RemoveTile(team: (Team)otherteam, point: where);
-                        CheckIndirectArea((Team)otherteam);
+                        CheckEnclosedArea((Team)otherteam);
                         break;
                     }
                 }
@@ -575,7 +575,7 @@ namespace Procon29_Visualizer
                 PutTile(team: team, agent: agent);
             }
 
-            CheckIndirectArea(team);
+            CheckEnclosedArea(team);
 
             Turn++;
             foreach (var item in Field)
