@@ -415,7 +415,6 @@ namespace Procon29_Visualizer
             IsVerticallySymmetrical = Field.VerticallySymmetricalCheck();
         }
 
-
         /// <summary>
         /// そのフィールドが塗れるか判定します。
         /// </summary>
@@ -429,14 +428,14 @@ namespace Procon29_Visualizer
         /// </summary>
         /// <param name="team">対象となるチーム</param>
         /// <param name="point">始点にするフィールド</param>
-        private void FillFalse(Team team, Point point) => FillFalse((int)team, point);
+        private void FillFalseInIsEnclosed(Team team, Point point) => FillFalseInIsEnclosed((int)team, point);
 
         /// <summary>
         /// 指定したフィールドを基準にIsIndirectAreaをfalseで塗りつぶします。
         /// </summary>
         /// <param name="team">対象となるチーム</param>
         /// <param name="point">始点にするフィールド</param>
-        private void FillFalse(int team, Point point)
+        private void FillFalseInIsEnclosed(int team, Point point)
         {
             Stack<Point> stack = new Stack<Point>();
             stack.Push(point);
@@ -475,7 +474,7 @@ namespace Procon29_Visualizer
                 for (int y = 0; y < Field.Height(); y++)
                 {
                     if (x == 0 || x == Field.Width() - 1 || y == 0 || y == Field.Height() - 1)
-                        FillFalse(team, new Point(x, y));
+                        FillFalseInIsEnclosed(team, new Point(x, y));
                 }
             }
         }
