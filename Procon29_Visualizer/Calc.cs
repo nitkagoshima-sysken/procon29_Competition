@@ -200,7 +200,6 @@ namespace Procon29_Visualizer
     {
         private int turn;
         private Cell[,] field = new Cell[12, 12];
-        private const string pointFamilyName = "Impact";
         private Point[,] agentPosition = new Point[2, 2];
         private static readonly string[,] shortTeamAgentName = new string[2, 2] { { "A1", "A2", }, { "B1", "B2", }, };
         private bool isVerticallySymmetrical, isHorizontallySymmetrical;
@@ -280,11 +279,6 @@ namespace Procon29_Visualizer
         {
             get { return (Turn % 2 == 1) ? Team.A : Team.B; }
         }
-
-        /// <summary>
-        /// フォントの名前を設定または取得します。
-        /// </summary>
-        public static string PointFamilyName => pointFamilyName;
 
         /// <summary>
         /// エージェントの位置をを設定または取得します。
