@@ -262,11 +262,11 @@ def OpenFile(file):
     if '.png' in file:
         data = decode(Image.open(file))
         text = data[0][0].decode('utf-8', 'ignore')
-        return list(text.split(':'))
+        return text.split(':')
     elif '.pqr' in file:
         f = open(file, 'r')
         text = f.read()
-        return list(text.split(':\n'))
+        return text.replace('\n','').split(':\n')
     else:
         raise FormatError(file)
 
