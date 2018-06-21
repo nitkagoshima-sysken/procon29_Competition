@@ -1,4 +1,4 @@
-﻿namespace procon29_disp
+﻿namespace Procon29_Visualizer
 {
     partial class MainForm
     {

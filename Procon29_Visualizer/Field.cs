@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace procon29_disp
+namespace Procon29_Visualizer
 {
     /// <summary>
     /// チームが先攻か後攻かを表すための列挙体

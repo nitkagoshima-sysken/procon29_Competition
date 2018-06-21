@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
-namespace procon29_disp
+namespace Procon29_Visualizer
 {
     static class Program
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace procon29_disp
+namespace Procon29_Visualizer
 {
     /// <summary>
     /// PQR形式のデータを表します。
@@ -56,7 +56,7 @@ namespace procon29_disp
     /// <summary>
     /// いろいろなデータを宣言させます。
     /// </summary>
-    static class Procon29_CSV
+    static class DataConverter
     {
 
         /// <summary>

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 //using System.Windows.Forms;
 
-namespace procon29_disp
+namespace Procon29_Visualizer
 {
     /// <summary>
     /// 方向を表します。
@@ -196,7 +196,7 @@ namespace procon29_disp
     /// <summary>
     /// procon29におけるフィールドの管理、ポイント計算などの全般を行います。
     /// </summary>
-    class Procon29_Calc
+    class Calc
     {
         private int turn;
         private Cell[,] field = new Cell[12, 12];
@@ -211,7 +211,7 @@ namespace procon29_disp
         /// </summary>
         /// <param name="field">フィールドのポイントを設定します。</param>
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public Procon29_Calc(int[,] field, Point[,] initPosition)
+        public Calc(int[,] field, Point[,] initPosition)
         {
             Field = new Cell[field.GetLength(1), field.GetLength(0)];
             for (int y = 0; y < Field.Height(); y++)
@@ -237,7 +237,7 @@ namespace procon29_disp
         /// </summary>
         /// <param name="field">フィールドのポイントを設定します。</param>
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public Procon29_Calc(int[,] field, Point[] initPosition)
+        public Calc(int[,] field, Point[] initPosition)
         {
             Field = new Cell[field.GetLength(1), field.GetLength(0)];
             for (int y = 0; y < Field.Height(); y++)

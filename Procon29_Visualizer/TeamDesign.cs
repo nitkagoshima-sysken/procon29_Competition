@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace procon29_disp
+namespace Procon29_Visualizer
 {
     /// <summary>
     /// チームのデザインを表現します。

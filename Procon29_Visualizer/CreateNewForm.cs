@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace procon29_disp
+namespace Procon29_Visualizer
 {
     public partial class CreateNewForm : Form
     {

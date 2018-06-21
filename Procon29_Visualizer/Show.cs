@@ -7,14 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace procon29_disp
+namespace Procon29_Visualizer
 {
-    class Procon29_Show
+    class Show
     {
-        private Procon29_Calc procon29_Calc;
+        private Calc procon29_Calc;
         private TeamDesign[] teamDesign;
         private PictureBox pictureBox;
-        private Procon29_Logger procon29_Logger;
+        private Logger procon29_Logger;
         private SolidBrush backGroundSolidBrush = new SolidBrush(Color.FromArgb(48, 48, 48));
         private SolidBrush selectSolidBrush = new SolidBrush(Color.FromArgb(50, Color.DarkGray));
         private SolidBrush clickedSolidBrush = new SolidBrush(Color.FromArgb(100, Color.SkyBlue));
@@ -32,7 +32,7 @@ namespace procon29_disp
         /// <summary>
         /// 描画する対象となるProcon29_Calcを設定または取得します。
         /// </summary>
-        internal Procon29_Calc Procon29_Calc { get => procon29_Calc; set => procon29_Calc = value; }
+        internal Calc Procon29_Calc { get => procon29_Calc; set => procon29_Calc = value; }
 
         /// <summary>
         /// 描画するときの色を設定または取得します。
@@ -77,7 +77,7 @@ namespace procon29_disp
         /// <summary>
         /// ログを書き込むためのProcon29_Loggerを設定または取得します。
         /// </summary>
-        internal Procon29_Logger Procon29_Logger { get => procon29_Logger; set => procon29_Logger = value; }
+        internal Logger Procon29_Logger { get => procon29_Logger; set => procon29_Logger = value; }
 
         /// <summary>
         /// 選択したチームとエージェントの設定または取得します。
@@ -89,7 +89,7 @@ namespace procon29_disp
         /// </summary>
         /// <param name="procon29_Calc">表示するProcon29_Calc</param>
         /// <param name="teamDesigns">表示するときのチームデザイン</param>
-        public Procon29_Show(Procon29_Calc procon29_Calc, TeamDesign[] teamDesigns)
+        public Show(Calc procon29_Calc, TeamDesign[] teamDesigns)
         {
             Procon29_Calc = procon29_Calc;
             TeamDesign = teamDesigns;
@@ -119,7 +119,7 @@ namespace procon29_disp
         /// <param name="procon29_Calc">表示するProcon29_Calc</param>
         /// <param name="teamDesigns">表示するときのチームデザイン</param>
         /// <param name="pictureBox">表示する場所</param>
-        public Procon29_Show(Procon29_Calc procon29_Calc, TeamDesign[] teamDesigns, PictureBox pictureBox, Procon29_Logger procon29_Logger)
+        public Show(Calc procon29_Calc, TeamDesign[] teamDesigns, PictureBox pictureBox, Logger procon29_Logger)
         {
             Procon29_Calc = procon29_Calc;
             TeamDesign = teamDesigns;
@@ -217,7 +217,7 @@ namespace procon29_disp
                 for (int agent = 0; agent < 2; agent++)
                 {
                     graphics.DrawString(
-                        s: Procon29_Calc.ShortTeamAgentName[team, agent],
+                        s: Calc.ShortTeamAgentName[team, agent],
                         font: PointFont,
                         brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
                         x: (float)(Procon29_Calc.AgentPosition[team, agent].X + 0.7) * fieldWidth,
