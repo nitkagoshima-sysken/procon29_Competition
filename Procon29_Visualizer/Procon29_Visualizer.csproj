@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calc.cs" />
     <Compile Include="CommonData.cs" />
     <Compile Include="CreateNewForm.cs">
       <SubType>Form</SubType>
@@ -69,17 +70,15 @@
     <Compile Include="CreateNewForm.Designer.cs">
       <DependentUpon>CreateNewForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataConverter.cs" />
     <Compile Include="Field.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Procon29_Calc.cs" />
-    <Compile Include="Procon29_CSV.cs" />
-    <Compile Include="Procon29_Logger.cs" />
-    <Compile Include="Procon29_Show.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -87,6 +86,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Show.cs" />
     <Compile Include="TeamDesign.cs" />
     <EmbeddedResource Include="CreateNewForm.resx">
       <DependentUpon>CreateNewForm.cs</DependentUpon>

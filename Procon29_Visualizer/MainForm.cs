@@ -76,7 +76,7 @@ namespace Procon29_Visualizer
 
             this.MoveAgent(Team.A, Agent.One, new Point(10, 3));
             //log.WriteLine(Color.LightGray, procon.SumDirectArea(Team.A).ToString());
-            show.Show(FieldDisplay);
+            show.Showing(FieldDisplay);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Procon29_Visualizer
         private void MainForm_Resize(object sender, EventArgs e)
         {
             Control c = (Control)sender;
-            show.Show(FieldDisplay);
+            show.Showing(FieldDisplay);
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace Procon29_Visualizer
             var delta = DateTime.Now - time;
             if (delta.TotalMilliseconds >= 1.0)
             {
-                show.Show(FieldDisplay);
+                show.Showing(FieldDisplay);
                 // フィールド内にいるときは、フィールドの情報を表示する。
                 if (0 <= show.CursorPosition(FieldDisplay).X &&
                     show.CursorPosition(FieldDisplay).X < procon.Field.Width() &&
@@ -260,7 +260,7 @@ namespace Procon29_Visualizer
             {
                 MessageBox.Show("不正なキー入力です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            show.Show(FieldDisplay);
+            show.Showing(FieldDisplay);
         }
 
         /// <summary>
@@ -315,7 +315,7 @@ namespace Procon29_Visualizer
                         procon = new Calc(pqr_data.Fields, new Point[2] { pqr_data.One, pqr_data.Two });
 
                         show = new Show(procon, teamDesigns);
-                        show.Show(FieldDisplay);
+                        show.Showing(FieldDisplay);
                     }
                     catch (Exception)
                     {
@@ -356,7 +356,7 @@ namespace Procon29_Visualizer
                     if (isIndependence) MoveAgent(team, agent, show.wanttogo[(int)team, (int)agent]);
                 }
             }
-            show.Show(FieldDisplay);
+            show.Showing(FieldDisplay);
         }
     }
 }

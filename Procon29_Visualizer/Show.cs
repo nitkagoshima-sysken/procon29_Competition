@@ -301,7 +301,7 @@ namespace Procon29_Visualizer
         /// 表示を行います。
         /// </summary>
         /// <param name="pictureBox">表示するPictureBoxを指定します</param>
-        public void Show(PictureBox pictureBox)
+        public void Showing(PictureBox pictureBox)
         {
             //描画先とするImageオブジェクトを作成する
             Bitmap canvas = new Bitmap(((pictureBox.Width <= 0) ? 1 : pictureBox.Width), ((pictureBox.Height <= 0) ? 1 : pictureBox.Height));
