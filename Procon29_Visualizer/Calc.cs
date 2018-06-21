@@ -190,11 +190,11 @@ namespace Procon29_Visualizer
         /// <returns>上下対称なら真、そうでなければ偽が返ってきます。</returns>
         public static bool VerticallySymmetricalCheck(this Cell[,] field)
         {
-            for (int i = 0; i < field.GetLength(1); i++)
+            for (int x = 0; x < field.Width(); x++)
             {
-                for (int j = 0; j < field.GetLength(0) / 2; j++)
+                for (int y = 0; y < field.Height() / 2; y++)
                 {
-                    if (field[i, j].Point != field[(field.GetLength(0) - 1) - i, j].Point) return false;
+                    if (field[x, y].Point != field[x, (field.Height() - 1) - y].Point) return false;
                 }
             }
             return true;
@@ -206,11 +206,11 @@ namespace Procon29_Visualizer
         /// <returns>左右対称なら真、そうでなければ偽が返ってきます。</returns>
         public static bool HorizontallySymmetricalCheck(this Cell[,] field)
         {
-            for (int j = 0; j < field.GetLength(0); j++)
+            for (int x = 0; x < field.Width() / 2; x++)
             {
-                for (int i = 0; i < field.GetLength(1) / 2; i++)
+                for (int y = 0; y < field.Height(); y++)
                 {
-                    if (field[i, j].Point != field[i, (field.GetLength(1) - 1) - j].Point) return false;
+                    if (field[x, y].Point != field[(field.Height() - 1) - x, y].Point) return false;
                 }
             }
             return true;
@@ -240,18 +240,12 @@ namespace Procon29_Visualizer
         /// <summary>
         /// Procon29_Calcを初期化します。
         /// </summary>
-        /// <param name="field">フィールドのポイントを設定します。</param>
+        /// <param name="point">フィールドのポイントを設定します。</param>
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public Calc(int[,] field, Point[,] initPosition)
+        public Calc(int[,] point, Point[,] initPosition)
         {
-            Field = new Cell[field.GetLength(1), field.GetLength(0)];
-            for (int y = 0; y < Field.Height(); y++)
-            {
-                for (int x = 0; x < Field.Width(); x++)
-                {
-                    Field[y, x] = new Cell { Point = field[x, y] };
-                }
-            }
+            Field = new Cell[point.GetLength(1), point.GetLength(0)];
+            InitializationOfField(point);
             Turn = 1;
             for (int t = 0; t < 2; t++)
             {
@@ -266,18 +260,11 @@ namespace Procon29_Visualizer
         /// <summary>
         /// Procon29_Calcを初期化します。
         /// </summary>
-        /// <param name="field">フィールドのポイントを設定します。</param>
+        /// <param name="point">フィールドのポイントを設定します。</param>
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public Calc(int[,] field, Point[] initPosition)
-        {
-            Field = new Cell[field.GetLength(1), field.GetLength(0)];
-            for (int y = 0; y < Field.Height(); y++)
-            {
-                for (int x = 0; x < Field.Width(); x++)
-                {
-                    Field[y, x] = new Cell { Point = field[x, y] };
-                }
-            }
+        public Calc(int[,] point, Point[] initPosition)
+        {            
+            InitializationOfField(point);
             Turn = 1;
             for (int a = 0; a < 2; a++)
             {
@@ -287,8 +274,8 @@ namespace Procon29_Visualizer
             PointMapCheck();
             if (IsHorizontallySymmetrical && IsVerticallySymmetrical)
             {
-                AgentPosition[1, 0] = Field.FlipHorizontalAndVertical(AgentPosition[0, 0]);
-                AgentPosition[1, 1] = Field.FlipHorizontalAndVertical(AgentPosition[0, 1]);
+                AgentPosition[1, 0] = Field.FlipVertical(AgentPosition[0, 0]);
+                AgentPosition[1, 1] = Field.FlipVertical(AgentPosition[0, 1]);
             }
             else if (IsVerticallySymmetrical)
             {
@@ -305,11 +292,19 @@ namespace Procon29_Visualizer
         }
 
         /// <summary>
-        /// 現在のターンが先攻か後攻かを取得します。
+        /// フィールドの初期化をします。
         /// </summary>
-        public Team TurnTeam
+        /// <param name="point"></param>
+        private void InitializationOfField(int[,] point)
         {
-            get { return (Turn % 2 == 1) ? Team.A : Team.B; }
+            Field = new Cell[point.GetLength(1), point.GetLength(0)];
+            for (int x = 0; x < Field.Width(); x++)
+            {
+                for (int y = 0; y < Field.Height(); y++)
+                {
+                    Field[x, y] = new Cell { Point = point[y, x] };
+                }
+            }
         }
 
         /// <summary>
@@ -430,7 +425,7 @@ namespace Procon29_Visualizer
         /// </summary>
         public void PointMapCheck()
         {
-            if (Field.GetLength(0) > 12 || Field.GetLength(1) > 12) ;
+            if (Field.Width() > 12 || Field.Height() > 12) ;
             //message += "[Error] 'field' was not declare array smaller than 12 * 12" + "\n";
             IsHorizontallySymmetrical = Field.HorizontallySymmetricalCheck();
             IsVerticallySymmetrical = Field.VerticallySymmetricalCheck();
@@ -589,14 +584,11 @@ namespace Procon29_Visualizer
             }
             return false;
         }
-        
+
         /// <summary>
         /// ターンエンドします。
         /// </summary>
-        public void TurnEnd()
-        {
-            Turn++;
-        }
+        public void TurnEnd() => Turn++;
 
         /// <summary>
         /// 自分のフィールドにタイルを置きます。

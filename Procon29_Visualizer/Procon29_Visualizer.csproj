@@ -63,7 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Calc.cs" />
-    <Compile Include="CommonData.cs" />
     <Compile Include="CreateNewForm.cs">
       <SubType>Form</SubType>
     </Compile>

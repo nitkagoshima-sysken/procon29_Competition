@@ -131,11 +131,11 @@ namespace Procon29_Visualizer
 
                 list.Clear();
                 list = SpaceCSVToList(m.Groups["one"].Value.Replace(":", " "));
-                pqr.One = new Point(list[0] - 1, list[1] - 1);
+                pqr.One = new Point(list[1] - 1, list[0] - 1);
 
                 list.Clear();
                 list = SpaceCSVToList(m.Groups["two"].Value.Replace(":", " "));
-                pqr.Two = new Point(list[0] - 1, list[1] - 1);
+                pqr.Two = new Point(list[1] - 1, list[0] - 1);
             }
 
             return pqr;

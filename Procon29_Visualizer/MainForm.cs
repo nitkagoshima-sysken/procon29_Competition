@@ -19,7 +19,7 @@ namespace Procon29_Visualizer
         Team selectedTeam;
         Agent selectedAgent;
 
-        Calc procon;
+        Calc calc;
         Show show;
         Logger log;
         TeamDesign[] teamDesigns;
@@ -37,46 +37,32 @@ namespace Procon29_Visualizer
             this.FieldDisplay.MouseMove += new MouseEventHandler(FieldDisplay_MouseMove);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
 
-            procon = new Calc(
-                field: new int[,] {
-                    { -6, 15,  0,  7,  0, -1, 13, -8, -7, -7,  2, -3, },
-                    {  8,  1, -5,  0, -2, -8, 10, -3,-15, 14, -4, -3, },
-                    {-15, 14, -4, -3, -8, -3, -7, -5,-11,-16, -9, -1, },
-                    { 15,  1, 14, 10,-11, 11, -2,  8,  6, 11,  9, -5, },
-                    {-11,-16,  0,  8,-10, -8,-10,  5,  4,  5,  7,-14, },
-                    {-13, -3, 16, -5,  6, 12, -3, -5,  0,  1, 16,-16, },
-                    {-13, -3, 16, -5,  6, 12, -3, -5,  0,  1, 16,-16, },
-                    {-11,-16,  0,  8,-10, -8,-10,  5,  4,  5,  7,-14, },
-                    { 15,  1, 14, 10,-11, 11, -2,  8,  6, 11,  9, -5, },
-                    {-15, 14, -4, -3, -8, -3, -7, -5,-11,-16, -9, -1, },
-                    {  8,  1, -5,  0, -2, -8, 10, -3,-15, 14, -4, -3, },
-                    { -6, 15,  0,  7,  0, -1, 13, -8, -7, -7,  2, -3, },
-                },
-                initPosition: new Point[,]
-                {
-                    { new Point(11, 3), new Point(11, 9) },
-                    { new Point(0, 3), new Point(0, 9) },
-                });
+            log = new Logger(messageBox);
+            log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 3.0)");
 
-            procon.PointMapCheck();
+            var pqr = "8 11:-2 1 0 1 2 0 2 1 0 1 -2:1 3 2 -2 0 1 0 -2 2 3 1:1 3 2 1 0 -2 0 1 2 3 1:2 1 1 2 2 3 2 2 1 1 2:2 1 1 2 2 3 2 2 1 1 2:1 3 2 1 0 -2 0 1 2 3 1:1 3 2 -2 0 1 0 -2 2 3 1:-2 1 0 1 2 0 2 1 0 1 -2:2 2:7 10:";
+            log.WriteLine(Color.LightGray, pqr);
+            var pqr_data = DataConverter.ToPQRData(pqr);
+            calc = new Calc(pqr_data.Fields, new Point[2] { pqr_data.One, pqr_data.Two });
 
             teamDesigns = new TeamDesign[2] {
                 new TeamDesign(name:"Orange", agentColor:Color.DarkOrange, areaColor:Color.DarkOrange),
                 new TeamDesign(name:"Lime", agentColor:Color.LimeGreen, areaColor:Color.LimeGreen),
             };
-            show = new Show(procon, teamDesigns);
-            log = new Logger(messageBox);
-            log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 3.0)");
+            show = new Show(calc, teamDesigns);
+            show.Showing(FieldDisplay);
+            calc.PointMapCheck();
+
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Team A");
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "name: " + teamDesigns[(int)Team.A].Name);
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 0]);
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 1]);
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Team B");
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "name: " + teamDesigns[(int)Team.B].Name);
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 0]);
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);
 
             messageBox.Select(messageBox.Text.Length, 0);
-
-            this.MoveAgent(Team.A, Agent.One, new Point(10, 3));
-            //log.WriteLine(Color.LightGray, procon.SumDirectArea(Team.A).ToString());
-            show.Showing(FieldDisplay);
         }
 
         /// <summary>
@@ -109,12 +95,9 @@ namespace Procon29_Visualizer
         private void FieldDisplay_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             show.DoubleClickedShow();
-            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Direct Point: " + procon.AreaPoint(Team.A).ToString());
-            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A Indirect Point: " + procon.ClosedPoint(Team.A).ToString());
-            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A    Total Point: " + procon.TotalPoint(Team.A).ToString());
-            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Direct Point: " + procon.AreaPoint(Team.B).ToString());
-            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B Indirect Point: " + procon.ClosedPoint(Team.B).ToString());
-            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B    Total Point: " + procon.TotalPoint(Team.B).ToString());
+            
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 0]);
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 1]);
         }
 
         /// <summary>
@@ -137,11 +120,11 @@ namespace Procon29_Visualizer
                 show.Showing(FieldDisplay);
                 // フィールド内にいるときは、フィールドの情報を表示する。
                 if (0 <= show.CursorPosition(FieldDisplay).X &&
-                    show.CursorPosition(FieldDisplay).X < procon.Field.Width() &&
+                    show.CursorPosition(FieldDisplay).X < calc.Field.Width() &&
                     0 <= show.CursorPosition(FieldDisplay).Y &&
-                    show.CursorPosition(FieldDisplay).Y < procon.Field.Height())
+                    show.CursorPosition(FieldDisplay).Y < calc.Field.Height())
                 {
-                    var f = procon.Field[show.CursorPosition(FieldDisplay).X, show.CursorPosition(FieldDisplay).Y];
+                    var f = calc.Field[show.CursorPosition(FieldDisplay).X, show.CursorPosition(FieldDisplay).Y];
                     // 情報を表示
                     toolStripStatusLabel1.Text = (show.CursorPosition(FieldDisplay) + " Point: " + f.Point);
                     // 囲まれているか判定
@@ -173,7 +156,7 @@ namespace Procon29_Visualizer
         /// <param name="where"></param>
         private void MoveAgent(Team team, Agent agent, Point where)
         {
-            procon.MoveAgent(team, agent, where);
+            calc.MoveAgent(team, agent, where);
             //log.WriteLine(teamDesigns[(int)agent].AreaColor, Procon29_Calc.ShortTeamAgentName[(int)team, (int)agent] + " moved to " + where);
         }
 
@@ -208,28 +191,28 @@ namespace Procon29_Visualizer
                         show.SelectedTeamAndAgent = (Team.B, Agent.Two);
                         break;
                     case Keys.NumPad1:
-                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.DownLeft);
+                        calc.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.DownLeft);
                         break;
                     case Keys.NumPad2:
-                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.Down);
+                        calc.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.Down);
                         break;
                     case Keys.NumPad3:
-                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.DownRight);
+                        calc.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.DownRight);
                         break;
                     case Keys.NumPad4:
-                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.Left);
+                        calc.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.Left);
                         break;
                     case Keys.NumPad6:
-                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.Right);
+                        calc.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.Right);
                         break;
                     case Keys.NumPad7:
-                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.UpLeft);
+                        calc.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.UpLeft);
                         break;
                     case Keys.NumPad8:
-                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.Up);
+                        calc.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.Up);
                         break;
                     case Keys.NumPad9:
-                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.UpRight);
+                        calc.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.UpRight);
                         break;
                     default:
                         isAct = false;
@@ -238,22 +221,22 @@ namespace Procon29_Visualizer
                 }
                 show.ClickedField =
                     new Point(
-                        procon.AgentPosition[
+                        calc.AgentPosition[
                             (int)show.SelectedTeamAndAgent.Item1,
                             (int)show.SelectedTeamAndAgent.Item2]
                             .X,
-                        procon.AgentPosition[
+                        calc.AgentPosition[
                             (int)show.SelectedTeamAndAgent.Item1,
                             (int)show.SelectedTeamAndAgent.Item2]
                             .Y);
                 if (isAct)
                 {
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Direct Point: " + procon.AreaPoint(Team.A).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A Indirect Point: " + procon.ClosedPoint(Team.A).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A    Total Point: " + procon.TotalPoint(Team.A).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Direct Point: " + procon.AreaPoint(Team.B).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B Indirect Point: " + procon.ClosedPoint(Team.B).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B    Total Point: " + procon.TotalPoint(Team.B).ToString());
+                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Direct Point: " + calc.AreaPoint(Team.A).ToString());
+                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A Indirect Point: " + calc.ClosedPoint(Team.A).ToString());
+                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A    Total Point: " + calc.TotalPoint(Team.A).ToString());
+                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Direct Point: " + calc.AreaPoint(Team.B).ToString());
+                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B Indirect Point: " + calc.ClosedPoint(Team.B).ToString());
+                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B    Total Point: " + calc.TotalPoint(Team.B).ToString());
                 }
             }
             catch (Exception)
@@ -312,9 +295,9 @@ namespace Procon29_Visualizer
                             pqr_data.Two = new Point(0, 0);
                         }
 
-                        procon = new Calc(pqr_data.Fields, new Point[2] { pqr_data.One, pqr_data.Two });
+                        calc = new Calc(pqr_data.Fields, new Point[2] { pqr_data.One, pqr_data.Two });
 
-                        show = new Show(procon, teamDesigns);
+                        show = new Show(calc, teamDesigns);
                         show.Showing(FieldDisplay);
                     }
                     catch (Exception)
@@ -357,6 +340,12 @@ namespace Procon29_Visualizer
                 }
             }
             show.Showing(FieldDisplay);
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Direct Point: " + calc.AreaPoint(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A Indirect Point: " + calc.ClosedPoint(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A    Total Point: " + calc.TotalPoint(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Direct Point: " + calc.AreaPoint(Team.B).ToString());
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B Indirect Point: " + calc.ClosedPoint(Team.B).ToString());
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B    Total Point: " + calc.TotalPoint(Team.B).ToString());
         }
     }
 }
