@@ -645,5 +645,20 @@ namespace Procon29_Visualizer
                 if (item.IsTileOn[1]) item.IsEnclosed[1] = false;
             }
         }
+
+        /// <summary>
+        /// 指定したところにエージェントが移動します。
+        /// </summary>
+        /// <param name="distination">移動する場所</param>
+        public void MoveAgent(Point[,] distination, bool[,] isRemove)
+        {
+            for (int team = 0; team < 2; team++)
+            {
+                for (int agent = 0; agent < 2; agent++)
+                {
+                    MoveAgent((Team)team, (Agent)agent, distination[team, agent]);
+                }
+            }
+        }
     }
 }

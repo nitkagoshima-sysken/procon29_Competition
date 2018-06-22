@@ -216,7 +216,14 @@ namespace Procon29_Visualizer
                         break;
                 }
                 show.ClickedField = calc.AgentPosition[(int)team, (int)agent];
-
+                if (show.wanttogo[(int)team, (int)agent].X < 0 ||
+                    show.wanttogo[(int)team, (int)agent].Y < 0 ||
+                    show.wanttogo[(int)team, (int)agent].X >= calc.Field.Width() ||
+                    show.wanttogo[(int)team, (int)agent].Y >= calc.Field.Height())
+                {
+                    show.wanttogo[(int)team, (int)agent] = calc.AgentPosition[(int)team, (int)agent];
+                    throw new Exception();
+                }
             }
             catch (Exception)
             {
