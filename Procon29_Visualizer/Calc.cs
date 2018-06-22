@@ -142,6 +142,41 @@ namespace Procon29_Visualizer
     }
 
     /// <summary>
+    /// エージェントが行動した結果の状態を表します
+    /// </summary>
+    enum AgentStatusData
+    {
+        /// <summary>
+        /// 何もしていない
+        /// </summary>
+        NotDoneAnything,
+        /// <summary>
+        /// 移動に成功し、タイルを置いた
+        /// </summary>
+        SucceededInMoving,
+        /// <summary>
+        /// 自分のチームからタイルを取り除くことに成功した
+        /// </summary>
+        SucceededInRemoveingOurTile,
+        /// <summary>
+        /// 相手のチームからタイルを取り除くことに成功した
+        /// </summary>
+        SucceededInRemoveingOpponentTile,
+        /// <summary>
+        /// 相手のチームとコリジョンが発生し、移動に失敗した
+        /// </summary>
+        FailedInMoving,
+        /// <summary>
+        /// 相手のチームとコリジョンが発生し、自分のチームからタイルを取り除くことに失敗した
+        /// </summary>
+        FailedInRemovingOurTile,
+        /// <summary>
+        /// 相手のチームとコリジョンが発生し、相手のチームからタイルを取り除くことに失敗した
+        /// </summary>
+        FailedInRemovingOpponentTile,
+    }
+
+    /// <summary>
     /// フィールドの拡張メソッドを定義するためのクラスです。
     /// </summary>
     static class FieldExpansion
