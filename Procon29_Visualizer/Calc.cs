@@ -116,30 +116,30 @@ namespace Procon29_Visualizer
         internal Arrow10Key Arrow { get => arrow; set => arrow = value; }
     }
 
-    /// <summary>
-    /// 1ターンに起きた出来事をデータにします。
-    /// </summary>
-    struct TurnData
-    {
-        private AgentActiveData[,] agentActiveData;
-        private Cell[,] mapHistory;
-        private string comment;
+    ///// <summary>
+    ///// 1ターンに起きた出来事をデータにします。
+    ///// </summary>
+    //struct TurnData
+    //{
+    //    private AgentActiveData[,] agentActiveData;
+    //    private Cell[,] mapHistory;
+    //    private string comment;
 
-        /// <summary>
-        /// どのエージェントがどの方向に動いたかを配列で設定または取得します。
-        /// </summary>
-        public AgentActiveData[,] AgentActiveData { get => agentActiveData; set => agentActiveData = value; }
+    //    /// <summary>
+    //    /// どのエージェントがどの方向に動いたかを配列で設定または取得します。
+    //    /// </summary>
+    //    public AgentActiveData[,] AgentActiveData { get => agentActiveData; set => agentActiveData = value; }
 
-        /// <summary>
-        /// ターン終了時のマップを設定または取得します。
-        /// </summary>
-        public Cell[,] MapHistory { get => mapHistory; set => mapHistory = value; }
+    //    /// <summary>
+    //    /// ターン終了時のマップを設定または取得します。
+    //    /// </summary>
+    //    public Cell[,] MapHistory { get => mapHistory; set => mapHistory = value; }
 
-        /// <summary>
-        /// コメントを設定または取得します。
-        /// </summary>
-        public string Comment { get => comment; set => comment = value; }
-    }
+    //    /// <summary>
+    //    /// コメントを設定または取得します。
+    //    /// </summary>
+    //    public string Comment { get => comment; set => comment = value; }
+    //}
 
     /// <summary>
     /// エージェントが行動した結果の状態を表します
@@ -174,6 +174,50 @@ namespace Procon29_Visualizer
         /// 相手のチームとコリジョンが発生し、相手のチームからタイルを取り除くことに失敗した
         /// </summary>
         FailedInRemovingOpponentTile,
+    }
+
+    /// <summary>
+    /// エージェントの行動データを表します
+    /// </summary>
+    class AgentActivityData
+    {
+        AgentStatusData agentStatusData;
+        Point destination;
+
+        /// <summary>
+        /// 初期化を行います
+        /// </summary>
+        /// <param name="agentStatusData">エージェントが行動をどこに起こしたかを表します</param>
+        /// <param name="destination">エージェントが行動した結果の状態を表します</param>
+        AgentActivityData(AgentStatusData agentStatusData, Point destination)
+        {
+            AgentStatusData = agentStatusData;
+            Destination = destination;
+        }
+
+        /// <summary>
+        /// エージェントが行動をどこに起こしたかを表します
+        /// </summary>
+        public Point Destination { get => destination; set => destination = value; }
+        /// <summary>
+        /// エージェントが行動した結果の状態を表します
+        /// </summary>
+        internal AgentStatusData AgentStatusData { get => agentStatusData; set => agentStatusData = value; }
+    }
+
+    class TurnData
+    {
+        AgentActivityData[,] agentActivityData;
+        Cell[,] field;
+
+        TurnData(AgentActivityData[,] agentActivityData, Cell[,] field)
+        {
+            AgentActivityData = agentActivityData;
+            Field = field;
+        }
+
+        public Cell[,] Field { get => field; set => field = value; }
+        internal AgentActivityData[,] AgentActivityData { get => agentActivityData; set => agentActivityData = value; }
     }
 
     /// <summary>
