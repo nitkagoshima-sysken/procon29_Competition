@@ -99,37 +99,97 @@ namespace Procon29_Visualizer
         /// </summary>
         RequestMovement,
         /// <summary>
-        /// 自分のチームからタイルを取り除くことを要請する
+        /// 自分のチームからタイルを取り除くことを要請します
         /// </summary>
         RequestRemovementOurTile,
         /// <summary>
-        /// 相手のチームからタイルを取り除くことを要請する
+        /// 相手のチームからタイルを取り除くことを要請します
         /// </summary>
         RequestRemovementOpponentTile,
         /// <summary>
-        /// 移動に成功し、タイルを置いた
+        /// 自分にエージェントを行動させる権限ないため、リクエストを禁止されています
+        /// </summary>
+        RequestForbidden,
+        /// <summary>
+        /// 移動に成功し、タイルを置きました
         /// </summary>
         SucceededInMoving,
         /// <summary>
-        /// 自分のチームからタイルを取り除くことに成功した
+        /// 自分のチームからタイルを取り除くことに成功しました
         /// </summary>
         SucceededInRemoveingOurTile,
         /// <summary>
-        /// 相手のチームからタイルを取り除くことに成功した
+        /// 相手のチームからタイルを取り除くことに成功しました
         /// </summary>
         SucceededInRemoveingOpponentTile,
         /// <summary>
-        /// 相手のチームとコリジョンが発生し、移動に失敗した
+        /// 相手のチームとコリジョンが発生し、移動に失敗しました
         /// </summary>
-        FailedInMoving,
+        FailedInMovingByCollisionWithEachOther,
         /// <summary>
-        /// 相手のチームとコリジョンが発生し、自分のチームからタイルを取り除くことに失敗した
+        /// 相手のチームとコリジョンが発生し、自分のチームからタイルを取り除くことに失敗しました
         /// </summary>
-        FailedInRemovingOurTile,
+        FailedInRemovingOurTileByCollisionWithEachOther,
         /// <summary>
-        /// 相手のチームとコリジョンが発生し、相手のチームからタイルを取り除くことに失敗した
+        /// 相手のチームとコリジョンが発生し、相手のチームからタイルを取り除くことに失敗しました
         /// </summary>
-        FailedInRemovingOpponentTile,
+        FailedInRemovingOpponentTileByCollisionWithEachOther,
+        /// <summary>
+        /// 自分のチームとコリジョンが発生し、移動に失敗しました
+        /// </summary>
+        FailedInMovingBySelfCollision,
+        /// <summary>
+        /// 自分のチームとコリジョンが発生し、自分のチームからタイルを取り除くことに失敗しました
+        /// </summary>
+        FailedInRemovingOurTileBySelfCollision,
+        /// <summary>
+        /// 自分のチームとコリジョンが発生し、相手のチームからタイルを取り除くことに失敗しました
+        /// </summary>
+        FailedInRemovingOpponentTileBySelfCollision,
+        /// <summary>
+        /// 目標物がフィールド外のため、移動に失敗しました
+        /// </summary>
+        FailedInMovingByTryingToGoOutOfTheFieldWithEachOther,
+        /// <summary>
+        /// 目標物がフィールド外のため、自分のチームからタイルを取り除くことに失敗しました
+        /// </summary>
+        FailedInRemovingOurTileByTryingToGoOutOfTheField,
+        /// <summary>
+        /// 目標物がフィールド外のため、相手のチームからタイルを取り除くことに失敗しました
+        /// </summary>
+        FailedInRemovingOpponentTileByTryingToGoOutOfTheField,
+        /// <summary>
+        /// エージェントのムーア近傍に目標部がないため、移動に失敗しました
+        /// </summary>
+        FailedInMovingByTryingAgentToJump,
+        /// <summary>
+        /// エージェントのムーア近傍に目標部がないため、自分のチームからタイルを取り除くことに失敗しました
+        /// </summary>
+        FailedInRemovingOurTileByTryingAgentToJump,
+        /// <summary>
+        /// エージェントのムーア近傍に目標部がないため、相手のチームからタイルを取り除くことに失敗しました
+        /// </summary>
+        FailedInRemovingOpponentTileByTryingAgentToJump,
+        /// <summary>
+        /// 取り除くタイルが存在しないため、自分のチームからタイルを取り除くことに失敗しました
+        /// </summary>
+        FailedInRemovingOurTileByDoingTileNotExist,
+        /// <summary>
+        /// 取り除くタイルが存在しないため、相手のチームからタイルを取り除くことに失敗しました
+        /// </summary>
+        FailedInRemovingOpponentTileByDoingTileNotExist,
+        /// <summary>
+        /// 不明なエラーによって、移動に失敗しました
+        /// </summary>
+        FailedInMovingByUnkownError,
+        /// <summary>
+        /// 不明なエラーによって、自分のチームからタイルを取り除くことに失敗しました
+        /// </summary>
+        FailedInRemovingOurTileByUnkownError,
+        /// <summary>
+        /// 不明なエラーによって、相手のチームからタイルを取り除くことに失敗しました
+        /// </summary>
+        FailedInRemovingOpponentTileByUnkownError,
     }
 
     /// <summary>
@@ -221,9 +281,9 @@ namespace Procon29_Visualizer
         /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
         /// <returns>状態が失敗なら真、そうでなければ偽</returns>
         public static bool IsFailed(this AgentStatusData agentStatusData) =>
-            agentStatusData == AgentStatusData.FailedInMoving ||
-            agentStatusData == AgentStatusData.FailedInRemovingOpponentTile ||
-            agentStatusData == AgentStatusData.FailedInRemovingOurTile;
+            agentStatusData == AgentStatusData.FailedInMovingByCollisionWithEachOther ||
+            agentStatusData == AgentStatusData.FailedInRemovingOpponentTileByCollisionWithEachOther ||
+            agentStatusData == AgentStatusData.FailedInRemovingOurTileByCollisionWithEachOther;
 
         /// <summary>
         /// リクエストが失敗したとして処理します
@@ -234,13 +294,13 @@ namespace Procon29_Visualizer
             switch (agentActivityData.AgentStatusData)
             {
                 case AgentStatusData.RequestMovement:
-                    agentActivityData.AgentStatusData = AgentStatusData.FailedInMoving;
+                    agentActivityData.AgentStatusData = AgentStatusData.FailedInMovingByCollisionWithEachOther;
                     return;
                 case AgentStatusData.RequestRemovementOurTile:
-                    agentActivityData.AgentStatusData = AgentStatusData.FailedInRemovingOurTile;
+                    agentActivityData.AgentStatusData = AgentStatusData.FailedInRemovingOurTileByCollisionWithEachOther;
                     return;
                 case AgentStatusData.RequestRemovementOpponentTile:
-                    agentActivityData.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTile;
+                    agentActivityData.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileByCollisionWithEachOther;
                     return;
                 default:
                     return;
