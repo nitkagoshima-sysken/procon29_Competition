@@ -196,10 +196,10 @@ namespace Procon29_Visualizer
     static class TurnDataExpansion
     {
         /// <summary>
-        /// エージェントの行動の状態がまだ要請であることを判定します
+        /// エージェントの行動の状態がリクエストであることを判定します
         /// </summary>
         /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
-        /// <returns>状態が要請なら真、そうでなければ偽</returns>
+        /// <returns>状態がリクエストなら真、そうでなければ偽</returns>
         public static bool IsRequest(this AgentStatusData agentStatusData) =>
             agentStatusData == AgentStatusData.RequestMovement ||
             agentStatusData == AgentStatusData.RequestRemovementOpponentTile ||
@@ -224,6 +224,50 @@ namespace Procon29_Visualizer
             agentStatusData == AgentStatusData.FailedInMoving ||
             agentStatusData == AgentStatusData.FailedInRemovingOpponentTile ||
             agentStatusData == AgentStatusData.FailedInRemovingOurTile;
+
+        /// <summary>
+        /// リクエストが失敗したとして処理します
+        /// </summary>
+        /// <param name="agentActivityData">対象となるエージェントの行動データ</param>
+        public static void ToFail(this AgentActivityData agentActivityData)
+        {
+            switch (agentActivityData.AgentStatusData)
+            {
+                case AgentStatusData.RequestMovement:
+                    agentActivityData.AgentStatusData = AgentStatusData.FailedInMoving;
+                    return;
+                case AgentStatusData.RequestRemovementOurTile:
+                    agentActivityData.AgentStatusData = AgentStatusData.FailedInRemovingOurTile;
+                    return;
+                case AgentStatusData.RequestRemovementOpponentTile:
+                    agentActivityData.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTile;
+                    return;
+                default:
+                    return;
+            }
+        }
+
+        /// <summary>
+        /// リクエストが成功したとして処理します
+        /// </summary>
+        /// <param name="agentActivityData">対象となるエージェントの行動データ</param>
+        public static void ToSuccess(this AgentActivityData agentActivityData)
+        {
+            switch (agentActivityData.AgentStatusData)
+            {
+                case AgentStatusData.RequestMovement:
+                    agentActivityData.AgentStatusData = AgentStatusData.SucceededInMoving;
+                    return;
+                case AgentStatusData.RequestRemovementOurTile:
+                    agentActivityData.AgentStatusData = AgentStatusData.SucceededInRemoveingOurTile;
+                    return;
+                case AgentStatusData.RequestRemovementOpponentTile:
+                    agentActivityData.AgentStatusData = AgentStatusData.SucceededInRemoveingOpponentTile;
+                    return;
+                default:
+                    return;
+            }
+        }
     }
 
     /// <summary>
@@ -672,11 +716,16 @@ namespace Procon29_Visualizer
         public void PutTile(Team team, Agent agent) => PutTile((int)team, (int)agent);
 
         /// <summary>
-        /// 相手のフィールドに置いてあるタイルを破壊します。
+        /// フィールドに置いてあるタイルを剥がします。
         /// </summary>
-        /// <param name="team">対象となるチーム</param>
         /// <param name="point">対象となるエージェント</param>
-        public void RemoveTile(Team team, Point point) => Field[point.X, point.Y].IsTileOn[(int)team] = false;
+        public void RemoveTile(Point point)
+        {
+            foreach (Team team in Enum.GetValues(typeof(Team)))
+            {
+                Field[point.X, point.Y].IsTileOn[(int)team] = false;
+            }
+        }
 
         /// <summary>
         /// 指定したところにエージェントが移動します。
@@ -710,7 +759,7 @@ namespace Procon29_Visualizer
                     movable = Field[where.X, where.Y].IsTileOn[otherteam];
                     if (movable)
                     {
-                        RemoveTile(team: (Team)otherteam, point: where);
+                        RemoveTile(point: where);
                         CheckEnclosedArea((Team)otherteam);
                         break;
                     }
@@ -733,26 +782,56 @@ namespace Procon29_Visualizer
 
         public void CheckCollision(AgentActivityData[,] agentActivityData)
         {
+            foreach (Team team in Enum.GetValues(typeof(Team)))
+            {
+                foreach (Agent agent in Enum.GetValues(typeof(Agent)))
+                {
+                    if (agentActivityData[(int)team, (int)agent].AgentStatusData.IsRequest())
+                    {
+                        foreach (Team otherteam in Enum.GetValues(typeof(Team)))
+                        {
+                            foreach (Agent otheragent in Enum.GetValues(typeof(Agent)))
+                            {
+                                if (team == otherteam && agent == otheragent) continue;
+                                if (agentActivityData[(int)team, (int)agent].Destination == agentActivityData[(int)otherteam, (int)otheragent].Destination)
+                                {
+                                    agentActivityData[(int)team, (int)agent].ToFail();
+                                    agentActivityData[(int)otherteam, (int)otheragent].ToFail();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
         /// 指定したところにエージェントが移動します。
         /// </summary>
-        /// <param name="distination">移動する場所</param>
+        /// <param name="agentActivityData"></param>
         public void MoveAgent(AgentActivityData[,] agentActivityData)
         {
-            for (int team = 0; team < 2; team++)
+            CheckCollision(agentActivityData);
+            foreach (Team team in Enum.GetValues(typeof(Team)))
             {
-                for (int agent = 0; agent < 2; agent++)
+                foreach (Agent agent in Enum.GetValues(typeof(Agent)))
                 {
-                    if (agentActivityData[team, agent].AgentStatusData == AgentStatusData.RequestMovement)
-                        for (int otherteam = 0; otherteam < 2; otherteam++)
-                        {
-                            for (int otheragent = 0; otheragent < 2; otheragent++)
-                            {
-                                if (team == otherteam && agent == otheragent) continue;
-                            }
-                        }
+                    switch (agentActivityData[(int)team, (int)agent].AgentStatusData)
+                    {
+                        case AgentStatusData.RequestMovement:
+                            AgentPosition[(int)team, (int)agent] = agentActivityData[(int)team, (int)agent].Destination;
+                            PutTile(team: team, agent: agent);
+                            break;
+                        case AgentStatusData.RequestRemovementOurTile:
+                            RemoveTile(agentActivityData[(int)team, (int)agent].Destination);
+                            break;
+                        case AgentStatusData.RequestRemovementOpponentTile:
+                            RemoveTile(agentActivityData[(int)team, (int)agent].Destination);
+                            break;
+                        default:
+                            break;
+                    }
+                    agentActivityData[(int)team, (int)agent].ToSuccess();
                 }
             }
         }
