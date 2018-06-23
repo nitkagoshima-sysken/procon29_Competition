@@ -86,62 +86,6 @@ namespace Procon29_Visualizer
     }
 
     /// <summary>
-    /// どのエージェントがどの方向に動いたかをデータにするための構造体です。
-    /// </summary>
-    public struct AgentActiveData
-    {
-        private bool isMove;
-        private bool isDestory;
-        private Arrow10Key arrow;
-        private string comment;
-
-        /// <summary>
-        /// そのエージェントが動いたか設定または取得します。
-        /// </summary>
-        public bool IsMove { get => isMove; set => isMove = value; }
-
-        /// <summary>
-        /// そのエージェントがタイルを破壊したか設定または取得します。
-        /// </summary>
-        public bool IsDestory { get => isDestory; set => isDestory = value; }
-
-        /// <summary>
-        /// コメントを設定または取得します。
-        /// </summary>
-        public string Comment { get => comment; set => comment = value; }
-
-        /// <summary>
-        /// そのエージェントがどの方向に行動を起こしたか設定または取得します。
-        /// </summary>
-        internal Arrow10Key Arrow { get => arrow; set => arrow = value; }
-    }
-
-    ///// <summary>
-    ///// 1ターンに起きた出来事をデータにします。
-    ///// </summary>
-    //struct TurnData
-    //{
-    //    private AgentActiveData[,] agentActiveData;
-    //    private Cell[,] mapHistory;
-    //    private string comment;
-
-    //    /// <summary>
-    //    /// どのエージェントがどの方向に動いたかを配列で設定または取得します。
-    //    /// </summary>
-    //    public AgentActiveData[,] AgentActiveData { get => agentActiveData; set => agentActiveData = value; }
-
-    //    /// <summary>
-    //    /// ターン終了時のマップを設定または取得します。
-    //    /// </summary>
-    //    public Cell[,] MapHistory { get => mapHistory; set => mapHistory = value; }
-
-    //    /// <summary>
-    //    /// コメントを設定または取得します。
-    //    /// </summary>
-    //    public string Comment { get => comment; set => comment = value; }
-    //}
-
-    /// <summary>
     /// エージェントが行動した結果の状態を表します
     /// </summary>
     enum AgentStatusData
@@ -205,6 +149,9 @@ namespace Procon29_Visualizer
         internal AgentStatusData AgentStatusData { get => agentStatusData; set => agentStatusData = value; }
     }
 
+    /// <summary>
+    /// 1ターンのデータを表します
+    /// </summary>
     class TurnData
     {
         AgentActivityData[,] agentActivityData;
