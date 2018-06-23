@@ -11,81 +11,6 @@ using System.Threading.Tasks;
 namespace Procon29_Visualizer
 {
     /// <summary>
-    /// 方向を表します。
-    /// </summary>
-    enum Arrow10Key
-    {
-        /// <summary>
-        /// 上を表します。
-        /// </summary>
-        Up = 8,
-        /// <summary>
-        /// 右上を表します。
-        /// </summary>
-        UpRight = 9,
-        /// <summary>
-        /// 右を表します。
-        /// </summary>
-        Right = 6,
-        /// <summary>
-        /// 右下を表します
-        /// </summary>
-        DownRight = 3,
-        /// <summary>
-        /// 下を表します。
-        /// </summary>
-        Down = 2,
-        /// <summary>
-        /// 左下を示します。
-        /// </summary>
-        DownLeft = 1,
-        /// <summary>
-        /// 左を示します。
-        /// </summary>
-        Left = 4,
-        /// <summary>
-        /// 左上を示します。
-        /// </summary>
-        UpLeft = 7,
-    }
-
-    /// <summary>
-    /// Arrow10Keyの拡張メソッドを使うためのクラス
-    /// </summary>
-    static class Arrow10KeyExtensions
-    {
-        /// <summary>
-        /// Arrow10KeyをPoint型に変換します。
-        /// </summary>
-        /// <param name="arrow10Key">変換するArrow10Key</param>
-        /// <returns></returns>
-        public static Point ToPoint(this Arrow10Key arrow10Key)
-        {
-            switch (arrow10Key)
-            {
-                case Arrow10Key.Up:
-                    return new Point(0, -1);
-                case Arrow10Key.UpRight:
-                    return new Point(1, -1);
-                case Arrow10Key.Right:
-                    return new Point(1, 0);
-                case Arrow10Key.DownRight:
-                    return new Point(1, 1);
-                case Arrow10Key.Down:
-                    return new Point(0, 1);
-                case Arrow10Key.DownLeft:
-                    return new Point(-1, 1);
-                case Arrow10Key.Left:
-                    return new Point(-1, 0);
-                case Arrow10Key.UpLeft:
-                    return new Point(-1, -1);
-                default:
-                    return new Point(0, 0);
-            }
-        }
-    }
-
-    /// <summary>
     /// エージェントの行動の状態を表します
     /// </summary>
     enum AgentStatusData
@@ -904,22 +829,6 @@ namespace Procon29_Visualizer
             {
                 Field[point.X, point.Y].IsTileOn[(int)team] = false;
             }
-        }
-
-        /// <summary>
-        /// 指定したところにエージェントが移動します。
-        /// </summary>
-        /// <param name="team">移動するチーム</param>
-        /// <param name="agent">移動するエージェント</param>
-        /// <param name="arrow10Key">移動する方向</param>
-        public void MoveAgent(Team team, Agent agent, Arrow10Key arrow10Key)
-        {
-            MoveAgent(
-                team,
-                agent,
-                new Point(
-                    AgentPosition[(int)team, (int)agent].X + arrow10Key.ToPoint().X,
-                    AgentPosition[(int)team, (int)agent].Y + arrow10Key.ToPoint().Y));
         }
 
         /// <summary>
