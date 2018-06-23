@@ -189,15 +189,23 @@ namespace Procon29_Visualizer
                 switch (e.KeyCode)
                 {
                     case Keys.Q:
+                        team = Team.A;
+                        agent = Agent.One;
                         show.SelectedTeamAndAgent = (Team.A, Agent.One);
                         break;
                     case Keys.W:
+                        team = Team.A;
+                        agent = Agent.Two;
                         show.SelectedTeamAndAgent = (Team.A, Agent.Two);
                         break;
                     case Keys.E:
+                        team = Team.B;
+                        agent = Agent.One;
                         show.SelectedTeamAndAgent = (Team.B, Agent.One);
                         break;
                     case Keys.R:
+                        team = Team.B;
+                        agent = Agent.Two;
                         show.SelectedTeamAndAgent = (Team.B, Agent.Two);
                         break;
                     case Keys.NumPad1:
@@ -245,6 +253,8 @@ namespace Procon29_Visualizer
                     show.agentActivityData[(int)team, (int)agent].Destination = calc.AgentPosition[(int)team, (int)agent];
                     throw new Exception();
                 }
+                else
+                    show.KeyDownShow();
             }
             catch (Exception)
             {

@@ -401,6 +401,32 @@ namespace Procon29_Visualizer
             agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].Destination = ClickedField;
         }
 
+        public void KeyDownShow()
+        {
+            if (Procon29_Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)((SelectedTeamAndAgent.Item1 == Team.A) ? Team.B : Team.A)])
+                agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestRemovementOpponentTile;
+            else if (Procon29_Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)SelectedTeamAndAgent.Item1])
+            {
+                //メッセージボックスを表示する
+                DialogResult result = MessageBox.Show("タイルを取り除きますか？", "質問", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+                //何が選択されたか調べる
+                if (result == DialogResult.Yes)
+                {
+                    //「はい」が選択された時
+                    Console.WriteLine("「はい」が選択されました");
+                    agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestRemovementOurTile;
+                }
+                else if (result == DialogResult.No)
+                {
+                    //「いいえ」が選択された時
+                    Console.WriteLine("「いいえ」が選択されました");
+                    agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestMovement;
+                }
+            }
+            else
+                agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestMovement;
+        }
+
         /// <summary>
         /// カーソルがどのフィールドの上にいるかを計算します。
         /// </summary>

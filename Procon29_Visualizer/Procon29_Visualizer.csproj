@@ -71,6 +71,7 @@
     </Compile>
     <Compile Include="DataConverter.cs" />
     <Compile Include="Field.cs" />
+    <Compile Include="FieldDisplayEventProcessing.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
