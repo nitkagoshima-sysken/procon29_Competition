@@ -447,9 +447,11 @@ namespace Procon29_Visualizer
         private int turn = 0;
         private Cell[,] field;
         private Point[,] agentPosition = new Point[2, 2];
-        private static readonly string[,] shortTeamAgentName = new string[2, 2] { { "A1", "A2", }, { "B1", "B2", }, };
         private bool isVerticallySymmetrical, isHorizontallySymmetrical;
         private List<TurnData> turnDatas = new List<TurnData>();
+        private static readonly string[,] shortTeamAgentName = new string[2, 2] { { "A1", "A2", }, { "B1", "B2", }, };
+        private static readonly Array teamList = Enum.GetValues(typeof(Team));
+        private static readonly Array agentList = Enum.GetValues(typeof(Agent));
 
         /// <summary>
         /// Procon29_Calcを初期化します。
@@ -459,7 +461,7 @@ namespace Procon29_Visualizer
         public Calc(int[,] point, Point[] initPosition)
         {
             InitializationOfField(point);
-            foreach (Agent agent in Enum.GetValues(typeof(Agent)))
+            foreach (Agent agent in AgentArray)
             {
                 AgentPosition[0, (int)agent] = initPosition[(int)agent];
                 PutTile(team: 0, agent: agent);
@@ -562,6 +564,16 @@ namespace Procon29_Visualizer
         /// フィールドの歴史を設定または取得します。
         /// </summary>
         internal List<TurnData> TurnDatas { get => turnDatas; set => turnDatas = value; }
+
+        /// <summary>
+        /// Team列挙体のすべての要素を配列にします
+        /// </summary>
+        public static Array TeamArray => teamList;
+
+        /// <summary>
+        /// Agent列挙体のすべての要素を配列にします
+        /// </summary>
+        public static Array AgentArray => agentList;
 
         /// <summary>
         /// すべてのフィールドのポイントの和を計算します。
@@ -731,7 +743,7 @@ namespace Procon29_Visualizer
         /// </summary>
         private void CheckEnclosedArea()
         {
-            foreach (Team team in Enum.GetValues(typeof(Team)))
+            foreach (Team team in TeamArray)
             {
                 CheckEnclosedArea(team);
             }
@@ -775,9 +787,9 @@ namespace Procon29_Visualizer
         /// <returns>そのマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
         public bool IsAgentHereOrInNeighborhood(Point point)
         {
-            foreach (Team team in Enum.GetValues(typeof(Team)))
+            foreach (Team team in TeamArray)
             {
-                foreach (Agent agent in Enum.GetValues(typeof(Agent)))
+                foreach (Agent agent in AgentArray)
                 {
                     if (IsAgentHereOrInNeighborhood(team, agent, point)) return true;
                 }
@@ -793,9 +805,9 @@ namespace Procon29_Visualizer
         public bool IsOneAgentHereOrInNeighborhood(Point point)
         {
             var result = false;
-            foreach (Team team in Enum.GetValues(typeof(Team)))
+            foreach (Team team in TeamArray)
             {
-                foreach (Agent agent in Enum.GetValues(typeof(Agent)))
+                foreach (Agent agent in AgentArray)
                 {
                     if (IsAgentHereOrInNeighborhood(team, agent, point))
                     {
@@ -814,9 +826,9 @@ namespace Procon29_Visualizer
         /// <returns></returns>
         public bool IsAgentHere(Point point)
         {
-            foreach (Team team in Enum.GetValues(typeof(Team)))
+            foreach (Team team in TeamArray)
             {
-                foreach (Agent agent in Enum.GetValues(typeof(Agent)))
+                foreach (Agent agent in AgentArray)
                 {
                     if (AgentPosition[(int)team, (int)agent] == point) return true;
                 }
@@ -851,9 +863,9 @@ namespace Procon29_Visualizer
                 for (int y = -1; y <= 1; y++)
                 {
                     if (x == 0 && y == 0) continue;
-                    foreach (Team team in Enum.GetValues(typeof(Team)))
+                    foreach (Team team in TeamArray)
                     {
-                        foreach (Agent agent in Enum.GetValues(typeof(Agent)))
+                        foreach (Agent agent in AgentArray)
                         {
                             if (AgentPosition[(int)team, (int)agent] == new Point(point.X + x, point.Y + y)) return (team, agent);
                         }
@@ -919,7 +931,7 @@ namespace Procon29_Visualizer
         public void MoveAgent(Team team, Agent agent, Point where)
         {
             bool movable = false;
-            foreach (int otherteam in Enum.GetValues(typeof(Team)))
+            foreach (int otherteam in TeamArray)
             {
                 if (otherteam != (int)team)
                 {
@@ -954,9 +966,9 @@ namespace Procon29_Visualizer
         public void MoveAgent(AgentActivityData[,] agentActivityData)
         {
             agentActivityData.CheckCollision();
-            foreach (Team team in Enum.GetValues(typeof(Team)))
+            foreach (Team team in TeamArray)
             {
-                foreach (Agent agent in Enum.GetValues(typeof(Agent)))
+                foreach (Agent agent in AgentArray)
                 {
                     switch (agentActivityData[(int)team, (int)agent].AgentStatusData)
                     {
