@@ -12,7 +12,7 @@ class FakeBot():
         temp = -10
         temp_pos = 0
         for i in range(len(agent.movable)):
-            x, y = int(agent.movable[i]/100)-1, agent.movable[i]%100-1
+            x, y = int(agent.movable[i]/1000)-1, agent.movable[i]%1000-1
             if temp < self.filed_point[y][x] and agent.movable[i] not in agent_data.GetPosition and agent.movable[i] not in enow:
                 temp_pos = agent.movable[i]
                 temp = self.filed_point[y][x]
@@ -28,7 +28,7 @@ class FakeBot():
 
 class MainBot(FakeBot):
     def __init__(self, logfile, field_data, position, flags):
-        self.FakeBot.__init__(self, logfile, field_data, position, flags)
+        FakeBot.__init__(self, logfile, field_data, position, flags)
         self.aim = self.AimCenterSwicth()
         self.field = {'outpos' : field_data.field_out,
                     'inpos' : field_data.field_size}

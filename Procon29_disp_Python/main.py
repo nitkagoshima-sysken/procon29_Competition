@@ -4,11 +4,15 @@ from pyzbar.pyzbar import decode
 from PIL import Image
 from wx import adv
 import configparser as config
+from concurrent.futures import ThreadPoolExecutor
+import time
 import procon29
 import os
 import wx
 import hashlib
 import sys
+
+pool = ThreadPoolExecutor(4)
 
 wxId = {wx.ID_OK:0,
         wx.ID_CANCEL:1}
@@ -89,6 +93,15 @@ class Modes():
 class FormatError(Exception):
     pass
 
+class FileDragAndDrop(wx.FileDropTarget):
+    def __init__(self):
+        time.sleep(1)
+        wx.FileDropTarget.__init__(self)
+
+    def OnDropFiles(self, x, y, files):
+        FileOpenAll(files[0])
+        return True
+
 def FiledClear():
     global nowturn
     field[0].Destroy()
@@ -103,12 +116,6 @@ def FiledClear():
     redpoint_text = wx.StaticText(panel, -1, '赤\n取得済み得点:0 \n領域得点:0', style=wx.SIMPLE_BORDER, pos=(0,99))
     log.LogWrite('Clear All\n')
 
-def GameEndCheck():
-    global nowturn
-    global turn
-    if turn == nowturn:
-        return True
-    
 def col_func(blue_red, turn_exit):
     mynum, enum = (0, 1) if blue_red else (1, 0)
     if col_check[mynum][0]:
@@ -116,28 +123,28 @@ def col_func(blue_red, turn_exit):
     elif turn_exit:
         field[0].Coloring(agent_data[mynum], (agent[mynum*2], agent[mynum*2+1]), out_now=col_check[mynum][1], out_get=col_check[mynum][3])
     else:
+        pool.submit(field[0].MovableColoring, agent_data[mynum], (agent[mynum*2], agent[mynum*2+1]), out=col_check[mynum][2])
+        pool.submit(field[0].FillColoring, agent_data[mynum], out=col_check[mynum][4])
+        pool.submit(field[0].FillColoring, agent_data[enum], out=col_check[enum][4])
         field[0].Coloring(agent_data[mynum], (agent[mynum*2], agent[mynum*2+1]), out_now=col_check[mynum][1], out_get=col_check[mynum][3])
-        field[0].MovableColoring(agent_data[mynum], (agent[mynum*2], agent[mynum*2+1]), out=col_check[mynum][2])
-        field[0].FillColoring(agent_data[mynum], out=col_check[mynum][4])
-        field[0].FillColoring(agent_data[enum], out=col_check[enum][4])
 
 def createbutton(text):
     global field_type
-    field.append(procon29.FieldControl.Field(text, wx.Panel(panel,-1,pos=(100,150),size=(800,600)), log))
+    field.append(procon29.FieldControl.Field(text, wx.Panel(panel, -1, pos=(100,150),size=(800,600)), log))
     agent_data.append(procon29.Agent.AgentData('blue', log, field[0].point))
     agent_data.append(procon29.Agent.AgentData('red', log, field[0].point))
     agent1_y, agent1_x = map(int,text[field[0].y+1].strip().split(' '))
     agent2_y, agent2_x = map(int,text[field[0].y+2].strip().split(' '))
-    blue_flags.next[0], blue_flags.next[1]= (agent1_x)*100+(agent1_y), (agent2_x)*100+(agent2_y)
+    blue_flags.next[0], blue_flags.next[1]= (agent1_x)*1000+(agent1_y), (agent2_x)*1000+(agent2_y)
     field_type = field[0].FieldTypeAnalysis()
     if field_type == 0:
-        red_flags.next[0], red_flags.next[1]= (field[0].x-agent1_x+1)*100+(field[0].y-agent2_y+1), (field[0].x-agent2_x+1)*100+(field[0].y-agent1_y+1)
+        red_flags.next[0], red_flags.next[1] = (field[0].x-agent1_x+1)*1000+(field[0].y-agent2_y+1), (field[0].x-agent2_x+1)*1000+(field[0].y-agent1_y+1)
         log.LogWrite('Field type: VERTICAL&HORIZONTAL\n', logtype=procon29.GAME_LOG)
     elif field_type == -1:
-        red_flags.next[0], red_flags.next[1]= (agent1_x)*100+(field[0].y-agent1_y+1), (agent2_x)*100+(field[0].y-agent2_y+1)
+        red_flags.next[0], red_flags.next[1] = (agent1_x)*1000+(field[0].y-agent1_y+1), (agent2_x)*1000+(field[0].y-agent2_y+1)
         log.LogWrite('Field type: HORIZONTAL\n', logtype=procon29.GAME_LOG)
     elif field_type == 1:
-        red_flags.next[0], red_flags.next[1]= (field[0].x-agent1_x+1)*100+(agent1_y), (field[0].x-agent2_x+1)*100+(agent2_y)
+        red_flags.next[0], red_flags.next[1] = (field[0].x-agent1_x+1)*1000+(agent1_y), (field[0].x-agent2_x+1)*1000+(agent2_y)
         log.LogWrite('Field type: VERTICAL\n', logtype=procon29.GAME_LOG)
     agent.append(procon29.Agent.Agent(blue_flags.next[0], field[0].field_out, log, 'blue'))
     agent.append(procon29.Agent.Agent(blue_flags.next[1], field[0].field_out, log, 'blue'))
@@ -158,6 +165,17 @@ def createbutton(text):
     col_func(True, False)
     col_func(False, True)
 
+def OverlapFunc(i, j):
+    if blue_flags.next[i] == red_flags.next[j]:
+        if modes.learn == False:
+            overlaperror = wx.MessageDialog(None, '行動対象の座標が重なりました。双方移動できません({},{})'\
+                                        .format(int(blue_flags.next[i]/1000), blue_flags.next[i]%1000))
+            overlaperror.ShowModal()
+            overlaperror.Destroy()
+        log.LogWrite('Overlap ({},{})\n'.format(int(blue_flags.next[i]/1000), blue_flags.next[i]%1000))
+        agent[i].next[1] = 0
+        agent[j+2].next[1] = 0
+
 def turnendfunc():
     global endflag
     global nowturn
@@ -165,16 +183,11 @@ def turnendfunc():
     red_flags.Clear()
     for i in range(2):
         for j in range(2):
-            if blue_flags.next[i] == red_flags.next[j]:
-                overlaperror = wx.MessageDialog(None, '行動対象の座標が重なりました。双方移動できません({},{})'\
-                                            .format(int(blue_flags.next[i]/100), blue_flags.next[i]%100))
-                overlaperror.ShowModal()
-                overlaperror.Destroy()
-                log.LogWrite('Overlap ({},{})'.format(int(blue_flags.next[i]/100), blue_flags.next[i]%100))
-                agent[i].next[1] = 0
-                agent[j+2].next[1] = 0
-    field[0].MovableColoring(agent_data[1], (agent[2], agent[3]), clear=True)
-    field[0].MovableColoring(agent_data[0], (agent[0], agent[1]), clear=True)
+            OverlapFunc(i, j)
+    #field[0].MovableColoring(agent_data[1], (agent[2], agent[3]), clear=True)
+    #field[0].MovableColoring(agent_data[0], (agent[0], agent[1]), clear=True)
+    pool.submit(field[0].MovableColoring, agent_data[1], (agent[2], agent[3]), clear=True)
+    pool.submit(field[0].MovableColoring, agent_data[0], (agent[0], agent[1]), clear=True)
     agent_data[0].GetPoint([agent[0].next, agent[1].next], agent_data[1])
     agent_data[1].GetPoint([agent[2].next, agent[3].next], agent_data[0])
     agent_data[0].FieldPointSearch()
@@ -188,10 +201,11 @@ def turnendfunc():
     redpoint_text.SetLabel('赤\n取得済み得点:{} \n領域得点:{}'\
                                 .format(agent_data[1].Point, agent_data[1].TerritoryPoint))
     col_func(False, True)
-    endflag = GameEndCheck()
+    endflag = True if turn == nowturn else False
     if endflag != True:
         col_func(True, False)
         nowturn += 1
+        gauge.SetValue(nowturn-1)
     turnunm.SetLabel('現在ターン数:{}\n全ターン数:{}\n残りターン数:{}'.format(nowturn, turn, turn-nowturn))
     if endflag:
         gameenddialog = wx.MessageDialog(None, '全てのターンが終了しました')
@@ -239,8 +253,8 @@ def FieldButtonFunc(Id_num):
     elif (Id_num in agent[2].movable or Id_num in agent[3].movable) and Id_num not in (agent[0].now, agent[1].now) and blue_flags.end and not modes.auto:
         move([agent[2], agent[3]], agent_data[1], red_flags, (agent[0], agent[1]), Id_num)
     else:
-        log.LogWrite('Can not move position ({},{})\n'.format(int(Id_num/100), Id_num%100), logtype=procon29.ERROR)
-        errordialog = wx.MessageDialog(None, '移動できない地点です ({},{})'.format(int(Id_num/100), Id_num%100), '移動可能エリア外',style=wx.ICON_EXCLAMATION)
+        log.LogWrite('Can not move position ({},{})\n'.format(int(Id_num/1000), Id_num%1000), logtype=procon29.ERROR)
+        errordialog = wx.MessageDialog(None, '移動できない地点です ({},{})'.format(int(Id_num/1000), Id_num%1000), '移動可能エリア外',style=wx.ICON_EXCLAMATION)
         errordialog.ShowModal()
         errordialog.Destroy()
 
@@ -270,9 +284,31 @@ def OpenFile(file):
     else:
         raise FormatError(file)
 
-def Menu_handler(event):
+def FileOpenAll(filedata):
     global load_file_flag
     global turn
+    if len(field) != 0:
+        FiledClear()
+    try:
+        text = OpenFile(filedata)
+    except FormatError:
+        log.LogWrite("Can't open file", logtype=procon29.ERROR)
+    else:
+        log.LogWrite('File open {}\n'.format(filedata), logtype=procon29.FILE_LOG)
+        createbutton(text)
+        turndialog = wx.TextEntryDialog(None, 'ターン数を入力してください', 'ターン数決定')
+        turndialog.SetValue('10')
+        turndialog.ShowModal()
+        turn = int(turndialog.GetValue())
+        turnunm.SetLabel('現在ターン数:{}\n全ターン数:{}\n残りターン数:{}'.format(nowturn, turn, turn-nowturn))
+        turndialog.Destroy()
+        gauge.SetRange(turn-1)
+        gauge.SetValue(nowturn-1)
+        log.LogWrite('Complete init. Turn {}\n'.format(turn))
+        load_file_flag = True
+
+def Menu_handler(event):
+    global load_file_flag
     global debag_flag
     Id_num = event.GetId()
     if Id_num == 10:
@@ -283,42 +319,17 @@ def Menu_handler(event):
         dialog.SetWildcard('*.png;*.pqr')
         dialog.ShowModal()
         filedata = dialog.GetPath()
-        try:
-            text = OpenFile(filedata)
-        except FormatError:
-            log.LogWrite("Can't open file", logtype=procon29.ERROR)
-        else:
-            log.LogWrite('File open {}\n'.format(filedata), logtype=procon29.FILE_LOG)
-            createbutton(text)
-            turndialog = wx.TextEntryDialog(None, 'ターン数を入力してください', 'ターン数決定')
-            turndialog.SetValue('10')
-            turndialog.ShowModal()
-            turn = int(turndialog.GetValue())
-            turnunm.SetLabel('現在ターン数:{}\n全ターン数:{}\n残りターン数:{}'.format(nowturn, turn, turn-nowturn))
-            turndialog.Destroy()
-            log.LogWrite('Complete init. Turn {}\n'.format(turn))
-            load_file_flag = True
+        FileOpenAll(filedata)
     elif Id_num == 11:
         start_func()
     elif Id_num == 12:
         FiledClear()
-    elif Id_num == procon29.EXIT:
+    elif Id_num == 13:
         log.LogWrite('Quit Program\n', logtype=procon29.SYSTEM_LOG)
         sys.exit(0)
     elif Id_num == 14:
-        passdialog = wx.TextEntryDialog(None, 'パスワードを入力してください', 'デバッグユーザー認証')
-        passdialog.SetValue('')
-        passdialog.ShowModal()
-        hashstr = hashlib.sha256(passdialog.GetValue().encode('utf-8')).hexdigest()
-        if hashstr in passcode:
-            debag_flag = True
-            log.LogWrite('Success Debag user login\n', logtype=procon29.SYSTEM_LOG)
-        else:
-            errordialog = wx.MessageDialog(None, 'パスワードが違います', '認証失敗')
-            errordialog.ShowModal()
-            errordialog.Destroy()
-            log.LogWrite('Error password input:[{}]\n'.format(passdialog.GetValue()), logtype=procon29.ERROR)
-        passdialog.Destroy()
+        debag_flag = True
+        log.LogWrite('Start debag mode\n', logtype=procon29.SYSTEM_LOG)
     elif Id_num == 20:
         log.LogWrite('Open about info\n', logtype=procon29.SYSTEM_LOG)
         info = adv.AboutDialogInfo()
@@ -466,7 +477,6 @@ endflag = False
 turn = 10
 nowturn = 1
 debag_flag = False
-passcode = ['e71d2f7f7ae998e3e9c4509c31e577a98371b234f36e466402998c8817860049']
 col_check = [[True for i in range(5)] for j in range(2)]
 col_check[0][0] = False
 col_check[1][0] = False
@@ -477,6 +487,7 @@ app = wx.App()
 frame = wx.Frame(None, -1, 'PPAP -Procon29 Python Application Project-', size=(800,900), style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN | wx.MINIMIZE_BOX)
 
 panel = wx.Panel(frame,-1)
+panel.SetDropTarget(FileDragAndDrop())
 field = []
 agent = []
 agent_data = []
@@ -504,6 +515,9 @@ layout.Add(cancel)
 layout.Add(turn_end)
 panel.SetSizer(layout)
 
+gauge = wx.Gauge(panel, range=turn, style=wx.GA_VERTICAL, pos=(710, 120), size=(70, 700))
+gauge.GetShadowWidth()
+
 bluepoint_text = wx.StaticText(panel, -1, '青\n取得済み得点:0 \n領域得点:0', style=wx.SIMPLE_BORDER, pos=(0,51))
 redpoint_text = wx.StaticText(panel, -1, '赤\n取得済み得点:0 \n領域得点:0', style=wx.SIMPLE_BORDER, pos=(0,99))
 turnunm = wx.StaticText(panel, -1, '現在ターン数:1\n全ターン数:0\n残りターン数:0', style=wx.SIMPLE_BORDER, pos=(680,51), size=(100,50))
@@ -524,7 +538,7 @@ file_menu = wx.Menu()
 open_file = wx.MenuItem(file_menu, 10, 'ファイルを開く')
 start_game = wx.MenuItem(file_menu, 11, 'ゲームスタート')
 clear_disp = wx.MenuItem(file_menu, 12, '画面クリア')
-exit_app = wx.MenuItem(file_menu, procon29.EXIT, '終了')
+exit_app = wx.MenuItem(file_menu, 13, '終了')
 debag_mode = wx.MenuItem(file_menu, 14, 'デバッグモード')
 file_menu.Append(open_file)
 file_menu.Append(start_game)
