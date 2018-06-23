@@ -6,12 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace procon29_disp
+namespace Procon29_Visualizer
 {
     /// <summary>
     /// Procon29におけるログの管理を行います。
     /// </summary>
-    class Procon29_Logger
+    class Logger
     {
         /// <summary>
         /// ログとして書き込むリッチテキストを設定します
@@ -27,7 +27,7 @@ namespace procon29_disp
         /// Procon29_Loggerを初期化します
         /// </summary>
         /// <param name="richTextBox">ログとして書き込むリッチテキストを設定します</param>
-        public Procon29_Logger(RichTextBox richTextBox)
+        public Logger(RichTextBox richTextBox)
         {
             RichTextBox = richTextBox;
             Console.WriteLine("");

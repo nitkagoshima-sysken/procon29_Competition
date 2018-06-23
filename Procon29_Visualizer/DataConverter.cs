@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace procon29_disp
+namespace Procon29_Visualizer
 {
     /// <summary>
     /// PQR形式のデータを表します。
@@ -56,7 +56,7 @@ namespace procon29_disp
     /// <summary>
     /// いろいろなデータを宣言させます。
     /// </summary>
-    static class Procon29_CSV
+    static class DataConverter
     {
 
         /// <summary>
@@ -131,11 +131,11 @@ namespace procon29_disp
 
                 list.Clear();
                 list = SpaceCSVToList(m.Groups["one"].Value.Replace(":", " "));
-                pqr.One = new Point(list[0] - 1, list[1] - 1);
+                pqr.One = new Point(list[1] - 1, list[0] - 1);
 
                 list.Clear();
                 list = SpaceCSVToList(m.Groups["two"].Value.Replace(":", " "));
-                pqr.Two = new Point(list[0] - 1, list[1] - 1);
+                pqr.Two = new Point(list[1] - 1, list[0] - 1);
             }
 
             return pqr;

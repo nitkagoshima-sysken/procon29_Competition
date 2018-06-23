@@ -7,14 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace procon29_disp
+namespace Procon29_Visualizer
 {
-    class Procon29_Show
+    class Show
     {
-        private Procon29_Calc procon29_Calc;
+        private Calc procon29_Calc;
         private TeamDesign[] teamDesign;
         private PictureBox pictureBox;
-        private Procon29_Logger procon29_Logger;
+        private Logger procon29_Logger;
         private SolidBrush backGroundSolidBrush = new SolidBrush(Color.FromArgb(48, 48, 48));
         private SolidBrush selectSolidBrush = new SolidBrush(Color.FromArgb(50, Color.DarkGray));
         private SolidBrush clickedSolidBrush = new SolidBrush(Color.FromArgb(100, Color.SkyBlue));
@@ -23,16 +23,14 @@ namespace procon29_disp
         private const string pointFamilyName = "Impact";
         private (Team, Agent) selectedTeamAndAgent;
 
-        private Bitmap test;
-        private Bitmap test2;
+        private Bitmap[] agentBitmap;
 
-        public Point[,] wanttogo = new Point[2, 2];
-
+        public AgentActivityData[,] agentActivityData = new AgentActivityData[2, 2];
 
         /// <summary>
         /// 描画する対象となるProcon29_Calcを設定または取得します。
         /// </summary>
-        internal Procon29_Calc Procon29_Calc { get => procon29_Calc; set => procon29_Calc = value; }
+        internal Calc Procon29_Calc { get => procon29_Calc; set => procon29_Calc = value; }
 
         /// <summary>
         /// 描画するときの色を設定または取得します。
@@ -77,7 +75,7 @@ namespace procon29_disp
         /// <summary>
         /// ログを書き込むためのProcon29_Loggerを設定または取得します。
         /// </summary>
-        internal Procon29_Logger Procon29_Logger { get => procon29_Logger; set => procon29_Logger = value; }
+        internal Logger Procon29_Logger { get => procon29_Logger; set => procon29_Logger = value; }
 
         /// <summary>
         /// 選択したチームとエージェントの設定または取得します。
@@ -85,30 +83,34 @@ namespace procon29_disp
         public (Team, Agent) SelectedTeamAndAgent { get => selectedTeamAndAgent; set => selectedTeamAndAgent = value; }
 
         /// <summary>
+        /// エージェントの画像を設定または取得します。
+        /// </summary>
+        public Bitmap[] AgentBitmap { get => agentBitmap; set => agentBitmap = value; }
+
+        /// <summary>
         /// Procon29_Showの初期化を行います。
         /// </summary>
         /// <param name="procon29_Calc">表示するProcon29_Calc</param>
         /// <param name="teamDesigns">表示するときのチームデザイン</param>
-        public Procon29_Show(Procon29_Calc procon29_Calc, TeamDesign[] teamDesigns)
+        public Show(Calc procon29_Calc, TeamDesign[] teamDesigns, PictureBox pictureBox)
         {
             Procon29_Calc = procon29_Calc;
             TeamDesign = teamDesigns;
-
+            PictureBox = pictureBox;
 
             // ResourceManagerを取得する
             System.Resources.ResourceManager resource = Properties.Resources.ResourceManager;
 
             //画像ファイルを読み込んで、Imageオブジェクトとして取得する
-            test = (Bitmap)resource.GetObject("A");
-
-            //画像ファイルを読み込んで、Imageオブジェクトとして取得する
-            test2 = (Bitmap)resource.GetObject("B");
+            AgentBitmap = new Bitmap[2];
+            AgentBitmap[0] = (Bitmap)resource.GetObject("A");
+            AgentBitmap[1] = (Bitmap)resource.GetObject("B");
 
             foreach (Team team in Enum.GetValues(typeof(Team)))
             {
                 foreach (Agent agent in Enum.GetValues(typeof(Agent)))
                 {
-                    wanttogo[(int)team, (int)agent] = Procon29_Calc.GetAgentPosition(team, agent);
+                    agentActivityData[(int)team, (int)agent] = new AgentActivityData(AgentStatusData.RequestMovement, Procon29_Calc.GetAgentPosition(team, agent));
                 }
             }
         }
@@ -119,7 +121,7 @@ namespace procon29_disp
         /// <param name="procon29_Calc">表示するProcon29_Calc</param>
         /// <param name="teamDesigns">表示するときのチームデザイン</param>
         /// <param name="pictureBox">表示する場所</param>
-        public Procon29_Show(Procon29_Calc procon29_Calc, TeamDesign[] teamDesigns, PictureBox pictureBox, Procon29_Logger procon29_Logger)
+        public Show(Calc procon29_Calc, TeamDesign[] teamDesigns, PictureBox pictureBox, Logger procon29_Logger)
         {
             Procon29_Calc = procon29_Calc;
             TeamDesign = teamDesigns;
@@ -136,13 +138,13 @@ namespace procon29_disp
         /// <returns></returns>
         public Bitmap MakePictureBox(PictureBox pictureBox, Bitmap canvas, Graphics graphics)
         {
-            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Field.GetLength(0);
-            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.Field.GetLength(1);
+            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Field.Width();
+            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.Field.Height();
 
             PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 2.0f);
-            for (int y = 0; y < Procon29_Calc.Field.GetLength(0); y++)
+            for (int x = 0; x < Procon29_Calc.Field.Width(); x++)
             {
-                for (int x = 0; x < Procon29_Calc.Field.GetLength(1); x++)
+                for (int y = 0; y < Procon29_Calc.Field.Height(); y++)
                 {
                     //背景色の表示
                     if (!Procon29_Calc.Field[x, y].IsTileOn[(int)Team.A] && !Procon29_Calc.Field[x, y].IsTileOn[(int)Team.B])
@@ -153,7 +155,7 @@ namespace procon29_disp
                         width: fieldWidth,
                         height: fieldHeight);
                     //囲み領域の表示
-                    if (Procon29_Calc.Field[x, y].IsClosed[(int)Team.A] && Procon29_Calc.Field[x, y].IsClosed[(int)Team.B])
+                    if (Procon29_Calc.Field[x, y].IsEnclosed[(int)Team.A] && Procon29_Calc.Field[x, y].IsEnclosed[(int)Team.B])
                     {
                         graphics.FillRectangle(
                             brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[1].AgentColor),
@@ -168,14 +170,14 @@ namespace procon29_disp
                             width: fieldWidth / 2,
                             height: fieldHeight);
                     }
-                    else if (Procon29_Calc.Field[x, y].IsClosed[(int)Team.A])
+                    else if (Procon29_Calc.Field[x, y].IsEnclosed[(int)Team.A])
                         graphics.FillRectangle(
                             brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[0].AgentColor),
                             x: x * fieldWidth,
                             y: y * fieldHeight,
                             width: fieldWidth,
                             height: fieldHeight);
-                    else if (Procon29_Calc.Field[x, y].IsClosed[(int)Team.B])
+                    else if (Procon29_Calc.Field[x, y].IsEnclosed[(int)Team.B])
                         graphics.FillRectangle(
                             brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[1].AgentColor),
                             x: x * fieldWidth,
@@ -217,7 +219,7 @@ namespace procon29_disp
                 for (int agent = 0; agent < 2; agent++)
                 {
                     graphics.DrawString(
-                        s: Procon29_Calc.ShortTeamAgentName[team, agent],
+                        s: Calc.ShortTeamAgentName[team, agent],
                         font: PointFont,
                         brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
                         x: (float)(Procon29_Calc.AgentPosition[team, agent].X + 0.7) * fieldWidth,
@@ -231,7 +233,7 @@ namespace procon29_disp
             Point selectedFieldPoint = new Point(
                 x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
                 y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
-            if ((selectedFieldPoint.X < Procon29_Calc.Field.GetLength(1)) && (selectedFieldPoint.Y < Procon29_Calc.Field.GetLength(0)))
+            if ((selectedFieldPoint.X < Procon29_Calc.Field.Width()) && (selectedFieldPoint.Y < Procon29_Calc.Field.Height()))
                 graphics.FillRectangle(
                     brush: SelectSolidBrush,
                     x: selectedFieldPoint.X * fieldWidth,
@@ -245,11 +247,10 @@ namespace procon29_disp
                 width: fieldWidth,
                 height: fieldHeight);
 
-
             //エージェントを女の子にするところ
-            for (int y = 0; y < Procon29_Calc.Field.GetLength(0); y++)
+            for (int x = 0; x < Procon29_Calc.Field.Width(); x++)
             {
-                for (int x = 0; x < Procon29_Calc.Field.GetLength(1); x++)
+                for (int y = 0; y < Procon29_Calc.Field.Height(); y++)
                 {
                     Graphics g = Graphics.FromImage(canvas);
 
@@ -259,35 +260,36 @@ namespace procon29_disp
                         Procon29_Calc.AgentPosition[0, 1].X == x && Procon29_Calc.AgentPosition[0, 1].Y == y)
                     {
                         graphics.DrawImage(
-                            image: test,
+                            image: AgentBitmap[(int)Team.A],
                             x: x * fieldWidth,
-                            y: (y - 1.5f) * fieldHeight,
-                            width: test.Width * f,
-                            height: test.Height * f);
+                            y: y * fieldHeight - (AgentBitmap[(int)Team.A].Height * f * 0.5f),
+                            width: AgentBitmap[(int)Team.A].Width * f,
+                            height: AgentBitmap[(int)Team.A].Height * f);
                     }
                     if (Procon29_Calc.AgentPosition[1, 0].X == x && Procon29_Calc.AgentPosition[1, 0].Y == y ||
                         Procon29_Calc.AgentPosition[1, 1].X == x && Procon29_Calc.AgentPosition[1, 1].Y == y)
                     {
                         graphics.DrawImage(
-                            image: test2,
+                            image: AgentBitmap[(int)Team.B],
                             x: x * fieldWidth,
-                            y: (y - 1.5f) * fieldHeight,
-                            width: test2.Width * f,
-                            height: test2.Height * f);
+                            y: y * fieldHeight - (AgentBitmap[(int)Team.B].Height * f * 0.5f),
+                            width: AgentBitmap[(int)Team.B].Width * f,
+                            height: AgentBitmap[(int)Team.B].Height * f);
                     }
                 }
             }
 
-            for (int t = 0; t < wanttogo.GetLength(0); t++)
+            //次のターンで行くところのマークの表示
+            for (int t = 0; t < agentActivityData.GetLength(0); t++)
             {
-                for (int a = 0; a < wanttogo.GetLength(1); a++)
+                for (int a = 0; a < agentActivityData.GetLength(1); a++)
                 {
-                    if (wanttogo[t, a] != null)
+                    if (agentActivityData[t, a] != null)
                     {
                         graphics.FillEllipse(
                             brush: new SolidBrush(color: Color.RoyalBlue),
-                            x: (wanttogo[t, a].X + 0.5f) * fieldWidth,
-                            y: (wanttogo[t, a].Y + 0.5f) * fieldHeight,
+                            x: (agentActivityData[t, a].Destination.X + 0.5f) * fieldWidth,
+                            y: (agentActivityData[t, a].Destination.Y + 0.5f) * fieldHeight,
                             width: fieldWidth / 4,
                             height: fieldWidth / 4);
                     }
@@ -301,7 +303,7 @@ namespace procon29_disp
         /// 表示を行います。
         /// </summary>
         /// <param name="pictureBox">表示するPictureBoxを指定します</param>
-        public void Show(PictureBox pictureBox)
+        public void Showing(PictureBox pictureBox)
         {
             //描画先とするImageオブジェクトを作成する
             Bitmap canvas = new Bitmap(((pictureBox.Width <= 0) ? 1 : pictureBox.Width), ((pictureBox.Height <= 0) ? 1 : pictureBox.Height));
@@ -324,8 +326,8 @@ namespace procon29_disp
         /// <param name="pictureBox">表示するPictureBoxを指定します</param>
         public void ClickedShow(PictureBox pictureBox)
         {
-            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Field.GetLength(0);
-            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.Field.GetLength(1);
+            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Field.Width();
+            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.Field.Height();
 
             //描画先とするImageオブジェクトを作成する
             Bitmap canvas = new Bitmap(((pictureBox.Width <= 0) ? 1 : pictureBox.Width), ((pictureBox.Height <= 0) ? 1 : pictureBox.Height));
@@ -337,9 +339,10 @@ namespace procon29_disp
             Point clickedFieldPoint = new Point(
                 x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
                 y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
-            if (Procon29_Calc.IsAgentInNeighborhood(clickedFieldPoint))
+
+            if (Procon29_Calc.IsAgentHereOrInNeighborhood(clickedFieldPoint))
             {
-                if ((clickedFieldPoint.X < Procon29_Calc.Field.GetLength(1)) && (clickedFieldPoint.Y < Procon29_Calc.Field.GetLength(0)))
+                if ((clickedFieldPoint.X < Procon29_Calc.Field.Width()) && (clickedFieldPoint.Y < Procon29_Calc.Field.Height()))
                 {
                     ClickedField = new Point(
                         x: clickedFieldPoint.X,
@@ -373,8 +376,55 @@ namespace procon29_disp
         /// </summary>
         public void DoubleClickedShow()
         {
-            wanttogo[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2] = ClickedField;
-            //Procon29_Calc.MoveAgent(SelectedTeamAndAgent.Item1, SelectedTeamAndAgent.Item2, ClickedField);
+            if (Procon29_Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)((SelectedTeamAndAgent.Item1 == Team.A) ? Team.B : Team.A)])
+                agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestRemovementOpponentTile;
+            else if (Procon29_Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)SelectedTeamAndAgent.Item1])
+            {
+                //メッセージボックスを表示する
+                DialogResult result = MessageBox.Show("タイルを取り除きますか？", "質問", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+                //何が選択されたか調べる
+                if (result == DialogResult.Yes)
+                {
+                    //「はい」が選択された時
+                    Console.WriteLine("「はい」が選択されました");
+                    agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestRemovementOurTile;
+                }
+                else if (result == DialogResult.No)
+                {
+                    //「いいえ」が選択された時
+                    Console.WriteLine("「いいえ」が選択されました");
+                    agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestMovement;
+                }
+            }
+            else
+                agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestMovement;
+            agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].Destination = ClickedField;
+        }
+
+        public void KeyDownShow()
+        {
+            if (Procon29_Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)((SelectedTeamAndAgent.Item1 == Team.A) ? Team.B : Team.A)])
+                agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestRemovementOpponentTile;
+            else if (Procon29_Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)SelectedTeamAndAgent.Item1])
+            {
+                //メッセージボックスを表示する
+                DialogResult result = MessageBox.Show("タイルを取り除きますか？", "質問", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+                //何が選択されたか調べる
+                if (result == DialogResult.Yes)
+                {
+                    //「はい」が選択された時
+                    Console.WriteLine("「はい」が選択されました");
+                    agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestRemovementOurTile;
+                }
+                else if (result == DialogResult.No)
+                {
+                    //「いいえ」が選択された時
+                    Console.WriteLine("「いいえ」が選択されました");
+                    agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestMovement;
+                }
+            }
+            else
+                agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestMovement;
         }
 
         /// <summary>
@@ -383,8 +433,8 @@ namespace procon29_disp
         /// <returns></returns>
         public Point CursorPosition(PictureBox pictureBox)
         {
-            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Field.GetLength(0);
-            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.Field.GetLength(1);
+            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Field.Width();
+            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.Field.Height();
             System.Drawing.Point systemCursorPosition = System.Windows.Forms.Cursor.Position;
             System.Drawing.Point pictureBoxCursorPosition = pictureBox.PointToClient(systemCursorPosition);
             return new Point(

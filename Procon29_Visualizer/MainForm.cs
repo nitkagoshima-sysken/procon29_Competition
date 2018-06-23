@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace procon29_disp
+namespace Procon29_Visualizer
 {
     /// <summary>
     /// メインフォームです。
@@ -19,9 +19,9 @@ namespace procon29_disp
         Team selectedTeam;
         Agent selectedAgent;
 
-        Procon29_Calc procon;
-        Procon29_Show show;
-        Procon29_Logger log;
+        Calc calc;
+        Show show;
+        Logger log;
         TeamDesign[] teamDesigns;
 
         CreateNewForm createNewForm = new CreateNewForm();
@@ -37,46 +37,34 @@ namespace procon29_disp
             this.FieldDisplay.MouseMove += new MouseEventHandler(FieldDisplay_MouseMove);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
 
-            procon = new Procon29_Calc(
-                field: new int[,] {
-                    { -6, 15,  0,  7,  0, -1, 13, -8, -7, -7,  2, -3, },
-                    {  8,  1, -5,  0, -2, -8, 10, -3,-15, 14, -4, -3, },
-                    {-15, 14, -4, -3, -8, -3, -7, -5,-11,-16, -9, -1, },
-                    { 15,  1, 14, 10,-11, 11, -2,  8,  6, 11,  9, -5, },
-                    {-11,-16,  0,  8,-10, -8,-10,  5,  4,  5,  7,-14, },
-                    {-13, -3, 16, -5,  6, 12, -3, -5,  0,  1, 16,-16, },
-                    {-13, -3, 16, -5,  6, 12, -3, -5,  0,  1, 16,-16, },
-                    {-11,-16,  0,  8,-10, -8,-10,  5,  4,  5,  7,-14, },
-                    { 15,  1, 14, 10,-11, 11, -2,  8,  6, 11,  9, -5, },
-                    {-15, 14, -4, -3, -8, -3, -7, -5,-11,-16, -9, -1, },
-                    {  8,  1, -5,  0, -2, -8, 10, -3,-15, 14, -4, -3, },
-                    { -6, 15,  0,  7,  0, -1, 13, -8, -7, -7,  2, -3, },
-                },
-                initPosition: new Point[,]
-                {
-                    { new Point(11, 3), new Point(11, 9) },
-                    { new Point(0, 3), new Point(0, 9) },
-                });
+            log = new Logger(messageBox);
+            log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 3.0)");
 
-            procon.PointMapCheck();
+            // PQRファイルを直接読み込む
+            // ちなみにQR_code_sample.pdfで登場したQRコード
+            var pqr = "8 11:-2 1 0 1 2 0 2 1 0 1 -2:1 3 2 -2 0 1 0 -2 2 3 1:1 3 2 1 0 -2 0 1 2 3 1:2 1 1 2 2 3 2 2 1 1 2:2 1 1 2 2 3 2 2 1 1 2:1 3 2 1 0 -2 0 1 2 3 1:1 3 2 -2 0 1 0 -2 2 3 1:-2 1 0 1 2 0 2 1 0 1 -2:2 2:7 10:";
+            log.WriteLine(Color.LightGray, pqr);
+            var pqr_data = DataConverter.ToPQRData(pqr);
+            calc = new Calc(pqr_data.Fields, new Point[2] { pqr_data.One, pqr_data.Two });
 
             teamDesigns = new TeamDesign[2] {
                 new TeamDesign(name:"Orange", agentColor:Color.DarkOrange, areaColor:Color.DarkOrange),
                 new TeamDesign(name:"Lime", agentColor:Color.LimeGreen, areaColor:Color.LimeGreen),
             };
-            show = new Procon29_Show(procon, teamDesigns);
-            log = new Procon29_Logger(messageBox);
-            log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 3.0)");
+            show = new Show(calc, teamDesigns, FieldDisplay);
+            show.Showing(FieldDisplay);
+            calc.PointMapCheck();
+
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Team A");
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "name: " + teamDesigns[(int)Team.A].Name);
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 0]);
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 1]);
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Team B");
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "name: " + teamDesigns[(int)Team.B].Name);
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 0]);
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);
 
             messageBox.Select(messageBox.Text.Length, 0);
-
-            this.MoveAgent(Team.A, Agent.One, new Point(10, 3));
-            //log.WriteLine(Color.LightGray, procon.SumDirectArea(Team.A).ToString());
-            show.Show(FieldDisplay);
         }
 
         /// <summary>
@@ -87,7 +75,7 @@ namespace procon29_disp
         private void MainForm_Resize(object sender, EventArgs e)
         {
             Control c = (Control)sender;
-            show.Show(FieldDisplay);
+            show.Showing(FieldDisplay);
         }
 
         /// <summary>
@@ -108,13 +96,8 @@ namespace procon29_disp
         /// <param name="e"></param>
         private void FieldDisplay_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+
             show.DoubleClickedShow();
-            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Direct Point: " + procon.AreaPoint(Team.A).ToString());
-            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A Indirect Point: " + procon.ClosedPoint(Team.A).ToString());
-            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A    Total Point: " + procon.TotalPoint(Team.A).ToString());
-            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Direct Point: " + procon.AreaPoint(Team.B).ToString());
-            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B Indirect Point: " + procon.ClosedPoint(Team.B).ToString());
-            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B    Total Point: " + procon.TotalPoint(Team.B).ToString());
         }
 
         /// <summary>
@@ -134,24 +117,24 @@ namespace procon29_disp
             var delta = DateTime.Now - time;
             if (delta.TotalMilliseconds >= 1.0)
             {
-                show.Show(FieldDisplay);
+                show.Showing(FieldDisplay);
                 // フィールド内にいるときは、フィールドの情報を表示する。
                 if (0 <= show.CursorPosition(FieldDisplay).X &&
-                    show.CursorPosition(FieldDisplay).X < procon.Field.Width() &&
+                    show.CursorPosition(FieldDisplay).X < calc.Field.Width() &&
                     0 <= show.CursorPosition(FieldDisplay).Y &&
-                    show.CursorPosition(FieldDisplay).Y < procon.Field.Height())
+                    show.CursorPosition(FieldDisplay).Y < calc.Field.Height())
                 {
-                    var f = procon.Field[show.CursorPosition(FieldDisplay).X, show.CursorPosition(FieldDisplay).Y];
+                    var f = calc.Field[show.CursorPosition(FieldDisplay).X, show.CursorPosition(FieldDisplay).Y];
                     // 情報を表示
                     toolStripStatusLabel1.Text = (show.CursorPosition(FieldDisplay) + " Point: " + f.Point);
                     // 囲まれているか判定
-                    if (f.IsClosed[0] && f.IsClosed[1]) toolStripStatusLabel1.Text += " (Surrounded by both)";
-                    else if (f.IsClosed[0])
+                    if (f.IsEnclosed[0] && f.IsEnclosed[1]) toolStripStatusLabel1.Text += " (Surrounded by both)";
+                    else if (f.IsEnclosed[0])
                     {
                         toolStripStatusLabel1.Text += " (Surrounded by " + teamDesigns[0].Name + ")";
                         toolStripStatusLabel1.ForeColor = teamDesigns[0].AgentColor;
                     }
-                    else if (f.IsClosed[1])
+                    else if (f.IsEnclosed[1])
                     {
                         toolStripStatusLabel1.Text += " (Surrounded by " + teamDesigns[1].Name + ")";
                         toolStripStatusLabel1.ForeColor = teamDesigns[1].AgentColor;
@@ -159,7 +142,7 @@ namespace procon29_disp
                     // タイルがおかれているか判定
                     if (f.IsTileOn[0]) toolStripStatusLabel1.ForeColor = teamDesigns[0].AgentColor;
                     else if (f.IsTileOn[1]) toolStripStatusLabel1.ForeColor = teamDesigns[1].AgentColor;
-                    else if ((!f.IsClosed[0] && !f.IsClosed[1])) toolStripStatusLabel1.ForeColor = Color.LightGray;
+                    else if ((!f.IsEnclosed[0] && !f.IsEnclosed[1])) toolStripStatusLabel1.ForeColor = Color.LightGray;
                 }
             }
             time = DateTime.Now;
@@ -173,8 +156,20 @@ namespace procon29_disp
         /// <param name="where"></param>
         private void MoveAgent(Team team, Agent agent, Point where)
         {
-            procon.MoveAgent(team, agent, where);
+            calc.MoveAgent(team, agent, where);
             //log.WriteLine(teamDesigns[(int)agent].AreaColor, Procon29_Calc.ShortTeamAgentName[(int)team, (int)agent] + " moved to " + where);
+        }
+
+        /// <summary>
+        /// 特定のエージェントに座標を加えます。
+        /// </summary>
+        /// <param name="team">対称となるチーム</param>
+        /// <param name="agent">対称となるエージェント</param>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        private Point AddAgentPosition(Team team, Agent agent, Point point)
+        {
+            return new Point(calc.AgentPosition[(int)team, (int)agent].X + point.X, calc.AgentPosition[(int)team, (int)agent].Y + point.Y);
         }
 
         /// <summary>
@@ -184,7 +179,9 @@ namespace procon29_disp
         /// <param name="e"></param>
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            var isAct = true;
+            var team = show.SelectedTeamAndAgent.Item1;
+            var agent = show.SelectedTeamAndAgent.Item2;
+
             e.SuppressKeyPress = true;
             Console.WriteLine(e.KeyCode);
             try
@@ -192,75 +189,78 @@ namespace procon29_disp
                 switch (e.KeyCode)
                 {
                     case Keys.Q:
-                        isAct = false;
+                        team = Team.A;
+                        agent = Agent.One;
                         show.SelectedTeamAndAgent = (Team.A, Agent.One);
                         break;
                     case Keys.W:
-                        isAct = false;
+                        team = Team.A;
+                        agent = Agent.Two;
                         show.SelectedTeamAndAgent = (Team.A, Agent.Two);
                         break;
                     case Keys.E:
-                        isAct = false;
+                        team = Team.B;
+                        agent = Agent.One;
                         show.SelectedTeamAndAgent = (Team.B, Agent.One);
                         break;
                     case Keys.R:
-                        isAct = false;
+                        team = Team.B;
+                        agent = Agent.Two;
                         show.SelectedTeamAndAgent = (Team.B, Agent.Two);
                         break;
                     case Keys.NumPad1:
-                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.DownLeft);
+                        show.agentActivityData[(int)team, (int)agent].Destination =
+                            AddAgentPosition(team, agent, new Point(-1, 1));
                         break;
                     case Keys.NumPad2:
-                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.Down);
+                        show.agentActivityData[(int)team, (int)agent].Destination =
+                            AddAgentPosition(team, agent, new Point(0, 1));
                         break;
                     case Keys.NumPad3:
-                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.DownRight);
+                        show.agentActivityData[(int)team, (int)agent].Destination =
+                            AddAgentPosition(team, agent, new Point(1, 1));
                         break;
                     case Keys.NumPad4:
-                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.Left);
+                        show.agentActivityData[(int)team, (int)agent].Destination =
+                            AddAgentPosition(team, agent, new Point(-1, 0));
                         break;
                     case Keys.NumPad6:
-                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.Right);
+                        show.agentActivityData[(int)team, (int)agent].Destination =
+                            AddAgentPosition(team, agent, new Point(1, 0));
                         break;
                     case Keys.NumPad7:
-                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.UpLeft);
+                        show.agentActivityData[(int)team, (int)agent].Destination =
+                            AddAgentPosition(team, agent, new Point(-1, -1));
                         break;
                     case Keys.NumPad8:
-                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.Up);
+                        show.agentActivityData[(int)team, (int)agent].Destination =
+                            AddAgentPosition(team, agent, new Point(0, -1));
                         break;
                     case Keys.NumPad9:
-                        procon.MoveAgent(show.SelectedTeamAndAgent.Item1, show.SelectedTeamAndAgent.Item2, Arrow10Key.UpRight);
+                        show.agentActivityData[(int)team, (int)agent].Destination =
+                            AddAgentPosition(team, agent, new Point(1, -1));
                         break;
                     default:
-                        isAct = false;
                         e.SuppressKeyPress = false;
                         break;
                 }
-                show.ClickedField =
-                    new Point(
-                        procon.AgentPosition[
-                            (int)show.SelectedTeamAndAgent.Item1,
-                            (int)show.SelectedTeamAndAgent.Item2]
-                            .X,
-                        procon.AgentPosition[
-                            (int)show.SelectedTeamAndAgent.Item1,
-                            (int)show.SelectedTeamAndAgent.Item2]
-                            .Y);
-                if (isAct)
+                show.ClickedField = calc.AgentPosition[(int)team, (int)agent];
+                if (show.agentActivityData[(int)team, (int)agent].Destination.X < 0 ||
+                    show.agentActivityData[(int)team, (int)agent].Destination.Y < 0 ||
+                    show.agentActivityData[(int)team, (int)agent].Destination.X >= calc.Field.Width() ||
+                    show.agentActivityData[(int)team, (int)agent].Destination.Y >= calc.Field.Height())
                 {
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Direct Point: " + procon.AreaPoint(Team.A).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A Indirect Point: " + procon.ClosedPoint(Team.A).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A    Total Point: " + procon.TotalPoint(Team.A).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Direct Point: " + procon.AreaPoint(Team.B).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B Indirect Point: " + procon.ClosedPoint(Team.B).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B    Total Point: " + procon.TotalPoint(Team.B).ToString());
+                    show.agentActivityData[(int)team, (int)agent].Destination = calc.AgentPosition[(int)team, (int)agent];
+                    throw new Exception();
                 }
+                else
+                    show.KeyDownShow();
             }
             catch (Exception)
             {
                 MessageBox.Show("不正なキー入力です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            show.Show(FieldDisplay);
+            show.Showing(FieldDisplay);
         }
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace procon29_disp
                     {
                         var pqr = sr.ReadToEnd();
                         log.WriteLine(Color.LightGray, pqr);
-                        var pqr_data = Procon29_CSV.ToPQRData(pqr);
+                        var pqr_data = DataConverter.ToPQRData(pqr);
                         if (pqr_data.One.X < 0 || pqr_data.One.Y < 0)
                         {
                             MessageBox.Show("1人目のエージェントの位置" + pqr_data.One + "が不正です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -312,10 +312,10 @@ namespace procon29_disp
                             pqr_data.Two = new Point(0, 0);
                         }
 
-                        procon = new Procon29_Calc(pqr_data.Fields, new Point[2] { pqr_data.One, pqr_data.Two });
+                        calc = new Calc(pqr_data.Fields, new Point[2] { pqr_data.One, pqr_data.Two });
 
-                        show = new Procon29_Show(procon, teamDesigns);
-                        show.Show(FieldDisplay);
+                        show = new Show(calc, teamDesigns, FieldDisplay);
+                        show.Showing(FieldDisplay);
                     }
                     catch (Exception)
                     {
@@ -332,31 +332,19 @@ namespace procon29_disp
 
         private void TurnEndButton_Click(object sender, EventArgs e)
         {
-            foreach (Team team in Enum.GetValues(typeof(Team)))
-            {
-                foreach (Agent agent in Enum.GetValues(typeof(Agent)))
-                {
-                    var isIndependence = true;
-                    foreach (Team otherteam in Enum.GetValues(typeof(Team)))
-                    {
-                        foreach (Agent otheragent in Enum.GetValues(typeof(Agent)))
-                        {
-                            if (team == otherteam && agent == otheragent)
-                            {
-                                continue;
-                            }
-                            if (show.wanttogo[(int)team, (int)agent] == show.wanttogo[(int)otherteam, (int)otheragent])
-                            {
-                                isIndependence = false;
-                                break;
-                            }
-
-                        }
-                    }
-                    if (isIndependence) MoveAgent(team, agent, show.wanttogo[(int)team, (int)agent]);
-                }
-            }
-            show.Show(FieldDisplay);
+            calc.MoveAgent(show.agentActivityData);
+            show.Showing(FieldDisplay);
+            log.WriteLine(Color.LightGray, "Turn : " + calc.Turn);
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Area Point: " + calc.AreaPoint(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "   Total Point: " + calc.TotalPoint(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 0]);
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 1]);
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Area Point: " + calc.AreaPoint(Team.B).ToString());
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.B).ToString());
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "   Total Point: " + calc.TotalPoint(Team.B).ToString());
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 0]);
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);
         }
     }
 }
