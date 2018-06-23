@@ -25,8 +25,7 @@ namespace Procon29_Visualizer
 
         private Bitmap[] agentBitmap;
 
-        public Point[,] wanttogo = new Point[2, 2];
-
+        public AgentActivityData[,] agentActivityData = new AgentActivityData[2, 2];
 
         /// <summary>
         /// 描画する対象となるProcon29_Calcを設定または取得します。
@@ -93,11 +92,11 @@ namespace Procon29_Visualizer
         /// </summary>
         /// <param name="procon29_Calc">表示するProcon29_Calc</param>
         /// <param name="teamDesigns">表示するときのチームデザイン</param>
-        public Show(Calc procon29_Calc, TeamDesign[] teamDesigns)
+        public Show(Calc procon29_Calc, TeamDesign[] teamDesigns, PictureBox pictureBox)
         {
             Procon29_Calc = procon29_Calc;
             TeamDesign = teamDesigns;
-
+            PictureBox = pictureBox;
 
             // ResourceManagerを取得する
             System.Resources.ResourceManager resource = Properties.Resources.ResourceManager;
@@ -111,7 +110,7 @@ namespace Procon29_Visualizer
             {
                 foreach (Agent agent in Enum.GetValues(typeof(Agent)))
                 {
-                    wanttogo[(int)team, (int)agent] = Procon29_Calc.GetAgentPosition(team, agent);
+                    agentActivityData[(int)team, (int)agent] = new AgentActivityData(AgentStatusData.RequestMovement, Procon29_Calc.GetAgentPosition(team, agent));
                 }
             }
         }
@@ -247,7 +246,7 @@ namespace Procon29_Visualizer
                 y: ClickedField.Y * fieldHeight,
                 width: fieldWidth,
                 height: fieldHeight);
- 
+
             //エージェントを女の子にするところ
             for (int x = 0; x < Procon29_Calc.Field.Width(); x++)
             {
@@ -281,16 +280,16 @@ namespace Procon29_Visualizer
             }
 
             //次のターンで行くところのマークの表示
-            for (int t = 0; t < wanttogo.GetLength(0); t++)
+            for (int t = 0; t < agentActivityData.GetLength(0); t++)
             {
-                for (int a = 0; a < wanttogo.GetLength(1); a++)
+                for (int a = 0; a < agentActivityData.GetLength(1); a++)
                 {
-                    if (wanttogo[t, a] != null)
+                    if (agentActivityData[t, a] != null)
                     {
                         graphics.FillEllipse(
                             brush: new SolidBrush(color: Color.RoyalBlue),
-                            x: (wanttogo[t, a].X + 0.5f) * fieldWidth,
-                            y: (wanttogo[t, a].Y + 0.5f) * fieldHeight,
+                            x: (agentActivityData[t, a].Destination.X + 0.5f) * fieldWidth,
+                            y: (agentActivityData[t, a].Destination.Y + 0.5f) * fieldHeight,
                             width: fieldWidth / 4,
                             height: fieldWidth / 4);
                     }
@@ -376,8 +375,29 @@ namespace Procon29_Visualizer
         /// </summary>
         public void DoubleClickedShow()
         {
-            wanttogo[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2] = ClickedField;
-            //Procon29_Calc.MoveAgent(SelectedTeamAndAgent.Item1, SelectedTeamAndAgent.Item2, ClickedField);
+            if (Procon29_Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)((SelectedTeamAndAgent.Item1 == Team.A) ? Team.B : Team.A)])
+                agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestRemovementOpponentTile;
+            else if (Procon29_Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)SelectedTeamAndAgent.Item1])
+            {
+                //メッセージボックスを表示する
+                DialogResult result = MessageBox.Show("タイルを取り除きますか？", "質問", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+                //何が選択されたか調べる
+                if (result == DialogResult.Yes)
+                {
+                    //「はい」が選択された時
+                    Console.WriteLine("「はい」が選択されました");
+                    agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestRemovementOurTile;
+                }
+                else if (result == DialogResult.No)
+                {
+                    //「いいえ」が選択された時
+                    Console.WriteLine("「いいえ」が選択されました");
+                    agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestMovement;
+                }
+            }
+            else
+                agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestMovement;
+            agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].Destination = ClickedField;
         }
 
         /// <summary>

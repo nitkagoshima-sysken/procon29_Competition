@@ -51,7 +51,7 @@ namespace Procon29_Visualizer
                 new TeamDesign(name:"Orange", agentColor:Color.DarkOrange, areaColor:Color.DarkOrange),
                 new TeamDesign(name:"Lime", agentColor:Color.LimeGreen, areaColor:Color.LimeGreen),
             };
-            show = new Show(calc, teamDesigns);
+            show = new Show(calc, teamDesigns, FieldDisplay);
             show.Showing(FieldDisplay);
             calc.PointMapCheck();
 
@@ -96,6 +96,7 @@ namespace Procon29_Visualizer
         /// <param name="e"></param>
         private void FieldDisplay_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            
             show.DoubleClickedShow();
         }
 
@@ -188,40 +189,40 @@ namespace Procon29_Visualizer
                         show.SelectedTeamAndAgent = (Team.B, Agent.Two);
                         break;
                     case Keys.NumPad1:
-                        show.wanttogo[(int)team, (int)agent] = new Point(calc.AgentPosition[(int)team, (int)agent].X - 1, calc.AgentPosition[(int)team, (int)agent].Y + 1);
+                        show.agentActivityData[(int)team, (int)agent].Destination = new Point(calc.AgentPosition[(int)team, (int)agent].X - 1, calc.AgentPosition[(int)team, (int)agent].Y + 1);
                         break;
                     case Keys.NumPad2:
-                        show.wanttogo[(int)team, (int)agent] = new Point(calc.AgentPosition[(int)team, (int)agent].X, calc.AgentPosition[(int)team, (int)agent].Y + 1);
+                        show.agentActivityData[(int)team, (int)agent].Destination = new Point(calc.AgentPosition[(int)team, (int)agent].X, calc.AgentPosition[(int)team, (int)agent].Y + 1);
                         break;
                     case Keys.NumPad3:
-                        show.wanttogo[(int)team, (int)agent] = new Point(calc.AgentPosition[(int)team, (int)agent].X + 1, calc.AgentPosition[(int)team, (int)agent].Y + 1);
+                        show.agentActivityData[(int)team, (int)agent].Destination = new Point(calc.AgentPosition[(int)team, (int)agent].X + 1, calc.AgentPosition[(int)team, (int)agent].Y + 1);
                         break;
                     case Keys.NumPad4:
-                        show.wanttogo[(int)team, (int)agent] = new Point(calc.AgentPosition[(int)team, (int)agent].X - 1, calc.AgentPosition[(int)team, (int)agent].Y);
+                        show.agentActivityData[(int)team, (int)agent].Destination = new Point(calc.AgentPosition[(int)team, (int)agent].X - 1, calc.AgentPosition[(int)team, (int)agent].Y);
                         break;
                     case Keys.NumPad6:
-                        show.wanttogo[(int)team, (int)agent] = new Point(calc.AgentPosition[(int)team, (int)agent].X + 1, calc.AgentPosition[(int)team, (int)agent].Y);
+                        show.agentActivityData[(int)team, (int)agent].Destination = new Point(calc.AgentPosition[(int)team, (int)agent].X + 1, calc.AgentPosition[(int)team, (int)agent].Y);
                         break;
                     case Keys.NumPad7:
-                        show.wanttogo[(int)team, (int)agent] = new Point(calc.AgentPosition[(int)team, (int)agent].X - 1, calc.AgentPosition[(int)team, (int)agent].Y - 1);
+                        show.agentActivityData[(int)team, (int)agent].Destination = new Point(calc.AgentPosition[(int)team, (int)agent].X - 1, calc.AgentPosition[(int)team, (int)agent].Y - 1);
                         break;
                     case Keys.NumPad8:
-                        show.wanttogo[(int)team, (int)agent] = new Point(calc.AgentPosition[(int)team, (int)agent].X, calc.AgentPosition[(int)team, (int)agent].Y - 1);
+                        show.agentActivityData[(int)team, (int)agent].Destination = new Point(calc.AgentPosition[(int)team, (int)agent].X, calc.AgentPosition[(int)team, (int)agent].Y - 1);
                         break;
                     case Keys.NumPad9:
-                        show.wanttogo[(int)team, (int)agent] = new Point(calc.AgentPosition[(int)team, (int)agent].X + 1, calc.AgentPosition[(int)team, (int)agent].Y - 1);
+                        show.agentActivityData[(int)team, (int)agent].Destination = new Point(calc.AgentPosition[(int)team, (int)agent].X + 1, calc.AgentPosition[(int)team, (int)agent].Y - 1);
                         break;
                     default:
                         e.SuppressKeyPress = false;
                         break;
                 }
                 show.ClickedField = calc.AgentPosition[(int)team, (int)agent];
-                if (show.wanttogo[(int)team, (int)agent].X < 0 ||
-                    show.wanttogo[(int)team, (int)agent].Y < 0 ||
-                    show.wanttogo[(int)team, (int)agent].X >= calc.Field.Width() ||
-                    show.wanttogo[(int)team, (int)agent].Y >= calc.Field.Height())
+                if (show.agentActivityData[(int)team, (int)agent].Destination.X < 0 ||
+                    show.agentActivityData[(int)team, (int)agent].Destination.Y < 0 ||
+                    show.agentActivityData[(int)team, (int)agent].Destination.X >= calc.Field.Width() ||
+                    show.agentActivityData[(int)team, (int)agent].Destination.Y >= calc.Field.Height())
                 {
-                    show.wanttogo[(int)team, (int)agent] = calc.AgentPosition[(int)team, (int)agent];
+                    show.agentActivityData[(int)team, (int)agent].Destination = calc.AgentPosition[(int)team, (int)agent];
                     throw new Exception();
                 }
             }
@@ -283,7 +284,7 @@ namespace Procon29_Visualizer
 
                         calc = new Calc(pqr_data.Fields, new Point[2] { pqr_data.One, pqr_data.Two });
 
-                        show = new Show(calc, teamDesigns);
+                        show = new Show(calc, teamDesigns, FieldDisplay);
                         show.Showing(FieldDisplay);
                     }
                     catch (Exception)
@@ -314,7 +315,7 @@ namespace Procon29_Visualizer
                             {
                                 continue;
                             }
-                            if (show.wanttogo[(int)team, (int)agent] == show.wanttogo[(int)otherteam, (int)otheragent])
+                            if (show.agentActivityData[(int)team, (int)agent] == show.agentActivityData[(int)otherteam, (int)otheragent])
                             {
                                 isIndependence = false;
                                 break;
@@ -322,7 +323,7 @@ namespace Procon29_Visualizer
 
                         }
                     }
-                    if (isIndependence) MoveAgent(team, agent, show.wanttogo[(int)team, (int)agent]);
+                    if (isIndependence) calc.MoveAgent(show.agentActivityData);
                 }
             }
             show.Showing(FieldDisplay);

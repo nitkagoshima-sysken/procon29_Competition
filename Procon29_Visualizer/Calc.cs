@@ -145,7 +145,7 @@ namespace Procon29_Visualizer
         /// </summary>
         /// <param name="agentStatusData">エージェントが行動をどこに起こしたかを表します</param>
         /// <param name="destination">エージェントが行動した結果の状態を表します</param>
-        AgentActivityData(AgentStatusData agentStatusData, Point destination)
+        public AgentActivityData(AgentStatusData agentStatusData, Point destination)
         {
             AgentStatusData = agentStatusData;
             Destination = destination;
@@ -174,7 +174,7 @@ namespace Procon29_Visualizer
         /// </summary>
         /// <param name="agentActivityData">エージェントの行動データを表します</param>
         /// <param name="field">フィールドを表します</param>
-        TurnData(AgentActivityData[,] agentActivityData, Cell[,] field)
+        public TurnData(AgentActivityData[,] agentActivityData, Cell[,] field)
         {
             AgentActivityData = agentActivityData;
             Field = field;
@@ -266,6 +266,31 @@ namespace Procon29_Visualizer
                     return;
                 default:
                     return;
+            }
+        }
+
+        public static void CheckCollision(this AgentActivityData[,] agentActivityData)
+        {
+            foreach (Team team in Enum.GetValues(typeof(Team)))
+            {
+                foreach (Agent agent in Enum.GetValues(typeof(Agent)))
+                {
+                    if (agentActivityData[(int)team, (int)agent].AgentStatusData.IsRequest())
+                    {
+                        foreach (Team otherteam in Enum.GetValues(typeof(Team)))
+                        {
+                            foreach (Agent otheragent in Enum.GetValues(typeof(Agent)))
+                            {
+                                if (team == otherteam && agent == otheragent) continue;
+                                if (agentActivityData[(int)team, (int)agent].Destination == agentActivityData[(int)otherteam, (int)otheragent].Destination)
+                                {
+                                    agentActivityData[(int)team, (int)agent].ToFail();
+                                    agentActivityData[(int)otherteam, (int)otheragent].ToFail();
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -780,30 +805,7 @@ namespace Procon29_Visualizer
             }
         }
 
-        public void CheckCollision(AgentActivityData[,] agentActivityData)
-        {
-            foreach (Team team in Enum.GetValues(typeof(Team)))
-            {
-                foreach (Agent agent in Enum.GetValues(typeof(Agent)))
-                {
-                    if (agentActivityData[(int)team, (int)agent].AgentStatusData.IsRequest())
-                    {
-                        foreach (Team otherteam in Enum.GetValues(typeof(Team)))
-                        {
-                            foreach (Agent otheragent in Enum.GetValues(typeof(Agent)))
-                            {
-                                if (team == otherteam && agent == otheragent) continue;
-                                if (agentActivityData[(int)team, (int)agent].Destination == agentActivityData[(int)otherteam, (int)otheragent].Destination)
-                                {
-                                    agentActivityData[(int)team, (int)agent].ToFail();
-                                    agentActivityData[(int)otherteam, (int)otheragent].ToFail();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+
 
         /// <summary>
         /// 指定したところにエージェントが移動します。
@@ -811,7 +813,7 @@ namespace Procon29_Visualizer
         /// <param name="agentActivityData"></param>
         public void MoveAgent(AgentActivityData[,] agentActivityData)
         {
-            CheckCollision(agentActivityData);
+            agentActivityData.CheckCollision();
             foreach (Team team in Enum.GetValues(typeof(Team)))
             {
                 foreach (Agent agent in Enum.GetValues(typeof(Agent)))
@@ -833,6 +835,7 @@ namespace Procon29_Visualizer
                     }
                     agentActivityData[(int)team, (int)agent].ToSuccess();
                 }
+                CheckEnclosedArea(team);
             }
         }
     }
