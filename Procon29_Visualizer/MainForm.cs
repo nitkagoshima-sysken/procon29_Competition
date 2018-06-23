@@ -96,7 +96,7 @@ namespace Procon29_Visualizer
         /// <param name="e"></param>
         private void FieldDisplay_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            
+
             show.DoubleClickedShow();
         }
 
@@ -161,6 +161,18 @@ namespace Procon29_Visualizer
         }
 
         /// <summary>
+        /// 特定のエージェントに座標を加えます。
+        /// </summary>
+        /// <param name="team">対称となるチーム</param>
+        /// <param name="agent">対称となるエージェント</param>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        private Point AddAgentPosition(Team team, Agent agent, Point point)
+        {
+            return new Point(calc.AgentPosition[(int)team, (int)agent].X + point.X, calc.AgentPosition[(int)team, (int)agent].Y + point.Y);
+        }
+
+        /// <summary>
         /// Form1内でキーを押したときに実行されます。
         /// </summary>
         /// <param name="sender"></param>
@@ -189,28 +201,36 @@ namespace Procon29_Visualizer
                         show.SelectedTeamAndAgent = (Team.B, Agent.Two);
                         break;
                     case Keys.NumPad1:
-                        show.agentActivityData[(int)team, (int)agent].Destination = new Point(calc.AgentPosition[(int)team, (int)agent].X - 1, calc.AgentPosition[(int)team, (int)agent].Y + 1);
+                        show.agentActivityData[(int)team, (int)agent].Destination =
+                            AddAgentPosition(team, agent, new Point(-1, 1));
                         break;
                     case Keys.NumPad2:
-                        show.agentActivityData[(int)team, (int)agent].Destination = new Point(calc.AgentPosition[(int)team, (int)agent].X, calc.AgentPosition[(int)team, (int)agent].Y + 1);
+                        show.agentActivityData[(int)team, (int)agent].Destination =
+                            AddAgentPosition(team, agent, new Point(0, 1));
                         break;
                     case Keys.NumPad3:
-                        show.agentActivityData[(int)team, (int)agent].Destination = new Point(calc.AgentPosition[(int)team, (int)agent].X + 1, calc.AgentPosition[(int)team, (int)agent].Y + 1);
+                        show.agentActivityData[(int)team, (int)agent].Destination =
+                            AddAgentPosition(team, agent, new Point(1, 1));
                         break;
                     case Keys.NumPad4:
-                        show.agentActivityData[(int)team, (int)agent].Destination = new Point(calc.AgentPosition[(int)team, (int)agent].X - 1, calc.AgentPosition[(int)team, (int)agent].Y);
+                        show.agentActivityData[(int)team, (int)agent].Destination =
+                            AddAgentPosition(team, agent, new Point(-1, 0));
                         break;
                     case Keys.NumPad6:
-                        show.agentActivityData[(int)team, (int)agent].Destination = new Point(calc.AgentPosition[(int)team, (int)agent].X + 1, calc.AgentPosition[(int)team, (int)agent].Y);
+                        show.agentActivityData[(int)team, (int)agent].Destination =
+                            AddAgentPosition(team, agent, new Point(1, 0));
                         break;
                     case Keys.NumPad7:
-                        show.agentActivityData[(int)team, (int)agent].Destination = new Point(calc.AgentPosition[(int)team, (int)agent].X - 1, calc.AgentPosition[(int)team, (int)agent].Y - 1);
+                        show.agentActivityData[(int)team, (int)agent].Destination =
+                            AddAgentPosition(team, agent, new Point(-1, -1));
                         break;
                     case Keys.NumPad8:
-                        show.agentActivityData[(int)team, (int)agent].Destination = new Point(calc.AgentPosition[(int)team, (int)agent].X, calc.AgentPosition[(int)team, (int)agent].Y - 1);
+                        show.agentActivityData[(int)team, (int)agent].Destination =
+                            AddAgentPosition(team, agent, new Point(0, -1));
                         break;
                     case Keys.NumPad9:
-                        show.agentActivityData[(int)team, (int)agent].Destination = new Point(calc.AgentPosition[(int)team, (int)agent].X + 1, calc.AgentPosition[(int)team, (int)agent].Y - 1);
+                        show.agentActivityData[(int)team, (int)agent].Destination =
+                            AddAgentPosition(team, agent, new Point(1, -1));
                         break;
                     default:
                         e.SuppressKeyPress = false;
@@ -302,39 +322,16 @@ namespace Procon29_Visualizer
 
         private void TurnEndButton_Click(object sender, EventArgs e)
         {
-            foreach (Team team in Enum.GetValues(typeof(Team)))
-            {
-                foreach (Agent agent in Enum.GetValues(typeof(Agent)))
-                {
-                    var isIndependence = true;
-                    foreach (Team otherteam in Enum.GetValues(typeof(Team)))
-                    {
-                        foreach (Agent otheragent in Enum.GetValues(typeof(Agent)))
-                        {
-                            if (team == otherteam && agent == otheragent)
-                            {
-                                continue;
-                            }
-                            if (show.agentActivityData[(int)team, (int)agent] == show.agentActivityData[(int)otherteam, (int)otheragent])
-                            {
-                                isIndependence = false;
-                                break;
-                            }
-
-                        }
-                    }
-                    if (isIndependence) calc.MoveAgent(show.agentActivityData);
-                }
-            }
+            calc.MoveAgent(show.agentActivityData);
             show.Showing(FieldDisplay);
             log.WriteLine(Color.LightGray, "Turn : " + calc.Turn);
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Area Point: " + calc.AreaPoint(Team.A).ToString());
-            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Enclosed Point: " + calc.ClosedPoint(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.A).ToString());
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "   Total Point: " + calc.TotalPoint(Team.A).ToString());
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 0]);
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 1]);
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Area Point: " + calc.AreaPoint(Team.B).ToString());
-            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Enclosed Point: " + calc.ClosedPoint(Team.B).ToString());
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.B).ToString());
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "   Total Point: " + calc.TotalPoint(Team.B).ToString());
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 0]);
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);

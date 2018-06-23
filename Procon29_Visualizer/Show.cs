@@ -339,7 +339,8 @@ namespace Procon29_Visualizer
             Point clickedFieldPoint = new Point(
                 x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
                 y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
-            if (Procon29_Calc.IsAgentInNeighborhood(clickedFieldPoint))
+
+            if (Procon29_Calc.IsAgentHereOrInNeighborhood(clickedFieldPoint))
             {
                 if ((clickedFieldPoint.X < Procon29_Calc.Field.Width()) && (clickedFieldPoint.Y < Procon29_Calc.Field.Height()))
                 {

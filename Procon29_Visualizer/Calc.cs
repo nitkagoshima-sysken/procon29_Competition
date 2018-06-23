@@ -534,28 +534,28 @@ namespace Procon29_Visualizer
         /// </summary>
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームが囲んだエリアのポイントの絶対値の合計</returns>
-        public int ClosedPoint(int team) => FieldList.Sum(x => ((x.IsEnclosed[team] == true) ? Math.Abs(x.Point) : 0));
+        public int EnclosedPoint(int team) => FieldList.Sum(x => ((x.IsEnclosed[team] == true) ? Math.Abs(x.Point) : 0));
 
         /// <summary>
         /// 指定したチームが囲んだエリアのポイントの絶対値の合計を計算します。
         /// </summary>
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームが囲んだエリアのポイントの絶対値の合計</returns>
-        public int ClosedPoint(Team team) => ClosedPoint((int)team);
+        public int EnclosedPoint(Team team) => EnclosedPoint((int)team);
 
         /// <summary>
         /// 指定したチームの合計ポイントを計算します。
         /// </summary>
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームの合計ポイント</returns>
-        public int TotalPoint(int team) => AreaPoint(team) + ClosedPoint(team);
+        public int TotalPoint(int team) => AreaPoint(team) + EnclosedPoint(team);
 
         /// <summary>
         /// 指定したチームの合計ポイントを計算します。
         /// </summary>
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームの合計ポイント</returns>
-        public int TotalPoint(Team team) => AreaPoint(team) + ClosedPoint(team);
+        public int TotalPoint(Team team) => AreaPoint(team) + EnclosedPoint(team);
 
         /// <summary>
         /// マップが対称であるか規定内の大きさか判定します。
@@ -654,6 +654,10 @@ namespace Procon29_Visualizer
                         FillFalseInIsEnclosed(team, new Point(x, y));
                 }
             }
+            foreach (var item in Field)
+            {
+                if (item.IsTileOn[team]) item.IsEnclosed[team] = false;
+            }
         }
 
         /// <summary>
@@ -680,7 +684,7 @@ namespace Procon29_Visualizer
         /// <param name="agent">対象となるエージェント</param>
         /// <param name="point">対象となるマス</param>
         /// <returns>対象となるマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
-        public bool IsAgentInNeighborhood(int team, int agent, Point point)
+        public bool IsAgentHereOrInNeighborhood(int team, int agent, Point point)
         {
             for (int x = -1; x <= 1; x++)
             {
@@ -702,23 +706,101 @@ namespace Procon29_Visualizer
         /// <param name="agent">対象となるエージェント</param>
         /// <param name="point">対象となるマス</param>
         /// <returns>対象となるマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
-        public bool IsAgentInNeighborhood(Team team, Agent agent, Point point) => IsAgentInNeighborhood((int)team, (int)agent, point);
+        public bool IsAgentHereOrInNeighborhood(Team team, Agent agent, Point point) => IsAgentHereOrInNeighborhood((int)team, (int)agent, point);
 
         /// <summary>
         /// 対象となるマスにエージェントがいるか、またはムーア近傍にいるかを判定します
         /// </summary>
         /// <param name="point">対象となるマス</param>
         /// <returns>そのマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
-        public bool IsAgentInNeighborhood(Point point)
+        public bool IsAgentHereOrInNeighborhood(Point point)
         {
             foreach (Team team in Enum.GetValues(typeof(Team)))
             {
                 foreach (Agent agent in Enum.GetValues(typeof(Agent)))
                 {
-                    if (IsAgentInNeighborhood(team, agent, point)) return true;
+                    if (IsAgentHereOrInNeighborhood(team, agent, point)) return true;
                 }
             }
             return false;
+        }
+
+        /// <summary>
+        /// 対象となるマスに一人だけ、エージェントがいるか、またはムーア近傍にいるかを判定します
+        /// </summary>
+        /// <param name="point">対象になるマス</param>
+        /// <returns></returns>
+        public bool IsOneAgentHereOrInNeighborhood(Point point)
+        {
+            var result = false;
+            foreach (Team team in Enum.GetValues(typeof(Team)))
+            {
+                foreach (Agent agent in Enum.GetValues(typeof(Agent)))
+                {
+                    if (IsAgentHereOrInNeighborhood(team, agent, point))
+                    {
+                        if (result) return false;
+                        else result = true;
+                    }
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 対象になるマスにエージェントがいるか判定します。
+        /// </summary>
+        /// <param name="point">対象になるマス</param>
+        /// <returns></returns>
+        public bool IsAgentHere(Point point)
+        {
+            foreach (Team team in Enum.GetValues(typeof(Team)))
+            {
+                foreach (Agent agent in Enum.GetValues(typeof(Agent)))
+                {
+                    if (AgentPosition[(int)team, (int)agent] == point) return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 対象になるマスのムーア近傍にエージェントがいるか判定します。
+        /// </summary>
+        /// <param name="point">対象になるマス</param>
+        /// <returns></returns>
+        public bool IsAgentInNeighborhood(Point point)
+        {
+            return IsAgentHereOrInNeighborhood(point) && !IsAgentHere(point);
+        }
+
+        /// <summary>
+        /// 対象になるマスのムーア近傍に一人だけエージェントがいるか判定します。
+        /// </summary>
+        /// <param name="point">対象になるマス</param>
+        /// <returns></returns>
+        public bool IsOneAgentInNeighborhood(Point point)
+        {
+            return IsOneAgentHereOrInNeighborhood(point) && !IsAgentHere(point);
+        }
+
+        public (Team, Agent)? WhoIsNearby(Point point)
+        {
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int y = -1; y <= 1; y++)
+                {
+                    if (x == 0 && y == 0) continue;
+                    foreach (Team team in Enum.GetValues(typeof(Team)))
+                    {
+                        foreach (Agent agent in Enum.GetValues(typeof(Agent)))
+                        {
+                            if (AgentPosition[(int)team, (int)agent] == new Point(point.X + x, point.Y + y)) return (team, agent);
+                        }
+                    }
+                }
+            }
+            return null;
         }
 
         /// <summary>
@@ -805,8 +887,6 @@ namespace Procon29_Visualizer
             }
         }
 
-
-
         /// <summary>
         /// 指定したところにエージェントが移動します。
         /// </summary>
@@ -835,8 +915,9 @@ namespace Procon29_Visualizer
                     }
                     agentActivityData[(int)team, (int)agent].ToSuccess();
                 }
-                CheckEnclosedArea(team);
             }
+            CheckEnclosedArea();
+            TurnEnd();
         }
     }
 }
