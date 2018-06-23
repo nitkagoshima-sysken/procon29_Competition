@@ -86,7 +86,7 @@ namespace Procon29_Visualizer
     }
 
     /// <summary>
-    /// エージェントが行動した結果の状態を表します
+    /// エージェントの行動の状態を表します
     /// </summary>
     enum AgentStatusData
     {
@@ -94,6 +94,18 @@ namespace Procon29_Visualizer
         /// 何もしていない
         /// </summary>
         NotDoneAnything,
+        /// <summary>
+        /// 移動を要請する
+        /// </summary>
+        RequestMovement,
+        /// <summary>
+        /// 自分のチームからタイルを取り除くことを要請する
+        /// </summary>
+        RequestRemovementOurTile,
+        /// <summary>
+        /// 相手のチームからタイルを取り除くことを要請する
+        /// </summary>
+        RequestRemovementOpponentTile,
         /// <summary>
         /// 移動に成功し、タイルを置いた
         /// </summary>
@@ -140,11 +152,11 @@ namespace Procon29_Visualizer
         }
 
         /// <summary>
-        /// エージェントが行動をどこに起こしたかを表します
+        /// エージェントが行動をどこに起こしたかを設定または取得します
         /// </summary>
         public Point Destination { get => destination; set => destination = value; }
         /// <summary>
-        /// エージェントが行動した結果の状態を表します
+        /// エージェントが行動した結果の状態を設定または取得します
         /// </summary>
         internal AgentStatusData AgentStatusData { get => agentStatusData; set => agentStatusData = value; }
     }
@@ -157,14 +169,61 @@ namespace Procon29_Visualizer
         AgentActivityData[,] agentActivityData;
         Cell[,] field;
 
+        /// <summary>
+        /// 初期化します
+        /// </summary>
+        /// <param name="agentActivityData">エージェントの行動データを表します</param>
+        /// <param name="field">フィールドを表します</param>
         TurnData(AgentActivityData[,] agentActivityData, Cell[,] field)
         {
             AgentActivityData = agentActivityData;
             Field = field;
         }
 
+        /// <summary>
+        /// フィールドを設定または取得します
+        /// </summary>
         public Cell[,] Field { get => field; set => field = value; }
+        /// <summary>
+        /// エージェントの行動データを設定または取得します
+        /// </summary>
         internal AgentActivityData[,] AgentActivityData { get => agentActivityData; set => agentActivityData = value; }
+    }
+
+    /// <summary>
+    /// TurnData関連の拡張メソッドを定義するためのクラスです。
+    /// </summary>
+    static class TurnDataExpansion
+    {
+        /// <summary>
+        /// エージェントの行動の状態がまだ要請であることを判定します
+        /// </summary>
+        /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
+        /// <returns>状態が要請なら真、そうでなければ偽</returns>
+        public static bool IsRequest(this AgentStatusData agentStatusData) =>
+            agentStatusData == AgentStatusData.RequestMovement ||
+            agentStatusData == AgentStatusData.RequestRemovementOpponentTile ||
+            agentStatusData == AgentStatusData.RequestRemovementOurTile;
+
+        /// <summary>
+        /// エージェントの行動が成功したことを判定します
+        /// </summary>
+        /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
+        /// <returns>状態が成功なら真、そうでなければ偽</returns>
+        public static bool IsSucceeded(this AgentStatusData agentStatusData) =>
+            agentStatusData == AgentStatusData.SucceededInMoving ||
+            agentStatusData == AgentStatusData.SucceededInRemoveingOpponentTile ||
+            agentStatusData == AgentStatusData.SucceededInRemoveingOurTile;
+
+        /// <summary>
+        /// エージェントの行動が失敗したことを判定します
+        /// </summary>
+        /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
+        /// <returns>状態が失敗なら真、そうでなければ偽</returns>
+        public static bool IsFailed(this AgentStatusData agentStatusData) =>
+            agentStatusData == AgentStatusData.FailedInMoving ||
+            agentStatusData == AgentStatusData.FailedInRemovingOpponentTile ||
+            agentStatusData == AgentStatusData.FailedInRemovingOurTile;
     }
 
     /// <summary>
@@ -672,17 +731,28 @@ namespace Procon29_Visualizer
             }
         }
 
+        public void CheckCollision(AgentActivityData[,] agentActivityData)
+        {
+        }
+
         /// <summary>
         /// 指定したところにエージェントが移動します。
         /// </summary>
         /// <param name="distination">移動する場所</param>
-        public void MoveAgent(Point[,] distination, bool[,] isRemove)
+        public void MoveAgent(AgentActivityData[,] agentActivityData)
         {
             for (int team = 0; team < 2; team++)
             {
                 for (int agent = 0; agent < 2; agent++)
                 {
-                    MoveAgent((Team)team, (Agent)agent, distination[team, agent]);
+                    if (agentActivityData[team, agent].AgentStatusData == AgentStatusData.RequestMovement)
+                        for (int otherteam = 0; otherteam < 2; otherteam++)
+                        {
+                            for (int otheragent = 0; otheragent < 2; otheragent++)
+                            {
+                                if (team == otherteam && agent == otheragent) continue;
+                            }
+                        }
                 }
             }
         }
