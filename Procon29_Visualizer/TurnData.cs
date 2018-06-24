@@ -130,6 +130,15 @@ namespace Procon29_Visualizer
         }
 
         /// <summary>
+        /// 初期化を行います
+        /// </summary>
+        public AgentActivityData()
+        {
+            AgentStatusData = AgentStatusData.NotDoneAnything;
+            Destination = new Point();
+        }
+
+        /// <summary>
         /// エージェントが行動をどこに起こしたかを設定または取得します
         /// </summary>
         public Point Destination { get => destination; set => destination = value; }
@@ -167,11 +176,21 @@ namespace Procon29_Visualizer
             AgentActivityData = agentActivityData;
         }
 
-        public TurnData(TurnData turnData)
+        /// <summary>
+        /// 初期化します
+        /// </summary>
+        public TurnData(Cell[,] field, Point[,] agentPosition)
         {
-            Field = (Cell[,])turnData.Field.Clone();
-            AgentPosition = (Point[,])turnData.agentPosition.Clone();
-            AgentActivityData = (AgentActivityData[,])turnData.agentActivityData.Clone();
+            Field = field;
+            AgentPosition = agentPosition;
+            AgentActivityData = new AgentActivityData[AgentPosition.GetLength(0), AgentPosition.GetLength(1)];
+            for (int team = 0; team < AgentPosition.GetLength(0); team++)
+            {
+                for (int agent = 0; agent < AgentPosition.GetLength(1); agent++)
+                {
+                    AgentActivityData[team, agent] = new AgentActivityData();
+                }
+            }
         }
 
         /// <summary>

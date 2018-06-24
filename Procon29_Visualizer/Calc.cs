@@ -100,7 +100,7 @@ namespace Procon29_Visualizer
         /// <returns>objectのディープコピー</returns>
         public static object Clone(this Cell[,] field)
         {
-            var cloned = new Cell[field.Width(),field.Height()];
+            var cloned = new Cell[field.Width(), field.Height()];
             for (int x = 0; x < field.Width(); x++)
             {
                 for (int y = 0; y < field.Height(); y++)
@@ -148,6 +148,11 @@ namespace Procon29_Visualizer
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>
         public Calc(int[,] point, Point[] initPosition)
         {
+            // Turn -> 0
+            Turn = 0;
+            // TurnData作成
+            FieldHistory.Add(new TurnData(new Cell[point.GetLength(1), point.GetLength(0)], new Point[TeamArray.Length, AgentArray.Length]));
+
             InitializationOfField(point);
             foreach (Agent agent in AgentArray)
             {
@@ -155,20 +160,8 @@ namespace Procon29_Visualizer
                 PutTile(team: 0, agent: agent);
             }
             ComplementEnemysPosition();
-            TurnData = new TurnData(
-                 Field,
-                 AgentPosition,
-                 new AgentActivityData[2, 2]
-                 {
-                      {
-                        new AgentActivityData(AgentStatusData.NotDoneAnything, AgentPosition[0,0]),
-                        new AgentActivityData(AgentStatusData.NotDoneAnything, AgentPosition[0,0]),
-                      },
-                      {
-                        new AgentActivityData(AgentStatusData.NotDoneAnything, AgentPosition[0,0]),
-                        new AgentActivityData(AgentStatusData.NotDoneAnything, AgentPosition[0,0]),
-                      }
-                 });
+
+            // Turn -> 1
             TurnEnd();
         }
 
@@ -212,7 +205,7 @@ namespace Procon29_Visualizer
         /// <summary>
         /// エージェントの位置をを設定または取得します。
         /// </summary>
-        public Point[,] AgentPosition { get => agentPosition; set => agentPosition = value; }
+        public Point[,] AgentPosition { get => FieldHistory[Turn].AgentPosition; set => FieldHistory[Turn].AgentPosition = value; }
 
         /// <summary>
         /// ターンを設定または取得します。
@@ -222,7 +215,7 @@ namespace Procon29_Visualizer
         /// <summary>
         /// フィールドを設定または取得します。
         /// </summary>
-        public Cell[,] Field { get => field; set => field = value; }
+        public Cell[,] Field { get => FieldHistory[Turn].Field; set => FieldHistory[Turn].Field = value; }
 
         /// <summary>
         /// エージェントの位置を設定または取得します。
@@ -553,37 +546,15 @@ namespace Procon29_Visualizer
         /// </summary>
         public void TurnEnd()
         {
-            FieldHistory.Add(TurnData);
+            // TurnData作成
+            FieldHistory.Add(new TurnData((Cell[,])Field.Clone(), (Point[,])AgentPosition.Clone()));
             Turn++;
-            TurnData = new TurnData(
-                 (Cell[,])Field.Clone(),
-                 (Point[,])AgentPosition.Clone(),
-                 new AgentActivityData[2, 2]
-                 {
-                      {
-                        new AgentActivityData(AgentStatusData.NotDoneAnything, AgentPosition[0,0]),
-                        new AgentActivityData(AgentStatusData.NotDoneAnything, AgentPosition[0,1]),
-                      },
-                      {
-                        new AgentActivityData(AgentStatusData.NotDoneAnything, AgentPosition[1,0]),
-                        new AgentActivityData(AgentStatusData.NotDoneAnything, AgentPosition[1,1]),
-                      }
-                 }                 
-                );
         }
 
         public void Undo()
         {
-            if (Turn == 0) return;
-            Turn--;
-            Field = (Cell[,])FieldHistory[Turn].Field.Clone();
-            foreach (int team in TeamArray)
-            {
-                foreach (int agent in AgentArray)
-                {
-                    AgentPosition[team, agent] = FieldHistory[Turn].AgentPosition[team, agent];                    
-                }
-            }
+            if (Turn == 1) return;
+            Turn -= 2;
         }
 
         /// <summary>
