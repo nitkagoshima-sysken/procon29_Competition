@@ -43,6 +43,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.UndoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RedoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -183,7 +184,8 @@
             // EditToolStripMenuItem
             // 
             this.EditToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.UndoToolStripMenuItem});
+            this.UndoToolStripMenuItem,
+            this.RedoToolStripMenuItem});
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
             this.EditToolStripMenuItem.Size = new System.Drawing.Size(75, 27);
             this.EditToolStripMenuItem.Text = "編集(&E)";
@@ -220,6 +222,13 @@
             this.UndoToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
             this.UndoToolStripMenuItem.Text = "元に戻す(&U)";
             this.UndoToolStripMenuItem.Click += new System.EventHandler(this.UndoToolStripMenuItem_Click);
+            // 
+            // RedoToolStripMenuItem
+            // 
+            this.RedoToolStripMenuItem.Name = "RedoToolStripMenuItem";
+            this.RedoToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.RedoToolStripMenuItem.Text = "やり直し(&R)";
+            this.RedoToolStripMenuItem.Click += new System.EventHandler(this.RedoToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -266,5 +275,6 @@
         private System.Windows.Forms.ToolStripMenuItem CreateNewToolStripMenuItem;
         private System.Windows.Forms.Button TurnEndButton;
         private System.Windows.Forms.ToolStripMenuItem UndoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem RedoToolStripMenuItem;
     }
 }

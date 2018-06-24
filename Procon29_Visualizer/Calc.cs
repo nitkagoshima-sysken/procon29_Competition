@@ -98,12 +98,12 @@ namespace Procon29_Visualizer
         /// 現在のobjectのディープコピーを行います。
         /// </summary>
         /// <returns>objectのディープコピー</returns>
-        public static object Clone(this Cell[,] field)
+        public static object DeepCopy(this Cell[,] field)
         {
             var cloned = new Cell[field.Width(), field.Height()];
-            for (int x = 0; x < field.Width(); x++)
+            for (int x = 0; x < cloned.Width(); x++)
             {
-                for (int y = 0; y < field.Height(); y++)
+                for (int y = 0; y < cloned.Height(); y++)
                 {
                     cloned[x, y] = (Cell)field[x, y].Clone();
                 }
@@ -233,9 +233,9 @@ namespace Procon29_Visualizer
             get
             {
                 var list = new List<Cell>();
-                foreach (var item in Field)
+                foreach (var cell in Field)
                 {
-                    list.Add(item);
+                    list.Add(cell);
                 }
                 return list;
             }
@@ -274,7 +274,7 @@ namespace Procon29_Visualizer
         /// <summary>
         /// ターンデータを保有します
         /// </summary>
-        private TurnData TurnData { get => turnData; set => turnData = value; }
+        //private TurnData TurnData { get => turnData; set => turnData = value; }
 
         /// <summary>
         /// すべてのフィールドのポイントの和を計算します。
@@ -547,14 +547,20 @@ namespace Procon29_Visualizer
         public void TurnEnd()
         {
             // TurnData作成
-            FieldHistory.Add(new TurnData((Cell[,])Field.Clone(), (Point[,])AgentPosition.Clone()));
+            FieldHistory.Add(new TurnData((Cell[,])Field.DeepCopy(), (Point[,])AgentPosition.Clone()));
             Turn++;
         }
 
         public void Undo()
         {
             if (Turn == 1) return;
-            Turn -= 2;
+            Turn--;
+        }
+
+        public void Redo()
+        {
+            if (Turn == FieldHistory.Count - 1) return;
+            Turn++;
         }
 
         /// <summary>
@@ -626,7 +632,16 @@ namespace Procon29_Visualizer
         /// <param name="agentActivityData"></param>
         public void MoveAgent(AgentActivityData[,] agentActivityData)
         {
-            var preAgentPosition = AgentPosition;
+            // Undoしたときに
+            // FieldHistory.Count != Turn
+            // になる
+            // TurnEndしたときにやり直す前の未来を消す
+            if (FieldHistory.Count - 1 != Turn)
+                FieldHistory.RemoveRange(Turn + 1, FieldHistory.Count - 1 - Turn);
+
+            TurnEnd();
+
+            //var preAgentPosition = AgentPosition;
             agentActivityData.CheckCollision();
             foreach (Team team in TeamArray)
             {
@@ -651,8 +666,6 @@ namespace Procon29_Visualizer
                 }
             }
             CheckEnclosedArea();
-            TurnData = new TurnData(Field, preAgentPosition, agentActivityData);
-            TurnEnd();
         }
     }
 }
