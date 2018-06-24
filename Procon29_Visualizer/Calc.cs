@@ -101,13 +101,13 @@ namespace Procon29_Visualizer
     public static class PointExpansion
     {
         /// <summary>
-        /// 二点間のマンハッタン距離を求めます。
+        /// 二点間のチェビシェフ距離を求めます。
         /// </summary>
         /// <param name="p1">対象となる点</param>
         /// <param name="p2">対象となる点</param>
         /// <returns></returns>
-        public static int ManhattanDistance(this Point p1, Point p2) => Math.Abs(p1.X - p2.X) + Math.Abs(p1.Y - p2.Y);
-    } 
+        public static int ChebyshevDistance(this Point p1, Point p2) => Math.Max(Math.Abs(p1.X - p2.X), Math.Abs(p1.Y - p2.Y));
+    }
 
     /// <summary>
     /// procon29におけるフィールドの管理、ポイント計算などの全般を行います。
@@ -426,20 +426,7 @@ namespace Procon29_Visualizer
         /// <param name="agent">対象となるエージェント</param>
         /// <param name="point">対象となるマス</param>
         /// <returns>対象となるマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
-        public bool IsAgentHereOrInNeighborhood(int team, int agent, Point point)
-        {
-            for (int x = -1; x <= 1; x++)
-            {
-                for (int y = -1; y <= 1; y++)
-                {
-                    if (point.X == AgentPosition[team, agent].X + x && point.Y == AgentPosition[team, agent].Y + y)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
+        public bool IsAgentHereOrInMooreNeighborhood(int team, int agent, Point point) => (AgentPosition[team, agent].ChebyshevDistance(point) <= 1) ? true : false;
 
         /// <summary>
         /// 対象となるマスに対象となるエージェントがいるか、またはムーア近傍にいるかを判定します
@@ -448,22 +435,18 @@ namespace Procon29_Visualizer
         /// <param name="agent">対象となるエージェント</param>
         /// <param name="point">対象となるマス</param>
         /// <returns>対象となるマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
-        public bool IsAgentHereOrInNeighborhood(Team team, Agent agent, Point point) => IsAgentHereOrInNeighborhood((int)team, (int)agent, point);
+        public bool IsAgentHereOrInMooreNeighborhood(Team team, Agent agent, Point point) => IsAgentHereOrInMooreNeighborhood((int)team, (int)agent, point);
 
         /// <summary>
         /// 対象となるマスにエージェントがいるか、またはムーア近傍にいるかを判定します
         /// </summary>
         /// <param name="point">対象となるマス</param>
         /// <returns>そのマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
-        public bool IsAgentHereOrInNeighborhood(Point point)
+        public bool IsAgentHereOrInMooreNeighborhood(Point point)
         {
-            foreach (Team team in TeamArray)
-            {
-                foreach (Agent agent in AgentArray)
-                {
-                    if (IsAgentHereOrInNeighborhood(team, agent, point)) return true;
-                }
-            }
+            foreach (var agent in AgentPosition)
+                if (agent.ChebyshevDistance(point) <= 1)
+                    return true;
             return false;
         }
 
@@ -472,21 +455,16 @@ namespace Procon29_Visualizer
         /// </summary>
         /// <param name="point">対象になるマス</param>
         /// <returns></returns>
-        public bool IsOneAgentHereOrInNeighborhood(Point point)
+        public bool IsOneAgentHereOrInMooreNeighborhood(Point point)
         {
             var result = false;
-            foreach (Team team in TeamArray)
-            {
-                foreach (Agent agent in AgentArray)
-                {
-                    if (IsAgentHereOrInNeighborhood(team, agent, point))
-                    {
-                        if (result) return false;
-                        else result = true;
-                    }
-                }
-            }
-            return result;
+            foreach (var agent in AgentPosition)
+                if (agent.ChebyshevDistance(point) <= 1)
+                    if (result)
+                        return false;
+                    else
+                        result = true;
+            return true;
         }
 
         /// <summary>
@@ -496,13 +474,9 @@ namespace Procon29_Visualizer
         /// <returns></returns>
         public bool IsAgentHere(Point point)
         {
-            foreach (Team team in TeamArray)
-            {
-                foreach (Agent agent in AgentArray)
-                {
-                    if (AgentPosition[(int)team, (int)agent] == point) return true;
-                }
-            }
+            foreach (var agent in AgentPosition)
+                if (agent.ChebyshevDistance(point) == 0)
+                    return true;
             return false;
         }
 
@@ -511,9 +485,12 @@ namespace Procon29_Visualizer
         /// </summary>
         /// <param name="point">対象になるマス</param>
         /// <returns></returns>
-        public bool IsAgentInNeighborhood(Point point)
+        public bool IsAgentInMooreNeighborhood(Point point)
         {
-            return IsAgentHereOrInNeighborhood(point) && !IsAgentHere(point);
+            foreach (var agent in AgentPosition)
+                if (agent.ChebyshevDistance(point) == 1)
+                    return true;
+            return false;
         }
 
         /// <summary>
@@ -521,28 +498,16 @@ namespace Procon29_Visualizer
         /// </summary>
         /// <param name="point">対象になるマス</param>
         /// <returns></returns>
-        public bool IsOneAgentInNeighborhood(Point point)
+        public bool IsOneAgentInMooreNeighborhood(Point point)
         {
-            return IsOneAgentHereOrInNeighborhood(point) && !IsAgentHere(point);
-        }
-
-        public (Team, Agent)? WhoIsNearby(Point point)
-        {
-            for (int x = -1; x <= 1; x++)
-            {
-                for (int y = -1; y <= 1; y++)
-                {
-                    if (x == 0 && y == 0) continue;
-                    foreach (Team team in TeamArray)
-                    {
-                        foreach (Agent agent in AgentArray)
-                        {
-                            if (AgentPosition[(int)team, (int)agent] == new Point(point.X + x, point.Y + y)) return (team, agent);
-                        }
-                    }
-                }
-            }
-            return null;
+            var result = false;
+            foreach (var agent in AgentPosition)
+                if (agent.ChebyshevDistance(point) == 1)
+                    if (result)
+                        return false;
+                    else
+                        result = true;
+            return true;
         }
 
         /// <summary>
