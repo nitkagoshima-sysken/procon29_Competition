@@ -146,22 +146,31 @@ namespace Procon29_Visualizer
     {
         AgentActivityData[,] agentActivityData;
         Cell[,] field;
+        Point[,] agentPosition;
 
         /// <summary>
         /// 初期化します
         /// </summary>
-        /// <param name="agentActivityData">エージェントの行動データを表します</param>
         /// <param name="field">フィールドを表します</param>
-        public TurnData(AgentActivityData[,] agentActivityData, Cell[,] field)
+        /// <param name="agentPosition">エージェントの位置を表します</param>
+        /// <param name="agentActivityData">エージェントの行動データを表します</param>
+        public TurnData(Cell[,] field, Point[,] agentPosition, AgentActivityData[,] agentActivityData)
         {
-            AgentActivityData = agentActivityData;
             Field = field;
+            AgentPosition = agentPosition;
+            AgentActivityData = agentActivityData;
         }
 
         /// <summary>
         /// フィールドを設定または取得します
         /// </summary>
         public Cell[,] Field { get => field; set => field = value; }
+
+        /// <summary>
+        /// エージェントの位置を設定または取得します
+        /// </summary>
+        public Point[,] AgentPosition { get => agentPosition; set => agentPosition = value; }
+
         /// <summary>
         /// エージェントの行動データを設定または取得します
         /// </summary>

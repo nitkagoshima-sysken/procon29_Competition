@@ -139,6 +139,8 @@ namespace Procon29_Visualizer
             }
             ComplementEnemysPosition();
             TurnData = new TurnData(
+                 Field,
+                 AgentPosition,
                  new AgentActivityData[2, 2]
                  {
                       {
@@ -149,8 +151,7 @@ namespace Procon29_Visualizer
                         new AgentActivityData(AgentStatusData.NotDoneAnything, AgentPosition[0,0]),
                         new AgentActivityData(AgentStatusData.NotDoneAnything, AgentPosition[0,0]),
                       }
-                 },
-                 Field);
+                 });
             TurnEnd();
         }
 
@@ -539,6 +540,20 @@ namespace Procon29_Visualizer
             Turn++;
         }
 
+        public void Undo()
+        {
+            Turn--;
+            Field = FieldHistory[Turn].Field;
+            foreach (int team in TeamArray)
+            {
+                foreach (int agent in AgentArray)
+                {
+                    AgentPosition[team, agent] = FieldHistory[Turn].AgentPosition[team, agent];
+                }
+            }
+
+        }
+
         /// <summary>
         /// 自分のフィールドにタイルを置きます。
         /// </summary>
@@ -608,6 +623,7 @@ namespace Procon29_Visualizer
         /// <param name="agentActivityData"></param>
         public void MoveAgent(AgentActivityData[,] agentActivityData)
         {
+            var preAgentPosition = AgentPosition;
             agentActivityData.CheckCollision();
             foreach (Team team in TeamArray)
             {
@@ -632,7 +648,7 @@ namespace Procon29_Visualizer
                 }
             }
             CheckEnclosedArea();
-            TurnData turnData = new TurnData(agentActivityData, Field);
+            TurnData turnData = new TurnData(Field, preAgentPosition, agentActivityData);
             TurnEnd();
         }
     }
