@@ -270,12 +270,40 @@ namespace Procon29_Visualizer
                     var bmp = (Bitmap)FairyBitmap[team * 2 + agent].Clone();
                     if (agentActivityData[team, agent].Destination.X < Calc.Field.Width() / 2)
                         bmp.RotateFlip(RotateFlipType.Rotate180FlipY);
+
+                    System.Drawing.Imaging.ColorMatrix cm =
+                        new System.Drawing.Imaging.ColorMatrix
+                        {
+                            //ColorMatrixの行列の値を変更して、アルファ値が0.5に変更されるようにする
+                            Matrix00 = 1,
+                            Matrix11 = 1,
+                            Matrix22 = 1,
+                            Matrix33 = 0.8F,
+                            Matrix44 = 1
+                        };
+
+                    //ImageAttributesオブジェクトの作成
+                    System.Drawing.Imaging.ImageAttributes ia =
+                        new System.Drawing.Imaging.ImageAttributes();
+
+                    //ColorMatrixを設定する
+                    ia.SetColorMatrix(cm);
+
                     graphics.DrawImage(
                         image: bmp,
-                        x: (agentActivityData[team, agent].Destination.X + 0.5f) * fieldWidth,
-                        y: (agentActivityData[team, agent].Destination.Y + 0.0f) * fieldHeight,
-                        width: bmp.Width * f,
-                        height: bmp.Height * f);
+                        destRect: new Rectangle
+                        {
+                            X = (int)((agentActivityData[team, agent].Destination.X + 0.5f) * fieldWidth),
+                            Y = (int)((agentActivityData[team, agent].Destination.Y + 0.0f) * fieldHeight),
+                            Width = (int)(bmp.Width * f),
+                            Height = (int)(bmp.Height * f)
+                        },
+                        srcX: 0,
+                        srcY: 0,
+                        srcWidth: bmp.Width,
+                        srcHeight: bmp.Height,
+                        srcUnit: GraphicsUnit.Pixel,
+                        imageAttrs: ia);
                 }
             }
 
@@ -289,12 +317,51 @@ namespace Procon29_Visualizer
                     var bmp = (Bitmap)AgentBitmap[team].Clone();
                     if (Calc.AgentPosition[team, agent].X > Calc.Field.Width() / 2)
                         bmp.RotateFlip(RotateFlipType.Rotate180FlipY);
+
+                    System.Drawing.Imaging.ColorMatrix cm =
+                        new System.Drawing.Imaging.ColorMatrix
+                        {
+                            //ColorMatrixの行列の値を変更して、アルファ値が0.5に変更されるようにする
+                            Matrix00 = 1,
+                            Matrix11 = 1,
+                            Matrix22 = 1,
+                            Matrix33 = 1,
+                            Matrix44 = 1
+                        };
+
+                    if (CursorPosition(PictureBox).X == Calc.AgentPosition[team, agent].X &&
+                        CursorPosition(PictureBox).Y == Calc.AgentPosition[team, agent].Y - 1)
+                        cm.Matrix33 = 0.3F;
+
+                    //ImageAttributesオブジェクトの作成
+                    System.Drawing.Imaging.ImageAttributes ia =
+                        new System.Drawing.Imaging.ImageAttributes();
+
+                    //ColorMatrixを設定する
+                    ia.SetColorMatrix(cm);
+
                     graphics.DrawImage(
-                            image: bmp,
-                            x: Calc.AgentPosition[team, agent].X * fieldWidth,
-                            y: Calc.AgentPosition[team, agent].Y * fieldHeight - (bmp.Height * f * 0.5f),
-                            width: bmp.Width * f,
-                            height: bmp.Height * f);
+                        image: bmp,
+                        destRect: new Rectangle
+                        {
+                            X = (int)(Calc.AgentPosition[team, agent].X * fieldWidth),
+                            Y = (int)(Calc.AgentPosition[team, agent].Y * fieldHeight - (bmp.Height * f * 0.5f)),
+                            Width = (int)(bmp.Width * f),
+                            Height = (int)(bmp.Height * f)
+                        },
+                        srcX: 0,
+                        srcY: 0,
+                        srcWidth: bmp.Width,
+                        srcHeight: bmp.Height,
+                        srcUnit: GraphicsUnit.Pixel,
+                        imageAttrs: ia);
+
+                    //graphics.DrawImage(
+                    //        image: bmp,
+                    //        x: Calc.AgentPosition[team, agent].X * fieldWidth,
+                    //        y: Calc.AgentPosition[team, agent].Y * fieldHeight - (bmp.Height * f * 0.5f),
+                    //        width: bmp.Width * f,
+                    //        height: bmp.Height * f);
                 }
             }
             return canvas;
