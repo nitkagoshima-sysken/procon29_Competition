@@ -267,12 +267,15 @@ namespace Procon29_Visualizer
 
                     float f = canvas.Height / 12000.0f;
 
+                    var bmp = (Bitmap)FairyBitmap[team * 2 + agent].Clone();
+                    if (agentActivityData[team, agent].Destination.X < Calc.Field.Width() / 2)
+                        bmp.RotateFlip(RotateFlipType.Rotate180FlipY);
                     graphics.DrawImage(
-                        image: FairyBitmap[team * 2 + agent],
+                        image: bmp,
                         x: (agentActivityData[team, agent].Destination.X + 0.5f) * fieldWidth,
                         y: (agentActivityData[team, agent].Destination.Y + 0.0f) * fieldHeight,
-                        width: FairyBitmap[team * 2 + agent].Width * f,
-                        height: FairyBitmap[team * 2 + agent].Height * f);
+                        width: bmp.Width * f,
+                        height: bmp.Height * f);
                 }
             }
 
@@ -289,9 +292,9 @@ namespace Procon29_Visualizer
                     graphics.DrawImage(
                             image: bmp,
                             x: Calc.AgentPosition[team, agent].X * fieldWidth,
-                            y: Calc.AgentPosition[team, agent].Y * fieldHeight - (AgentBitmap[team].Height * f * 0.5f),
-                            width: AgentBitmap[team].Width * f,
-                            height: AgentBitmap[team].Height * f);
+                            y: Calc.AgentPosition[team, agent].Y * fieldHeight - (bmp.Height * f * 0.5f),
+                            width: bmp.Width * f,
+                            height: bmp.Height * f);
                 }
             }
             return canvas;
