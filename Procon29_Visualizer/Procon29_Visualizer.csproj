@@ -152,12 +152,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\A.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\B.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Strawberry.PNG" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +162,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Muscat.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Orange.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Lime.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
