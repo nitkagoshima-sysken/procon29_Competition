@@ -87,6 +87,7 @@
     </Compile>
     <Compile Include="Show.cs" />
     <Compile Include="TeamDesign.cs" />
+    <Compile Include="TurnData.cs" />
     <EmbeddedResource Include="CreateNewForm.resx">
       <DependentUpon>CreateNewForm.cs</DependentUpon>
     </EmbeddedResource>
