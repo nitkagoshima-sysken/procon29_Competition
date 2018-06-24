@@ -151,7 +151,7 @@ namespace Procon29_Visualizer
         {
             var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Calc.Field.Width();
             var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Calc.Field.Height();
-            
+
             PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 2.0f);
             for (int x = 0; x < Calc.Field.Width(); x++)
             {
@@ -213,28 +213,18 @@ namespace Procon29_Visualizer
                         y: y * fieldHeight,
                         width: fieldWidth,
                         height: fieldHeight);
-                    // 得点表示
+                    // 得点表示                    
+                    string points;
+                    if (0 <= Calc.Field[x, y].Point && Calc.Field[x, y].Point < 10)
+                        points = " " + Calc.Field[x, y].Point.ToString();
+                    else
+                        points = Calc.Field[x, y].Point.ToString();
                     graphics.DrawString(
-                    s: Calc.Field[x, y].Point.ToString(),
+                    s: points,
                     font: PointFont,
                     brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
-                    x: (float)(x + 0.1) * fieldWidth,
-                    y: (float)(y + 0.2) * fieldHeight);
-                }
-            }
-            pointFont.Dispose();
-
-            PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
-            for (int team = 0; team < 2; team++)
-            {
-                for (int agent = 0; agent < 2; agent++)
-                {
-                    graphics.DrawString(
-                        s: Calc.ShortTeamAgentName[team, agent],
-                        font: PointFont,
-                        brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
-                        x: (float)(Calc.AgentPosition[team, agent].X + 0.7) * fieldWidth,
-                        y: Calc.AgentPosition[team, agent].Y * fieldHeight);
+                    x: (float)(x + ((-10 <= Calc.Field[x, y].Point) ? 0.1 : 0.0)) * fieldWidth,
+                    y: (float)(y + 0.1) * fieldHeight);
                 }
             }
             pointFont.Dispose();
@@ -347,7 +337,7 @@ namespace Procon29_Visualizer
                         destRect: new Rectangle
                         {
                             X = (int)(Calc.AgentPosition[team, agent].X * fieldWidth),
-                            Y = (int)(Calc.AgentPosition[team, agent].Y * fieldHeight - (bmp.Height * f * 0.5f)),
+                            Y = (int)(Calc.AgentPosition[team, agent].Y * fieldHeight - (bmp.Height * f * 0.55f)),
                             Width = (int)(bmp.Width * f),
                             Height = (int)(bmp.Height * f)
                         },
@@ -359,6 +349,27 @@ namespace Procon29_Visualizer
                         imageAttrs: ia);
                 }
             }
+
+            // 短い名前を表示
+            PointFont = new Font(familyName: PointFamilyName, emSize: (fieldHeight <= 0 && fieldWidth <= 0) ? 1 : Math.Min(fieldHeight, fieldWidth) / 4 * 3 / 6.0f);
+            for (int team = 0; team < 2; team++)
+            {
+                for (int agent = 0; agent < 2; agent++)
+                {
+                    if (!(CursorPosition(PictureBox).X == Calc.AgentPosition[team, agent].X &&
+                          CursorPosition(PictureBox).Y == Calc.AgentPosition[team, agent].Y - 1))
+                    {
+                        graphics.DrawString(
+                            s: Calc.ShortTeamAgentName[team, agent],
+                            font: PointFont,
+                            brush: new SolidBrush(color: Color.FromArgb(0xCC, Color.White)),
+                            x: (float)(Calc.AgentPosition[team, agent].X + 0.0) * fieldWidth,
+                            y: (float)(Calc.AgentPosition[team, agent].Y + 0.75) * fieldHeight);
+                    }
+                }
+            }
+            pointFont.Dispose();
+
             return canvas;
         }
 

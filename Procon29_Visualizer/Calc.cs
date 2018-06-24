@@ -132,12 +132,9 @@ namespace Procon29_Visualizer
     class Calc
     {
         private int turn = 0;
-        private Cell[,] field;
-        private Point[,] agentPosition = new Point[2, 2];
         private bool isVerticallySymmetrical, isHorizontallySymmetrical;
-        private TurnData turnData;
         private List<TurnData> fieldHistory = new List<TurnData>();
-        private static readonly string[,] shortTeamAgentName = new string[2, 2] { { "A1", "A2", }, { "B1", "B2", }, };
+        private static readonly string[,] shortTeamAgentName = new string[2, 2] { { "Strawberry", "Apple", }, { "Kiwi", "Muscat", }, };
         private static readonly Array teamList = Enum.GetValues(typeof(Team));
         private static readonly Array agentList = Enum.GetValues(typeof(Agent));
 
