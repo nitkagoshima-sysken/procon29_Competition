@@ -219,6 +219,7 @@
             this.UndoToolStripMenuItem.Name = "UndoToolStripMenuItem";
             this.UndoToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
             this.UndoToolStripMenuItem.Text = "元に戻す(&U)";
+            this.UndoToolStripMenuItem.Click += new System.EventHandler(this.UndoToolStripMenuItem_Click);
             // 
             // MainForm
             // 

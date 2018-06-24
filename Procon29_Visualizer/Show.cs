@@ -151,7 +151,7 @@ namespace Procon29_Visualizer
         {
             var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Calc.Field.Width();
             var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Calc.Field.Height();
-
+            
             PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 2.0f);
             for (int x = 0; x < Calc.Field.Width(); x++)
             {
@@ -263,7 +263,7 @@ namespace Procon29_Visualizer
             {
                 for (int agent = 0; agent < agentActivityData.GetLength(1); agent++)
                 {
-                    if (agentActivityData[team, agent] == null) continue;
+                    //if (agentActivityData[team, agent] == null) continue;
 
                     float f = canvas.Height / 12000.0f;
 

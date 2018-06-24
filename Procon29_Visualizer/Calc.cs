@@ -93,6 +93,23 @@ namespace Procon29_Visualizer
         /// <param name="point">対称となるマス</param>
         /// <returns></returns>
         public static Cell Take(this Cell[,] field, Point point) => field[point.X, point.Y];
+
+        /// <summary>
+        /// 現在のobjectのディープコピーを行います。
+        /// </summary>
+        /// <returns>objectのディープコピー</returns>
+        public static object Clone(this Cell[,] field)
+        {
+            var cloned = new Cell[field.Width(),field.Height()];
+            for (int x = 0; x < field.Width(); x++)
+            {
+                for (int y = 0; y < field.Height(); y++)
+                {
+                    cloned[x, y] = (Cell)field[x, y].Clone();
+                }
+            }
+            return cloned;
+        }
     }
 
     /// <summary>
@@ -538,17 +555,33 @@ namespace Procon29_Visualizer
         {
             FieldHistory.Add(TurnData);
             Turn++;
+            TurnData = new TurnData(
+                 (Cell[,])Field.Clone(),
+                 (Point[,])AgentPosition.Clone(),
+                 new AgentActivityData[2, 2]
+                 {
+                      {
+                        new AgentActivityData(AgentStatusData.NotDoneAnything, AgentPosition[0,0]),
+                        new AgentActivityData(AgentStatusData.NotDoneAnything, AgentPosition[0,1]),
+                      },
+                      {
+                        new AgentActivityData(AgentStatusData.NotDoneAnything, AgentPosition[1,0]),
+                        new AgentActivityData(AgentStatusData.NotDoneAnything, AgentPosition[1,1]),
+                      }
+                 }                 
+                );
         }
 
         public void Undo()
         {
+            if (Turn == 0) return;
             Turn--;
-            Field = FieldHistory[Turn].Field;
+            Field = (Cell[,])FieldHistory[Turn].Field.Clone();
             foreach (int team in TeamArray)
             {
                 foreach (int agent in AgentArray)
                 {
-                    AgentPosition[team, agent] = FieldHistory[Turn].AgentPosition[team, agent];
+                    AgentPosition[team, agent] = FieldHistory[Turn].AgentPosition[team, agent];                    
                 }
             }
         }
@@ -647,7 +680,7 @@ namespace Procon29_Visualizer
                 }
             }
             CheckEnclosedArea();
-            TurnData turnData = new TurnData(Field, preAgentPosition, agentActivityData);
+            TurnData = new TurnData(Field, preAgentPosition, agentActivityData);
             TurnEnd();
         }
     }

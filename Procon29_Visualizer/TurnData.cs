@@ -137,6 +137,12 @@ namespace Procon29_Visualizer
         /// エージェントが行動した結果の状態を設定または取得します
         /// </summary>
         internal AgentStatusData AgentStatusData { get => agentStatusData; set => agentStatusData = value; }
+
+        /// <summary>
+        /// 現在のobjectのディープコピーを行います。
+        /// </summary>
+        /// <returns>objectのディープコピー</returns>
+        public object Clone => new AgentActivityData(AgentStatusData, new Point(Destination.X, Destination.Y));
     }
 
     /// <summary>
@@ -161,6 +167,13 @@ namespace Procon29_Visualizer
             AgentActivityData = agentActivityData;
         }
 
+        public TurnData(TurnData turnData)
+        {
+            Field = (Cell[,])turnData.Field.Clone();
+            AgentPosition = (Point[,])turnData.agentPosition.Clone();
+            AgentActivityData = (AgentActivityData[,])turnData.agentActivityData.Clone();
+        }
+
         /// <summary>
         /// フィールドを設定または取得します
         /// </summary>
@@ -175,6 +188,28 @@ namespace Procon29_Visualizer
         /// エージェントの行動データを設定または取得します
         /// </summary>
         internal AgentActivityData[,] AgentActivityData { get => agentActivityData; set => agentActivityData = value; }
+
+        /// <summary>
+        /// 現在のobjectのディープコピーを行います。
+        /// </summary>
+        /// <returns>objectのディープコピー</returns>
+        public object Clone()
+        {
+            var cloned =
+                new TurnData(
+                    (Cell[,])Field.Clone(),
+                    new Point[AgentPosition.GetLength(0), AgentPosition.GetLength(1)],
+                    new AgentActivityData[AgentActivityData.GetLength(0), AgentActivityData.GetLength(1)]);
+            for (int team = 0; team < AgentPosition.GetLength(0); team++)
+            {
+                for (int agent = 0; agent < AgentPosition.GetLength(1); agent++)
+                {
+                    cloned.AgentPosition[team, agent] = new Point(AgentPosition[team, agent].X, AgentPosition[team, agent].Y);
+                    cloned.AgentActivityData[team, agent] = (AgentActivityData)AgentActivityData[team, agent].Clone;
+                }
+            }
+            return cloned;
+        }
     }
 
     /// <summary>
