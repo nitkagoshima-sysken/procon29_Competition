@@ -24,6 +24,7 @@ namespace Procon29_Visualizer
         private (Team, Agent) selectedTeamAndAgent;
 
         private Bitmap[] agentBitmap;
+        private Bitmap[] fairyBitmap;
 
         public AgentActivityData[,] agentActivityData = new AgentActivityData[2, 2];
 
@@ -88,6 +89,11 @@ namespace Procon29_Visualizer
         public Bitmap[] AgentBitmap { get => agentBitmap; set => agentBitmap = value; }
 
         /// <summary>
+        /// フルーツフェアリーの画像を設定または取得します。
+        /// </summary>
+        public Bitmap[] FairyBitmap { get => fairyBitmap; set => fairyBitmap = value; }
+
+        /// <summary>
         /// Procon29_Showの初期化を行います。
         /// </summary>
         /// <param name="procon29_Calc">表示するProcon29_Calc</param>
@@ -105,6 +111,11 @@ namespace Procon29_Visualizer
             AgentBitmap = new Bitmap[2];
             AgentBitmap[0] = (Bitmap)resource.GetObject("A");
             AgentBitmap[1] = (Bitmap)resource.GetObject("B");
+            FairyBitmap = new Bitmap[4];
+            FairyBitmap[0] = (Bitmap)resource.GetObject("Strawberry");
+            FairyBitmap[1] = (Bitmap)resource.GetObject("Apple");
+            FairyBitmap[2] = (Bitmap)resource.GetObject("Kiwi");
+            FairyBitmap[3] = (Bitmap)resource.GetObject("Muscat");
 
             foreach (Team team in Enum.GetValues(typeof(Team)))
             {
@@ -247,6 +258,25 @@ namespace Procon29_Visualizer
                 width: fieldWidth,
                 height: fieldHeight);
 
+            //次のターンで行くところのマークの表示
+            for (int t = 0; t < agentActivityData.GetLength(0); t++)
+            {
+                for (int a = 0; a < agentActivityData.GetLength(1); a++)
+                {
+                    if (agentActivityData[t, a] != null)
+                    {
+                        float f = canvas.Height / 12000.0f;
+
+                        graphics.DrawImage(
+                            image: FairyBitmap[t * 2 + a],
+                            x: (agentActivityData[t, a].Destination.X + 0.5f) * fieldWidth,
+                            y: (agentActivityData[t, a].Destination.Y + 0.0f) * fieldHeight,
+                            width: FairyBitmap[t * 2 + a].Width * f,
+                            height: FairyBitmap[t * 2 + a].Height * f);
+                    }
+                }
+            }
+
             //エージェントを女の子にするところ
             for (int x = 0; x < Procon29_Calc.Field.Width(); x++)
             {
@@ -279,22 +309,6 @@ namespace Procon29_Visualizer
                 }
             }
 
-            //次のターンで行くところのマークの表示
-            for (int t = 0; t < agentActivityData.GetLength(0); t++)
-            {
-                for (int a = 0; a < agentActivityData.GetLength(1); a++)
-                {
-                    if (agentActivityData[t, a] != null)
-                    {
-                        graphics.FillEllipse(
-                            brush: new SolidBrush(color: Color.RoyalBlue),
-                            x: (agentActivityData[t, a].Destination.X + 0.5f) * fieldWidth,
-                            y: (agentActivityData[t, a].Destination.Y + 0.5f) * fieldHeight,
-                            width: fieldWidth / 4,
-                            height: fieldWidth / 4);
-                    }
-                }
-            }
 
             return canvas;
         }
@@ -340,7 +354,7 @@ namespace Procon29_Visualizer
                 x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
                 y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
 
-            if (Procon29_Calc.IsAgentHereOrInNeighborhood(clickedFieldPoint))
+            if (Procon29_Calc.IsAgentHereOrInMooreNeighborhood(clickedFieldPoint))
             {
                 if ((clickedFieldPoint.X < Procon29_Calc.Field.Width()) && (clickedFieldPoint.Y < Procon29_Calc.Field.Height()))
                 {
