@@ -3,16 +3,12 @@
 from pyzbar.pyzbar import decode
 from PIL import Image
 from wx import adv
-
 import configparser as config
-
 import procon29
 import os
 import wx
 import hashlib
 import sys
-
-import win32con
 
 wxId = {wx.ID_OK:0,
         wx.ID_CANCEL:1}
@@ -65,28 +61,40 @@ class Modes():
         self.battle = False
         self.learn = False
         self.AutoSetFlag = False
+        self.LearnSetFlag = False
 
     def Clear(self):
         self.manual = False
         self.auto = False
         self.battle = False
         self.learn = False
+        self.AutoSetFlag = False
+        self.LearnSetFlag = False
 
     def AutoSet(self, log, field, agent, flags):
         self.bot = [procon29.Bot.FakeBot(log, field, agent[0].now, flags), procon29.Bot.FakeBot(log, field, agent[1].now, flags)]
         self.AutoSetFlag = True
 
+    def LearnSet(self, log, field, agent, flags):
+        self.bot = [procon29.Bot.FakeBot(log, field, agent[0].now, flags[0]),\
+                    procon29.Bot.FakeBot(log, field, agent[1].now, flags[0]),\
+                    procon29.Bot.FakeBot(log, field, agent[2].now, flags[1]),\
+                    procon29.Bot.FakeBot(log, field, agent[3].now, flags[1])]
+        self.LearnSetFlag = True
+
 def FiledClear():
+    global nowturn
     field[0].Destroy()
     del field[0]
     del agent[:]
     del agent_data[:]
+    modes.Clear()
     blue_flags.Clear()
     red_flags.Clear()
+    nowturn = 1
     bluepoint_text = wx.StaticText(panel, -1, '青\n取得済み得点:0 \n領域得点:0', style=wx.SIMPLE_BORDER, pos=(0,51))
     redpoint_text = wx.StaticText(panel, -1, '赤\n取得済み得点:0 \n領域得点:0', style=wx.SIMPLE_BORDER, pos=(0,99))
     log.LogWrite('Clear All\n')
-
 
 def GameEndCheck():
     global nowturn
@@ -94,26 +102,17 @@ def GameEndCheck():
     if turn == nowturn:
         return True
     
-
 def col_func(blue_red, turn_exit):
-    if col_check_blue[0] and blue_red:
-        field[0].Coloring(agent_data[0], (agent[0], agent[1]), out_now=col_check_blue[0])
-    elif turn_exit and blue_red:
-        field[0].Coloring(agent_data[0], (agent[0], agent[1]), out_now=col_check_blue[1], out_get=col_check_blue[3])
-    elif blue_red:
-        field[0].Coloring(agent_data[0], (agent[0], agent[1]), out_now=col_check_blue[1], out_get=col_check_blue[3])
-        field[0].MovableColoring(agent_data[0], (agent[0], agent[1]), out=col_check_blue[2])
-        field[0].FillColoring(agent_data[0], out=col_check_blue[4])
-        field[0].FillColoring(agent_data[1], out=col_check_red[4])
-    if col_check_red[0] and blue_red == False:
-        field[0].Coloring(agent_data[1], (agent[2], agent[3]), out_now=col_check_red[0], out_get=turn_end)
-    elif turn_exit and blue_red == False:
-        field[0].Coloring(agent_data[1], (agent[2], agent[3]), out_now=col_check_red[1], out_get=col_check_red[3])
-    elif blue_red == False:
-        field[0].Coloring(agent_data[1], (agent[2], agent[3]), out_now=col_check_red[1], out_get=col_check_red[3])
-        field[0].MovableColoring(agent_data[1], (agent[2], agent[3]), out=col_check_red[2])
-        field[0].FillColoring(agent_data[0], out=col_check_blue[4])
-        field[0].FillColoring(agent_data[1], out=col_check_red[4])
+    mynum, enum = (0, 1) if blue_red else (1, 0)
+    if col_check[mynum][0]:
+        field[0].Coloring(agent_data[mynum], (agent[mynum*2], agent[mynum*2+1]), out_now=col_check[mynum][0])
+    elif turn_exit:
+        field[0].Coloring(agent_data[mynum], (agent[mynum*2], agent[mynum*2+1]), out_now=col_check[mynum][1], out_get=col_check[mynum][3])
+    else:
+        field[0].Coloring(agent_data[mynum], (agent[mynum*2], agent[mynum*2+1]), out_now=col_check[mynum][1], out_get=col_check[mynum][3])
+        field[0].MovableColoring(agent_data[mynum], (agent[mynum*2], agent[mynum*2+1]), out=col_check[mynum][2])
+        field[0].FillColoring(agent_data[mynum], out=col_check[mynum][4])
+        field[0].FillColoring(agent_data[enum], out=col_check[enum][4])
 
 def createbutton(text):
     global field_type
@@ -143,14 +142,12 @@ def createbutton(text):
     agent[1].TurnSet(agent_data[1].GetPosition)
     agent[2].TurnSet(agent_data[0].GetPosition)
     agent[3].TurnSet(agent_data[0].GetPosition)
-
     if modes.auto:
         modes.AutoSet(log, field[0], [agent[2], agent[3]], red_flags)
     bluepoint_text.SetLabel('青\n取得済み得点:{} \n領域得点:{}'\
                                 .format(agent_data[0].Point, agent_data[0].TerritoryPoint))
     redpoint_text.SetLabel('赤\n取得済み得点:{} \n領域得点:{}'\
                                 .format(agent_data[1].Point, agent_data[1].TerritoryPoint))
-
     col_func(True, False)
     col_func(False, True)
 
@@ -183,7 +180,6 @@ def turnendfunc():
                                 .format(agent_data[0].Point, agent_data[0].TerritoryPoint))
     redpoint_text.SetLabel('赤\n取得済み得点:{} \n領域得点:{}'\
                                 .format(agent_data[1].Point, agent_data[1].TerritoryPoint))
-    #col_func(True, False)
     col_func(False, True)
     endflag = GameEndCheck()
     if endflag != True:
@@ -230,6 +226,17 @@ def move(agent, agent_data, flags, eagent, Id_num):
         field[0].NextColoring(agent_main.next[1], agent_data.NextColor)
         flags.next[num] = Id_num
 
+def FieldButtonFunc(Id_num):
+    if (Id_num in agent[0].movable or Id_num in agent[1].movable) and Id_num not in (agent[2].now, agent[3].now) and not blue_flags.end:
+        move([agent[0], agent[1]], agent_data[0], blue_flags, (agent[2], agent[3]), Id_num)
+    elif (Id_num in agent[2].movable or Id_num in agent[3].movable) and Id_num not in (agent[0].now, agent[1].now) and blue_flags.end and not modes.auto:
+        move([agent[2], agent[3]], agent_data[1], red_flags, (agent[0], agent[1]), Id_num)
+    else:
+        log.LogWrite('Can not move position ({},{})\n'.format(int(Id_num/100), Id_num%100), logtype=procon29.ERROR)
+        errordialog = wx.MessageDialog(None, '移動できない地点です ({},{})'.format(int(Id_num/100), Id_num%100), '移動可能エリア外',style=wx.ICON_EXCLAMATION)
+        errordialog.ShowModal()
+        errordialog.Destroy()
+
 def start_func():
     global start_flag
     global load_file_flag
@@ -260,19 +267,20 @@ def Menu_handler(event):
         try:
             data = decode(Image.open(image))
         except AttributeError:
-            return
-        log.LogWrite('File open {}\n'.format(image), logtype=procon29.FILE_LOG)
-        text = data[0][0].decode('utf-8', 'ignore')
-        text = list(text.split(':'))
-        createbutton(text)
-        turndialog = wx.TextEntryDialog(None, 'ターン数を入力してください', 'ターン数決定')
-        turndialog.SetValue('10')
-        turndialog.ShowModal()
-        turn = int(turndialog.GetValue())
-        turnunm.SetLabel('現在ターン数:{}\n全ターン数:{}\n残りターン数:{}'.format(nowturn, turn, turn-nowturn))
-        turndialog.Destroy()
-        log.LogWrite('Complete init. Turn {}\n'.format(turn))
-        load_file_flag = True
+            pass
+        else:
+            log.LogWrite('File open {}\n'.format(image), logtype=procon29.FILE_LOG)
+            text = data[0][0].decode('utf-8', 'ignore')
+            text = list(text.split(':'))
+            createbutton(text)
+            turndialog = wx.TextEntryDialog(None, 'ターン数を入力してください', 'ターン数決定')
+            turndialog.SetValue('10')
+            turndialog.ShowModal()
+            turn = int(turndialog.GetValue())
+            turnunm.SetLabel('現在ターン数:{}\n全ターン数:{}\n残りターン数:{}'.format(nowturn, turn, turn-nowturn))
+            turndialog.Destroy()
+            log.LogWrite('Complete init. Turn {}\n'.format(turn))
+            load_file_flag = True
     elif Id_num == 11:
         start_func()
     elif Id_num == 12:
@@ -298,7 +306,6 @@ def Menu_handler(event):
         log.LogWrite('Open about info\n', logtype=procon29.SYSTEM_LOG)
         info = adv.AboutDialogInfo()
         info.SetName('PPAP -Procon29 Python Application Project-')
-
         info.SetVersion('1.5.1')
         info.SetCopyright('Copyright (c) 2018 Glaz egy.')
         adv.AboutBox(info)
@@ -329,10 +336,14 @@ def Radio_handler(event):
             modes.battle = True
             start.Enable()
         elif mode == 3:
+            if modes.learn == False:
+                modes.LearnSet(log, field[0], agent, [blue_flags, red_flags])
             color_select.Disable()
             modes.Clear()
             modes.learn = True
             start.Enable()
+            cancel.Disable()
+            turn_end.Disable()
     elif Id_num == 101:
         color = event.GetSelection()
         log.LogWrite('Chenge color {}->{}\n'.format(now_color+1, color+1), logtype=procon29.SYSTEM_LOG)
@@ -344,7 +355,6 @@ def Radio_handler(event):
 
 def Button_handler(event):
     global load_file_flag
-    global step_end
     global debag_flag
     Id_num = event.GetId()
     if debag_flag:
@@ -373,13 +383,21 @@ def Button_handler(event):
                 errordialog.ShowModal()
                 errordialog.Destroy()
         else:
-            if (Id_num in agent[0].movable or Id_num in agent[1].movable) and Id_num not in (agent[2].now, agent[3].now):
-                move([agent[0], agent[1]], agent_data[0], blue_flags, (agent[2], agent[3]), Id_num)
-            else:
-                log.LogWrite('Can not move position ({},{})\n'.format(int(Id_num/100), Id_num%100), logtype=procon29.ERROR)
-                errordialog = wx.MessageDialog(None, '移動できない地点です ({0},{1})'.format(int(Id_num/100), Id_num%100), '移動可能エリア外',style=wx.ICON_EXCLAMATION)
-                errordialog.ShowModal()
-                errordialog.Destroy()
+            FieldButtonFunc(Id_num)
+    elif modes.learn:
+        if Id_num == 200:
+            start_func()
+            for i in range(turn):
+                modes.bot[0].NextPositionSet(agent[0], agent_data[0], (agent[2].now, agent[3].now), 0)
+                modes.bot[1].NextPositionSet(agent[1], agent_data[0], (agent[2].now, agent[3].now), 1)
+                modes.bot[2].NextPositionSet(agent[2], agent_data[1], (agent[0].now, agent[1].now), 0)
+                modes.bot[3].NextPositionSet(agent[3], agent_data[1], (agent[0].now, agent[1].now), 1)
+                turnendfunc()
+        elif start_flag == False:
+            log.LogWrite('Not start Game', logtype=procon29.ERROR)
+            errordialog = wx.MessageDialog(None, 'ゲームがスタートされていません','ゲーム未スタート')
+            errordialog.ShowModal()
+            errordialog.Destroy()
     else:
         if Id_num == 201:
             if red_flags.flag[0] != True or red_flags.flag[1] != True:
@@ -411,37 +429,23 @@ def Button_handler(event):
                 errordialog.ShowModal()
                 errordialog.Destroy()
         else:
-            if (Id_num in agent[0].movable or Id_num in agent[1].movable) and Id_num not in (agent[2].now, agent[3].now) and not blue_flags.end:
-                move([agent[0], agent[1]], agent_data[0], blue_flags, (agent[2], agent[3]), Id_num)
-            elif (Id_num in agent[2].movable or Id_num in agent[3].movable) and Id_num not in (agent[0].now, agent[1].now) and blue_flags.end:
-                move([agent[2], agent[3]], agent_data[1], red_flags, (agent[0], agent[1]), Id_num)
-            else:
-                log.LogWrite('Can not move position ({},{})\n'.format(int(Id_num/100), Id_num%100), logtype=procon29.ERROR)
-                errordialog = wx.MessageDialog(None, '移動できない地点です ({0},{1})'.format(int(Id_num/100), Id_num%100), '移動可能エリア外',style=wx.ICON_EXCLAMATION)
-                errordialog.ShowModal()
-                errordialog.Destroy()
+            FieldButtonFunc(Id_num)
     
 def check_handler(event):
-    global col_check_blue
-    global col_check_red
-    if event.GetId() == 300:
-        if coloring_select_blue.IsChecked(0):
-            coloring_select_blue.SetCheckedItems((0,))
+    global col_check
+    obj = event.GetEventObject()
+    if load_file_flag:
+        if obj.IsChecked(0):
+            obj.SetCheckedItems((0,))
         for i in range(len(col_set)):
-            col_check_blue[i] = coloring_select_blue.IsChecked(i)
-        col_func(True, False)
-    if event.GetId() == 301:
-        if coloring_select_red.IsChecked(0):
-            coloring_select_red.SetCheckedItems((0,))
-        for i in range(len(col_set)):
-            col_check_red[i] = coloring_select_red.IsChecked(i)
-        col_func(False, (blue_flags.flag[0] and blue_flags.flag[1]))
+            col_check[event.GetId()-300][i] = obj.IsChecked(i)
+        blue_red, turn_exit = (True, blue_flags.end) if event.GetId() == 300 else (False, not blue_flags.end)
+        col_func(blue_red, turn_exit)
             
 
 text = ''
 play_color = 'blue'
 load_file_flag = False
-step_end = False
 blue_flags = Flags()
 red_flags = Flags()
 field_type = 0
@@ -450,10 +454,9 @@ turn = 10
 nowturn = 1
 debag_flag = False
 passcode = ['e71d2f7f7ae998e3e9c4509c31e577a98371b234f36e466402998c8817860049']
-col_check_blue = [True for i in range(5)]
-col_check_blue[0] = False
-col_check_red = [True for i in range(5)]
-col_check_red[0] = False
+col_check = [[True for i in range(5)] for j in range(2)]
+col_check[0][0] = False
+col_check[1][0] = False
 False_list = [False, False]
 start_flag = False
 
