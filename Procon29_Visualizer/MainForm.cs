@@ -240,6 +240,9 @@ namespace Procon29_Visualizer
                         show.agentActivityData[(int)team, (int)agent].Destination =
                             AddAgentPosition(team, agent, new Point(1, -1));
                         break;
+                    case Keys.Enter:
+                        TurnEnd();
+                        break;
                     default:
                         e.SuppressKeyPress = false;
                         break;
@@ -331,6 +334,11 @@ namespace Procon29_Visualizer
         }
 
         private void TurnEndButton_Click(object sender, EventArgs e)
+        {
+            TurnEnd();
+        }
+
+        private void TurnEnd()
         {
             calc.MoveAgent(show.agentActivityData);
             show.Showing(FieldDisplay);

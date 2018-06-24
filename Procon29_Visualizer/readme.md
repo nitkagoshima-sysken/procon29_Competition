@@ -1,4 +1,8 @@
-# Procon29 Visualizer (ver. 3.1)
+# Procon29 Visualizer (ver. 3.2)
+
+## What's new (ver. 3.2)
+
+### エンターでターンエンドができるようになった
 
 ## What's new (ver. 3.1)
 
