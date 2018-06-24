@@ -329,6 +329,8 @@ namespace Procon29_Visualizer
                             Matrix44 = 1
                         };
 
+                    // 司令塔の邪魔にならないように、エージェントの真上のマスをマウスが通ったときに、
+                    // フルーツフェアリーたちの魔法で透明になるという設定
                     if (CursorPosition(PictureBox).X == Calc.AgentPosition[team, agent].X &&
                         CursorPosition(PictureBox).Y == Calc.AgentPosition[team, agent].Y - 1)
                         cm.Matrix33 = 0.3F;
@@ -355,13 +357,6 @@ namespace Procon29_Visualizer
                         srcHeight: bmp.Height,
                         srcUnit: GraphicsUnit.Pixel,
                         imageAttrs: ia);
-
-                    //graphics.DrawImage(
-                    //        image: bmp,
-                    //        x: Calc.AgentPosition[team, agent].X * fieldWidth,
-                    //        y: Calc.AgentPosition[team, agent].Y * fieldHeight - (bmp.Height * f * 0.5f),
-                    //        width: bmp.Width * f,
-                    //        height: bmp.Height * f);
                 }
             }
             return canvas;

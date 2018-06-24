@@ -118,7 +118,8 @@ namespace Procon29_Visualizer
         private Cell[,] field;
         private Point[,] agentPosition = new Point[2, 2];
         private bool isVerticallySymmetrical, isHorizontallySymmetrical;
-        private List<TurnData> turnDatas = new List<TurnData>();
+        private TurnData turnData;
+        private List<TurnData> fieldHistory = new List<TurnData>();
         private static readonly string[,] shortTeamAgentName = new string[2, 2] { { "A1", "A2", }, { "B1", "B2", }, };
         private static readonly Array teamList = Enum.GetValues(typeof(Team));
         private static readonly Array agentList = Enum.GetValues(typeof(Agent));
@@ -137,6 +138,20 @@ namespace Procon29_Visualizer
                 PutTile(team: 0, agent: agent);
             }
             ComplementEnemysPosition();
+            TurnData = new TurnData(
+                 new AgentActivityData[2, 2]
+                 {
+                      {
+                        new AgentActivityData(AgentStatusData.NotDoneAnything, AgentPosition[0,0]),
+                        new AgentActivityData(AgentStatusData.NotDoneAnything, AgentPosition[0,0]),
+                      },
+                      {
+                        new AgentActivityData(AgentStatusData.NotDoneAnything, AgentPosition[0,0]),
+                        new AgentActivityData(AgentStatusData.NotDoneAnything, AgentPosition[0,0]),
+                      }
+                 },
+                 Field);
+            TurnEnd();
         }
 
         /// <summary>
@@ -233,7 +248,7 @@ namespace Procon29_Visualizer
         /// <summary>
         /// フィールドの歴史を設定または取得します。
         /// </summary>
-        internal List<TurnData> TurnDatas { get => turnDatas; set => turnDatas = value; }
+        internal List<TurnData> FieldHistory { get => fieldHistory; private set => fieldHistory = value; }
 
         /// <summary>
         /// Team列挙体のすべての要素を配列にします
@@ -244,6 +259,11 @@ namespace Procon29_Visualizer
         /// Agent列挙体のすべての要素を配列にします
         /// </summary>
         public static Array AgentArray => agentList;
+
+        /// <summary>
+        /// ターンデータを保有します
+        /// </summary>
+        private TurnData TurnData { get => turnData; set => turnData = value; }
 
         /// <summary>
         /// すべてのフィールドのポイントの和を計算します。
@@ -513,7 +533,11 @@ namespace Procon29_Visualizer
         /// <summary>
         /// ターンエンドします。
         /// </summary>
-        public void TurnEnd() => Turn++;
+        public void TurnEnd()
+        {
+            FieldHistory.Add(TurnData);
+            Turn++;
+        }
 
         /// <summary>
         /// 自分のフィールドにタイルを置きます。
@@ -608,6 +632,7 @@ namespace Procon29_Visualizer
                 }
             }
             CheckEnclosedArea();
+            TurnData turnData = new TurnData(agentActivityData, Field);
             TurnEnd();
         }
     }
