@@ -551,7 +551,6 @@ namespace Procon29_Visualizer
                     AgentPosition[team, agent] = FieldHistory[Turn].AgentPosition[team, agent];
                 }
             }
-
         }
 
         /// <summary>

@@ -16,9 +16,6 @@ namespace Procon29_Visualizer
     /// </summary>
     public partial class MainForm : Form
     {
-        Team selectedTeam;
-        Agent selectedAgent;
-
         Calc calc;
         Show show;
         Logger log;
