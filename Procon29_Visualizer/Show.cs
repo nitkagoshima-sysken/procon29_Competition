@@ -9,24 +9,9 @@ using System.Windows.Forms;
 
 namespace Procon29_Visualizer
 {
-    /// <summary>
-    /// 対戦相手のタイプを宣言します。
-    /// </summary>
-    public enum OpponentType
+    class Show
     {
-        /// <summary>
-        /// 人間を表します
-        /// </summary>
-        Human,
-        /// <summary>
-        /// 機械を表します
-        /// </summary>
-        Bot,
-    }
-
-    public class Show
-    {
-        //private Calc calc;
+        private Calc calc;
         private TeamDesign[] teamDesign;
         private PictureBox pictureBox;
         private Logger procon29_Logger;
@@ -46,7 +31,7 @@ namespace Procon29_Visualizer
         /// <summary>
         /// 描画する対象となるProcon29_Calcを設定または取得します。
         /// </summary>
-        internal Calc Calc { get; set; }
+        internal Calc Calc { get => calc; set => calc = value; }
 
         /// <summary>
         /// 描画するときの色を設定または取得します。
@@ -109,11 +94,6 @@ namespace Procon29_Visualizer
         public Bitmap[] FairyBitmap { get => fairyBitmap; set => fairyBitmap = value; }
 
         /// <summary>
-        /// 対戦相手のタイプを取得または設定します。
-        /// </summary>
-        public OpponentType[] OpponentTypes { get; set; } = new OpponentType[2] { OpponentType.Human, OpponentType.Human };
-
-        /// <summary>
         /// Procon29_Showの初期化を行います。
         /// </summary>
         /// <param name="procon29_Calc">表示するProcon29_Calc</param>
@@ -144,7 +124,6 @@ namespace Procon29_Visualizer
                     agentActivityData[(int)team, (int)agent] = new AgentActivityData(AgentStatusData.RequestMovement, Calc.GetAgentPosition(team, agent));
                 }
             }
-
         }
 
         /// <summary>

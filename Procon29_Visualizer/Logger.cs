@@ -11,7 +11,7 @@ namespace Procon29_Visualizer
     /// <summary>
     /// Procon29におけるログの管理を行います。
     /// </summary>
-    public class Logger
+    class Logger
     {
         /// <summary>
         /// ログとして書き込むリッチテキストを設定します
