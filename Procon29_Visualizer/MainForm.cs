@@ -23,7 +23,7 @@ namespace Procon29_Visualizer
         TeamDesign[] teamDesigns;
 
         CreateNewForm createNewForm = new CreateNewForm();
-        dynamic bot;
+        public static dynamic[] bot = new dynamic[2];
 
         /// <summary>
         /// MainForm
@@ -64,8 +64,6 @@ namespace Procon29_Visualizer
             log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
             messageBox.Select(messageBox.Text.Length, 0);
 
-            Assembly m = Assembly.LoadFrom("TegetegeBot.dll");
-            bot = Activator.CreateInstance(m.GetType("TegetegeBot.TegetegeBot"));
         }
 
         /// <summary>
@@ -341,10 +339,14 @@ namespace Procon29_Visualizer
 
         private void TurnEnd()
         {
-            bot.Grasp(calc);
-            bot.FinalAnswer();
-            show.agentActivityData[1, 0] = bot.FinalAnswer()[0];
-            show.agentActivityData[1, 1] = bot.FinalAnswer()[1];
+            if(bot[1]!=null)
+            {
+                bot[1].Grasp(calc);
+                bot[1].FinalAnswer();
+                show.agentActivityData[1, 0] = bot[1].FinalAnswer()[0];
+                show.agentActivityData[1, 1] = bot[1].FinalAnswer()[1];
+
+            }
 
             calc.MoveAgent(show.agentActivityData);
             show.Showing(FieldDisplay);

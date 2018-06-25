@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.TopLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.textBox7 = new System.Windows.Forms.TextBox();
@@ -70,7 +70,7 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.TopLabel, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 3);
@@ -79,24 +79,24 @@
             this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(775, 353);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 136F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 44F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(775, 346);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // label1
+            // TopLabel
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.TopLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.ForeColor = System.Drawing.Color.LightGray;
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(769, 30);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "戦いを始めるには国際法に則ってルールを決めましょう。";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.TopLabel.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.TopLabel.ForeColor = System.Drawing.Color.LightGray;
+            this.TopLabel.Location = new System.Drawing.Point(3, 0);
+            this.TopLabel.Name = "TopLabel";
+            this.TopLabel.Size = new System.Drawing.Size(769, 30);
+            this.TopLabel.TabIndex = 0;
+            this.TopLabel.Text = "戦いを始めるには国際法に則ってルールを決めましょう。";
+            this.TopLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel2
             // 
@@ -128,7 +128,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(769, 144);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(769, 130);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // textBox8
@@ -140,7 +140,7 @@
             this.textBox8.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox8.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.textBox8.ForeColor = System.Drawing.Color.DarkOrange;
-            this.textBox8.Location = new System.Drawing.Point(579, 75);
+            this.textBox8.Location = new System.Drawing.Point(579, 67);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(187, 30);
             this.textBox8.TabIndex = 11;
@@ -156,7 +156,7 @@
             this.textBox7.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox7.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.textBox7.ForeColor = System.Drawing.Color.DarkOrange;
-            this.textBox7.Location = new System.Drawing.Point(579, 39);
+            this.textBox7.Location = new System.Drawing.Point(579, 35);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(187, 30);
             this.textBox7.TabIndex = 10;
@@ -172,7 +172,7 @@
             this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox5.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.textBox5.ForeColor = System.Drawing.Color.Lime;
-            this.textBox5.Location = new System.Drawing.Point(195, 39);
+            this.textBox5.Location = new System.Drawing.Point(195, 35);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(186, 30);
             this.textBox5.TabIndex = 8;
@@ -204,7 +204,7 @@
             this.Team1Label.ForeColor = System.Drawing.Color.LightGray;
             this.Team1Label.Location = new System.Drawing.Point(3, 0);
             this.Team1Label.Name = "Team1Label";
-            this.Team1Label.Size = new System.Drawing.Size(186, 36);
+            this.Team1Label.Size = new System.Drawing.Size(186, 32);
             this.Team1Label.TabIndex = 0;
             this.Team1Label.Text = "チーム名";
             this.Team1Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -216,9 +216,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Team1Agent0Label.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Team1Agent0Label.ForeColor = System.Drawing.Color.LightGray;
-            this.Team1Agent0Label.Location = new System.Drawing.Point(3, 36);
+            this.Team1Agent0Label.Location = new System.Drawing.Point(3, 32);
             this.Team1Agent0Label.Name = "Team1Agent0Label";
-            this.Team1Agent0Label.Size = new System.Drawing.Size(186, 36);
+            this.Team1Agent0Label.Size = new System.Drawing.Size(186, 32);
             this.Team1Agent0Label.TabIndex = 1;
             this.Team1Agent0Label.Text = "エージェント名";
             this.Team1Agent0Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -230,9 +230,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Team1Agent1Label.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Team1Agent1Label.ForeColor = System.Drawing.Color.LightGray;
-            this.Team1Agent1Label.Location = new System.Drawing.Point(3, 72);
+            this.Team1Agent1Label.Location = new System.Drawing.Point(3, 64);
             this.Team1Agent1Label.Name = "Team1Agent1Label";
-            this.Team1Agent1Label.Size = new System.Drawing.Size(186, 36);
+            this.Team1Agent1Label.Size = new System.Drawing.Size(186, 32);
             this.Team1Agent1Label.TabIndex = 2;
             this.Team1Agent1Label.Text = "エージェント名";
             this.Team1Agent1Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -246,7 +246,7 @@
             this.Team0Label.ForeColor = System.Drawing.Color.LightGray;
             this.Team0Label.Location = new System.Drawing.Point(387, 0);
             this.Team0Label.Name = "Team0Label";
-            this.Team0Label.Size = new System.Drawing.Size(186, 36);
+            this.Team0Label.Size = new System.Drawing.Size(186, 32);
             this.Team0Label.TabIndex = 3;
             this.Team0Label.Text = "チーム名";
             this.Team0Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -258,9 +258,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Team0Agent0Label.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Team0Agent0Label.ForeColor = System.Drawing.Color.LightGray;
-            this.Team0Agent0Label.Location = new System.Drawing.Point(387, 36);
+            this.Team0Agent0Label.Location = new System.Drawing.Point(387, 32);
             this.Team0Agent0Label.Name = "Team0Agent0Label";
-            this.Team0Agent0Label.Size = new System.Drawing.Size(186, 36);
+            this.Team0Agent0Label.Size = new System.Drawing.Size(186, 32);
             this.Team0Agent0Label.TabIndex = 4;
             this.Team0Agent0Label.Text = "エージェント名";
             this.Team0Agent0Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -272,9 +272,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Team0Agent1Label.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Team0Agent1Label.ForeColor = System.Drawing.Color.LightGray;
-            this.Team0Agent1Label.Location = new System.Drawing.Point(387, 72);
+            this.Team0Agent1Label.Location = new System.Drawing.Point(387, 64);
             this.Team0Agent1Label.Name = "Team0Agent1Label";
-            this.Team0Agent1Label.Size = new System.Drawing.Size(186, 36);
+            this.Team0Agent1Label.Size = new System.Drawing.Size(186, 32);
             this.Team0Agent1Label.TabIndex = 5;
             this.Team0Agent1Label.Text = "エージェント名";
             this.Team0Agent1Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -304,7 +304,7 @@
             this.textBox6.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox6.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.textBox6.ForeColor = System.Drawing.Color.Lime;
-            this.textBox6.Location = new System.Drawing.Point(195, 75);
+            this.textBox6.Location = new System.Drawing.Point(195, 67);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(186, 30);
             this.textBox6.TabIndex = 9;
@@ -463,11 +463,11 @@
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel4.Controls.Add(this.CancelButton, 2, 0);
             this.tableLayoutPanel4.Controls.Add(this.OKButton, 1, 0);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 303);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 289);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(766, 47);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(766, 54);
             this.tableLayoutPanel4.TabIndex = 3;
             // 
             // CancelButton
@@ -481,7 +481,7 @@
             this.CancelButton.ForeColor = System.Drawing.Color.LightGray;
             this.CancelButton.Location = new System.Drawing.Point(385, 3);
             this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(185, 41);
+            this.CancelButton.Size = new System.Drawing.Size(185, 48);
             this.CancelButton.TabIndex = 1;
             this.CancelButton.Text = "やめておく";
             this.CancelButton.UseVisualStyleBackColor = false;
@@ -498,7 +498,7 @@
             this.OKButton.ForeColor = System.Drawing.Color.LightGray;
             this.OKButton.Location = new System.Drawing.Point(194, 3);
             this.OKButton.Name = "OKButton";
-            this.OKButton.Size = new System.Drawing.Size(185, 41);
+            this.OKButton.Size = new System.Drawing.Size(185, 48);
             this.OKButton.TabIndex = 0;
             this.OKButton.Text = "はじめる";
             this.OKButton.UseVisualStyleBackColor = false;
@@ -512,9 +512,9 @@
             this.IsTeam1HumanCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.IsTeam1HumanCheckBox.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.IsTeam1HumanCheckBox.ForeColor = System.Drawing.Color.LightGray;
-            this.IsTeam1HumanCheckBox.Location = new System.Drawing.Point(14, 111);
+            this.IsTeam1HumanCheckBox.Location = new System.Drawing.Point(14, 99);
             this.IsTeam1HumanCheckBox.Name = "IsTeam1HumanCheckBox";
-            this.IsTeam1HumanCheckBox.Size = new System.Drawing.Size(175, 30);
+            this.IsTeam1HumanCheckBox.Size = new System.Drawing.Size(175, 28);
             this.IsTeam1HumanCheckBox.TabIndex = 12;
             this.IsTeam1HumanCheckBox.Text = "対戦相手は人間";
             this.IsTeam1HumanCheckBox.UseVisualStyleBackColor = true;
@@ -527,9 +527,9 @@
             this.IsTeam0HumanCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.IsTeam0HumanCheckBox.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.IsTeam0HumanCheckBox.ForeColor = System.Drawing.Color.LightGray;
-            this.IsTeam0HumanCheckBox.Location = new System.Drawing.Point(398, 111);
+            this.IsTeam0HumanCheckBox.Location = new System.Drawing.Point(398, 99);
             this.IsTeam0HumanCheckBox.Name = "IsTeam0HumanCheckBox";
-            this.IsTeam0HumanCheckBox.Size = new System.Drawing.Size(175, 30);
+            this.IsTeam0HumanCheckBox.Size = new System.Drawing.Size(175, 28);
             this.IsTeam0HumanCheckBox.TabIndex = 13;
             this.IsTeam0HumanCheckBox.Text = "対戦相手は人間";
             this.IsTeam0HumanCheckBox.UseVisualStyleBackColor = true;
@@ -543,12 +543,13 @@
             this.SelectBotButton1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.SelectBotButton1.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.SelectBotButton1.ForeColor = System.Drawing.Color.LightGray;
-            this.SelectBotButton1.Location = new System.Drawing.Point(195, 111);
+            this.SelectBotButton1.Location = new System.Drawing.Point(195, 99);
             this.SelectBotButton1.Name = "SelectBotButton1";
-            this.SelectBotButton1.Size = new System.Drawing.Size(186, 30);
+            this.SelectBotButton1.Size = new System.Drawing.Size(186, 28);
             this.SelectBotButton1.TabIndex = 14;
             this.SelectBotButton1.Text = "Botを選択";
             this.SelectBotButton1.UseVisualStyleBackColor = false;
+            this.SelectBotButton1.Click += new System.EventHandler(this.SelectBotButton1_Click);
             // 
             // SelectBotButton0
             // 
@@ -559,19 +560,20 @@
             this.SelectBotButton0.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.SelectBotButton0.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.SelectBotButton0.ForeColor = System.Drawing.Color.LightGray;
-            this.SelectBotButton0.Location = new System.Drawing.Point(579, 111);
+            this.SelectBotButton0.Location = new System.Drawing.Point(579, 99);
             this.SelectBotButton0.Name = "SelectBotButton0";
-            this.SelectBotButton0.Size = new System.Drawing.Size(187, 30);
+            this.SelectBotButton0.Size = new System.Drawing.Size(187, 28);
             this.SelectBotButton0.TabIndex = 15;
             this.SelectBotButton0.Text = "Botを選択";
             this.SelectBotButton0.UseVisualStyleBackColor = false;
+            this.SelectBotButton0.Click += new System.EventHandler(this.SelectBotButton0_Click);
             // 
             // CreateNewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(800, 401);
+            this.ClientSize = new System.Drawing.Size(800, 363);
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "CreateNewForm";
@@ -591,7 +593,7 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label TopLabel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Label Team1Label;
         private System.Windows.Forms.Label Team1Agent0Label;
