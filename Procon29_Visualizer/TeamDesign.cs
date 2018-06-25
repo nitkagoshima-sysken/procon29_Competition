@@ -5,7 +5,7 @@ namespace Procon29_Visualizer
     /// <summary>
     /// チームのデザインを表現します。
     /// </summary>
-    class TeamDesign
+    public class TeamDesign
     {
         private string name;
         private Color agentColor;
