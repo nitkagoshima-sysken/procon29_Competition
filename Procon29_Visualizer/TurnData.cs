@@ -151,7 +151,7 @@ namespace Procon29_Visualizer
         /// 現在のobjectのディープコピーを行います。
         /// </summary>
         /// <returns>objectのディープコピー</returns>
-        public object Clone => new AgentActivityData(AgentStatusData, new Point(Destination.X, Destination.Y));
+        public object DeepCopy => new AgentActivityData(AgentStatusData, Destination);
     }
 
     /// <summary>
@@ -212,7 +212,7 @@ namespace Procon29_Visualizer
         /// 現在のobjectのディープコピーを行います。
         /// </summary>
         /// <returns>objectのディープコピー</returns>
-        public object Clone()
+        public object DeepCopy()
         {
             var cloned =
                 new TurnData(
@@ -223,8 +223,8 @@ namespace Procon29_Visualizer
             {
                 for (int agent = 0; agent < AgentPosition.GetLength(1); agent++)
                 {
-                    cloned.AgentPosition[team, agent] = new Point(AgentPosition[team, agent].X, AgentPosition[team, agent].Y);
-                    cloned.AgentActivityData[team, agent] = (AgentActivityData)AgentActivityData[team, agent].Clone;
+                    cloned.AgentPosition[team, agent] = AgentPosition[team, agent];
+                    cloned.AgentActivityData[team, agent] = (AgentActivityData)AgentActivityData[team, agent].DeepCopy;
                 }
             }
             return cloned;

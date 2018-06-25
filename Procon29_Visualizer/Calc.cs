@@ -105,7 +105,7 @@ namespace Procon29_Visualizer
             {
                 for (int y = 0; y < cloned.Height(); y++)
                 {
-                    cloned[x, y] = (Cell)field[x, y].Clone();
+                    cloned[x, y] = (Cell)field[x, y].DeepCopy();
                 }
             }
             return cloned;
@@ -544,7 +544,15 @@ namespace Procon29_Visualizer
         public void TurnEnd()
         {
             // TurnData作成
-            FieldHistory.Add(new TurnData((Cell[,])Field.DeepCopy(), (Point[,])AgentPosition.Clone()));
+            var a = new Point[TeamArray.Length, AgentArray.Length];
+            for (int team = 0; team < TeamArray.Length; team++)
+            {
+                for (int agent = 0; agent < AgentArray.Length; agent++)
+                {
+                    a[team,agent]= new Point(AgentPosition[team,agent].X, AgentPosition[team, agent].Y);
+                }
+            }
+            FieldHistory.Add(new TurnData((Cell[,])Field.DeepCopy(), a));
             Turn++;
         }
 

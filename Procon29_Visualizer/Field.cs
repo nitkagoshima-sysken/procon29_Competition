@@ -174,7 +174,7 @@ namespace Procon29_Visualizer
         /// 現在のobjectのディープコピーを行います。
         /// </summary>
         /// <returns>objectのディープコピー</returns>
-        public object Clone()
+        public object DeepCopy()
         {
             var cell = new Cell
             {
