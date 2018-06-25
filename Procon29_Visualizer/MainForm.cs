@@ -22,7 +22,7 @@ namespace Procon29_Visualizer
         TeamDesign[] teamDesigns;
 
         CreateNewForm createNewForm = new CreateNewForm();
-
+        Bot bot = new TegetegeBot();
 
         /// <summary>
         /// MainForm
@@ -62,6 +62,8 @@ namespace Procon29_Visualizer
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);
             log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
             messageBox.Select(messageBox.Text.Length, 0);
+
+
         }
 
         /// <summary>
@@ -337,6 +339,11 @@ namespace Procon29_Visualizer
 
         private void TurnEnd()
         {
+            bot.Grasp(calc);
+            bot.FinalAnswer();
+            show.agentActivityData[1, 0] = bot.FinalAnswer()[0];
+            show.agentActivityData[1, 1] = bot.FinalAnswer()[1];
+
             calc.MoveAgent(show.agentActivityData);
             show.Showing(FieldDisplay);
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Area Point: " + calc.AreaPoint(Team.A).ToString());
@@ -349,7 +356,7 @@ namespace Procon29_Visualizer
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "   Total Point: " + calc.TotalPoint(Team.B).ToString());
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 0]);
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);
-            log.WriteLine( Color.LightGray, "\n" + "Turn : " + calc.Turn);
+            log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
         }
 
         private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
