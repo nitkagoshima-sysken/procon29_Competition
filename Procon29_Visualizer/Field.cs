@@ -9,7 +9,7 @@ namespace Procon29_Visualizer
     /// <summary>
     /// チームが先攻か後攻かを表すための列挙体
     /// </summary>
-    enum Team
+    public enum Team
     {
         /// <summary>
         /// チームAを表します。
@@ -24,7 +24,7 @@ namespace Procon29_Visualizer
     /// <summary>
     /// チームのエージェントを表すための列挙体
     /// </summary>
-    enum Agent
+    public enum Agent
     {
         /// <summary>
         /// 1人目のエージェントを表します。

@@ -6,7 +6,7 @@ namespace Procon29_Visualizer
     /// <summary>
     /// エージェントの行動の状態を表します
     /// </summary>
-    enum AgentStatusData
+    public enum AgentStatusData
     {
         /// <summary>
         /// 何もしていない
@@ -113,7 +113,7 @@ namespace Procon29_Visualizer
     /// <summary>
     /// エージェントの行動データを表します
     /// </summary>
-    class AgentActivityData
+    public class AgentActivityData
     {
         AgentStatusData agentStatusData;
         Point destination;

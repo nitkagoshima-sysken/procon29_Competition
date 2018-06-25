@@ -129,7 +129,7 @@ namespace Procon29_Visualizer
     /// <summary>
     /// procon29におけるフィールドの管理、ポイント計算などの全般を行います。
     /// </summary>
-    class Calc
+    public class Calc
     {
         private int turn = 0;
         private bool isVerticallySymmetrical, isHorizontallySymmetrical;

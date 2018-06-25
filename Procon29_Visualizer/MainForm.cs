@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,7 +23,7 @@ namespace Procon29_Visualizer
         TeamDesign[] teamDesigns;
 
         CreateNewForm createNewForm = new CreateNewForm();
-        Bot bot = new TegetegeBot();
+        dynamic bot;
 
         /// <summary>
         /// MainForm
@@ -63,7 +64,8 @@ namespace Procon29_Visualizer
             log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
             messageBox.Select(messageBox.Text.Length, 0);
 
-
+            Assembly m = Assembly.LoadFrom("TegetegeBot.dll");
+            bot = Activator.CreateInstance(m.GetType("TegetegeBot.TegetegeBot"));
         }
 
         /// <summary>
