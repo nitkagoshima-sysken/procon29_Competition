@@ -1,5 +1,7 @@
+CC = gcc
+
 all:
-	gcc -o Generator FieldDataGenerator.c
+	$(CC) -o Generator FieldDataGenerator.c
 clean:
 	rm -f Generator
 	rm -f *.pqr
