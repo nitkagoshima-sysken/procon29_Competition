@@ -120,7 +120,6 @@ namespace Procon29_Visualizer
                     {
                         bot1 = Activator.CreateInstance(m.GetType(match.Groups["file"].Value + "." + match.Groups["file"].Value));
                     }
-
                 }
                 catch (Exception)
                 {
@@ -164,7 +163,6 @@ namespace Procon29_Visualizer
                     {
                         bot0 = Activator.CreateInstance(m.GetType(match.Groups["file"].Value + "." + match.Groups["file"].Value));
                     }
-
                 }
                 catch (Exception)
                 {
