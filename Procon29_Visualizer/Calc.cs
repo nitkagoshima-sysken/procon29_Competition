@@ -10,275 +10,6 @@ using System.Threading.Tasks;
 
 namespace Procon29_Visualizer
 {
-    /// <summary>
-    /// エージェントの行動の状態を表します
-    /// </summary>
-    enum AgentStatusData
-    {
-        /// <summary>
-        /// 何もしていない
-        /// </summary>
-        NotDoneAnything,
-        /// <summary>
-        /// 移動を要請する
-        /// </summary>
-        RequestMovement,
-        /// <summary>
-        /// 自分のチームからタイルを取り除くことを要請します
-        /// </summary>
-        RequestRemovementOurTile,
-        /// <summary>
-        /// 相手のチームからタイルを取り除くことを要請します
-        /// </summary>
-        RequestRemovementOpponentTile,
-        /// <summary>
-        /// 自分にエージェントを行動させる権限ないため、リクエストを禁止されています
-        /// </summary>
-        RequestForbidden,
-        /// <summary>
-        /// 移動に成功し、タイルを置きました
-        /// </summary>
-        SucceededInMoving,
-        /// <summary>
-        /// 自分のチームからタイルを取り除くことに成功しました
-        /// </summary>
-        SucceededInRemoveingOurTile,
-        /// <summary>
-        /// 相手のチームからタイルを取り除くことに成功しました
-        /// </summary>
-        SucceededInRemoveingOpponentTile,
-        /// <summary>
-        /// 相手のチームとコリジョンが発生し、移動に失敗しました
-        /// </summary>
-        FailedInMovingByCollisionWithEachOther,
-        /// <summary>
-        /// 相手のチームとコリジョンが発生し、自分のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOurTileByCollisionWithEachOther,
-        /// <summary>
-        /// 相手のチームとコリジョンが発生し、相手のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOpponentTileByCollisionWithEachOther,
-        /// <summary>
-        /// 自分のチームとコリジョンが発生し、移動に失敗しました
-        /// </summary>
-        FailedInMovingBySelfCollision,
-        /// <summary>
-        /// 自分のチームとコリジョンが発生し、自分のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOurTileBySelfCollision,
-        /// <summary>
-        /// 自分のチームとコリジョンが発生し、相手のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOpponentTileBySelfCollision,
-        /// <summary>
-        /// 目標物がフィールド外のため、移動に失敗しました
-        /// </summary>
-        FailedInMovingByTryingToGoOutOfTheFieldWithEachOther,
-        /// <summary>
-        /// 目標物がフィールド外のため、自分のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOurTileByTryingToGoOutOfTheField,
-        /// <summary>
-        /// 目標物がフィールド外のため、相手のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOpponentTileByTryingToGoOutOfTheField,
-        /// <summary>
-        /// エージェントのムーア近傍に目標部がないため、移動に失敗しました
-        /// </summary>
-        FailedInMovingByTryingAgentToJump,
-        /// <summary>
-        /// エージェントのムーア近傍に目標部がないため、自分のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOurTileByTryingAgentToJump,
-        /// <summary>
-        /// エージェントのムーア近傍に目標部がないため、相手のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOpponentTileByTryingAgentToJump,
-        /// <summary>
-        /// 取り除くタイルが存在しないため、自分のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOurTileByDoingTileNotExist,
-        /// <summary>
-        /// 取り除くタイルが存在しないため、相手のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOpponentTileByDoingTileNotExist,
-        /// <summary>
-        /// 不明なエラーによって、移動に失敗しました
-        /// </summary>
-        FailedInMovingByUnkownError,
-        /// <summary>
-        /// 不明なエラーによって、自分のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOurTileByUnkownError,
-        /// <summary>
-        /// 不明なエラーによって、相手のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOpponentTileByUnkownError,
-    }
-
-    /// <summary>
-    /// エージェントの行動データを表します
-    /// </summary>
-    class AgentActivityData
-    {
-        AgentStatusData agentStatusData;
-        Point destination;
-
-        /// <summary>
-        /// 初期化を行います
-        /// </summary>
-        /// <param name="agentStatusData">エージェントが行動をどこに起こしたかを表します</param>
-        /// <param name="destination">エージェントが行動した結果の状態を表します</param>
-        public AgentActivityData(AgentStatusData agentStatusData, Point destination)
-        {
-            AgentStatusData = agentStatusData;
-            Destination = destination;
-        }
-
-        /// <summary>
-        /// エージェントが行動をどこに起こしたかを設定または取得します
-        /// </summary>
-        public Point Destination { get => destination; set => destination = value; }
-        /// <summary>
-        /// エージェントが行動した結果の状態を設定または取得します
-        /// </summary>
-        internal AgentStatusData AgentStatusData { get => agentStatusData; set => agentStatusData = value; }
-    }
-
-    /// <summary>
-    /// 1ターンのデータを表します
-    /// </summary>
-    class TurnData
-    {
-        AgentActivityData[,] agentActivityData;
-        Cell[,] field;
-
-        /// <summary>
-        /// 初期化します
-        /// </summary>
-        /// <param name="agentActivityData">エージェントの行動データを表します</param>
-        /// <param name="field">フィールドを表します</param>
-        public TurnData(AgentActivityData[,] agentActivityData, Cell[,] field)
-        {
-            AgentActivityData = agentActivityData;
-            Field = field;
-        }
-
-        /// <summary>
-        /// フィールドを設定または取得します
-        /// </summary>
-        public Cell[,] Field { get => field; set => field = value; }
-        /// <summary>
-        /// エージェントの行動データを設定または取得します
-        /// </summary>
-        internal AgentActivityData[,] AgentActivityData { get => agentActivityData; set => agentActivityData = value; }
-    }
-
-    /// <summary>
-    /// TurnData関連の拡張メソッドを定義するためのクラスです。
-    /// </summary>
-    static class TurnDataExpansion
-    {
-        /// <summary>
-        /// エージェントの行動の状態がリクエストであることを判定します
-        /// </summary>
-        /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
-        /// <returns>状態がリクエストなら真、そうでなければ偽</returns>
-        public static bool IsRequest(this AgentStatusData agentStatusData) =>
-            agentStatusData == AgentStatusData.RequestMovement ||
-            agentStatusData == AgentStatusData.RequestRemovementOpponentTile ||
-            agentStatusData == AgentStatusData.RequestRemovementOurTile;
-
-        /// <summary>
-        /// エージェントの行動が成功したことを判定します
-        /// </summary>
-        /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
-        /// <returns>状態が成功なら真、そうでなければ偽</returns>
-        public static bool IsSucceeded(this AgentStatusData agentStatusData) =>
-            agentStatusData == AgentStatusData.SucceededInMoving ||
-            agentStatusData == AgentStatusData.SucceededInRemoveingOpponentTile ||
-            agentStatusData == AgentStatusData.SucceededInRemoveingOurTile;
-
-        /// <summary>
-        /// エージェントの行動が失敗したことを判定します
-        /// </summary>
-        /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
-        /// <returns>状態が失敗なら真、そうでなければ偽</returns>
-        public static bool IsFailed(this AgentStatusData agentStatusData) =>
-            agentStatusData == AgentStatusData.FailedInMovingByCollisionWithEachOther ||
-            agentStatusData == AgentStatusData.FailedInRemovingOpponentTileByCollisionWithEachOther ||
-            agentStatusData == AgentStatusData.FailedInRemovingOurTileByCollisionWithEachOther;
-
-        /// <summary>
-        /// リクエストが失敗したとして処理します
-        /// </summary>
-        /// <param name="agentActivityData">対象となるエージェントの行動データ</param>
-        public static void ToFail(this AgentActivityData agentActivityData)
-        {
-            switch (agentActivityData.AgentStatusData)
-            {
-                case AgentStatusData.RequestMovement:
-                    agentActivityData.AgentStatusData = AgentStatusData.FailedInMovingByCollisionWithEachOther;
-                    return;
-                case AgentStatusData.RequestRemovementOurTile:
-                    agentActivityData.AgentStatusData = AgentStatusData.FailedInRemovingOurTileByCollisionWithEachOther;
-                    return;
-                case AgentStatusData.RequestRemovementOpponentTile:
-                    agentActivityData.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileByCollisionWithEachOther;
-                    return;
-                default:
-                    return;
-            }
-        }
-
-        /// <summary>
-        /// リクエストが成功したとして処理します
-        /// </summary>
-        /// <param name="agentActivityData">対象となるエージェントの行動データ</param>
-        public static void ToSuccess(this AgentActivityData agentActivityData)
-        {
-            switch (agentActivityData.AgentStatusData)
-            {
-                case AgentStatusData.RequestMovement:
-                    agentActivityData.AgentStatusData = AgentStatusData.SucceededInMoving;
-                    return;
-                case AgentStatusData.RequestRemovementOurTile:
-                    agentActivityData.AgentStatusData = AgentStatusData.SucceededInRemoveingOurTile;
-                    return;
-                case AgentStatusData.RequestRemovementOpponentTile:
-                    agentActivityData.AgentStatusData = AgentStatusData.SucceededInRemoveingOpponentTile;
-                    return;
-                default:
-                    return;
-            }
-        }
-
-        public static void CheckCollision(this AgentActivityData[,] agentActivityData)
-        {
-            foreach (Team team in Enum.GetValues(typeof(Team)))
-            {
-                foreach (Agent agent in Enum.GetValues(typeof(Agent)))
-                {
-                    if (agentActivityData[(int)team, (int)agent].AgentStatusData.IsRequest())
-                    {
-                        foreach (Team otherteam in Enum.GetValues(typeof(Team)))
-                        {
-                            foreach (Agent otheragent in Enum.GetValues(typeof(Agent)))
-                            {
-                                if (team == otherteam && agent == otheragent) continue;
-                                if (agentActivityData[(int)team, (int)agent].Destination == agentActivityData[(int)otherteam, (int)otheragent].Destination)
-                                {
-                                    agentActivityData[(int)team, (int)agent].ToFail();
-                                    agentActivityData[(int)otherteam, (int)otheragent].ToFail();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     /// <summary>
     /// フィールドの拡張メソッドを定義するためのクラスです。
@@ -362,6 +93,23 @@ namespace Procon29_Visualizer
         /// <param name="point">対称となるマス</param>
         /// <returns></returns>
         public static Cell Take(this Cell[,] field, Point point) => field[point.X, point.Y];
+
+        /// <summary>
+        /// 現在のobjectのディープコピーを行います。
+        /// </summary>
+        /// <returns>objectのディープコピー</returns>
+        public static object DeepCopy(this Cell[,] field)
+        {
+            var cloned = new Cell[field.Width(), field.Height()];
+            for (int x = 0; x < cloned.Width(); x++)
+            {
+                for (int y = 0; y < cloned.Height(); y++)
+                {
+                    cloned[x, y] = (Cell)field[x, y].DeepCopy();
+                }
+            }
+            return cloned;
+        }
     }
 
     /// <summary>
@@ -370,25 +118,23 @@ namespace Procon29_Visualizer
     public static class PointExpansion
     {
         /// <summary>
-        /// 二点間のマンハッタン距離を求めます。
+        /// 二点間のチェビシェフ距離を求めます。
         /// </summary>
         /// <param name="p1">対象となる点</param>
         /// <param name="p2">対象となる点</param>
         /// <returns></returns>
-        public static int ManhattanDistance(this Point p1, Point p2) => Math.Abs(p1.X - p2.X) + Math.Abs(p1.Y - p2.Y);
-    } 
+        public static int ChebyshevDistance(this Point p1, Point p2) => Math.Max(Math.Abs(p1.X - p2.X), Math.Abs(p1.Y - p2.Y));
+    }
 
     /// <summary>
     /// procon29におけるフィールドの管理、ポイント計算などの全般を行います。
     /// </summary>
-    class Calc
+    public class Calc
     {
         private int turn = 0;
-        private Cell[,] field;
-        private Point[,] agentPosition = new Point[2, 2];
         private bool isVerticallySymmetrical, isHorizontallySymmetrical;
-        private List<TurnData> turnDatas = new List<TurnData>();
-        private static readonly string[,] shortTeamAgentName = new string[2, 2] { { "A1", "A2", }, { "B1", "B2", }, };
+        private List<TurnData> fieldHistory = new List<TurnData>();
+        private static readonly string[,] shortTeamAgentName = new string[2, 2] { { "Strawberry", "Apple", }, { "Kiwi", "Muscat", }, };
         private static readonly Array teamList = Enum.GetValues(typeof(Team));
         private static readonly Array agentList = Enum.GetValues(typeof(Agent));
 
@@ -399,6 +145,11 @@ namespace Procon29_Visualizer
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>
         public Calc(int[,] point, Point[] initPosition)
         {
+            // Turn -> 0
+            Turn = 0;
+            // TurnData作成
+            FieldHistory.Add(new TurnData(new Cell[point.GetLength(1), point.GetLength(0)], new Point[TeamArray.Length, AgentArray.Length]));
+
             InitializationOfField(point);
             foreach (Agent agent in AgentArray)
             {
@@ -406,6 +157,9 @@ namespace Procon29_Visualizer
                 PutTile(team: 0, agent: agent);
             }
             ComplementEnemysPosition();
+
+            // Turn -> 1
+            TurnEnd();
         }
 
         /// <summary>
@@ -448,7 +202,7 @@ namespace Procon29_Visualizer
         /// <summary>
         /// エージェントの位置をを設定または取得します。
         /// </summary>
-        public Point[,] AgentPosition { get => agentPosition; set => agentPosition = value; }
+        public Point[,] AgentPosition { get => FieldHistory[Turn].AgentPosition; set => FieldHistory[Turn].AgentPosition = value; }
 
         /// <summary>
         /// ターンを設定または取得します。
@@ -458,7 +212,7 @@ namespace Procon29_Visualizer
         /// <summary>
         /// フィールドを設定または取得します。
         /// </summary>
-        public Cell[,] Field { get => field; set => field = value; }
+        public Cell[,] Field { get => FieldHistory[Turn].Field; set => FieldHistory[Turn].Field = value; }
 
         /// <summary>
         /// エージェントの位置を設定または取得します。
@@ -476,9 +230,9 @@ namespace Procon29_Visualizer
             get
             {
                 var list = new List<Cell>();
-                foreach (var item in Field)
+                foreach (var cell in Field)
                 {
-                    list.Add(item);
+                    list.Add(cell);
                 }
                 return list;
             }
@@ -502,7 +256,7 @@ namespace Procon29_Visualizer
         /// <summary>
         /// フィールドの歴史を設定または取得します。
         /// </summary>
-        internal List<TurnData> TurnDatas { get => turnDatas; set => turnDatas = value; }
+        internal List<TurnData> FieldHistory { get => fieldHistory; private set => fieldHistory = value; }
 
         /// <summary>
         /// Team列挙体のすべての要素を配列にします
@@ -513,6 +267,11 @@ namespace Procon29_Visualizer
         /// Agent列挙体のすべての要素を配列にします
         /// </summary>
         public static Array AgentArray => agentList;
+
+        /// <summary>
+        /// ターンデータを保有します
+        /// </summary>
+        //private TurnData TurnData { get => turnData; set => turnData = value; }
 
         /// <summary>
         /// すべてのフィールドのポイントの和を計算します。
@@ -695,20 +454,7 @@ namespace Procon29_Visualizer
         /// <param name="agent">対象となるエージェント</param>
         /// <param name="point">対象となるマス</param>
         /// <returns>対象となるマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
-        public bool IsAgentHereOrInNeighborhood(int team, int agent, Point point)
-        {
-            for (int x = -1; x <= 1; x++)
-            {
-                for (int y = -1; y <= 1; y++)
-                {
-                    if (point.X == AgentPosition[team, agent].X + x && point.Y == AgentPosition[team, agent].Y + y)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
+        public bool IsAgentHereOrInMooreNeighborhood(int team, int agent, Point point) => (AgentPosition[team, agent].ChebyshevDistance(point) <= 1) ? true : false;
 
         /// <summary>
         /// 対象となるマスに対象となるエージェントがいるか、またはムーア近傍にいるかを判定します
@@ -717,22 +463,18 @@ namespace Procon29_Visualizer
         /// <param name="agent">対象となるエージェント</param>
         /// <param name="point">対象となるマス</param>
         /// <returns>対象となるマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
-        public bool IsAgentHereOrInNeighborhood(Team team, Agent agent, Point point) => IsAgentHereOrInNeighborhood((int)team, (int)agent, point);
+        public bool IsAgentHereOrInMooreNeighborhood(Team team, Agent agent, Point point) => IsAgentHereOrInMooreNeighborhood((int)team, (int)agent, point);
 
         /// <summary>
         /// 対象となるマスにエージェントがいるか、またはムーア近傍にいるかを判定します
         /// </summary>
         /// <param name="point">対象となるマス</param>
         /// <returns>そのマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
-        public bool IsAgentHereOrInNeighborhood(Point point)
+        public bool IsAgentHereOrInMooreNeighborhood(Point point)
         {
-            foreach (Team team in TeamArray)
-            {
-                foreach (Agent agent in AgentArray)
-                {
-                    if (IsAgentHereOrInNeighborhood(team, agent, point)) return true;
-                }
-            }
+            foreach (var agent in AgentPosition)
+                if (agent.ChebyshevDistance(point) <= 1)
+                    return true;
             return false;
         }
 
@@ -741,21 +483,16 @@ namespace Procon29_Visualizer
         /// </summary>
         /// <param name="point">対象になるマス</param>
         /// <returns></returns>
-        public bool IsOneAgentHereOrInNeighborhood(Point point)
+        public bool IsOneAgentHereOrInMooreNeighborhood(Point point)
         {
             var result = false;
-            foreach (Team team in TeamArray)
-            {
-                foreach (Agent agent in AgentArray)
-                {
-                    if (IsAgentHereOrInNeighborhood(team, agent, point))
-                    {
-                        if (result) return false;
-                        else result = true;
-                    }
-                }
-            }
-            return result;
+            foreach (var agent in AgentPosition)
+                if (agent.ChebyshevDistance(point) <= 1)
+                    if (result)
+                        return false;
+                    else
+                        result = true;
+            return true;
         }
 
         /// <summary>
@@ -765,13 +502,9 @@ namespace Procon29_Visualizer
         /// <returns></returns>
         public bool IsAgentHere(Point point)
         {
-            foreach (Team team in TeamArray)
-            {
-                foreach (Agent agent in AgentArray)
-                {
-                    if (AgentPosition[(int)team, (int)agent] == point) return true;
-                }
-            }
+            foreach (var agent in AgentPosition)
+                if (agent.ChebyshevDistance(point) == 0)
+                    return true;
             return false;
         }
 
@@ -780,9 +513,12 @@ namespace Procon29_Visualizer
         /// </summary>
         /// <param name="point">対象になるマス</param>
         /// <returns></returns>
-        public bool IsAgentInNeighborhood(Point point)
+        public bool IsAgentInMooreNeighborhood(Point point)
         {
-            return IsAgentHereOrInNeighborhood(point) && !IsAgentHere(point);
+            foreach (var agent in AgentPosition)
+                if (agent.ChebyshevDistance(point) == 1)
+                    return true;
+            return false;
         }
 
         /// <summary>
@@ -790,34 +526,47 @@ namespace Procon29_Visualizer
         /// </summary>
         /// <param name="point">対象になるマス</param>
         /// <returns></returns>
-        public bool IsOneAgentInNeighborhood(Point point)
+        public bool IsOneAgentInMooreNeighborhood(Point point)
         {
-            return IsOneAgentHereOrInNeighborhood(point) && !IsAgentHere(point);
-        }
-
-        public (Team, Agent)? WhoIsNearby(Point point)
-        {
-            for (int x = -1; x <= 1; x++)
-            {
-                for (int y = -1; y <= 1; y++)
-                {
-                    if (x == 0 && y == 0) continue;
-                    foreach (Team team in TeamArray)
-                    {
-                        foreach (Agent agent in AgentArray)
-                        {
-                            if (AgentPosition[(int)team, (int)agent] == new Point(point.X + x, point.Y + y)) return (team, agent);
-                        }
-                    }
-                }
-            }
-            return null;
+            var result = false;
+            foreach (var agent in AgentPosition)
+                if (agent.ChebyshevDistance(point) == 1)
+                    if (result)
+                        return false;
+                    else
+                        result = true;
+            return true;
         }
 
         /// <summary>
         /// ターンエンドします。
         /// </summary>
-        public void TurnEnd() => Turn++;
+        public void TurnEnd()
+        {
+            // TurnData作成
+            var a = new Point[TeamArray.Length, AgentArray.Length];
+            for (int team = 0; team < TeamArray.Length; team++)
+            {
+                for (int agent = 0; agent < AgentArray.Length; agent++)
+                {
+                    a[team,agent]= new Point(AgentPosition[team,agent].X, AgentPosition[team, agent].Y);
+                }
+            }
+            FieldHistory.Add(new TurnData((Cell[,])Field.DeepCopy(), a));
+            Turn++;
+        }
+
+        public void Undo()
+        {
+            if (Turn == 1) return;
+            Turn--;
+        }
+
+        public void Redo()
+        {
+            if (Turn == FieldHistory.Count - 1) return;
+            Turn++;
+        }
 
         /// <summary>
         /// 自分のフィールドにタイルを置きます。
@@ -888,6 +637,16 @@ namespace Procon29_Visualizer
         /// <param name="agentActivityData"></param>
         public void MoveAgent(AgentActivityData[,] agentActivityData)
         {
+            // Undoしたときに
+            // FieldHistory.Count != Turn
+            // になる
+            // TurnEndしたときにやり直す前の未来を消す
+            if (FieldHistory.Count - 1 != Turn)
+                FieldHistory.RemoveRange(Turn + 1, FieldHistory.Count - 1 - Turn);
+
+            TurnEnd();
+
+            //var preAgentPosition = AgentPosition;
             agentActivityData.CheckCollision();
             foreach (Team team in TeamArray)
             {
@@ -912,7 +671,6 @@ namespace Procon29_Visualizer
                 }
             }
             CheckEnclosedArea();
-            TurnEnd();
         }
     }
 }

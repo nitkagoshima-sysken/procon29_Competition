@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,16 +17,13 @@ namespace Procon29_Visualizer
     /// </summary>
     public partial class MainForm : Form
     {
-        Team selectedTeam;
-        Agent selectedAgent;
-
         Calc calc;
         Show show;
         Logger log;
         TeamDesign[] teamDesigns;
 
         CreateNewForm createNewForm = new CreateNewForm();
-
+        public static dynamic[] bot = new dynamic[2];
 
         /// <summary>
         /// MainForm
@@ -63,8 +61,9 @@ namespace Procon29_Visualizer
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "name: " + teamDesigns[(int)Team.B].Name);
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 0]);
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);
-
+            log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
             messageBox.Select(messageBox.Text.Length, 0);
+
         }
 
         /// <summary>
@@ -340,9 +339,17 @@ namespace Procon29_Visualizer
 
         private void TurnEnd()
         {
+            if(bot[1]!=null)
+            {
+                bot[1].Grasp(calc);
+                bot[1].FinalAnswer();
+                show.agentActivityData[1, 0] = bot[1].FinalAnswer()[0];
+                show.agentActivityData[1, 1] = bot[1].FinalAnswer()[1];
+
+            }
+
             calc.MoveAgent(show.agentActivityData);
             show.Showing(FieldDisplay);
-            log.WriteLine(Color.LightGray, "Turn : " + calc.Turn);
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Area Point: " + calc.AreaPoint(Team.A).ToString());
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.A).ToString());
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "   Total Point: " + calc.TotalPoint(Team.A).ToString());
@@ -353,6 +360,41 @@ namespace Procon29_Visualizer
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "   Total Point: " + calc.TotalPoint(Team.B).ToString());
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 0]);
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);
+            log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
+        }
+
+        private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            calc.Undo();
+            show.Showing(FieldDisplay);
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Area Point: " + calc.AreaPoint(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "   Total Point: " + calc.TotalPoint(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 0]);
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 1]);
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Area Point: " + calc.AreaPoint(Team.B).ToString());
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.B).ToString());
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "   Total Point: " + calc.TotalPoint(Team.B).ToString());
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 0]);
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);
+            log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
+        }
+
+        private void RedoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            calc.Redo();
+            show.Showing(FieldDisplay);
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Area Point: " + calc.AreaPoint(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "   Total Point: " + calc.TotalPoint(Team.A).ToString());
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 0]);
+            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 1]);
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Area Point: " + calc.AreaPoint(Team.B).ToString());
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.B).ToString());
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "   Total Point: " + calc.TotalPoint(Team.B).ToString());
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 0]);
+            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);
+            log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
         }
     }
 }

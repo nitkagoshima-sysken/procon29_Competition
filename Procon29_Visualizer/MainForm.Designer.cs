@@ -29,8 +29,11 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.FieldDisplay = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.messageBox = new System.Windows.Forms.RichTextBox();
+            this.TurnEndButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CreateNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,15 +42,14 @@
             this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.FieldDisplay = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.TurnEndButton = new System.Windows.Forms.Button();
+            this.UndoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RedoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -66,6 +68,20 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(757, 394);
             this.tableLayoutPanel1.TabIndex = 3;
+            // 
+            // FieldDisplay
+            // 
+            this.FieldDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FieldDisplay.Location = new System.Drawing.Point(4, 4);
+            this.FieldDisplay.Margin = new System.Windows.Forms.Padding(4);
+            this.FieldDisplay.Name = "FieldDisplay";
+            this.FieldDisplay.Size = new System.Drawing.Size(521, 386);
+            this.FieldDisplay.TabIndex = 0;
+            this.FieldDisplay.TabStop = false;
+            this.FieldDisplay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseClick);
+            this.FieldDisplay.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseDoubleClick);
             // 
             // tableLayoutPanel2
             // 
@@ -86,6 +102,15 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(222, 388);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox2.Location = new System.Drawing.Point(153, 3);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(66, 1);
+            this.pictureBox2.TabIndex = 2;
+            this.pictureBox2.TabStop = false;
+            // 
             // messageBox
             // 
             this.messageBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -102,6 +127,23 @@
             this.messageBox.Size = new System.Drawing.Size(216, 304);
             this.messageBox.TabIndex = 1;
             this.messageBox.Text = "";
+            // 
+            // TurnEndButton
+            // 
+            this.TurnEndButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TurnEndButton.BackColor = System.Drawing.Color.RoyalBlue;
+            this.TurnEndButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.TurnEndButton.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.TurnEndButton.ForeColor = System.Drawing.Color.LightGray;
+            this.TurnEndButton.Location = new System.Drawing.Point(3, 313);
+            this.TurnEndButton.Name = "TurnEndButton";
+            this.TurnEndButton.Size = new System.Drawing.Size(216, 72);
+            this.TurnEndButton.TabIndex = 3;
+            this.TurnEndButton.Text = "ターンエンド";
+            this.TurnEndButton.UseVisualStyleBackColor = false;
+            this.TurnEndButton.Click += new System.EventHandler(this.TurnEndButton_Click);
             // 
             // menuStrip1
             // 
@@ -121,35 +163,39 @@
             this.FileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CreateNewToolStripMenuItem,
             this.OpenToolStripMenuItem});
+            this.FileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
-            this.FileToolStripMenuItem.Size = new System.Drawing.Size(82, 27);
-            this.FileToolStripMenuItem.Text = "ファイル";
+            this.FileToolStripMenuItem.Size = new System.Drawing.Size(105, 27);
+            this.FileToolStripMenuItem.Text = "ファイル(&F)";
             // 
             // CreateNewToolStripMenuItem
             // 
             this.CreateNewToolStripMenuItem.Name = "CreateNewToolStripMenuItem";
-            this.CreateNewToolStripMenuItem.Size = new System.Drawing.Size(146, 28);
-            this.CreateNewToolStripMenuItem.Text = "新規作成";
+            this.CreateNewToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.CreateNewToolStripMenuItem.Text = "新規作成(&N)";
             this.CreateNewToolStripMenuItem.Click += new System.EventHandler(this.CreateNewToolStripMenuItem_Click);
             // 
             // OpenToolStripMenuItem
             // 
             this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(146, 28);
-            this.OpenToolStripMenuItem.Text = "開く";
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.OpenToolStripMenuItem.Text = "開く(&O)";
             this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // EditToolStripMenuItem
             // 
+            this.EditToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.UndoToolStripMenuItem,
+            this.RedoToolStripMenuItem});
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
-            this.EditToolStripMenuItem.Size = new System.Drawing.Size(52, 27);
-            this.EditToolStripMenuItem.Text = "編集";
+            this.EditToolStripMenuItem.Size = new System.Drawing.Size(75, 27);
+            this.EditToolStripMenuItem.Text = "編集(&E)";
             // 
             // ViewToolStripMenuItem
             // 
             this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
-            this.ViewToolStripMenuItem.Size = new System.Drawing.Size(52, 27);
-            this.ViewToolStripMenuItem.Text = "表示";
+            this.ViewToolStripMenuItem.Size = new System.Drawing.Size(76, 27);
+            this.ViewToolStripMenuItem.Text = "表示(&V)";
             // 
             // statusStrip1
             // 
@@ -171,45 +217,23 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(80, 18);
             this.toolStripStatusLabel1.Text = "{} Point:";
             // 
-            // FieldDisplay
+            // UndoToolStripMenuItem
             // 
-            this.FieldDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.FieldDisplay.Location = new System.Drawing.Point(4, 4);
-            this.FieldDisplay.Margin = new System.Windows.Forms.Padding(4);
-            this.FieldDisplay.Name = "FieldDisplay";
-            this.FieldDisplay.Size = new System.Drawing.Size(521, 386);
-            this.FieldDisplay.TabIndex = 0;
-            this.FieldDisplay.TabStop = false;
-            this.FieldDisplay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseClick);
-            this.FieldDisplay.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseDoubleClick);
+            this.UndoToolStripMenuItem.Name = "UndoToolStripMenuItem";
+            this.UndoToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Z";
+            this.UndoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.UndoToolStripMenuItem.Size = new System.Drawing.Size(229, 28);
+            this.UndoToolStripMenuItem.Text = "元に戻す(&U)";
+            this.UndoToolStripMenuItem.Click += new System.EventHandler(this.UndoToolStripMenuItem_Click);
             // 
-            // pictureBox2
+            // RedoToolStripMenuItem
             // 
-            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox2.Location = new System.Drawing.Point(153, 3);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(66, 1);
-            this.pictureBox2.TabIndex = 2;
-            this.pictureBox2.TabStop = false;
-            // 
-            // TurnEndButton
-            // 
-            this.TurnEndButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TurnEndButton.BackColor = System.Drawing.Color.RoyalBlue;
-            this.TurnEndButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.TurnEndButton.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.TurnEndButton.ForeColor = System.Drawing.Color.LightGray;
-            this.TurnEndButton.Location = new System.Drawing.Point(3, 313);
-            this.TurnEndButton.Name = "TurnEndButton";
-            this.TurnEndButton.Size = new System.Drawing.Size(216, 72);
-            this.TurnEndButton.TabIndex = 3;
-            this.TurnEndButton.Text = "ターンエンド";
-            this.TurnEndButton.UseVisualStyleBackColor = false;
-            this.TurnEndButton.Click += new System.EventHandler(this.TurnEndButton_Click);
+            this.RedoToolStripMenuItem.Name = "RedoToolStripMenuItem";
+            this.RedoToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Y";
+            this.RedoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.RedoToolStripMenuItem.Size = new System.Drawing.Size(229, 28);
+            this.RedoToolStripMenuItem.Text = "やり直し(&R)";
+            this.RedoToolStripMenuItem.Click += new System.EventHandler(this.RedoToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -227,13 +251,13 @@
             this.Text = "Procon29 Visualizar";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.tableLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -255,6 +279,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripMenuItem CreateNewToolStripMenuItem;
         private System.Windows.Forms.Button TurnEndButton;
+        private System.Windows.Forms.ToolStripMenuItem UndoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem RedoToolStripMenuItem;
     }
 }
-

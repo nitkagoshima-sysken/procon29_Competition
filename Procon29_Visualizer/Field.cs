@@ -9,7 +9,7 @@ namespace Procon29_Visualizer
     /// <summary>
     /// チームが先攻か後攻かを表すための列挙体
     /// </summary>
-    enum Team
+    public enum Team
     {
         /// <summary>
         /// チームAを表します。
@@ -24,7 +24,7 @@ namespace Procon29_Visualizer
     /// <summary>
     /// チームのエージェントを表すための列挙体
     /// </summary>
-    enum Agent
+    public enum Agent
     {
         /// <summary>
         /// 1人目のエージェントを表します。
@@ -54,7 +54,6 @@ namespace Procon29_Visualizer
         /// </summary>
         private bool[] isTileOn;
         private bool[] isEnclosed;
-        private bool[] isAreaCheck;
 
         /// <summary>
         /// そのマスにおける、ポイントを設定、または取得します。
@@ -88,10 +87,6 @@ namespace Procon29_Visualizer
         /// そのマスがタイルに囲まれているかを表します。
         /// </summary>
         public bool[] IsEnclosed { get => isEnclosed; set => isEnclosed = value; }
-        /// <summary>
-        /// そのマスの囲み判定が行われたかを表します。
-        /// </summary>
-        public bool[] IsAreaCheck { get => isAreaCheck; set => isAreaCheck = value; }
 
         /// <summary>
         /// Fieldの初期化を行います。
@@ -101,7 +96,6 @@ namespace Procon29_Visualizer
             Point = 0;
             IsTileOn = new bool[2];
             IsEnclosed = new bool[2];
-            IsAreaCheck = new bool[2];
         }
 
         /// <summary>
@@ -175,5 +169,28 @@ namespace Procon29_Visualizer
         /// <param name="str"></param>
         /// <returns></returns>
         public static Cell[,] CSVToFields(string str) => ListWithHeightAndWidthToFields(CSVtoList(str));
+
+        /// <summary>
+        /// 現在のobjectのディープコピーを行います。
+        /// </summary>
+        /// <returns>objectのディープコピー</returns>
+        public object DeepCopy()
+        {
+            var cell = new Cell
+            {
+                Point = Point,
+                IsEnclosed = new bool[IsEnclosed.Length],
+                IsTileOn = new bool[IsTileOn.Length],
+            };
+            for (int i = 0; i < IsEnclosed.Length; i++)
+            {
+                cell.IsEnclosed[i] = IsEnclosed[i];
+            }
+            for (int i = 0; i < IsEnclosed.Length; i++)
+            {
+                cell.IsTileOn[i] = IsTileOn[i];
+            }
+            return cell;
+        }
     }
 }

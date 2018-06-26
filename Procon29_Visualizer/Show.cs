@@ -11,7 +11,7 @@ namespace Procon29_Visualizer
 {
     class Show
     {
-        private Calc procon29_Calc;
+        private Calc calc;
         private TeamDesign[] teamDesign;
         private PictureBox pictureBox;
         private Logger procon29_Logger;
@@ -24,13 +24,14 @@ namespace Procon29_Visualizer
         private (Team, Agent) selectedTeamAndAgent;
 
         private Bitmap[] agentBitmap;
+        private Bitmap[] fairyBitmap;
 
         public AgentActivityData[,] agentActivityData = new AgentActivityData[2, 2];
 
         /// <summary>
         /// 描画する対象となるProcon29_Calcを設定または取得します。
         /// </summary>
-        internal Calc Procon29_Calc { get => procon29_Calc; set => procon29_Calc = value; }
+        internal Calc Calc { get => calc; set => calc = value; }
 
         /// <summary>
         /// 描画するときの色を設定または取得します。
@@ -88,13 +89,18 @@ namespace Procon29_Visualizer
         public Bitmap[] AgentBitmap { get => agentBitmap; set => agentBitmap = value; }
 
         /// <summary>
+        /// フルーツフェアリーの画像を設定または取得します。
+        /// </summary>
+        public Bitmap[] FairyBitmap { get => fairyBitmap; set => fairyBitmap = value; }
+
+        /// <summary>
         /// Procon29_Showの初期化を行います。
         /// </summary>
         /// <param name="procon29_Calc">表示するProcon29_Calc</param>
         /// <param name="teamDesigns">表示するときのチームデザイン</param>
         public Show(Calc procon29_Calc, TeamDesign[] teamDesigns, PictureBox pictureBox)
         {
-            Procon29_Calc = procon29_Calc;
+            Calc = procon29_Calc;
             TeamDesign = teamDesigns;
             PictureBox = pictureBox;
 
@@ -103,14 +109,19 @@ namespace Procon29_Visualizer
 
             //画像ファイルを読み込んで、Imageオブジェクトとして取得する
             AgentBitmap = new Bitmap[2];
-            AgentBitmap[0] = (Bitmap)resource.GetObject("A");
-            AgentBitmap[1] = (Bitmap)resource.GetObject("B");
+            AgentBitmap[0] = (Bitmap)resource.GetObject("Orange");
+            AgentBitmap[1] = (Bitmap)resource.GetObject("Lime");
+            FairyBitmap = new Bitmap[4];
+            FairyBitmap[0] = (Bitmap)resource.GetObject("Strawberry");
+            FairyBitmap[1] = (Bitmap)resource.GetObject("Apple");
+            FairyBitmap[2] = (Bitmap)resource.GetObject("Kiwi");
+            FairyBitmap[3] = (Bitmap)resource.GetObject("Muscat");
 
             foreach (Team team in Enum.GetValues(typeof(Team)))
             {
                 foreach (Agent agent in Enum.GetValues(typeof(Agent)))
                 {
-                    agentActivityData[(int)team, (int)agent] = new AgentActivityData(AgentStatusData.RequestMovement, Procon29_Calc.GetAgentPosition(team, agent));
+                    agentActivityData[(int)team, (int)agent] = new AgentActivityData(AgentStatusData.RequestMovement, Calc.GetAgentPosition(team, agent));
                 }
             }
         }
@@ -123,7 +134,7 @@ namespace Procon29_Visualizer
         /// <param name="pictureBox">表示する場所</param>
         public Show(Calc procon29_Calc, TeamDesign[] teamDesigns, PictureBox pictureBox, Logger procon29_Logger)
         {
-            Procon29_Calc = procon29_Calc;
+            Calc = procon29_Calc;
             TeamDesign = teamDesigns;
             PictureBox = pictureBox;
             Procon29_Logger = procon29_Logger;
@@ -138,16 +149,16 @@ namespace Procon29_Visualizer
         /// <returns></returns>
         public Bitmap MakePictureBox(PictureBox pictureBox, Bitmap canvas, Graphics graphics)
         {
-            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Field.Width();
-            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.Field.Height();
+            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Calc.Field.Width();
+            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Calc.Field.Height();
 
             PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 2.0f);
-            for (int x = 0; x < Procon29_Calc.Field.Width(); x++)
+            for (int x = 0; x < Calc.Field.Width(); x++)
             {
-                for (int y = 0; y < Procon29_Calc.Field.Height(); y++)
+                for (int y = 0; y < Calc.Field.Height(); y++)
                 {
                     //背景色の表示
-                    if (!Procon29_Calc.Field[x, y].IsTileOn[(int)Team.A] && !Procon29_Calc.Field[x, y].IsTileOn[(int)Team.B])
+                    if (!Calc.Field[x, y].IsTileOn[(int)Team.A] && !Calc.Field[x, y].IsTileOn[(int)Team.B])
                         graphics.FillRectangle(
                         brush: BackGroundSolidBrush,
                         x: x * fieldWidth,
@@ -155,7 +166,7 @@ namespace Procon29_Visualizer
                         width: fieldWidth,
                         height: fieldHeight);
                     //囲み領域の表示
-                    if (Procon29_Calc.Field[x, y].IsEnclosed[(int)Team.A] && Procon29_Calc.Field[x, y].IsEnclosed[(int)Team.B])
+                    if (Calc.Field[x, y].IsEnclosed[(int)Team.A] && Calc.Field[x, y].IsEnclosed[(int)Team.B])
                     {
                         graphics.FillRectangle(
                             brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[1].AgentColor),
@@ -170,14 +181,14 @@ namespace Procon29_Visualizer
                             width: fieldWidth / 2,
                             height: fieldHeight);
                     }
-                    else if (Procon29_Calc.Field[x, y].IsEnclosed[(int)Team.A])
+                    else if (Calc.Field[x, y].IsEnclosed[(int)Team.A])
                         graphics.FillRectangle(
                             brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[0].AgentColor),
                             x: x * fieldWidth,
                             y: y * fieldHeight,
                             width: fieldWidth,
                             height: fieldHeight);
-                    else if (Procon29_Calc.Field[x, y].IsEnclosed[(int)Team.B])
+                    else if (Calc.Field[x, y].IsEnclosed[(int)Team.B])
                         graphics.FillRectangle(
                             brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[1].AgentColor),
                             x: x * fieldWidth,
@@ -187,7 +198,7 @@ namespace Procon29_Visualizer
                     // タイルの色表示
                     for (int i = 0; i < 2; i++)
                     {
-                        if (Procon29_Calc.Field[x, y].IsTileOn[i])
+                        if (Calc.Field[x, y].IsTileOn[i])
                             graphics.FillRectangle(
                             brush: new SolidBrush(TeamDesign[i].AgentColor),
                             x: x * fieldWidth,
@@ -202,28 +213,18 @@ namespace Procon29_Visualizer
                         y: y * fieldHeight,
                         width: fieldWidth,
                         height: fieldHeight);
-                    // 得点表示
+                    // 得点表示                    
+                    string points;
+                    if (0 <= Calc.Field[x, y].Point && Calc.Field[x, y].Point < 10)
+                        points = " " + Calc.Field[x, y].Point.ToString();
+                    else
+                        points = Calc.Field[x, y].Point.ToString();
                     graphics.DrawString(
-                    s: Procon29_Calc.Field[x, y].Point.ToString(),
+                    s: points,
                     font: PointFont,
                     brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
-                    x: (float)(x + 0.1) * fieldWidth,
-                    y: (float)(y + 0.2) * fieldHeight);
-                }
-            }
-            pointFont.Dispose();
-
-            PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 4.0f);
-            for (int team = 0; team < 2; team++)
-            {
-                for (int agent = 0; agent < 2; agent++)
-                {
-                    graphics.DrawString(
-                        s: Calc.ShortTeamAgentName[team, agent],
-                        font: PointFont,
-                        brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
-                        x: (float)(Procon29_Calc.AgentPosition[team, agent].X + 0.7) * fieldWidth,
-                        y: Procon29_Calc.AgentPosition[team, agent].Y * fieldHeight);
+                    x: (float)(x + ((-10 <= Calc.Field[x, y].Point) ? 0.1 : 0.0)) * fieldWidth,
+                    y: (float)(y + 0.1) * fieldHeight);
                 }
             }
             pointFont.Dispose();
@@ -233,7 +234,7 @@ namespace Procon29_Visualizer
             Point selectedFieldPoint = new Point(
                 x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
                 y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
-            if ((selectedFieldPoint.X < Procon29_Calc.Field.Width()) && (selectedFieldPoint.Y < Procon29_Calc.Field.Height()))
+            if ((selectedFieldPoint.X < Calc.Field.Width()) && (selectedFieldPoint.Y < Calc.Field.Height()))
                 graphics.FillRectangle(
                     brush: SelectSolidBrush,
                     x: selectedFieldPoint.X * fieldWidth,
@@ -247,54 +248,128 @@ namespace Procon29_Visualizer
                 width: fieldWidth,
                 height: fieldHeight);
 
-            //エージェントを女の子にするところ
-            for (int x = 0; x < Procon29_Calc.Field.Width(); x++)
+            //フルーツフェアリーたちの表示
+            for (int team = 0; team < agentActivityData.GetLength(0); team++)
             {
-                for (int y = 0; y < Procon29_Calc.Field.Height(); y++)
+                for (int agent = 0; agent < agentActivityData.GetLength(1); agent++)
                 {
-                    Graphics g = Graphics.FromImage(canvas);
+                    //if (agentActivityData[team, agent] == null) continue;
 
+                    float f = canvas.Height / 12000.0f;
+
+                    var bmp = (Bitmap)FairyBitmap[team * 2 + agent].Clone();
+                    if (agentActivityData[team, agent].Destination.X < Calc.Field.Width() / 2)
+                        bmp.RotateFlip(RotateFlipType.Rotate180FlipY);
+
+                    System.Drawing.Imaging.ColorMatrix cm =
+                        new System.Drawing.Imaging.ColorMatrix
+                        {
+                            //ColorMatrixの行列の値を変更して、アルファ値が0.5に変更されるようにする
+                            Matrix00 = 1,
+                            Matrix11 = 1,
+                            Matrix22 = 1,
+                            Matrix33 = 0.8F,
+                            Matrix44 = 1
+                        };
+
+                    //ImageAttributesオブジェクトの作成
+                    System.Drawing.Imaging.ImageAttributes ia =
+                        new System.Drawing.Imaging.ImageAttributes();
+
+                    //ColorMatrixを設定する
+                    ia.SetColorMatrix(cm);
+
+                    graphics.DrawImage(
+                        image: bmp,
+                        destRect: new Rectangle
+                        {
+                            X = (int)((agentActivityData[team, agent].Destination.X + 0.5f) * fieldWidth),
+                            Y = (int)((agentActivityData[team, agent].Destination.Y + 0.0f) * fieldHeight),
+                            Width = (int)(bmp.Width * f),
+                            Height = (int)(bmp.Height * f)
+                        },
+                        srcX: 0,
+                        srcY: 0,
+                        srcWidth: bmp.Width,
+                        srcHeight: bmp.Height,
+                        srcUnit: GraphicsUnit.Pixel,
+                        imageAttrs: ia);
+                }
+            }
+
+            //エージェントを女の子にするところ
+            for (int team = 0; team < agentActivityData.GetLength(0); team++)
+            {
+                for (int agent = 0; agent < agentActivityData.GetLength(1); agent++)
+                {
                     float f = canvas.Height / 3000.0f;
 
-                    if (Procon29_Calc.AgentPosition[0, 0].X == x && Procon29_Calc.AgentPosition[0, 0].Y == y ||
-                        Procon29_Calc.AgentPosition[0, 1].X == x && Procon29_Calc.AgentPosition[0, 1].Y == y)
-                    {
-                        graphics.DrawImage(
-                            image: AgentBitmap[(int)Team.A],
-                            x: x * fieldWidth,
-                            y: y * fieldHeight - (AgentBitmap[(int)Team.A].Height * f * 0.5f),
-                            width: AgentBitmap[(int)Team.A].Width * f,
-                            height: AgentBitmap[(int)Team.A].Height * f);
-                    }
-                    if (Procon29_Calc.AgentPosition[1, 0].X == x && Procon29_Calc.AgentPosition[1, 0].Y == y ||
-                        Procon29_Calc.AgentPosition[1, 1].X == x && Procon29_Calc.AgentPosition[1, 1].Y == y)
-                    {
-                        graphics.DrawImage(
-                            image: AgentBitmap[(int)Team.B],
-                            x: x * fieldWidth,
-                            y: y * fieldHeight - (AgentBitmap[(int)Team.B].Height * f * 0.5f),
-                            width: AgentBitmap[(int)Team.B].Width * f,
-                            height: AgentBitmap[(int)Team.B].Height * f);
-                    }
+                    var bmp = (Bitmap)AgentBitmap[team].Clone();
+                    if (Calc.AgentPosition[team, agent].X > Calc.Field.Width() / 2)
+                        bmp.RotateFlip(RotateFlipType.Rotate180FlipY);
+
+                    System.Drawing.Imaging.ColorMatrix cm =
+                        new System.Drawing.Imaging.ColorMatrix
+                        {
+                            //ColorMatrixの行列の値を変更して、アルファ値が0.5に変更されるようにする
+                            Matrix00 = 1,
+                            Matrix11 = 1,
+                            Matrix22 = 1,
+                            Matrix33 = 1,
+                            Matrix44 = 1
+                        };
+
+                    // 司令塔の邪魔にならないように、エージェントの真上のマスをマウスが通ったときに、
+                    // フルーツフェアリーたちの魔法で透明になるという設定
+                    if (CursorPosition(PictureBox).X == Calc.AgentPosition[team, agent].X && (
+                        CursorPosition(PictureBox).Y == Calc.AgentPosition[team, agent].Y - 1 ||
+                        CursorPosition(PictureBox).Y == Calc.AgentPosition[team, agent].Y))
+                        cm.Matrix33 = 0.3F;
+
+                    //ImageAttributesオブジェクトの作成
+                    System.Drawing.Imaging.ImageAttributes ia =
+                        new System.Drawing.Imaging.ImageAttributes();
+
+                    //ColorMatrixを設定する
+                    ia.SetColorMatrix(cm);
+
+                    graphics.DrawImage(
+                        image: bmp,
+                        destRect: new Rectangle
+                        {
+                            X = (int)(Calc.AgentPosition[team, agent].X * fieldWidth),
+                            Y = (int)(Calc.AgentPosition[team, agent].Y * fieldHeight - (bmp.Height * f * 0.55f)),
+                            Width = (int)(bmp.Width * f),
+                            Height = (int)(bmp.Height * f)
+                        },
+                        srcX: 0,
+                        srcY: 0,
+                        srcWidth: bmp.Width,
+                        srcHeight: bmp.Height,
+                        srcUnit: GraphicsUnit.Pixel,
+                        imageAttrs: ia);
                 }
             }
 
-            //次のターンで行くところのマークの表示
-            for (int t = 0; t < agentActivityData.GetLength(0); t++)
+            // 短い名前を表示
+            PointFont = new Font(familyName: PointFamilyName, emSize: (fieldHeight <= 0 && fieldWidth <= 0) ? 1 : Math.Min(fieldHeight, fieldWidth) / 4 * 3 / 6.0f);
+            for (int team = 0; team < 2; team++)
             {
-                for (int a = 0; a < agentActivityData.GetLength(1); a++)
+                for (int agent = 0; agent < 2; agent++)
                 {
-                    if (agentActivityData[t, a] != null)
+                    if (!(CursorPosition(PictureBox).X == Calc.AgentPosition[team, agent].X &&
+                          CursorPosition(PictureBox).Y == Calc.AgentPosition[team, agent].Y - 1))
                     {
-                        graphics.FillEllipse(
-                            brush: new SolidBrush(color: Color.RoyalBlue),
-                            x: (agentActivityData[t, a].Destination.X + 0.5f) * fieldWidth,
-                            y: (agentActivityData[t, a].Destination.Y + 0.5f) * fieldHeight,
-                            width: fieldWidth / 4,
-                            height: fieldWidth / 4);
+                        graphics.DrawString(
+                            s: Calc.ShortTeamAgentName[team, agent],
+                            font: PointFont,
+                            brush: new SolidBrush(color: Color.FromArgb(0xCC, Color.White)),
+                            x: (float)(Calc.AgentPosition[team, agent].X + 0.0) * fieldWidth,
+                            y: (float)(Calc.AgentPosition[team, agent].Y + 0.75) * fieldHeight);
                     }
                 }
             }
+            pointFont.Dispose();
 
             return canvas;
         }
@@ -326,8 +401,8 @@ namespace Procon29_Visualizer
         /// <param name="pictureBox">表示するPictureBoxを指定します</param>
         public void ClickedShow(PictureBox pictureBox)
         {
-            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Field.Width();
-            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.Field.Height();
+            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Calc.Field.Width();
+            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Calc.Field.Height();
 
             //描画先とするImageオブジェクトを作成する
             Bitmap canvas = new Bitmap(((pictureBox.Width <= 0) ? 1 : pictureBox.Width), ((pictureBox.Height <= 0) ? 1 : pictureBox.Height));
@@ -340,9 +415,9 @@ namespace Procon29_Visualizer
                 x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
                 y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
 
-            if (Procon29_Calc.IsAgentHereOrInNeighborhood(clickedFieldPoint))
+            if (Calc.IsAgentHereOrInMooreNeighborhood(clickedFieldPoint))
             {
-                if ((clickedFieldPoint.X < Procon29_Calc.Field.Width()) && (clickedFieldPoint.Y < Procon29_Calc.Field.Height()))
+                if ((clickedFieldPoint.X < Calc.Field.Width()) && (clickedFieldPoint.Y < Calc.Field.Height()))
                 {
                     ClickedField = new Point(
                         x: clickedFieldPoint.X,
@@ -354,7 +429,7 @@ namespace Procon29_Visualizer
             {
                 foreach (Agent agent in Enum.GetValues(typeof(Agent)))
                 {
-                    if (ClickedField == Procon29_Calc.AgentPosition[(int)team, (int)agent])
+                    if (ClickedField == Calc.AgentPosition[(int)team, (int)agent])
                     {
                         SelectedTeamAndAgent = (team, agent);
                     }
@@ -376,9 +451,9 @@ namespace Procon29_Visualizer
         /// </summary>
         public void DoubleClickedShow()
         {
-            if (Procon29_Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)((SelectedTeamAndAgent.Item1 == Team.A) ? Team.B : Team.A)])
+            if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)((SelectedTeamAndAgent.Item1 == Team.A) ? Team.B : Team.A)])
                 agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestRemovementOpponentTile;
-            else if (Procon29_Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)SelectedTeamAndAgent.Item1])
+            else if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)SelectedTeamAndAgent.Item1])
             {
                 //メッセージボックスを表示する
                 DialogResult result = MessageBox.Show("タイルを取り除きますか？", "質問", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
@@ -403,9 +478,9 @@ namespace Procon29_Visualizer
 
         public void KeyDownShow()
         {
-            if (Procon29_Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)((SelectedTeamAndAgent.Item1 == Team.A) ? Team.B : Team.A)])
+            if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)((SelectedTeamAndAgent.Item1 == Team.A) ? Team.B : Team.A)])
                 agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestRemovementOpponentTile;
-            else if (Procon29_Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)SelectedTeamAndAgent.Item1])
+            else if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)SelectedTeamAndAgent.Item1])
             {
                 //メッセージボックスを表示する
                 DialogResult result = MessageBox.Show("タイルを取り除きますか？", "質問", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
@@ -433,8 +508,8 @@ namespace Procon29_Visualizer
         /// <returns></returns>
         public Point CursorPosition(PictureBox pictureBox)
         {
-            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Procon29_Calc.Field.Width();
-            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Procon29_Calc.Field.Height();
+            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Calc.Field.Width();
+            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Calc.Field.Height();
             System.Drawing.Point systemCursorPosition = System.Windows.Forms.Cursor.Position;
             System.Drawing.Point pictureBoxCursorPosition = pictureBox.PointToClient(systemCursorPosition);
             return new Point(
