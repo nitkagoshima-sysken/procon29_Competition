@@ -1,4 +1,8 @@
-# Procon29 Visualizer (ver. 4.0)
+# Procon29 Visualizer (ver. 4.1)
+
+## What's new (ver. 4.1)
+
+### エージェントのマスにいてもエージェントが透明になるようにした
 
 ## What's new
 

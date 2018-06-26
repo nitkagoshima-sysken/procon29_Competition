@@ -321,8 +321,9 @@ namespace Procon29_Visualizer
 
                     // 司令塔の邪魔にならないように、エージェントの真上のマスをマウスが通ったときに、
                     // フルーツフェアリーたちの魔法で透明になるという設定
-                    if (CursorPosition(PictureBox).X == Calc.AgentPosition[team, agent].X &&
-                        CursorPosition(PictureBox).Y == Calc.AgentPosition[team, agent].Y - 1)
+                    if (CursorPosition(PictureBox).X == Calc.AgentPosition[team, agent].X && (
+                        CursorPosition(PictureBox).Y == Calc.AgentPosition[team, agent].Y - 1 ||
+                        CursorPosition(PictureBox).Y == Calc.AgentPosition[team, agent].Y))
                         cm.Matrix33 = 0.3F;
 
                     //ImageAttributesオブジェクトの作成
