@@ -341,11 +341,10 @@ namespace Procon29_Visualizer
         {
             if(bot[1]!=null)
             {
-                bot[1].Grasp(calc);
+                bot[1].Grasp(calc.DeepCopy());
                 bot[1].FinalAnswer();
                 show.agentActivityData[1, 0] = bot[1].FinalAnswer()[0];
                 show.agentActivityData[1, 1] = bot[1].FinalAnswer()[1];
-
             }
 
             calc.MoveAgent(show.agentActivityData);

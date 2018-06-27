@@ -18,11 +18,11 @@ namespace Procon29_Visualizer
         /// <summary>
         /// 
         /// </summary>
-        public abstract void Grasp(Calc calc);
+        public abstract void Question(Calc calc);
 
         /// <summary>
         /// 
         /// </summary>
-        public abstract AgentActivityData[] FinalAnswer();
+        public abstract AgentActivityData[] Answer();
     }    
 }

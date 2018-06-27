@@ -18,7 +18,7 @@ namespace TegetegeBot
         /// 
         /// </summary>
         /// <param name="calc"></param>
-        public override void Grasp(Calc calc)
+        public override void Question(Calc calc)
         {
             return;
         }
@@ -27,7 +27,7 @@ namespace TegetegeBot
         /// 
         /// </summary>
         /// <returns></returns>
-        public override AgentActivityData[] FinalAnswer()
+        public override AgentActivityData[] Answer()
         {
             var result = new AgentActivityData[2];
             result[0] = new AgentActivityData(AgentStatusData.RequestMovement, new Point(0, 0));
