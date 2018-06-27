@@ -13,6 +13,10 @@ namespace Procon29_Visualizer
         /// </summary>
         NotDoneAnything,
         /// <summary>
+        /// その場でとどまり、何もしないことを要請します
+        /// </summary>
+        RequestNotToDoAnything,
+        /// <summary>
         /// 移動を要請する
         /// </summary>
         RequestMovement,
@@ -28,6 +32,10 @@ namespace Procon29_Visualizer
         /// 自分にエージェントを行動させる権限ないため、リクエストを禁止されています
         /// </summary>
         RequestForbidden,
+        /// <summary>
+        /// その場でとどまり、何もしないことに成功しました
+        /// </summary>
+        SucceededNotToDoAnything,
         /// <summary>
         /// 移動に成功し、タイルを置きました
         /// </summary>
@@ -89,6 +97,30 @@ namespace Procon29_Visualizer
         /// </summary>
         FailedInRemovingOpponentTileByTryingAgentToJump,
         /// <summary>
+        /// 自分自身とコリジョンが発生し、移動に失敗しました
+        /// </summary>
+        YouHadCollisionsWithYourselfAndYouFailedToMoveBecauseYouAreThereAlready,
+        /// <summary>
+        /// 取り除くタイルの上に自分がいるため、タイルを取り除くことに失敗しました
+        /// </summary>
+        YouHadCollisionsWithYourselfAndYouFailedToRemoveTilesFromYourTeamBecauseYouAreThere,
+        /// <summary>
+        /// 動かない自分のチームとコリジョンが発生し、移動に失敗しました
+        /// </summary>
+        FailedInMovingByCollisionWithTheLazyOurTeam,
+        /// <summary>
+        /// 動かない自分のチームとコリジョンが発生し、自分のチームからタイルを取り除くことに失敗しました
+        /// </summary>
+        FailedInRemovingOurTileWithTheLazyOurTeam,
+        /// <summary>
+        /// 動かない相手のチームとコリジョンが発生し、移動に失敗しました
+        /// </summary>
+        FailedInMovingByCollisionWithTheLazyOpponent,
+        /// <summary>
+        /// 動かない相手のチームとコリジョンが発生し、相手のチームからタイルを取り除くことに失敗しました
+        /// </summary>
+        FailedInRemovingOpponentTileWithTheLazyOpponent,
+        /// <summary>
         /// 取り除くタイルが存在しないため、自分のチームからタイルを取り除くことに失敗しました
         /// </summary>
         FailedInRemovingOurTileByDoingTileNotExist,
@@ -108,6 +140,10 @@ namespace Procon29_Visualizer
         /// 不明なエラーによって、相手のチームからタイルを取り除くことに失敗しました
         /// </summary>
         FailedInRemovingOpponentTileByUnkownError,
+        /// <summary>
+        /// ティーポットでコーヒーを淹れようとしたため、エラーが発生しました
+        /// </summary>
+        ImATeaPot = 418,
     }
 
     /// <summary>
@@ -242,6 +278,7 @@ namespace Procon29_Visualizer
         /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
         /// <returns>状態がリクエストなら真、そうでなければ偽</returns>
         public static bool IsRequest(this AgentStatusData agentStatusData) =>
+            agentStatusData == AgentStatusData.RequestNotToDoAnything ||
             agentStatusData == AgentStatusData.RequestMovement ||
             agentStatusData == AgentStatusData.RequestRemovementOpponentTile ||
             agentStatusData == AgentStatusData.RequestRemovementOurTile;
@@ -252,6 +289,7 @@ namespace Procon29_Visualizer
         /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
         /// <returns>状態が成功なら真、そうでなければ偽</returns>
         public static bool IsSucceeded(this AgentStatusData agentStatusData) =>
+            agentStatusData == AgentStatusData.SucceededNotToDoAnything ||
             agentStatusData == AgentStatusData.SucceededInMoving ||
             agentStatusData == AgentStatusData.SucceededInRemoveingOpponentTile ||
             agentStatusData == AgentStatusData.SucceededInRemoveingOurTile;
@@ -262,15 +300,37 @@ namespace Procon29_Visualizer
         /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
         /// <returns>状態が失敗なら真、そうでなければ偽</returns>
         public static bool IsFailed(this AgentStatusData agentStatusData) =>
-            agentStatusData == AgentStatusData.FailedInMovingByCollisionWithEachOther ||
-            agentStatusData == AgentStatusData.FailedInRemovingOpponentTileByCollisionWithEachOther ||
-            agentStatusData == AgentStatusData.FailedInRemovingOurTileByCollisionWithEachOther;
+            !(agentStatusData.IsRequest() || agentStatusData.IsSucceeded() ||
+            agentStatusData == AgentStatusData.NotDoneAnything ||
+            agentStatusData == AgentStatusData.RequestForbidden);
 
         /// <summary>
-        /// リクエストが失敗したとして処理します
+        /// リクエストが自分のチームとコリジョンが発生し、失敗したとして処理します
         /// </summary>
         /// <param name="agentActivityData">対象となるエージェントの行動データ</param>
-        public static void ToFail(this AgentActivityData agentActivityData)
+        public static void ToFailBySelfCollision(this AgentActivityData agentActivityData)
+        {
+            switch (agentActivityData.AgentStatusData)
+            {
+                case AgentStatusData.RequestMovement:
+                    agentActivityData.AgentStatusData = AgentStatusData.FailedInMovingBySelfCollision;
+                    return;
+                case AgentStatusData.RequestRemovementOurTile:
+                    agentActivityData.AgentStatusData = AgentStatusData.FailedInRemovingOurTileBySelfCollision;
+                    return;
+                case AgentStatusData.RequestRemovementOpponentTile:
+                    agentActivityData.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileBySelfCollision;
+                    return;
+                default:
+                    return;
+            }
+        }
+
+        /// <summary>
+        /// リクエストが相手のチームとコリジョンが発生し、失敗したとして処理します
+        /// </summary>
+        /// <param name="agentActivityData">対象となるエージェントの行動データ</param>
+        public static void ToFailByCollisionWithEachOther(this AgentActivityData agentActivityData)
         {
             switch (agentActivityData.AgentStatusData)
             {
@@ -288,6 +348,37 @@ namespace Procon29_Visualizer
             }
         }
 
+        public static void ToFailByCollisionWithTheLazyOurTeam(this AgentActivityData agentActivityData)
+        {
+            switch (agentActivityData.AgentStatusData)
+            {
+                case AgentStatusData.RequestMovement:
+                    agentActivityData.AgentStatusData = AgentStatusData.FailedInMovingByCollisionWithTheLazyOurTeam;
+                    return;
+                case AgentStatusData.RequestRemovementOurTile:
+                    agentActivityData.AgentStatusData = AgentStatusData.FailedInRemovingOurTileWithTheLazyOurTeam;
+                    return;
+                default:
+                    return;
+            }
+        }
+
+        public static void ToFailByCollisionWithTheLazyOpponent(this AgentActivityData agentActivityData)
+        {
+            switch (agentActivityData.AgentStatusData)
+            {
+                case AgentStatusData.RequestMovement:
+                    agentActivityData.AgentStatusData = AgentStatusData.FailedInMovingByCollisionWithTheLazyOpponent;
+                    return;
+                case AgentStatusData.RequestRemovementOpponentTile:
+                    agentActivityData.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileWithTheLazyOpponent;
+                    return;
+                default:
+                    return;
+            }
+        }
+
+
         /// <summary>
         /// リクエストが成功したとして処理します
         /// </summary>
@@ -296,6 +387,9 @@ namespace Procon29_Visualizer
         {
             switch (agentActivityData.AgentStatusData)
             {
+                case AgentStatusData.NotDoneAnything:
+                    agentActivityData.AgentStatusData = AgentStatusData.SucceededNotToDoAnything;
+                    return;
                 case AgentStatusData.RequestMovement:
                     agentActivityData.AgentStatusData = AgentStatusData.SucceededInMoving;
                     return;
@@ -316,17 +410,27 @@ namespace Procon29_Visualizer
             {
                 foreach (Agent agent in Enum.GetValues(typeof(Agent)))
                 {
-                    if (agentActivityData[(int)team, (int)agent].AgentStatusData.IsRequest())
+                    var item = agentActivityData[(int)team, (int)agent];
+                    if (item.AgentStatusData.IsRequest())
                     {
                         foreach (Team otherteam in Enum.GetValues(typeof(Team)))
                         {
                             foreach (Agent otheragent in Enum.GetValues(typeof(Agent)))
                             {
                                 if (team == otherteam && agent == otheragent) continue;
-                                if (agentActivityData[(int)team, (int)agent].Destination == agentActivityData[(int)otherteam, (int)otheragent].Destination)
+                                var otheritem = agentActivityData[(int)otherteam, (int)otheragent];
+                                if (item.Destination == otheritem.Destination)
                                 {
-                                    agentActivityData[(int)team, (int)agent].ToFail();
-                                    agentActivityData[(int)otherteam, (int)otheragent].ToFail();
+                                    if (team == otherteam)
+                                    {
+                                        item.ToFailBySelfCollision();
+                                        otheritem.ToFailBySelfCollision();
+                                    }
+                                    else
+                                    {
+                                        item.ToFailByCollisionWithEachOther();
+                                        otheritem.ToFailByCollisionWithEachOther();
+                                    }
                                 }
                             }
                         }

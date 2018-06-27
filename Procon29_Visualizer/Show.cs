@@ -294,60 +294,75 @@ namespace Procon29_Visualizer
                         srcHeight: bmp.Height,
                         srcUnit: GraphicsUnit.Pixel,
                         imageAttrs: ia);
+
+                    ia.Dispose();
+                    bmp.Dispose();
                 }
             }
 
             //エージェントを女の子にするところ
-            for (int team = 0; team < agentActivityData.GetLength(0); team++)
+            for (int x = 0; x < calc.Field.Width(); x++)
             {
-                for (int agent = 0; agent < agentActivityData.GetLength(1); agent++)
+                for (int y = 0; y < calc.Field.Height(); y++)
                 {
-                    float f = canvas.Height / 3000.0f;
-
-                    var bmp = (Bitmap)AgentBitmap[team].Clone();
-                    if (Calc.AgentPosition[team, agent].X > Calc.Field.Width() / 2)
-                        bmp.RotateFlip(RotateFlipType.Rotate180FlipY);
-
-                    System.Drawing.Imaging.ColorMatrix cm =
-                        new System.Drawing.Imaging.ColorMatrix
+                    for (int team = 0; team < agentActivityData.GetLength(0); team++)
+                    {
+                        for (int agent = 0; agent < agentActivityData.GetLength(1); agent++)
                         {
-                            //ColorMatrixの行列の値を変更して、アルファ値が0.5に変更されるようにする
-                            Matrix00 = 1,
-                            Matrix11 = 1,
-                            Matrix22 = 1,
-                            Matrix33 = 1,
-                            Matrix44 = 1
-                        };
+                            if (x == calc.AgentPosition[team, agent].X && y == calc.AgentPosition[team, agent].Y)
+                            {
+                                float f = canvas.Height / 3000.0f;
 
-                    // 司令塔の邪魔にならないように、エージェントの真上のマスをマウスが通ったときに、
-                    // フルーツフェアリーたちの魔法で透明になるという設定
-                    if (CursorPosition(PictureBox).X == Calc.AgentPosition[team, agent].X && (
-                        CursorPosition(PictureBox).Y == Calc.AgentPosition[team, agent].Y - 1 ||
-                        CursorPosition(PictureBox).Y == Calc.AgentPosition[team, agent].Y))
-                        cm.Matrix33 = 0.3F;
+                                var bmp = (Bitmap)AgentBitmap[team].Clone();
+                                if (Calc.AgentPosition[team, agent].X > Calc.Field.Width() / 2)
+                                    bmp.RotateFlip(RotateFlipType.Rotate180FlipY);
 
-                    //ImageAttributesオブジェクトの作成
-                    System.Drawing.Imaging.ImageAttributes ia =
-                        new System.Drawing.Imaging.ImageAttributes();
+                                System.Drawing.Imaging.ColorMatrix cm =
+                                    new System.Drawing.Imaging.ColorMatrix
+                                    {
+                                        //ColorMatrixの行列の値を変更して、アルファ値が0.5に変更されるようにする
+                                        Matrix00 = 1,
+                                        Matrix11 = 1,
+                                        Matrix22 = 1,
+                                        Matrix33 = 1,
+                                        Matrix44 = 1
+                                    };
 
-                    //ColorMatrixを設定する
-                    ia.SetColorMatrix(cm);
+                                // 司令塔の邪魔にならないように、エージェントの真上のマスをマウスが通ったときに、
+                                // フルーツフェアリーたちの魔法で透明になるという設定
+                                if (CursorPosition(PictureBox).X == Calc.AgentPosition[team, agent].X && (
+                                    CursorPosition(PictureBox).Y == Calc.AgentPosition[team, agent].Y - 1 ||
+                                    CursorPosition(PictureBox).Y == Calc.AgentPosition[team, agent].Y))
+                                    cm.Matrix33 = 0.3F;
 
-                    graphics.DrawImage(
-                        image: bmp,
-                        destRect: new Rectangle
-                        {
-                            X = (int)(Calc.AgentPosition[team, agent].X * fieldWidth),
-                            Y = (int)(Calc.AgentPosition[team, agent].Y * fieldHeight - (bmp.Height * f * 0.55f)),
-                            Width = (int)(bmp.Width * f),
-                            Height = (int)(bmp.Height * f)
-                        },
-                        srcX: 0,
-                        srcY: 0,
-                        srcWidth: bmp.Width,
-                        srcHeight: bmp.Height,
-                        srcUnit: GraphicsUnit.Pixel,
-                        imageAttrs: ia);
+                                //ImageAttributesオブジェクトの作成
+                                System.Drawing.Imaging.ImageAttributes ia =
+                                    new System.Drawing.Imaging.ImageAttributes();
+
+                                //ColorMatrixを設定する
+                                ia.SetColorMatrix(cm);
+
+                                graphics.DrawImage(
+                                    image: bmp,
+                                    destRect: new Rectangle
+                                    {
+                                        X = (int)(Calc.AgentPosition[team, agent].X * fieldWidth),
+                                        Y = (int)(Calc.AgentPosition[team, agent].Y * fieldHeight - (bmp.Height * f * 0.55f)),
+                                        Width = (int)(bmp.Width * f),
+                                        Height = (int)(bmp.Height * f)
+                                    },
+                                    srcX: 0,
+                                    srcY: 0,
+                                    srcWidth: bmp.Width,
+                                    srcHeight: bmp.Height,
+                                    srcUnit: GraphicsUnit.Pixel,
+                                    imageAttrs: ia);
+                                
+                                ia.Dispose();
+                                bmp.Dispose();
+                            }
+                        }
+                    }
                 }
             }
 

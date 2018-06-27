@@ -163,6 +163,29 @@ namespace Procon29_Visualizer
         }
 
         /// <summary>
+        /// Procon29_Calcを初期化します。
+        /// </summary>
+        /// <param name="field">フィールドのポイントを設定します。</param>
+        /// <param name="initPosition">エージェントの初期位置を設定します。</param>
+        public Calc(Cell[,] field, Point[] initPosition)
+        {
+            // Turn -> 0
+            Turn = 0;
+            // TurnData作成
+            FieldHistory.Add(new TurnData(field, new Point[TeamArray.Length, AgentArray.Length]));
+
+            foreach (Agent agent in AgentArray)
+            {
+                AgentPosition[0, (int)agent] = initPosition[(int)agent];
+                PutTile(team: 0, agent: agent);
+            }
+            ComplementEnemysPosition();
+
+            // Turn -> 1
+            TurnEnd();
+        }
+
+        /// <summary>
         /// QRコードには自分のチームの位置情報しか分からないため、
         /// 敵の位置情報を自分の位置から補完します。
         /// </summary>
@@ -549,19 +572,25 @@ namespace Procon29_Visualizer
             {
                 for (int agent = 0; agent < AgentArray.Length; agent++)
                 {
-                    a[team,agent]= new Point(AgentPosition[team,agent].X, AgentPosition[team, agent].Y);
+                    a[team, agent] = new Point(AgentPosition[team, agent].X, AgentPosition[team, agent].Y);
                 }
             }
             FieldHistory.Add(new TurnData((Cell[,])Field.DeepCopy(), a));
             Turn++;
         }
 
+        /// <summary>
+        /// ターンを元に戻します
+        /// </summary>
         public void Undo()
         {
             if (Turn == 1) return;
             Turn--;
         }
 
+        /// <summary>
+        /// ターンをやり直します
+        /// </summary>
         public void Redo()
         {
             if (Turn == FieldHistory.Count - 1) return;
@@ -631,6 +660,134 @@ namespace Procon29_Visualizer
             }
         }
 
+        void CheckAgentActivityData(AgentActivityData[,] agentActivityData)
+        {
+            foreach (int team in TeamArray)
+            {
+                foreach (int agent in AgentArray)
+                {
+                    var item = agentActivityData[team, agent];
+                    // 何もしないのは、無条件で成功する(1)
+                    // SucceededNotToDoAnything
+                    if (item.AgentStatusData == AgentStatusData.RequestNotToDoAnything)
+                    {
+                        item.ToSuccess();
+                        continue;
+                    }
+                    // リクエストの禁止や、何も命令がないときは無条件でスキップ(2)
+                    if (item.AgentStatusData == AgentStatusData.NotDoneAnything ||
+                        item.AgentStatusData == AgentStatusData.RequestForbidden)
+                        continue;
+                    // 自分自身の衝突をチェック(2)
+                    // YouHadCollisionsWithYourselfAndYouFailedToMoveBecauseYouAreThereAlready
+                    // YouHadCollisionsWithYourselfAndYouFailedToRemoveTilesFromYourTeam;
+                    if (item.Destination == AgentPosition[team, agent])
+                        switch (item.AgentStatusData)
+                        {
+                            case AgentStatusData.RequestMovement:
+                                item.AgentStatusData = AgentStatusData.YouHadCollisionsWithYourselfAndYouFailedToMoveBecauseYouAreThereAlready;
+                                continue;
+                            case AgentStatusData.RequestRemovementOurTile:
+                                item.AgentStatusData = AgentStatusData.YouHadCollisionsWithYourselfAndYouFailedToRemoveTilesFromYourTeamBecauseYouAreThere;
+                                continue;
+                            default:
+                                break;
+                        }
+                    // 目標部が自分から遠い場所にないかチェック(3)
+                    // FailedInMovingByTryingAgentToJump
+                    // FailedInRemovingOurTileByTryingAgentToJump
+                    // FailedInRemovingOpponentTileByTryingAgentToJump
+                    if (item.Destination.ChebyshevDistance(AgentPosition[team, agent]) != 1)
+                        switch (item.AgentStatusData)
+                        {
+                            case AgentStatusData.RequestMovement:
+                                item.AgentStatusData = AgentStatusData.FailedInMovingByTryingAgentToJump;
+                                continue;
+                            case AgentStatusData.RequestRemovementOurTile:
+                                item.AgentStatusData = AgentStatusData.FailedInRemovingOurTileByTryingAgentToJump;
+                                continue;
+                            case AgentStatusData.RequestRemovementOpponentTile:
+                                item.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileByTryingAgentToJump;
+                                continue;
+                            default:
+                                break;
+                        }
+                    // 目標部がフィールドの外にないかチェック(3)
+                    // FailedInMovingByTryingToGoOutOfTheFieldWithEachOther
+                    // FailedInRemovingOurTileByTryingToGoOutOfTheField
+                    // FailedInRemovingOpponentTileByTryingToGoOutOfTheField
+                    if (item.Destination.X < 0 || Field.Width() <= item.Destination.X ||
+                        item.Destination.Y < 0 || Field.Height() <= item.Destination.Y)
+                        switch (item.AgentStatusData)
+                        {
+                            case AgentStatusData.RequestMovement:
+                                item.AgentStatusData = AgentStatusData.FailedInMovingByTryingToGoOutOfTheFieldWithEachOther;
+                                continue;
+                            case AgentStatusData.RequestRemovementOurTile:
+                                item.AgentStatusData = AgentStatusData.FailedInRemovingOurTileByTryingToGoOutOfTheField;
+                                continue;
+                            case AgentStatusData.RequestRemovementOpponentTile:
+                                item.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileByTryingToGoOutOfTheField;
+                                continue;
+                            default:
+                                break;
+                        }
+                    // 剥がそうとしていたタイルが存在していないかチェック(2)
+                    // FailedInRemovingOurTileByDoingTileNotExist
+                    // FailedInRemovingOpponentTileByDoingTileNotExist
+                    if (item.AgentStatusData == AgentStatusData.RequestRemovementOurTile &&
+                        Field[item.Destination.X, item.Destination.Y].IsTileOn[(team == 0) ? 0 : 1] == false)
+                    {
+                        item.AgentStatusData = AgentStatusData.FailedInRemovingOurTileByDoingTileNotExist;
+                        continue;
+                    }
+                    if (item.AgentStatusData == AgentStatusData.RequestRemovementOpponentTile &&
+                        Field[item.Destination.X, item.Destination.Y].IsTileOn[(team == 0) ? 1 : 0] == false)
+                    {
+                        item.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileByDoingTileNotExist;
+                        continue;
+                    }
+                    // 動かないエージェントに衝突していないかチェック(4)
+                    // FailedInMovingByCollisionWithTheLazyOurTeam
+                    // FailedInRemovingOurTileWithTheLazyOurTeam
+                    // FailedInMovingByCollisionWithTheLazyOpponent
+                    // FailedInRemovingOpponentTileWithTheLazyOpponent
+                    foreach (int otherteam in TeamArray)
+                    {
+                        foreach (int otheragent in AgentArray)
+                        {
+                            if (team == otherteam && agent == otheragent) continue;
+                            var otheritem = AgentPosition[otherteam, otheragent];
+                            if (item.Destination == otheritem)
+                            {
+                                if (team == otherteam)
+                                {
+                                    item.ToFailByCollisionWithTheLazyOurTeam();
+                                }
+                                else
+                                {
+                                    item.ToFailByCollisionWithTheLazyOpponent();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            // 自分または相手のチームと衝突していないかチェック(6)
+            // FailedInMovingBySelfCollision;
+            // FailedInRemovingOurTileBySelfCollision;
+            // FailedInRemovingOpponentTileBySelfCollision;
+            // FailedInMovingByCollisionWithEachOther;
+            // FailedInRemovingOurTileByCollisionWithEachOther;
+            // FailedInRemovingOpponentTileByCollisionWithEachOther;
+            agentActivityData.CheckCollision();
+            // 全チェック後に残ったリクエストは、成功したとみなす(3)
+            foreach (var item in agentActivityData)
+            {
+                item.ToSuccess();
+            }
+        }
+
         /// <summary>
         /// 指定したところにエージェントが移動します。
         /// </summary>
@@ -644,24 +801,31 @@ namespace Procon29_Visualizer
             if (FieldHistory.Count - 1 != Turn)
                 FieldHistory.RemoveRange(Turn + 1, FieldHistory.Count - 1 - Turn);
 
-            TurnEnd();
+            // 不正な動きをしていないかチェック
+            CheckAgentActivityData(agentActivityData);
 
-            //var preAgentPosition = AgentPosition;
-            agentActivityData.CheckCollision();
+            // ターンエンドの処理
+            TurnEnd();
+            // ログを取る
+            FieldHistory[Turn - 1].AgentActivityData[0, 0].AgentStatusData = agentActivityData[0, 0].AgentStatusData;
+            FieldHistory[Turn - 1].AgentActivityData[0, 1].AgentStatusData = agentActivityData[0, 1].AgentStatusData;
+            FieldHistory[Turn - 1].AgentActivityData[1, 0].AgentStatusData = agentActivityData[1, 0].AgentStatusData;
+            FieldHistory[Turn - 1].AgentActivityData[1, 1].AgentStatusData = agentActivityData[1, 1].AgentStatusData;
+
             foreach (Team team in TeamArray)
             {
                 foreach (Agent agent in AgentArray)
                 {
                     switch (agentActivityData[(int)team, (int)agent].AgentStatusData)
                     {
-                        case AgentStatusData.RequestMovement:
+                        case AgentStatusData.SucceededInMoving:
                             AgentPosition[(int)team, (int)agent] = agentActivityData[(int)team, (int)agent].Destination;
                             PutTile(team: team, agent: agent);
                             break;
-                        case AgentStatusData.RequestRemovementOurTile:
+                        case AgentStatusData.SucceededInRemoveingOurTile:
                             RemoveTile(agentActivityData[(int)team, (int)agent].Destination);
                             break;
-                        case AgentStatusData.RequestRemovementOpponentTile:
+                        case AgentStatusData.SucceededInRemoveingOpponentTile:
                             RemoveTile(agentActivityData[(int)team, (int)agent].Destination);
                             break;
                         default:
@@ -671,6 +835,15 @@ namespace Procon29_Visualizer
                 }
             }
             CheckEnclosedArea();
+        }
+
+        /// <summary>
+        /// 現在のobjectのディープコピーを行います。
+        /// </summary>
+        /// <returns>objectのディープコピー</returns>
+        public object DeepCopy()
+        {
+            return new Calc((Cell[,])Field.DeepCopy(), new Point[] { AgentPosition[0, 0], AgentPosition[0, 1] });
         }
     }
 }

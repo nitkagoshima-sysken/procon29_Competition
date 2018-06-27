@@ -114,7 +114,7 @@ namespace Procon29_Visualizer
             // 最後にイベントが実行された時刻から何ミリ秒たったかを計算し、それが1ミリ秒以上だった場合は、画面を更新する。
             // こうすることによって、イベントの渋滞を防ぐ。
             var delta = DateTime.Now - time;
-            if (delta.TotalMilliseconds >= 1.0)
+            if (delta.TotalMilliseconds >= 5.0)
             {
                 show.Showing(FieldDisplay);
                 // フィールド内にいるときは、フィールドの情報を表示する。
@@ -341,14 +341,19 @@ namespace Procon29_Visualizer
         {
             if(bot[1]!=null)
             {
-                bot[1].Grasp(calc);
+                bot[1].Grasp(calc.DeepCopy());
                 bot[1].FinalAnswer();
                 show.agentActivityData[1, 0] = bot[1].FinalAnswer()[0];
                 show.agentActivityData[1, 1] = bot[1].FinalAnswer()[1];
-
             }
 
             calc.MoveAgent(show.agentActivityData);
+
+            foreach (var item in show.agentActivityData)
+            {
+                item.AgentStatusData = AgentStatusData.NotDoneAnything;
+            }
+
             show.Showing(FieldDisplay);
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Area Point: " + calc.AreaPoint(Team.A).ToString());
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.A).ToString());

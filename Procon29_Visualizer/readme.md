@@ -1,4 +1,14 @@
-# Procon29 Visualizer (ver. 4.1)
+# Procon29 Visualizer (ver. 4.2)
+
+## What's new (ver. 4.2)
+
+### 描画の順番を変更した
+
+### マスカットの妖精が綺麗になった
+
+### ボットに対応するための準備をした
+
+その他、細かな修正
 
 ## What's new (ver. 4.1)
 
