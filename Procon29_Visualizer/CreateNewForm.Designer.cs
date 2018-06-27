@@ -31,6 +31,8 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.TopLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.SelectBotButton0 = new System.Windows.Forms.Button();
+            this.SelectBotButton1 = new System.Windows.Forms.Button();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
@@ -43,6 +45,8 @@
             this.Team0Agent1Label = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
+            this.IsTeam1HumanCheckBox = new System.Windows.Forms.CheckBox();
+            this.IsTeam0HumanCheckBox = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.UsedFieldLabel = new System.Windows.Forms.Label();
             this.BattleNameLabel = new System.Windows.Forms.Label();
@@ -55,10 +59,6 @@
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.CancelButton = new System.Windows.Forms.Button();
             this.OKButton = new System.Windows.Forms.Button();
-            this.IsTeam1HumanCheckBox = new System.Windows.Forms.CheckBox();
-            this.IsTeam0HumanCheckBox = new System.Windows.Forms.CheckBox();
-            this.SelectBotButton1 = new System.Windows.Forms.Button();
-            this.SelectBotButton0 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -130,6 +130,40 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(769, 130);
             this.tableLayoutPanel2.TabIndex = 1;
+            // 
+            // SelectBotButton0
+            // 
+            this.SelectBotButton0.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SelectBotButton0.BackColor = System.Drawing.Color.DimGray;
+            this.SelectBotButton0.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.SelectBotButton0.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.SelectBotButton0.ForeColor = System.Drawing.Color.LightGray;
+            this.SelectBotButton0.Location = new System.Drawing.Point(579, 99);
+            this.SelectBotButton0.Name = "SelectBotButton0";
+            this.SelectBotButton0.Size = new System.Drawing.Size(187, 28);
+            this.SelectBotButton0.TabIndex = 15;
+            this.SelectBotButton0.Text = "Botを選択";
+            this.SelectBotButton0.UseVisualStyleBackColor = false;
+            this.SelectBotButton0.Click += new System.EventHandler(this.SelectBotButton0_Click);
+            // 
+            // SelectBotButton1
+            // 
+            this.SelectBotButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SelectBotButton1.BackColor = System.Drawing.Color.DimGray;
+            this.SelectBotButton1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.SelectBotButton1.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.SelectBotButton1.ForeColor = System.Drawing.Color.LightGray;
+            this.SelectBotButton1.Location = new System.Drawing.Point(195, 99);
+            this.SelectBotButton1.Name = "SelectBotButton1";
+            this.SelectBotButton1.Size = new System.Drawing.Size(186, 28);
+            this.SelectBotButton1.TabIndex = 14;
+            this.SelectBotButton1.Text = "Botを選択";
+            this.SelectBotButton1.UseVisualStyleBackColor = false;
+            this.SelectBotButton1.Click += new System.EventHandler(this.SelectBotButton1_Click);
             // 
             // textBox8
             // 
@@ -310,6 +344,36 @@
             this.textBox6.TabIndex = 9;
             this.textBox6.Text = "Muscat";
             this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // IsTeam1HumanCheckBox
+            // 
+            this.IsTeam1HumanCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.IsTeam1HumanCheckBox.AutoSize = true;
+            this.IsTeam1HumanCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.IsTeam1HumanCheckBox.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.IsTeam1HumanCheckBox.ForeColor = System.Drawing.Color.LightGray;
+            this.IsTeam1HumanCheckBox.Location = new System.Drawing.Point(14, 99);
+            this.IsTeam1HumanCheckBox.Name = "IsTeam1HumanCheckBox";
+            this.IsTeam1HumanCheckBox.Size = new System.Drawing.Size(175, 28);
+            this.IsTeam1HumanCheckBox.TabIndex = 12;
+            this.IsTeam1HumanCheckBox.Text = "対戦相手は人間";
+            this.IsTeam1HumanCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // IsTeam0HumanCheckBox
+            // 
+            this.IsTeam0HumanCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.IsTeam0HumanCheckBox.AutoSize = true;
+            this.IsTeam0HumanCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.IsTeam0HumanCheckBox.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.IsTeam0HumanCheckBox.ForeColor = System.Drawing.Color.LightGray;
+            this.IsTeam0HumanCheckBox.Location = new System.Drawing.Point(398, 99);
+            this.IsTeam0HumanCheckBox.Name = "IsTeam0HumanCheckBox";
+            this.IsTeam0HumanCheckBox.Size = new System.Drawing.Size(175, 28);
+            this.IsTeam0HumanCheckBox.TabIndex = 13;
+            this.IsTeam0HumanCheckBox.Text = "対戦相手は人間";
+            this.IsTeam0HumanCheckBox.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel3
             // 
@@ -503,70 +567,6 @@
             this.OKButton.Text = "はじめる";
             this.OKButton.UseVisualStyleBackColor = false;
             this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
-            // 
-            // IsTeam1HumanCheckBox
-            // 
-            this.IsTeam1HumanCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.IsTeam1HumanCheckBox.AutoSize = true;
-            this.IsTeam1HumanCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.IsTeam1HumanCheckBox.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.IsTeam1HumanCheckBox.ForeColor = System.Drawing.Color.LightGray;
-            this.IsTeam1HumanCheckBox.Location = new System.Drawing.Point(14, 99);
-            this.IsTeam1HumanCheckBox.Name = "IsTeam1HumanCheckBox";
-            this.IsTeam1HumanCheckBox.Size = new System.Drawing.Size(175, 28);
-            this.IsTeam1HumanCheckBox.TabIndex = 12;
-            this.IsTeam1HumanCheckBox.Text = "対戦相手は人間";
-            this.IsTeam1HumanCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // IsTeam0HumanCheckBox
-            // 
-            this.IsTeam0HumanCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.IsTeam0HumanCheckBox.AutoSize = true;
-            this.IsTeam0HumanCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.IsTeam0HumanCheckBox.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.IsTeam0HumanCheckBox.ForeColor = System.Drawing.Color.LightGray;
-            this.IsTeam0HumanCheckBox.Location = new System.Drawing.Point(398, 99);
-            this.IsTeam0HumanCheckBox.Name = "IsTeam0HumanCheckBox";
-            this.IsTeam0HumanCheckBox.Size = new System.Drawing.Size(175, 28);
-            this.IsTeam0HumanCheckBox.TabIndex = 13;
-            this.IsTeam0HumanCheckBox.Text = "対戦相手は人間";
-            this.IsTeam0HumanCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // SelectBotButton1
-            // 
-            this.SelectBotButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.SelectBotButton1.BackColor = System.Drawing.Color.DimGray;
-            this.SelectBotButton1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.SelectBotButton1.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.SelectBotButton1.ForeColor = System.Drawing.Color.LightGray;
-            this.SelectBotButton1.Location = new System.Drawing.Point(195, 99);
-            this.SelectBotButton1.Name = "SelectBotButton1";
-            this.SelectBotButton1.Size = new System.Drawing.Size(186, 28);
-            this.SelectBotButton1.TabIndex = 14;
-            this.SelectBotButton1.Text = "Botを選択";
-            this.SelectBotButton1.UseVisualStyleBackColor = false;
-            this.SelectBotButton1.Click += new System.EventHandler(this.SelectBotButton1_Click);
-            // 
-            // SelectBotButton0
-            // 
-            this.SelectBotButton0.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.SelectBotButton0.BackColor = System.Drawing.Color.DimGray;
-            this.SelectBotButton0.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.SelectBotButton0.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.SelectBotButton0.ForeColor = System.Drawing.Color.LightGray;
-            this.SelectBotButton0.Location = new System.Drawing.Point(579, 99);
-            this.SelectBotButton0.Name = "SelectBotButton0";
-            this.SelectBotButton0.Size = new System.Drawing.Size(187, 28);
-            this.SelectBotButton0.TabIndex = 15;
-            this.SelectBotButton0.Text = "Botを選択";
-            this.SelectBotButton0.UseVisualStyleBackColor = false;
-            this.SelectBotButton0.Click += new System.EventHandler(this.SelectBotButton0_Click);
             // 
             // CreateNewForm
             // 
