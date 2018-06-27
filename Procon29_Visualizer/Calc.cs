@@ -579,12 +579,18 @@ namespace Procon29_Visualizer
             Turn++;
         }
 
+        /// <summary>
+        /// ターンを元に戻します
+        /// </summary>
         public void Undo()
         {
             if (Turn == 1) return;
             Turn--;
         }
 
+        /// <summary>
+        /// ターンをやり直します
+        /// </summary>
         public void Redo()
         {
             if (Turn == FieldHistory.Count - 1) return;
@@ -795,24 +801,28 @@ namespace Procon29_Visualizer
             if (FieldHistory.Count - 1 != Turn)
                 FieldHistory.RemoveRange(Turn + 1, FieldHistory.Count - 1 - Turn);
 
-            TurnEnd();
+            CheckAgentActivityData(agentActivityData);
 
-            //var preAgentPosition = AgentPosition;
-            agentActivityData.CheckCollision();
+            TurnEnd();
+            FieldHistory[Turn - 1].AgentActivityData[0, 0].AgentStatusData = agentActivityData[0, 0].AgentStatusData;
+            FieldHistory[Turn - 1].AgentActivityData[0, 1].AgentStatusData = agentActivityData[0, 1].AgentStatusData;
+            FieldHistory[Turn - 1].AgentActivityData[1, 0].AgentStatusData = agentActivityData[1, 0].AgentStatusData;
+            FieldHistory[Turn - 1].AgentActivityData[1, 1].AgentStatusData = agentActivityData[1, 1].AgentStatusData;
+
             foreach (Team team in TeamArray)
             {
                 foreach (Agent agent in AgentArray)
                 {
                     switch (agentActivityData[(int)team, (int)agent].AgentStatusData)
                     {
-                        case AgentStatusData.RequestMovement:
+                        case AgentStatusData.SucceededInMoving:
                             AgentPosition[(int)team, (int)agent] = agentActivityData[(int)team, (int)agent].Destination;
                             PutTile(team: team, agent: agent);
                             break;
-                        case AgentStatusData.RequestRemovementOurTile:
+                        case AgentStatusData.SucceededInRemoveingOurTile:
                             RemoveTile(agentActivityData[(int)team, (int)agent].Destination);
                             break;
-                        case AgentStatusData.RequestRemovementOpponentTile:
+                        case AgentStatusData.SucceededInRemoveingOpponentTile:
                             RemoveTile(agentActivityData[(int)team, (int)agent].Destination);
                             break;
                         default:

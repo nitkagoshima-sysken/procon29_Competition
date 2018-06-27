@@ -349,6 +349,12 @@ namespace Procon29_Visualizer
             }
 
             calc.MoveAgent(show.agentActivityData);
+
+            foreach (var item in show.agentActivityData)
+            {
+                item.AgentStatusData = AgentStatusData.NotDoneAnything;
+            }
+
             show.Showing(FieldDisplay);
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Area Point: " + calc.AreaPoint(Team.A).ToString());
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.A).ToString());
