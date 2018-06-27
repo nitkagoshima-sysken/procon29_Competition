@@ -801,9 +801,12 @@ namespace Procon29_Visualizer
             if (FieldHistory.Count - 1 != Turn)
                 FieldHistory.RemoveRange(Turn + 1, FieldHistory.Count - 1 - Turn);
 
+            // 不正な動きをしていないかチェック
             CheckAgentActivityData(agentActivityData);
 
+            // ターンエンドの処理
             TurnEnd();
+            // ログを取る
             FieldHistory[Turn - 1].AgentActivityData[0, 0].AgentStatusData = agentActivityData[0, 0].AgentStatusData;
             FieldHistory[Turn - 1].AgentActivityData[0, 1].AgentStatusData = agentActivityData[0, 1].AgentStatusData;
             FieldHistory[Turn - 1].AgentActivityData[1, 0].AgentStatusData = agentActivityData[1, 0].AgentStatusData;
@@ -832,6 +835,15 @@ namespace Procon29_Visualizer
                 }
             }
             CheckEnclosedArea();
+        }
+
+        /// <summary>
+        /// 現在のobjectのディープコピーを行います。
+        /// </summary>
+        /// <returns>objectのディープコピー</returns>
+        public object DeepCopy()
+        {
+            return new Calc((Cell[,])Field.DeepCopy(), new Point[] { AgentPosition[0, 0], AgentPosition[0, 1] });
         }
     }
 }
