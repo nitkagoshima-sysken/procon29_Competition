@@ -294,6 +294,8 @@ namespace Procon29_Visualizer
                         srcHeight: bmp.Height,
                         srcUnit: GraphicsUnit.Pixel,
                         imageAttrs: ia);
+
+                    ia.Dispose();
                     bmp.Dispose();
                 }
             }
@@ -355,6 +357,8 @@ namespace Procon29_Visualizer
                                     srcHeight: bmp.Height,
                                     srcUnit: GraphicsUnit.Pixel,
                                     imageAttrs: ia);
+                                
+                                ia.Dispose();
                                 bmp.Dispose();
                             }
                         }
