@@ -163,6 +163,29 @@ namespace Procon29_Visualizer
         }
 
         /// <summary>
+        /// Procon29_Calcを初期化します。
+        /// </summary>
+        /// <param name="field">フィールドのポイントを設定します。</param>
+        /// <param name="initPosition">エージェントの初期位置を設定します。</param>
+        public Calc(Cell[,] field, Point[] initPosition)
+        {
+            // Turn -> 0
+            Turn = 0;
+            // TurnData作成
+            FieldHistory.Add(new TurnData(field, new Point[TeamArray.Length, AgentArray.Length]));
+
+            foreach (Agent agent in AgentArray)
+            {
+                AgentPosition[0, (int)agent] = initPosition[(int)agent];
+                PutTile(team: 0, agent: agent);
+            }
+            ComplementEnemysPosition();
+
+            // Turn -> 1
+            TurnEnd();
+        }
+
+        /// <summary>
         /// QRコードには自分のチームの位置情報しか分からないため、
         /// 敵の位置情報を自分の位置から補完します。
         /// </summary>
@@ -549,7 +572,7 @@ namespace Procon29_Visualizer
             {
                 for (int agent = 0; agent < AgentArray.Length; agent++)
                 {
-                    a[team,agent]= new Point(AgentPosition[team,agent].X, AgentPosition[team, agent].Y);
+                    a[team, agent] = new Point(AgentPosition[team, agent].X, AgentPosition[team, agent].Y);
                 }
             }
             FieldHistory.Add(new TurnData((Cell[,])Field.DeepCopy(), a));
@@ -628,6 +651,134 @@ namespace Procon29_Visualizer
             {
                 if (item.IsTileOn[0]) item.IsEnclosed[0] = false;
                 if (item.IsTileOn[1]) item.IsEnclosed[1] = false;
+            }
+        }
+
+        void CheckAgentActivityData(AgentActivityData[,] agentActivityData)
+        {
+            foreach (int team in TeamArray)
+            {
+                foreach (int agent in AgentArray)
+                {
+                    var item = agentActivityData[team, agent];
+                    // 何もしないのは、無条件で成功する(1)
+                    // SucceededNotToDoAnything
+                    if (item.AgentStatusData == AgentStatusData.RequestNotToDoAnything)
+                    {
+                        item.ToSuccess();
+                        continue;
+                    }
+                    // リクエストの禁止や、何も命令がないときは無条件でスキップ(2)
+                    if (item.AgentStatusData == AgentStatusData.NotDoneAnything ||
+                        item.AgentStatusData == AgentStatusData.RequestForbidden)
+                        continue;
+                    // 自分自身の衝突をチェック(2)
+                    // YouHadCollisionsWithYourselfAndYouFailedToMoveBecauseYouAreThereAlready
+                    // YouHadCollisionsWithYourselfAndYouFailedToRemoveTilesFromYourTeam;
+                    if (item.Destination == AgentPosition[team, agent])
+                        switch (item.AgentStatusData)
+                        {
+                            case AgentStatusData.RequestMovement:
+                                item.AgentStatusData = AgentStatusData.YouHadCollisionsWithYourselfAndYouFailedToMoveBecauseYouAreThereAlready;
+                                continue;
+                            case AgentStatusData.RequestRemovementOurTile:
+                                item.AgentStatusData = AgentStatusData.YouHadCollisionsWithYourselfAndYouFailedToRemoveTilesFromYourTeamBecauseYouAreThere;
+                                continue;
+                            default:
+                                break;
+                        }
+                    // 目標部が自分から遠い場所にないかチェック(3)
+                    // FailedInMovingByTryingAgentToJump
+                    // FailedInRemovingOurTileByTryingAgentToJump
+                    // FailedInRemovingOpponentTileByTryingAgentToJump
+                    if (item.Destination.ChebyshevDistance(AgentPosition[team, agent]) != 1)
+                        switch (item.AgentStatusData)
+                        {
+                            case AgentStatusData.RequestMovement:
+                                item.AgentStatusData = AgentStatusData.FailedInMovingByTryingAgentToJump;
+                                continue;
+                            case AgentStatusData.RequestRemovementOurTile:
+                                item.AgentStatusData = AgentStatusData.FailedInRemovingOurTileByTryingAgentToJump;
+                                continue;
+                            case AgentStatusData.RequestRemovementOpponentTile:
+                                item.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileByTryingAgentToJump;
+                                continue;
+                            default:
+                                break;
+                        }
+                    // 目標部がフィールドの外にないかチェック(3)
+                    // FailedInMovingByTryingToGoOutOfTheFieldWithEachOther
+                    // FailedInRemovingOurTileByTryingToGoOutOfTheField
+                    // FailedInRemovingOpponentTileByTryingToGoOutOfTheField
+                    if (item.Destination.X < 0 || Field.Width() <= item.Destination.X ||
+                        item.Destination.Y < 0 || Field.Height() <= item.Destination.Y)
+                        switch (item.AgentStatusData)
+                        {
+                            case AgentStatusData.RequestMovement:
+                                item.AgentStatusData = AgentStatusData.FailedInMovingByTryingToGoOutOfTheFieldWithEachOther;
+                                continue;
+                            case AgentStatusData.RequestRemovementOurTile:
+                                item.AgentStatusData = AgentStatusData.FailedInRemovingOurTileByTryingToGoOutOfTheField;
+                                continue;
+                            case AgentStatusData.RequestRemovementOpponentTile:
+                                item.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileByTryingToGoOutOfTheField;
+                                continue;
+                            default:
+                                break;
+                        }
+                    // 剥がそうとしていたタイルが存在していないかチェック(2)
+                    // FailedInRemovingOurTileByDoingTileNotExist
+                    // FailedInRemovingOpponentTileByDoingTileNotExist
+                    if (item.AgentStatusData == AgentStatusData.RequestRemovementOurTile &&
+                        Field[item.Destination.X, item.Destination.Y].IsTileOn[(team == 0) ? 0 : 1] == false)
+                    {
+                        item.AgentStatusData = AgentStatusData.FailedInRemovingOurTileByDoingTileNotExist;
+                        continue;
+                    }
+                    if (item.AgentStatusData == AgentStatusData.RequestRemovementOpponentTile &&
+                        Field[item.Destination.X, item.Destination.Y].IsTileOn[(team == 0) ? 1 : 0] == false)
+                    {
+                        item.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileByDoingTileNotExist;
+                        continue;
+                    }
+                    // 動かないエージェントに衝突していないかチェック(4)
+                    // FailedInMovingByCollisionWithTheLazyOurTeam
+                    // FailedInRemovingOurTileWithTheLazyOurTeam
+                    // FailedInMovingByCollisionWithTheLazyOpponent
+                    // FailedInRemovingOpponentTileWithTheLazyOpponent
+                    foreach (int otherteam in TeamArray)
+                    {
+                        foreach (int otheragent in AgentArray)
+                        {
+                            if (team == otherteam && agent == otheragent) continue;
+                            var otheritem = AgentPosition[otherteam, otheragent];
+                            if (item.Destination == otheritem)
+                            {
+                                if (team == otherteam)
+                                {
+                                    item.ToFailByCollisionWithTheLazyOurTeam();
+                                }
+                                else
+                                {
+                                    item.ToFailByCollisionWithTheLazyOpponent();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            // 自分または相手のチームと衝突していないかチェック(6)
+            // FailedInMovingBySelfCollision;
+            // FailedInRemovingOurTileBySelfCollision;
+            // FailedInRemovingOpponentTileBySelfCollision;
+            // FailedInMovingByCollisionWithEachOther;
+            // FailedInRemovingOurTileByCollisionWithEachOther;
+            // FailedInRemovingOpponentTileByCollisionWithEachOther;
+            agentActivityData.CheckCollision();
+            // 全チェック後に残ったリクエストは、成功したとみなす(3)
+            foreach (var item in agentActivityData)
+            {
+                item.ToSuccess();
             }
         }
 
