@@ -13,6 +13,10 @@ namespace Procon29_Visualizer
         /// </summary>
         NotDoneAnything,
         /// <summary>
+        /// その場でとどまり、何もしないことを要請します
+        /// </summary>
+        RequestNotToDoAnything,
+        /// <summary>
         /// 移動を要請する
         /// </summary>
         RequestMovement,
@@ -28,6 +32,10 @@ namespace Procon29_Visualizer
         /// 自分にエージェントを行動させる権限ないため、リクエストを禁止されています
         /// </summary>
         RequestForbidden,
+        /// <summary>
+        /// その場でとどまり、何もしないことに成功しました
+        /// </summary>
+        SucceededNotToDoAnything,
         /// <summary>
         /// 移動に成功し、タイルを置きました
         /// </summary>
@@ -88,6 +96,18 @@ namespace Procon29_Visualizer
         /// エージェントのムーア近傍に目標部がないため、相手のチームからタイルを取り除くことに失敗しました
         /// </summary>
         FailedInRemovingOpponentTileByTryingAgentToJump,
+        /// <summary>
+        /// 自分自身とコリジョンが発生し、移動に失敗しました
+        /// </summary>
+        YouHadCollisionsWithYourselfAndYouFailedToMoveBecauseYouAreThereAlready,
+        /// <summary>
+        /// 自分自身とコリジョンが発生し、自分のチームからタイルを取り除くことに失敗しました
+        /// </summary>
+        YouHadCollisionsWithYourselfAndYouFailedToRemoveTilesFromYourTeam,
+        /// <summary>
+        /// 取り除くタイルの上に自分がいるため、タイルを取り除くことに失敗しました
+        /// </summary>
+        FailedInRemovingOurTileByYouAreThere,
         /// <summary>
         /// 取り除くタイルが存在しないため、自分のチームからタイルを取り除くことに失敗しました
         /// </summary>
@@ -242,6 +262,7 @@ namespace Procon29_Visualizer
         /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
         /// <returns>状態がリクエストなら真、そうでなければ偽</returns>
         public static bool IsRequest(this AgentStatusData agentStatusData) =>
+            agentStatusData == AgentStatusData.RequestNotToDoAnything ||
             agentStatusData == AgentStatusData.RequestMovement ||
             agentStatusData == AgentStatusData.RequestRemovementOpponentTile ||
             agentStatusData == AgentStatusData.RequestRemovementOurTile;
@@ -252,6 +273,7 @@ namespace Procon29_Visualizer
         /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
         /// <returns>状態が成功なら真、そうでなければ偽</returns>
         public static bool IsSucceeded(this AgentStatusData agentStatusData) =>
+            agentStatusData == AgentStatusData.SucceededNotToDoAnything ||
             agentStatusData == AgentStatusData.SucceededInMoving ||
             agentStatusData == AgentStatusData.SucceededInRemoveingOpponentTile ||
             agentStatusData == AgentStatusData.SucceededInRemoveingOurTile;
@@ -262,9 +284,9 @@ namespace Procon29_Visualizer
         /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
         /// <returns>状態が失敗なら真、そうでなければ偽</returns>
         public static bool IsFailed(this AgentStatusData agentStatusData) =>
-            agentStatusData == AgentStatusData.FailedInMovingByCollisionWithEachOther ||
-            agentStatusData == AgentStatusData.FailedInRemovingOpponentTileByCollisionWithEachOther ||
-            agentStatusData == AgentStatusData.FailedInRemovingOurTileByCollisionWithEachOther;
+            !(agentStatusData.IsRequest() || agentStatusData.IsSucceeded() ||
+            agentStatusData == AgentStatusData.NotDoneAnything ||
+            agentStatusData == AgentStatusData.RequestForbidden);
 
         /// <summary>
         /// リクエストが失敗したとして処理します
