@@ -39,11 +39,11 @@
             this.CreateNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UndoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RedoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.UndoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.RedoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -171,14 +171,14 @@
             // CreateNewToolStripMenuItem
             // 
             this.CreateNewToolStripMenuItem.Name = "CreateNewToolStripMenuItem";
-            this.CreateNewToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.CreateNewToolStripMenuItem.Size = new System.Drawing.Size(171, 28);
             this.CreateNewToolStripMenuItem.Text = "新規作成(&N)";
             this.CreateNewToolStripMenuItem.Click += new System.EventHandler(this.CreateNewToolStripMenuItem_Click);
             // 
             // OpenToolStripMenuItem
             // 
             this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(171, 28);
             this.OpenToolStripMenuItem.Text = "開く(&O)";
             this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
@@ -190,6 +190,24 @@
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
             this.EditToolStripMenuItem.Size = new System.Drawing.Size(75, 27);
             this.EditToolStripMenuItem.Text = "編集(&E)";
+            // 
+            // UndoToolStripMenuItem
+            // 
+            this.UndoToolStripMenuItem.Name = "UndoToolStripMenuItem";
+            this.UndoToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Z";
+            this.UndoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.UndoToolStripMenuItem.Size = new System.Drawing.Size(229, 28);
+            this.UndoToolStripMenuItem.Text = "元に戻す(&U)";
+            this.UndoToolStripMenuItem.Click += new System.EventHandler(this.UndoToolStripMenuItem_Click);
+            // 
+            // RedoToolStripMenuItem
+            // 
+            this.RedoToolStripMenuItem.Name = "RedoToolStripMenuItem";
+            this.RedoToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Y";
+            this.RedoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.RedoToolStripMenuItem.Size = new System.Drawing.Size(229, 28);
+            this.RedoToolStripMenuItem.Text = "やり直し(&R)";
+            this.RedoToolStripMenuItem.Click += new System.EventHandler(this.RedoToolStripMenuItem_Click);
             // 
             // ViewToolStripMenuItem
             // 
@@ -216,24 +234,6 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(80, 18);
             this.toolStripStatusLabel1.Text = "{} Point:";
-            // 
-            // UndoToolStripMenuItem
-            // 
-            this.UndoToolStripMenuItem.Name = "UndoToolStripMenuItem";
-            this.UndoToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Z";
-            this.UndoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.UndoToolStripMenuItem.Size = new System.Drawing.Size(229, 28);
-            this.UndoToolStripMenuItem.Text = "元に戻す(&U)";
-            this.UndoToolStripMenuItem.Click += new System.EventHandler(this.UndoToolStripMenuItem_Click);
-            // 
-            // RedoToolStripMenuItem
-            // 
-            this.RedoToolStripMenuItem.Name = "RedoToolStripMenuItem";
-            this.RedoToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Y";
-            this.RedoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.RedoToolStripMenuItem.Size = new System.Drawing.Size(229, 28);
-            this.RedoToolStripMenuItem.Text = "やり直し(&R)";
-            this.RedoToolStripMenuItem.Click += new System.EventHandler(this.RedoToolStripMenuItem_Click);
             // 
             // MainForm
             // 
