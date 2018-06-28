@@ -119,7 +119,7 @@ namespace Procon29_Visualizer
                     foreach (System.Text.RegularExpressions.Match match in mc)
                     {
                         bot1 = Activator.CreateInstance(m.GetType(match.Groups["file"].Value + "." + match.Groups["file"].Value));
-                        MainForm.botName[1] = match.Groups["file"].Value;
+                        MainForm.botName[1] = match.Groups["file"].Value;                       
                     }
                 }
                 catch (Exception)
@@ -163,7 +163,6 @@ namespace Procon29_Visualizer
                     foreach (System.Text.RegularExpressions.Match match in mc)
                     {
                         bot0 = Activator.CreateInstance(m.GetType(match.Groups["file"].Value + "." + match.Groups["file"].Value));
-
                         MainForm.botName[0] = match.Groups["file"].Value;
                     }
                 }

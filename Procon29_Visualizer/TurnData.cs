@@ -85,19 +85,19 @@ namespace Procon29_Visualizer
         /// </summary>
         FailedInRemovingOpponentTileByTryingToGoOutOfTheField,
         /// <summary>
-        /// エージェントのムーア近傍に目標部がないため、移動に失敗しました
+        /// エージェントのチェビシェフ近傍に目標物がないため、移動に失敗しました
         /// </summary>
-        FailedInMovingByTryingAgentToJump,
+        FailedInMovingByBeingNotChebyshevNeighborhood,
         /// <summary>
-        /// エージェントのムーア近傍に目標部がないため、自分のチームからタイルを取り除くことに失敗しました
+        /// エージェントのチェビシェフ近傍に目標物がないため、自分のチームからタイルを取り除くことに失敗しました
         /// </summary>
-        FailedInRemovingOurTileByTryingAgentToJump,
+        FailedInRemovingOurTileByBeingNotChebyshevNeighborhood,
         /// <summary>
-        /// エージェントのムーア近傍に目標部がないため、相手のチームからタイルを取り除くことに失敗しました
+        /// エージェントのチェビシェフ近傍に目標物がないため、相手のチームからタイルを取り除くことに失敗しました
         /// </summary>
-        FailedInRemovingOpponentTileByTryingAgentToJump,
+        FailedInRemovingOpponentTileByBeingNotChebyshevNeighborhood,
         /// <summary>
-        /// 自分自身とコリジョンが発生し、移動に失敗しました
+        /// 移動する先のタイルの上に既に自分がいるのにもかかわらず、そこに移動しようとしたため、自分自身でコリジョンが発生し、移動に失敗しました
         /// </summary>
         YouHadCollisionsWithYourselfAndYouFailedToMoveBecauseYouAreThereAlready,
         /// <summary>
@@ -140,6 +140,10 @@ namespace Procon29_Visualizer
         /// 移動先のマスにいるエージェントのリクエストがコリジョンによって失敗し、それに巻き込まれたため、相手のチームからタイルを取り除くことに失敗しました
         /// </summary>
         FailedInRemovingOurTileByInvolvedInOtherCollisions,
+        /// <summary>
+        /// 相手のタイルが置いてあるマスを取り外さずに、移動をリクエストしたため、移動に失敗しました
+        /// </summary>
+        FailedInMovingByTryingItWithoutRemovingTheOpponentTile,
         /// <summary>
         /// 不明なエラーによって、移動に失敗しました
         /// </summary>
@@ -190,6 +194,7 @@ namespace Procon29_Visualizer
         /// エージェントが行動をどこに起こしたかを設定または取得します
         /// </summary>
         public Point Destination { get => destination; set => destination = value; }
+
         /// <summary>
         /// エージェントが行動した結果の状態を設定または取得します
         /// </summary>
