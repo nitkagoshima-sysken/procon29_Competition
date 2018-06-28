@@ -53,10 +53,6 @@ Version 5.0との互換性はないので、ボット製作者は注意するこ
 |`NumPad8`| 選択されたエージェントが上に移動する |
 |`NumPad9`| 選択されたエージェントが右上に移動する |
 
-## PQRファイルの形式
-
-[ここ](https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/About-.PQR-file)をクリック
-
 ## Version
 
 ### Version 1.0
@@ -129,6 +125,10 @@ Version 5.0との互換性はないので、ボット製作者は注意するこ
 - ボットの仕様変更
 - オレンジチームもボットが選択できるようになった
 - ボットで相手のタイルを取り除いてないのにエージェントが移動できるバグを修正
+
+## 君は開発者のフレンズなんだね！
+
+[PQRファイルの形式について](https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/About-.PQR-file)
 
 ## コードメトリックス
 
