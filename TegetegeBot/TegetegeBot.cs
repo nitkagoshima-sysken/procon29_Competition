@@ -33,7 +33,7 @@ namespace TegetegeBot
                 {
                     var p = GetDiffPoint0(new Point(x, y));
 
-                    if (Calc.AgentPosition[1, 0].ChebyshevDistance(new Point(x, y)) != 1) continue;
+                    if (Calc.AgentPosition[(int)Team, 0].ChebyshevDistance(new Point(x, y)) != 1) continue;
                     if (maxp < p)
                     {
                         maxp = p;
@@ -47,7 +47,7 @@ namespace TegetegeBot
                 {
                     var p = GetDiffPoint1(new Point(x, y));
 
-                    if (Calc.AgentPosition[1, 1].ChebyshevDistance(new Point(x, y)) != 1) continue;
+                    if (Calc.AgentPosition[(int)Team, 1].ChebyshevDistance(new Point(x, y)) != 1) continue;
                     if (maxp1 < p)
                     {
                         maxp1 = p;
@@ -62,23 +62,27 @@ namespace TegetegeBot
 
         protected int GetDiffPoint0(Point point)
         {
-            var p = Calc.TotalPoint(Team.B);
+            //var p = Calc.TotalPoint(Team.B);
             var go = new AgentActivityData[2, 2];
-            go[0, 0] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
-            go[0, 1] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
-            go[1, 0] = new AgentActivityData(AgentStatusData.RequestMovement, point);
-            go[1, 1] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
+            var otherteam = (Team == Team.A) ? Team.B : Team.A;
+
+            go[(int)otherteam, 0] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
+            go[(int)otherteam, 1] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
+            go[(int)Team, 0] = new AgentActivityData(AgentStatusData.RequestMovement, point);
+            go[(int)Team, 1] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
             return SimulateAndTake(go, Calc.TotalPoint);
         }
 
         protected int GetDiffPoint1(Point point)
         {
-            var p = Calc.TotalPoint(Team.B);
+            //var p = Calc.TotalPoint(Team.B);
             var go = new AgentActivityData[2, 2];
-            go[0, 0] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
-            go[0, 1] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
-            go[1, 0] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
-            go[1, 1] = new AgentActivityData(AgentStatusData.RequestMovement, point);
+            var otherteam = (Team == Team.A) ? Team.B : Team.A;
+
+            go[(int)otherteam, 0] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
+            go[(int)otherteam, 1] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
+            go[(int)Team, 0] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
+            go[(int)Team, 1] = new AgentActivityData(AgentStatusData.RequestMovement, point);
             return SimulateAndTake(go, Calc.TotalPoint);
         }
     }

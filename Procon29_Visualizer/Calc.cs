@@ -694,20 +694,20 @@ namespace Procon29_Visualizer
                                 break;
                         }
                     // 目標部が自分から遠い場所にないかチェック(3)
-                    // FailedInMovingByTryingAgentToJump
-                    // FailedInRemovingOurTileByTryingAgentToJump
-                    // FailedInRemovingOpponentTileByTryingAgentToJump
+                    // FailedInMovingByBeingNotChebyshevNeighborhood
+                    // FailedInRemovingOurTileByBeingNotChebyshevNeighborhood
+                    // FailedInRemovingOpponentTileByBeingNotChebyshevNeighborhood
                     if (item.Destination.ChebyshevDistance(AgentPosition[team, agent]) != 1)
                         switch (item.AgentStatusData)
                         {
                             case AgentStatusData.RequestMovement:
-                                item.AgentStatusData = AgentStatusData.FailedInMovingByTryingAgentToJump;
+                                item.AgentStatusData = AgentStatusData.FailedInMovingByBeingNotChebyshevNeighborhood;
                                 continue;
                             case AgentStatusData.RequestRemovementOurTile:
-                                item.AgentStatusData = AgentStatusData.FailedInRemovingOurTileByTryingAgentToJump;
+                                item.AgentStatusData = AgentStatusData.FailedInRemovingOurTileByBeingNotChebyshevNeighborhood;
                                 continue;
                             case AgentStatusData.RequestRemovementOpponentTile:
-                                item.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileByTryingAgentToJump;
+                                item.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileByBeingNotChebyshevNeighborhood;
                                 continue;
                             default:
                                 break;
@@ -745,6 +745,13 @@ namespace Procon29_Visualizer
                         Field[item.Destination.X, item.Destination.Y].IsTileOn[(team == 0) ? 1 : 0] == false)
                     {
                         item.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileByDoingTileNotExist;
+                        continue;
+                    }
+                    // 移動先に相手のタイルが置いてないかチェック(1)
+                    // FailedInMovingByTryingItWithoutRemovingTheOpponentTile
+                    if (Field.Take(item.Destination).IsTileOn[(team == (int)Team.A) ? (int)Team.B : (int)Team.A])
+                    {
+                        item.AgentStatusData = AgentStatusData.FailedInMovingByTryingItWithoutRemovingTheOpponentTile;
                         continue;
                     }
                     // 動かないエージェントに衝突していないかチェック(4)

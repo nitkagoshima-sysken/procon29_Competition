@@ -340,6 +340,14 @@ namespace Procon29_Visualizer
 
         private void TurnEnd()
         {
+            if (bot[0] != null)
+            {
+                bot[0].Team = Team.A;
+                bot[0].Question(calc);
+                var a = bot[0].Answer();
+                show.agentActivityData[0, 0] = a[0];
+                show.agentActivityData[0, 1] = a[1];
+            }
             if (bot[1] != null)
             {
                 bot[1].Team = Team.B;
@@ -368,6 +376,14 @@ namespace Procon29_Visualizer
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "   Total Point: " + calc.TotalPoint(Team.B).ToString());
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 0]);
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);
+            if (bot[0] != null)
+            {
+                log.WriteLine(Color.SkyBlue, "[" + botName[0] + "]");
+                var d = calc.FieldHistory[calc.Turn - 1].AgentActivityData[0, 0];
+                log.WriteLine(Color.SkyBlue, "A1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
+                d = calc.FieldHistory[calc.Turn - 1].AgentActivityData[0, 1];
+                log.WriteLine(Color.SkyBlue, "A2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
+            }
             if (bot[1] != null)
             {
                 log.WriteLine(Color.SkyBlue, "[" + botName[1] + "]");
