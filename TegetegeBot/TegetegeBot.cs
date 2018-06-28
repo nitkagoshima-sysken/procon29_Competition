@@ -5,19 +5,21 @@ namespace TegetegeBot
 {
     /// <summary>
     /// テスト用プログラム
-    /// ちなみにこのボットは、いかなるときも(0,0)へ移動しようとする。
+    /// ちなみにこのボットは、いかなるときも(0,0)へ移動しようとするボットだった。
     /// </summary>
     class TegetegeBot : Bot
     {
         /// <summary>
-        /// 
+        /// 初期化するところです
         /// </summary>
+        /// <param name="team"></param>
         public TegetegeBot() : base() { }
 
         /// <summary>
-        /// 
+        /// あなたが、どこにエージェントを行かせるかを、
+        /// この関数に書きます。
         /// </summary>
-        /// <returns></returns>
+        /// <returns>どこにエージェントに行かせるか</returns>
         public override AgentActivityData[] Answer()
         {
             var result = new AgentActivityData[2];
@@ -66,10 +68,7 @@ namespace TegetegeBot
             go[0, 1] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
             go[1, 0] = new AgentActivityData(AgentStatusData.RequestMovement, point);
             go[1, 1] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
-            Calc.MoveAgent(go);
-            var diff = Calc.TotalPoint(Team.B) - p;
-            Calc.Undo();
-            return diff;
+            return SimulateAndTake(go, Calc.TotalPoint);
         }
 
         protected int GetDiffPoint1(Point point)
@@ -80,11 +79,7 @@ namespace TegetegeBot
             go[0, 1] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
             go[1, 0] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
             go[1, 1] = new AgentActivityData(AgentStatusData.RequestMovement, point);
-            //Calc.MoveAgent(go);
-            //var diff = Calc.TotalPoint(Team.B) - p;
-            //Calc.Undo();
-            //return diff;
-            return Hoge(go, Team.B);
+            return SimulateAndTake(go, Calc.TotalPoint);
         }
     }
 }

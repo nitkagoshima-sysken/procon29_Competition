@@ -17,7 +17,7 @@ namespace Procon29_Visualizer
     /// </summary>
     public partial class MainForm : Form
     {
-        Calc calc;
+        public static Calc calc;
         Show show;
         Logger log;
         TeamDesign[] teamDesigns;
@@ -342,6 +342,7 @@ namespace Procon29_Visualizer
         {
             if (bot[1] != null)
             {
+                bot[1].Team = Team.B;
                 bot[1].Question(calc);
                 var a = bot[1].Answer();
                 show.agentActivityData[1, 0] = a[0];
