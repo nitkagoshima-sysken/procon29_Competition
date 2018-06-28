@@ -42,6 +42,13 @@ namespace Procon29_Visualizer
         {
             RichTextBox.SelectionColor = color;
             RichTextBox.SelectedText = message;
+
+            //カレット位置を末尾に移動
+            RichTextBox.SelectionStart = RichTextBox.Text.Length;
+            //テキストボックスにフォーカスを移動
+            RichTextBox.Focus();
+            //カレット位置までスクロール
+            RichTextBox.ScrollToCaret();
         }
 
         /// <summary>
@@ -53,6 +60,13 @@ namespace Procon29_Visualizer
         {
             RichTextBox.SelectionColor = color;
             RichTextBox.SelectedText = message + "\n";
+
+            //カレット位置を末尾に移動
+            RichTextBox.SelectionStart = RichTextBox.Text.Length;
+            //テキストボックスにフォーカスを移動
+            RichTextBox.Focus();
+            //カレット位置までスクロール
+            RichTextBox.ScrollToCaret();
         }
     }
 }

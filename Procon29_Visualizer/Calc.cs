@@ -14,7 +14,7 @@ namespace Procon29_Visualizer
     /// <summary>
     /// フィールドの拡張メソッドを定義するためのクラスです。
     /// </summary>
-    static class FieldExpansion
+    public static class FieldExpansion
     {
         /// <summary>
         /// フィールドの幅を取得します。
@@ -757,8 +757,11 @@ namespace Procon29_Visualizer
                         foreach (int otheragent in AgentArray)
                         {
                             if (team == otherteam && agent == otheragent) continue;
-                            var otheritem = AgentPosition[otherteam, otheragent];
-                            if (item.Destination == otheritem)
+                            var otheritem = agentActivityData[otherteam, otheragent];
+                            var otherposition = AgentPosition[otherteam, otheragent];
+                            if ((otheritem.AgentStatusData == AgentStatusData.RequestNotToDoAnything ||
+                                otheritem.AgentStatusData == AgentStatusData.NotDoneAnything) &&
+                                item.Destination == otherposition)
                             {
                                 if (team == otherteam)
                                 {
@@ -781,6 +784,47 @@ namespace Procon29_Visualizer
             // FailedInRemovingOurTileByCollisionWithEachOther;
             // FailedInRemovingOpponentTileByCollisionWithEachOther;
             agentActivityData.CheckCollision();
+            // 移動先のエージェントがコリジョンを起こし、
+            // 自分もそのコリジョンに巻き込まれたかチェック(3)
+            // FailedInMovingByInvolvedInOtherCollisions
+            // FailedInRemovingOpponentTileByInvolvedInOtherCollisions
+            // FailedInRemovingOurTileByInvolvedInOtherCollisions
+            foreach (int team in TeamArray)
+            {
+                foreach (int agent in AgentArray)
+                {
+                    var item = agentActivityData[team, agent];
+                    foreach (int otherteam in TeamArray)
+                    {
+                        foreach (int otheragent in AgentArray)
+                        {
+                            if (team == otherteam && agent == otheragent) continue;
+                            var otheritem = agentActivityData[otherteam, otheragent];
+                            var otherposition = AgentPosition[otherteam, otheragent];
+                            if ((otheritem.AgentStatusData == AgentStatusData.RequestNotToDoAnything ||
+                                otheritem.AgentStatusData == AgentStatusData.NotDoneAnything ||
+                                otheritem.AgentStatusData.IsFailed()) &&
+                                item.Destination == otherposition)
+                            {
+                                switch (item.AgentStatusData)
+                                {
+                                    case AgentStatusData.RequestMovement:
+                                        item.AgentStatusData = AgentStatusData.FailedInMovingByInvolvedInOtherCollisions;
+                                        break;
+                                    case AgentStatusData.RequestRemovementOurTile:
+                                        item.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileByInvolvedInOtherCollisions;
+                                        break;
+                                    case AgentStatusData.RequestRemovementOpponentTile:
+                                        item.AgentStatusData = AgentStatusData.FailedInRemovingOurTileByInvolvedInOtherCollisions;
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             // 全チェック後に残ったリクエストは、成功したとみなす(3)
             foreach (var item in agentActivityData)
             {

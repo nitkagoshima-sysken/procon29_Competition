@@ -24,6 +24,7 @@ namespace Procon29_Visualizer
 
         CreateNewForm createNewForm = new CreateNewForm();
         public static dynamic[] bot = new dynamic[2];
+        public static string[] botName = new string[2];
 
         /// <summary>
         /// MainForm
@@ -53,6 +54,7 @@ namespace Procon29_Visualizer
             show.Showing(FieldDisplay);
             calc.PointMapCheck();
 
+            log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Team A");
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "name: " + teamDesigns[(int)Team.A].Name);
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 0]);
@@ -61,7 +63,6 @@ namespace Procon29_Visualizer
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "name: " + teamDesigns[(int)Team.B].Name);
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 0]);
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);
-            log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
             messageBox.Select(messageBox.Text.Length, 0);
 
         }
@@ -339,12 +340,12 @@ namespace Procon29_Visualizer
 
         private void TurnEnd()
         {
-            if(bot[1]!=null)
+            if (bot[1] != null)
             {
-                bot[1].Grasp(calc.DeepCopy());
-                bot[1].FinalAnswer();
-                show.agentActivityData[1, 0] = bot[1].FinalAnswer()[0];
-                show.agentActivityData[1, 1] = bot[1].FinalAnswer()[1];
+                bot[1].Question(calc);
+                var a = bot[1].Answer();
+                show.agentActivityData[1, 0] = a[0];
+                show.agentActivityData[1, 1] = a[1];
             }
 
             calc.MoveAgent(show.agentActivityData);
@@ -355,6 +356,7 @@ namespace Procon29_Visualizer
             }
 
             show.Showing(FieldDisplay);
+            log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Area Point: " + calc.AreaPoint(Team.A).ToString());
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.A).ToString());
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "   Total Point: " + calc.TotalPoint(Team.A).ToString());
@@ -365,13 +367,21 @@ namespace Procon29_Visualizer
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "   Total Point: " + calc.TotalPoint(Team.B).ToString());
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 0]);
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);
-            log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
+            if (bot[1] != null)
+            {
+                log.WriteLine(Color.SkyBlue, "[" + botName[1] + "]");
+                var d = calc.FieldHistory[calc.Turn - 1].AgentActivityData[1, 0];
+                log.WriteLine(Color.SkyBlue, "B1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString()  );
+                d = calc.FieldHistory[calc.Turn - 1].AgentActivityData[1, 1];
+                log.WriteLine(Color.SkyBlue, "B2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
+            }
         }
 
-        private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
+            private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             calc.Undo();
             show.Showing(FieldDisplay);
+            log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Area Point: " + calc.AreaPoint(Team.A).ToString());
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.A).ToString());
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "   Total Point: " + calc.TotalPoint(Team.A).ToString());
@@ -382,13 +392,13 @@ namespace Procon29_Visualizer
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "   Total Point: " + calc.TotalPoint(Team.B).ToString());
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 0]);
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);
-            log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
         }
 
         private void RedoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             calc.Redo();
             show.Showing(FieldDisplay);
+            log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Area Point: " + calc.AreaPoint(Team.A).ToString());
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.A).ToString());
             log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "   Total Point: " + calc.TotalPoint(Team.A).ToString());
@@ -399,7 +409,6 @@ namespace Procon29_Visualizer
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "   Total Point: " + calc.TotalPoint(Team.B).ToString());
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 0]);
             log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);
-            log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
         }
     }
 }

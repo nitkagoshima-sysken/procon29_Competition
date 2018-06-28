@@ -12,17 +12,38 @@ namespace Procon29_Visualizer
         /// <summary>
         /// 
         /// </summary>
+        protected Calc Calc { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="calc"></param>
         public Bot() { }
 
         /// <summary>
         /// 
         /// </summary>
-        public abstract void Question(Calc calc);
+        /// <param name="calc"></param>
+        public void Question(Calc calc)
+        {
+            Calc = calc;
+        }
 
         /// <summary>
         /// 
         /// </summary>
         public abstract AgentActivityData[] Answer();
-    }    
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Hoge(AgentActivityData[,] agentActivityDatas, Team team)
+        {
+            var p = Calc.TotalPoint(team);
+            Calc.MoveAgent(agentActivityDatas);
+            var diff = Calc.TotalPoint(team) - p;
+            Calc.Undo();
+            return diff;
+        }
+    }
 }

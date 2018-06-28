@@ -129,6 +129,18 @@ namespace Procon29_Visualizer
         /// </summary>
         FailedInRemovingOpponentTileByDoingTileNotExist,
         /// <summary>
+        /// 移動先のマスにいるエージェントのリクエストがコリジョンによって失敗し、それに巻き込まれたため、移動に失敗しました
+        /// </summary>
+        FailedInMovingByInvolvedInOtherCollisions,
+        /// <summary>
+        /// 移動先のマスにいるエージェントのリクエストがコリジョンによって失敗し、それに巻き込まれたため、自分のチームからタイルを取り除くことに失敗しました
+        /// </summary>
+        FailedInRemovingOpponentTileByInvolvedInOtherCollisions,
+        /// <summary>
+        /// 移動先のマスにいるエージェントのリクエストがコリジョンによって失敗し、それに巻き込まれたため、相手のチームからタイルを取り除くことに失敗しました
+        /// </summary>
+        FailedInRemovingOurTileByInvolvedInOtherCollisions,
+        /// <summary>
         /// 不明なエラーによって、移動に失敗しました
         /// </summary>
         FailedInMovingByUnkownError,
