@@ -82,7 +82,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
-
         /// <summary>
         /// リクエストが成功したとして処理します
         /// </summary>

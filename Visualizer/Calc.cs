@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
@@ -15,12 +14,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="point">フィールドのポイントを設定します。</param>
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public Calc(int[,] point, Point[] initPosition)
+        public Calc(int[,] point, Coordinate[] initPosition)
         {
             // Turn -> 0
             Turn = 0;
             // TurnData作成
-            FieldHistory.Add(new TurnData(new Cell[point.GetLength(1), point.GetLength(0)], new Point[TeamArray.Length, AgentArray.Length]));
+            FieldHistory.Add(new TurnData(new Cell[point.GetLength(1), point.GetLength(0)], new Coordinate[TeamArray.Length, AgentArray.Length]));
 
             InitializationOfField(point);
             foreach (Agent agent in AgentArray)
@@ -39,12 +38,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="field">フィールドのポイントを設定します。</param>
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public Calc(Cell[,] field, Point[] initPosition)
+        public Calc(Cell[,] field, Coordinate[] initPosition)
         {
             // Turn -> 0
             Turn = 0;
             // TurnData作成
-            FieldHistory.Add(new TurnData(field, new Point[TeamArray.Length, AgentArray.Length]));
+            FieldHistory.Add(new TurnData(field, new Coordinate[TeamArray.Length, AgentArray.Length]));
 
             foreach (Agent agent in AgentArray)
             {
@@ -97,7 +96,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントの位置をを設定または取得します。
         /// </summary>
-        public Point[,] AgentPosition { get => FieldHistory[Turn].AgentPosition; set => FieldHistory[Turn].AgentPosition = value; }
+        public Coordinate[,] AgentPosition { get => FieldHistory[Turn].AgentPosition; set => FieldHistory[Turn].AgentPosition = value; }
 
         /// <summary>
         /// ターンを設定または取得します。
@@ -161,7 +160,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>objectのディープコピー</returns>
         public object DeepCopy()
         {
-            return new Calc((Cell[,])Field.DeepCopy(), new Point[] { AgentPosition[0, 0], AgentPosition[0, 1] });
+            return new Calc((Cell[,])Field.DeepCopy(), new Coordinate[] { AgentPosition[0, 0], AgentPosition[0, 1] });
         }
 
         /// <summary>
@@ -232,16 +231,16 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="team">対象となるチーム</param>
         /// <param name="point">対象となるフィールド</param>
         /// <returns>そのフィールドが塗れるなら真、そうでなければ偽が返ってきます。</returns>
-        bool IsFillable(int team, Point point) => 0 <= point.X && point.X < Field.Width() && 0 <= point.Y && point.Y < Field.Height() && !Field[point.X, point.Y].IsTileOn[team];
+        bool IsFillable(int team, Coordinate point) => 0 <= point.X && point.X < Field.Width() && 0 <= point.Y && point.Y < Field.Height() && !Field[point.X, point.Y].IsTileOn[team];
 
         /// <summary>
         /// 指定したフィールドを基準にIsEnclosedをfalseで塗りつぶします。
         /// </summary>
         /// <param name="team">対象となるチーム</param>
         /// <param name="point">始点にするフィールド</param>
-        private void FillFalseInIsEnclosed(int team, Point point)
+        private void FillFalseInIsEnclosed(int team, Coordinate point)
         {
-            Stack<Point> stack = new Stack<Point>();
+            Stack<Coordinate> stack = new Stack<Coordinate>();
             stack.Push(point);
 
             while (stack.Count > 0)
@@ -252,10 +251,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     if (Field[point.X, point.Y].IsEnclosed[team] == true)
                     {
                         Field[point.X, point.Y].IsEnclosed[team] = false;
-                        stack.Push(new Point(point.X - 1, point.Y));
-                        stack.Push(new Point(point.X + 1, point.Y));
-                        stack.Push(new Point(point.X, point.Y - 1));
-                        stack.Push(new Point(point.X, point.Y + 1));
+                        stack.Push(new Coordinate(point.X - 1, point.Y));
+                        stack.Push(new Coordinate(point.X + 1, point.Y));
+                        stack.Push(new Coordinate(point.X, point.Y - 1));
+                        stack.Push(new Coordinate(point.X, point.Y + 1));
                     }
                 }
             }
@@ -267,7 +266,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="team">対象となるチーム</param>
         /// <param name="point">始点にするフィールド</param>
-        private void FillFalseInIsEnclosed(Team team, Point point) => FillFalseInIsEnclosed((int)team, point);
+        private void FillFalseInIsEnclosed(Team team, Coordinate point) => FillFalseInIsEnclosed((int)team, point);
 
         /// <summary>
         /// 対象となるチームのIsEnclosedをTrueで初期化します。
@@ -310,7 +309,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 for (int y = 0; y < Field.Height(); y++)
                 {
                     if (x == 0 || x == Field.Width() - 1 || y == 0 || y == Field.Height() - 1)
-                        FillFalseInIsEnclosed(team, new Point(x, y));
+                        FillFalseInIsEnclosed(team, new Coordinate(x, y));
                 }
             }
             foreach (var item in Field)
@@ -343,7 +342,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="agent">対象となるエージェント</param>
         /// <param name="point">対象となるマス</param>
         /// <returns>対象となるマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
-        public bool IsAgentHereOrInMooreNeighborhood(int team, int agent, Point point) => (AgentPosition[team, agent].ChebyshevDistance(point) <= 1) ? true : false;
+        public bool IsAgentHereOrInMooreNeighborhood(int team, int agent, Coordinate point) => (AgentPosition[team, agent].ChebyshevDistance(point) <= 1) ? true : false;
 
         /// <summary>
         /// 対象となるマスに対象となるエージェントがいるか、またはムーア近傍にいるかを判定します
@@ -352,14 +351,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="agent">対象となるエージェント</param>
         /// <param name="point">対象となるマス</param>
         /// <returns>対象となるマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
-        public bool IsAgentHereOrInMooreNeighborhood(Team team, Agent agent, Point point) => IsAgentHereOrInMooreNeighborhood((int)team, (int)agent, point);
+        public bool IsAgentHereOrInMooreNeighborhood(Team team, Agent agent, Coordinate point) => IsAgentHereOrInMooreNeighborhood((int)team, (int)agent, point);
 
         /// <summary>
         /// 対象となるマスにエージェントがいるか、またはムーア近傍にいるかを判定します
         /// </summary>
         /// <param name="point">対象となるマス</param>
         /// <returns>そのマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
-        public bool IsAgentHereOrInMooreNeighborhood(Point point)
+        public bool IsAgentHereOrInMooreNeighborhood(Coordinate point)
         {
             foreach (var agent in AgentPosition)
                 if (agent.ChebyshevDistance(point) <= 1)
@@ -372,7 +371,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="point">対象になるマス</param>
         /// <returns></returns>
-        public bool IsOneAgentHereOrInMooreNeighborhood(Point point)
+        public bool IsOneAgentHereOrInMooreNeighborhood(Coordinate point)
         {
             var result = false;
             foreach (var agent in AgentPosition)
@@ -389,7 +388,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="point">対象になるマス</param>
         /// <returns></returns>
-        public bool IsAgentHere(Point point)
+        public bool IsAgentHere(Coordinate point)
         {
             foreach (var agent in AgentPosition)
                 if (agent.ChebyshevDistance(point) == 0)
@@ -402,7 +401,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="point">対象になるマス</param>
         /// <returns></returns>
-        public bool IsAgentInMooreNeighborhood(Point point)
+        public bool IsAgentInMooreNeighborhood(Coordinate point)
         {
             foreach (var agent in AgentPosition)
                 if (agent.ChebyshevDistance(point) == 1)
@@ -415,7 +414,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="point">対象になるマス</param>
         /// <returns></returns>
-        public bool IsOneAgentInMooreNeighborhood(Point point)
+        public bool IsOneAgentInMooreNeighborhood(Coordinate point)
         {
             var result = false;
             foreach (var agent in AgentPosition)
@@ -433,12 +432,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public void TurnEnd()
         {
             // TurnData作成
-            var a = new Point[TeamArray.Length, AgentArray.Length];
+            var a = new Coordinate[TeamArray.Length, AgentArray.Length];
             for (int team = 0; team < TeamArray.Length; team++)
             {
                 for (int agent = 0; agent < AgentArray.Length; agent++)
                 {
-                    a[team, agent] = new Point(AgentPosition[team, agent].X, AgentPosition[team, agent].Y);
+                    a[team, agent] = new Coordinate(AgentPosition[team, agent].X, AgentPosition[team, agent].Y);
                 }
             }
             FieldHistory.Add(new TurnData((Cell[,])Field.DeepCopy(), a));
@@ -481,7 +480,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// フィールドに置いてあるタイルを剥がします。
         /// </summary>
         /// <param name="point">対象となるエージェント</param>
-        public void RemoveTile(Point point)
+        public void RemoveTile(Coordinate point)
         {
             foreach (Team team in Enum.GetValues(typeof(Team)))
             {
@@ -495,7 +494,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="team">移動するチーム</param>
         /// <param name="agent">移動するエージェント</param>
         /// <param name="where">移動する場所</param>
-        public void MoveAgent(Team team, Agent agent, Point where)
+        public void MoveAgent(Team team, Agent agent, Coordinate where)
         {
             bool movable = false;
             foreach (int otherteam in TeamArray)

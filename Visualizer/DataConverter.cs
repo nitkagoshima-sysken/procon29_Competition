@@ -15,7 +15,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     {
         Size size;
         int[,] fields;
-        Point one, two;
+        System.Drawing.Point one, two;
 
         /// <summary>
         /// フィールドの大きさを表します。
@@ -28,11 +28,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 1人目のエージェントの位置を表します。
         /// </summary>
-        public Point One { get => one; set => one = value; }
+        public Coordinate One { get => one; set => one = value; }
         /// <summary>
         /// 2人目のエージェントの位置を表します。
         /// </summary>
-        public Point Two { get => two; set => two = value; }
+        public Coordinate Two { get => two; set => two = value; }
     }
 
     /// <summary>
@@ -132,11 +132,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 list.Clear();
                 list = SpaceCSVToList(m.Groups["one"].Value.Replace(":", " "));
-                pqr.One = new Point(list[1] - 1, list[0] - 1);
+                pqr.One = new System.Drawing.Point(list[1] - 1, list[0] - 1);
 
                 list.Clear();
                 list = SpaceCSVToList(m.Groups["two"].Value.Replace(":", " "));
-                pqr.Two = new Point(list[1] - 1, list[0] - 1);
+                pqr.Two = new System.Drawing.Point(list[1] - 1, list[0] - 1);
             }
 
             return pqr;

@@ -91,7 +91,9 @@
     <Compile Include="AgentActivityData.cs" />
     <Compile Include="AgentStatusCode.cs" />
     <Compile Include="AgentStatusCodeExpansion.cs" />
+    <Compile Include="Arrow.cs" />
     <Compile Include="Calc.cs" />
+    <Compile Include="Coordinate.cs" />
     <Compile Include="CreateNewForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -120,6 +122,7 @@
     <Compile Include="Team.cs" />
     <Compile Include="TeamDesign.cs" />
     <Compile Include="TurnData.cs" />
+    <Compile Include="TurnDataExpansion.cs" />
     <EmbeddedResource Include="CreateNewForm.resx">
       <DependentUpon>CreateNewForm.cs</DependentUpon>
     </EmbeddedResource>

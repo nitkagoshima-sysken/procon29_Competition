@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
@@ -19,7 +15,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private SolidBrush selectSolidBrush = new SolidBrush(Color.FromArgb(50, Color.DarkGray));
         private SolidBrush clickedSolidBrush = new SolidBrush(Color.FromArgb(100, Color.SkyBlue));
         private Font pointFont;
-        private Point clickedField;
+        private System.Drawing.Point clickedField;
         private const string pointFamilyName = "Impact";
         //private (Team, Agent) selectedTeamAndAgent;
 
@@ -227,9 +223,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
             pointFont.Dispose();
 
-            System.Drawing.Point systemCursorPosition = System.Windows.Forms.Cursor.Position;
-            System.Drawing.Point pictureBoxCursorPosition = pictureBox.PointToClient(systemCursorPosition);
-            Point selectedFieldPoint = new Point(
+            Point systemCursorPosition = System.Windows.Forms.Cursor.Position;
+            Point pictureBoxCursorPosition = pictureBox.PointToClient(systemCursorPosition);
+            Point selectedFieldPoint = new System.Drawing.Point(
                 x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
                 y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
             if ((selectedFieldPoint.X < Calc.Field.Width()) && (selectedFieldPoint.Y < Calc.Field.Height()))
@@ -422,9 +418,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             //ImageオブジェクトのGraphicsオブジェクトを作成する
             Graphics graphics = Graphics.FromImage(canvas);
 
-            System.Drawing.Point systemCursorPosition = System.Windows.Forms.Cursor.Position;
+            Point systemCursorPosition = System.Windows.Forms.Cursor.Position;
             System.Drawing.Point pictureBoxCursorPosition = pictureBox.PointToClient(systemCursorPosition);
-            Point clickedFieldPoint = new Point(
+            System.Drawing.Point clickedFieldPoint = new System.Drawing.Point(
                 x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
                 y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
 
@@ -432,7 +428,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 if ((clickedFieldPoint.X < Calc.Field.Width()) && (clickedFieldPoint.Y < Calc.Field.Height()))
                 {
-                    ClickedField = new Point(
+                    ClickedField = new System.Drawing.Point(
                         x: clickedFieldPoint.X,
                         y: clickedFieldPoint.Y);
                 }
@@ -522,13 +518,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// カーソルがどのフィールドの上にいるかを計算します。
         /// </summary>
         /// <returns></returns>
-        public Point CursorPosition(PictureBox pictureBox)
+        public Coordinate CursorPosition(PictureBox pictureBox)
         {
             var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Calc.Field.Width();
             var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Calc.Field.Height();
             System.Drawing.Point systemCursorPosition = System.Windows.Forms.Cursor.Position;
             System.Drawing.Point pictureBoxCursorPosition = pictureBox.PointToClient(systemCursorPosition);
-            return new Point(
+            return new System.Drawing.Point(
                 x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
                 y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
         }

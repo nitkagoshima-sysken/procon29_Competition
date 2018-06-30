@@ -10,7 +10,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントが行動をどこに起こしたかを設定または取得します
         /// </summary>
-        public Point Destination { get; set; }
+        public Coordinate Destination { get; set; }
 
         /// <summary>
         /// エージェントが行動した結果の状態を設定または取得します
@@ -23,7 +23,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public AgentActivityData()
         {
             AgentStatusData = AgentStatusCode.NotDoneAnything;
-            Destination = new Point();
+            Destination = new Coordinate();
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public AgentActivityData(AgentStatusCode agentStatusData)
         {
             AgentStatusData = agentStatusData;
-            Destination = new Point();
+            Destination = new Coordinate();
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="agentStatusData">エージェントが行動をどこに起こしたかを表します</param>
         /// <param name="destination">エージェントが行動した結果の状態を表します</param>
-        public AgentActivityData(AgentStatusCode agentStatusData, Point destination)
+        public AgentActivityData(AgentStatusCode agentStatusData, Coordinate destination)
         {
             AgentStatusData = agentStatusData;
             Destination = destination;
