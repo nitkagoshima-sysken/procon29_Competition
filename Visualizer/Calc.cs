@@ -704,13 +704,13 @@ namespace nitkagoshima_sysken
                                 switch (item.AgentStatusData)
                                 {
                                     case AgentStatusData.RequestMovement:
-                                        item.AgentStatusData = AgentStatusData.FailedInMovingByBeingNotChebyshevNeighborhood;
+                                        item.AgentStatusData = AgentStatusData.FailedInMovingByBeingNotMooreNeighborhood;
                                         continue;
                                     case AgentStatusData.RequestRemovementOurTile:
-                                        item.AgentStatusData = AgentStatusData.FailedInRemovingOurTileByBeingNotChebyshevNeighborhood;
+                                        item.AgentStatusData = AgentStatusData.FailedInRemovingOurTileByBeingNotMooreNeighborhood;
                                         continue;
                                     case AgentStatusData.RequestRemovementOpponentTile:
-                                        item.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileByBeingNotChebyshevNeighborhood;
+                                        item.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileByBeingNotMooreNeighborhood;
                                         continue;
                                     default:
                                         break;

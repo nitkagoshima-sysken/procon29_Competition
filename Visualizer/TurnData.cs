@@ -89,17 +89,17 @@ namespace nitkagoshima_sysken
                 /// </summary>
                 FailedInRemovingOpponentTileByTryingToGoOutOfTheField,
                 /// <summary>
-                /// エージェントのチェビシェフ近傍に目標物がないため、移動に失敗しました
+                /// エージェントのムーア近傍に目標物がないため、移動に失敗しました
                 /// </summary>
-                FailedInMovingByBeingNotChebyshevNeighborhood,
+                FailedInMovingByBeingNotMooreNeighborhood,
                 /// <summary>
-                /// エージェントのチェビシェフ近傍に目標物がないため、自分のチームからタイルを取り除くことに失敗しました
+                /// エージェントのムーア近傍に目標物がないため、自分のチームからタイルを取り除くことに失敗しました
                 /// </summary>
-                FailedInRemovingOurTileByBeingNotChebyshevNeighborhood,
+                FailedInRemovingOurTileByBeingNotMooreNeighborhood,
                 /// <summary>
-                /// エージェントのチェビシェフ近傍に目標物がないため、相手のチームからタイルを取り除くことに失敗しました
+                /// エージェントのムーア近傍目標物がないため、相手のチームからタイルを取り除くことに失敗しました
                 /// </summary>
-                FailedInRemovingOpponentTileByBeingNotChebyshevNeighborhood,
+                FailedInRemovingOpponentTileByBeingNotMooreNeighborhood,
                 /// <summary>
                 /// 移動する先のタイルの上に既に自分がいるのにもかかわらず、そこに移動しようとしたため、自分自身でコリジョンが発生し、移動に失敗しました
                 /// </summary>
