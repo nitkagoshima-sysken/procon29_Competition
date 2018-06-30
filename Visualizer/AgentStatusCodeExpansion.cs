@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace nitkagoshima_sysken.Procon29.Visualizer
+﻿namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     static class AgentStatusCodeExpansion
     {
@@ -40,26 +34,5 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             agentStatusData == AgentStatusCode.NotDoneAnything ||
             agentStatusData == AgentStatusCode.RequestForbidden);
 
-        /// <summary>
-        /// リクエストが自分のチームとコリジョンが発生し、失敗したとして処理します
-        /// </summary>
-        /// <param name="agentActivityData">対象となるエージェントの行動データ</param>
-        public static void ToFailBySelfCollision(this AgentActivityData agentActivityData)
-        {
-            switch (agentActivityData.AgentStatusData)
-            {
-                case AgentStatusCode.RequestMovement:
-                    agentActivityData.AgentStatusData = AgentStatusCode.FailedInMovingBySelfCollision;
-                    return;
-                case AgentStatusCode.RequestRemovementOurTile:
-                    agentActivityData.AgentStatusData = AgentStatusCode.FailedInRemovingOurTileBySelfCollision;
-                    return;
-                case AgentStatusCode.RequestRemovementOpponentTile:
-                    agentActivityData.AgentStatusData = AgentStatusCode.FailedInRemovingOpponentTileBySelfCollision;
-                    return;
-                default:
-                    return;
-            }
-        }
     }
 }
