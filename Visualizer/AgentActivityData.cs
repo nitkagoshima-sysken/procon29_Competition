@@ -7,8 +7,24 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// </summary>
     public class AgentActivityData
     {
-        AgentStatusCode agentStatusData;
-        Point destination;
+        /// <summary>
+        /// エージェントが行動をどこに起こしたかを設定または取得します
+        /// </summary>
+        public Point Destination { get; set; }
+
+        /// <summary>
+        /// エージェントが行動した結果の状態を設定または取得します
+        /// </summary>
+        internal AgentStatusCode AgentStatusData { get; set; }
+
+        /// <summary>
+        /// 初期化を行います
+        /// </summary>
+        public AgentActivityData()
+        {
+            AgentStatusData = AgentStatusCode.NotDoneAnything;
+            Destination = new Point();
+        }
 
         /// <summary>
         /// 初期化を行います
@@ -30,25 +46,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             AgentStatusData = agentStatusData;
             Destination = destination;
         }
-
-        /// <summary>
-        /// 初期化を行います
-        /// </summary>
-        public AgentActivityData()
-        {
-            AgentStatusData = AgentStatusCode.NotDoneAnything;
-            Destination = new Point();
-        }
-
-        /// <summary>
-        /// エージェントが行動をどこに起こしたかを設定または取得します
-        /// </summary>
-        public Point Destination { get => destination; set => destination = value; }
-
-        /// <summary>
-        /// エージェントが行動した結果の状態を設定または取得します
-        /// </summary>
-        internal AgentStatusCode AgentStatusData { get => agentStatusData; set => agentStatusData = value; }
 
         /// <summary>
         /// 現在のobjectのディープコピーを行います。
