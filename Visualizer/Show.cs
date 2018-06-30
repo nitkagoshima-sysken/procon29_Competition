@@ -217,15 +217,15 @@ namespace nitkagoshima_sysken
                                 height: fieldHeight);
                             // 得点表示                    
                             string points;
-                            if (0 <= Calc.Field[x, y].Point && Calc.Field[x, y].Point < 10)
-                                points = " " + Calc.Field[x, y].Point.ToString();
+                            if (0 <= Calc.Field[x, y].Score && Calc.Field[x, y].Score < 10)
+                                points = " " + Calc.Field[x, y].Score.ToString();
                             else
-                                points = Calc.Field[x, y].Point.ToString();
+                                points = Calc.Field[x, y].Score.ToString();
                             graphics.DrawString(
                             s: points,
                             font: PointFont,
                             brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
-                            x: (float)(x + ((-10 <= Calc.Field[x, y].Point) ? 0.1 : 0.0)) * fieldWidth,
+                            x: (float)(x + ((-10 <= Calc.Field[x, y].Score) ? 0.1 : 0.0)) * fieldWidth,
                             y: (float)(y + 0.1) * fieldHeight);
                         }
                     }

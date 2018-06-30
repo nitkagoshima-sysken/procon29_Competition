@@ -97,7 +97,7 @@ namespace nitkagoshima_sysken
                 /// </summary>
                 FailedInRemovingOurTileByBeingNotMooreNeighborhood,
                 /// <summary>
-                /// エージェントのムーア近傍目標物がないため、相手のチームからタイルを取り除くことに失敗しました
+                /// エージェントのムーア近傍に目標物がないため、相手のチームからタイルを取り除くことに失敗しました
                 /// </summary>
                 FailedInRemovingOpponentTileByBeingNotMooreNeighborhood,
                 /// <summary>

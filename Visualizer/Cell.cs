@@ -46,58 +46,27 @@ namespace nitkagoshima_sysken
             public class Cell
             {
                 /// <summary>
-                /// そのマスにおける、ポイントを表します。
-                /// ポイントには、-16以上16以下の整数値の点数が付与されます。
-                /// ただし、0以下の点数のポイントは、少数しか存在しません。
-                /// </summary>
-                private int point;
-                /// <summary>
-                /// そのマスにタイルが置かれているかを表します。
-                /// <code>isArea[0]</code>で先攻チームのタイルが置かれているかを表します。
-                /// <code>isArea[1]</code>で後攻チームのタイルが置かれているかを表します。
-                /// </summary>
-                private bool[] isTileOn;
-                private bool[] isEnclosed;
-
-                /// <summary>
                 /// そのマスにおける、ポイントを設定、または取得します。
                 /// ポイントには、-16以上16以下の整数値の点数が設定、または取得されます。
                 /// ただし、0以下の点数のポイントは、少数しか存在しません。
                 /// </summary>
-                public int Point
-                {
-                    get
-                    {
-                        return point;
-                    }
-                    set
-                    {
-                        if (value < -16 || 16 < value)
-                        {
-                            throw new ArgumentOutOfRangeException("[ERR1] 'point' was not between -16 and 16");
-                        }
-                        else
-                        {
-                            point = value;
-                        }
-                    }
-                }
+                public int Score { get; set; }
 
                 /// <summary>
                 /// そのマスにタイルが置かれているかを表します。
                 /// </summary>
-                public bool[] IsTileOn { get => isTileOn; set => isTileOn = value; }
+                public bool[] IsTileOn { get; set; }
                 /// <summary>
                 /// そのマスがタイルに囲まれているかを表します。
                 /// </summary>
-                public bool[] IsEnclosed { get => isEnclosed; set => isEnclosed = value; }
+                public bool[] IsEnclosed { get; set; }
 
                 /// <summary>
                 /// Fieldの初期化を行います。
                 /// </summary>
                 public Cell()
                 {
-                    Point = 0;
+                    Score = 0;
                     IsTileOn = new bool[2];
                     IsEnclosed = new bool[2];
                 }
@@ -162,7 +131,7 @@ namespace nitkagoshima_sysken
                     for (int i = 0; i < list.Count; i++)
                     {
                         fields[i / width, i % width] = new Cell();
-                        fields[i / width, i % width].Point = list[i];
+                        fields[i / width, i % width].Score = list[i];
                     }
                     return fields;
                 }
@@ -182,7 +151,7 @@ namespace nitkagoshima_sysken
                 {
                     var cell = new Cell
                     {
-                        Point = Point,
+                        Score = Score,
                         IsEnclosed = new bool[IsEnclosed.Length],
                         IsTileOn = new bool[IsTileOn.Length],
                     };

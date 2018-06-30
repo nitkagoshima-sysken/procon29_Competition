@@ -67,7 +67,7 @@ namespace nitkagoshima_sysken
                     {
                         for (int y = 0; y < field.Height() / 2; y++)
                         {
-                            if (field[x, y].Point != field[x, (field.Height() - 1) - y].Point) return false;
+                            if (field[x, y].Score != field[x, (field.Height() - 1) - y].Score) return false;
                         }
                     }
                     return true;
@@ -83,7 +83,7 @@ namespace nitkagoshima_sysken
                     {
                         for (int y = 0; y < field.Height(); y++)
                         {
-                            if (field[x, y].Point != field[(field.Height() - 1) - x, y].Point) return false;
+                            if (field[x, y].Score != field[(field.Height() - 1) - x, y].Score) return false;
                         }
                     }
                     return true;
@@ -220,7 +220,7 @@ namespace nitkagoshima_sysken
                     {
                         for (int y = 0; y < Field.Height(); y++)
                         {
-                            Field[x, y] = new Cell { Point = point[y, x] };
+                            Field[x, y] = new Cell { Score = point[y, x] };
                         }
                     }
                 }
@@ -303,20 +303,20 @@ namespace nitkagoshima_sysken
                 /// すべてのフィールドのポイントの和を計算します。
                 /// </summary>
                 /// <returns>すべてのフィールドのポイントの和</returns>
-                public int Sum() => FieldList.Sum(x => x.Point);
+                public int Sum() => FieldList.Sum(x => x.Score);
 
                 /// <summary>
                 /// すべてのフィールドのポイントの絶対値の和を計算します。
                 /// </summary>
                 /// <returns>すべてのフィールドのポイントの絶対値の和</returns>
-                public int SumAbs() => FieldList.Sum(x => ((x.Point > 0) ? x.Point : -x.Point));
+                public int SumAbs() => FieldList.Sum(x => ((x.Score > 0) ? x.Score : -x.Score));
 
                 /// <summary>
                 /// 指定したチームの直接的なエリアのポイントの合計を計算します。
                 /// </summary>
                 /// <param name="team">計算するチーム</param>
                 /// <returns>指定したチームの直接的なエリアのポイントの合計</returns>
-                public int AreaPoint(int team) => FieldList.Sum(x => ((x.IsTileOn[team] == true) ? x.Point : 0));
+                public int AreaPoint(int team) => FieldList.Sum(x => ((x.IsTileOn[team] == true) ? x.Score : 0));
 
                 /// <summary>
                 /// 指定したチームの直接的なエリアのポイントの合計を計算します。
@@ -330,7 +330,7 @@ namespace nitkagoshima_sysken
                 /// </summary>
                 /// <param name="team">計算するチーム</param>
                 /// <returns>指定したチームが囲んだエリアのポイントの絶対値の合計</returns>
-                public int EnclosedPoint(int team) => FieldList.Sum(x => ((x.IsEnclosed[team] == true) ? Math.Abs(x.Point) : 0));
+                public int EnclosedPoint(int team) => FieldList.Sum(x => ((x.IsEnclosed[team] == true) ? Math.Abs(x.Score) : 0));
 
                 /// <summary>
                 /// 指定したチームが囲んだエリアのポイントの絶対値の合計を計算します。
