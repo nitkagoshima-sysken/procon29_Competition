@@ -369,7 +369,7 @@ namespace nitkagoshima_sysken
 
                     foreach (var item in show.agentActivityData)
                     {
-                        item.AgentStatusData = AgentStatusData.NotDoneAnything;
+                        item.AgentStatusData = AgentStatusCode.NotDoneAnything;
                     }
 
                     show.Showing(FieldDisplay);

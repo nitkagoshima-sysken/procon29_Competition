@@ -4,177 +4,18 @@ using System.Drawing;
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     /// <summary>
-    /// エージェントの行動の状態を表します
-    /// </summary>
-    public enum AgentStatusData
-    {
-        /// <summary>
-        /// 何もしていない
-        /// </summary>
-        NotDoneAnything,
-        /// <summary>
-        /// その場でとどまり、何もしないことを要請します
-        /// </summary>
-        RequestNotToDoAnything,
-        /// <summary>
-        /// 移動を要請する
-        /// </summary>
-        RequestMovement,
-        /// <summary>
-        /// 自分のチームからタイルを取り除くことを要請します
-        /// </summary>
-        RequestRemovementOurTile,
-        /// <summary>
-        /// 相手のチームからタイルを取り除くことを要請します
-        /// </summary>
-        RequestRemovementOpponentTile,
-        /// <summary>
-        /// 自分にエージェントを行動させる権限ないため、リクエストを禁止されています
-        /// </summary>
-        RequestForbidden,
-        /// <summary>
-        /// その場でとどまり、何もしないことに成功しました
-        /// </summary>
-        SucceededNotToDoAnything,
-        /// <summary>
-        /// 移動に成功し、タイルを置きました
-        /// </summary>
-        SucceededInMoving,
-        /// <summary>
-        /// 自分のチームからタイルを取り除くことに成功しました
-        /// </summary>
-        SucceededInRemovingOurTile,
-        /// <summary>
-        /// 相手のチームからタイルを取り除くことに成功しました
-        /// </summary>
-        SucceededInRemovingOpponentTile,
-        /// <summary>
-        /// 相手のチームとコリジョンが発生し、移動に失敗しました
-        /// </summary>
-        FailedInMovingByCollisionWithEachOther,
-        /// <summary>
-        /// 相手のチームとコリジョンが発生し、自分のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOurTileByCollisionWithEachOther,
-        /// <summary>
-        /// 相手のチームとコリジョンが発生し、相手のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOpponentTileByCollisionWithEachOther,
-        /// <summary>
-        /// 自分のチームとコリジョンが発生し、移動に失敗しました
-        /// </summary>
-        FailedInMovingBySelfCollision,
-        /// <summary>
-        /// 自分のチームとコリジョンが発生し、自分のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOurTileBySelfCollision,
-        /// <summary>
-        /// 自分のチームとコリジョンが発生し、相手のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOpponentTileBySelfCollision,
-        /// <summary>
-        /// 目標物がフィールド外のため、移動に失敗しました
-        /// </summary>
-        FailedInMovingByTryingToGoOutOfTheFieldWithEachOther,
-        /// <summary>
-        /// 目標物がフィールド外のため、自分のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOurTileByTryingToGoOutOfTheField,
-        /// <summary>
-        /// 目標物がフィールド外のため、相手のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOpponentTileByTryingToGoOutOfTheField,
-        /// <summary>
-        /// エージェントのムーア近傍に目標物がないため、移動に失敗しました
-        /// </summary>
-        FailedInMovingByBeingNotMooreNeighborhood,
-        /// <summary>
-        /// エージェントのムーア近傍に目標物がないため、自分のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOurTileByBeingNotMooreNeighborhood,
-        /// <summary>
-        /// エージェントのムーア近傍に目標物がないため、相手のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOpponentTileByBeingNotMooreNeighborhood,
-        /// <summary>
-        /// 移動する先のタイルの上に既に自分がいるのにもかかわらず、そこに移動しようとしたため、自分自身でコリジョンが発生し、移動に失敗しました
-        /// </summary>
-        YouHadCollisionsWithYourselfAndYouFailedToMoveBecauseYouAreThereAlready,
-        /// <summary>
-        /// 取り除くタイルの上に自分がいるため、タイルを取り除くことに失敗しました
-        /// </summary>
-        YouHadCollisionsWithYourselfAndYouFailedToRemoveTilesFromYourTeamBecauseYouAreThere,
-        /// <summary>
-        /// 動かない自分のチームとコリジョンが発生し、移動に失敗しました
-        /// </summary>
-        FailedInMovingByCollisionWithTheLazyOurTeam,
-        /// <summary>
-        /// 動かない自分のチームとコリジョンが発生し、自分のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOurTileWithTheLazyOurTeam,
-        /// <summary>
-        /// 動かない相手のチームとコリジョンが発生し、移動に失敗しました
-        /// </summary>
-        FailedInMovingByCollisionWithTheLazyOpponent,
-        /// <summary>
-        /// 動かない相手のチームとコリジョンが発生し、相手のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOpponentTileWithTheLazyOpponent,
-        /// <summary>
-        /// 取り除くタイルが存在しないため、自分のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOurTileByDoingTileNotExist,
-        /// <summary>
-        /// 取り除くタイルが存在しないため、相手のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOpponentTileByDoingTileNotExist,
-        /// <summary>
-        /// 移動先のマスにいるエージェントのリクエストがコリジョンによって失敗し、それに巻き込まれたため、移動に失敗しました
-        /// </summary>
-        FailedInMovingByInvolvedInOtherCollisions,
-        /// <summary>
-        /// 移動先のマスにいるエージェントのリクエストがコリジョンによって失敗し、それに巻き込まれたため、自分のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOpponentTileByInvolvedInOtherCollisions,
-        /// <summary>
-        /// 移動先のマスにいるエージェントのリクエストがコリジョンによって失敗し、それに巻き込まれたため、相手のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOurTileByInvolvedInOtherCollisions,
-        /// <summary>
-        /// 相手のタイルが置いてあるマスを取り外さずに、移動をリクエストしたため、移動に失敗しました
-        /// </summary>
-        FailedInMovingByTryingItWithoutRemovingTheOpponentTile,
-        /// <summary>
-        /// 不明なエラーによって、移動に失敗しました
-        /// </summary>
-        FailedInMovingByUnkownError = 992,
-        /// <summary>
-        /// 不明なエラーによって、自分のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOurTileByUnkownError,
-        /// <summary>
-        /// 不明なエラーによって、相手のチームからタイルを取り除くことに失敗しました
-        /// </summary>
-        FailedInRemovingOpponentTileByUnkownError,
-        /// <summary>
-        /// ティーポットでコーヒーを淹れようとしたため、エラーが発生しました
-        /// </summary>
-        ImATeaPot = 418,
-    }
-
-    /// <summary>
     /// エージェントの行動データを表します
     /// </summary>
     public class AgentActivityData
     {
-        AgentStatusData agentStatusData;
+        AgentStatusCode agentStatusData;
         Point destination;
 
         /// <summary>
         /// 初期化を行います
         /// </summary>
         /// <param name="agentStatusData">エージェントが行動をどこに起こしたかを表します</param>
-        public AgentActivityData(AgentStatusData agentStatusData)
+        public AgentActivityData(AgentStatusCode agentStatusData)
         {
             AgentStatusData = agentStatusData;
             Destination = new Point();
@@ -185,7 +26,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="agentStatusData">エージェントが行動をどこに起こしたかを表します</param>
         /// <param name="destination">エージェントが行動した結果の状態を表します</param>
-        public AgentActivityData(AgentStatusData agentStatusData, Point destination)
+        public AgentActivityData(AgentStatusCode agentStatusData, Point destination)
         {
             AgentStatusData = agentStatusData;
             Destination = destination;
@@ -196,7 +37,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         public AgentActivityData()
         {
-            AgentStatusData = AgentStatusData.NotDoneAnything;
+            AgentStatusData = AgentStatusCode.NotDoneAnything;
             Destination = new Point();
         }
 
@@ -208,7 +49,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントが行動した結果の状態を設定または取得します
         /// </summary>
-        internal AgentStatusData AgentStatusData { get => agentStatusData; set => agentStatusData = value; }
+        internal AgentStatusCode AgentStatusData { get => agentStatusData; set => agentStatusData = value; }
 
         /// <summary>
         /// 現在のobjectのディープコピーを行います。
@@ -304,32 +145,32 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
         /// <returns>状態がリクエストなら真、そうでなければ偽</returns>
-        public static bool IsRequest(this AgentStatusData agentStatusData) =>
-            agentStatusData == AgentStatusData.RequestNotToDoAnything ||
-            agentStatusData == AgentStatusData.RequestMovement ||
-            agentStatusData == AgentStatusData.RequestRemovementOpponentTile ||
-            agentStatusData == AgentStatusData.RequestRemovementOurTile;
+        public static bool IsRequest(this AgentStatusCode agentStatusData) =>
+            agentStatusData == AgentStatusCode.RequestNotToDoAnything ||
+            agentStatusData == AgentStatusCode.RequestMovement ||
+            agentStatusData == AgentStatusCode.RequestRemovementOpponentTile ||
+            agentStatusData == AgentStatusCode.RequestRemovementOurTile;
 
         /// <summary>
         /// エージェントの行動が成功したことを判定します
         /// </summary>
         /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
         /// <returns>状態が成功なら真、そうでなければ偽</returns>
-        public static bool IsSucceeded(this AgentStatusData agentStatusData) =>
-            agentStatusData == AgentStatusData.SucceededNotToDoAnything ||
-            agentStatusData == AgentStatusData.SucceededInMoving ||
-            agentStatusData == AgentStatusData.SucceededInRemovingOpponentTile ||
-            agentStatusData == AgentStatusData.SucceededInRemovingOurTile;
+        public static bool IsSucceeded(this AgentStatusCode agentStatusData) =>
+            agentStatusData == AgentStatusCode.SucceededNotToDoAnything ||
+            agentStatusData == AgentStatusCode.SucceededInMoving ||
+            agentStatusData == AgentStatusCode.SucceededInRemovingOpponentTile ||
+            agentStatusData == AgentStatusCode.SucceededInRemovingOurTile;
 
         /// <summary>
         /// エージェントの行動が失敗したことを判定します
         /// </summary>
         /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
         /// <returns>状態が失敗なら真、そうでなければ偽</returns>
-        public static bool IsFailed(this AgentStatusData agentStatusData) =>
+        public static bool IsFailed(this AgentStatusCode agentStatusData) =>
             !(agentStatusData.IsRequest() || agentStatusData.IsSucceeded() ||
-            agentStatusData == AgentStatusData.NotDoneAnything ||
-            agentStatusData == AgentStatusData.RequestForbidden);
+            agentStatusData == AgentStatusCode.NotDoneAnything ||
+            agentStatusData == AgentStatusCode.RequestForbidden);
 
         /// <summary>
         /// リクエストが自分のチームとコリジョンが発生し、失敗したとして処理します
@@ -339,14 +180,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             switch (agentActivityData.AgentStatusData)
             {
-                case AgentStatusData.RequestMovement:
-                    agentActivityData.AgentStatusData = AgentStatusData.FailedInMovingBySelfCollision;
+                case AgentStatusCode.RequestMovement:
+                    agentActivityData.AgentStatusData = AgentStatusCode.FailedInMovingBySelfCollision;
                     return;
-                case AgentStatusData.RequestRemovementOurTile:
-                    agentActivityData.AgentStatusData = AgentStatusData.FailedInRemovingOurTileBySelfCollision;
+                case AgentStatusCode.RequestRemovementOurTile:
+                    agentActivityData.AgentStatusData = AgentStatusCode.FailedInRemovingOurTileBySelfCollision;
                     return;
-                case AgentStatusData.RequestRemovementOpponentTile:
-                    agentActivityData.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileBySelfCollision;
+                case AgentStatusCode.RequestRemovementOpponentTile:
+                    agentActivityData.AgentStatusData = AgentStatusCode.FailedInRemovingOpponentTileBySelfCollision;
                     return;
                 default:
                     return;
@@ -361,14 +202,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             switch (agentActivityData.AgentStatusData)
             {
-                case AgentStatusData.RequestMovement:
-                    agentActivityData.AgentStatusData = AgentStatusData.FailedInMovingByCollisionWithEachOther;
+                case AgentStatusCode.RequestMovement:
+                    agentActivityData.AgentStatusData = AgentStatusCode.FailedInMovingByCollisionWithEachOther;
                     return;
-                case AgentStatusData.RequestRemovementOurTile:
-                    agentActivityData.AgentStatusData = AgentStatusData.FailedInRemovingOurTileByCollisionWithEachOther;
+                case AgentStatusCode.RequestRemovementOurTile:
+                    agentActivityData.AgentStatusData = AgentStatusCode.FailedInRemovingOurTileByCollisionWithEachOther;
                     return;
-                case AgentStatusData.RequestRemovementOpponentTile:
-                    agentActivityData.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileByCollisionWithEachOther;
+                case AgentStatusCode.RequestRemovementOpponentTile:
+                    agentActivityData.AgentStatusData = AgentStatusCode.FailedInRemovingOpponentTileByCollisionWithEachOther;
                     return;
                 default:
                     return;
@@ -379,11 +220,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             switch (agentActivityData.AgentStatusData)
             {
-                case AgentStatusData.RequestMovement:
-                    agentActivityData.AgentStatusData = AgentStatusData.FailedInMovingByCollisionWithTheLazyOurTeam;
+                case AgentStatusCode.RequestMovement:
+                    agentActivityData.AgentStatusData = AgentStatusCode.FailedInMovingByCollisionWithTheLazyOurTeam;
                     return;
-                case AgentStatusData.RequestRemovementOurTile:
-                    agentActivityData.AgentStatusData = AgentStatusData.FailedInRemovingOurTileWithTheLazyOurTeam;
+                case AgentStatusCode.RequestRemovementOurTile:
+                    agentActivityData.AgentStatusData = AgentStatusCode.FailedInRemovingOurTileWithTheLazyOurTeam;
                     return;
                 default:
                     return;
@@ -394,11 +235,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             switch (agentActivityData.AgentStatusData)
             {
-                case AgentStatusData.RequestMovement:
-                    agentActivityData.AgentStatusData = AgentStatusData.FailedInMovingByCollisionWithTheLazyOpponent;
+                case AgentStatusCode.RequestMovement:
+                    agentActivityData.AgentStatusData = AgentStatusCode.FailedInMovingByCollisionWithTheLazyOpponent;
                     return;
-                case AgentStatusData.RequestRemovementOpponentTile:
-                    agentActivityData.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileWithTheLazyOpponent;
+                case AgentStatusCode.RequestRemovementOpponentTile:
+                    agentActivityData.AgentStatusData = AgentStatusCode.FailedInRemovingOpponentTileWithTheLazyOpponent;
                     return;
                 default:
                     return;
@@ -414,17 +255,17 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             switch (agentActivityData.AgentStatusData)
             {
-                case AgentStatusData.NotDoneAnything:
-                    agentActivityData.AgentStatusData = AgentStatusData.SucceededNotToDoAnything;
+                case AgentStatusCode.NotDoneAnything:
+                    agentActivityData.AgentStatusData = AgentStatusCode.SucceededNotToDoAnything;
                     return;
-                case AgentStatusData.RequestMovement:
-                    agentActivityData.AgentStatusData = AgentStatusData.SucceededInMoving;
+                case AgentStatusCode.RequestMovement:
+                    agentActivityData.AgentStatusData = AgentStatusCode.SucceededInMoving;
                     return;
-                case AgentStatusData.RequestRemovementOurTile:
-                    agentActivityData.AgentStatusData = AgentStatusData.SucceededInRemovingOurTile;
+                case AgentStatusCode.RequestRemovementOurTile:
+                    agentActivityData.AgentStatusData = AgentStatusCode.SucceededInRemovingOurTile;
                     return;
-                case AgentStatusData.RequestRemovementOpponentTile:
-                    agentActivityData.AgentStatusData = AgentStatusData.SucceededInRemovingOpponentTile;
+                case AgentStatusCode.RequestRemovementOpponentTile:
+                    agentActivityData.AgentStatusData = AgentStatusCode.SucceededInRemovingOpponentTile;
                     return;
                 default:
                     return;

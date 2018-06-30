@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-//using System.Windows.Forms;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
@@ -540,14 +535,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     var item = agentActivityData[team, agent];
                     // 何もしないのは、無条件で成功する(1)
                     // SucceededNotToDoAnything
-                    if (item.AgentStatusData == AgentStatusData.RequestNotToDoAnything)
+                    if (item.AgentStatusData == AgentStatusCode.RequestNotToDoAnything)
                     {
                         item.ToSuccess();
                         continue;
                     }
                     // リクエストの禁止や、何も命令がないときは無条件でスキップ(2)
-                    if (item.AgentStatusData == AgentStatusData.NotDoneAnything ||
-                        item.AgentStatusData == AgentStatusData.RequestForbidden)
+                    if (item.AgentStatusData == AgentStatusCode.NotDoneAnything ||
+                        item.AgentStatusData == AgentStatusCode.RequestForbidden)
                         continue;
                     // 自分自身の衝突をチェック(2)
                     // YouHadCollisionsWithYourselfAndYouFailedToMoveBecauseYouAreThereAlready
@@ -555,11 +550,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     if (item.Destination == AgentPosition[team, agent])
                         switch (item.AgentStatusData)
                         {
-                            case AgentStatusData.RequestMovement:
-                                item.AgentStatusData = AgentStatusData.YouHadCollisionsWithYourselfAndYouFailedToMoveBecauseYouAreThereAlready;
+                            case AgentStatusCode.RequestMovement:
+                                item.AgentStatusData = AgentStatusCode.YouHadCollisionsWithYourselfAndYouFailedToMoveBecauseYouAreThereAlready;
                                 continue;
-                            case AgentStatusData.RequestRemovementOurTile:
-                                item.AgentStatusData = AgentStatusData.YouHadCollisionsWithYourselfAndYouFailedToRemoveTilesFromYourTeamBecauseYouAreThere;
+                            case AgentStatusCode.RequestRemovementOurTile:
+                                item.AgentStatusData = AgentStatusCode.YouHadCollisionsWithYourselfAndYouFailedToRemoveTilesFromYourTeamBecauseYouAreThere;
                                 continue;
                             default:
                                 break;
@@ -571,14 +566,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     if (item.Destination.ChebyshevDistance(AgentPosition[team, agent]) != 1)
                         switch (item.AgentStatusData)
                         {
-                            case AgentStatusData.RequestMovement:
-                                item.AgentStatusData = AgentStatusData.FailedInMovingByBeingNotMooreNeighborhood;
+                            case AgentStatusCode.RequestMovement:
+                                item.AgentStatusData = AgentStatusCode.FailedInMovingByBeingNotMooreNeighborhood;
                                 continue;
-                            case AgentStatusData.RequestRemovementOurTile:
-                                item.AgentStatusData = AgentStatusData.FailedInRemovingOurTileByBeingNotMooreNeighborhood;
+                            case AgentStatusCode.RequestRemovementOurTile:
+                                item.AgentStatusData = AgentStatusCode.FailedInRemovingOurTileByBeingNotMooreNeighborhood;
                                 continue;
-                            case AgentStatusData.RequestRemovementOpponentTile:
-                                item.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileByBeingNotMooreNeighborhood;
+                            case AgentStatusCode.RequestRemovementOpponentTile:
+                                item.AgentStatusData = AgentStatusCode.FailedInRemovingOpponentTileByBeingNotMooreNeighborhood;
                                 continue;
                             default:
                                 break;
@@ -591,14 +586,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         item.Destination.Y < 0 || Field.Height() <= item.Destination.Y)
                         switch (item.AgentStatusData)
                         {
-                            case AgentStatusData.RequestMovement:
-                                item.AgentStatusData = AgentStatusData.FailedInMovingByTryingToGoOutOfTheFieldWithEachOther;
+                            case AgentStatusCode.RequestMovement:
+                                item.AgentStatusData = AgentStatusCode.FailedInMovingByTryingToGoOutOfTheFieldWithEachOther;
                                 continue;
-                            case AgentStatusData.RequestRemovementOurTile:
-                                item.AgentStatusData = AgentStatusData.FailedInRemovingOurTileByTryingToGoOutOfTheField;
+                            case AgentStatusCode.RequestRemovementOurTile:
+                                item.AgentStatusData = AgentStatusCode.FailedInRemovingOurTileByTryingToGoOutOfTheField;
                                 continue;
-                            case AgentStatusData.RequestRemovementOpponentTile:
-                                item.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileByTryingToGoOutOfTheField;
+                            case AgentStatusCode.RequestRemovementOpponentTile:
+                                item.AgentStatusData = AgentStatusCode.FailedInRemovingOpponentTileByTryingToGoOutOfTheField;
                                 continue;
                             default:
                                 break;
@@ -606,23 +601,23 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // 剥がそうとしていたタイルが存在していないかチェック(2)
                     // FailedInRemovingOurTileByDoingTileNotExist
                     // FailedInRemovingOpponentTileByDoingTileNotExist
-                    if (item.AgentStatusData == AgentStatusData.RequestRemovementOurTile &&
+                    if (item.AgentStatusData == AgentStatusCode.RequestRemovementOurTile &&
                         Field[item.Destination.X, item.Destination.Y].IsTileOn[(team == 0) ? 0 : 1] == false)
                     {
-                        item.AgentStatusData = AgentStatusData.FailedInRemovingOurTileByDoingTileNotExist;
+                        item.AgentStatusData = AgentStatusCode.FailedInRemovingOurTileByDoingTileNotExist;
                         continue;
                     }
-                    if (item.AgentStatusData == AgentStatusData.RequestRemovementOpponentTile &&
+                    if (item.AgentStatusData == AgentStatusCode.RequestRemovementOpponentTile &&
                         Field[item.Destination.X, item.Destination.Y].IsTileOn[(team == 0) ? 1 : 0] == false)
                     {
-                        item.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileByDoingTileNotExist;
+                        item.AgentStatusData = AgentStatusCode.FailedInRemovingOpponentTileByDoingTileNotExist;
                         continue;
                     }
                     // 移動先に相手のタイルが置いてないかチェック(1)
                     // FailedInMovingByTryingItWithoutRemovingTheOpponentTile
                     if (Field.Take(item.Destination).IsTileOn[(team == (int)Team.A) ? (int)Team.B : (int)Team.A])
                     {
-                        item.AgentStatusData = AgentStatusData.FailedInMovingByTryingItWithoutRemovingTheOpponentTile;
+                        item.AgentStatusData = AgentStatusCode.FailedInMovingByTryingItWithoutRemovingTheOpponentTile;
                         continue;
                     }
                     // 動かないエージェントに衝突していないかチェック(4)
@@ -637,8 +632,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                             if (team == otherteam && agent == otheragent) continue;
                             var otheritem = agentActivityData[otherteam, otheragent];
                             var otherposition = AgentPosition[otherteam, otheragent];
-                            if ((otheritem.AgentStatusData == AgentStatusData.RequestNotToDoAnything ||
-                                otheritem.AgentStatusData == AgentStatusData.NotDoneAnything) &&
+                            if ((otheritem.AgentStatusData == AgentStatusCode.RequestNotToDoAnything ||
+                                otheritem.AgentStatusData == AgentStatusCode.NotDoneAnything) &&
                                 item.Destination == otherposition)
                             {
                                 if (team == otherteam)
@@ -679,21 +674,21 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                             if (team == otherteam && agent == otheragent) continue;
                             var otheritem = agentActivityData[otherteam, otheragent];
                             var otherposition = AgentPosition[otherteam, otheragent];
-                            if ((otheritem.AgentStatusData == AgentStatusData.RequestNotToDoAnything ||
-                                otheritem.AgentStatusData == AgentStatusData.NotDoneAnything ||
+                            if ((otheritem.AgentStatusData == AgentStatusCode.RequestNotToDoAnything ||
+                                otheritem.AgentStatusData == AgentStatusCode.NotDoneAnything ||
                                 otheritem.AgentStatusData.IsFailed()) &&
                                 item.Destination == otherposition)
                             {
                                 switch (item.AgentStatusData)
                                 {
-                                    case AgentStatusData.RequestMovement:
-                                        item.AgentStatusData = AgentStatusData.FailedInMovingByInvolvedInOtherCollisions;
+                                    case AgentStatusCode.RequestMovement:
+                                        item.AgentStatusData = AgentStatusCode.FailedInMovingByInvolvedInOtherCollisions;
                                         break;
-                                    case AgentStatusData.RequestRemovementOurTile:
-                                        item.AgentStatusData = AgentStatusData.FailedInRemovingOpponentTileByInvolvedInOtherCollisions;
+                                    case AgentStatusCode.RequestRemovementOurTile:
+                                        item.AgentStatusData = AgentStatusCode.FailedInRemovingOpponentTileByInvolvedInOtherCollisions;
                                         break;
-                                    case AgentStatusData.RequestRemovementOpponentTile:
-                                        item.AgentStatusData = AgentStatusData.FailedInRemovingOurTileByInvolvedInOtherCollisions;
+                                    case AgentStatusCode.RequestRemovementOpponentTile:
+                                        item.AgentStatusData = AgentStatusCode.FailedInRemovingOurTileByInvolvedInOtherCollisions;
                                         break;
                                     default:
                                         break;
@@ -740,14 +735,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 {
                     switch (agentActivityData[(int)team, (int)agent].AgentStatusData)
                     {
-                        case AgentStatusData.SucceededInMoving:
+                        case AgentStatusCode.SucceededInMoving:
                             AgentPosition[(int)team, (int)agent] = agentActivityData[(int)team, (int)agent].Destination;
                             PutTile(team: team, agent: agent);
                             break;
-                        case AgentStatusData.SucceededInRemovingOurTile:
+                        case AgentStatusCode.SucceededInRemovingOurTile:
                             RemoveTile(agentActivityData[(int)team, (int)agent].Destination);
                             break;
-                        case AgentStatusData.SucceededInRemovingOpponentTile:
+                        case AgentStatusCode.SucceededInRemovingOpponentTile:
                             RemoveTile(agentActivityData[(int)team, (int)agent].Destination);
                             break;
                         default:
@@ -762,7 +757,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 指定したところにエージェントが移動します。
         /// </summary>
-        /// <param name="team"></param>
+        /// <param name="team">移動させるチーム</param>
         /// <param name="agentActivityData"></param>
         public void MoveAgent(Team team, AgentActivityData[] agentActivityData)
         {
@@ -772,12 +767,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 case Team.A:
                     agentActivityDatas[(int)Team.A, (int)Agent.One] = agentActivityData[0];
                     agentActivityDatas[(int)Team.A, (int)Agent.Two] = agentActivityData[1];
-                    agentActivityDatas[(int)Team.B, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
-                    agentActivityDatas[(int)Team.B, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                    agentActivityDatas[(int)Team.B, (int)Agent.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                    agentActivityDatas[(int)Team.B, (int)Agent.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
                     break;
                 case Team.B:
-                    agentActivityDatas[(int)Team.A, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
-                    agentActivityDatas[(int)Team.A, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                    agentActivityDatas[(int)Team.A, (int)Agent.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                    agentActivityDatas[(int)Team.A, (int)Agent.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
                     agentActivityDatas[(int)Team.B, (int)Agent.One] = agentActivityData[0];
                     agentActivityDatas[(int)Team.B, (int)Agent.Two] = agentActivityData[1];
                     break;
@@ -788,8 +783,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 指定したところにエージェントが移動します。
         /// </summary>
-        /// <param name="team"></param>
-        /// <param name="agent"></param>
+        /// <param name="team">移動させるチーム</param>
+        /// <param name="agent">移動させるエージェント</param>
         /// <param name="agentActivityData"></param>
         public void MoveAgent(Team team, Agent agent, AgentActivityData agentActivityData)
         {
@@ -801,15 +796,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     {
                         case Agent.One:
                             agentActivityDatas[(int)Team.A, (int)Agent.One] = agentActivityData;
-                            agentActivityDatas[(int)Team.A, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
-                            agentActivityDatas[(int)Team.B, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
-                            agentActivityDatas[(int)Team.B, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.A, (int)Agent.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.B, (int)Agent.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.B, (int)Agent.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
                             break;
                         case Agent.Two:
-                            agentActivityDatas[(int)Team.A, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.A, (int)Agent.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
                             agentActivityDatas[(int)Team.A, (int)Agent.Two] = agentActivityData;
-                            agentActivityDatas[(int)Team.B, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
-                            agentActivityDatas[(int)Team.B, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.B, (int)Agent.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.B, (int)Agent.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
                             break;
                     }
                     break;
@@ -817,15 +812,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     switch (agent)
                     {
                         case Agent.One:
-                            agentActivityDatas[(int)Team.A, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
-                            agentActivityDatas[(int)Team.A, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.A, (int)Agent.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.A, (int)Agent.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
                             agentActivityDatas[(int)Team.B, (int)Agent.One] = agentActivityData;
-                            agentActivityDatas[(int)Team.B, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.B, (int)Agent.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
                             break;
                         case Agent.Two:
-                            agentActivityDatas[(int)Team.A, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
-                            agentActivityDatas[(int)Team.A, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
-                            agentActivityDatas[(int)Team.B, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.A, (int)Agent.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.A, (int)Agent.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.B, (int)Agent.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
                             agentActivityDatas[(int)Team.B, (int)Agent.Two] = agentActivityData;
                             break;
                     }
