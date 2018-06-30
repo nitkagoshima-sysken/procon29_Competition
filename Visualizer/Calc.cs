@@ -9,21 +9,7 @@ using System.Threading.Tasks;
 //using System.Windows.Forms;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
-{
-    /// <summary>
-    /// Point型の拡張メソッドを定義するためのクラスです。
-    /// </summary>
-    public static class PointExpansion
-    {
-        /// <summary>
-        /// 二点間のチェビシェフ距離を求めます。
-        /// </summary>
-        /// <param name="p1">対象となる点</param>
-        /// <param name="p2">対象となる点</param>
-        /// <returns></returns>
-        public static int ChebyshevDistance(this Point p1, Point p2) => Math.Max(Math.Abs(p1.X - p2.X), Math.Abs(p1.Y - p2.Y));
-    }
-
+{   
     /// <summary>
     /// procon29におけるフィールドの管理、ポイント計算などの全般を行います。
     /// </summary>
