@@ -45,11 +45,5 @@
     <Compile Include="TegetegeBot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Procon29_Visualizer\Procon29_Visualizer.csproj">
-      <Project>{518c428c-fe3b-4d37-8287-8f009864850c}</Project>
-      <Name>Procon29_Visualizer</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
