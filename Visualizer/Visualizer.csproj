@@ -87,7 +87,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bot.cs" />
     <Compile Include="Calc.cs" />
     <Compile Include="CreateNewForm.cs">
       <SubType>Form</SubType>
