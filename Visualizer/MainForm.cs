@@ -41,7 +41,7 @@ namespace nitkagoshima_sysken
                     this.Resize += new System.EventHandler(this.MainForm_Resize);
 
                     log = new Logger(messageBox);
-                    log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 3.0)");
+                    log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 7.0)");
 
                     // PQRファイルを直接読み込む
                     // ちなみにQR_code_sample.pdfで登場したQRコード
@@ -183,8 +183,8 @@ namespace nitkagoshima_sysken
                 /// <param name="e"></param>
                 private void MainForm_KeyDown(object sender, KeyEventArgs e)
                 {
-                    var team = show.SelectedTeamAndAgent.Item1;
-                    var agent = show.SelectedTeamAndAgent.Item2;
+                    var team = show.SelectedTeam;
+                    var agent = show.SelecetedAgent;
 
                     e.SuppressKeyPress = true;
                     Console.WriteLine(e.KeyCode);
@@ -195,22 +195,26 @@ namespace nitkagoshima_sysken
                             case Keys.Q:
                                 team = Team.A;
                                 agent = Agent.One;
-                                show.SelectedTeamAndAgent = (Team.A, Agent.One);
+                                show.SelectedTeam = Team.A;
+                                show.SelecetedAgent = Agent.One;
                                 break;
                             case Keys.W:
                                 team = Team.A;
                                 agent = Agent.Two;
-                                show.SelectedTeamAndAgent = (Team.A, Agent.Two);
+                                show.SelectedTeam = Team.A;
+                                show.SelecetedAgent = Agent.Two;
                                 break;
                             case Keys.E:
                                 team = Team.B;
                                 agent = Agent.One;
-                                show.SelectedTeamAndAgent = (Team.B, Agent.One);
+                                show.SelectedTeam = Team.B;
+                                show.SelecetedAgent = Agent.One;
                                 break;
                             case Keys.R:
                                 team = Team.B;
                                 agent = Agent.Two;
-                                show.SelectedTeamAndAgent = (Team.B, Agent.Two);
+                                show.SelectedTeam = Team.B;
+                                show.SelecetedAgent = Agent.Two;
                                 break;
                             case Keys.NumPad1:
                                 show.agentActivityData[(int)team, (int)agent].Destination =

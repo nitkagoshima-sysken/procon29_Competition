@@ -25,7 +25,7 @@ namespace nitkagoshima_sysken
                 private Font pointFont;
                 private Point clickedField;
                 private const string pointFamilyName = "Impact";
-                private (Team, Agent) selectedTeamAndAgent;
+                //private (Team, Agent) selectedTeamAndAgent;
 
                 private Bitmap[] agentBitmap;
                 private Bitmap[] fairyBitmap;
@@ -82,10 +82,8 @@ namespace nitkagoshima_sysken
                 /// </summary>
                 internal Logger Procon29_Logger { get => procon29_Logger; set => procon29_Logger = value; }
 
-                /// <summary>
-                /// 選択したチームとエージェントの設定または取得します。
-                /// </summary>
-                public (Team, Agent) SelectedTeamAndAgent { get => selectedTeamAndAgent; set => selectedTeamAndAgent = value; }
+                public Team SelectedTeam { get; set; }
+                public Agent SelecetedAgent { get; set; }
 
                 /// <summary>
                 /// エージェントの画像を設定または取得します。
@@ -450,7 +448,9 @@ namespace nitkagoshima_sysken
                         {
                             if (ClickedField == Calc.AgentPosition[(int)team, (int)agent])
                             {
-                                SelectedTeamAndAgent = (team, agent);
+                                //SelectedTeamAndAgent = (team, agent);
+                                SelectedTeam = team;
+                                SelecetedAgent = agent;
                             }
                         }
                     }
@@ -470,9 +470,10 @@ namespace nitkagoshima_sysken
                 /// </summary>
                 public void DoubleClickedShow()
                 {
-                    if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)((SelectedTeamAndAgent.Item1 == Team.A) ? Team.B : Team.A)])
-                        agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestRemovementOpponentTile;
-                    else if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)SelectedTeamAndAgent.Item1])
+                    //if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)((SelectedTeamAndAgent.Item1 == Team.A) ? Team.B : Team.A)])
+                    if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)((SelectedTeam == Team.A) ? Team.B : Team.A)])
+                        agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusData.RequestRemovementOpponentTile;
+                    else if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)SelectedTeam])
                     {
                         //メッセージボックスを表示する
                         DialogResult result = MessageBox.Show("タイルを取り除きますか？", "質問", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
@@ -481,25 +482,25 @@ namespace nitkagoshima_sysken
                         {
                             //「はい」が選択された時
                             Console.WriteLine("「はい」が選択されました");
-                            agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestRemovementOurTile;
+                            agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusData.RequestRemovementOurTile;
                         }
                         else if (result == DialogResult.No)
                         {
                             //「いいえ」が選択された時
                             Console.WriteLine("「いいえ」が選択されました");
-                            agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestMovement;
+                            agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusData.RequestMovement;
                         }
                     }
                     else
-                        agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestMovement;
-                    agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].Destination = ClickedField;
+                        agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusData.RequestMovement;
+                    agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].Destination = ClickedField;
                 }
 
                 public void KeyDownShow()
                 {
-                    if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)((SelectedTeamAndAgent.Item1 == Team.A) ? Team.B : Team.A)])
-                        agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestRemovementOpponentTile;
-                    else if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)SelectedTeamAndAgent.Item1])
+                    if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)((SelectedTeam == Team.A) ? Team.B : Team.A)])
+                        agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusData.RequestRemovementOpponentTile;
+                    else if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)SelectedTeam])
                     {
                         //メッセージボックスを表示する
                         DialogResult result = MessageBox.Show("タイルを取り除きますか？", "質問", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
@@ -508,17 +509,17 @@ namespace nitkagoshima_sysken
                         {
                             //「はい」が選択された時
                             Console.WriteLine("「はい」が選択されました");
-                            agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestRemovementOurTile;
+                            agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusData.RequestRemovementOurTile;
                         }
                         else if (result == DialogResult.No)
                         {
                             //「いいえ」が選択された時
                             Console.WriteLine("「いいえ」が選択されました");
-                            agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestMovement;
+                            agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusData.RequestMovement;
                         }
                     }
                     else
-                        agentActivityData[(int)SelectedTeamAndAgent.Item1, (int)SelectedTeamAndAgent.Item2].AgentStatusData = AgentStatusData.RequestMovement;
+                        agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusData.RequestMovement;
                 }
 
                 /// <summary>
