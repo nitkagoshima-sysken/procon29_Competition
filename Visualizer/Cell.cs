@@ -1,41 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
-    /// <summary>
-    /// チームが先攻か後攻かを表すための列挙体
-    /// </summary>
-    public enum Team
-    {
-        /// <summary>
-        /// チームAを表します。
-        /// </summary>
-        A,
-        /// <summary>
-        /// チームBを表します。
-        /// </summary>
-        B
-    }
-
-    /// <summary>
-    /// チームのエージェントを表すための列挙体
-    /// </summary>
-    public enum Agent
-    {
-        /// <summary>
-        /// 1人目のエージェントを表します。
-        /// </summary>
-        One,
-        /// <summary>
-        /// 2人目のエージェントを表します。
-        /// </summary>
-        Two
-    }
-
     /// <summary>
     /// 競技フィールドにおける任意の1マスのデータ構造を表します。
     /// </summary>

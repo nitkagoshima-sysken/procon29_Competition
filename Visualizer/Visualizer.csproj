@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{518C428C-FE3B-4D37-8287-8F009864850C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>nitkagoshima_sysken.procon29_Competition.Visualizer</RootNamespace>
-    <AssemblyName>procon29_disp</AssemblyName>
+    <RootNamespace>nitkagoshima_sysken.Procon29.Visualizer</RootNamespace>
+    <AssemblyName>Procon29 Visualizer</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -40,7 +40,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\procon29_disp.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\Procon29 Visualizer.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -87,6 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Agent.cs" />
     <Compile Include="Calc.cs" />
     <Compile Include="CreateNewForm.cs">
       <SubType>Form</SubType>
@@ -112,6 +113,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Show.cs" />
+    <Compile Include="Team.cs" />
     <Compile Include="TeamDesign.cs" />
     <Compile Include="TurnData.cs" />
     <EmbeddedResource Include="CreateNewForm.resx">
