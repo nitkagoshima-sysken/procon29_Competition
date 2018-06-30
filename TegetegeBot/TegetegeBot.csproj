@@ -45,5 +45,15 @@
     <Compile Include="TegetegeBot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bot\Bot.csproj">
+      <Project>{9f7412b1-836a-43d1-af00-c1fc67150b5d}</Project>
+      <Name>Bot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Visualizer\Visualizer.csproj">
+      <Project>{518c428c-fe3b-4d37-8287-8f009864850c}</Project>
+      <Name>Visualizer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
