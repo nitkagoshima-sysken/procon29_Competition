@@ -174,6 +174,16 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// 初期化を行います
         /// </summary>
         /// <param name="agentStatusData">エージェントが行動をどこに起こしたかを表します</param>
+        public AgentActivityData(AgentStatusData agentStatusData)
+        {
+            AgentStatusData = agentStatusData;
+            Destination = new Point();
+        }
+
+        /// <summary>
+        /// 初期化を行います
+        /// </summary>
+        /// <param name="agentStatusData">エージェントが行動をどこに起こしたかを表します</param>
         /// <param name="destination">エージェントが行動した結果の状態を表します</param>
         public AgentActivityData(AgentStatusData agentStatusData, Point destination)
         {

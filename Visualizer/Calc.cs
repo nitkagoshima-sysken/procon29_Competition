@@ -9,19 +9,12 @@ using System.Threading.Tasks;
 //using System.Windows.Forms;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
-{   
+{
     /// <summary>
     /// procon29におけるフィールドの管理、ポイント計算などの全般を行います。
     /// </summary>
     public class Calc
     {
-        private int turn = 0;
-        private bool isVerticallySymmetrical, isHorizontallySymmetrical;
-        private List<TurnData> fieldHistory = new List<TurnData>();
-        private static readonly string[,] shortTeamAgentName = new string[2, 2] { { "Strawberry", "Apple", }, { "Kiwi", "Muscat", }, };
-        private static readonly Array teamList = Enum.GetValues(typeof(Team));
-        private static readonly Array agentList = Enum.GetValues(typeof(Agent));
-
         /// <summary>
         /// Procon29_Calcを初期化します。
         /// </summary>
@@ -114,20 +107,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// ターンを設定または取得します。
         /// </summary>
-        public int Turn { get { return turn; } private set { turn = value; } }
+        public int Turn { get; private set; }
 
         /// <summary>
         /// フィールドを設定または取得します。
         /// </summary>
         public Cell[,] Field { get => FieldHistory[Turn].Field; set => FieldHistory[Turn].Field = value; }
-
-        /// <summary>
-        /// エージェントの位置を設定または取得します。
-        /// </summary>
-        /// <param name="team"></param>
-        /// <param name="agent"></param>
-        /// <returns></returns>
-        public Point GetAgentPosition(Team team, Agent agent) => AgentPosition[(int)team, (int)agent];
 
         /// <summary>
         /// フィールドのリストを返します。
@@ -148,37 +133,41 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 上下対称なら真、そうでなければ偽が返ってきます。
         /// </summary>
-        public bool IsVerticallySymmetrical { get => isVerticallySymmetrical; private set => isVerticallySymmetrical = value; }
+        public bool IsVerticallySymmetrical => Field.VerticallySymmetricalCheck();
 
         /// <summary>
         /// 左右対称なら真、そうでなければ偽が返ってきます。
         /// </summary>
-        public bool IsHorizontallySymmetrical { get => isHorizontallySymmetrical; private set => isHorizontallySymmetrical = value; }
+        public bool IsHorizontallySymmetrical => Field.HorizontallySymmetricalCheck();
 
         /// <summary>
         /// エージェントの略称を返します。
         /// </summary>
-        public static string[,] ShortTeamAgentName => shortTeamAgentName;
+        public static string[,] ShortTeamAgentName => new string[2, 2] { { "Strawberry", "Apple", }, { "Kiwi", "Muscat", }, };
 
         /// <summary>
         /// フィールドの歴史を設定または取得します。
         /// </summary>
-        internal List<TurnData> FieldHistory { get => fieldHistory; private set => fieldHistory = value; }
+        internal List<TurnData> FieldHistory { get; private set; } = new List<TurnData>();
 
         /// <summary>
         /// Team列挙体のすべての要素を配列にします
         /// </summary>
-        public static Array TeamArray => teamList;
+        public static Array TeamArray => Enum.GetValues(typeof(Team));
 
         /// <summary>
         /// Agent列挙体のすべての要素を配列にします
         /// </summary>
-        public static Array AgentArray => agentList;
+        public static Array AgentArray => Enum.GetValues(typeof(Agent));
 
         /// <summary>
-        /// ターンデータを保有します
+        /// 現在のobjectのディープコピーを行います。
         /// </summary>
-        //private TurnData TurnData { get => turnData; set => turnData = value; }
+        /// <returns>objectのディープコピー</returns>
+        public object DeepCopy()
+        {
+            return new Calc((Cell[,])Field.DeepCopy(), new Point[] { AgentPosition[0, 0], AgentPosition[0, 1] });
+        }
 
         /// <summary>
         /// すべてのフィールドのポイントの和を計算します。
@@ -240,8 +229,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public void PointMapCheck()
         {
             if (Field.Width() > 12 || Field.Height() > 12) throw new IndexOutOfRangeException();
-            IsHorizontallySymmetrical = Field.HorizontallySymmetricalCheck();
-            IsVerticallySymmetrical = Field.VerticallySymmetricalCheck();
         }
 
         /// <summary>
@@ -773,12 +760,78 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// 現在のobjectのディープコピーを行います。
+        /// 指定したところにエージェントが移動します。
         /// </summary>
-        /// <returns>objectのディープコピー</returns>
-        public object DeepCopy()
+        /// <param name="team"></param>
+        /// <param name="agentActivityData"></param>
+        public void MoveAgent(Team team, AgentActivityData[] agentActivityData)
         {
-            return new Calc((Cell[,])Field.DeepCopy(), new Point[] { AgentPosition[0, 0], AgentPosition[0, 1] });
+            var agentActivityDatas = new AgentActivityData[2, 2];
+            switch (team)
+            {
+                case Team.A:
+                    agentActivityDatas[(int)Team.A, (int)Agent.One] = agentActivityData[0];
+                    agentActivityDatas[(int)Team.A, (int)Agent.Two] = agentActivityData[1];
+                    agentActivityDatas[(int)Team.B, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                    agentActivityDatas[(int)Team.B, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                    break;
+                case Team.B:
+                    agentActivityDatas[(int)Team.A, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                    agentActivityDatas[(int)Team.A, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                    agentActivityDatas[(int)Team.B, (int)Agent.One] = agentActivityData[0];
+                    agentActivityDatas[(int)Team.B, (int)Agent.Two] = agentActivityData[1];
+                    break;
+            }
+            MoveAgent(agentActivityDatas);
+        }
+
+        /// <summary>
+        /// 指定したところにエージェントが移動します。
+        /// </summary>
+        /// <param name="team"></param>
+        /// <param name="agent"></param>
+        /// <param name="agentActivityData"></param>
+        public void MoveAgent(Team team, Agent agent, AgentActivityData agentActivityData)
+        {
+            var agentActivityDatas = new AgentActivityData[2, 2];
+            switch (team)
+            {
+                case Team.A:
+                    switch (agent)
+                    {
+                        case Agent.One:
+                            agentActivityDatas[(int)Team.A, (int)Agent.One] = agentActivityData;
+                            agentActivityDatas[(int)Team.A, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.B, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.B, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                            break;
+                        case Agent.Two:
+                            agentActivityDatas[(int)Team.A, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.A, (int)Agent.Two] = agentActivityData;
+                            agentActivityDatas[(int)Team.B, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.B, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                            break;
+                    }
+                    break;
+                case Team.B:
+                    switch (agent)
+                    {
+                        case Agent.One:
+                            agentActivityDatas[(int)Team.A, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.A, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.B, (int)Agent.One] = agentActivityData;
+                            agentActivityDatas[(int)Team.B, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                            break;
+                        case Agent.Two:
+                            agentActivityDatas[(int)Team.A, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.A, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.B, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.B, (int)Agent.Two] = agentActivityData;
+                            break;
+                    }
+                    break;
+            }
+            MoveAgent(agentActivityDatas);
         }
     }
 }

@@ -119,7 +119,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 foreach (Agent agent in Enum.GetValues(typeof(Agent)))
                 {
-                    agentActivityData[(int)team, (int)agent] = new AgentActivityData(AgentStatusData.RequestMovement, Calc.GetAgentPosition(team, agent));
+                    agentActivityData[(int)team, (int)agent] = new AgentActivityData(AgentStatusData.RequestMovement, Calc.AgentPosition[(int)team, (int)agent]);
                 }
             }
         }
