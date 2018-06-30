@@ -1,83 +1,89 @@
 ﻿using System.Drawing;
-using Procon29_Visualizer;
+using nitkagoshima_sysken.procon29_Competition.Visualizer;
 
-namespace TegetegeBot
+namespace nitkagoshima_sysken
 {
-    /// <summary>
-    /// テスト用プログラム
-    /// ちなみにこのボットは、いかなるときも(0,0)へ移動しようとするボットだった。
-    /// </summary>
-    class TegetegeBot : Bot
+    namespace procon29_Competition
     {
-        /// <summary>
-        /// 初期化するところです
-        /// </summary>
-        /// <param name="team"></param>
-        public TegetegeBot() : base() { }
-
-        /// <summary>
-        /// あなたが、どこにエージェントを行かせるかを、
-        /// この関数に書きます。
-        /// </summary>
-        /// <returns>どこにエージェントに行かせるか</returns>
-        public override AgentActivityData[] Answer()
+        namespace TegetegeBot
         {
-            var result = new AgentActivityData[2];
-            var a1mp = -100;
-            var a2mp = -100;
-            Point ap1 = new Point();
-            Point ap2 = new Point();
-            for (int x = 0; x < Calc.Field.Width(); x++)
+            /// <summary>
+            /// テスト用プログラム
+            /// ちなみにこのボットは、いかなるときも(0,0)へ移動しようとするボットだった。
+            /// </summary>
+            class TegetegeBot : Bot.Bot
             {
-                for (int y = 0; y < Calc.Field.Height(); y++)
+                /// <summary>
+                /// 初期化するところです
+                /// </summary>
+                /// <param name="team"></param>
+                public TegetegeBot() : base() { }
+
+                /// <summary>
+                /// あなたが、どこにエージェントを行かせるかを、
+                /// この関数に書きます。
+                /// </summary>
+                /// <returns>どこにエージェントに行かせるか</returns>
+                public override AgentActivityData[] Answer()
                 {
-                    var trying = new AgentActivityData[2, 2];
-                    var otherteam = (Team == Team.A) ? Team.B : Team.A;
-
-                    // Bot側のチーム、1人目のエージェントが(x,y)に移動する
-                    trying[(int)Team, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestMovement, new Point(x, y));
-                    // Bot側のチーム、2人目のエージェントは何もしない
-                    trying[(int)Team, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
-                    // 敵側のチーム、1人目のエージェントは何もしない
-                    trying[(int)otherteam, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
-                    // 敵側のチーム、2人目のエージェントは何もしない
-                    trying[(int)otherteam, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
-                    var p = Simulate(action: trying, take: Calc.TotalPoint);
-
-                    if (Calc.AgentPosition[(int)Team, 0].ChebyshevDistance(new Point(x, y)) != 1) continue;
-                    // 今までの中で一番、得点が高かったら、ap1の座標を更新する
-                    if (a1mp < p)
-                    {                        
-                        a1mp = p;
-                        ap1 = new Point(x, y);
-                    }
-                }
-            }
-            // Bot側のチーム、1人目のエージェントがap1に行くことが確定する
-            result[0] = new AgentActivityData(AgentStatusData.RequestMovement, ap1);
-            for (int x = 0; x < Calc.Field.Width(); x++)
-            {
-                for (int y = 0; y < Calc.Field.Height(); y++)
-                {
-                    var trying = new AgentActivityData[2, 2];
-                    var otherteam = (Team == Team.A) ? Team.B : Team.A;
-
-                    trying[(int)Team, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
-                    trying[(int)Team, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestMovement, new Point(x, y));
-                    trying[(int)otherteam, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
-                    trying[(int)otherteam, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
-                    var p = Simulate(action: trying, take: Calc.TotalPoint);
-
-                    if (Calc.AgentPosition[(int)Team, 1].ChebyshevDistance(new Point(x, y)) != 1) continue;
-                    if (a2mp < p)
+                    var result = new AgentActivityData[2];
+                    var a1mp = -100;
+                    var a2mp = -100;
+                    Point ap1 = new Point();
+                    Point ap2 = new Point();
+                    for (int x = 0; x < Calc.Field.Width(); x++)
                     {
-                        a2mp = p;
-                        ap2 = new Point(x, y);
+                        for (int y = 0; y < Calc.Field.Height(); y++)
+                        {
+                            var trying = new AgentActivityData[2, 2];
+                            var otherteam = (Team == Team.A) ? Team.B : Team.A;
+
+                            // Bot側のチーム、1人目のエージェントが(x,y)に移動する
+                            trying[(int)Team, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestMovement, new Point(x, y));
+                            // Bot側のチーム、2人目のエージェントは何もしない
+                            trying[(int)Team, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
+                            // 敵側のチーム、1人目のエージェントは何もしない
+                            trying[(int)otherteam, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
+                            // 敵側のチーム、2人目のエージェントは何もしない
+                            trying[(int)otherteam, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
+                            var p = Simulate(action: trying, take: Calc.TotalPoint);
+
+                            if (Calc.AgentPosition[(int)Team, 0].ChebyshevDistance(new Point(x, y)) != 1) continue;
+                            // 今までの中で一番、得点が高かったら、ap1の座標を更新する
+                            if (a1mp < p)
+                            {
+                                a1mp = p;
+                                ap1 = new Point(x, y);
+                            }
+                        }
                     }
+                    // Bot側のチーム、1人目のエージェントがap1に行くことが確定する
+                    result[0] = new AgentActivityData(AgentStatusData.RequestMovement, ap1);
+                    for (int x = 0; x < Calc.Field.Width(); x++)
+                    {
+                        for (int y = 0; y < Calc.Field.Height(); y++)
+                        {
+                            var trying = new AgentActivityData[2, 2];
+                            var otherteam = (Team == Team.A) ? Team.B : Team.A;
+
+                            trying[(int)Team, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
+                            trying[(int)Team, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestMovement, new Point(x, y));
+                            trying[(int)otherteam, (int)Agent.One] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
+                            trying[(int)otherteam, (int)Agent.Two] = new AgentActivityData(AgentStatusData.RequestNotToDoAnything, new Point());
+                            var p = Simulate(action: trying, take: Calc.TotalPoint);
+
+                            if (Calc.AgentPosition[(int)Team, 1].ChebyshevDistance(new Point(x, y)) != 1) continue;
+                            if (a2mp < p)
+                            {
+                                a2mp = p;
+                                ap2 = new Point(x, y);
+                            }
+                        }
+                    }
+                    result[1] = new AgentActivityData(AgentStatusData.RequestMovement, ap2);
+                    return result;
                 }
             }
-            result[1] = new AgentActivityData(AgentStatusData.RequestMovement, ap2);
-            return result;
         }
     }
 }
