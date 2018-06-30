@@ -1,4 +1,8 @@
-# Procon29 Visualizer 7.0
+# Procon29 Visualizer 7.1
+
+## What's new (ver. 7.1)
+
+`Point`が`Score`に変更された
 
 ## What's new
 

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace nitkagoshima_sysken
 {
-    namespace procon29_Competition
+    namespace Procon29
     {
         namespace Visualizer
         {
