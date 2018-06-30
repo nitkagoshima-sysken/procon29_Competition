@@ -108,6 +108,11 @@ BotとVisualizerもプロジェクトを分けた方が、開発がしやすい�
 - オレンジチームもボットが選択できるようになった
 - ボットで相手のタイルを取り除いてないのにエージェントが移動できるバグを修正
 
+### Version 7.0
+
+- .NET Framework 4.6.1にダウングレードした
+- BotプロジェクトとVisualizerプロジェクトに分かれた
+
 ## 君は開発者のフレンズなんだね！
 
 [PQRファイルの形式について](https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/About-.PQR-file)
