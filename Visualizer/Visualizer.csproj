@@ -88,6 +88,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Agent.cs" />
+    <Compile Include="AgentActivityData.cs" />
+    <Compile Include="AgentStatusCode.cs" />
+    <Compile Include="AgentStatusCodeExpansion.cs" />
     <Compile Include="Calc.cs" />
     <Compile Include="CreateNewForm.cs">
       <SubType>Form</SubType>
