@@ -1,33 +1,38 @@
-﻿namespace Procon29_Visualizer
+﻿
+namespace nitkagoshima_sysken
 {
-    partial class CreateNewForm
+    namespace procon29_Competition
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
+        namespace Visualizer
         {
-            if (disposing && (components != null))
+            partial class CreateNewForm
             {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+                /// <summary>
+                /// Required designer variable.
+                /// </summary>
+                private System.ComponentModel.IContainer components = null;
 
-        #region Windows Form Designer generated code
+                /// <summary>
+                /// Clean up any resources being used.
+                /// </summary>
+                /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+                protected override void Dispose(bool disposing)
+                {
+                    if (disposing && (components != null))
+                    {
+                        components.Dispose();
+                    }
+                    base.Dispose(disposing);
+                }
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
+                #region Windows Form Designer generated code
+
+                /// <summary>
+                /// Required method for Designer support - do not modify
+                /// the contents of this method with the code editor.
+                /// </summary>
+                private void InitializeComponent()
+                {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.TopLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -588,40 +593,42 @@
             this.tableLayoutPanel4.ResumeLayout(false);
             this.ResumeLayout(false);
 
+                }
+
+                #endregion
+
+                private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+                private System.Windows.Forms.Label TopLabel;
+                private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+                private System.Windows.Forms.Label Team1Label;
+                private System.Windows.Forms.Label Team1Agent0Label;
+                private System.Windows.Forms.Label Team1Agent1Label;
+                private System.Windows.Forms.Label Team0Label;
+                private System.Windows.Forms.Label Team0Agent0Label;
+                private System.Windows.Forms.Label Team0Agent1Label;
+                private System.Windows.Forms.TextBox textBox8;
+                private System.Windows.Forms.TextBox textBox7;
+                private System.Windows.Forms.TextBox textBox5;
+                private System.Windows.Forms.TextBox textBox4;
+                private System.Windows.Forms.TextBox textBox3;
+                private System.Windows.Forms.TextBox textBox6;
+                private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+                private System.Windows.Forms.Label UsedFieldLabel;
+                private System.Windows.Forms.Label BattleNameLabel;
+                private System.Windows.Forms.Label MaxTurnLabel;
+                private System.Windows.Forms.TextBox textBox1;
+                private System.Windows.Forms.TextBox MaxTurnTextBox;
+                private System.Windows.Forms.Button SlecetPQRFileButton;
+                private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+                private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+                private System.Windows.Forms.Button CancelButton;
+                private System.Windows.Forms.Button OKButton;
+                private System.Windows.Forms.TextBox SelectedPQRFileNameLabel;
+                private System.Windows.Forms.Button SelectBotButton0;
+                private System.Windows.Forms.Button SelectBotButton1;
+                private System.Windows.Forms.CheckBox IsTeam1HumanCheckBox;
+                private System.Windows.Forms.CheckBox IsTeam0HumanCheckBox;
+            }
         }
-
-        #endregion
-
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label TopLabel;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Label Team1Label;
-        private System.Windows.Forms.Label Team1Agent0Label;
-        private System.Windows.Forms.Label Team1Agent1Label;
-        private System.Windows.Forms.Label Team0Label;
-        private System.Windows.Forms.Label Team0Agent0Label;
-        private System.Windows.Forms.Label Team0Agent1Label;
-        private System.Windows.Forms.TextBox textBox8;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.Label UsedFieldLabel;
-        private System.Windows.Forms.Label BattleNameLabel;
-        private System.Windows.Forms.Label MaxTurnLabel;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox MaxTurnTextBox;
-        private System.Windows.Forms.Button SlecetPQRFileButton;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-        private System.Windows.Forms.Button CancelButton;
-        private System.Windows.Forms.Button OKButton;
-        private System.Windows.Forms.TextBox SelectedPQRFileNameLabel;
-        private System.Windows.Forms.Button SelectBotButton0;
-        private System.Windows.Forms.Button SelectBotButton1;
-        private System.Windows.Forms.CheckBox IsTeam1HumanCheckBox;
-        private System.Windows.Forms.CheckBox IsTeam0HumanCheckBox;
     }
 }
