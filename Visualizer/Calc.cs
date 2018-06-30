@@ -876,10 +876,10 @@ namespace nitkagoshima_sysken
                                     AgentPosition[(int)team, (int)agent] = agentActivityData[(int)team, (int)agent].Destination;
                                     PutTile(team: team, agent: agent);
                                     break;
-                                case AgentStatusData.SucceededInRemoveingOurTile:
+                                case AgentStatusData.SucceededInRemovingOurTile:
                                     RemoveTile(agentActivityData[(int)team, (int)agent].Destination);
                                     break;
-                                case AgentStatusData.SucceededInRemoveingOpponentTile:
+                                case AgentStatusData.SucceededInRemovingOpponentTile:
                                     RemoveTile(agentActivityData[(int)team, (int)agent].Destination);
                                     break;
                                 default:

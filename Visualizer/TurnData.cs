@@ -47,11 +47,11 @@ namespace nitkagoshima_sysken
                 /// <summary>
                 /// 自分のチームからタイルを取り除くことに成功しました
                 /// </summary>
-                SucceededInRemoveingOurTile,
+                SucceededInRemovingOurTile,
                 /// <summary>
                 /// 相手のチームからタイルを取り除くことに成功しました
                 /// </summary>
-                SucceededInRemoveingOpponentTile,
+                SucceededInRemovingOpponentTile,
                 /// <summary>
                 /// 相手のチームとコリジョンが発生し、移動に失敗しました
                 /// </summary>
@@ -151,7 +151,7 @@ namespace nitkagoshima_sysken
                 /// <summary>
                 /// 不明なエラーによって、移動に失敗しました
                 /// </summary>
-                FailedInMovingByUnkownError,
+                FailedInMovingByUnkownError = 992,
                 /// <summary>
                 /// 不明なエラーによって、自分のチームからタイルを取り除くことに失敗しました
                 /// </summary>
@@ -312,8 +312,8 @@ namespace nitkagoshima_sysken
                 public static bool IsSucceeded(this AgentStatusData agentStatusData) =>
                     agentStatusData == AgentStatusData.SucceededNotToDoAnything ||
                     agentStatusData == AgentStatusData.SucceededInMoving ||
-                    agentStatusData == AgentStatusData.SucceededInRemoveingOpponentTile ||
-                    agentStatusData == AgentStatusData.SucceededInRemoveingOurTile;
+                    agentStatusData == AgentStatusData.SucceededInRemovingOpponentTile ||
+                    agentStatusData == AgentStatusData.SucceededInRemovingOurTile;
 
                 /// <summary>
                 /// エージェントの行動が失敗したことを判定します
@@ -415,10 +415,10 @@ namespace nitkagoshima_sysken
                             agentActivityData.AgentStatusData = AgentStatusData.SucceededInMoving;
                             return;
                         case AgentStatusData.RequestRemovementOurTile:
-                            agentActivityData.AgentStatusData = AgentStatusData.SucceededInRemoveingOurTile;
+                            agentActivityData.AgentStatusData = AgentStatusData.SucceededInRemovingOurTile;
                             return;
                         case AgentStatusData.RequestRemovementOpponentTile:
-                            agentActivityData.AgentStatusData = AgentStatusData.SucceededInRemoveingOpponentTile;
+                            agentActivityData.AgentStatusData = AgentStatusData.SucceededInRemovingOpponentTile;
                             return;
                         default:
                             return;
