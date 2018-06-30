@@ -41,13 +41,13 @@ namespace Procon29_Visualizer
         /// <summary>
         /// エージェントを動かしたときに、状態がどう変化するか計算します。
         /// </summary>
-        /// <param name="agentActivityDatas">どうエージェントが動くか指定します。</param>
-        /// <param name="func">ほしい情報を指定します。</param>
+        /// <param name="action">どうエージェントが動くか指定します。</param>
+        /// <param name="take">ほしい情報を指定します。</param>
         /// <returns></returns>
-        public int SimulateAndTake(AgentActivityData[,] agentActivityDatas, Func<Team, int> func)
+        public int Simulate(AgentActivityData[,] action, Func<Team, int> take)
         {
-            Calc.MoveAgent(agentActivityDatas);
-            int p = func(Team);
+            Calc.MoveAgent(action);
+            int p = take(Team);
             Calc.Undo();
             return p;
         }
