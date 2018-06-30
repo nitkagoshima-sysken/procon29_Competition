@@ -7,24 +7,20 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// </summary>
     class TeamDesign
     {
-        private string name;
-        private Color agentColor;
-        private Color areaColor;
-
         /// <summary>
         /// チームの名前を設定または取得します。
         /// </summary>
-        public string Name { get => name; set => name = value; }
+        public string Name { get; set; }
 
         /// <summary>
         /// エージェントの色を設定または取得します。
         /// </summary>
-        public Color AgentColor { get => agentColor; set => agentColor = value; }
+        public Color AgentColor { get; set; }
 
         /// <summary>
         /// 領域の色を設定または取得します。
         /// </summary>
-        public Color AreaColor { get => areaColor; set => areaColor = value; }
+        public Color AreaColor { get; set; }
 
         /// <summary>
         /// TeamDesignを初期化します。
