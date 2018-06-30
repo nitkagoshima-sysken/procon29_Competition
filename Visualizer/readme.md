@@ -1,4 +1,4 @@
-# Procon29 Visualizer (ver. 7.0)
+# Procon29 Visualizer 7.0
 
 ## What's new
 
