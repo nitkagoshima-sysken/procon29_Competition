@@ -1,4 +1,4 @@
-﻿namespace nitkagoshima_sysken.Procon29.Visualizer.Resources
+﻿namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     /// <summary>
     /// エージェントを表します

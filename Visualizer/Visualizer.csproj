@@ -119,10 +119,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources\AgentData.cs" />
     <Compile Include="Show.cs" />
     <Compile Include="Team.cs" />
-    <Compile Include="TeamAndAgentArray.cs" />
-    <Compile Include="TeamArray.cs" />
+    <Compile Include="Agents.cs" />
+    <Compile Include="TeamBool.cs" />
     <Compile Include="TeamDesign.cs" />
     <Compile Include="TurnData.cs" />
     <Compile Include="TurnDataExpansion.cs" />

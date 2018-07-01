@@ -17,12 +17,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// そのマスにタイルが置かれているかを表します。
         /// </summary>
-        public bool[] IsTileOn { get; set; }
+        public TeamBool[] IsTileOn { get; set; }
 
         /// <summary>
         /// そのマスがタイルに囲まれているかを表します。
         /// </summary>
-        public bool[] IsEnclosed { get; set; }
+        public TeamBool[] IsEnclosed { get; set; }
 
         /// <summary>
         /// そのマスがフィールドのどこにあるかを表します。
