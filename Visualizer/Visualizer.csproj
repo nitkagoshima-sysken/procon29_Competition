@@ -88,7 +88,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Agent.cs" />
+    <Compile Include="AgentNumber.cs" />
     <Compile Include="AgentActivityData.cs" />
     <Compile Include="AgentStatusCode.cs" />
     <Compile Include="AgentStatusCodeExpansion.cs" />
@@ -120,7 +120,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="AgentData.cs" />
+    <Compile Include="Agent.cs" />
     <Compile Include="Show.cs" />
     <Compile Include="Team.cs" />
     <Compile Include="Agents.cs" />

@@ -3,7 +3,7 @@
     /// <summary>
     /// エージェントを表します
     /// </summary>
-    public class AgentData
+    public class Agent
     {
         /// <summary>
         /// 名前を取得または設定します
@@ -18,7 +18,7 @@
         /// <summary>
         /// エージェント番号を取得または設定します
         /// </summary>
-        public AgentNumber Agent { get; set; }
+        public AgentNumber AgentNumber { get; set; }
 
         /// <summary>
         /// エージェントのいる番号を取得または設定します
@@ -30,12 +30,12 @@
         /// </summary>
         /// <param name="name">名前を設定します</param>
         /// <param name="team">チーム名を設定します</param>
-        /// <param name="agent">エージェント番号を設定します</param>
-        public AgentData(string name, Team team, AgentNumber agent)
+        /// <param name="agentNumber">エージェント番号を設定します</param>
+        public Agent(string name, Team team, AgentNumber agentNumber)
         {
             Name = name;
             Team = team;
-            Agent = agent;
+            AgentNumber = agentNumber;
         }
     }
 }
