@@ -41,6 +41,18 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
+        /// Fieldの初期化を行います。
+        /// </summary>
+        /// <param name="coordinate">セルの座標を指定します。</param>
+        public Cell(Coordinate coordinate)
+        {
+            Point = 0;
+            IsTileOn = new TeamBool();
+            IsEnclosed = new TeamBool();
+            Coordinate = coordinate;
+        }
+
+        /// <summary>
         /// CSV形式の文字列をListに変換します。
         /// </summary>
         /// <param name="str">変換する文字列</param>

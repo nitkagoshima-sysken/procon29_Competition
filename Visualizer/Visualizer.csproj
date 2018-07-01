@@ -103,6 +103,7 @@
     </Compile>
     <Compile Include="DataConverter.cs" />
     <Compile Include="Cell.cs" />
+    <Compile Include="Field.cs" />
     <Compile Include="FieldExpansion.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MainForm.cs">
@@ -119,12 +120,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\AgentData.cs" />
+    <Compile Include="AgentData.cs" />
     <Compile Include="Show.cs" />
     <Compile Include="Team.cs" />
     <Compile Include="Agents.cs" />
     <Compile Include="TeamBool.cs" />
     <Compile Include="TeamDesign.cs" />
+    <Compile Include="TeamExpansion.cs" />
     <Compile Include="TurnData.cs" />
     <Compile Include="TurnDataExpansion.cs" />
     <EmbeddedResource Include="CreateNewForm.resx">

@@ -10,7 +10,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// フィールドを設定または取得します
         /// </summary>
-        public Cell[,] Field { get; set; }
+        public Field Field { get; set; }
 
         /// <summary>
         /// エージェントの位置を設定または取得します
@@ -28,7 +28,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="field">フィールドを表します</param>
         /// <param name="agentPosition">エージェントの位置を表します</param>
         /// <param name="agentActivityData">エージェントの行動データを表します</param>
-        public TurnData(Cell[,] field, Coordinate[,] agentPosition, AgentActivityData[,] agentActivityData)
+        public TurnData(Field field, Coordinate[,] agentPosition, AgentActivityData[,] agentActivityData)
         {
             Field = field;
             AgentPosition = agentPosition;
@@ -38,7 +38,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 初期化します
         /// </summary>
-        public TurnData(Cell[,] field, Coordinate[,] agentPosition)
+        public TurnData(Field field, Coordinate[,] agentPosition)
         {
             Field = field;
             AgentPosition = agentPosition;
@@ -60,7 +60,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             var cloned =
                 new TurnData(
-                    (Cell[,])Field.Clone(),
+                    new Field(Field),
                     new Coordinate[AgentPosition.GetLength(0), AgentPosition.GetLength(1)],
                     new AgentActivityData[AgentActivityData.GetLength(0), AgentActivityData.GetLength(1)]);
             for (int team = 0; team < AgentPosition.GetLength(0); team++)

@@ -142,15 +142,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns></returns>
         public Bitmap MakePictureBox(PictureBox pictureBox, Bitmap canvas, Graphics graphics)
         {
-            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Calc.Field.Width();
-            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Calc.Field.Height();
+            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Calc.Field.Width;
+            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Calc.Field.Height;
 
             PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 2.0f);
             //PointFont = Font;
             //PointFont = new Font(pfc.Families[0], fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 2.0f);
-            for (int x = 0; x < Calc.Field.Width(); x++)
+            for (int x = 0; x < Calc.Field.Width; x++)
             {
-                for (int y = 0; y < Calc.Field.Height(); y++)
+                for (int y = 0; y < Calc.Field.Height; y++)
                 {
                     //背景色の表示
                     if (!Calc.Field[x, y].IsTileOn[Team.A] && !Calc.Field[x, y].IsTileOn[Team.B])
@@ -229,7 +229,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             Point selectedFieldPoint = new System.Drawing.Point(
                 x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
                 y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
-            if ((selectedFieldPoint.X < Calc.Field.Width()) && (selectedFieldPoint.Y < Calc.Field.Height()))
+            if ((selectedFieldPoint.X < Calc.Field.Width) && (selectedFieldPoint.Y < Calc.Field.Height))
                 graphics.FillRectangle(
                     brush: SelectSolidBrush,
                     x: selectedFieldPoint.X * fieldWidth,
@@ -253,7 +253,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     float f = canvas.Height / 12000.0f;
 
                     var bmp = (Bitmap)FairyBitmap[team * 2 + agent].Clone();
-                    if (agentActivityData[team, agent].Destination.X < Calc.Field.Width() / 2)
+                    if (agentActivityData[team, agent].Destination.X < Calc.Field.Width / 2)
                         bmp.RotateFlip(RotateFlipType.Rotate180FlipY);
 
                     System.Drawing.Imaging.ColorMatrix cm =
@@ -296,9 +296,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
 
             //エージェントを女の子にするところ
-            for (int x = 0; x < calc.Field.Width(); x++)
+            for (int x = 0; x < calc.Field.Width; x++)
             {
-                for (int y = 0; y < calc.Field.Height(); y++)
+                for (int y = 0; y < calc.Field.Height; y++)
                 {
                     for (int team = 0; team < agentActivityData.GetLength(0); team++)
                     {
@@ -309,7 +309,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                                 float f = canvas.Height / 3000.0f;
 
                                 var bmp = (Bitmap)AgentBitmap[team].Clone();
-                                if (Calc.AgentPosition[team, agent].X > Calc.Field.Width() / 2)
+                                if (Calc.AgentPosition[team, agent].X > Calc.Field.Width / 2)
                                     bmp.RotateFlip(RotateFlipType.Rotate180FlipY);
 
                                 System.Drawing.Imaging.ColorMatrix cm =
@@ -411,8 +411,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="pictureBox">表示するPictureBoxを指定します</param>
         public void ClickedShow(PictureBox pictureBox)
         {
-            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Calc.Field.Width();
-            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Calc.Field.Height();
+            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Calc.Field.Width;
+            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Calc.Field.Height;
 
             //描画先とするImageオブジェクトを作成する
             Bitmap canvas = new Bitmap(((pictureBox.Width <= 0) ? 1 : pictureBox.Width), ((pictureBox.Height <= 0) ? 1 : pictureBox.Height));
@@ -427,7 +427,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             if (Calc.IsAgentHereOrInMooreNeighborhood(clickedFieldPoint))
             {
-                if ((clickedFieldPoint.X < Calc.Field.Width()) && (clickedFieldPoint.Y < Calc.Field.Height()))
+                if ((clickedFieldPoint.X < Calc.Field.Width) && (clickedFieldPoint.Y < Calc.Field.Height))
                 {
                     ClickedField = new System.Drawing.Point(
                         x: clickedFieldPoint.X,
@@ -549,8 +549,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns></returns>
         public Coordinate CursorPosition(PictureBox pictureBox)
         {
-            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Calc.Field.Width();
-            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Calc.Field.Height();
+            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Calc.Field.Width;
+            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Calc.Field.Height;
             System.Drawing.Point systemCursorPosition = System.Windows.Forms.Cursor.Position;
             System.Drawing.Point pictureBoxCursorPosition = pictureBox.PointToClient(systemCursorPosition);
             return new System.Drawing.Point(
@@ -624,8 +624,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 ClickedField = current;
                 if (next.Destination.X < 0 ||
                     next.Destination.Y < 0 ||
-                    next.Destination.X >= calc.Field.Width() ||
-                    next.Destination.Y >= calc.Field.Height())
+                    next.Destination.X >= calc.Field.Width ||
+                    next.Destination.Y >= calc.Field.Height)
                 {
                     next.Destination = current;
                     throw new Exception();

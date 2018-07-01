@@ -42,6 +42,17 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
+        /// フィールドの初期化をします。
+        /// </summary>
+        /// <param name="field">コピーしたいフィールド</param>
+        public Field(Field field)
+        {
+            Cells = new Cell[field.Width, field.Height];
+            foreach (Cell item in field)
+                this[item.Coordinate] = item;
+        }
+
+        /// <summary>
         /// フィールドの任意のマスを取得または設定します。
         /// </summary>
         /// <param name="x">横の座標</param>

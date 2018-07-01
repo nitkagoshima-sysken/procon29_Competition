@@ -107,7 +107,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// 人間が判読できる文字列に変換します
         /// </summary>
         /// <returns></returns>
-        public override string ToString() => String.Format("({0, 2}, {1, 2})", X, Y);
+        public override string ToString() => String.Format("{{{0}, {1}}}", X, Y);
 
         /// <summary>
         /// このインスタンスと指定したオブジェクトが等しいかどうかを示します。

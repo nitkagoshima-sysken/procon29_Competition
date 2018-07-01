@@ -133,9 +133,9 @@ namespace nitkagoshima_sysken
                         show.Showing(FieldDisplay);
                         // フィールド内にいるときは、フィールドの情報を表示する。
                         if (0 <= show.CursorPosition(FieldDisplay).X &&
-                            show.CursorPosition(FieldDisplay).X < calc.Field.Width() &&
+                            show.CursorPosition(FieldDisplay).X < calc.Field.Width &&
                             0 <= show.CursorPosition(FieldDisplay).Y &&
-                            show.CursorPosition(FieldDisplay).Y < calc.Field.Height())
+                            show.CursorPosition(FieldDisplay).Y < calc.Field.Height)
                         {
                             var f = calc.Field[show.CursorPosition(FieldDisplay).X, show.CursorPosition(FieldDisplay).Y];
                             // 情報を表示

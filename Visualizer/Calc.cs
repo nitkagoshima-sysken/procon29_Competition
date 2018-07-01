@@ -9,89 +9,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// </summary>
     public class Calc
     {
-        /// <summary>
-        /// Procon29_Calcを初期化します。
-        /// </summary>
-        /// <param name="point">フィールドのポイントを設定します。</param>
-        /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public Calc(int[,] point, Coordinate[] initPosition)
-        {
-            // Turn -> 0
-            Turn = 0;
-            // TurnData作成
-            FieldHistory.Add(new TurnData(new Cell[point.GetLength(1), point.GetLength(0)], new Coordinate[TeamArray.Length, AgentArray.Length]));
-
-            InitializationOfField(point);
-            foreach (AgentNumber agent in AgentArray)
-            {
-                AgentPosition[0, (int)agent] = initPosition[(int)agent];
-                PutTile(team: 0, agent: agent);
-            }
-            ComplementEnemysPosition();
-
-            // Turn -> 1
-            TurnEnd();
-        }
-
-        /// <summary>
-        /// Procon29_Calcを初期化します。
-        /// </summary>
-        /// <param name="field">フィールドのポイントを設定します。</param>
-        /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public Calc(Cell[,] field, Coordinate[] initPosition)
-        {
-            // Turn -> 0
-            Turn = 0;
-            // TurnData作成
-            FieldHistory.Add(new TurnData(field, new Coordinate[TeamArray.Length, AgentArray.Length]));
-
-            foreach (AgentNumber agent in AgentArray)
-            {
-                AgentPosition[0, (int)agent] = initPosition[(int)agent];
-                PutTile(team: 0, agent: agent);
-            }
-            ComplementEnemysPosition();
-
-            // Turn -> 1
-            TurnEnd();
-        }
-
-        /// <summary>
-        /// QRコードには自分のチームの位置情報しか分からないため、
-        /// 敵の位置情報を自分の位置から補完します。
-        /// </summary>
-        private void ComplementEnemysPosition()
-        {
-            PointMapCheck();
-            if (IsVerticallySymmetrical)
-            {
-                AgentPosition[1, 0] = Field.FlipVertical(AgentPosition[0, 0]);
-                AgentPosition[1, 1] = Field.FlipVertical(AgentPosition[0, 1]);
-            }
-            else if (IsHorizontallySymmetrical)
-            {
-                AgentPosition[1, 0] = Field.FlipHorizontal(AgentPosition[0, 0]);
-                AgentPosition[1, 1] = Field.FlipHorizontal(AgentPosition[0, 1]);
-            }
-            PutTile(Team.B, AgentNumber.One);
-            PutTile(Team.B, AgentNumber.Two);
-        }
-
-        /// <summary>
-        /// フィールドの初期化をします。
-        /// </summary>
-        /// <param name="point"></param>
-        private void InitializationOfField(int[,] point)
-        {
-            Field = new Cell[point.GetLength(1), point.GetLength(0)];
-            for (int x = 0; x < Field.Width(); x++)
-            {
-                for (int y = 0; y < Field.Height(); y++)
-                {
-                    Field[x, y] = new Cell { Point = point[y, x] };
-                }
-            }
-        }
 
         /// <summary>
         /// エージェントの位置をを設定または取得します。
@@ -106,34 +23,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// フィールドを設定または取得します。
         /// </summary>
-        public Cell[,] Field { get => FieldHistory[Turn].Field; set => FieldHistory[Turn].Field = value; }
-
-        /// <summary>
-        /// フィールドのリストを返します。
-        /// </summary>
-        public List<Cell> FieldList
-        {
-            get
-            {
-                var list = new List<Cell>();
-                foreach (var cell in Field)
-                {
-                    list.Add(cell);
-                }
-                return list;
-            }
-        }
-
-        /// <summary>
-        /// 上下対称なら真、そうでなければ偽が返ってきます。
-        /// </summary>
-        public bool IsVerticallySymmetrical => Field.VerticallySymmetricalCheck();
-
-        /// <summary>
-        /// 左右対称なら真、そうでなければ偽が返ってきます。
-        /// </summary>
-        public bool IsHorizontallySymmetrical => Field.HorizontallySymmetricalCheck();
-
+        public Field Field { get => FieldHistory[Turn].Field; set => FieldHistory[Turn].Field = value; }
+       
         /// <summary>
         /// エージェントの略称を返します。
         /// </summary>
@@ -160,8 +51,111 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>objectのディープコピー</returns>
         public object DeepCopy()
         {
-            return new Calc((Cell[,])Field.DeepCopy(), new Coordinate[] { AgentPosition[0, 0], AgentPosition[0, 1] });
+            return new Calc(new Field(Field), new Coordinate[] { AgentPosition[0, 0], AgentPosition[0, 1] });
         }
+
+        /// <summary>
+        /// Procon29_Calcを初期化します。
+        /// </summary>
+        /// <param name="point">フィールドのポイントを設定します。</param>
+        /// <param name="initPosition">エージェントの初期位置を設定します。</param>
+        public Calc(int[,] point, Coordinate[] initPosition)
+        {
+            // Turn -> 0
+            Turn = 0;
+            // TurnData作成
+            FieldHistory.Add(new TurnData(new Field(point.GetLength(1), point.GetLength(0)), new Coordinate[TeamArray.Length, AgentArray.Length]));
+
+            InitializationOfField(point);
+            foreach (AgentNumber agent in AgentArray)
+            {
+                AgentPosition[0, (int)agent] = initPosition[(int)agent];
+                PutTile(team: 0, agent: agent);
+            }
+            ComplementEnemysPosition();
+
+            // Turn -> 1
+            TurnEnd();
+        }
+
+        /// <summary>
+        /// Procon29_Calcを初期化します。
+        /// </summary>
+        /// <param name="field">フィールドのポイントを設定します。</param>
+        /// <param name="initPosition">エージェントの初期位置を設定します。</param>
+        public Calc(Field field, Coordinate[] initPosition)
+        {
+            // Turn -> 0
+            Turn = 0;
+            // TurnData作成
+            FieldHistory.Add(new TurnData(field, new Coordinate[TeamArray.Length, AgentArray.Length]));
+
+            foreach (AgentNumber agent in AgentArray)
+            {
+                AgentPosition[0, (int)agent] = initPosition[(int)agent];
+                PutTile(team: 0, agent: agent);
+            }
+            ComplementEnemysPosition();
+
+            // Turn -> 1
+            TurnEnd();
+        }
+
+        /// <summary>
+        /// QRコードには自分のチームの位置情報しか分からないため、
+        /// 敵の位置情報を自分の位置から補完します。
+        /// </summary>
+        private void ComplementEnemysPosition()
+        {
+            PointMapCheck();
+            if (Field.IsVerticallySymmetrical)
+            {
+                AgentPosition[1, 0] = Field.FlipVertical(AgentPosition[0, 0]);
+                AgentPosition[1, 1] = Field.FlipVertical(AgentPosition[0, 1]);
+            }
+            else if (Field.IsHorizontallySymmetrical)
+            {
+                AgentPosition[1, 0] = Field.FlipHorizontal(AgentPosition[0, 0]);
+                AgentPosition[1, 1] = Field.FlipHorizontal(AgentPosition[0, 1]);
+            }
+            PutTile(Team.B, AgentNumber.One);
+            PutTile(Team.B, AgentNumber.Two);
+        }
+
+        /// <summary>
+        /// フィールドの初期化をします。
+        /// </summary>
+        /// <param name="point"></param>
+        private void InitializationOfField(int[,] point)
+        {
+            Field = new Field(point.GetLength(1), point.GetLength(0));
+            for (int x = 0; x < Field.Width; x++)
+            {
+                for (int y = 0; y < Field.Height; y++)
+                {
+                    Field[x, y] = new Cell { Point = point[y, x], Coordinate = new Coordinate(x, y) };
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// フィールドのリストを返します。
+        /// </summary>
+        public List<Cell> FieldList
+        {
+            get
+            {
+                var list = new List<Cell>();
+                foreach (Cell cell in Field)
+                {
+                    list.Add(cell);
+                }
+                return list;
+            }
+        }
+
+ 
 
         /// <summary>
         /// すべてのフィールドのポイントの和を計算します。
@@ -201,7 +195,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         public void PointMapCheck()
         {
-            if (Field.Width() > 12 || Field.Height() > 12) throw new IndexOutOfRangeException();
+            if (Field.Width > 12 || Field.Height > 12) throw new IndexOutOfRangeException();
         }
 
         /// <summary>
@@ -210,7 +204,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="team">対象となるチーム</param>
         /// <param name="point">対象となるフィールド</param>
         /// <returns>そのフィールドが塗れるなら真、そうでなければ偽が返ってきます。</returns>
-        bool IsFillable(Team team, Coordinate point) => 0 <= point.X && point.X < Field.Width() && 0 <= point.Y && point.Y < Field.Height() && !Field[point.X, point.Y].IsTileOn[team];
+        bool IsFillable(Team team, Coordinate point) => 0 <= point.X && point.X < Field.Width && 0 <= point.Y && point.Y < Field.Height && !Field[point.X, point.Y].IsTileOn[team];
 
         /// <summary>
         /// 指定したフィールドを基準にIsEnclosedをfalseで塗りつぶします。
@@ -246,7 +240,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="team">対象となるチーム</param>
         private void ResetTrueInIsEnclosed(Team team)
         {
-            foreach (var cell in Field)
+            foreach (Cell cell in Field)
             {
                 cell.IsEnclosed[team] = true;
             }
@@ -270,15 +264,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void CheckEnclosedArea(Team team)
         {
             ResetTrueInIsEnclosed(team);
-            for (int x = 0; x < Field.Width(); x++)
+            for (int x = 0; x < Field.Width; x++)
             {
-                for (int y = 0; y < Field.Height(); y++)
+                for (int y = 0; y < Field.Height; y++)
                 {
-                    if (x == 0 || x == Field.Width() - 1 || y == 0 || y == Field.Height() - 1)
+                    if (x == 0 || x == Field.Width - 1 || y == 0 || y == Field.Height - 1)
                         FillFalseInIsEnclosed(team, new Coordinate(x, y));
                 }
             }
-            foreach (var item in Field)
+            foreach (Cell item in Field)
             {
                 if (item.IsTileOn[team]) item.IsEnclosed[team] = false;
             }
@@ -400,7 +394,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     a[team, agent] = new Coordinate(AgentPosition[team, agent].X, AgentPosition[team, agent].Y);
                 }
             }
-            FieldHistory.Add(new TurnData((Cell[,])Field.DeepCopy(), a));
+            FieldHistory.Add(new TurnData(new Field(Field), a));
             Turn++;
         }
 
@@ -427,7 +421,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="team">対象となるチーム</param>
         /// <param name="agent">対象となるエージェント</param>
-        public void PutTile(Team team, AgentNumber agent) => Field.Take(AgentPosition[(int)team, (int)agent]).IsTileOn[team] = true;
+        public void PutTile(Team team, AgentNumber agent) => Field[AgentPosition[(int)team, (int)agent]].IsTileOn[team] = true;
 
         /// <summary>
         /// フィールドに置いてあるタイルを剥がします。
@@ -471,7 +465,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             CheckEnclosedArea(team);
 
-            foreach (var item in Field)
+            foreach (Cell item in Field)
             {
                 if (item.IsTileOn[Team.A]) item.IsEnclosed[Team.A] = false;
                 if (item.IsTileOn[Team.B]) item.IsEnclosed[Team.B] = false;
@@ -534,8 +528,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // FailedInMovingByTryingToGoOutOfTheFieldWithEachOther
                     // FailedInRemovingOurTileByTryingToGoOutOfTheField
                     // FailedInRemovingOpponentTileByTryingToGoOutOfTheField
-                    if (item.Destination.X < 0 || Field.Width() <= item.Destination.X ||
-                        item.Destination.Y < 0 || Field.Height() <= item.Destination.Y)
+                    if (item.Destination.X < 0 || Field.Width <= item.Destination.X ||
+                        item.Destination.Y < 0 || Field.Height <= item.Destination.Y)
                         switch (item.AgentStatusData)
                         {
                             case AgentStatusCode.RequestMovement:
@@ -567,7 +561,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     }
                     // 移動先に相手のタイルが置いてないかチェック(1)
                     // FailedInMovingByTryingItWithoutRemovingTheOpponentTile
-                    if (Field.Take(item.Destination).IsTileOn[(team == (int)Team.A) ? Team.B : Team.A])
+                    if (Field[item.Destination].IsTileOn[(team == (int)Team.A) ? Team.B : Team.A])
                     {
                         item.AgentStatusData = AgentStatusCode.FailedInMovingByTryingItWithoutRemovingTheOpponentTile;
                         continue;
