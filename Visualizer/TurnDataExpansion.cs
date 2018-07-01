@@ -111,14 +111,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             foreach (Team team in Enum.GetValues(typeof(Team)))
             {
-                foreach (Agent agent in Enum.GetValues(typeof(Agent)))
+                foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                 {
                     var item = agentActivityData[(int)team, (int)agent];
                     if (item.AgentStatusData.IsRequest())
                     {
                         foreach (Team otherteam in Enum.GetValues(typeof(Team)))
                         {
-                            foreach (Agent otheragent in Enum.GetValues(typeof(Agent)))
+                            foreach (AgentNumber otheragent in Enum.GetValues(typeof(AgentNumber)))
                             {
                                 if (team == otherteam && agent == otheragent) continue;
                                 var otheritem = agentActivityData[(int)otherteam, (int)otheragent];

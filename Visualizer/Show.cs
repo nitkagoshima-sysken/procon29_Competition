@@ -74,7 +74,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         internal Logger Procon29_Logger { get => procon29_Logger; set => procon29_Logger = value; }
 
         public Team SelectedTeam { get; set; }
-        public Agent SelecetedAgent { get; set; }
+        public AgentNumber SelecetedAgent { get; set; }
 
         /// <summary>
         /// エージェントの画像を設定または取得します。
@@ -112,7 +112,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             foreach (Team team in Enum.GetValues(typeof(Team)))
             {
-                foreach (Agent agent in Enum.GetValues(typeof(Agent)))
+                foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                 {
                     agentActivityData[(int)team, (int)agent] = new AgentActivityData(AgentStatusCode.RequestMovement, Calc.AgentPosition[(int)team, (int)agent]);
                 }
@@ -437,7 +437,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             foreach (Team team in Enum.GetValues(typeof(Team)))
             {
-                foreach (Agent agent in Enum.GetValues(typeof(Agent)))
+                foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                 {
                     if (ClickedField == (Point)Calc.AgentPosition[(int)team, (int)agent])
                     {
@@ -578,19 +578,19 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 {
                     case Keys.Q:
                         SelectedTeam = Team.A;
-                        SelecetedAgent = Agent.One;
+                        SelecetedAgent = AgentNumber.One;
                         break;
                     case Keys.W:
                         SelectedTeam = Team.A;
-                        SelecetedAgent = Agent.Two;
+                        SelecetedAgent = AgentNumber.Two;
                         break;
                     case Keys.E:
                         SelectedTeam = Team.B;
-                        SelecetedAgent = Agent.One;
+                        SelecetedAgent = AgentNumber.One;
                         break;
                     case Keys.R:
                         SelectedTeam = Team.B;
-                        SelecetedAgent = Agent.Two;
+                        SelecetedAgent = AgentNumber.Two;
                         break;
                     case Keys.NumPad1:
                         next.Destination = current + Arrow.DownLeft;

@@ -3,7 +3,7 @@
     /// <summary>
     /// チームのエージェントを表すための列挙体
     /// </summary>
-    public enum Agent
+    public enum AgentNumber
     {
         /// <summary>
         /// 1人目のエージェントを表します。

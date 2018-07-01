@@ -17,12 +17,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// そのマスにタイルが置かれているかを表します。
         /// </summary>
-        public TeamBool[] IsTileOn { get; set; }
+        public bool[] IsTileOn { get; set; }
 
         /// <summary>
         /// そのマスがタイルに囲まれているかを表します。
         /// </summary>
-        public TeamBool[] IsEnclosed { get; set; }
+        public bool[] IsEnclosed { get; set; }
 
         /// <summary>
         /// そのマスがフィールドのどこにあるかを表します。
@@ -47,6 +47,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns></returns>
         public static List<int> CSVtoList(string str)
         {
+
             var list = new List<int>();
 
             //前後の改行を削除しておく

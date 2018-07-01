@@ -22,7 +22,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             FieldHistory.Add(new TurnData(new Cell[point.GetLength(1), point.GetLength(0)], new Coordinate[TeamArray.Length, AgentArray.Length]));
 
             InitializationOfField(point);
-            foreach (Agent agent in AgentArray)
+            foreach (AgentNumber agent in AgentArray)
             {
                 AgentPosition[0, (int)agent] = initPosition[(int)agent];
                 PutTile(team: 0, agent: agent);
@@ -45,7 +45,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // TurnData作成
             FieldHistory.Add(new TurnData(field, new Coordinate[TeamArray.Length, AgentArray.Length]));
 
-            foreach (Agent agent in AgentArray)
+            foreach (AgentNumber agent in AgentArray)
             {
                 AgentPosition[0, (int)agent] = initPosition[(int)agent];
                 PutTile(team: 0, agent: agent);
@@ -152,7 +152,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// Agent列挙体のすべての要素を配列にします
         /// </summary>
-        public static Array AgentArray => Enum.GetValues(typeof(Agent));
+        public static Array AgentArray => Enum.GetValues(typeof(AgentNumber));
 
         /// <summary>
         /// 現在のobjectのディープコピーを行います。
@@ -351,7 +351,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="agent">対象となるエージェント</param>
         /// <param name="point">対象となるマス</param>
         /// <returns>対象となるマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
-        public bool IsAgentHereOrInMooreNeighborhood(Team team, Agent agent, Coordinate point) => IsAgentHereOrInMooreNeighborhood((int)team, (int)agent, point);
+        public bool IsAgentHereOrInMooreNeighborhood(Team team, AgentNumber agent, Coordinate point) => IsAgentHereOrInMooreNeighborhood((int)team, (int)agent, point);
 
         /// <summary>
         /// 対象となるマスにエージェントがいるか、またはムーア近傍にいるかを判定します
@@ -474,7 +474,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="team">対象となるチーム</param>
         /// <param name="agent">対象となるエージェント</param>
-        public void PutTile(Team team, Agent agent) => PutTile((int)team, (int)agent);
+        public void PutTile(Team team, AgentNumber agent) => PutTile((int)team, (int)agent);
 
         /// <summary>
         /// フィールドに置いてあるタイルを剥がします。
@@ -494,7 +494,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="team">移動するチーム</param>
         /// <param name="agent">移動するエージェント</param>
         /// <param name="where">移動する場所</param>
-        public void MoveAgent(Team team, Agent agent, Coordinate where)
+        public void MoveAgent(Team team, AgentNumber agent, Coordinate where)
         {
             bool movable = false;
             foreach (int otherteam in TeamArray)
@@ -730,7 +730,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             foreach (Team team in TeamArray)
             {
-                foreach (Agent agent in AgentArray)
+                foreach (AgentNumber agent in AgentArray)
                 {
                     switch (agentActivityData[(int)team, (int)agent].AgentStatusData)
                     {
@@ -764,16 +764,16 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             switch (team)
             {
                 case Team.A:
-                    agentActivityDatas[(int)Team.A, (int)Agent.One] = agentActivityData[0];
-                    agentActivityDatas[(int)Team.A, (int)Agent.Two] = agentActivityData[1];
-                    agentActivityDatas[(int)Team.B, (int)Agent.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                    agentActivityDatas[(int)Team.B, (int)Agent.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                    agentActivityDatas[(int)Team.A, (int)AgentNumber.One] = agentActivityData[0];
+                    agentActivityDatas[(int)Team.A, (int)AgentNumber.Two] = agentActivityData[1];
+                    agentActivityDatas[(int)Team.B, (int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                    agentActivityDatas[(int)Team.B, (int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
                     break;
                 case Team.B:
-                    agentActivityDatas[(int)Team.A, (int)Agent.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                    agentActivityDatas[(int)Team.A, (int)Agent.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                    agentActivityDatas[(int)Team.B, (int)Agent.One] = agentActivityData[0];
-                    agentActivityDatas[(int)Team.B, (int)Agent.Two] = agentActivityData[1];
+                    agentActivityDatas[(int)Team.A, (int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                    agentActivityDatas[(int)Team.A, (int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                    agentActivityDatas[(int)Team.B, (int)AgentNumber.One] = agentActivityData[0];
+                    agentActivityDatas[(int)Team.B, (int)AgentNumber.Two] = agentActivityData[1];
                     break;
             }
             MoveAgent(agentActivityDatas);
@@ -785,7 +785,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="team">移動させるチーム</param>
         /// <param name="agent">移動させるエージェント</param>
         /// <param name="agentActivityData"></param>
-        public void MoveAgent(Team team, Agent agent, AgentActivityData agentActivityData)
+        public void MoveAgent(Team team, AgentNumber agent, AgentActivityData agentActivityData)
         {
             var agentActivityDatas = new AgentActivityData[2, 2];
             switch (team)
@@ -793,34 +793,34 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 case Team.A:
                     switch (agent)
                     {
-                        case Agent.One:
-                            agentActivityDatas[(int)Team.A, (int)Agent.One] = agentActivityData;
-                            agentActivityDatas[(int)Team.A, (int)Agent.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[(int)Team.B, (int)Agent.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[(int)Team.B, (int)Agent.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                        case AgentNumber.One:
+                            agentActivityDatas[(int)Team.A, (int)AgentNumber.One] = agentActivityData;
+                            agentActivityDatas[(int)Team.A, (int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.B, (int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.B, (int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
                             break;
-                        case Agent.Two:
-                            agentActivityDatas[(int)Team.A, (int)Agent.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[(int)Team.A, (int)Agent.Two] = agentActivityData;
-                            agentActivityDatas[(int)Team.B, (int)Agent.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[(int)Team.B, (int)Agent.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                        case AgentNumber.Two:
+                            agentActivityDatas[(int)Team.A, (int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.A, (int)AgentNumber.Two] = agentActivityData;
+                            agentActivityDatas[(int)Team.B, (int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.B, (int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
                             break;
                     }
                     break;
                 case Team.B:
                     switch (agent)
                     {
-                        case Agent.One:
-                            agentActivityDatas[(int)Team.A, (int)Agent.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[(int)Team.A, (int)Agent.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[(int)Team.B, (int)Agent.One] = agentActivityData;
-                            agentActivityDatas[(int)Team.B, (int)Agent.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                        case AgentNumber.One:
+                            agentActivityDatas[(int)Team.A, (int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.A, (int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.B, (int)AgentNumber.One] = agentActivityData;
+                            agentActivityDatas[(int)Team.B, (int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
                             break;
-                        case Agent.Two:
-                            agentActivityDatas[(int)Team.A, (int)Agent.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[(int)Team.A, (int)Agent.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[(int)Team.B, (int)Agent.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[(int)Team.B, (int)Agent.Two] = agentActivityData;
+                        case AgentNumber.Two:
+                            agentActivityDatas[(int)Team.A, (int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.A, (int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.B, (int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                            agentActivityDatas[(int)Team.B, (int)AgentNumber.Two] = agentActivityData;
                             break;
                     }
                     break;

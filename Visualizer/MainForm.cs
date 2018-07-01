@@ -167,7 +167,7 @@ namespace nitkagoshima_sysken
                 /// <param name="team"></param>
                 /// <param name="agent"></param>
                 /// <param name="where"></param>
-                private void MoveAgent(Team team, Agent agent, Coordinate where)
+                private void MoveAgent(Team team, AgentNumber agent, Coordinate where)
                 {
                     calc.MoveAgent(team, agent, where);
                 }

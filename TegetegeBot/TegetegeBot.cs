@@ -39,13 +39,13 @@ namespace nitkagoshima_sysken
                             var otherteam = (Team == Team.A) ? Team.B : Team.A;
 
                             // Bot側のチーム、1人目のエージェントが(x,y)に移動する
-                            trying[(int)Team, (int)Agent.One] = new AgentActivityData(AgentStatusCode.RequestMovement, new Point(x, y));
+                            trying[(int)Team, (int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestMovement, new Point(x, y));
                             // Bot側のチーム、2人目のエージェントは何もしない
-                            trying[(int)Team, (int)Agent.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything, new Point());
+                            trying[(int)Team, (int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything, new Point());
                             // 敵側のチーム、1人目のエージェントは何もしない
-                            trying[(int)otherteam, (int)Agent.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything, new Point());
+                            trying[(int)otherteam, (int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything, new Point());
                             // 敵側のチーム、2人目のエージェントは何もしない
-                            trying[(int)otherteam, (int)Agent.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything, new Point());
+                            trying[(int)otherteam, (int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything, new Point());
                             var p = Simulate(action: trying, take: Calc.TotalPoint);
 
                             if (Calc.AgentPosition[(int)Team, 0].ChebyshevDistance(new Point(x, y)) != 1) continue;
@@ -66,10 +66,10 @@ namespace nitkagoshima_sysken
                             var trying = new AgentActivityData[2, 2];
                             var otherteam = (Team == Team.A) ? Team.B : Team.A;
 
-                            trying[(int)Team, (int)Agent.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything, new Point());
-                            trying[(int)Team, (int)Agent.Two] = new AgentActivityData(AgentStatusCode.RequestMovement, new Point(x, y));
-                            trying[(int)otherteam, (int)Agent.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything, new Point());
-                            trying[(int)otherteam, (int)Agent.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything, new Point());
+                            trying[(int)Team, (int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything, new Point());
+                            trying[(int)Team, (int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestMovement, new Point(x, y));
+                            trying[(int)otherteam, (int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything, new Point());
+                            trying[(int)otherteam, (int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything, new Point());
                             var p = Simulate(action: trying, take: Calc.TotalPoint);
 
                             if (Calc.AgentPosition[(int)Team, 1].ChebyshevDistance(new Point(x, y)) != 1) continue;
