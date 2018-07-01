@@ -1,17 +1,41 @@
 ﻿namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     /// <summary>
-    /// チームのエージェントを表すための列挙体
+    /// エージェントを表します
     /// </summary>
-    public enum AgentNumber
+    public class AgentData
     {
         /// <summary>
-        /// 1人目のエージェントを表します。
+        /// 名前を取得または設定します
         /// </summary>
-        One,
+        public string Name { get; set; }
+
         /// <summary>
-        /// 2人目のエージェントを表します。
+        /// 所属チームを取得または設定します
         /// </summary>
-        Two
+        public Team Team { get; set; }
+
+        /// <summary>
+        /// エージェント番号を取得または設定します
+        /// </summary>
+        public AgentNumber Agent { get; set; }
+
+        /// <summary>
+        /// エージェントのいる番号を取得または設定します
+        /// </summary>
+        public Coordinate Position { get; set; }
+
+        /// <summary>
+        /// AgentDataの初期化します。
+        /// </summary>
+        /// <param name="name">名前を設定します</param>
+        /// <param name="team">チーム名を設定します</param>
+        /// <param name="agent">エージェント番号を設定します</param>
+        public AgentData(string name, Team team, AgentNumber agent)
+        {
+            Name = name;
+            Team = team;
+            Agent = agent;
+        }
     }
 }

@@ -9,11 +9,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// </summary>
     public class Calc
     {
-
         /// <summary>
-        /// エージェントの位置をを設定または取得します。
+        /// フィールドを設定または取得します。
         /// </summary>
-        public Coordinate[,] AgentPosition { get => FieldHistory[Turn].AgentPosition; set => FieldHistory[Turn].AgentPosition = value; }
+        public Field Field { get => FieldHistory[Turn].Field; set => FieldHistory[Turn].Field = value; }
 
         /// <summary>
         /// ターンを設定または取得します。
@@ -21,19 +20,20 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public int Turn { get; private set; }
 
         /// <summary>
-        /// フィールドを設定または取得します。
+        /// フィールドの歴史を設定または取得します。
         /// </summary>
-        public Field Field { get => FieldHistory[Turn].Field; set => FieldHistory[Turn].Field = value; }
-       
+        internal List<TurnData> FieldHistory { get; private set; } = new List<TurnData>();
+
+        /// <summary>
+        /// エージェントの位置をを設定または取得します。
+        /// </summary>
+        public Coordinate[,] AgentPosition { get => FieldHistory[Turn].AgentPosition; set => FieldHistory[Turn].AgentPosition = value; }
+             
         /// <summary>
         /// エージェントの略称を返します。
         /// </summary>
         public static string[,] ShortTeamAgentName => new string[2, 2] { { "Strawberry", "Apple", }, { "Kiwi", "Muscat", }, };
 
-        /// <summary>
-        /// フィールドの歴史を設定または取得します。
-        /// </summary>
-        internal List<TurnData> FieldHistory { get; private set; } = new List<TurnData>();
 
         /// <summary>
         /// Team列挙体のすべての要素を配列にします
