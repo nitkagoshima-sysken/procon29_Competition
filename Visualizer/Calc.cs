@@ -155,6 +155,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
+        public int CalcPoint(Func<Cell, bool> func) => FieldList.Sum(x => (func(x)) ? x.Point : 0);
+
         /// <summary>
         /// すべてのフィールドのポイントの和を計算します。
         /// </summary>
