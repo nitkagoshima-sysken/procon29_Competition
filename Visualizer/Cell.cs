@@ -43,6 +43,18 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// Fieldの初期化を行います。
         /// </summary>
+        /// <param name="cell">コピーするマスを指定します。</param>
+        public Cell(Cell cell)
+        {
+            Point = cell.Point;
+            IsTileOn = new TeamBool(cell.IsTileOn);
+            IsEnclosed = new TeamBool(cell.IsEnclosed);
+            Coordinate = new Coordinate(cell.Coordinate);
+        }
+
+        /// <summary>
+        /// Fieldの初期化を行います。
+        /// </summary>
         /// <param name="coordinate">セルの座標を指定します。</param>
         public Cell(Coordinate coordinate)
         {

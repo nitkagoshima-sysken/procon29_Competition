@@ -49,7 +49,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             Cells = new Cell[field.Width, field.Height];
             foreach (Cell item in field)
-                this[item.Coordinate] = item;
+                this[item.Coordinate] = new Cell(item);
         }
 
         /// <summary>
