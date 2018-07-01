@@ -18,10 +18,16 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// そのマスにタイルが置かれているかを表します。
         /// </summary>
         public bool[] IsTileOn { get; set; }
+
         /// <summary>
         /// そのマスがタイルに囲まれているかを表します。
         /// </summary>
         public bool[] IsEnclosed { get; set; }
+
+        /// <summary>
+        /// そのマスがフィールドのどこにあるかを表します。
+        /// </summary>
+        public Coordinate Coordinate { get; set; }
 
         /// <summary>
         /// Fieldの初期化を行います。
@@ -31,6 +37,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             Point = 0;
             IsTileOn = new bool[2];
             IsEnclosed = new bool[2];
+            Coordinate = new Coordinate();
         }
 
         /// <summary>
@@ -40,7 +47,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns></returns>
         public static List<int> CSVtoList(string str)
         {
-
             var list = new List<int>();
 
             //前後の改行を削除しておく

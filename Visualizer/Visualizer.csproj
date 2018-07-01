@@ -37,10 +37,11 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Procon29 Visualizer.xml</DocumentationFile>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -120,6 +121,8 @@
     </Compile>
     <Compile Include="Show.cs" />
     <Compile Include="Team.cs" />
+    <Compile Include="TeamAndAgentArray.cs" />
+    <Compile Include="TeamArray.cs" />
     <Compile Include="TeamDesign.cs" />
     <Compile Include="TurnData.cs" />
     <Compile Include="TurnDataExpansion.cs" />

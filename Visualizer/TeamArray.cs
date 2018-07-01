@@ -8,7 +8,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     class TeamArray
     {
-        public bool[] Array { get; set; } = new bool[Enum.GetValues(typeof(Team)).Length];
+        bool[] Array { get; set; } = new bool[Enum.GetValues(typeof(Team)).Length];
 
         public TeamArray() { }
 

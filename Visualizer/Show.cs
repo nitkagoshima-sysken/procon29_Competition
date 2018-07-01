@@ -17,8 +17,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private Font pointFont;
         private System.Drawing.Point clickedField;
         private const string pointFamilyName = "Impact";
-        //private (Team, Agent) selectedTeamAndAgent;
-
+        
         private Bitmap[] agentBitmap;
         private Bitmap[] fairyBitmap;
 
@@ -147,6 +146,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Calc.Field.Height();
 
             PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 2.0f);
+            //PointFont = Font;
+            //PointFont = new Font(pfc.Families[0], fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 2.0f);
             for (int x = 0; x < Calc.Field.Width(); x++)
             {
                 for (int y = 0; y < Calc.Field.Height(); y++)
@@ -360,8 +361,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 }
             }
 
-            // 短い名前を表示
-            PointFont = new Font(familyName: PointFamilyName, emSize: (fieldHeight <= 0 && fieldWidth <= 0) ? 1 : Math.Min(fieldHeight, fieldWidth) / 4 * 3 / 6.0f);
+            // 短い名前を表示  
+            PointFont = new Font(pointFamilyName, (fieldHeight <= 0 && fieldWidth <= 0) ? 1 : Math.Min(fieldHeight, fieldWidth) / 4 * 3 / 6.0f);
             for (int team = 0; team < 2; team++)
             {
                 for (int agent = 0; agent < 2; agent++)
