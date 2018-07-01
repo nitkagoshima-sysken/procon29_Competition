@@ -77,7 +77,7 @@ namespace nitkagoshima_sysken
                     log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.B).ToString());
                     log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "   Total Point: " + calc.TotalPoint(Team.B).ToString());
                     log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.Agents[Team.B, AgentNumber.One].Position);
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.Agents[Team.B, AgentNumber.One].Position);
+                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.Agents[Team.B, AgentNumber.Two].Position);
                 }
 
                 /// <summary>

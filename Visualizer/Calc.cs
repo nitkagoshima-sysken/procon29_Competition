@@ -155,8 +155,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
- 
-
         /// <summary>
         /// すべてのフィールドのポイントの和を計算します。
         /// </summary>
