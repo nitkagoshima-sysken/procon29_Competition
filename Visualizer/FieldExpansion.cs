@@ -53,7 +53,7 @@
             {
                 for (int y = 0; y < field.Height() / 2; y++)
                 {
-                    if (field[x, y].Score != field[x, (field.Height() - 1) - y].Score) return false;
+                    if (field[x, y].Point != field[x, (field.Height() - 1) - y].Point) return false;
                 }
             }
             return true;
@@ -69,7 +69,7 @@
             {
                 for (int y = 0; y < field.Height(); y++)
                 {
-                    if (field[x, y].Score != field[(field.Height() - 1) - x, y].Score) return false;
+                    if (field[x, y].Point != field[(field.Height() - 1) - x, y].Point) return false;
                 }
             }
             return true;

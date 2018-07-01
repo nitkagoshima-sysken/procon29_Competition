@@ -130,7 +130,7 @@ namespace nitkagoshima_sysken
                         {
                             var f = calc.Field[show.CursorPosition(FieldDisplay).X, show.CursorPosition(FieldDisplay).Y];
                             // 情報を表示
-                            toolStripStatusLabel1.Text = (show.CursorPosition(FieldDisplay) + " Point: " + f.Score);
+                            toolStripStatusLabel1.Text = (show.CursorPosition(FieldDisplay) + " Point: " + f.Point);
                             // 囲まれているか判定
                             if (f.IsEnclosed[0] && f.IsEnclosed[1]) toolStripStatusLabel1.Text += " (Surrounded by both)";
                             else if (f.IsEnclosed[0])

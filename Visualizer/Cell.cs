@@ -12,7 +12,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// ポイントには、-16以上16以下の整数値の点数が設定、または取得されます。
         /// ただし、0以下の点数のポイントは、少数しか存在しません。
         /// </summary>
-        public int Score { get; set; }
+        public int Point { get; set; }
 
         /// <summary>
         /// そのマスにタイルが置かれているかを表します。
@@ -28,7 +28,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         public Cell()
         {
-            Score = 0;
+            Point = 0;
             IsTileOn = new bool[2];
             IsEnclosed = new bool[2];
         }
@@ -93,7 +93,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             for (int i = 0; i < list.Count; i++)
             {
                 fields[i / width, i % width] = new Cell();
-                fields[i / width, i % width].Score = list[i];
+                fields[i / width, i % width].Point = list[i];
             }
             return fields;
         }
@@ -113,7 +113,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             var cell = new Cell
             {
-                Score = Score,
+                Point = Point,
                 IsEnclosed = new bool[IsEnclosed.Length],
                 IsTileOn = new bool[IsTileOn.Length],
             };
