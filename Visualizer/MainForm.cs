@@ -58,6 +58,9 @@ namespace nitkagoshima_sysken
                     show.Showing(FieldDisplay);
                     calc.PointMapCheck();
 
+                    KeyDown += new KeyEventHandler(show.KeyDown);
+                    KeyDown += new KeyEventHandler(MainForm_KeyDown);
+
                     log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
                     log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Team A");
                     log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "name: " + teamDesigns[(int)Team.A].Name);
@@ -161,21 +164,8 @@ namespace nitkagoshima_sysken
                 private void MoveAgent(Team team, Agent agent, Coordinate where)
                 {
                     calc.MoveAgent(team, agent, where);
-                    //log.WriteLine(teamDesigns[(int)agent].AreaColor, Procon29_Calc.ShortTeamAgentName[(int)team, (int)agent] + " moved to " + where);
                 }
-
-                /// <summary>
-                /// 特定のエージェントに座標を加えます。
-                /// </summary>
-                /// <param name="team">対称となるチーム</param>
-                /// <param name="agent">対称となるエージェント</param>
-                /// <param name="point"></param>
-                /// <returns></returns>
-                private Coordinate AddAgentPosition(Team team, Agent agent, Coordinate point)
-                {
-                    return new Coordinate(calc.AgentPosition[(int)team, (int)agent].X + point.X, calc.AgentPosition[(int)team, (int)agent].Y + point.Y);
-                }
-
+                
                 /// <summary>
                 /// Form1内でキーを押したときに実行されます。
                 /// </summary>
@@ -183,94 +173,7 @@ namespace nitkagoshima_sysken
                 /// <param name="e"></param>
                 private void MainForm_KeyDown(object sender, KeyEventArgs e)
                 {
-                    var team = show.SelectedTeam;
-                    var agent = show.SelecetedAgent;
-
-                    e.SuppressKeyPress = true;
-                    Console.WriteLine(e.KeyCode);
-                    try
-                    {
-                        switch (e.KeyCode)
-                        {
-                            case Keys.Q:
-                                team = Team.A;
-                                agent = Agent.One;
-                                show.SelectedTeam = Team.A;
-                                show.SelecetedAgent = Agent.One;
-                                break;
-                            case Keys.W:
-                                team = Team.A;
-                                agent = Agent.Two;
-                                show.SelectedTeam = Team.A;
-                                show.SelecetedAgent = Agent.Two;
-                                break;
-                            case Keys.E:
-                                team = Team.B;
-                                agent = Agent.One;
-                                show.SelectedTeam = Team.B;
-                                show.SelecetedAgent = Agent.One;
-                                break;
-                            case Keys.R:
-                                team = Team.B;
-                                agent = Agent.Two;
-                                show.SelectedTeam = Team.B;
-                                show.SelecetedAgent = Agent.Two;
-                                break;
-                            case Keys.NumPad1:
-                                show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new Coordinate(-1, 1));
-                                break;
-                            case Keys.NumPad2:
-                                show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new Coordinate(0, 1));
-                                break;
-                            case Keys.NumPad3:
-                                show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new Coordinate(1, 1));
-                                break;
-                            case Keys.NumPad4:
-                                show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new Coordinate(-1, 0));
-                                break;
-                            case Keys.NumPad6:
-                                show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new Coordinate(1, 0));
-                                break;
-                            case Keys.NumPad7:
-                                show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new Coordinate(-1, -1));
-                                break;
-                            case Keys.NumPad8:
-                                show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new Coordinate(0, -1));
-                                break;
-                            case Keys.NumPad9:
-                                show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new Coordinate(1, -1));
-                                break;
-                            case Keys.Enter:
-                                TurnEnd();
-                                break;
-                            default:
-                                e.SuppressKeyPress = false;
-                                break;
-                        }
-                        show.ClickedField = calc.AgentPosition[(int)team, (int)agent];
-                        if (show.agentActivityData[(int)team, (int)agent].Destination.X < 0 ||
-                            show.agentActivityData[(int)team, (int)agent].Destination.Y < 0 ||
-                            show.agentActivityData[(int)team, (int)agent].Destination.X >= calc.Field.Width() ||
-                            show.agentActivityData[(int)team, (int)agent].Destination.Y >= calc.Field.Height())
-                        {
-                            show.agentActivityData[(int)team, (int)agent].Destination = calc.AgentPosition[(int)team, (int)agent];
-                            throw new Exception();
-                        }
-                        else
-                            show.KeyDownShow();
-                    }
-                    catch (Exception)
-                    {
-                        MessageBox.Show("不正なキー入力です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    if (e.KeyCode == Keys.Enter) TurnEnd();
                     show.Showing(FieldDisplay);
                 }
 

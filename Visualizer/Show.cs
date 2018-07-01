@@ -258,8 +258,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     System.Drawing.Imaging.ColorMatrix cm =
                         new System.Drawing.Imaging.ColorMatrix
                         {
-                                    //ColorMatrixの行列の値を変更して、アルファ値が0.5に変更されるようにする
-                                    Matrix00 = 1,
+                            //ColorMatrixの行列の値を変更して、アルファ値が0.5に変更されるようにする
+                            Matrix00 = 1,
                             Matrix11 = 1,
                             Matrix22 = 1,
                             Matrix33 = 0.8F,
@@ -314,8 +314,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                                 System.Drawing.Imaging.ColorMatrix cm =
                                     new System.Drawing.Imaging.ColorMatrix
                                     {
-                                                //ColorMatrixの行列の値を変更して、アルファ値が0.5に変更されるようにする
-                                                Matrix00 = 1,
+                                        //ColorMatrixの行列の値を変更して、アルファ値が0.5に変更されるようにする
+                                        Matrix00 = 1,
                                         Matrix11 = 1,
                                         Matrix22 = 1,
                                         Matrix33 = 1,
@@ -488,11 +488,39 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].Destination = ClickedField;
         }
 
-        public void KeyDownShow()
+        public void ClickShow()
         {
             if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)((SelectedTeam == Team.A) ? Team.B : Team.A)])
                 agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
             else if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)SelectedTeam])
+            {
+                //メッセージボックスを表示する
+                DialogResult result = MessageBox.Show("タイルを取り除きますか？", "質問", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+                //何が選択されたか調べる
+                if (result == DialogResult.Yes)
+                {
+                    //「はい」が選択された時
+                    Console.WriteLine("「はい」が選択されました");
+                    agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOurTile;
+                }
+                else if (result == DialogResult.No)
+                {
+                    //「いいえ」が選択された時
+                    Console.WriteLine("「いいえ」が選択されました");
+                    agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
+                }
+            }
+            else
+                agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
+        }
+
+        public void KeyDownShow()
+        {
+            var next = agentActivityData[(int)SelectedTeam, (int)SelecetedAgent];
+
+            if (Calc.Field[next.Destination.X, next.Destination.Y].IsTileOn[(int)((SelectedTeam == Team.A) ? Team.B : Team.A)])
+                agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
+            else if (Calc.Field[next.Destination.X, next.Destination.Y].IsTileOn[(int)SelectedTeam])
             {
                 //メッセージボックスを表示する
                 DialogResult result = MessageBox.Show("タイルを取り除きますか？", "質問", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
@@ -528,5 +556,91 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
                 y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
         }
+
+
+        /// <summary>
+        /// Form1内でキーを押したときに実行されます。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void KeyDown(object sender, KeyEventArgs e)
+        {
+            e.SuppressKeyPress = true;
+
+            var current = Calc.AgentPosition[(int)SelectedTeam, (int)SelecetedAgent];
+            var next = agentActivityData[(int)SelectedTeam, (int)SelecetedAgent];
+
+            Console.WriteLine(e.KeyCode);
+            try
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.Q:
+                        SelectedTeam = Team.A;
+                        SelecetedAgent = Agent.One;
+                        break;
+                    case Keys.W:
+                        SelectedTeam = Team.A;
+                        SelecetedAgent = Agent.Two;
+                        break;
+                    case Keys.E:
+                        SelectedTeam = Team.B;
+                        SelecetedAgent = Agent.One;
+                        break;
+                    case Keys.R:
+                        SelectedTeam = Team.B;
+                        SelecetedAgent = Agent.Two;
+                        break;
+                    case Keys.NumPad1:
+                        next.Destination = current + Arrow.DownLeft;
+                        break;
+                    case Keys.NumPad2:
+                        next.Destination = current + Arrow.Down;
+                        break;
+                    case Keys.NumPad3:
+                        next.Destination = current + Arrow.DownRight;
+                        break;
+                    case Keys.NumPad4:
+                        next.Destination = current + Arrow.Left;
+                        break;
+                    case Keys.NumPad6:
+                        next.Destination = current + Arrow.Right;
+                        break;
+                    case Keys.NumPad7:
+                        next.Destination = current + Arrow.UpLeft;
+                        break;
+                    case Keys.NumPad8:
+                        next.Destination = current + Arrow.Up;
+                        break;
+                    case Keys.NumPad9:
+                        next.Destination = current + Arrow.UpRight;
+                        break;
+                }
+
+                current = Calc.AgentPosition[(int)SelectedTeam, (int)SelecetedAgent];
+                next = agentActivityData[(int)SelectedTeam, (int)SelecetedAgent];
+
+                ClickedField = current;
+                if (next.Destination.X < 0 ||
+                    next.Destination.Y < 0 ||
+                    next.Destination.X >= calc.Field.Width() ||
+                    next.Destination.Y >= calc.Field.Height())
+                {
+                    next.Destination = current;
+                    throw new Exception();
+                }
+                else if (current != next.Destination)
+                {
+                    KeyDownShow();
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("不正なキー入力です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            Showing(pictureBox);
+        }
+
+
     }
 }
