@@ -10,9 +10,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 二点間のチェビシェフ距離を求めます。
         /// </summary>
-        /// <param name="p1">対象となる点</param>
-        /// <param name="p2">対象となる点</param>
+        /// <param name="c1">対象となる点</param>
+        /// <param name="c2">対象となる点</param>
         /// <returns></returns>
-        public static int ChebyshevDistance(this Coordinate p1, Coordinate p2) => Math.Max(Math.Abs(p1.X - p2.X), Math.Abs(p1.Y - p2.Y));
+        public static int ChebyshevDistance(this Coordinate c1, Coordinate c2) => Math.Max(Math.Abs(c1.X - c2.X), Math.Abs(c1.Y - c2.Y));
     }
 }
