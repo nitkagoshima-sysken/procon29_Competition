@@ -141,21 +141,21 @@ namespace nitkagoshima_sysken
                             // 情報を表示
                             toolStripStatusLabel1.Text = (show.CursorPosition(FieldDisplay) + " Point: " + f.Point);
                             // 囲まれているか判定
-                            if (f.IsEnclosed[0] && f.IsEnclosed[1]) toolStripStatusLabel1.Text += " (Surrounded by both)";
-                            else if (f.IsEnclosed[0])
+                            if (f.IsEnclosed[Team.A] && f.IsEnclosed[Team.B]) toolStripStatusLabel1.Text += " (Surrounded by both)";
+                            else if (f.IsEnclosed[Team.A])
                             {
                                 toolStripStatusLabel1.Text += " (Surrounded by " + teamDesigns[0].Name + ")";
                                 toolStripStatusLabel1.ForeColor = teamDesigns[0].AgentColor;
                             }
-                            else if (f.IsEnclosed[1])
+                            else if (f.IsEnclosed[Team.B])
                             {
                                 toolStripStatusLabel1.Text += " (Surrounded by " + teamDesigns[1].Name + ")";
                                 toolStripStatusLabel1.ForeColor = teamDesigns[1].AgentColor;
                             }
                             // タイルがおかれているか判定
-                            if (f.IsTileOn[0]) toolStripStatusLabel1.ForeColor = teamDesigns[0].AgentColor;
-                            else if (f.IsTileOn[1]) toolStripStatusLabel1.ForeColor = teamDesigns[1].AgentColor;
-                            else if ((!f.IsEnclosed[0] && !f.IsEnclosed[1])) toolStripStatusLabel1.ForeColor = Color.LightGray;
+                            if (f.IsTileOn[Team.A]) toolStripStatusLabel1.ForeColor = teamDesigns[0].AgentColor;
+                            else if (f.IsTileOn[Team.B]) toolStripStatusLabel1.ForeColor = teamDesigns[1].AgentColor;
+                            else if ((!f.IsEnclosed[Team.A] && !f.IsEnclosed[Team.B])) toolStripStatusLabel1.ForeColor = Color.LightGray;
                         }
                     }
                     time = DateTime.Now;

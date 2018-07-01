@@ -73,8 +73,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 AgentPosition[1, 0] = Field.FlipHorizontal(AgentPosition[0, 0]);
                 AgentPosition[1, 1] = Field.FlipHorizontal(AgentPosition[0, 1]);
             }
-            PutTile(team: 1, agent: 0);
-            PutTile(team: 1, agent: 1);
+            PutTile(Team.B, AgentNumber.One);
+            PutTile(Team.B, AgentNumber.Two);
         }
 
         /// <summary>
@@ -180,35 +180,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームの直接的なエリアのポイントの合計</returns>
-        public int AreaPoint(int team) => FieldList.Sum(x => ((x.IsTileOn[team] == true) ? x.Point : 0));
-
-        /// <summary>
-        /// 指定したチームの直接的なエリアのポイントの合計を計算します。
-        /// </summary>
-        /// <param name="team">計算するチーム</param>
-        /// <returns>指定したチームの直接的なエリアのポイントの合計</returns>
-        public int AreaPoint(Team team) => AreaPoint((int)team);
-
+        public int AreaPoint(Team team) => FieldList.Sum(x => ((x.IsTileOn[team] == true) ? x.Point : 0));
+    
         /// <summary>
         /// 指定したチームが囲んだエリアのポイントの絶対値の合計を計算します。
         /// </summary>
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームが囲んだエリアのポイントの絶対値の合計</returns>
-        public int EnclosedPoint(int team) => FieldList.Sum(x => ((x.IsEnclosed[team] == true) ? Math.Abs(x.Point) : 0));
-
-        /// <summary>
-        /// 指定したチームが囲んだエリアのポイントの絶対値の合計を計算します。
-        /// </summary>
-        /// <param name="team">計算するチーム</param>
-        /// <returns>指定したチームが囲んだエリアのポイントの絶対値の合計</returns>
-        public int EnclosedPoint(Team team) => EnclosedPoint((int)team);
-
-        /// <summary>
-        /// 指定したチームの合計ポイントを計算します。
-        /// </summary>
-        /// <param name="team">計算するチーム</param>
-        /// <returns>指定したチームの合計ポイント</returns>
-        public int TotalPoint(int team) => AreaPoint(team) + EnclosedPoint(team);
+        public int EnclosedPoint(Team team) => FieldList.Sum(x => ((x.IsEnclosed[team] == true) ? Math.Abs(x.Point) : 0));
 
         /// <summary>
         /// 指定したチームの合計ポイントを計算します。
@@ -231,14 +210,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="team">対象となるチーム</param>
         /// <param name="point">対象となるフィールド</param>
         /// <returns>そのフィールドが塗れるなら真、そうでなければ偽が返ってきます。</returns>
-        bool IsFillable(int team, Coordinate point) => 0 <= point.X && point.X < Field.Width() && 0 <= point.Y && point.Y < Field.Height() && !Field[point.X, point.Y].IsTileOn[team];
+        bool IsFillable(Team team, Coordinate point) => 0 <= point.X && point.X < Field.Width() && 0 <= point.Y && point.Y < Field.Height() && !Field[point.X, point.Y].IsTileOn[team];
 
         /// <summary>
         /// 指定したフィールドを基準にIsEnclosedをfalseで塗りつぶします。
         /// </summary>
         /// <param name="team">対象となるチーム</param>
         /// <param name="point">始点にするフィールド</param>
-        private void FillFalseInIsEnclosed(int team, Coordinate point)
+        private void FillFalseInIsEnclosed(Team team, Coordinate point)
         {
             Stack<Coordinate> stack = new Stack<Coordinate>();
             stack.Push(point);
@@ -262,30 +241,17 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// 指定したフィールドを基準にIsEnclosedをfalseで塗りつぶします。
-        /// </summary>
-        /// <param name="team">対象となるチーム</param>
-        /// <param name="point">始点にするフィールド</param>
-        private void FillFalseInIsEnclosed(Team team, Coordinate point) => FillFalseInIsEnclosed((int)team, point);
-
-        /// <summary>
         /// 対象となるチームのIsEnclosedをTrueで初期化します。
         /// </summary>
         /// <param name="team">対象となるチーム</param>
-        private void ResetTrueInIsEnclosed(int team)
+        private void ResetTrueInIsEnclosed(Team team)
         {
             foreach (var cell in Field)
             {
                 cell.IsEnclosed[team] = true;
             }
         }
-
-        /// <summary>
-        /// 対象となるチームのIsEnclosedをTrueで初期化します。
-        /// </summary>
-        /// <param name="team">対象となるチーム</param>
-        private void ResetTrueInIsEnclosed(Team team) => ResetTrueInIsEnclosed((int)team);
-
+  
         /// <summary>
         /// すべてのチームのIsEnclosedをTrueで初期化します。
         /// </summary>
@@ -301,7 +267,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// 対象となるチームにおいてフィールドが囲まれているか判定します。
         /// </summary>
         /// <param name="team">対象となるチーム</param>
-        private void CheckEnclosedArea(int team)
+        private void CheckEnclosedArea(Team team)
         {
             ResetTrueInIsEnclosed(team);
             for (int x = 0; x < Field.Width(); x++)
@@ -317,12 +283,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 if (item.IsTileOn[team]) item.IsEnclosed[team] = false;
             }
         }
-
-        /// <summary>
-        /// 対象となるチームにおいてフィールドが囲まれているか判定します。
-        /// </summary>
-        /// <param name="team">対象となるチーム</param>
-        private void CheckEnclosedArea(Team team) => CheckEnclosedArea((int)team);
 
         /// <summary>
         /// すべてのチームにおいてフィールドが囲まれているか判定します。
@@ -467,14 +427,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="team">対象となるチーム</param>
         /// <param name="agent">対象となるエージェント</param>
-        public void PutTile(int team, int agent) => Field.Take(AgentPosition[team, agent]).IsTileOn[team] = true;
-
-        /// <summary>
-        /// 自分のフィールドにタイルを置きます。
-        /// </summary>
-        /// <param name="team">対象となるチーム</param>
-        /// <param name="agent">対象となるエージェント</param>
-        public void PutTile(Team team, AgentNumber agent) => PutTile((int)team, (int)agent);
+        public void PutTile(Team team, AgentNumber agent) => Field.Take(AgentPosition[(int)team, (int)agent]).IsTileOn[team] = true;
 
         /// <summary>
         /// フィールドに置いてあるタイルを剥がします。
@@ -484,7 +437,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             foreach (Team team in Enum.GetValues(typeof(Team)))
             {
-                Field[point.X, point.Y].IsTileOn[(int)team] = false;
+                Field[point.X, point.Y].IsTileOn[team] = false;
             }
         }
 
@@ -497,15 +450,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public void MoveAgent(Team team, AgentNumber agent, Coordinate where)
         {
             bool movable = false;
-            foreach (int otherteam in TeamArray)
+            foreach (Team otherteam in TeamArray)
             {
-                if (otherteam != (int)team)
+                if (otherteam != team)
                 {
                     movable = Field[where.X, where.Y].IsTileOn[otherteam];
                     if (movable)
                     {
                         RemoveTile(point: where);
-                        CheckEnclosedArea((Team)otherteam);
+                        CheckEnclosedArea(otherteam);
                         break;
                     }
                 }
@@ -520,8 +473,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             foreach (var item in Field)
             {
-                if (item.IsTileOn[0]) item.IsEnclosed[0] = false;
-                if (item.IsTileOn[1]) item.IsEnclosed[1] = false;
+                if (item.IsTileOn[Team.A]) item.IsEnclosed[Team.A] = false;
+                if (item.IsTileOn[Team.B]) item.IsEnclosed[Team.B] = false;
             }
         }
 
@@ -601,20 +554,20 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // FailedInRemovingOurTileByDoingTileNotExist
                     // FailedInRemovingOpponentTileByDoingTileNotExist
                     if (item.AgentStatusData == AgentStatusCode.RequestRemovementOurTile &&
-                        Field[item.Destination.X, item.Destination.Y].IsTileOn[(team == 0) ? 0 : 1] == false)
+                        Field[item.Destination.X, item.Destination.Y].IsTileOn[(team == 0) ? Team.A : Team.B] == false)
                     {
                         item.AgentStatusData = AgentStatusCode.FailedInRemovingOurTileByDoingTileNotExist;
                         continue;
                     }
                     if (item.AgentStatusData == AgentStatusCode.RequestRemovementOpponentTile &&
-                        Field[item.Destination.X, item.Destination.Y].IsTileOn[(team == 0) ? 1 : 0] == false)
+                        Field[item.Destination.X, item.Destination.Y].IsTileOn[(team == 0) ? Team.B : Team.A] == false)
                     {
                         item.AgentStatusData = AgentStatusCode.FailedInRemovingOpponentTileByDoingTileNotExist;
                         continue;
                     }
                     // 移動先に相手のタイルが置いてないかチェック(1)
                     // FailedInMovingByTryingItWithoutRemovingTheOpponentTile
-                    if (Field.Take(item.Destination).IsTileOn[(team == (int)Team.A) ? (int)Team.B : (int)Team.A])
+                    if (Field.Take(item.Destination).IsTileOn[(team == (int)Team.A) ? Team.B : Team.A])
                     {
                         item.AgentStatusData = AgentStatusCode.FailedInMovingByTryingItWithoutRemovingTheOpponentTile;
                         continue;

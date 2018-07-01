@@ -15,6 +15,16 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public TeamBool() { }
 
         /// <summary>
+        /// TeamBoolを設定します
+        /// </summary>
+        /// <param name="teamBool">コピーするTeamBool</param>
+        public TeamBool(TeamBool teamBool)
+        {
+            this[Team.A] = teamBool[Team.A];
+            this[Team.B] = teamBool[Team.B];
+        }
+
+        /// <summary>
         /// チームごとの真偽を表します。
         /// </summary>
         /// <param name="team">対象となるチーム</param>

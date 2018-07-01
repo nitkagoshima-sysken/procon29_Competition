@@ -153,7 +153,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 for (int y = 0; y < Calc.Field.Height(); y++)
                 {
                     //背景色の表示
-                    if (!Calc.Field[x, y].IsTileOn[(int)Team.A] && !Calc.Field[x, y].IsTileOn[(int)Team.B])
+                    if (!Calc.Field[x, y].IsTileOn[Team.A] && !Calc.Field[x, y].IsTileOn[Team.B])
                         graphics.FillRectangle(
                         brush: BackGroundSolidBrush,
                         x: x * fieldWidth,
@@ -161,7 +161,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         width: fieldWidth,
                         height: fieldHeight);
                     //囲み領域の表示
-                    if (Calc.Field[x, y].IsEnclosed[(int)Team.A] && Calc.Field[x, y].IsEnclosed[(int)Team.B])
+                    if (Calc.Field[x, y].IsEnclosed[Team.A] && Calc.Field[x, y].IsEnclosed[Team.B])
                     {
                         graphics.FillRectangle(
                             brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[1].AgentColor),
@@ -176,14 +176,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                             width: fieldWidth / 2,
                             height: fieldHeight);
                     }
-                    else if (Calc.Field[x, y].IsEnclosed[(int)Team.A])
+                    else if (Calc.Field[x, y].IsEnclosed[Team.A])
                         graphics.FillRectangle(
                             brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[0].AgentColor),
                             x: x * fieldWidth,
                             y: y * fieldHeight,
                             width: fieldWidth,
                             height: fieldHeight);
-                    else if (Calc.Field[x, y].IsEnclosed[(int)Team.B])
+                    else if (Calc.Field[x, y].IsEnclosed[Team.B])
                         graphics.FillRectangle(
                             brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[1].AgentColor),
                             x: x * fieldWidth,
@@ -193,7 +193,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // タイルの色表示
                     for (int i = 0; i < 2; i++)
                     {
-                        if (Calc.Field[x, y].IsTileOn[i])
+                        if (Calc.Field[x, y].IsTileOn[(Team)i])
                             graphics.FillRectangle(
                             brush: new SolidBrush(TeamDesign[i].AgentColor),
                             x: x * fieldWidth,
@@ -464,9 +464,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public void DoubleClickedShow()
         {
             //if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)((SelectedTeamAndAgent.Item1 == Team.A) ? Team.B : Team.A)])
-            if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)((SelectedTeam == Team.A) ? Team.B : Team.A)])
+            if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[((SelectedTeam == Team.A) ? Team.B : Team.A)])
                 agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
-            else if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)SelectedTeam])
+            else if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[SelectedTeam])
             {
                 //メッセージボックスを表示する
                 DialogResult result = MessageBox.Show("タイルを取り除きますか？", "質問", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
@@ -491,9 +491,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         public void ClickShow()
         {
-            if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)((SelectedTeam == Team.A) ? Team.B : Team.A)])
+            if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[((SelectedTeam == Team.A) ? Team.B : Team.A)])
                 agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
-            else if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)SelectedTeam])
+            else if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[SelectedTeam])
             {
                 //メッセージボックスを表示する
                 DialogResult result = MessageBox.Show("タイルを取り除きますか？", "質問", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
@@ -519,9 +519,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             var next = agentActivityData[(int)SelectedTeam, (int)SelecetedAgent];
 
-            if (Calc.Field[next.Destination.X, next.Destination.Y].IsTileOn[(int)((SelectedTeam == Team.A) ? Team.B : Team.A)])
+            if (Calc.Field[next.Destination.X, next.Destination.Y].IsTileOn[((SelectedTeam == Team.A) ? Team.B : Team.A)])
                 agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
-            else if (Calc.Field[next.Destination.X, next.Destination.Y].IsTileOn[(int)SelectedTeam])
+            else if (Calc.Field[next.Destination.X, next.Destination.Y].IsTileOn[SelectedTeam])
             {
                 //メッセージボックスを表示する
                 DialogResult result = MessageBox.Show("タイルを取り除きますか？", "質問", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);

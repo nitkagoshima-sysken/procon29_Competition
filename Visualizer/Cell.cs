@@ -17,12 +17,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// そのマスにタイルが置かれているかを表します。
         /// </summary>
-        public bool[] IsTileOn { get; set; }
+        public TeamBool IsTileOn { get; set; }
 
         /// <summary>
         /// そのマスがタイルに囲まれているかを表します。
         /// </summary>
-        public bool[] IsEnclosed { get; set; }
+        public TeamBool IsEnclosed { get; set; }
 
         /// <summary>
         /// そのマスがフィールドのどこにあるかを表します。
@@ -35,8 +35,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public Cell()
         {
             Point = 0;
-            IsTileOn = new bool[2];
-            IsEnclosed = new bool[2];
+            IsTileOn = new TeamBool();
+            IsEnclosed = new TeamBool();
             Coordinate = new Coordinate();
         }
 
@@ -121,17 +121,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             var cell = new Cell
             {
                 Point = Point,
-                IsEnclosed = new bool[IsEnclosed.Length],
-                IsTileOn = new bool[IsTileOn.Length],
-            };
-            for (int i = 0; i < IsEnclosed.Length; i++)
-            {
-                cell.IsEnclosed[i] = IsEnclosed[i];
-            }
-            for (int i = 0; i < IsEnclosed.Length; i++)
-            {
-                cell.IsTileOn[i] = IsTileOn[i];
-            }
+                IsEnclosed = new TeamBool(IsEnclosed),
+                IsTileOn = new TeamBool(IsTileOn),
+            };            
             return cell;
         }
     }
