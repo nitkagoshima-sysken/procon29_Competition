@@ -88,6 +88,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgentActivityDatas.cs" />
     <Compile Include="AgentNumber.cs" />
     <Compile Include="AgentActivityData.cs" />
     <Compile Include="AgentStatusCode.cs" />

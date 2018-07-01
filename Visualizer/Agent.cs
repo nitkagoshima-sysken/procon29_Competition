@@ -37,5 +37,17 @@
             Team = team;
             AgentNumber = agentNumber;
         }
+
+        /// <summary>
+        /// AgentDataの初期化します。
+        /// </summary>
+        /// <param name="agent">コピーするエージェントを指定します。</param>
+        public Agent(Agent agent)
+        {
+            Name = agent.Name;
+            Team = agent.Team;
+            AgentNumber = agent.AgentNumber;
+            Position = new Coordinate(agent.Position);
+        }
     }
 }

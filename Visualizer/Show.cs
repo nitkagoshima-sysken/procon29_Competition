@@ -114,7 +114,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                 {
-                    agentActivityData[(int)team, (int)agent] = new AgentActivityData(AgentStatusCode.RequestMovement, Calc.AgentPosition[(int)team, (int)agent]);
+                    agentActivityData[(int)team, (int)agent] = new AgentActivityData(AgentStatusCode.RequestMovement, Calc.Agents[team, agent].Position);
                 }
             }
         }
@@ -300,16 +300,16 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 for (int y = 0; y < calc.Field.Height; y++)
                 {
-                    for (int team = 0; team < agentActivityData.GetLength(0); team++)
+                    for (Team team = 0; (int)team < agentActivityData.GetLength(0); team++)
                     {
-                        for (int agent = 0; agent < agentActivityData.GetLength(1); agent++)
+                        for (AgentNumber agent = 0; (int)agent < agentActivityData.GetLength(1); agent++)
                         {
-                            if (x == calc.AgentPosition[team, agent].X && y == calc.AgentPosition[team, agent].Y)
+                            if (new Coordinate(x, y) == calc.Agents[team, agent].Position)
                             {
                                 float f = canvas.Height / 3000.0f;
 
-                                var bmp = (Bitmap)AgentBitmap[team].Clone();
-                                if (Calc.AgentPosition[team, agent].X > Calc.Field.Width / 2)
+                                var bmp = (Bitmap)AgentBitmap[(int)team].Clone();
+                                if (Calc.Agents[team, agent].Position.X > Calc.Field.Width / 2)
                                     bmp.RotateFlip(RotateFlipType.Rotate180FlipY);
 
                                 System.Drawing.Imaging.ColorMatrix cm =
@@ -325,9 +325,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                                 // 司令塔の邪魔にならないように、エージェントの真上のマスをマウスが通ったときに、
                                 // フルーツフェアリーたちの魔法で透明になるという設定
-                                if (CursorPosition(PictureBox).X == Calc.AgentPosition[team, agent].X && (
-                                    CursorPosition(PictureBox).Y == Calc.AgentPosition[team, agent].Y - 1 ||
-                                    CursorPosition(PictureBox).Y == Calc.AgentPosition[team, agent].Y))
+                                if (CursorPosition(PictureBox).X == Calc.Agents[team, agent].Position.X && (
+                                    CursorPosition(PictureBox).Y == Calc.Agents[team, agent].Position.Y - 1 ||
+                                    CursorPosition(PictureBox).Y == Calc.Agents[team, agent].Position.Y))
                                     cm.Matrix33 = 0.3F;
 
                                 //ImageAttributesオブジェクトの作成
@@ -341,8 +341,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                                     image: bmp,
                                     destRect: new Rectangle
                                     {
-                                        X = (int)(Calc.AgentPosition[team, agent].X * fieldWidth),
-                                        Y = (int)(Calc.AgentPosition[team, agent].Y * fieldHeight - (bmp.Height * f * 0.55f)),
+                                        X = (int)(Calc.Agents[team, agent].Position.X * fieldWidth),
+                                        Y = (int)(Calc.Agents[team, agent].Position.Y * fieldHeight - (bmp.Height * f * 0.55f)),
                                         Width = (int)(bmp.Width * f),
                                         Height = (int)(bmp.Height * f)
                                     },
@@ -363,19 +363,19 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             // 短い名前を表示  
             PointFont = new Font(pointFamilyName, (fieldHeight <= 0 && fieldWidth <= 0) ? 1 : Math.Min(fieldHeight, fieldWidth) / 4 * 3 / 6.0f);
-            for (int team = 0; team < 2; team++)
+            for (Team team = 0; (int)team < 2; team++)
             {
-                for (int agent = 0; agent < 2; agent++)
+                for (AgentNumber agent = 0; (int)agent < 2; agent++)
                 {
-                    if (!(CursorPosition(PictureBox).X == Calc.AgentPosition[team, agent].X &&
-                          CursorPosition(PictureBox).Y == Calc.AgentPosition[team, agent].Y - 1))
+                    if (!(CursorPosition(PictureBox).X == Calc.Agents[team, agent].Position.X &&
+                          CursorPosition(PictureBox).Y == Calc.Agents[team, agent].Position.Y - 1))
                     {
                         graphics.DrawString(
-                            s: Calc.ShortTeamAgentName[team, agent],
+                            s: Calc.ShortTeamAgentName[(int)team, (int)agent],
                             font: PointFont,
                             brush: new SolidBrush(color: Color.FromArgb(0xCC, Color.White)),
-                            x: (float)(Calc.AgentPosition[team, agent].X + 0.0) * fieldWidth,
-                            y: (float)(Calc.AgentPosition[team, agent].Y + 0.75) * fieldHeight);
+                            x: (float)(Calc.Agents[team, agent].Position.X + 0.0) * fieldWidth,
+                            y: (float)(Calc.Agents[team, agent].Position.Y + 0.75) * fieldHeight);
                     }
                 }
             }
@@ -439,7 +439,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                 {
-                    if (ClickedField == (Point)Calc.AgentPosition[(int)team, (int)agent])
+                    if (ClickedField == (Point)Calc.Agents[team, agent].Position)
                     {
                         //SelectedTeamAndAgent = (team, agent);
                         SelectedTeam = team;
@@ -568,7 +568,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             e.SuppressKeyPress = true;
 
-            var current = Calc.AgentPosition[(int)SelectedTeam, (int)SelecetedAgent];
+            var current = Calc.Agents[SelectedTeam, SelecetedAgent].Position;
             var next = agentActivityData[(int)SelectedTeam, (int)SelecetedAgent];
 
             Console.WriteLine(e.KeyCode);
@@ -618,7 +618,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         break;
                 }
 
-                current = Calc.AgentPosition[(int)SelectedTeam, (int)SelecetedAgent];
+                current = Calc.Agents[SelectedTeam, SelecetedAgent].Position;
                 next = agentActivityData[(int)SelectedTeam, (int)SelecetedAgent];
 
                 ClickedField = current;

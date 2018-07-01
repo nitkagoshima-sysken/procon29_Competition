@@ -29,6 +29,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public Coordinate(int x, int y) { X = x; Y = y; }
 
         /// <summary>
+        /// Coordinateを初期化します。
+        /// </summary>
+        /// <param name="x">x軸を表します。</param>
+        /// <param name="y">y軸を表します。</param>
+        public Coordinate(Coordinate coordinate) { X = coordinate.X; Y = coordinate.Y; }
+
+        /// <summary>
         /// 座標に座標を加算します。
         /// </summary>
         /// <param name="c1">左辺値の座標</param>

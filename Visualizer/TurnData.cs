@@ -15,41 +15,36 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントの位置を設定または取得します
         /// </summary>
-        public Coordinate[,] AgentPosition { get; set; }
+        public Agents Agents { get; set; }
 
         /// <summary>
         /// エージェントの行動データを設定または取得します
         /// </summary>
-        internal AgentActivityData[,] AgentActivityData { get; set; }
+        internal AgentActivityDatas AgentActivityDatas { get; set; }
 
         /// <summary>
         /// 初期化します
         /// </summary>
         /// <param name="field">フィールドを表します</param>
-        /// <param name="agentPosition">エージェントの位置を表します</param>
-        /// <param name="agentActivityData">エージェントの行動データを表します</param>
-        public TurnData(Field field, Coordinate[,] agentPosition, AgentActivityData[,] agentActivityData)
+        /// <param name="agents">エージェントたちを表します</param>
+        /// <param name="agentActivityDatas">エージェントの行動データを表します</param>
+        public TurnData(Field field, Agents agents, AgentActivityDatas agentActivityDatas)
         {
             Field = field;
-            AgentPosition = agentPosition;
-            AgentActivityData = agentActivityData;
+            Agents = agents;
+            AgentActivityDatas = agentActivityDatas;
         }
 
         /// <summary>
         /// 初期化します
         /// </summary>
-        public TurnData(Field field, Coordinate[,] agentPosition)
+        /// <param name="field">フィールドを表します</param>
+        /// <param name="agents">エージェントたちを表します</param>
+        public TurnData(Field field, Agents agents)
         {
             Field = field;
-            AgentPosition = agentPosition;
-            AgentActivityData = new AgentActivityData[AgentPosition.GetLength(0), AgentPosition.GetLength(1)];
-            for (int team = 0; team < AgentPosition.GetLength(0); team++)
-            {
-                for (int agent = 0; agent < AgentPosition.GetLength(1); agent++)
-                {
-                    AgentActivityData[team, agent] = new AgentActivityData();
-                }
-            }
+            Agents = agents;
+            AgentActivityDatas = new AgentActivityDatas();
         }
 
         /// <summary>
@@ -61,16 +56,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             var cloned =
                 new TurnData(
                     new Field(Field),
-                    new Coordinate[AgentPosition.GetLength(0), AgentPosition.GetLength(1)],
-                    new AgentActivityData[AgentActivityData.GetLength(0), AgentActivityData.GetLength(1)]);
-            for (int team = 0; team < AgentPosition.GetLength(0); team++)
-            {
-                for (int agent = 0; agent < AgentPosition.GetLength(1); agent++)
-                {
-                    cloned.AgentPosition[team, agent] = AgentPosition[team, agent];
-                    cloned.AgentActivityData[team, agent] = (AgentActivityData)AgentActivityData[team, agent].DeepCopy;
-                }
-            }
+                    new Agents(Agents),
+                    new AgentActivityDatas(AgentActivityDatas));
             return cloned;
         }
     }

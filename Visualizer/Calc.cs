@@ -10,6 +10,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     public class Calc
     {
         /// <summary>
+        /// エージェントたちを表します
+        /// </summary>
+        public Agents Agents { get => FieldHistory[Turn].Agents; set => FieldHistory[Turn].Agents = value; }
+
+        /// <summary>
         /// フィールドを設定または取得します。
         /// </summary>
         public Field Field { get => FieldHistory[Turn].Field; set => FieldHistory[Turn].Field = value; }
@@ -23,11 +28,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// フィールドの歴史を設定または取得します。
         /// </summary>
         internal List<TurnData> FieldHistory { get; private set; } = new List<TurnData>();
-
-        /// <summary>
-        /// エージェントの位置をを設定または取得します。
-        /// </summary>
-        public Coordinate[,] AgentPosition { get => FieldHistory[Turn].AgentPosition; set => FieldHistory[Turn].AgentPosition = value; }
              
         /// <summary>
         /// エージェントの略称を返します。
@@ -51,7 +51,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>objectのディープコピー</returns>
         public object DeepCopy()
         {
-            return new Calc(new Field(Field), new Coordinate[] { AgentPosition[0, 0], AgentPosition[0, 1] });
+            return new Calc(new Field(Field), new Coordinate[] { Agents[Team.A, AgentNumber.One].Position, Agents[Team.A, AgentNumber.Two].Position });
         }
 
         /// <summary>
@@ -64,12 +64,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // Turn -> 0
             Turn = 0;
             // TurnData作成
-            FieldHistory.Add(new TurnData(new Field(point.GetLength(1), point.GetLength(0)), new Coordinate[TeamArray.Length, AgentArray.Length]));
+            FieldHistory.Add(new TurnData(new Field(point.GetLength(1), point.GetLength(0)), new Agents()));
 
             InitializationOfField(point);
             foreach (AgentNumber agent in AgentArray)
             {
-                AgentPosition[0, (int)agent] = initPosition[(int)agent];
+                Agents[Team.A, agent].Position = initPosition[(int)agent];
                 PutTile(team: 0, agent: agent);
             }
             ComplementEnemysPosition();
@@ -88,11 +88,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // Turn -> 0
             Turn = 0;
             // TurnData作成
-            FieldHistory.Add(new TurnData(field, new Coordinate[TeamArray.Length, AgentArray.Length]));
+            FieldHistory.Add(new TurnData(field, new Agents()));
 
             foreach (AgentNumber agent in AgentArray)
             {
-                AgentPosition[0, (int)agent] = initPosition[(int)agent];
+                Agents[Team.A, agent].Position = initPosition[(int)agent];
                 PutTile(team: 0, agent: agent);
             }
             ComplementEnemysPosition();
@@ -110,13 +110,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             PointMapCheck();
             if (Field.IsVerticallySymmetrical)
             {
-                AgentPosition[1, 0] = Field.FlipVertical(AgentPosition[0, 0]);
-                AgentPosition[1, 1] = Field.FlipVertical(AgentPosition[0, 1]);
+                Agents[Team.B, AgentNumber.One].Position = Field.FlipVertical(Agents[Team.A, AgentNumber.One].Position);
+                Agents[Team.B, AgentNumber.Two].Position = Field.FlipVertical(Agents[Team.A, AgentNumber.Two].Position);
             }
             else if (Field.IsHorizontallySymmetrical)
             {
-                AgentPosition[1, 0] = Field.FlipHorizontal(AgentPosition[0, 0]);
-                AgentPosition[1, 1] = Field.FlipHorizontal(AgentPosition[0, 1]);
+                Agents[Team.B, AgentNumber.One].Position = Field.FlipHorizontal(Agents[Team.A, AgentNumber.One].Position);
+                Agents[Team.B, AgentNumber.Two].Position = Field.FlipHorizontal(Agents[Team.A, AgentNumber.Two].Position);
             }
             PutTile(Team.B, AgentNumber.One);
             PutTile(Team.B, AgentNumber.Two);
@@ -293,20 +293,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// 対象となるマスに対象となるエージェントがいるか、またはムーア近傍にいるかを判定します
         /// </summary>
         /// <param name="team">対象となるチーム</param>
-        /// <param name="agent">対象となるエージェント</param>
+        /// <param name="agentNumber">対象となるエージェント</param>
         /// <param name="point">対象となるマス</param>
         /// <returns>対象となるマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
-        public bool IsAgentHereOrInMooreNeighborhood(int team, int agent, Coordinate point) => (AgentPosition[team, agent].ChebyshevDistance(point) <= 1) ? true : false;
-
-        /// <summary>
-        /// 対象となるマスに対象となるエージェントがいるか、またはムーア近傍にいるかを判定します
-        /// </summary>
-        /// <param name="team">対象となるチーム</param>
-        /// <param name="agent">対象となるエージェント</param>
-        /// <param name="point">対象となるマス</param>
-        /// <returns>対象となるマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
-        public bool IsAgentHereOrInMooreNeighborhood(Team team, AgentNumber agent, Coordinate point) => IsAgentHereOrInMooreNeighborhood((int)team, (int)agent, point);
-
+        public bool IsAgentHereOrInMooreNeighborhood(Team team, AgentNumber agentNumber, Coordinate point) => (Agents[team, agentNumber].Position.ChebyshevDistance(point) <= 1) ? true : false;
+       
         /// <summary>
         /// 対象となるマスにエージェントがいるか、またはムーア近傍にいるかを判定します
         /// </summary>
@@ -314,8 +305,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>そのマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
         public bool IsAgentHereOrInMooreNeighborhood(Coordinate point)
         {
-            foreach (var agent in AgentPosition)
-                if (agent.ChebyshevDistance(point) <= 1)
+            foreach (Agent agent in Agents)
+                if (agent.Position.ChebyshevDistance(point) <= 1)
                     return true;
             return false;
         }
@@ -328,8 +319,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public bool IsOneAgentHereOrInMooreNeighborhood(Coordinate point)
         {
             var result = false;
-            foreach (var agent in AgentPosition)
-                if (agent.ChebyshevDistance(point) <= 1)
+            foreach (Agent agent in Agents)
+                if (agent.Position.ChebyshevDistance(point) <= 1)
                     if (result)
                         return false;
                     else
@@ -344,8 +335,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns></returns>
         public bool IsAgentHere(Coordinate point)
         {
-            foreach (var agent in AgentPosition)
-                if (agent.ChebyshevDistance(point) == 0)
+            foreach (Agent agent in Agents)
+                if (agent.Position.ChebyshevDistance(point) == 0)
                     return true;
             return false;
         }
@@ -357,8 +348,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns></returns>
         public bool IsAgentInMooreNeighborhood(Coordinate point)
         {
-            foreach (var agent in AgentPosition)
-                if (agent.ChebyshevDistance(point) == 1)
+            foreach (Agent agent in Agents)
+                if (agent.Position.ChebyshevDistance(point) == 1)
                     return true;
             return false;
         }
@@ -371,8 +362,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public bool IsOneAgentInMooreNeighborhood(Coordinate point)
         {
             var result = false;
-            foreach (var agent in AgentPosition)
-                if (agent.ChebyshevDistance(point) == 1)
+            foreach (Agent agent in Agents)
+                if (agent.Position.ChebyshevDistance(point) == 1)
                     if (result)
                         return false;
                     else
@@ -386,12 +377,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public void TurnEnd()
         {
             // TurnData作成
-            var a = new Coordinate[TeamArray.Length, AgentArray.Length];
-            for (int team = 0; team < TeamArray.Length; team++)
+            var a = new Agents();
+            for (Team team = 0; (int)team < TeamArray.Length; team++)
             {
-                for (int agent = 0; agent < AgentArray.Length; agent++)
+                for (AgentNumber agent = 0; (int)agent < AgentArray.Length; agent++)
                 {
-                    a[team, agent] = new Coordinate(AgentPosition[team, agent].X, AgentPosition[team, agent].Y);
+                    a[team, agent] = new Agent(Agents[team, agent]);
                 }
             }
             FieldHistory.Add(new TurnData(new Field(Field), a));
@@ -421,7 +412,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="team">対象となるチーム</param>
         /// <param name="agent">対象となるエージェント</param>
-        public void PutTile(Team team, AgentNumber agent) => Field[AgentPosition[(int)team, (int)agent]].IsTileOn[team] = true;
+        public void PutTile(Team team, AgentNumber agent) => Field[Agents[team, agent].Position].IsTileOn[team] = true;
 
         /// <summary>
         /// フィールドに置いてあるタイルを剥がします。
@@ -459,7 +450,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
             if (!movable)
             {
-                AgentPosition[(int)team, (int)agent] = where;
+                Agents[team, agent].Position = where;
                 PutTile(team: team, agent: agent);
             }
 
@@ -493,7 +484,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // 自分自身の衝突をチェック(2)
                     // YouHadCollisionsWithYourselfAndYouFailedToMoveBecauseYouAreThereAlready
                     // YouHadCollisionsWithYourselfAndYouFailedToRemoveTilesFromYourTeam;
-                    if (item.Destination == AgentPosition[team, agent])
+                    if (item.Destination == Agents[(Team)team, (AgentNumber)agent].Position)
                         switch (item.AgentStatusData)
                         {
                             case AgentStatusCode.RequestMovement:
@@ -509,7 +500,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // FailedInMovingByBeingNotChebyshevNeighborhood
                     // FailedInRemovingOurTileByBeingNotChebyshevNeighborhood
                     // FailedInRemovingOpponentTileByBeingNotChebyshevNeighborhood
-                    if (item.Destination.ChebyshevDistance(AgentPosition[team, agent]) != 1)
+                    if (item.Destination.ChebyshevDistance(Agents[(Team)team, (AgentNumber)agent].Position) != 1)
                         switch (item.AgentStatusData)
                         {
                             case AgentStatusCode.RequestMovement:
@@ -571,18 +562,18 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // FailedInRemovingOurTileWithTheLazyOurTeam
                     // FailedInMovingByCollisionWithTheLazyOpponent
                     // FailedInRemovingOpponentTileWithTheLazyOpponent
-                    foreach (int otherteam in TeamArray)
+                    foreach (Team otherteam in TeamArray)
                     {
-                        foreach (int otheragent in AgentArray)
+                        foreach (AgentNumber otheragent in AgentArray)
                         {
-                            if (team == otherteam && agent == otheragent) continue;
-                            var otheritem = agentActivityData[otherteam, otheragent];
-                            var otherposition = AgentPosition[otherteam, otheragent];
+                            if (team == (int)otherteam && agent == (int)otheragent) continue;
+                            var otheritem = agentActivityData[(int)otherteam, (int)otheragent];
+                            var otherposition = Agents[otherteam, otheragent].Position;
                             if ((otheritem.AgentStatusData == AgentStatusCode.RequestNotToDoAnything ||
                                 otheritem.AgentStatusData == AgentStatusCode.NotDoneAnything) &&
                                 item.Destination == otherposition)
                             {
-                                if (team == otherteam)
+                                if (team == (int)otherteam)
                                 {
                                     item.ToFailByCollisionWithTheLazyOurTeam();
                                 }
@@ -619,7 +610,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         {
                             if (team == otherteam && agent == otheragent) continue;
                             var otheritem = agentActivityData[otherteam, otheragent];
-                            var otherposition = AgentPosition[otherteam, otheragent];
+                            var otherposition = Agents[(Team)otherteam, (AgentNumber)otheragent].Position;
                             if ((otheritem.AgentStatusData == AgentStatusCode.RequestNotToDoAnything ||
                                 otheritem.AgentStatusData == AgentStatusCode.NotDoneAnything ||
                                 otheritem.AgentStatusData.IsFailed()) &&
@@ -670,10 +661,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // ターンエンドの処理
             TurnEnd();
             // ログを取る
-            FieldHistory[Turn - 1].AgentActivityData[0, 0].AgentStatusData = agentActivityData[0, 0].AgentStatusData;
-            FieldHistory[Turn - 1].AgentActivityData[0, 1].AgentStatusData = agentActivityData[0, 1].AgentStatusData;
-            FieldHistory[Turn - 1].AgentActivityData[1, 0].AgentStatusData = agentActivityData[1, 0].AgentStatusData;
-            FieldHistory[Turn - 1].AgentActivityData[1, 1].AgentStatusData = agentActivityData[1, 1].AgentStatusData;
+            FieldHistory[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One].AgentStatusData = agentActivityData[0, 0].AgentStatusData;
+            FieldHistory[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.Two].AgentStatusData = agentActivityData[0, 1].AgentStatusData;
+            FieldHistory[Turn - 1].AgentActivityDatas[Team.B, AgentNumber.One].AgentStatusData = agentActivityData[1, 0].AgentStatusData;
+            FieldHistory[Turn - 1].AgentActivityDatas[Team.B, AgentNumber.Two].AgentStatusData = agentActivityData[1, 1].AgentStatusData;
 
             foreach (Team team in TeamArray)
             {
@@ -682,7 +673,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     switch (agentActivityData[(int)team, (int)agent].AgentStatusData)
                     {
                         case AgentStatusCode.SucceededInMoving:
-                            AgentPosition[(int)team, (int)agent] = agentActivityData[(int)team, (int)agent].Destination;
+                            Agents[team, agent].Position = agentActivityData[(int)team, (int)agent].Destination;
                             PutTile(team: team, agent: agent);
                             break;
                         case AgentStatusCode.SucceededInRemovingOurTile:

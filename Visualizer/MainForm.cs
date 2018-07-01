@@ -71,13 +71,13 @@ namespace nitkagoshima_sysken
                     log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Area Point: " + calc.AreaPoint(Team.A).ToString());
                     log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.A).ToString());
                     log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "   Total Point: " + calc.TotalPoint(Team.A).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 0]);
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 1]);
+                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.Agents[Team.A, AgentNumber.One].Position);
+                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.Agents[Team.A, AgentNumber.Two].Position);
                     log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Area Point: " + calc.AreaPoint(Team.B).ToString());
                     log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.B).ToString());
                     log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "   Total Point: " + calc.TotalPoint(Team.B).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 0]);
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);
+                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.Agents[Team.B, AgentNumber.One].Position);
+                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.Agents[Team.B, AgentNumber.One].Position);
                 }
 
                 /// <summary>
@@ -287,17 +287,17 @@ namespace nitkagoshima_sysken
                     if (bot[0] != null)
                     {
                         log.WriteLine(Color.SkyBlue, "[" + botName[0] + "]");
-                        var d = calc.FieldHistory[calc.Turn - 1].AgentActivityData[0, 0];
+                        var d = calc.FieldHistory[calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One];
                         log.WriteLine(Color.SkyBlue, "A1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
-                        d = calc.FieldHistory[calc.Turn - 1].AgentActivityData[0, 1];
+                        d = calc.FieldHistory[calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.Two];
                         log.WriteLine(Color.SkyBlue, "A2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
                     }
                     if (bot[1] != null)
                     {
                         log.WriteLine(Color.SkyBlue, "[" + botName[1] + "]");
-                        var d = calc.FieldHistory[calc.Turn - 1].AgentActivityData[1, 0];
+                        var d = calc.FieldHistory[calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.One];
                         log.WriteLine(Color.SkyBlue, "B1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
-                        d = calc.FieldHistory[calc.Turn - 1].AgentActivityData[1, 1];
+                        d = calc.FieldHistory[calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.Two];
                         log.WriteLine(Color.SkyBlue, "B2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
                     }
                 }
