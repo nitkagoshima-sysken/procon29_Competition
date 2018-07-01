@@ -438,7 +438,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 foreach (Agent agent in Enum.GetValues(typeof(Agent)))
                 {
-                    if (ClickedField == Calc.AgentPosition[(int)team, (int)agent])
+                    if (ClickedField == (Point)Calc.AgentPosition[(int)team, (int)agent])
                     {
                         //SelectedTeamAndAgent = (team, agent);
                         SelectedTeam = team;
