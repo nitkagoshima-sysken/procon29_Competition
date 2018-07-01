@@ -158,7 +158,7 @@ namespace nitkagoshima_sysken
                 /// <param name="team"></param>
                 /// <param name="agent"></param>
                 /// <param name="where"></param>
-                private void MoveAgent(Team team, Agent agent, System.Drawing.Point where)
+                private void MoveAgent(Team team, Agent agent, Coordinate where)
                 {
                     calc.MoveAgent(team, agent, where);
                     //log.WriteLine(teamDesigns[(int)agent].AreaColor, Procon29_Calc.ShortTeamAgentName[(int)team, (int)agent] + " moved to " + where);
@@ -171,9 +171,9 @@ namespace nitkagoshima_sysken
                 /// <param name="agent">対称となるエージェント</param>
                 /// <param name="point"></param>
                 /// <returns></returns>
-                private Coordinate AddAgentPosition(Team team, Agent agent, System.Drawing.Point point)
+                private Coordinate AddAgentPosition(Team team, Agent agent, Coordinate point)
                 {
-                    return new System.Drawing.Point(calc.AgentPosition[(int)team, (int)agent].X + point.X, calc.AgentPosition[(int)team, (int)agent].Y + point.Y);
+                    return new Coordinate(calc.AgentPosition[(int)team, (int)agent].X + point.X, calc.AgentPosition[(int)team, (int)agent].Y + point.Y);
                 }
 
                 /// <summary>
@@ -218,35 +218,35 @@ namespace nitkagoshima_sysken
                                 break;
                             case Keys.NumPad1:
                                 show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new System.Drawing.Point(-1, 1));
+                                    AddAgentPosition(team, agent, new Coordinate(-1, 1));
                                 break;
                             case Keys.NumPad2:
                                 show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new System.Drawing.Point(0, 1));
+                                    AddAgentPosition(team, agent, new Coordinate(0, 1));
                                 break;
                             case Keys.NumPad3:
                                 show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new System.Drawing.Point(1, 1));
+                                    AddAgentPosition(team, agent, new Coordinate(1, 1));
                                 break;
                             case Keys.NumPad4:
                                 show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new System.Drawing.Point(-1, 0));
+                                    AddAgentPosition(team, agent, new Coordinate(-1, 0));
                                 break;
                             case Keys.NumPad6:
                                 show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new System.Drawing.Point(1, 0));
+                                    AddAgentPosition(team, agent, new Coordinate(1, 0));
                                 break;
                             case Keys.NumPad7:
                                 show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new System.Drawing.Point(-1, -1));
+                                    AddAgentPosition(team, agent, new Coordinate(-1, -1));
                                 break;
                             case Keys.NumPad8:
                                 show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new System.Drawing.Point(0, -1));
+                                    AddAgentPosition(team, agent, new Coordinate(0, -1));
                                 break;
                             case Keys.NumPad9:
                                 show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new System.Drawing.Point(1, -1));
+                                    AddAgentPosition(team, agent, new Coordinate(1, -1));
                                 break;
                             case Keys.Enter:
                                 TurnEnd();
@@ -315,12 +315,12 @@ namespace nitkagoshima_sysken
                                 if (pqr_data.One.X < 0 || pqr_data.One.Y < 0)
                                 {
                                     MessageBox.Show("1人目のエージェントの位置" + pqr_data.One + "が不正です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    pqr_data.One = new System.Drawing.Point(0, 0);
+                                    pqr_data.One = new Coordinate(0, 0);
                                 }
                                 if (pqr_data.Two.X < 0 || pqr_data.Two.Y < 0)
                                 {
                                     MessageBox.Show("2人目のエージェントの位置" + pqr_data.One + "が不正です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    pqr_data.Two = new System.Drawing.Point(0, 0);
+                                    pqr_data.Two = new Coordinate(0, 0);
                                 }
 
                                 calc = new Calc(pqr_data.Fields, new Coordinate[2] { pqr_data.One, pqr_data.Two });

@@ -13,26 +13,22 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// </summary>
     struct PQRData
     {
-        Size size;
-        int[,] fields;
-        System.Drawing.Point one, two;
-
         /// <summary>
         /// フィールドの大きさを表します。
         /// </summary>
-        internal Size Size { get => size; set => size = value; }
+        internal Size Size { get; set; }
         /// <summary>
         /// フィールドを表します。
         /// </summary>
-        public int[,] Fields { get => fields; set => fields = value; }
+        public int[,] Fields { get; set; }
         /// <summary>
         /// 1人目のエージェントの位置を表します。
         /// </summary>
-        public Coordinate One { get => one; set => one = value; }
+        public Coordinate One { get; set; }
         /// <summary>
         /// 2人目のエージェントの位置を表します。
         /// </summary>
-        public Coordinate Two { get => two; set => two = value; }
+        public Coordinate Two { get; set; }
     }
 
     /// <summary>
@@ -132,11 +128,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 list.Clear();
                 list = SpaceCSVToList(m.Groups["one"].Value.Replace(":", " "));
-                pqr.One = new System.Drawing.Point(list[1] - 1, list[0] - 1);
+                pqr.One = new Coordinate(list[1] - 1, list[0] - 1);
 
                 list.Clear();
                 list = SpaceCSVToList(m.Groups["two"].Value.Replace(":", " "));
-                pqr.Two = new System.Drawing.Point(list[1] - 1, list[0] - 1);
+                pqr.Two = new Coordinate(list[1] - 1, list[0] - 1);
             }
 
             return pqr;

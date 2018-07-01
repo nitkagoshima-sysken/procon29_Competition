@@ -25,7 +25,7 @@
         /// <param name="field">対象となるフィールド</param>
         /// <param name="point">対象となるマス</param>
         /// <returns></returns>
-        public static Coordinate FlipVertical(this Cell[,] field, Coordinate point) => new System.Drawing.Point(point.X, field.Height() - 1 - point.Y);
+        public static Coordinate FlipVertical(this Cell[,] field, Coordinate point) => new Coordinate(point.X, field.Height() - 1 - point.Y);
 
         /// <summary>
         /// フィールド上で左右反転したときのマスの座標を取得します。
@@ -33,7 +33,7 @@
         /// <param name="field">対象となるフィールド</param>
         /// <param name="point">対象となるマス</param>
         /// <returns></returns>
-        public static Coordinate FlipHorizontal(this Cell[,] field, Coordinate point) => new System.Drawing.Point(field.Width() - 1 - point.X, point.Y);
+        public static Coordinate FlipHorizontal(this Cell[,] field, Coordinate point) => new Coordinate(field.Width() - 1 - point.X, point.Y);
 
         /// <summary>
         /// フィールド上で上下左右反転したときのマスの座標を取得します。
@@ -41,7 +41,7 @@
         /// <param name="field">対称となるフィールド</param>
         /// <param name="point">対称となるマス</param>
         /// <returns></returns>
-        public static Coordinate FlipHorizontalAndVertical(this Cell[,] field, Coordinate point) => new System.Drawing.Point(field.Width() - 1 - point.X, field.Height() - 1 - point.Y);
+        public static Coordinate FlipHorizontalAndVertical(this Cell[,] field, Coordinate point) => new Coordinate(field.Width() - 1 - point.X, field.Height() - 1 - point.Y);
 
         /// <summary>
         /// 上下対称か判定します。
