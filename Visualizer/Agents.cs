@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
-    class TeamAndAgentArray
+    class Agents
     {
         bool[,] Array { get; set; } = new bool[Enum.GetValues(typeof(Team)).Length, Enum.GetValues(typeof(Agent)).Length];
 
-        public TeamAndAgentArray() { }
+        public Agents() { }
 
         public bool this[Team team, Agent agent]
         {
