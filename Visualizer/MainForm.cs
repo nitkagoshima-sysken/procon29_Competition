@@ -29,6 +29,7 @@ namespace nitkagoshima_sysken
                 CreateNewForm createNewForm = new CreateNewForm();
                 public static dynamic[] bot = new dynamic[2];
                 public static string[] botName = new string[2];
+                public static int maxTurn;
 
                 /// <summary>
                 /// MainForm
@@ -62,10 +63,7 @@ namespace nitkagoshima_sysken
                     KeyDown += new KeyEventHandler(MainForm_KeyDown);
 
                     WriteLog();
-
-                    Console.WriteLine(calc.Field.Sum(x => x.Point));
-                    Console.WriteLine(calc.Field.Count());
-                    Console.WriteLine(calc.Field.Average(x => (double)x.Point)); 
+                    TurnProgressCheck();
                 }
 
 
@@ -82,6 +80,19 @@ namespace nitkagoshima_sysken
                     log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "   Total Point: " + calc.TotalPoint(Team.B).ToString());
                     log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.Agents[Team.B, AgentNumber.One].Position);
                     log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.Agents[Team.B, AgentNumber.Two].Position);
+                }
+
+                void TurnProgressCheck()
+                {
+                    toolStripProgressBar1.Maximum = calc.MaxTurn;
+                    toolStripProgressBar1.Value = calc.Turn;
+                    if (calc.MaxTurn <= calc.Turn)
+                    {
+                        TurnEndButton.Visible = false;
+                        tableLayoutPanel2.RowStyles[1] = new RowStyle(SizeType.Percent, 100);
+                        tableLayoutPanel2.RowStyles[2] = new RowStyle(SizeType.Absolute, 0);
+                        MessageBox.Show("試合が終了しました", "お知らせ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
 
                 /// <summary>
@@ -141,9 +152,10 @@ namespace nitkagoshima_sysken
                             0 <= show.CursorPosition(FieldDisplay).Y &&
                             show.CursorPosition(FieldDisplay).Y < calc.Field.Height)
                         {
+                            toolStripStatusLabel1.Text = "[Turn: " + calc.Turn + "/" + calc.MaxTurn + "]";
                             var f = calc.Field[show.CursorPosition(FieldDisplay).X, show.CursorPosition(FieldDisplay).Y];
                             // 情報を表示
-                            toolStripStatusLabel1.Text = (show.CursorPosition(FieldDisplay) + " Point: " + f.Point);
+                            toolStripStatusLabel1.Text += ("[Coordinate: " + show.CursorPosition(FieldDisplay) + " Point: " + f.Point);
                             // 囲まれているか判定
                             if (f.IsEnclosed[Team.A] && f.IsEnclosed[Team.B]) toolStripStatusLabel1.Text += " (Surrounded by both)";
                             else if (f.IsEnclosed[Team.A])
@@ -156,6 +168,7 @@ namespace nitkagoshima_sysken
                                 toolStripStatusLabel1.Text += " (Surrounded by " + teamDesigns[1].Name + ")";
                                 toolStripStatusLabel1.ForeColor = teamDesigns[1].AgentColor;
                             }
+                            toolStripStatusLabel1.Text += "]";
                             // タイルがおかれているか判定
                             if (f.IsTileOn[Team.A]) toolStripStatusLabel1.ForeColor = teamDesigns[0].AgentColor;
                             else if (f.IsTileOn[Team.B]) toolStripStatusLabel1.ForeColor = teamDesigns[1].AgentColor;
@@ -175,7 +188,7 @@ namespace nitkagoshima_sysken
                 {
                     calc.MoveAgent(team, agent, where);
                 }
-                
+
                 /// <summary>
                 /// Form1内でキーを押したときに実行されます。
                 /// </summary>
@@ -236,7 +249,7 @@ namespace nitkagoshima_sysken
                                     pqr_data.Two = new Coordinate(0, 0);
                                 }
 
-                                calc = new Calc(10, pqr_data.Fields, new Coordinate[2] { pqr_data.One, pqr_data.Two });
+                                calc = new Calc(maxTurn, pqr_data.Fields, new Coordinate[2] { pqr_data.One, pqr_data.Two });
 
                                 show = new Show(calc, teamDesigns, FieldDisplay);
                                 show.Showing(FieldDisplay);
@@ -287,6 +300,7 @@ namespace nitkagoshima_sysken
 
                     show.Showing(FieldDisplay);
                     WriteLog();
+                    TurnProgressCheck();
 
                     if (bot[0] != null)
                     {
@@ -304,6 +318,7 @@ namespace nitkagoshima_sysken
                         d = calc.FieldHistory[calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.Two];
                         log.WriteLine(Color.SkyBlue, "B2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
                     }
+
                 }
 
                 private void UndoToolStripMenuItem_Click(object sender, EventArgs e)

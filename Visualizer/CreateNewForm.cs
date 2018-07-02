@@ -80,7 +80,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void OKButton_Click(object sender, EventArgs e)
         {
             SelectPQRFile = SelectedPQRFileNameLabel.Text;
-            MaxTrun = int.Parse(MaxTurnTextBox.Text);
+            MainForm.maxTurn = int.Parse(MaxTurnTextBox.Text);
             MainForm.bot[0] = bot0;
             MainForm.bot[1] = bot1;
             Visible = false;
