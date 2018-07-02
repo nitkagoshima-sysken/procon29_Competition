@@ -1,21 +1,46 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     /// <summary>
     /// 競技フィールドを表します。
     /// </summary>
-    public class Field : IEnumerable
+    public class Field : IEnumerable<Cell>
     {
         Cell[,] Cells { get; set; }
 
         /// <summary>
-        /// 列挙します。
+        /// Cellを列挙します。
         /// </summary>
         /// <returns>列挙されたセル</returns>
-        public IEnumerator GetEnumerator()
+        public IEnumerable<Cell> GetEnumerator()
+        {            
+            foreach (Cell item in Cells)
+            {
+                yield return item;
+            }
+        }
+       
+        /// <summary>
+        /// 列挙します
+        /// </summary>
+        /// <returns>列挙されたセル</returns>
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            foreach (var item in Cells)
+            foreach (Cell item in Cells)
+            {
+                yield return item;
+            }
+        }
+
+        /// <summary>
+        /// 列挙します
+        /// </summary>
+        /// <returns>列挙されたセル</returns>
+        IEnumerator<Cell> IEnumerable<Cell>.GetEnumerator()
+        {
+            foreach (Cell item in Cells)
             {
                 yield return item;
             }
@@ -48,7 +73,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public Field(Field field)
         {
             Cells = new Cell[field.Width, field.Height];
-            foreach (Cell item in field)
+            foreach (var item in field.GetEnumerator())
                 this[item.Coordinate] = new Cell(item);
         }
 
@@ -96,6 +121,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns></returns>
         public Coordinate FlipHorizontalAndVertical(Coordinate point) => new Coordinate(Width - 1 - point.X, Height - 1 - point.Y);
 
+
         /// <summary>
         /// 上下対称なら真、そうでなければ偽が返ってきます。
         /// </summary>
@@ -104,6 +130,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 左右対称なら真、そうでなければ偽が返ってきます。
         /// </summary>
-        public bool IsHorizontallySymmetrical => Cells.HorizontallySymmetricalCheck();
+        public bool IsHorizontallySymmetrical => Cells.HorizontallySymmetricalCheck();        
     }
 }
