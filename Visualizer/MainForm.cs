@@ -42,7 +42,7 @@ namespace nitkagoshima_sysken
                     this.Resize += new System.EventHandler(this.MainForm_Resize);
 
                     log = new Logger(messageBox);
-                    log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 7.0)");
+                    log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 8.0)");
 
                     // PQRファイルを直接読み込む
                     // ちなみにQR_code_sample.pdfで登場したQRコード
@@ -265,6 +265,7 @@ namespace nitkagoshima_sysken
                 private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
                 {
                     createNewForm.ShowDialog(this);
+                    calc.MaxTurn = maxTurn;
                 }
 
                 private void TurnEndButton_Click(object sender, EventArgs e)
