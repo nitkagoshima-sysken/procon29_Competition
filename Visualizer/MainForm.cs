@@ -48,7 +48,7 @@ namespace nitkagoshima_sysken
                     var pqr = "8 11:-2 1 0 1 2 0 2 1 0 1 -2:1 3 2 -2 0 1 0 -2 2 3 1:1 3 2 1 0 -2 0 1 2 3 1:2 1 1 2 2 3 2 2 1 1 2:2 1 1 2 2 3 2 2 1 1 2:1 3 2 1 0 -2 0 1 2 3 1:1 3 2 -2 0 1 0 -2 2 3 1:-2 1 0 1 2 0 2 1 0 1 -2:2 2:7 10:";
                     log.WriteLine(Color.LightGray, pqr);
                     var pqr_data = DataConverter.ToPQRData(pqr);
-                    calc = new Calc(pqr_data.Fields, new Coordinate[2] { pqr_data.One, pqr_data.Two });
+                    calc = new Calc(10, pqr_data.Fields, new Coordinate[2] { pqr_data.One, pqr_data.Two });
 
                     teamDesigns = new TeamDesign[2] {
                 new TeamDesign(name:"Orange", agentColor:Color.DarkOrange, areaColor:Color.DarkOrange),
@@ -62,6 +62,10 @@ namespace nitkagoshima_sysken
                     KeyDown += new KeyEventHandler(MainForm_KeyDown);
 
                     WriteLog();
+
+                    Console.WriteLine(calc.Field.Sum(x => x.Point));
+                    Console.WriteLine(calc.Field.Count());
+                    Console.WriteLine(calc.Field.Average(x => (double)x.Point)); 
                 }
 
 
@@ -232,7 +236,7 @@ namespace nitkagoshima_sysken
                                     pqr_data.Two = new Coordinate(0, 0);
                                 }
 
-                                calc = new Calc(pqr_data.Fields, new Coordinate[2] { pqr_data.One, pqr_data.Two });
+                                calc = new Calc(10, pqr_data.Fields, new Coordinate[2] { pqr_data.One, pqr_data.Two });
 
                                 show = new Show(calc, teamDesigns, FieldDisplay);
                                 show.Showing(FieldDisplay);

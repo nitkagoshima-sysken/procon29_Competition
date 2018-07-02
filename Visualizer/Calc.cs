@@ -9,6 +9,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// </summary>
     public class Calc
     {
+        int maxTurn;
+
         /// <summary>
         /// エージェントたちを表します
         /// </summary>
@@ -25,10 +27,19 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public int Turn { get; private set; }
 
         /// <summary>
+        /// ターンの終わりを設定または取得します。
+        /// </summary>
+        public int MaxTurn
+        {
+            get => maxTurn;
+            set => maxTurn = (value <= 0) ? 1 : value;
+        }
+
+        /// <summary>
         /// フィールドの歴史を設定または取得します。
         /// </summary>
         internal List<TurnData> FieldHistory { get; private set; } = new List<TurnData>();
-             
+
         /// <summary>
         /// エージェントの略称を返します。
         /// </summary>
@@ -51,16 +62,18 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>objectのディープコピー</returns>
         public object DeepCopy()
         {
-            return new Calc(new Field(Field), new Coordinate[] { Agents[Team.A, AgentNumber.One].Position, Agents[Team.A, AgentNumber.Two].Position });
+            return new Calc(MaxTurn, new Field(Field), new Coordinate[] { Agents[Team.A, AgentNumber.One].Position, Agents[Team.A, AgentNumber.Two].Position });
         }
 
         /// <summary>
         /// Procon29_Calcを初期化します。
         /// </summary>
+        /// <param name="maxTurn">最大ターン数を設定します。</param>
         /// <param name="point">フィールドのポイントを設定します。</param>
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public Calc(int[,] point, Coordinate[] initPosition)
+        public Calc(int maxTurn, int[,] point, Coordinate[] initPosition)
         {
+            MaxTurn = maxTurn;
             // Turn -> 0
             Turn = 0;
             // TurnData作成
@@ -81,10 +94,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// Procon29_Calcを初期化します。
         /// </summary>
+        /// <param name="maxTurn">最大ターン数を設定します。</param>
         /// <param name="field">フィールドのポイントを設定します。</param>
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public Calc(Field field, Coordinate[] initPosition)
+        public Calc(int maxTurn, Field field, Coordinate[] initPosition)
         {
+            MaxTurn = maxTurn;
             // Turn -> 0
             Turn = 0;
             // TurnData作成
@@ -147,7 +162,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             get
             {
                 var list = new List<Cell>();
-                foreach (Cell cell in Field)
+                foreach (Cell cell in Field.GetEnumerator())
                 {
                     list.Add(cell);
                 }
@@ -175,7 +190,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="team">計算するチーム</param>
         /// <returns>指定したチームの直接的なエリアのポイントの合計</returns>
         public int AreaPoint(Team team) => FieldList.Sum(x => ((x.IsTileOn[team] == true) ? x.Point : 0));
-    
+
         /// <summary>
         /// 指定したチームが囲んだエリアのポイントの絶対値の合計を計算します。
         /// </summary>
@@ -240,12 +255,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="team">対象となるチーム</param>
         private void ResetTrueInIsEnclosed(Team team)
         {
-            foreach (Cell cell in Field)
+            foreach (Cell cell in Field.GetEnumerator())
             {
                 cell.IsEnclosed[team] = true;
             }
         }
-  
+
         /// <summary>
         /// すべてのチームのIsEnclosedをTrueで初期化します。
         /// </summary>
@@ -272,7 +287,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         FillFalseInIsEnclosed(team, new Coordinate(x, y));
                 }
             }
-            foreach (Cell item in Field)
+            foreach (Cell item in Field.GetEnumerator())
             {
                 if (item.IsTileOn[team]) item.IsEnclosed[team] = false;
             }
@@ -297,7 +312,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="point">対象となるマス</param>
         /// <returns>対象となるマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
         public bool IsAgentHereOrInMooreNeighborhood(Team team, AgentNumber agentNumber, Coordinate point) => (Agents[team, agentNumber].Position.ChebyshevDistance(point) <= 1) ? true : false;
-       
+
         /// <summary>
         /// 対象となるマスにエージェントがいるか、またはムーア近傍にいるかを判定します
         /// </summary>
@@ -376,17 +391,20 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         public void TurnEnd()
         {
-            // TurnData作成
-            var a = new Agents();
-            for (Team team = 0; (int)team < TeamArray.Length; team++)
+            if (Turn < MaxTurn)
             {
-                for (AgentNumber agent = 0; (int)agent < AgentArray.Length; agent++)
+                // TurnData作成
+                var a = new Agents();
+                for (Team team = 0; (int)team < TeamArray.Length; team++)
                 {
-                    a[team, agent] = new Agent(Agents[team, agent]);
+                    for (AgentNumber agent = 0; (int)agent < AgentArray.Length; agent++)
+                    {
+                        a[team, agent] = new Agent(Agents[team, agent]);
+                    }
                 }
+                FieldHistory.Add(new TurnData(new Field(Field), a));
+                Turn++;
             }
-            FieldHistory.Add(new TurnData(new Field(Field), a));
-            Turn++;
         }
 
         /// <summary>
@@ -434,6 +452,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="where">移動する場所</param>
         public void MoveAgent(Team team, AgentNumber agent, Coordinate where)
         {
+
             bool movable = false;
             foreach (Team otherteam in TeamArray)
             {
@@ -456,7 +475,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             CheckEnclosedArea(team);
 
-            foreach (Cell item in Field)
+            foreach (Cell item in Field.GetEnumerator())
             {
                 if (item.IsTileOn[Team.A]) item.IsEnclosed[Team.A] = false;
                 if (item.IsTileOn[Team.B]) item.IsEnclosed[Team.B] = false;
@@ -648,47 +667,50 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="agentActivityData"></param>
         public void MoveAgent(AgentActivityData[,] agentActivityData)
         {
-            // Undoしたときに
-            // FieldHistory.Count != Turn
-            // になる
-            // TurnEndしたときにやり直す前の未来を消す
-            if (FieldHistory.Count - 1 != Turn)
-                FieldHistory.RemoveRange(Turn + 1, FieldHistory.Count - 1 - Turn);
-
-            // 不正な動きをしていないかチェック
-            CheckAgentActivityData(agentActivityData);
-
-            // ターンエンドの処理
-            TurnEnd();
-            // ログを取る
-            FieldHistory[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One].AgentStatusData = agentActivityData[0, 0].AgentStatusData;
-            FieldHistory[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.Two].AgentStatusData = agentActivityData[0, 1].AgentStatusData;
-            FieldHistory[Turn - 1].AgentActivityDatas[Team.B, AgentNumber.One].AgentStatusData = agentActivityData[1, 0].AgentStatusData;
-            FieldHistory[Turn - 1].AgentActivityDatas[Team.B, AgentNumber.Two].AgentStatusData = agentActivityData[1, 1].AgentStatusData;
-
-            foreach (Team team in TeamArray)
+            if (Turn < MaxTurn)
             {
-                foreach (AgentNumber agent in AgentArray)
+                // Undoしたときに
+                // FieldHistory.Count != Turn
+                // になる
+                // TurnEndしたときにやり直す前の未来を消す
+                if (FieldHistory.Count - 1 != Turn)
+                    FieldHistory.RemoveRange(Turn + 1, FieldHistory.Count - 1 - Turn);
+
+                // 不正な動きをしていないかチェック
+                CheckAgentActivityData(agentActivityData);
+
+                // ターンエンドの処理
+                TurnEnd();
+                // ログを取る
+                FieldHistory[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One].AgentStatusData = agentActivityData[0, 0].AgentStatusData;
+                FieldHistory[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.Two].AgentStatusData = agentActivityData[0, 1].AgentStatusData;
+                FieldHistory[Turn - 1].AgentActivityDatas[Team.B, AgentNumber.One].AgentStatusData = agentActivityData[1, 0].AgentStatusData;
+                FieldHistory[Turn - 1].AgentActivityDatas[Team.B, AgentNumber.Two].AgentStatusData = agentActivityData[1, 1].AgentStatusData;
+
+                foreach (Team team in TeamArray)
                 {
-                    switch (agentActivityData[(int)team, (int)agent].AgentStatusData)
+                    foreach (AgentNumber agent in AgentArray)
                     {
-                        case AgentStatusCode.SucceededInMoving:
-                            Agents[team, agent].Position = agentActivityData[(int)team, (int)agent].Destination;
-                            PutTile(team: team, agent: agent);
-                            break;
-                        case AgentStatusCode.SucceededInRemovingOurTile:
-                            RemoveTile(agentActivityData[(int)team, (int)agent].Destination);
-                            break;
-                        case AgentStatusCode.SucceededInRemovingOpponentTile:
-                            RemoveTile(agentActivityData[(int)team, (int)agent].Destination);
-                            break;
-                        default:
-                            break;
+                        switch (agentActivityData[(int)team, (int)agent].AgentStatusData)
+                        {
+                            case AgentStatusCode.SucceededInMoving:
+                                Agents[team, agent].Position = agentActivityData[(int)team, (int)agent].Destination;
+                                PutTile(team: team, agent: agent);
+                                break;
+                            case AgentStatusCode.SucceededInRemovingOurTile:
+                                RemoveTile(agentActivityData[(int)team, (int)agent].Destination);
+                                break;
+                            case AgentStatusCode.SucceededInRemovingOpponentTile:
+                                RemoveTile(agentActivityData[(int)team, (int)agent].Destination);
+                                break;
+                            default:
+                                break;
+                        }
+                        agentActivityData[(int)team, (int)agent].ToSuccess();
                     }
-                    agentActivityData[(int)team, (int)agent].ToSuccess();
                 }
+                CheckEnclosedArea();
             }
-            CheckEnclosedArea();
         }
 
         /// <summary>
