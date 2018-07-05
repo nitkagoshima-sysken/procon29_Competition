@@ -5,27 +5,21 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
-namespace nitkagoshima_sysken
+namespace nitkagoshima_sysken.Procon29.Visualizer
 {
-    namespace procon29_Competition
+    static class Program
     {
-        namespace Visualizer
+        [DllImport("Procon29_Algo.dll")]
+        static extern void Algorithm();
+        /// <summary>
+        /// アプリケーションのメイン エントリ ポイントです。
+        /// </summary>
+        [STAThread]
+        static void Main()
         {
-            static class Program
-            {
-                [DllImport("Procon29_Algo.dll")]
-                static extern void Algorithm();
-                /// <summary>
-                /// アプリケーションのメイン エントリ ポイントです。
-                /// </summary>
-                [STAThread]
-                static void Main()
-                {
-                    Application.EnableVisualStyles();
-                    Application.SetCompatibleTextRenderingDefault(false);
-                    Application.Run(new MainForm());
-                }
-            }
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new MainForm());
         }
     }
 }
