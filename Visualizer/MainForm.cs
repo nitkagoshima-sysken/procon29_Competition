@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace nitkagoshima_sysken
 {
-    namespace procon29_Competition
+    namespace Procon29
     {
         namespace Visualizer
         {
@@ -29,6 +29,7 @@ namespace nitkagoshima_sysken
                 CreateNewForm createNewForm = new CreateNewForm();
                 public static dynamic[] bot = new dynamic[2];
                 public static string[] botName = new string[2];
+                public static int maxTurn;
 
                 /// <summary>
                 /// MainForm
@@ -41,14 +42,14 @@ namespace nitkagoshima_sysken
                     this.Resize += new System.EventHandler(this.MainForm_Resize);
 
                     log = new Logger(messageBox);
-                    log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 7.0)");
+                    log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 8.0)");
 
                     // PQRファイルを直接読み込む
                     // ちなみにQR_code_sample.pdfで登場したQRコード
                     var pqr = "8 11:-2 1 0 1 2 0 2 1 0 1 -2:1 3 2 -2 0 1 0 -2 2 3 1:1 3 2 1 0 -2 0 1 2 3 1:2 1 1 2 2 3 2 2 1 1 2:2 1 1 2 2 3 2 2 1 1 2:1 3 2 1 0 -2 0 1 2 3 1:1 3 2 -2 0 1 0 -2 2 3 1:-2 1 0 1 2 0 2 1 0 1 -2:2 2:7 10:";
                     log.WriteLine(Color.LightGray, pqr);
                     var pqr_data = DataConverter.ToPQRData(pqr);
-                    calc = new Calc(pqr_data.Fields, new Point[2] { pqr_data.One, pqr_data.Two });
+                    calc = new Calc(10, pqr_data.Fields, new Coordinate[2] { pqr_data.One, pqr_data.Two });
 
                     teamDesigns = new TeamDesign[2] {
                 new TeamDesign(name:"Orange", agentColor:Color.DarkOrange, areaColor:Color.DarkOrange),
@@ -58,17 +59,40 @@ namespace nitkagoshima_sysken
                     show.Showing(FieldDisplay);
                     calc.PointMapCheck();
 
-                    log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Team A");
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "name: " + teamDesigns[(int)Team.A].Name);
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 0]);
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 1]);
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Team B");
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "name: " + teamDesigns[(int)Team.B].Name);
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 0]);
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);
-                    messageBox.Select(messageBox.Text.Length, 0);
+                    KeyDown += new KeyEventHandler(show.KeyDown);
+                    KeyDown += new KeyEventHandler(MainForm_KeyDown);
 
+                    WriteLog();
+                    TurnProgressCheck();
+                }
+
+
+                private void WriteLog()
+                {
+                    log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
+                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Area Point: " + calc.AreaPoint(Team.A).ToString());
+                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.A).ToString());
+                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "   Total Point: " + calc.TotalPoint(Team.A).ToString());
+                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.Agents[Team.A, AgentNumber.One].Position);
+                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.Agents[Team.A, AgentNumber.Two].Position);
+                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Area Point: " + calc.AreaPoint(Team.B).ToString());
+                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.B).ToString());
+                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "   Total Point: " + calc.TotalPoint(Team.B).ToString());
+                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.Agents[Team.B, AgentNumber.One].Position);
+                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.Agents[Team.B, AgentNumber.Two].Position);
+                }
+
+                void TurnProgressCheck()
+                {
+                    toolStripProgressBar1.Maximum = calc.MaxTurn;
+                    toolStripProgressBar1.Value = calc.Turn;
+                    if (calc.MaxTurn <= calc.Turn)
+                    {
+                        TurnEndButton.Visible = false;
+                        tableLayoutPanel2.RowStyles[1] = new RowStyle(SizeType.Percent, 100);
+                        tableLayoutPanel2.RowStyles[2] = new RowStyle(SizeType.Absolute, 0);
+                        MessageBox.Show("試合が終了しました", "お知らせ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
 
                 /// <summary>
@@ -124,29 +148,31 @@ namespace nitkagoshima_sysken
                         show.Showing(FieldDisplay);
                         // フィールド内にいるときは、フィールドの情報を表示する。
                         if (0 <= show.CursorPosition(FieldDisplay).X &&
-                            show.CursorPosition(FieldDisplay).X < calc.Field.Width() &&
+                            show.CursorPosition(FieldDisplay).X < calc.Field.Width &&
                             0 <= show.CursorPosition(FieldDisplay).Y &&
-                            show.CursorPosition(FieldDisplay).Y < calc.Field.Height())
+                            show.CursorPosition(FieldDisplay).Y < calc.Field.Height)
                         {
+                            toolStripStatusLabel1.Text = "[Turn: " + calc.Turn + "/" + calc.MaxTurn + "]";
                             var f = calc.Field[show.CursorPosition(FieldDisplay).X, show.CursorPosition(FieldDisplay).Y];
                             // 情報を表示
-                            toolStripStatusLabel1.Text = (show.CursorPosition(FieldDisplay) + " Point: " + f.Point);
+                            toolStripStatusLabel1.Text += ("[Coordinate: " + show.CursorPosition(FieldDisplay) + " Point: " + f.Point);
                             // 囲まれているか判定
-                            if (f.IsEnclosed[0] && f.IsEnclosed[1]) toolStripStatusLabel1.Text += " (Surrounded by both)";
-                            else if (f.IsEnclosed[0])
+                            if (f.IsEnclosed[Team.A] && f.IsEnclosed[Team.B]) toolStripStatusLabel1.Text += " (Surrounded by both)";
+                            else if (f.IsEnclosed[Team.A])
                             {
                                 toolStripStatusLabel1.Text += " (Surrounded by " + teamDesigns[0].Name + ")";
                                 toolStripStatusLabel1.ForeColor = teamDesigns[0].AgentColor;
                             }
-                            else if (f.IsEnclosed[1])
+                            else if (f.IsEnclosed[Team.B])
                             {
                                 toolStripStatusLabel1.Text += " (Surrounded by " + teamDesigns[1].Name + ")";
                                 toolStripStatusLabel1.ForeColor = teamDesigns[1].AgentColor;
                             }
+                            toolStripStatusLabel1.Text += "]";
                             // タイルがおかれているか判定
-                            if (f.IsTileOn[0]) toolStripStatusLabel1.ForeColor = teamDesigns[0].AgentColor;
-                            else if (f.IsTileOn[1]) toolStripStatusLabel1.ForeColor = teamDesigns[1].AgentColor;
-                            else if ((!f.IsEnclosed[0] && !f.IsEnclosed[1])) toolStripStatusLabel1.ForeColor = Color.LightGray;
+                            if (f.IsTileOn[Team.A]) toolStripStatusLabel1.ForeColor = teamDesigns[0].AgentColor;
+                            else if (f.IsTileOn[Team.B]) toolStripStatusLabel1.ForeColor = teamDesigns[1].AgentColor;
+                            else if ((!f.IsEnclosed[Team.A] && !f.IsEnclosed[Team.B])) toolStripStatusLabel1.ForeColor = Color.LightGray;
                         }
                     }
                     time = DateTime.Now;
@@ -158,22 +184,9 @@ namespace nitkagoshima_sysken
                 /// <param name="team"></param>
                 /// <param name="agent"></param>
                 /// <param name="where"></param>
-                private void MoveAgent(Team team, Agent agent, Point where)
+                private void MoveAgent(Team team, AgentNumber agent, Coordinate where)
                 {
                     calc.MoveAgent(team, agent, where);
-                    //log.WriteLine(teamDesigns[(int)agent].AreaColor, Procon29_Calc.ShortTeamAgentName[(int)team, (int)agent] + " moved to " + where);
-                }
-
-                /// <summary>
-                /// 特定のエージェントに座標を加えます。
-                /// </summary>
-                /// <param name="team">対称となるチーム</param>
-                /// <param name="agent">対称となるエージェント</param>
-                /// <param name="point"></param>
-                /// <returns></returns>
-                private Point AddAgentPosition(Team team, Agent agent, Point point)
-                {
-                    return new Point(calc.AgentPosition[(int)team, (int)agent].X + point.X, calc.AgentPosition[(int)team, (int)agent].Y + point.Y);
                 }
 
                 /// <summary>
@@ -183,94 +196,7 @@ namespace nitkagoshima_sysken
                 /// <param name="e"></param>
                 private void MainForm_KeyDown(object sender, KeyEventArgs e)
                 {
-                    var team = show.SelectedTeam;
-                    var agent = show.SelecetedAgent;
-
-                    e.SuppressKeyPress = true;
-                    Console.WriteLine(e.KeyCode);
-                    try
-                    {
-                        switch (e.KeyCode)
-                        {
-                            case Keys.Q:
-                                team = Team.A;
-                                agent = Agent.One;
-                                show.SelectedTeam = Team.A;
-                                show.SelecetedAgent = Agent.One;
-                                break;
-                            case Keys.W:
-                                team = Team.A;
-                                agent = Agent.Two;
-                                show.SelectedTeam = Team.A;
-                                show.SelecetedAgent = Agent.Two;
-                                break;
-                            case Keys.E:
-                                team = Team.B;
-                                agent = Agent.One;
-                                show.SelectedTeam = Team.B;
-                                show.SelecetedAgent = Agent.One;
-                                break;
-                            case Keys.R:
-                                team = Team.B;
-                                agent = Agent.Two;
-                                show.SelectedTeam = Team.B;
-                                show.SelecetedAgent = Agent.Two;
-                                break;
-                            case Keys.NumPad1:
-                                show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new Point(-1, 1));
-                                break;
-                            case Keys.NumPad2:
-                                show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new Point(0, 1));
-                                break;
-                            case Keys.NumPad3:
-                                show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new Point(1, 1));
-                                break;
-                            case Keys.NumPad4:
-                                show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new Point(-1, 0));
-                                break;
-                            case Keys.NumPad6:
-                                show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new Point(1, 0));
-                                break;
-                            case Keys.NumPad7:
-                                show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new Point(-1, -1));
-                                break;
-                            case Keys.NumPad8:
-                                show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new Point(0, -1));
-                                break;
-                            case Keys.NumPad9:
-                                show.agentActivityData[(int)team, (int)agent].Destination =
-                                    AddAgentPosition(team, agent, new Point(1, -1));
-                                break;
-                            case Keys.Enter:
-                                TurnEnd();
-                                break;
-                            default:
-                                e.SuppressKeyPress = false;
-                                break;
-                        }
-                        show.ClickedField = calc.AgentPosition[(int)team, (int)agent];
-                        if (show.agentActivityData[(int)team, (int)agent].Destination.X < 0 ||
-                            show.agentActivityData[(int)team, (int)agent].Destination.Y < 0 ||
-                            show.agentActivityData[(int)team, (int)agent].Destination.X >= calc.Field.Width() ||
-                            show.agentActivityData[(int)team, (int)agent].Destination.Y >= calc.Field.Height())
-                        {
-                            show.agentActivityData[(int)team, (int)agent].Destination = calc.AgentPosition[(int)team, (int)agent];
-                            throw new Exception();
-                        }
-                        else
-                            show.KeyDownShow();
-                    }
-                    catch (Exception)
-                    {
-                        MessageBox.Show("不正なキー入力です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    if (e.KeyCode == Keys.Enter) TurnEnd();
                     show.Showing(FieldDisplay);
                 }
 
@@ -315,15 +241,15 @@ namespace nitkagoshima_sysken
                                 if (pqr_data.One.X < 0 || pqr_data.One.Y < 0)
                                 {
                                     MessageBox.Show("1人目のエージェントの位置" + pqr_data.One + "が不正です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    pqr_data.One = new Point(0, 0);
+                                    pqr_data.One = new Coordinate(0, 0);
                                 }
                                 if (pqr_data.Two.X < 0 || pqr_data.Two.Y < 0)
                                 {
                                     MessageBox.Show("2人目のエージェントの位置" + pqr_data.One + "が不正です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    pqr_data.Two = new Point(0, 0);
+                                    pqr_data.Two = new Coordinate(0, 0);
                                 }
 
-                                calc = new Calc(pqr_data.Fields, new Point[2] { pqr_data.One, pqr_data.Two });
+                                calc = new Calc(maxTurn, pqr_data.Fields, new Coordinate[2] { pqr_data.One, pqr_data.Two });
 
                                 show = new Show(calc, teamDesigns, FieldDisplay);
                                 show.Showing(FieldDisplay);
@@ -339,6 +265,7 @@ namespace nitkagoshima_sysken
                 private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
                 {
                     createNewForm.ShowDialog(this);
+                    calc.MaxTurn = maxTurn;
                 }
 
                 private void TurnEndButton_Click(object sender, EventArgs e)
@@ -369,71 +296,45 @@ namespace nitkagoshima_sysken
 
                     foreach (var item in show.agentActivityData)
                     {
-                        item.AgentStatusData = AgentStatusData.NotDoneAnything;
+                        item.AgentStatusData = AgentStatusCode.NotDoneAnything;
                     }
 
                     show.Showing(FieldDisplay);
-                    log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Area Point: " + calc.AreaPoint(Team.A).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.A).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "   Total Point: " + calc.TotalPoint(Team.A).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 0]);
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 1]);
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Area Point: " + calc.AreaPoint(Team.B).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.B).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "   Total Point: " + calc.TotalPoint(Team.B).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 0]);
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);
+                    WriteLog();
+                    TurnProgressCheck();
+
                     if (bot[0] != null)
                     {
                         log.WriteLine(Color.SkyBlue, "[" + botName[0] + "]");
-                        var d = calc.FieldHistory[calc.Turn - 1].AgentActivityData[0, 0];
+                        var d = calc.FieldHistory[calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One];
                         log.WriteLine(Color.SkyBlue, "A1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
-                        d = calc.FieldHistory[calc.Turn - 1].AgentActivityData[0, 1];
+                        d = calc.FieldHistory[calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.Two];
                         log.WriteLine(Color.SkyBlue, "A2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
                     }
                     if (bot[1] != null)
                     {
                         log.WriteLine(Color.SkyBlue, "[" + botName[1] + "]");
-                        var d = calc.FieldHistory[calc.Turn - 1].AgentActivityData[1, 0];
+                        var d = calc.FieldHistory[calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.One];
                         log.WriteLine(Color.SkyBlue, "B1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
-                        d = calc.FieldHistory[calc.Turn - 1].AgentActivityData[1, 1];
+                        d = calc.FieldHistory[calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.Two];
                         log.WriteLine(Color.SkyBlue, "B2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
                     }
+
                 }
 
                 private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
                 {
                     calc.Undo();
                     show.Showing(FieldDisplay);
-                    log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Area Point: " + calc.AreaPoint(Team.A).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.A).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "   Total Point: " + calc.TotalPoint(Team.A).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 0]);
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 1]);
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Area Point: " + calc.AreaPoint(Team.B).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.B).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "   Total Point: " + calc.TotalPoint(Team.B).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 0]);
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);
+                    WriteLog();
+
                 }
 
                 private void RedoToolStripMenuItem_Click(object sender, EventArgs e)
                 {
                     calc.Redo();
                     show.Showing(FieldDisplay);
-                    log.WriteLine(Color.LightGray, "\n" + "Turn : " + calc.Turn);
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Area Point: " + calc.AreaPoint(Team.A).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.A).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "   Total Point: " + calc.TotalPoint(Team.A).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 0]);
-                    log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + calc.AgentPosition[0, 1]);
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Area Point: " + calc.AreaPoint(Team.B).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Enclosed Point: " + calc.EnclosedPoint(Team.B).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "   Total Point: " + calc.TotalPoint(Team.B).ToString());
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 0]);
-                    log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + calc.AgentPosition[1, 1]);
+                    WriteLog();
                 }
             }
         }

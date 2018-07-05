@@ -1,38 +1,34 @@
 ﻿
-namespace nitkagoshima_sysken
+namespace nitkagoshima_sysken.Procon29.Visualizer
 {
-    namespace procon29_Competition
+    partial class CreateNewForm
     {
-        namespace Visualizer
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
         {
-            partial class CreateNewForm
+            if (disposing && (components != null))
             {
-                /// <summary>
-                /// Required designer variable.
-                /// </summary>
-                private System.ComponentModel.IContainer components = null;
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-                /// <summary>
-                /// Clean up any resources being used.
-                /// </summary>
-                /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-                protected override void Dispose(bool disposing)
-                {
-                    if (disposing && (components != null))
-                    {
-                        components.Dispose();
-                    }
-                    base.Dispose(disposing);
-                }
+        #region Windows Form Designer generated code
 
-                #region Windows Form Designer generated code
-
-                /// <summary>
-                /// Required method for Designer support - do not modify
-                /// the contents of this method with the code editor.
-                /// </summary>
-                private void InitializeComponent()
-                {
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.TopLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -91,8 +87,8 @@ namespace nitkagoshima_sysken
             // 
             // TopLabel
             // 
-            this.TopLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.TopLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TopLabel.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.TopLabel.ForeColor = System.Drawing.Color.LightGray;
@@ -138,8 +134,8 @@ namespace nitkagoshima_sysken
             // 
             // SelectBotButton0
             // 
-            this.SelectBotButton0.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.SelectBotButton0.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.SelectBotButton0.BackColor = System.Drawing.Color.DimGray;
             this.SelectBotButton0.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -155,8 +151,8 @@ namespace nitkagoshima_sysken
             // 
             // SelectBotButton1
             // 
-            this.SelectBotButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.SelectBotButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.SelectBotButton1.BackColor = System.Drawing.Color.DimGray;
             this.SelectBotButton1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -172,8 +168,8 @@ namespace nitkagoshima_sysken
             // 
             // textBox8
             // 
-            this.textBox8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBox8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.textBox8.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -188,8 +184,8 @@ namespace nitkagoshima_sysken
             // 
             // textBox7
             // 
-            this.textBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBox7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.textBox7.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -204,8 +200,8 @@ namespace nitkagoshima_sysken
             // 
             // textBox5
             // 
-            this.textBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -220,8 +216,8 @@ namespace nitkagoshima_sysken
             // 
             // textBox4
             // 
-            this.textBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -236,8 +232,8 @@ namespace nitkagoshima_sysken
             // 
             // Team1Label
             // 
-            this.Team1Label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.Team1Label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Team1Label.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Team1Label.ForeColor = System.Drawing.Color.LightGray;
@@ -250,8 +246,8 @@ namespace nitkagoshima_sysken
             // 
             // Team1Agent0Label
             // 
-            this.Team1Agent0Label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.Team1Agent0Label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Team1Agent0Label.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Team1Agent0Label.ForeColor = System.Drawing.Color.LightGray;
@@ -264,8 +260,8 @@ namespace nitkagoshima_sysken
             // 
             // Team1Agent1Label
             // 
-            this.Team1Agent1Label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.Team1Agent1Label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Team1Agent1Label.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Team1Agent1Label.ForeColor = System.Drawing.Color.LightGray;
@@ -278,8 +274,8 @@ namespace nitkagoshima_sysken
             // 
             // Team0Label
             // 
-            this.Team0Label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.Team0Label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Team0Label.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Team0Label.ForeColor = System.Drawing.Color.LightGray;
@@ -292,8 +288,8 @@ namespace nitkagoshima_sysken
             // 
             // Team0Agent0Label
             // 
-            this.Team0Agent0Label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.Team0Agent0Label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Team0Agent0Label.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Team0Agent0Label.ForeColor = System.Drawing.Color.LightGray;
@@ -306,8 +302,8 @@ namespace nitkagoshima_sysken
             // 
             // Team0Agent1Label
             // 
-            this.Team0Agent1Label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.Team0Agent1Label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Team0Agent1Label.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Team0Agent1Label.ForeColor = System.Drawing.Color.LightGray;
@@ -320,8 +316,8 @@ namespace nitkagoshima_sysken
             // 
             // textBox3
             // 
-            this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -336,8 +332,8 @@ namespace nitkagoshima_sysken
             // 
             // textBox6
             // 
-            this.textBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.textBox6.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -352,7 +348,7 @@ namespace nitkagoshima_sysken
             // 
             // IsTeam1HumanCheckBox
             // 
-            this.IsTeam1HumanCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.IsTeam1HumanCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.IsTeam1HumanCheckBox.AutoSize = true;
             this.IsTeam1HumanCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -367,7 +363,7 @@ namespace nitkagoshima_sysken
             // 
             // IsTeam0HumanCheckBox
             // 
-            this.IsTeam0HumanCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.IsTeam0HumanCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.IsTeam0HumanCheckBox.AutoSize = true;
             this.IsTeam0HumanCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -402,8 +398,8 @@ namespace nitkagoshima_sysken
             // 
             // UsedFieldLabel
             // 
-            this.UsedFieldLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.UsedFieldLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.UsedFieldLabel.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.UsedFieldLabel.ForeColor = System.Drawing.Color.LightGray;
@@ -416,8 +412,8 @@ namespace nitkagoshima_sysken
             // 
             // BattleNameLabel
             // 
-            this.BattleNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.BattleNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BattleNameLabel.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.BattleNameLabel.ForeColor = System.Drawing.Color.LightGray;
@@ -444,8 +440,8 @@ namespace nitkagoshima_sysken
             // 
             // SlecetPQRFileButton
             // 
-            this.SlecetPQRFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.SlecetPQRFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.SlecetPQRFileButton.BackColor = System.Drawing.Color.DimGray;
             this.SlecetPQRFileButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -461,8 +457,8 @@ namespace nitkagoshima_sysken
             // 
             // SelectedPQRFileNameLabel
             // 
-            this.SelectedPQRFileNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.SelectedPQRFileNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.SelectedPQRFileNameLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.SelectedPQRFileNameLabel.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -478,8 +474,8 @@ namespace nitkagoshima_sysken
             // 
             // MaxTurnLabel
             // 
-            this.MaxTurnLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.MaxTurnLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.MaxTurnLabel.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.MaxTurnLabel.ForeColor = System.Drawing.Color.LightGray;
@@ -492,8 +488,8 @@ namespace nitkagoshima_sysken
             // 
             // textBox1
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -508,8 +504,8 @@ namespace nitkagoshima_sysken
             // 
             // MaxTurnTextBox
             // 
-            this.MaxTurnTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.MaxTurnTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.MaxTurnTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.MaxTurnTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -541,8 +537,8 @@ namespace nitkagoshima_sysken
             // 
             // CancelButton
             // 
-            this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.CancelButton.BackColor = System.Drawing.Color.DimGray;
             this.CancelButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -558,8 +554,8 @@ namespace nitkagoshima_sysken
             // 
             // OKButton
             // 
-            this.OKButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.OKButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.OKButton.BackColor = System.Drawing.Color.RoyalBlue;
             this.OKButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -593,42 +589,40 @@ namespace nitkagoshima_sysken
             this.tableLayoutPanel4.ResumeLayout(false);
             this.ResumeLayout(false);
 
-                }
-
-                #endregion
-
-                private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-                private System.Windows.Forms.Label TopLabel;
-                private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-                private System.Windows.Forms.Label Team1Label;
-                private System.Windows.Forms.Label Team1Agent0Label;
-                private System.Windows.Forms.Label Team1Agent1Label;
-                private System.Windows.Forms.Label Team0Label;
-                private System.Windows.Forms.Label Team0Agent0Label;
-                private System.Windows.Forms.Label Team0Agent1Label;
-                private System.Windows.Forms.TextBox textBox8;
-                private System.Windows.Forms.TextBox textBox7;
-                private System.Windows.Forms.TextBox textBox5;
-                private System.Windows.Forms.TextBox textBox4;
-                private System.Windows.Forms.TextBox textBox3;
-                private System.Windows.Forms.TextBox textBox6;
-                private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-                private System.Windows.Forms.Label UsedFieldLabel;
-                private System.Windows.Forms.Label BattleNameLabel;
-                private System.Windows.Forms.Label MaxTurnLabel;
-                private System.Windows.Forms.TextBox textBox1;
-                private System.Windows.Forms.TextBox MaxTurnTextBox;
-                private System.Windows.Forms.Button SlecetPQRFileButton;
-                private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
-                private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
-                private System.Windows.Forms.Button CancelButton;
-                private System.Windows.Forms.Button OKButton;
-                private System.Windows.Forms.TextBox SelectedPQRFileNameLabel;
-                private System.Windows.Forms.Button SelectBotButton0;
-                private System.Windows.Forms.Button SelectBotButton1;
-                private System.Windows.Forms.CheckBox IsTeam1HumanCheckBox;
-                private System.Windows.Forms.CheckBox IsTeam0HumanCheckBox;
-            }
         }
+
+        #endregion
+
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label TopLabel;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Label Team1Label;
+        private System.Windows.Forms.Label Team1Agent0Label;
+        private System.Windows.Forms.Label Team1Agent1Label;
+        private System.Windows.Forms.Label Team0Label;
+        private System.Windows.Forms.Label Team0Agent0Label;
+        private System.Windows.Forms.Label Team0Agent1Label;
+        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.Label UsedFieldLabel;
+        private System.Windows.Forms.Label BattleNameLabel;
+        private System.Windows.Forms.Label MaxTurnLabel;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox MaxTurnTextBox;
+        private System.Windows.Forms.Button SlecetPQRFileButton;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button OKButton;
+        private System.Windows.Forms.TextBox SelectedPQRFileNameLabel;
+        private System.Windows.Forms.Button SelectBotButton0;
+        private System.Windows.Forms.Button SelectBotButton1;
+        private System.Windows.Forms.CheckBox IsTeam1HumanCheckBox;
+        private System.Windows.Forms.CheckBox IsTeam0HumanCheckBox;
     }
 }

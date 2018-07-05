@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
-using nitkagoshima_sysken.procon29_Competition.Visualizer;
+using nitkagoshima_sysken.Procon29.Visualizer;
 
 namespace nitkagoshima_sysken
 {
-    namespace procon29_Competition
+    namespace Procon29
     {
         namespace Bot
         {

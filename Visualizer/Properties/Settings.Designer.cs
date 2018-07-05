@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace nitkagoshima_sysken.procon29_Competition.Visualizer.Properties {
+namespace nitkagoshima_sysken.Procon29.Visualizer.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
