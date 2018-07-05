@@ -56,6 +56,20 @@ namespace nitkagoshima_sysken
                     Calc.Undo();
                     return p;
                 }
+
+                /// <summary>
+                /// エージェントを動かしたときに、状態がどう変化するか計算します。
+                /// </summary>
+                /// <param name="action">どうエージェントが動くか指定します。</param>
+                /// <param name="take">ほしい情報を指定します。</param>
+                /// <returns></returns>
+                public int Simulate(AgentActivityData[] action, Func<Team, int> take)
+                {
+                    Calc.MoveAgent(Team, action);
+                    int p = take(Team);
+                    Calc.Undo();
+                    return p;
+                }
             }
         }
     }
