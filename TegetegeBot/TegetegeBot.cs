@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.Linq;
 using nitkagoshima_sysken.Procon29.Visualizer;
 
 namespace nitkagoshima_sysken
@@ -9,7 +11,9 @@ namespace nitkagoshima_sysken
         {
             /// <summary>
             /// テスト用プログラム
-            /// ちなみにこのボットは、いかなるときも(0,0)へ移動しようとするボットだった。
+            /// このボットは、
+            /// エージェントの周りのマスに行ってみて、
+            /// その中で一番、得点が高かったマスを計算するボットです。
             /// </summary>
             class TegetegeBot : Bot.Bot
             {
@@ -37,50 +41,82 @@ namespace nitkagoshima_sysken
                     // 二人目のエージェントがどこに行くかを保存するために使う変数
                     Coordinate agnt2pos = new Coordinate();
 
-                    for (int x = 0; x < Calc.Field.Width; x++)
+                    /*
+                     * これはクエリ式というもので、
+                     * まるで、データベースで使うSQL文のようにデータを扱えるようになっている
+                     * var list = 
+                     * エージェントが行けるマスをリストにする変数をここで宣言している。
+                     * from cell in Calc.Field
+                     * 《from句》どのデータテーブルからデータを読むか
+                     * 今回の場合は、「Calcのフィールドから、マスを一つずつ取り出して、それにcellという名前をつける」
+                     * where cell.Coordinate.ChebyshevDistance(Calc.Agents[Team, AgentNumber.One].Position) == 1
+                     * 《where句》取り出したいデータに対する条件
+                     * 今回の場合は、「取り出したマス(cell)の座標から一人目のエージェントのいる場所までのチェビシェフ距離がちょうど1なら条件に適している」
+                     * （つまり、エージェントの隣のマスなら条件に適している）
+                     * select cell.Coordinate;
+                     * 《select句》条件にヒットしたデータの何を取り出すか
+                     * 今回の場合は、条件にヒットしたマス（つまり、エージェントの隣のマス）の座標を取り出して、それをリスト化する
+                     * 
+                     * …つまり、この行では、一人目のエージェントの隣のマスの一覧をリストにしている。
+                     * C#のクエリ式についてはネットで調べれば、もっと詳しく載っているので、そちらを参照した方がいい。
+                     */
+                    var list =
+                        from cell in Calc.Field
+                        where cell.Coordinate.ChebyshevDistance(Calc.Agents[Team, AgentNumber.One].Position) == 1
+                        select cell.Coordinate;
+                    // 取り出したリストから一つずつ座標を取り出して、for文のように繰り返し処理を行う。
+                    foreach (var coordinate in list)
                     {
-                        for (int y = 0; y < Calc.Field.Height; y++)
+                        var trying = new AgentActivityData[2]
                         {
-                            var trying = new AgentActivityData[2];
-
-                            // Bot側のチーム、1人目のエージェントが(x,y)に移動する
-                            trying[(int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestMovement, new Point(x, y));
+                            // Bot側のチーム、1人目のエージェントがcoordinateに移動する
+                            new AgentActivityData(AgentStatusCode.RequestMovement, coordinate),
                             // Bot側のチーム、2人目のエージェントは何もしない
-                            trying[(int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything, new Point());
-                            var p = Simulate(action: trying, take: Calc.TotalPoint);
+                            new AgentActivityData(AgentStatusCode.RequestNotToDoAnything)
+                        };
 
-                            if (Calc.Agents[Team, AgentNumber.One].Position.ChebyshevDistance(new Point(x, y)) != 1) continue;
-                            // 今までの中で一番、得点が高かったら、ap1の座標を更新する
-                            if (agnt1maxp < p)
-                            {
-                                agnt1maxp = p;
-                                agnt1pos = new Point(x, y);
-                            }
-                        }
-                    }
+                        /*
+                         * Simulate関数
+                         * これはもしもそこへ行ったらどうなるかをシミュレートしてくれる関数です。
+                         */
+                        var c = Simulate(team: Team, action: trying);
 
-                    // Bot側のチーム、1人目のエージェントがap1に行くことが確定する
-                    result[0] = new AgentActivityData(AgentStatusCode.RequestMovement, agnt1pos);
-
-                    for (int x = 0; x < Calc.Field.Width; x++)
-                    {
-                        for (int y = 0; y < Calc.Field.Height; y++)
+                        // 今までの中で一番、得点が高かったら、得点とその座標を更新する
+                        if (agnt1maxp < c.TotalPoint(Team))
                         {
-                            var trying = new AgentActivityData[2];
-
-                            trying[(int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything, new Point());
-                            trying[(int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestMovement, new Point(x, y));
-                            var p = Simulate(action: trying, take: Calc.TotalPoint);
-
-                            if (Calc.Agents[Team, AgentNumber.Two].Position.ChebyshevDistance(new Point(x, y)) != 1) continue;
-                            if (agnt2maxp < p)
-                            {
-                                agnt2maxp = p;
-                                agnt2pos = new Point(x, y);
-                            }
+                            agnt1maxp = c.TotalPoint(Team);
+                            agnt1pos = new Coordinate(coordinate);
                         }
                     }
-                    result[1] = new AgentActivityData(AgentStatusCode.RequestMovement, agnt2pos);
+                    // Bot側のチーム、1人目のエージェントがagnt1posに行くことが確定する
+                    result[(int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestMovement, agnt1pos);
+
+                    /*
+                     * 実は、エージェントの場所から1ターンでいける範囲は、
+                     * Arrowを使ってもっと簡単に実装できます。
+                     * Arrowはenum型で、
+                     * Arrow.Up で 上に行く
+                     * Arrow.Rightで 右に行く
+                     * とかできます。
+                     * foreach (Arrow arrow in Enum.GetValues(typeof(Arrow)))
+                     * で、Arrowのすべての要素を一つずつ実行できるので、
+                     * エージェントのいるところから、周り1マス分のマスに関して、
+                     * すべてシミュレーションできます。
+                     */
+                    foreach (Arrow arrow in Enum.GetValues(typeof(Arrow)))
+                    {
+                        var c = Simulate(
+                            Team,
+                            AgentNumber.Two,
+                            new AgentActivityData(AgentStatusCode.RequestMovement, Calc.Agents[Team, AgentNumber.Two].Position + arrow));
+
+                        if (agnt2maxp < c.TotalPoint(Team))
+                        {
+                            agnt2maxp = c.TotalPoint(Team);
+                            agnt2pos = new Coordinate(Calc.Agents[Team, AgentNumber.Two].Position + arrow);
+                        }
+                    }
+                    result[(int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestMovement, agnt2pos);
                     return result;
                 }
             }
