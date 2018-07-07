@@ -1,18 +1,26 @@
-# Procon29 Bot 1.1
+# Procon29 Bot 2.8.0
 
-## What's new (ver. 1.1)
+## What's new (ver. 2.8.0)
 
-### ASCの変更
-
-`SucceededInRemoveingOurTile`が`SucceededInRemovingOurTile`に変更された  
-`SucceededInRemoveingOpponentTile`が`SucceededInRemovingOpponentTile`に変更された
-`FailedInMovingByUnkownError`がASC992に変更された
-`FailedInRemovingOurTileByUnkownError`がASC993に変更された
-`FailedInRemovingOpponentTileByUnkownError`がASC994に変更された
-`FailedInMovingByBeingNotChebyshevNeighborhood`が`FailedInMovingByBeingNotMooreNeighborhood`に変更された  
-`FailedInRemovingOurTileByBeingNotChebyshevNeighborhood`が`FailedInRemovingOurTileByBeingNotMooreNeighborhood`に変更された  
-`FailedInRemovingOpponentTileByBeingNotChebyshevNeighborhood`が`FailedInRemovingOpponentTileByBeingNotMooreNeighborhood`に変更された  
+### Visualier 8.0 に対応した
 
 ## What's new
 
-### ボットを作れるようになった
+### ver. 0.7.0
+
+- ボットを作れるようになった
+
+### ver. 1.7.1
+
+- `SucceededInRemoveingOurTile`が`SucceededInRemovingOurTile`に変更された  
+- `SucceededInRemoveingOpponentTile`が`SucceededInRemovingOpponentTile`に変更された
+- `FailedInMovingByUnkownError`がASC992に変更された
+- `FailedInRemovingOurTileByUnkownError`がASC993に変更された
+- `FailedInRemovingOpponentTileByUnkownError`がASC994に変更された
+- `FailedInMovingByBeingNotChebyshevNeighborhood`が`FailedInMovingByBeingNotMooreNeighborhood`に変更された  
+- `FailedInRemovingOurTileByBeingNotChebyshevNeighborhood`が`FailedInRemovingOurTileByBeingNotMooreNeighborhood`に変更された  
+- `FailedInRemovingOpponentTileByBeingNotChebyshevNeighborhood`が`FailedInRemovingOpponentTileByBeingNotMooreNeighborhood`に変更された  
+
+### ver. 2.8.0
+
+- Visualier 8.0 に対応した

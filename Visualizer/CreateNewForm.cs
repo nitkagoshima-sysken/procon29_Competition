@@ -119,7 +119,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                     foreach (System.Text.RegularExpressions.Match match in mc)
                     {
-                        bot1 = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.procon29_Competition." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
+                        bot1 = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
                         MainForm.botName[1] = match.Groups["file"].Value;
                     }
                 }
@@ -163,7 +163,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                     foreach (System.Text.RegularExpressions.Match match in mc)
                     {
-                        bot0 = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.procon29_Competition." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
+                        bot0 = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
                         MainForm.botName[0] = match.Groups["file"].Value;
                     }
                 }
