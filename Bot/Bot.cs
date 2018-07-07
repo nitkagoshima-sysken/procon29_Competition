@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
-using nitkagoshima_sysken.Procon29.Visualizer;
+﻿using nitkagoshima_sysken.Procon29.Visualizer;
 
 namespace nitkagoshima_sysken
 {
@@ -47,15 +41,41 @@ namespace nitkagoshima_sysken
                 /// エージェントを動かしたときに、状態がどう変化するか計算します。
                 /// </summary>
                 /// <param name="action">どうエージェントが動くか指定します。</param>
-                /// <param name="take">ほしい情報を指定します。</param>
-                /// <returns></returns>
-                public int Simulate(AgentActivityData[,] action, Func<Team, int> take)
+                /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
+                public Calc Simulate(AgentActivityData[,] action)
                 {
                     Calc.MoveAgent(action);
-                    int p = take(Team);
+                    var c = (Calc)Calc.DeepCopy();
                     Calc.Undo();
-                    return p;
+                    return c;
                 }
+
+                /// <summary>
+                /// エージェントを動かしたときに、状態がどう変化するか計算します。
+                /// </summary>
+                /// <param name="action">どうエージェントが動くか指定します。</param>
+                /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
+                public Calc Simulate(Team team, AgentActivityData[] action)
+                {
+                    Calc.MoveAgent(team, action);
+                    var c = (Calc)Calc.DeepCopy();
+                    Calc.Undo();
+                    return c;
+                }
+
+                /// <summary>
+                /// エージェントを動かしたときに、状態がどう変化するか計算します。
+                /// </summary>
+                /// <param name="action">どうエージェントが動くか指定します。</param>
+                /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
+                public Calc Simulate(Team team, AgentNumber agentNumber, AgentActivityData action)
+                {
+                    Calc.MoveAgent(team, agentNumber, action);
+                    var c = (Calc)Calc.DeepCopy();
+                    Calc.Undo();
+                    return c;
+                }
+
             }
         }
     }

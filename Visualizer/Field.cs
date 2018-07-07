@@ -15,13 +15,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <returns>列挙されたセル</returns>
         public IEnumerable<Cell> GetEnumerator()
-        {            
+        {
             foreach (Cell item in Cells)
             {
                 yield return item;
             }
         }
-       
+
         /// <summary>
         /// 列挙します
         /// </summary>
@@ -45,7 +45,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 yield return item;
             }
         }
-
+       
         /// <summary>
         /// フィールドの幅を取得します。
         /// </summary>
