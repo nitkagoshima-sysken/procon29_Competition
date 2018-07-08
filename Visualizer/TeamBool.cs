@@ -34,5 +34,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             set { Array[(int)team] = value; }
             get { return Array[(int)team]; }
         }
+
+        /// <summary>
+        /// 人間が判読できる文字列に変換します
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() => String.Format("{{{0}, {1}}}", this[Team.A], this[Team.B]);
     }
 }
