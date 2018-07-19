@@ -69,7 +69,7 @@ namespace nitkagoshima_sysken
                     WriteLog();
                     TurnProgressCheck();
 
-                    
+
                 }
 
 
@@ -98,6 +98,12 @@ namespace nitkagoshima_sysken
                         tableLayoutPanel2.RowStyles[1] = new RowStyle(SizeType.Percent, 100);
                         tableLayoutPanel2.RowStyles[2] = new RowStyle(SizeType.Absolute, 0);
                         MessageBox.Show("試合が終了しました", "お知らせ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        TurnEndButton.Visible = true;
+                        tableLayoutPanel2.RowStyles[1] = new RowStyle(SizeType.Percent, 80);
+                        tableLayoutPanel2.RowStyles[2] = new RowStyle(SizeType.Percent, 20);
                     }
                 }
 
@@ -334,7 +340,7 @@ namespace nitkagoshima_sysken
                         new System.Xml.Serialization.XmlSerializer(typeof(Calc));
                     //書き込むファイルを開く（UTF-8 BOM無し）
                     System.IO.StreamWriter sw = new System.IO.StreamWriter(
-                        "test.xml", false, new System.Text.UTF8Encoding(false));
+                        "log.xml", false, new System.Text.UTF8Encoding(false));
                     //シリアル化し、XMLファイルに保存する
                     serializer.Serialize(sw, Calc);
                     //ファイルを閉じる
@@ -346,7 +352,7 @@ namespace nitkagoshima_sysken
                     Calc.Undo();
                     show.Showing(FieldDisplay);
                     WriteLog();
-
+                    TurnProgressCheck();
                 }
 
                 private void RedoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -354,6 +360,7 @@ namespace nitkagoshima_sysken
                     Calc.Redo();
                     show.Showing(FieldDisplay);
                     WriteLog();
+                    TurnProgressCheck();
                 }
             }
         }
