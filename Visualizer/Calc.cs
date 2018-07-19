@@ -7,6 +7,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// <summary>
     /// procon29におけるフィールドの管理、ポイント計算などの全般を行います。
     /// </summary>
+    [System.Xml.Serialization.XmlInclude(typeof(Agent))]
+    [Serializable]
     public class Calc
     {
         int maxTurn;
@@ -24,7 +26,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// ターンを設定または取得します。
         /// </summary>
-        public int Turn { get; private set; }
+        public int Turn { get; set; }
 
         /// <summary>
         /// ターンの終わりを設定または取得します。
@@ -38,7 +40,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// フィールドの歴史を設定または取得します。
         /// </summary>
-        internal List<TurnData> FieldHistory { get; private set; } = new List<TurnData>();
+        public List<TurnData> FieldHistory { get; set; } = new List<TurnData>();
 
         /// <summary>
         /// エージェントの略称を返します。
@@ -63,6 +65,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public object DeepCopy()
         {
             return new Calc(MaxTurn, new Field(Field), new Coordinate[] { Agents[Team.A, AgentNumber.One].Position, Agents[Team.A, AgentNumber.Two].Position });
+        }
+
+        public Calc()
+        {
+
         }
 
         /// <summary>
@@ -157,6 +164,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// フィールドのリストを返します。
         /// </summary>
+        [Obsolete("わざわざFieldListを使わなくてもFieldでリストのように扱えるようになりました")]
         public List<Cell> FieldList
         {
             get

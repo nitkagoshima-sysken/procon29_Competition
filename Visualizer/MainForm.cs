@@ -68,6 +68,8 @@ namespace nitkagoshima_sysken
 
                     WriteLog();
                     TurnProgressCheck();
+
+                    
                 }
 
 
@@ -326,6 +328,17 @@ namespace nitkagoshima_sysken
                         log.WriteLine(Color.SkyBlue, "B2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
                     }
 
+                    //XmlSerializerオブジェクトを作成
+                    //オブジェクトの型を指定する
+                    System.Xml.Serialization.XmlSerializer serializer =
+                        new System.Xml.Serialization.XmlSerializer(typeof(Calc));
+                    //書き込むファイルを開く（UTF-8 BOM無し）
+                    System.IO.StreamWriter sw = new System.IO.StreamWriter(
+                        "test.xml", false, new System.Text.UTF8Encoding(false));
+                    //シリアル化し、XMLファイルに保存する
+                    serializer.Serialize(sw, Calc);
+                    //ファイルを閉じる
+                    sw.Close();
                 }
 
                 private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
