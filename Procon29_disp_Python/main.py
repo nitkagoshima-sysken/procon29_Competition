@@ -138,7 +138,11 @@ def createbutton(text):
     blue_flags.next[0], blue_flags.next[1]= (agent1_x)*1000+(agent1_y), (agent2_x)*1000+(agent2_y)
     field_type = field[0].FieldTypeAnalysis()
     if field_type == 0:
-        red_flags.next[0], red_flags.next[1] = (field[0].x-agent1_x+1)*1000+(field[0].y-agent2_y+1), (field[0].x-agent2_x+1)*1000+(field[0].y-agent1_y+1)
+        red_flags.next[0], red_flags.next[1] = (field[0].x-agent1_x+1)*1000+(field[0].y-agent1_y+1), (field[0].x-agent2_x+1)*1000+(field[0].y-agent2_y+1)
+        if blue_flags.next[0] in red_flags.next or blue_flags.next[1] in red_flags.next:
+            red_flags.next[0], red_flags.next[1] = (agent1_x)*1000+(field[0].y-agent1_y+1), (agent2_x)*1000+(field[0].y-agent2_y+1)
+        if blue_flags.next[0] in red_flags.next or blue_flags.next[1] in red_flags.next:
+            red_flags.next[0], red_flags.next[1] = (field[0].x-agent1_x+1)*1000+(agent1_y), (field[0].x-agent2_x+1)*1000+(agent2_y)
         log.LogWrite('Field type: VERTICAL&HORIZONTAL\n', logtype=procon29.GAME_LOG)
     elif field_type == -1:
         red_flags.next[0], red_flags.next[1] = (agent1_x)*1000+(field[0].y-agent1_y+1), (agent2_x)*1000+(field[0].y-agent2_y+1)
@@ -280,7 +284,7 @@ def OpenFile(file):
     elif '.pqr' in file:
         f = open(file, 'r')
         text = f.read()
-        return text.replace('\n','').split(':\n')
+        return text.replace('\n','').split(':')
     else:
         raise FormatError(file)
 
@@ -377,6 +381,17 @@ def Radio_handler(event):
         elif color == 1:
             pass
 
+def CancelFunc():
+    if red_flags.flag[0] != True or red_flags.flag[1] != True:
+        red_flags.Clear()
+        col_func(False, False)
+        log.LogWrite('Cancel step\n')
+    elif blue_flags.flag[0] != True or blue_flags.flag[1] != True:
+        blue_flags.Clear()
+        field[0].MovableColoring(agent_data[1], (agent[2], agent[3]), clear=True)
+        col_func(True, False)
+        log.LogWrite('Cancel step\n')
+
 def Button_handler(event):
     global load_file_flag
     global debag_flag
@@ -424,15 +439,7 @@ def Button_handler(event):
             errordialog.Destroy()
     else:
         if Id_num == 201:
-            if red_flags.flag[0] != True or red_flags.flag[1] != True:
-                red_flags.Clear()
-                col_func(False, False)
-                log.LogWrite('Cancel step\n')
-            elif blue_flags.flag[0] != True or blue_flags.flag[1] != True:
-                blue_flags.Clear()
-                field[0].MovableColoring(agent_data[1], (agent[2], agent[3]), clear=True)
-                col_func(True, False)
-                log.LogWrite('Cancel step\n')
+            CancelFunc()
         elif Id_num == 202:
             if load_file_flag:
                 if red_flags.flag == False_list:
@@ -455,7 +462,7 @@ def Button_handler(event):
         else:
             FieldButtonFunc(Id_num)
     
-def check_handler(event):
+def Check_handler(event):
     global col_check
     obj = event.GetEventObject()
     if load_file_flag:
@@ -465,7 +472,18 @@ def check_handler(event):
             col_check[event.GetId()-300][i] = obj.IsChecked(i)
         blue_red, turn_exit = (True, blue_flags.end) if event.GetId() == 300 else (False, not blue_flags.end)
         col_func(blue_red, turn_exit)
-            
+
+def Key_handler(event):
+    Id_num = event.GetKeyCode()
+    print(Id_num)
+    print(wx.WXK_ESCAPE)
+    if Id_num == wx.WXK_ESCAPE:
+        print('ok')
+        CancelFunc()
+    if Id_num == 300:
+        blue_flags.Clear()
+        col_func(True, False)
+        log.LogWrite('Cancel step\n')
 
 text = ''
 play_color = 'blue'
@@ -554,9 +572,10 @@ frame.SetMenuBar(menu_bar)
 
 frame.Bind(wx.EVT_MENU, Menu_handler)
 frame.Bind(wx.EVT_BUTTON, Button_handler)
-frame.Bind(wx.EVT_HOTKEY, Button_handler)
 frame.Bind(wx.EVT_RADIOBOX, Radio_handler)
-frame.Bind(wx.EVT_CHECKLISTBOX, check_handler)
+frame.Bind(wx.EVT_CHECKLISTBOX, Check_handler)
+frame.Bind(wx.EVT_KEY_DOWN, Key_handler)
+
 
 frame.Show()
 app.MainLoop()

@@ -17,7 +17,7 @@ double rate_of_minus = 0.3;
 int main(int argc,char* argv[]){
   int vertical = 12;
   int side = 12;
-  int type = 3;
+  int type = 2;
   int number = 1;
   int opt,i;
   char* filename = "code.pqr";

@@ -18,6 +18,7 @@ class Field:
         self.field_size =[]
         self.panel = []
         self.point =[]
+        self.quarter = []
         self.field = field
         self.log = logfile
         for i in range(self.y+2):
@@ -32,7 +33,6 @@ class Field:
             self.panel.append([wx.Button(field, (j+1)*1000+(i+1), str(self.point[i][j]), size=(50,50), pos=(50*j,50*i))\
                             for j in range(self.x)])
 
-    
     def Coloring(self, agent_data, agent, out_get=False, out_now=False):
         """
         Now position and Get position coloring method.
