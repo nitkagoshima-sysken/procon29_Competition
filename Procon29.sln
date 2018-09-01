@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Procon29_Algo", "Procon29_Algo\Procon29_Algo.vcxproj", "{26334BC8-430D-4898-BE6D-B10872BC3BDE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TegetegeBot", "TegetegeBot\TegetegeBot.csproj", "{D2C7E214-DBE2-47AE-AFB0-9E6A4EFED7B8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bot", "Bot\Bot.csproj", "{9F7412B1-836A-43D1-AF00-C1FC67150B5D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visualizer", "Visualizer\Visualizer.csproj", "{518C428C-FE3B-4D37-8287-8F009864850C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NettaBot", "NettaBot\NettaBot.csproj", "{AD8638BC-F95B-4B0C-BC8D-C00196A295C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,16 +21,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{26334BC8-430D-4898-BE6D-B10872BC3BDE}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{26334BC8-430D-4898-BE6D-B10872BC3BDE}.Debug|x64.ActiveCfg = Debug|x64
-		{26334BC8-430D-4898-BE6D-B10872BC3BDE}.Debug|x64.Build.0 = Debug|x64
-		{26334BC8-430D-4898-BE6D-B10872BC3BDE}.Debug|x86.ActiveCfg = Debug|Win32
-		{26334BC8-430D-4898-BE6D-B10872BC3BDE}.Debug|x86.Build.0 = Debug|Win32
-		{26334BC8-430D-4898-BE6D-B10872BC3BDE}.Release|Any CPU.ActiveCfg = Release|Win32
-		{26334BC8-430D-4898-BE6D-B10872BC3BDE}.Release|x64.ActiveCfg = Release|x64
-		{26334BC8-430D-4898-BE6D-B10872BC3BDE}.Release|x64.Build.0 = Release|x64
-		{26334BC8-430D-4898-BE6D-B10872BC3BDE}.Release|x86.ActiveCfg = Release|Win32
-		{26334BC8-430D-4898-BE6D-B10872BC3BDE}.Release|x86.Build.0 = Release|Win32
 		{D2C7E214-DBE2-47AE-AFB0-9E6A4EFED7B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D2C7E214-DBE2-47AE-AFB0-9E6A4EFED7B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2C7E214-DBE2-47AE-AFB0-9E6A4EFED7B8}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -67,6 +57,18 @@ Global
 		{518C428C-FE3B-4D37-8287-8F009864850C}.Release|x64.Build.0 = Release|Any CPU
 		{518C428C-FE3B-4D37-8287-8F009864850C}.Release|x86.ActiveCfg = Release|Any CPU
 		{518C428C-FE3B-4D37-8287-8F009864850C}.Release|x86.Build.0 = Release|Any CPU
+		{AD8638BC-F95B-4B0C-BC8D-C00196A295C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD8638BC-F95B-4B0C-BC8D-C00196A295C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD8638BC-F95B-4B0C-BC8D-C00196A295C6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AD8638BC-F95B-4B0C-BC8D-C00196A295C6}.Debug|x64.Build.0 = Debug|Any CPU
+		{AD8638BC-F95B-4B0C-BC8D-C00196A295C6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AD8638BC-F95B-4B0C-BC8D-C00196A295C6}.Debug|x86.Build.0 = Debug|Any CPU
+		{AD8638BC-F95B-4B0C-BC8D-C00196A295C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD8638BC-F95B-4B0C-BC8D-C00196A295C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD8638BC-F95B-4B0C-BC8D-C00196A295C6}.Release|x64.ActiveCfg = Release|Any CPU
+		{AD8638BC-F95B-4B0C-BC8D-C00196A295C6}.Release|x64.Build.0 = Release|Any CPU
+		{AD8638BC-F95B-4B0C-BC8D-C00196A295C6}.Release|x86.ActiveCfg = Release|Any CPU
+		{AD8638BC-F95B-4B0C-BC8D-C00196A295C6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
