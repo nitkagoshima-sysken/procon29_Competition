@@ -12,13 +12,59 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
         {
             var result = new AgentActivityData[2];
 
-            foreach(var agent in Calc.Agents)
+            foreach(Agent agent in Calc.Agents)
             {
+                if(agent.Team == Team)
+                {
+                    if(((agent.Position.X + agent.Position.Y)%2 != 0) == true)
+                    {
+                        var maxpoint = int.MinValue;
+                        Coordinate coordinate = new Coordinate();
+                        
+                        foreach(Arrow arrow in Enum.GetValues(typeof(Arrow)))
+                        {
+                            var slanting = new Coordinate() + arrow;
+                            if (slanting.X * slanting.Y == 0)
+                            {
+                                var c = Simulate(
+                                    Team,
+                                    agent.AgentNumber,
+                                    new AgentActivityData(AgentStatusCode.RequestMovement, agent.Position + arrow));
+                                if (maxpoint < c.TotalPoint(Team))
+                                {
+                                    maxpoint = c.TotalPoint(Team);
+                                    coordinate = new Coordinate(agent.Position + arrow);
+                                }
+                                result[(int)agent.AgentNumber] = new AgentActivityData(AgentStatusCode.RequestMovement, coordinate);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var maxpoint = int.MinValue;
+                        Coordinate coordinate = new Coordinate();
+                        
+                        foreach(Arrow arrow in Enum.GetValues(typeof(Arrow)))
+                        {
+                            var slanting = new Coordinate() + arrow;
+                            if (slanting.X * slanting.Y != 0)
+                            {
+                                var c = Simulate(
+                                    Team,
+                                    agent.AgentNumber,
+                                    new AgentActivityData(AgentStatusCode.RequestMovement, agent.Position + arrow));
+                                if (maxpoint < c.TotalPoint(Team))
+                                {
+                                    maxpoint = c.TotalPoint(Team);
+                                    coordinate = new Coordinate(agent.Position + arrow);
+                                }
+                                result[(int)agent.AgentNumber] = new AgentActivityData(AgentStatusCode.RequestMovement, coordinate);
+                            }
+                        }
 
+                    }
+                }
             }
-
-            result[0] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-            result[1] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
 
             return result;
         }
