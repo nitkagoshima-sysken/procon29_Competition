@@ -29,13 +29,13 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                                 var c = Simulate(
                                     Team,
                                     agent.AgentNumber,
-                                    new AgentActivityData(AgentStatusCode.RequestMovement, agent.Position + arrow));
+                                    MoveOrRemoveTile( agent.Position + arrow));
                                 if (maxpoint < c.TotalPoint(Team))
                                 {
                                     maxpoint = c.TotalPoint(Team);
                                     coordinate = new Coordinate(agent.Position + arrow);
                                 }
-                                result[(int)agent.AgentNumber] = new AgentActivityData(AgentStatusCode.RequestMovement, coordinate);
+                                result[(int)agent.AgentNumber] = MoveOrRemoveTile(coordinate);
                             }
                         }
                     }
@@ -52,13 +52,13 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                                 var c = Simulate(
                                     Team,
                                     agent.AgentNumber,
-                                    new AgentActivityData(AgentStatusCode.RequestMovement, agent.Position + arrow));
+                                   MoveOrRemoveTile(agent.Position + arrow));
                                 if (maxpoint < c.TotalPoint(Team))
                                 {
                                     maxpoint = c.TotalPoint(Team);
                                     coordinate = new Coordinate(agent.Position + arrow);
                                 }
-                                result[(int)agent.AgentNumber] = new AgentActivityData(AgentStatusCode.RequestMovement, coordinate);
+                                result[(int)agent.AgentNumber] = MoveOrRemoveTile(coordinate);
                             }
                         }
 
@@ -77,6 +77,16 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                 sum = sum + (cell.Coordinate.X + cell.Coordinate.Y) % 2 != 0 ? cell.Point : -cell.Point;
             }
             return sum > 0;
+        }
+
+        private AgentActivityData MoveOrRemoveTile(Coordinate coordinate)
+        {
+            if (!(Calc.Field[coordinate].IsTileOn[Team]) && (Calc.Field[coordinate].IsTileOn[Team.A] || Calc.Field[coordinate].IsTileOn[Team.B]))
+            {
+                return new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, coordinate);
+            }
+            return new AgentActivityData(AgentStatusCode.RequestMovement, coordinate);
+
         }
     }
 }
