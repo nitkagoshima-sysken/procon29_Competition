@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
-    class PqrDataExpansion
+    static class PqrDataExpansion
     {
         /// <summary>
         /// PQR形式の文字列をPQR構造体に変換します。
