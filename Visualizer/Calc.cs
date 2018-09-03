@@ -9,7 +9,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// </summary>
     [System.Xml.Serialization.XmlInclude(typeof(Agent))]
     [Serializable]
-    public class Calc
+    public class Calc : BaseCalc
     {
         int maxTurn;
 
