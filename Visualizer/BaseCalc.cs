@@ -69,13 +69,16 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             return new Calc(MaxTurn, new Field(Field), new Coordinate[] { Agents[Team.A, AgentNumber.One].Position, Agents[Team.A, AgentNumber.Two].Position });
         }
 
+        /// <summary>
+        /// BaseCalcを初期化をします。
+        /// </summary>
         public BaseCalc()
         {
 
         }
 
         /// <summary>
-        /// Procon29_Calcを初期化します。
+        /// BaseCalcを初期化します。
         /// </summary>
         /// <param name="maxTurn">最大ターン数を設定します。</param>
         /// <param name="point">フィールドのポイントを設定します。</param>
@@ -101,7 +104,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// Procon29_Calcを初期化します。
+        /// BaseCalcを初期化します。
         /// </summary>
         /// <param name="maxTurn">最大ターン数を設定します。</param>
         /// <param name="field">フィールドのポイントを設定します。</param>
