@@ -67,6 +67,17 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// Calcを初期化します。
         /// </summary>
+        /// <param name="calc"></param>
+        public Calc(BaseCalc calc)
+        {
+            MaxTurn = calc.MaxTurn;
+            Turn = calc.Turn;
+            FieldHistory = calc.FieldHistory;
+        }
+
+        /// <summary>
+        /// Calcを初期化します。
+        /// </summary>
         /// <param name="maxTurn">最大ターン数を設定します。</param>
         /// <param name="point">フィールドのポイントを設定します。</param>
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>
