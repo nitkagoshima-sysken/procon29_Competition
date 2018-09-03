@@ -4,48 +4,6 @@ using System.Collections.Generic;
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     /// <summary>
-    /// PQR形式のデータを表します。
-    /// </summary>
-    struct PqrData
-    {
-        /// <summary>
-        /// フィールドの大きさを表します。
-        /// </summary>
-        internal Size Size { get; set; }
-        /// <summary>
-        /// フィールドを表します。
-        /// </summary>
-        public int[,] Fields { get; set; }
-        /// <summary>
-        /// 1人目のエージェントの位置を表します。
-        /// </summary>
-        public Coordinate One { get; set; }
-        /// <summary>
-        /// 2人目のエージェントの位置を表します。
-        /// </summary>
-        public Coordinate Two { get; set; }
-    }
-
-    /// <summary>
-    /// サイズを表します。
-    /// </summary>
-    struct Size
-    {
-        int height, width;
-
-        /// <summary>
-        /// 高さを表します。
-        /// </summary>
-        public int Height { get => height; set => height = value; }
-        /// <summary>
-        /// 幅を表します。
-        /// </summary>
-        public int Width { get => width; set => width = value; }
-        public Size(int height, int width) { this.height = height; this.width = width; }
-
-    }
-
-    /// <summary>
     /// いろいろなデータを宣言させます。
     /// </summary>
     static class DataConverter
