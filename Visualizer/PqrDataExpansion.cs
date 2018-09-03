@@ -7,6 +7,9 @@ using System.Windows.Forms;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
+    /// <summary>
+    /// PqrData関連の拡張メソッドを定義するためのクラスです。
+    /// </summary>
     public static class PqrDataExpansion
     {
         /// <summary>
