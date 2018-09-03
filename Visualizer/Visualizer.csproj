@@ -101,7 +101,6 @@
     <Compile Include="CreateNewForm.Designer.cs">
       <DependentUpon>CreateNewForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DataConverter.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="FieldExpansion.cs" />
