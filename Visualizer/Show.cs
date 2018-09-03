@@ -383,16 +383,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             return canvas;
         }
-
-        public Bitmap MakePictureBox(int turn, PictureBox pictureBox, Bitmap canvas, Graphics graphics)
-        {
-            int save = Calc.Turn;
-            Calc.Turn = turn;
-            Bitmap bitmap = MakePictureBox(pictureBox, canvas, graphics);
-            Calc.Turn = save;
-            return bitmap;
-        }
-
+       
         /// <summary>
         /// 表示を行います。
         /// </summary>
