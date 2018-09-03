@@ -66,7 +66,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             WriteLog();
             TurnProgressCheck();
 
-
+            ReadBotsTxt();
         }
 
 
@@ -141,8 +141,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// FieldDisplay_MouseMoveのための変数
         /// </summary>
         System.DateTime time = System.DateTime.Now;
-
-
 
         /// <summary>
         /// マウスが動いたときのイベント
@@ -291,6 +289,31 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
+        public void ReadBotsTxt()
+        {
+
+        }
+
+        public void ConnectBot(string path)
+        {
+            try
+            {
+                Assembly m = Assembly.LoadFrom(path);
+
+                System.Text.RegularExpressions.MatchCollection mc = System.Text.RegularExpressions.Regex.Matches(path, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
+
+                foreach (System.Text.RegularExpressions.Match match in mc)
+                {
+                    var bot1 = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
+                    botName[1] = match.Groups["file"].Value;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("不正なdllです。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void TurnEndButton_Click(object sender, EventArgs e)
         {
             TurnEnd();
@@ -346,12 +369,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             //XmlSerializerオブジェクトを作成
             //オブジェクトの型を指定する
             System.Xml.Serialization.XmlSerializer serializer =
-                new System.Xml.Serialization.XmlSerializer(typeof(Calc));
+                new System.Xml.Serialization.XmlSerializer(typeof(BaseCalc));
             //書き込むファイルを開く（UTF-8 BOM無し）
             System.IO.StreamWriter sw = new System.IO.StreamWriter(
                 "log.xml", false, new System.Text.UTF8Encoding(false));
             //シリアル化し、XMLファイルに保存する
-            serializer.Serialize(sw, Calc);
+            serializer.Serialize(sw, new BaseCalc(Calc));
             //ファイルを閉じる
             sw.Close();
         }
