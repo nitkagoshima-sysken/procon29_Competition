@@ -244,35 +244,8 @@ namespace nitkagoshima_sysken
                     //ダイアログを表示する
                     if (openFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        //OKボタンがクリックされたとき、選択されたファイル名を開き、データを読み込む                
-                        using (StreamReader sr = new StreamReader(openFileDialog.FileName, Encoding.GetEncoding("Shift_JIS")))
-                        {
-                            try
-                            {
-                                var pqr = sr.ReadToEnd();
-                                log.WriteLine(Color.LightGray, pqr);
-                                var pqr_data = DataConverter.ToPQRData(pqr);
-                                if (pqr_data.One.X < 0 || pqr_data.One.Y < 0)
-                                {
-                                    MessageBox.Show("1人目のエージェントの位置" + pqr_data.One + "が不正です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    pqr_data.One = new Coordinate(0, 0);
-                                }
-                                if (pqr_data.Two.X < 0 || pqr_data.Two.Y < 0)
-                                {
-                                    MessageBox.Show("2人目のエージェントの位置" + pqr_data.One + "が不正です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    pqr_data.Two = new Coordinate(0, 0);
-                                }
-
-                                Calc = new Calc(maxTurn, pqr_data.Fields, new Coordinate[2] { pqr_data.One, pqr_data.Two });
-
-                                show = new Show(Calc, teamDesigns, FieldDisplay);
-                                show.Showing(FieldDisplay);
-                            }
-                            catch (Exception)
-                            {
-                                MessageBox.Show("不正なPQR形式です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                        }
+                        //OKボタンがクリックされたとき、選択されたファイル名を開き、データを読み込む       
+                        OpenPQRFile(openFileDialog.FileName);                        
                     }
                 }
 
@@ -280,8 +253,18 @@ namespace nitkagoshima_sysken
                 {
                     createNewForm.ShowDialog(this);
                     Calc.MaxTurn = maxTurn;
-                    //OKボタンがクリックされたとき、選択されたファイル名を開き、データを読み込む                
-                    using (StreamReader sr = new StreamReader(createNewForm.SelectPQRFile, Encoding.GetEncoding("Shift_JIS")))
+                    //OKボタンがクリックされたとき、選択されたファイル名を開き、データを読み込む    
+                    if (createNewForm.SelectPQRFile != ".pqr" && createNewForm.SelectPQRFile != null)
+                        OpenPQRFile(createNewForm.SelectPQRFile);                        
+                }
+
+                /// <summary>
+                /// PQRファイルを開く処理
+                /// </summary>
+                /// <param name="path">ファイルのパス</param>
+                public void OpenPQRFile(string path)
+                {
+                    using (StreamReader sr = new StreamReader(path, Encoding.GetEncoding("Shift_JIS")))
                     {
                         try
                         {
