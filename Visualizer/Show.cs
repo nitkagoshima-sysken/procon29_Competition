@@ -17,7 +17,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private Font pointFont;
         private System.Drawing.Point clickedField;
         private const string pointFamilyName = "Impact";
-        
+
         private Bitmap[] agentBitmap;
         private Bitmap[] fairyBitmap;
 
@@ -382,6 +382,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             pointFont.Dispose();
 
             return canvas;
+        }
+
+        public Bitmap MakePictureBox(int turn, PictureBox pictureBox, Bitmap canvas, Graphics graphics)
+        {
+            int save = Calc.Turn;
+            Calc.Turn = turn;
+            Bitmap bitmap = MakePictureBox(pictureBox, canvas, graphics);
+            Calc.Turn = save;
+            return bitmap;
         }
 
         /// <summary>
