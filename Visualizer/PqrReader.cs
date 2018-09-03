@@ -149,7 +149,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 list.Clear();
                 list = ConvertToList(m.Groups["size"].Value.Replace(":", " "));
-                if (list.Count != 2) throw new Exception();
                 pqr.Size = new Size(list[0], list[1]);
 
                 pqr.Fields = new int[pqr.Size.Height, pqr.Size.Width];
@@ -175,3 +174,4 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
     }
 }
+

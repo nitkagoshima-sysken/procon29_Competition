@@ -43,19 +43,32 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             this.Resize += new System.EventHandler(this.MainForm_Resize);
 
             log = new Logger(messageBox);
-            log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 8.0)");
+            log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 8.1)");
 
             // PQRファイルを直接読み込む
             // ちなみにQR_code_sample.pdfで登場したQRコード
-            var pqr = "8 11:-2 1 0 1 2 0 2 1 0 1 -2:1 3 2 -2 0 1 0 -2 2 3 1:1 3 2 1 0 -2 0 1 2 3 1:2 1 1 2 2 3 2 2 1 1 2:2 1 1 2 2 3 2 2 1 1 2:1 3 2 1 0 -2 0 1 2 3 1:1 3 2 -2 0 1 0 -2 2 3 1:-2 1 0 1 2 0 2 1 0 1 -2:2 2:7 10:";
-            log.WriteLine(Color.LightGray, pqr);
-            var pqr_data = DataConverter.ToPQRData(pqr);
-            Calc = new Calc(10, pqr_data.Fields, new Coordinate[2] { pqr_data.One, pqr_data.Two });
+            var reader = new PqrReader();
+            reader.Stream =
+                "8 11:" +
+                "-2 1 0 1 2 0 2 1 0 1 -2:" +
+                "1 3 2 -2 0 1 0 -2 2 3 1:" +
+                "1 3 2 1 0 -2 0 1 2 3 1:" +
+                "2 1 1 2 2 3 2 2 1 1 2:" +
+                "2 1 1 2 2 3 2 2 1 1 2:" +
+                "1 3 2 1 0 -2 0 1 2 3 1:" +
+                "1 3 2 -2 0 1 0 -2 2 3 1:" +
+                "-2 1 0 1 2 0 2 1 0 1 -2:" +
+                "2 2:" +
+                "7 10:";
+            log.WriteLine(Color.LightGray, reader.Stream);
+            var pqr = reader.ConvertToPqrData();
+            Calc = new Calc(10, pqr.Fields, new Coordinate[2] { pqr.One, pqr.Two });
 
-            teamDesigns = new TeamDesign[2] {
-                        new TeamDesign(name:"Orange", agentColor:Color.DarkOrange, areaColor:Color.DarkOrange),
-                        new TeamDesign(name:"Lime", agentColor:Color.LimeGreen, areaColor:Color.LimeGreen),
-                    };
+            teamDesigns =
+                new TeamDesign[2] {
+                    new TeamDesign(name: "Orange", agentColor: Color.DarkOrange, areaColor: Color.DarkOrange),
+                    new TeamDesign(name: "Lime", agentColor: Color.LimeGreen, areaColor: Color.LimeGreen),
+                };
             show = new Show(Calc, teamDesigns, FieldDisplay);
             show.Showing(FieldDisplay);
             Calc.PointMapCheck();
@@ -259,33 +272,23 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="path">ファイルのパス</param>
         public void OpenPQRFile(string path)
         {
-            using (StreamReader sr = new StreamReader(path, Encoding.GetEncoding("Shift_JIS")))
+            try
             {
-                try
-                {
-                    var pqr = sr.ReadToEnd();
-                    log.WriteLine(Color.LightGray, pqr);
-                    var pqr_data = DataConverter.ToPQRData(pqr);
-                    if (pqr_data.One.X < 0 || pqr_data.One.Y < 0)
-                    {
-                        MessageBox.Show("1人目のエージェントの位置" + pqr_data.One + "が不正です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        pqr_data.One = new Coordinate(0, 0);
-                    }
-                    if (pqr_data.Two.X < 0 || pqr_data.Two.Y < 0)
-                    {
-                        MessageBox.Show("2人目のエージェントの位置" + pqr_data.One + "が不正です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        pqr_data.Two = new Coordinate(0, 0);
-                    }
-
-                    Calc = new Calc(maxTurn, pqr_data.Fields, new Coordinate[2] { pqr_data.One, pqr_data.Two });
-
-                    show = new Show(Calc, teamDesigns, FieldDisplay);
-                    show.Showing(FieldDisplay);
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("不正なPQR形式です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                var reader = new PqrReader(path);
+                reader.ReadPqrFile();
+                log.WriteLine(Color.LightGray, reader.Stream);
+                var pqr = reader.ConvertToPqrData();
+                pqr.IsRegular();
+                Calc = new Calc(maxTurn, pqr.Fields, new Coordinate[2] { pqr.One, pqr.Two });
+                show = new Show(Calc, teamDesigns, FieldDisplay);
+                show.Showing(FieldDisplay);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("VisualizerはPQRファイルが確かに存在することを確認しました。\n" +
+                    "そして、ファイルを開き、読み込むことに成功しました。\n" +
+                    "しかし、解析の結果、正規なPQRデータではないことが判明しました。\n" +
+                    "そのため、これらのデータは破棄され、Visualizerに反映されません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
