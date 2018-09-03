@@ -9,7 +9,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// <summary>
     /// PQR形式のデータを表します。
     /// </summary>
-    struct PqrData
+    public struct PqrData
     {
         /// <summary>
         /// フィールドの大きさを表します。
