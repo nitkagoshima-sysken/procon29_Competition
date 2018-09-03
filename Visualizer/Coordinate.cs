@@ -9,7 +9,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// <summary>
     /// フィールド上の座標を表します。
     /// </summary>
-    public struct Coordinate
+    public struct Coordinate : IComparable<Coordinate>
     {
         /// <summary>
         /// 横の座標を取得または設定します。
@@ -37,65 +37,81 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 座標に座標を加算します。
         /// </summary>
-        /// <param name="c1">左辺値の座標</param>
-        /// <param name="c2">右辺値の座標</param>
+        /// <param name="left">左辺値の座標</param>
+        /// <param name="right">右辺値の座標</param>
         /// <returns></returns>
-        public static Coordinate operator +(Coordinate c1, Coordinate c2) => new Coordinate(c1.X + c2.X, c1.Y + c2.Y);
+        public static Coordinate operator +(Coordinate left, Coordinate right) => new Coordinate(left.X + right.X, left.Y + right.Y);
 
         /// <summary>
         /// 座標と座標の差を求めます。
         /// </summary>
-        /// <param name="c1">左辺値の座標</param>
-        /// <param name="c2">右辺値の座標</param>
+        /// <param name="left">左辺値の座標</param>
+        /// <param name="right">右辺値の座標</param>
         /// <returns></returns>
-        public static Coordinate operator -(Coordinate c1, Coordinate c2) => new Coordinate(c1.X - c2.X, c1.Y - c2.Y);
+        public static Coordinate operator -(Coordinate left, Coordinate right) => new Coordinate(left.X - right.X, left.Y - right.Y);
 
         /// <summary>
         /// 座標に方向を加算します。
         /// </summary>
-        /// <param name="c">座標</param>
-        /// <param name="a">Coordinate に変換します</param>
+        /// <param name="left">座標</param>
+        /// <param name="right">Coordinate に変換します</param>
         /// <returns></returns>
-        public static Coordinate operator +(Coordinate c, Arrow a)
+        public static Coordinate operator +(Coordinate left, Arrow right)
         {
-            switch (a)
+            switch (right)
             {
                 case Arrow.Up:
-                    return new Coordinate(c.X, c.Y - 1);
+                    return new Coordinate(left.X, left.Y - 1);
                 case Arrow.UpRight:
-                    return new Coordinate(c.X + 1, c.Y - 1);
+                    return new Coordinate(left.X + 1, left.Y - 1);
                 case Arrow.Right:
-                    return new Coordinate(c.X + 1, c.Y);
+                    return new Coordinate(left.X + 1, left.Y);
                 case Arrow.DownRight:
-                    return new Coordinate(c.X + 1, c.Y + 1);
+                    return new Coordinate(left.X + 1, left.Y + 1);
                 case Arrow.Down:
-                    return new Coordinate(c.X, c.Y + 1);
+                    return new Coordinate(left.X, left.Y + 1);
                 case Arrow.DownLeft:
-                    return new Coordinate(c.X - 1, c.Y + 1);
+                    return new Coordinate(left.X - 1, left.Y + 1);
                 case Arrow.Left:
-                    return new Coordinate(c.X - 1, c.Y);
+                    return new Coordinate(left.X - 1, left.Y);
                 case Arrow.UpLeft:
-                    return new Coordinate(c.X - 1, c.Y - 1);
+                    return new Coordinate(left.X - 1, left.Y - 1);
                 default:
-                    return new Coordinate(c.X, c.Y);
+                    return new Coordinate(left.X, left.Y);
             }
         }
 
         /// <summary>
+        /// すべての数値型と列挙型で "より小さい" 関係演算子 が定義されます。
+        /// </summary>
+        /// <param name="left">左辺値の座標</param>
+        /// <param name="right">右辺値の座標</param>
+        /// <returns></returns>
+        public static bool operator <(Coordinate left, Coordinate right) => (left.X < right.X) || (left.Y < right.Y);
+
+        /// <summary>
+        /// すべての数値型と列挙型で "より大きい" 関係演算子 が定義されます。
+        /// </summary>
+        /// <param name="left">左辺値の座標</param>
+        /// <param name="right">右辺値の座標</param>
+        /// <returns></returns>
+        public static bool operator >(Coordinate left, Coordinate right) => (left.X > right.X) || (left.Y > right.Y);
+
+        /// <summary>
         /// 座標が等しいか判定します。
         /// </summary>
-        /// <param name="c1">左辺値の座標</param>
-        /// <param name="c2">右辺値の座標</param>
+        /// <param name="left">左辺値の座標</param>
+        /// <param name="right">右辺値の座標</param>
         /// <returns></returns>
-        public static bool operator ==(Coordinate c1, Coordinate c2) => (c1.X == c2.X) && (c1.Y == c2.Y);
+        public static bool operator ==(Coordinate left, Coordinate right) => (left.X == right.X) && (left.Y == right.Y);
 
         /// <summary>
         /// 座標が等しくないか判定します
         /// </summary>
-        /// <param name="c1">左辺値の座標</param>
-        /// <param name="c2">右辺値の座標</param>
+        /// <param name="left">左辺値の座標</param>
+        /// <param name="right">右辺値の座標</param>
         /// <returns></returns>
-        public static bool operator !=(Coordinate c1, Coordinate c2) => (c1.X != c2.X) || (c1.Y != c2.Y);
+        public static bool operator !=(Coordinate left, Coordinate right) => (left.X != right.X) || (left.Y != right.Y);
 
         /// <summary>
         /// Coordinate を System.Drawing.Point に暗黙的に変換します。
@@ -127,5 +143,17 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode() => base.GetHashCode();
+
+        /// <summary>
+        /// このインスタンスと指定した Object とを比較し、並べ替え順序において、このインスタンスの位置が指定した Object の前、後ろ、または同じのいずれであるかを示します。
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public int CompareTo(Coordinate other)
+        {
+            if (this > other) return 1;
+            else if (this < other) return -1;
+            else return 0;
+        }        
     }
 }

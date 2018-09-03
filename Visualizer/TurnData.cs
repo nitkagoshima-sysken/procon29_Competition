@@ -5,7 +5,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// <summary>
     /// 1ターンのデータを表します
     /// </summary>
-    class TurnData
+    public class TurnData
     {
         /// <summary>
         /// フィールドを設定または取得します
@@ -21,6 +21,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// エージェントの行動データを設定または取得します
         /// </summary>
         internal AgentActivityDatas AgentActivityDatas { get; set; }
+        
+        /// <summary>
+        /// XML化するために宣言します
+        /// </summary>
+        public TurnData()
+        {
+            throw new System.NotImplementedException();
+        }
 
         /// <summary>
         /// 初期化します

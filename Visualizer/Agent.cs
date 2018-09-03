@@ -25,6 +25,11 @@
         /// </summary>
         public Coordinate Position { get; set; }
 
+        public Agent()
+        {
+            throw new System.NotImplementedException();
+        }
+
         /// <summary>
         /// AgentDataの初期化します。
         /// </summary>

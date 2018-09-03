@@ -120,7 +120,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="point">対称となるマス</param>
         /// <returns></returns>
         public Coordinate FlipHorizontalAndVertical(Coordinate point) => new Coordinate(Width - 1 - point.X, Height - 1 - point.Y);
-
+        
+        /// <summary>
+        /// XML化するために宣言します
+        /// </summary>
+        /// <param name="obj"></param>
+        public void Add(System.Object obj)
+        {
+            throw new System.NotImplementedException();
+        }
 
         /// <summary>
         /// 上下対称なら真、そうでなければ偽が返ってきます。

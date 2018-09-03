@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Linq;
 using nitkagoshima_sysken.Procon29.Visualizer;
 
@@ -9,6 +8,34 @@ namespace nitkagoshima_sysken
     {
         namespace TegetegeBot
         {
+            /* あなたが参照すべきサイト
+             * 
+             * ボットの作り方を知りたい場合は
+             * https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/How-to-talk-with-.dll
+             * 
+             * エージェントについて知りたい場合は
+             * https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/About-Agent
+             * 
+             * エージェントステータスコードについて知りたい場合は
+             * https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/About-Agent-Status-Code
+             * 
+             * Calcについて知りたい場合は
+             * https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/About-Calc
+             * 
+             * マスについて知りたい場合は
+             * https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/About-Cell
+             * 
+             * Coordinateについて知りたい場合は
+             * https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/About-Coordinate
+             * 
+             * フィールドについて知りたい場合は
+             * https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/About-Field
+             * 
+             * FieldにおけるLINQの有効的な使い方を知りたい場合は
+             * https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/How-to-use-LINQ
+             * 
+             */
+
             /// <summary>
             /// テスト用プログラム
             /// このボットは、
