@@ -1,4 +1,9 @@
-# Procon29 Visualizer 8.0
+# Procon29 Visualizer 8.1
+
+## What's new Version 8.1
+
+- 新たなる戦いで「PQRファイル」を読み込めるようになった
+- `Agents[Team]`で`List<Agent>`が返されるようになった（ボット開発者向け）
 
 ## What's new
 
@@ -21,9 +26,9 @@
 ## 操作方法
 
  1. クリックで対象のエージェントを選択しよう。
- 1. ダブルクリックで行きたい場所、またはタイルを取り除く場所を選択しよう。
- 1. キミが操作可能なすべてのエージェントに対して上の操作を繰り返す。
- 1. 最後にターンエンドを押す。
+ 2. ダブルクリックで行きたい場所、またはタイルを取り除く場所を選択しよう。
+ 3. キミが操作可能なすべてのエージェントに対して上の操作を繰り返す。
+ 4. 最後にターンエンドを押す。
 
 ## ショートカットキー一覧
 
@@ -132,9 +137,33 @@
 - 最大ターン数が設定できるようになった
 - ショートカットキーの機能が追加された
 
+#### Version 8.1
+
+- 新たなる戦いで「PQRファイル」を読み込めるようになった
+- `Agents[Team]`で`List<Agent>`が返されるようになった（ボット開発者向け）
+
 ## 君は開発者のフレンズなんだね！
 
+### ボット開発者のフレンズへ
+
+ボット開発の上で必要なページだよ！読んでおこう！  
+[Agent について](https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/About-Agent)  
+[Agent Activity Data について](https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/Agent-Activity-Data)  
+[Agent Status Code について](https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/About-Agent-Status-Code)  
+[Agents について](https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/About-Agents)  
+[Arrow について](https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/About-Arrow)  
+[Calc について](https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/About-Calc)  
+[Cell について](https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/About-Cell)  
+[Coordinate について](https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/About-Coordinate)  
+[Field について](https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/About-Field)  
+[Team について](https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/About-Team)  
+[Team Expansion について](https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/About-Team-Expansion)  
+[How to talk with .dll について](https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/How-to-talk-with-.dll)
+
+### QRコード解析ソフト開発者のフレンドへ
+
 [PQRファイルの形式について](https://github.com/nitkagoshima-sysken/procon29_Competition/wiki/About-.PQR-file)
+
 
 ## コードメトリックス
 

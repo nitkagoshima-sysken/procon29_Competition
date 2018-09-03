@@ -67,9 +67,9 @@
         {
             for (int x = 0; x < field.Width() / 2; x++)
             {
-                for (int y = 0; y < field.Height(); y++)
+                for (int y = 0; y < field.Height(); y++)    
                 {
-                    if (field[x, y].Point != field[(field.Height() - 1) - x, y].Point) return false;
+                    if (field[x, y].Point != field[(field.Width() - 1) - x, y].Point) return false;
                 }
             }
             return true;
