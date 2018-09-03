@@ -92,6 +92,7 @@
     <Compile Include="AgentStatusCode.cs" />
     <Compile Include="AgentStatusCodeExpansion.cs" />
     <Compile Include="Arrow.cs" />
+    <Compile Include="BaseCalc.cs" />
     <Compile Include="Calc.cs" />
     <Compile Include="Coordinate.cs" />
     <Compile Include="CreateNewForm.cs">
