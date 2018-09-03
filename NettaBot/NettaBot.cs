@@ -81,7 +81,7 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
 
         private AgentActivityData MoveOrRemoveTile(Coordinate coordinate)
         {
-            if (!(Calc.Field[coordinate].IsTileOn[Team]) && (Calc.Field[coordinate].IsTileOn[Team.A] || Calc.Field[coordinate].IsTileOn[Team.B]))
+            if (Calc.Field[coordinate].IsTileOn[Team.Opponent()])
             {
                 return new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, coordinate);
             }
