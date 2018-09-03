@@ -22,7 +22,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 yield return item;
             }
         }
-        
+
         /// <summary>
         /// Agentsを初期化します。
         /// </summary>
@@ -58,14 +58,18 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// エージェントを取得または設定します
+        /// エージェントたちを取得または設定します
         /// </summary>
         /// <param name="team">対象となる所属チーム</param>
         /// <returns></returns>
         public List<Agent> this[Team team]
         {
-            get {
-                return new List<Agent> { this[team, AgentNumber.One], this[team, AgentNumber.Two] };
+            get
+            {
+                return new List<Agent> {
+                    this[team, AgentNumber.One],
+                    this[team, AgentNumber.Two]
+                };
             }
         }
 
