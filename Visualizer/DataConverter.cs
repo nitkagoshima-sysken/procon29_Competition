@@ -6,7 +6,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// <summary>
     /// PQR形式のデータを表します。
     /// </summary>
-    struct PQRData
+    struct PqrData
     {
         /// <summary>
         /// フィールドの大きさを表します。
@@ -87,9 +87,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="str">変換する文字列</param>
         /// <returns></returns>
-        public static PQRData ToPQRData(string str)
+        public static PqrData ToPQRData(string str)
         {
-            PQRData pqr = new PQRData();
+            PqrData pqr = new PqrData();
 
             var list = new List<int>();
 
