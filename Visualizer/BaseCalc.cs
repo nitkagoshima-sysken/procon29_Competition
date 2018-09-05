@@ -568,7 +568,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         switch (item.AgentStatusData)
                         {
                             case AgentStatusCode.RequestMovement:
-                                item.AgentStatusData = AgentStatusCode.FailedInMovingByTryingToGoOutOfTheFieldWithEachOther;
+                                item.AgentStatusData = AgentStatusCode.FailedInMovingByTryingToGoOutOfTheField;
                                 continue;
                             case AgentStatusCode.RequestRemovementOurTile:
                                 item.AgentStatusData = AgentStatusCode.FailedInRemovingOurTileByTryingToGoOutOfTheField;
