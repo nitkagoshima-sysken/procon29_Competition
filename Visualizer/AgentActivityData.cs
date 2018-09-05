@@ -15,7 +15,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントが行動した結果の状態を設定または取得します
         /// </summary>
-        internal AgentStatusCode AgentStatusData { get; set; }
+        public AgentStatusCode AgentStatusData { get; set; }
 
         /// <summary>
         /// 初期化を行います

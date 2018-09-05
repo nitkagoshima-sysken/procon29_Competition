@@ -56,5 +56,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             set { Array[(int)team, (int)agent] = value; }
             get { return Array[(int)team, (int)agent]; }
         }
+
+        /// <summary>
+        /// XML化するために宣言します
+        /// </summary>
+        /// <param name="obj"></param>
+        public void Add(System.Object obj)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

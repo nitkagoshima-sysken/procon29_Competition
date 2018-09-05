@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     /// <summary>
-    /// procon29におけるフィールドの管理、ポイント計算などの全般を行います。
+    /// Calcの基底クラスです。XMLで管理する際に使用される予定です。
     /// </summary>
-    public class Calc
+    [System.Xml.Serialization.XmlInclude(typeof(Agent))]
+    [System.Xml.Serialization.XmlInclude(typeof(AgentActivityData))]
+    [Serializable]
+    public class BaseCalc
     {
         int maxTurn;
 
@@ -24,11 +29,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// ターンを設定または取得します。
         /// </summary>
-        public int Turn { get; private set; }
+        public int Turn { get; set; }
 
-        /// <summary> 
-        /// ターンの終わりを設定または取得します。 
-        /// </summary> 
+        /// <summary>
+        /// ターンの終わりを設定または取得します。
+        /// </summary>
         public int MaxTurn
         {
             get => maxTurn;
@@ -38,21 +43,22 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// フィールドの歴史を設定または取得します。
         /// </summary>
-        public List<TurnData> FieldHistory { get; private set; } = new List<TurnData>();
+        public List<TurnData> FieldHistory { get; set; } = new List<TurnData>();
 
-        /// <summary> 
-        /// エージェントの略称を返します。 
-        /// </summary> 
+        /// <summary>
+        /// エージェントの略称を返します。
+        /// </summary>
         public static string[,] ShortTeamAgentName => new string[2, 2] { { "Strawberry", "Apple", }, { "Kiwi", "Muscat", }, };
 
-        /// <summary> 
-        /// Team列挙体のすべての要素を配列にします 
-        /// </summary> 
+
+        /// <summary>
+        /// Team列挙体のすべての要素を配列にします
+        /// </summary>
         public static Array TeamArray => Enum.GetValues(typeof(Team));
 
-        /// <summary> 
-        /// Agent列挙体のすべての要素を配列にします 
-        /// </summary> 
+        /// <summary>
+        /// Agent列挙体のすべての要素を配列にします
+        /// </summary>
         public static Array AgentArray => Enum.GetValues(typeof(AgentNumber));
 
         /// <summary>
@@ -65,23 +71,32 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
+        /// BaseCalcを初期化をします。
+        /// </summary>
+        public BaseCalc()
+        {
+
+        }
+
+        /// <summary>
         /// Calcを初期化します。
         /// </summary>
         /// <param name="calc"></param>
-        public Calc(BaseCalc calc)
+        public BaseCalc(Calc calc)
         {
             MaxTurn = calc.MaxTurn;
             Turn = calc.Turn;
             FieldHistory = calc.FieldHistory;
         }
 
+
         /// <summary>
-        /// Calcを初期化します。
+        /// BaseCalcを初期化します。
         /// </summary>
         /// <param name="maxTurn">最大ターン数を設定します。</param>
         /// <param name="point">フィールドのポイントを設定します。</param>
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public Calc(int maxTurn, int[,] point, Coordinate[] initPosition)
+        public BaseCalc(int maxTurn, int[,] point, Coordinate[] initPosition)
         {
             MaxTurn = maxTurn;
             // Turn -> 0
@@ -102,12 +117,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// Calcを初期化します。
+        /// BaseCalcを初期化します。
         /// </summary>
         /// <param name="maxTurn">最大ターン数を設定します。</param>
         /// <param name="field">フィールドのポイントを設定します。</param>
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public Calc(int maxTurn, Field field, Coordinate[] initPosition)
+        public BaseCalc(int maxTurn, Field field, Coordinate[] initPosition)
         {
             MaxTurn = maxTurn;
             // Turn -> 0
@@ -163,9 +178,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
-        /// <summary> 
-        /// フィールドのリストを返します。 
-        /// </summary> 
+
+        /// <summary>
+        /// フィールドのリストを返します。
+        /// </summary>
         [Obsolete("わざわざFieldListを使わなくてもFieldでリストのように扱えるようになりました")]
         public List<Cell> FieldList
         {
@@ -182,42 +198,42 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         public int CalcPoint(Func<Cell, bool> func) => FieldList.Sum(x => (func(x)) ? x.Point : 0);
 
-        /// <summary> 
-        /// すべてのフィールドのポイントの和を計算します。 
-        /// </summary> 
-        /// <returns>すべてのフィールドのポイントの和</returns> 
+        /// <summary>
+        /// すべてのフィールドのポイントの和を計算します。
+        /// </summary>
+        /// <returns>すべてのフィールドのポイントの和</returns>
         public int Sum() => FieldList.Sum(x => x.Point);
 
-        /// <summary> 
-        /// すべてのフィールドのポイントの絶対値の和を計算します。 
-        /// </summary> 
-        /// <returns>すべてのフィールドのポイントの絶対値の和</returns> 
+        /// <summary>
+        /// すべてのフィールドのポイントの絶対値の和を計算します。
+        /// </summary>
+        /// <returns>すべてのフィールドのポイントの絶対値の和</returns>
         public int SumAbs() => FieldList.Sum(x => ((x.Point > 0) ? x.Point : -x.Point));
 
-        /// <summary> 
-        /// 指定したチームの直接的なエリアのポイントの合計を計算します。 
-        /// </summary> 
-        /// <param name="team">計算するチーム</param> 
-        /// <returns>指定したチームの直接的なエリアのポイントの合計</returns> 
+        /// <summary>
+        /// 指定したチームの直接的なエリアのポイントの合計を計算します。
+        /// </summary>
+        /// <param name="team">計算するチーム</param>
+        /// <returns>指定したチームの直接的なエリアのポイントの合計</returns>
         public int AreaPoint(Team team) => FieldList.Sum(x => ((x.IsTileOn[team] == true) ? x.Point : 0));
 
-        /// <summary> 
-        /// 指定したチームが囲んだエリアのポイントの絶対値の合計を計算します。 
-        /// </summary> 
-        /// <param name="team">計算するチーム</param> 
-        /// <returns>指定したチームが囲んだエリアのポイントの絶対値の合計</returns> 
+        /// <summary>
+        /// 指定したチームが囲んだエリアのポイントの絶対値の合計を計算します。
+        /// </summary>
+        /// <param name="team">計算するチーム</param>
+        /// <returns>指定したチームが囲んだエリアのポイントの絶対値の合計</returns>
         public int EnclosedPoint(Team team) => FieldList.Sum(x => ((x.IsEnclosed[team] == true) ? Math.Abs(x.Point) : 0));
 
-        /// <summary> 
-        /// 指定したチームの合計ポイントを計算します。 
-        /// </summary> 
-        /// <param name="team">計算するチーム</param> 
-        /// <returns>指定したチームの合計ポイント</returns> 
+        /// <summary>
+        /// 指定したチームの合計ポイントを計算します。
+        /// </summary>
+        /// <param name="team">計算するチーム</param>
+        /// <returns>指定したチームの合計ポイント</returns>
         public int TotalPoint(Team team) => AreaPoint(team) + EnclosedPoint(team);
 
-        /// <summary> 
-        /// マップが対称であるか規定内の大きさか判定します。 
-        /// </summary> 
+        /// <summary>
+        /// マップが対称であるか規定内の大きさか判定します。
+        /// </summary>
         public void PointMapCheck()
         {
             if (Field.Width > 12 || Field.Height > 12) throw new IndexOutOfRangeException();
@@ -314,20 +330,20 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
-        /// <summary> 
-        /// 対象となるマスに対象となるエージェントがいるか、またはムーア近傍にいるかを判定します 
-        /// </summary> 
-        /// <param name="team">対象となるチーム</param> 
-        /// <param name="agentNumber">対象となるエージェント</param> 
-        /// <param name="point">対象となるマス</param> 
-        /// <returns>対象となるマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns> 
+        /// <summary>
+        /// 対象となるマスに対象となるエージェントがいるか、またはムーア近傍にいるかを判定します
+        /// </summary>
+        /// <param name="team">対象となるチーム</param>
+        /// <param name="agentNumber">対象となるエージェント</param>
+        /// <param name="point">対象となるマス</param>
+        /// <returns>対象となるマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
         public bool IsAgentHereOrInMooreNeighborhood(Team team, AgentNumber agentNumber, Coordinate point) => (Agents[team, agentNumber].Position.ChebyshevDistance(point) <= 1) ? true : false;
 
-        /// <summary> 
-        /// 対象となるマスにエージェントがいるか、またはムーア近傍にいるかを判定します 
-        /// </summary> 
-        /// <param name="point">対象となるマス</param> 
-        /// <returns>そのマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns> 
+        /// <summary>
+        /// 対象となるマスにエージェントがいるか、またはムーア近傍にいるかを判定します
+        /// </summary>
+        /// <param name="point">対象となるマス</param>
+        /// <returns>そのマスにエージェントがいるか、またはムーア近傍にいたら真、そうでなければ偽</returns>
         public bool IsAgentHereOrInMooreNeighborhood(Coordinate point)
         {
             foreach (Agent agent in Agents)
@@ -336,11 +352,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             return false;
         }
 
-        /// <summary> 
-        /// 対象となるマスに一人だけ、エージェントがいるか、またはムーア近傍にいるかを判定します 
-        /// </summary> 
-        /// <param name="point">対象になるマス</param> 
-        /// <returns></returns> 
+        /// <summary>
+        /// 対象となるマスに一人だけ、エージェントがいるか、またはムーア近傍にいるかを判定します
+        /// </summary>
+        /// <param name="point">対象になるマス</param>
+        /// <returns></returns>
         public bool IsOneAgentHereOrInMooreNeighborhood(Coordinate point)
         {
             var result = false;
@@ -353,11 +369,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             return true;
         }
 
-        /// <summary> 
-        /// 対象になるマスにエージェントがいるか判定します。 
-        /// </summary> 
-        /// <param name="point">対象になるマス</param> 
-        /// <returns></returns> 
+        /// <summary>
+        /// 対象になるマスにエージェントがいるか判定します。
+        /// </summary>
+        /// <param name="point">対象になるマス</param>
+        /// <returns></returns>
         public bool IsAgentHere(Coordinate point)
         {
             foreach (Agent agent in Agents)
@@ -366,11 +382,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             return false;
         }
 
-        /// <summary> 
-        /// 対象になるマスのムーア近傍にエージェントがいるか判定します。 
-        /// </summary> 
-        /// <param name="point">対象になるマス</param> 
-        /// <returns></returns> 
+        /// <summary>
+        /// 対象になるマスのムーア近傍にエージェントがいるか判定します。
+        /// </summary>
+        /// <param name="point">対象になるマス</param>
+        /// <returns></returns>
         public bool IsAgentInMooreNeighborhood(Coordinate point)
         {
             foreach (Agent agent in Agents)
@@ -379,11 +395,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             return false;
         }
 
-        /// <summary> 
-        /// 対象になるマスのムーア近傍に一人だけエージェントがいるか判定します。 
-        /// </summary> 
-        /// <param name="point">対象になるマス</param> 
-        /// <returns></returns> 
+        /// <summary>
+        /// 対象になるマスのムーア近傍に一人だけエージェントがいるか判定します。
+        /// </summary>
+        /// <param name="point">対象になるマス</param>
+        /// <returns></returns>
         public bool IsOneAgentInMooreNeighborhood(Coordinate point)
         {
             var result = false;
@@ -396,14 +412,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             return true;
         }
 
-        /// <summary> 
-        /// ターンエンドします。 
-        /// </summary> 
+        /// <summary>
+        /// ターンエンドします。
+        /// </summary>
         public void TurnEnd()
         {
             if (Turn < MaxTurn)
             {
-                // TurnData作成 
+                // TurnData作成
                 var a = new Agents();
                 for (Team team = 0; (int)team < TeamArray.Length; team++)
                 {
@@ -417,35 +433,35 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
-        /// <summary> 
-        /// ターンを元に戻します 
-        /// </summary> 
+        /// <summary>
+        /// ターンを元に戻します
+        /// </summary>
         public void Undo()
         {
             if (Turn == 1) return;
             Turn--;
         }
 
-        /// <summary> 
-        /// ターンをやり直します 
-        /// </summary> 
+        /// <summary>
+        /// ターンをやり直します
+        /// </summary>
         public void Redo()
         {
             if (Turn == FieldHistory.Count - 1) return;
             Turn++;
         }
 
-        /// <summary> 
-        /// 自分のフィールドにタイルを置きます。 
-        /// </summary> 
-        /// <param name="team">対象となるチーム</param> 
-        /// <param name="agent">対象となるエージェント</param> 
+        /// <summary>
+        /// 自分のフィールドにタイルを置きます。
+        /// </summary>
+        /// <param name="team">対象となるチーム</param>
+        /// <param name="agent">対象となるエージェント</param>
         public void PutTile(Team team, AgentNumber agent) => Field[Agents[team, agent].Position].IsTileOn[team] = true;
 
-        /// <summary> 
-        /// フィールドに置いてあるタイルを剥がします。 
-        /// </summary> 
-        /// <param name="point">対象となるエージェント</param> 
+        /// <summary>
+        /// フィールドに置いてあるタイルを剥がします。
+        /// </summary>
+        /// <param name="point">対象となるエージェント</param>
         public void RemoveTile(Coordinate point)
         {
             foreach (Team team in Enum.GetValues(typeof(Team)))
@@ -454,12 +470,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
-        /// <summary> 
-        /// 指定したところにエージェントが移動します。 
-        /// </summary> 
-        /// <param name="team">移動するチーム</param> 
-        /// <param name="agent">移動するエージェント</param> 
-        /// <param name="where">移動する場所</param> 
+        /// <summary>
+        /// 指定したところにエージェントが移動します。
+        /// </summary>
+        /// <param name="team">移動するチーム</param>
+        /// <param name="agent">移動するエージェント</param>
+        /// <param name="where">移動する場所</param>
         public void MoveAgent(Team team, AgentNumber agent, Coordinate where)
         {
 
@@ -671,27 +687,27 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
-        /// <summary> 
-        /// 指定したところにエージェントが移動します。 
-        /// </summary> 
-        /// <param name="agentActivityData"></param> 
+        /// <summary>
+        /// 指定したところにエージェントが移動します。
+        /// </summary>
+        /// <param name="agentActivityData"></param>
         public void MoveAgent(AgentActivityData[,] agentActivityData)
         {
             if (Turn < MaxTurn)
             {
-                // Undoしたときに 
-                // FieldHistory.Count != Turn 
-                // になる 
-                // TurnEndしたときにやり直す前の未来を消す 
+                // Undoしたときに
+                // FieldHistory.Count != Turn
+                // になる
+                // TurnEndしたときにやり直す前の未来を消す
                 if (FieldHistory.Count - 1 != Turn)
                     FieldHistory.RemoveRange(Turn + 1, FieldHistory.Count - 1 - Turn);
 
-                // 不正な動きをしていないかチェック 
+                // 不正な動きをしていないかチェック
                 CheckAgentActivityData(agentActivityData);
 
-                // ターンエンドの処理 
+                // ターンエンドの処理
                 TurnEnd();
-                // ログを取る 
+                // ログを取る
                 FieldHistory[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One].AgentStatusData = agentActivityData[0, 0].AgentStatusData;
                 FieldHistory[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.Two].AgentStatusData = agentActivityData[0, 1].AgentStatusData;
                 FieldHistory[Turn - 1].AgentActivityDatas[Team.B, AgentNumber.One].AgentStatusData = agentActivityData[1, 0].AgentStatusData;
@@ -723,11 +739,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
-        /// <summary> 
-        /// 指定したところにエージェントが移動します。 
-        /// </summary> 
-        /// <param name="team">移動させるチーム</param> 
-        /// <param name="agentActivityData"></param> 
+        /// <summary>
+        /// 指定したところにエージェントが移動します。
+        /// </summary>
+        /// <param name="team">移動させるチーム</param>
+        /// <param name="agentActivityData"></param>
         public void MoveAgent(Team team, AgentActivityData[] agentActivityData)
         {
             var agentActivityDatas = new AgentActivityData[2, 2];
@@ -749,12 +765,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             MoveAgent(agentActivityDatas);
         }
 
-        /// <summary> 
-        /// 指定したところにエージェントが移動します。 
-        /// </summary> 
-        /// <param name="team">移動させるチーム</param> 
-        /// <param name="agent">移動させるエージェント</param> 
-        /// <param name="agentActivityData"></param> 
+        /// <summary>
+        /// 指定したところにエージェントが移動します。
+        /// </summary>
+        /// <param name="team">移動させるチーム</param>
+        /// <param name="agent">移動させるエージェント</param>
+        /// <param name="agentActivityData"></param>
         public void MoveAgent(Team team, AgentNumber agent, AgentActivityData agentActivityData)
         {
             var agentActivityDatas = new AgentActivityData[2, 2];

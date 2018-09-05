@@ -20,7 +20,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントの行動データを設定または取得します
         /// </summary>
-        internal AgentActivityDatas AgentActivityDatas { get; set; }
+        public AgentActivityDatas AgentActivityDatas { get; set; }
         
         /// <summary>
         /// XML化するために宣言します
