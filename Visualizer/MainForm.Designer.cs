@@ -1,37 +1,33 @@
-﻿namespace nitkagoshima_sysken
+﻿namespace nitkagoshima_sysken.Procon29.Visualizer
 {
-    namespace Procon29
+    partial class MainForm
     {
-        namespace Visualizer
+        /// <summary>
+        /// 必要なデザイナー変数です。
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// 使用中のリソースをすべてクリーンアップします。
+        /// </summary>
+        /// <param name="disposing">マネージ リソースを破棄する場合は true を指定し、その他の場合は false を指定します。</param>
+        protected override void Dispose(bool disposing)
         {
-            partial class MainForm
+            if (disposing && (components != null))
             {
-                /// <summary>
-                /// 必要なデザイナー変数です。
-                /// </summary>
-                private System.ComponentModel.IContainer components = null;
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-                /// <summary>
-                /// 使用中のリソースをすべてクリーンアップします。
-                /// </summary>
-                /// <param name="disposing">マネージ リソースを破棄する場合は true を指定し、その他の場合は false を指定します。</param>
-                protected override void Dispose(bool disposing)
-                {
-                    if (disposing && (components != null))
-                    {
-                        components.Dispose();
-                    }
-                    base.Dispose(disposing);
-                }
+        #region Windows フォーム デザイナーで生成されたコード
 
-                #region Windows フォーム デザイナーで生成されたコード
-
-                /// <summary>
-                /// デザイナー サポートに必要なメソッドです。このメソッドの内容を
-                /// コード エディターで変更しないでください。
-                /// </summary>
-                private void InitializeComponent()
-                {
+        /// <summary>
+        /// デザイナー サポートに必要なメソッドです。このメソッドの内容を
+        /// コード エディターで変更しないでください。
+        /// </summary>
+        private void InitializeComponent()
+        {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.FieldDisplay = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -59,8 +55,8 @@
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
@@ -76,8 +72,8 @@
             // 
             // FieldDisplay
             // 
-            this.FieldDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.FieldDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.FieldDisplay.Location = new System.Drawing.Point(4, 4);
             this.FieldDisplay.Margin = new System.Windows.Forms.Padding(4);
@@ -90,8 +86,8 @@
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -118,8 +114,8 @@
             // 
             // messageBox
             // 
-            this.messageBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.messageBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.messageBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.messageBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -135,8 +131,8 @@
             // 
             // TurnEndButton
             // 
-            this.TurnEndButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.TurnEndButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TurnEndButton.BackColor = System.Drawing.Color.RoyalBlue;
             this.TurnEndButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -258,6 +254,7 @@
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MinimumSize = new System.Drawing.Size(800, 500);
             this.Name = "MainForm";
             this.Opacity = 0.95D;
             this.Text = "Procon29 Visualizar";
@@ -272,28 +269,26 @@
             this.ResumeLayout(false);
             this.PerformLayout();
 
-                }
-
-                #endregion
-
-                private System.Windows.Forms.PictureBox FieldDisplay;
-                private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-                private System.Windows.Forms.RichTextBox messageBox;
-                private System.Windows.Forms.PictureBox pictureBox2;
-                private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-                private System.Windows.Forms.MenuStrip menuStrip1;
-                private System.Windows.Forms.ToolStripMenuItem FileToolStripMenuItem;
-                private System.Windows.Forms.ToolStripMenuItem EditToolStripMenuItem;
-                private System.Windows.Forms.ToolStripMenuItem ViewToolStripMenuItem;
-                private System.Windows.Forms.ToolStripMenuItem OpenToolStripMenuItem;
-                private System.Windows.Forms.StatusStrip statusStrip1;
-                private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-                private System.Windows.Forms.ToolStripMenuItem CreateNewToolStripMenuItem;
-                private System.Windows.Forms.Button TurnEndButton;
-                private System.Windows.Forms.ToolStripMenuItem UndoToolStripMenuItem;
-                private System.Windows.Forms.ToolStripMenuItem RedoToolStripMenuItem;
-                private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
-            }
         }
+
+        #endregion
+
+        private System.Windows.Forms.PictureBox FieldDisplay;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.RichTextBox messageBox;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem FileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem EditToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ViewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem OpenToolStripMenuItem;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripMenuItem CreateNewToolStripMenuItem;
+        private System.Windows.Forms.Button TurnEndButton;
+        private System.Windows.Forms.ToolStripMenuItem UndoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem RedoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
     }
 }
