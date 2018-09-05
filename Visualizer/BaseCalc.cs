@@ -10,6 +10,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// Calcの基底クラスです。XMLで管理する際に使用される予定です。
     /// </summary>
     [System.Xml.Serialization.XmlInclude(typeof(Agent))]
+    [System.Xml.Serialization.XmlInclude(typeof(AgentActivityData))]
     [Serializable]
     public class BaseCalc
     {
