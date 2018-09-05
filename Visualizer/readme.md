@@ -1,27 +1,11 @@
-# Procon29 Visualizer 8.1
-
-## What's new Version 8.1
-
-- 新たなる戦いで「PQRファイル」を読み込めるようになった
-- `Agents[Team]`で`List<Agent>`が返されるようになった（ボット開発者向け）
+# Procon29 Visualizer 9.0
 
 ## What's new
 
-### ボット製作者に優しいVisualizerになった
-
-でも、Visualizer開発者には厳しいVisualizerになった
-
-### 最大ターン数が設定できるようになった
-
-それはやがて終わるから
-
-### Hey, guys! Do you love `Ctrl`? ;)
-
-`Ctrl`使いの皆さん、朗報です。  
-`Ctrl`+`Z`で「元に戻す」  
-`Ctrl`+`Y`で「やり直す」  
-ができるようになりました。  
-これでキミも`Ctrl`炸裂だ！！
+- 試合が終了するとログとして出力される`log.xml`の内容が変更された。
+- `AgentActivityData.AgentStatusData`のアクセシビリティを`internal`から`public`に変更した。（開発者向け）
+- `TurnData.AgentActivityDatas` のアクセシビリティを`internal`から`public`に変更した。（開発者向け）
+- `AgentStatusCode.FailedInMovingByTryingToGoOutOfTheFieldWithEachOther`を`AgentStatusCode.FailedInMovingByTryingToGoOutOfTheField`に変更した。（開発者向け）
 
 ## 操作方法
 
@@ -140,7 +124,18 @@
 #### Version 8.1
 
 - 新たなる戦いで「PQRファイル」を読み込めるようになった
-- `Agents[Team]`で`List<Agent>`が返されるようになった（ボット開発者向け）
+- `Agents[Team]`で`List<Agent>`が返されるようになった（開発者向け）
+
+#### Version 8.2
+
+- 新たなる戦いで「PQRファイル」を読み込まないと例外が投げられるバグを修正
+
+### Version 9.0
+
+- 試合が終了するとログとして出力される`log.xml`の内容が変更された。
+- `AgentActivityData.AgentStatusData`のアクセシビリティを`internal`から`public`に変更した。（開発者向け）
+- `TurnData.AgentActivityDatas` のアクセシビリティを`internal`から`public`に変更した。（開発者向け）
+- `AgentStatusCode.FailedInMovingByTryingToGoOutOfTheFieldWithEachOther`を`AgentStatusCode.FailedInMovingByTryingToGoOutOfTheField`に変更した。（開発者向け）
 
 ## 君は開発者のフレンズなんだね！
 
