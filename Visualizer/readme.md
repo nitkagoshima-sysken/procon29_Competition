@@ -1,4 +1,8 @@
-# Procon29 Visualizer 9.0
+# Procon29 Visualizer 9.1
+
+## What's new Version 9.1
+
+- XMLシリアル化のバグを修正
 
 ## What's new
 
@@ -136,6 +140,10 @@
 - `AgentActivityData.AgentStatusData`のアクセシビリティを`internal`から`public`に変更した。（開発者向け）
 - `TurnData.AgentActivityDatas` のアクセシビリティを`internal`から`public`に変更した。（開発者向け）
 - `AgentStatusCode.FailedInMovingByTryingToGoOutOfTheFieldWithEachOther`を`AgentStatusCode.FailedInMovingByTryingToGoOutOfTheField`に変更した。（開発者向け）
+
+#### Version 9.1
+
+- XMLシリアル化のバグを修正
 
 ## 君は開発者のフレンズなんだね！
 

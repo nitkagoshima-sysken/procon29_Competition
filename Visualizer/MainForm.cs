@@ -43,7 +43,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             this.Resize += new System.EventHandler(this.MainForm_Resize);
 
             log = new Logger(messageBox);
-            log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 9.0)");
+            log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 9.1)");
 
             // PQRファイルを直接読み込む
             // ちなみにQR_code_sample.pdfで登場したQRコード
