@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
-    public class AgentActivityDatas : IEnumerable
+    /// <summary>
+    /// エージェントたちの行動データを表します
+    /// </summary>
+    public class AgentsActivityData : IEnumerable<AgentActivityData>
     {
         AgentActivityData[,] Array { get; set; } = new AgentActivityData[Enum.GetValues(typeof(Team)).Length, Enum.GetValues(typeof(AgentNumber)).Length];
 
@@ -15,9 +18,33 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// 列挙します。
         /// </summary>
         /// <returns>列挙されたエージェント</returns>
-        public IEnumerator GetEnumerator()
+        public IEnumerator<AgentActivityData> GetEnumerator()
         {
-            foreach (var item in Array)
+            foreach (AgentActivityData item in Array)
+            {
+                yield return item;
+            }
+        }
+
+        /// <summary>
+        /// 列挙します
+        /// </summary>
+        /// <returns>列挙されたセル</returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            foreach (AgentActivityData item in Array)
+            {
+                yield return item;
+            }
+        }
+
+        /// <summary>
+        /// 列挙します
+        /// </summary>
+        /// <returns>列挙されたセル</returns>
+        IEnumerator<AgentActivityData> IEnumerable<AgentActivityData>.GetEnumerator()
+        {
+            foreach (AgentActivityData item in Array)
             {
                 yield return item;
             }
@@ -26,7 +53,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// AgentActivityDatas を初期化します。
         /// </summary>
-        public AgentActivityDatas()
+        public AgentsActivityData()
         {
             Array[0, 0] = new AgentActivityData();
             Array[0, 1] = new AgentActivityData();
@@ -37,7 +64,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// AgentActivityDatas を初期化します。
         /// </summary>
-        public AgentActivityDatas(AgentActivityDatas agentActivityDatas)
+        public AgentsActivityData(AgentsActivityData agentActivityDatas)
         {
             Array[0, 0] = new AgentActivityData(agentActivityDatas[Team.A, AgentNumber.One]);
             Array[0, 1] = new AgentActivityData(agentActivityDatas[Team.A, AgentNumber.Two]);
