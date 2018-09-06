@@ -1,8 +1,8 @@
-# Procon29 Bot 2.8.0
+# Procon29 Bot 3.10.0
 
-## What's new (ver. 2.8.0)
+## What's new (ver. 3.10.0)
 
-### Visualier 8.0 に対応した
+### Visualier 10.0 に対応した
 
 ## What's new
 
@@ -24,3 +24,7 @@
 ### ver. 2.8.0
 
 - Visualier 8.0 に対応した
+
+### ver. 3.10.0
+
+- Visualier 10.0 に対応した
