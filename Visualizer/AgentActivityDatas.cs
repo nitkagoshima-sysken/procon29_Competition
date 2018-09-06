@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
+    /// <summary>
+    /// エージェントたちの行動データを表します
+    /// </summary>
     public class AgentActivityDatas : IEnumerable<AgentActivityData>
     {
         AgentActivityData[,] Array { get; set; } = new AgentActivityData[Enum.GetValues(typeof(Team)).Length, Enum.GetValues(typeof(AgentNumber)).Length];
