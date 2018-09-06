@@ -1,24 +1,20 @@
-# Procon29 Visualizer 9.3
-
-## What's new Version 9.3
-
-- `TurnDataExpansion.cs`の`CheckCollision`関数の引数が`AgentActivityData[,]`から`AgentActivityDatas`に変更された（開発者向け）
-
-## What's new Version 9.2
-
-- `Calc.cs`の`CheckAgentActivityData`関数の584行目の`AgentStatusCode.FailedInMovingByTryingItWithoutRemovingTheOpponentTile`の判定がおかしかったので修正（開発者向け）
-- `TeamExpansion.cs`の`Opponent`関数の返り値が間違っていたので修正（開発者向け）
-
-## What's new Version 9.1
-
-- XMLシリアル化のバグを修正
+# Procon29 Visualizer 10.0
 
 ## What's new
 
-- 試合が終了するとログとして出力される`log.xml`の内容が変更された。
-- `AgentActivityData.AgentStatusData`のアクセシビリティを`internal`から`public`に変更した。（開発者向け）
-- `TurnData.AgentActivityDatas` のアクセシビリティを`internal`から`public`に変更した。（開発者向け）
-- `AgentStatusCode.FailedInMovingByTryingToGoOutOfTheFieldWithEachOther`を`AgentStatusCode.FailedInMovingByTryingToGoOutOfTheField`に変更した。（開発者向け）
+### Visualizerのウインドウを小さくしすぎると例外を吐いてしまうバグがいつのまにか修正された
+
+Version 9.0より前のVisualizerでは高さと幅を0にすると、例外が発生して、プログラムが異常終了するバグが既に知られていましたが、放ったらかしにしていました。誰も文句を入れないかわいいバグだったし、そもそも誰もこのバグの存在に気付いてないようだったし、その気になればいつでも直せるバグだったので、放ったらかしにしていました。しかし、9月になったので、流石に直しました。具体的に言うと、800×500よりVisualizerのウインドウが小さくならないようにすることによって、そのバグが発生しないようにしました。
+
+### 名前が`AgentActivityDatas`から`AgentsActivityData`に変更された（開発者向け）
+
+Dataは既に複数形だからおかしいよねって話
+
+### `AgentsActivityData`を列挙するとき、`var`で`AgentActivityData`を型推論してくれるように修正した（開発者向け）
+
+### `Agents`を列挙するとき、`var`で`Agent`を型推論してくれるように修正した（開発者向け）
+
+地味に`var`使えないのは使いづらいので、修正した。
 
 ## 操作方法
 
@@ -162,6 +158,13 @@
 #### Version 9.3
 
 - `TurnDataExpansion.cs`の`CheckCollision`関数の引数が`AgentActivityData[,]`から`AgentActivityDatas`に変更された（開発者向け）
+
+### Version 10.0
+
+- Visualizerのウインドウを小さくしすぎると例外を吐いてしまうバグがいつのまにか修正された
+- 名前が`AgentActivityDatas`から`AgentsActivityData`に変更された（開発者向け）
+- `AgentsActivityData`を列挙するとき、`var`で`AgentActivityData`を型推論してくれるように修正した（開発者向け）
+- `Agents`を列挙するとき、`var`で`Agent`を型推論してくれるように修正した（開発者向け）
 
 ## 君は開発者のフレンズなんだね！
 
