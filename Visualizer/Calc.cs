@@ -666,7 +666,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 }
             }
             // 全チェック後に残ったリクエストは、成功したとみなす(3)
-            foreach (AgentActivityData item in agentActivityData)
+            foreach (var item in agentActivityData)
             {
                 item.ToSuccess();
             }
