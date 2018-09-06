@@ -1,4 +1,13 @@
-# Procon29 Visualizer 9.1
+# Procon29 Visualizer 9.3
+
+## What's new Version 9.3
+
+- `TurnDataExpansion.cs`の`CheckCollision`関数の引数が`AgentActivityData[,]`から`AgentActivityDatas`に変更された（開発者向け）
+
+## What's new Version 9.2
+
+- `Calc.cs`の`CheckAgentActivityData`関数の584行目の`AgentStatusCode.FailedInMovingByTryingItWithoutRemovingTheOpponentTile`の判定がおかしかったので修正（開発者向け）
+- `TeamExpansion.cs`の`Opponent`関数の返り値が間違っていたので修正（開発者向け）
 
 ## What's new Version 9.1
 
@@ -144,6 +153,15 @@
 #### Version 9.1
 
 - XMLシリアル化のバグを修正
+
+#### Version 9.2
+
+- `Calc.cs`の`CheckAgentActivityData`関数の584行目の`AgentStatusCode.FailedInMovingByTryingItWithoutRemovingTheOpponentTile`の判定がおかしかったので修正（開発者向け）
+- `TeamExpansion.cs`の`Opponent`関数の返り値が間違っていたので修正（開発者向け）
+
+#### Version 9.3
+
+- `TurnDataExpansion.cs`の`CheckCollision`関数の引数が`AgentActivityData[,]`から`AgentActivityDatas`に変更された（開発者向け）
 
 ## 君は開発者のフレンズなんだね！
 
