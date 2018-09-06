@@ -568,13 +568,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // FailedInRemovingOurTileByDoingTileNotExist
                     // FailedInRemovingOpponentTileByDoingTileNotExist
                     if (item.AgentStatusData == AgentStatusCode.RequestRemovementOurTile &&
-                        Field[item.Destination.X, item.Destination.Y].IsTileOn[(team == 0) ? Team.A : Team.B] == false)
+                        Field[item.Destination.X, item.Destination.Y].IsTileOn[team] == false)
                     {
                         item.AgentStatusData = AgentStatusCode.FailedInRemovingOurTileByDoingTileNotExist;
                         continue;
                     }
                     if (item.AgentStatusData == AgentStatusCode.RequestRemovementOpponentTile &&
-                        Field[item.Destination.X, item.Destination.Y].IsTileOn[(team == 0) ? Team.B : Team.A] == false)
+                        Field[item.Destination.X, item.Destination.Y].IsTileOn[team.Opponent()] == false)
                     {
                         item.AgentStatusData = AgentStatusCode.FailedInRemovingOpponentTileByDoingTileNotExist;
                         continue;
@@ -582,7 +582,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // 移動先に相手のタイルが置いてないかチェック(1)
                     // FailedInMovingByTryingItWithoutRemovingTheOpponentTile
                     if (item.AgentStatusData == AgentStatusCode.RequestMovement &&
-                        Field[item.Destination].IsTileOn[(team == (int)Team.A) ? Team.B : Team.A])
+                        Field[item.Destination].IsTileOn[team.Opponent()])
                     {
                         item.AgentStatusData = AgentStatusCode.FailedInMovingByTryingItWithoutRemovingTheOpponentTile;
                         continue;
