@@ -10,7 +10,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// <summary>
     /// エージェントたちの行動データを表します
     /// </summary>
-    public class AgentActivityDatas : IEnumerable<AgentActivityData>
+    public class AgentsActivityData : IEnumerable<AgentActivityData>
     {
         AgentActivityData[,] Array { get; set; } = new AgentActivityData[Enum.GetValues(typeof(Team)).Length, Enum.GetValues(typeof(AgentNumber)).Length];
 
@@ -53,7 +53,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// AgentActivityDatas を初期化します。
         /// </summary>
-        public AgentActivityDatas()
+        public AgentsActivityData()
         {
             Array[0, 0] = new AgentActivityData();
             Array[0, 1] = new AgentActivityData();
@@ -64,7 +64,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// AgentActivityDatas を初期化します。
         /// </summary>
-        public AgentActivityDatas(AgentActivityDatas agentActivityDatas)
+        public AgentsActivityData(AgentsActivityData agentActivityDatas)
         {
             Array[0, 0] = new AgentActivityData(agentActivityDatas[Team.A, AgentNumber.One]);
             Array[0, 1] = new AgentActivityData(agentActivityDatas[Team.A, AgentNumber.Two]);

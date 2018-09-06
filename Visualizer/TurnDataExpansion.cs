@@ -107,7 +107,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
-        public static void CheckCollision(this AgentActivityDatas agentActivityData)
+        public static void CheckCollision(this AgentsActivityData agentActivityData)
         {
             foreach (Team team in Enum.GetValues(typeof(Team)))
             {

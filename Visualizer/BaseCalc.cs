@@ -508,7 +508,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
-        void CheckAgentActivityData(AgentActivityDatas agentActivityData)
+        void CheckAgentActivityData(AgentsActivityData agentActivityData)
         {
             foreach (Team team in TeamArray)
             {
@@ -692,7 +692,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// 指定したところにエージェントが移動します。 
         /// </summary> 
         /// <param name="agentActivityData"></param> 
-        public void MoveAgent(AgentActivityDatas agentActivityData)
+        public void MoveAgent(AgentsActivityData agentActivityData)
         {
             if (Turn < MaxTurn)
             {
@@ -747,7 +747,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="agentActivityData"></param> 
         public void MoveAgent(Team team, AgentActivityData[] agentActivityData)
         {
-            var agentActivityDatas = new AgentActivityDatas();
+            var agentActivityDatas = new AgentsActivityData();
             switch (team)
             {
                 case Team.A:
@@ -774,7 +774,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="agentActivityData"></param> 
         public void MoveAgent(Team team, AgentNumber agent, AgentActivityData agentActivityData)
         {
-            var agentActivityDatas = new AgentActivityDatas();
+            var agentActivityDatas = new AgentsActivityData();
             switch (team)
             {
                 case Team.A:

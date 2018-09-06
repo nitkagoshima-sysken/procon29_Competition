@@ -21,7 +21,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private Bitmap[] agentBitmap;
         private Bitmap[] fairyBitmap;
 
-        public AgentActivityDatas agentActivityData = new AgentActivityDatas();
+        public AgentsActivityData agentActivityData = new AgentsActivityData();
 
         /// <summary>
         /// 描画する対象となるProcon29_Calcを設定または取得します。
