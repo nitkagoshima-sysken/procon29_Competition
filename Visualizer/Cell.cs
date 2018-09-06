@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
@@ -150,5 +151,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             };            
             return cell;
         }
+
+        /// <summary>
+        /// 人間が判読できる文字列に変換します
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() => String.Format("{{Point:{0}, IsTileOn: {1}, IsEnclosed: {2}, Coordinate: {3}}}", Point, IsTileOn, IsEnclosed, Coordinate);
     }
 }

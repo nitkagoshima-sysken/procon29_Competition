@@ -5,7 +5,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// <summary>
     /// 1ターンのデータを表します
     /// </summary>
-    class TurnData
+    public class TurnData
     {
         /// <summary>
         /// フィールドを設定または取得します
@@ -20,7 +20,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントの行動データを設定または取得します
         /// </summary>
-        internal AgentActivityDatas AgentActivityDatas { get; set; }
+        public AgentsActivityData AgentActivityDatas { get; set; }
+        
+        /// <summary>
+        /// XML化するために宣言します
+        /// </summary>
+        public TurnData()
+        {
+            throw new System.NotImplementedException();
+        }
 
         /// <summary>
         /// 初期化します
@@ -28,7 +36,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="field">フィールドを表します</param>
         /// <param name="agents">エージェントたちを表します</param>
         /// <param name="agentActivityDatas">エージェントの行動データを表します</param>
-        public TurnData(Field field, Agents agents, AgentActivityDatas agentActivityDatas)
+        public TurnData(Field field, Agents agents, AgentsActivityData agentActivityDatas)
         {
             Field = field;
             Agents = agents;
@@ -44,7 +52,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             Field = field;
             Agents = agents;
-            AgentActivityDatas = new AgentActivityDatas();
+            AgentActivityDatas = new AgentsActivityData();
         }
 
         /// <summary>
@@ -57,7 +65,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 new TurnData(
                     new Field(Field),
                     new Agents(Agents),
-                    new AgentActivityDatas(AgentActivityDatas));
+                    new AgentsActivityData(AgentActivityDatas));
             return cloned;
         }
     }

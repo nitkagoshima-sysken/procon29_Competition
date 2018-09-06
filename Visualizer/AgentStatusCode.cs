@@ -72,7 +72,7 @@
         /// <summary>
         /// 目標物がフィールド外のため、移動に失敗しました
         /// </summary>
-        FailedInMovingByTryingToGoOutOfTheFieldWithEachOther,
+        FailedInMovingByTryingToGoOutOfTheField,
         /// <summary>
         /// 目標物がフィールド外のため、自分のチームからタイルを取り除くことに失敗しました
         /// </summary>

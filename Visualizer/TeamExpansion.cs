@@ -16,6 +16,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="team">指定したチーム</param>
         /// <returns>相手のチーム</returns>
-        public static Team Opponent(this Team team) => (team == Team.A) ? Team.A : Team.B;
+        public static Team Opponent(this Team team) => (team == Team.A) ? Team.B : Team.A;
     }
 }

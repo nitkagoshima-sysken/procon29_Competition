@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     /// <summary>
     /// エージェントたちを表します。
     /// </summary>
-    public class Agents : IEnumerable
+    public class Agents : IEnumerable<Agent>
     {
         Agent[,] Array { get; set; } = new Agent[Enum.GetValues(typeof(Team)).Length, Enum.GetValues(typeof(AgentNumber)).Length];
 
@@ -14,9 +15,33 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// 列挙します。
         /// </summary>
         /// <returns>列挙されたエージェント</returns>
-        public IEnumerator GetEnumerator()
+        public IEnumerator<Agent> GetEnumerator()
         {
             foreach (var item in Array)
+            {
+                yield return item;
+            }
+        }
+
+        /// <summary>
+        /// 列挙します
+        /// </summary>
+        /// <returns>列挙されたセル</returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            foreach (Agent item in Array)
+            {
+                yield return item;
+            }
+        }
+
+        /// <summary>
+        /// 列挙します
+        /// </summary>
+        /// <returns>列挙されたセル</returns>
+        IEnumerator<Agent> IEnumerable<Agent>.GetEnumerator()
+        {
+            foreach (Agent item in Array)
             {
                 yield return item;
             }
@@ -54,6 +79,31 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             set { Array[(int)team, (int)agent] = value; }
             get { return Array[(int)team, (int)agent]; }
+        }
+
+        /// <summary>
+        /// エージェントたちを取得または設定します
+        /// </summary>
+        /// <param name="team">対象となる所属チーム</param>
+        /// <returns></returns>
+        public List<Agent> this[Team team]
+        {
+            get
+            {
+                return new List<Agent> {
+                    this[team, AgentNumber.One],
+                    this[team, AgentNumber.Two]
+                };
+            }
+        }
+
+        /// <summary>
+        /// XML化するために宣言します
+        /// </summary>
+        /// <param name="obj"></param>
+        public void Add(System.Object obj)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

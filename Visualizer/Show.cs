@@ -17,11 +17,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private Font pointFont;
         private System.Drawing.Point clickedField;
         private const string pointFamilyName = "Impact";
-        
+
         private Bitmap[] agentBitmap;
         private Bitmap[] fairyBitmap;
 
-        public AgentActivityData[,] agentActivityData = new AgentActivityData[2, 2];
+        public AgentsActivityData agentActivityData = new AgentsActivityData();
 
         /// <summary>
         /// 描画する対象となるProcon29_Calcを設定または取得します。
@@ -114,7 +114,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                 {
-                    agentActivityData[(int)team, (int)agent] = new AgentActivityData(AgentStatusCode.RequestMovement, Calc.Agents[team, agent].Position);
+                    agentActivityData[team, agent] = new AgentActivityData(AgentStatusCode.RequestMovement, Calc.Agents[team, agent].Position);
                 }
             }
         }
@@ -244,15 +244,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 height: fieldHeight);
 
             //フルーツフェアリーたちの表示
-            for (int team = 0; team < agentActivityData.GetLength(0); team++)
+            foreach (Team team in Enum.GetValues(typeof(Team)))
             {
-                for (int agent = 0; agent < agentActivityData.GetLength(1); agent++)
+                foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                 {
                     //if (agentActivityData[team, agent] == null) continue;
 
                     float f = canvas.Height / 12000.0f;
 
-                    var bmp = (Bitmap)FairyBitmap[team * 2 + agent].Clone();
+                    var bmp = (Bitmap)FairyBitmap[(int)team * 2 + (int)agent].Clone();
                     if (agentActivityData[team, agent].Destination.X < Calc.Field.Width / 2)
                         bmp.RotateFlip(RotateFlipType.Rotate180FlipY);
 
@@ -300,9 +300,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 for (int y = 0; y < calc.Field.Height; y++)
                 {
-                    for (Team team = 0; (int)team < agentActivityData.GetLength(0); team++)
+                    foreach (Team team in Enum.GetValues(typeof(Team)))
                     {
-                        for (AgentNumber agent = 0; (int)agent < agentActivityData.GetLength(1); agent++)
+                        foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                         {
                             if (new Coordinate(x, y) == calc.Agents[team, agent].Position)
                             {
@@ -383,7 +383,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             return canvas;
         }
-
+       
         /// <summary>
         /// 表示を行います。
         /// </summary>
@@ -465,7 +465,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             //if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)((SelectedTeamAndAgent.Item1 == Team.A) ? Team.B : Team.A)])
             if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[((SelectedTeam == Team.A) ? Team.B : Team.A)])
-                agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
+                agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
             else if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[SelectedTeam])
             {
                 //メッセージボックスを表示する
@@ -475,24 +475,24 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 {
                     //「はい」が選択された時
                     Console.WriteLine("「はい」が選択されました");
-                    agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOurTile;
+                    agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOurTile;
                 }
                 else if (result == DialogResult.No)
                 {
                     //「いいえ」が選択された時
                     Console.WriteLine("「いいえ」が選択されました");
-                    agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
+                    agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
                 }
             }
             else
-                agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
-            agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].Destination = ClickedField;
+                agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
+            agentActivityData[SelectedTeam, SelecetedAgent].Destination = ClickedField;
         }
 
         public void ClickShow()
         {
             if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[((SelectedTeam == Team.A) ? Team.B : Team.A)])
-                agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
+                agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
             else if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[SelectedTeam])
             {
                 //メッセージボックスを表示する
@@ -502,25 +502,25 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 {
                     //「はい」が選択された時
                     Console.WriteLine("「はい」が選択されました");
-                    agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOurTile;
+                    agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOurTile;
                 }
                 else if (result == DialogResult.No)
                 {
                     //「いいえ」が選択された時
                     Console.WriteLine("「いいえ」が選択されました");
-                    agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
+                    agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
                 }
             }
             else
-                agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
+                agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
         }
 
         public void KeyDownShow()
         {
-            var next = agentActivityData[(int)SelectedTeam, (int)SelecetedAgent];
+            var next = agentActivityData[SelectedTeam, SelecetedAgent];
 
             if (Calc.Field[next.Destination.X, next.Destination.Y].IsTileOn[((SelectedTeam == Team.A) ? Team.B : Team.A)])
-                agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
+                agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
             else if (Calc.Field[next.Destination.X, next.Destination.Y].IsTileOn[SelectedTeam])
             {
                 //メッセージボックスを表示する
@@ -530,17 +530,17 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 {
                     //「はい」が選択された時
                     Console.WriteLine("「はい」が選択されました");
-                    agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOurTile;
+                    agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOurTile;
                 }
                 else if (result == DialogResult.No)
                 {
                     //「いいえ」が選択された時
                     Console.WriteLine("「いいえ」が選択されました");
-                    agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
+                    agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
                 }
             }
             else
-                agentActivityData[(int)SelectedTeam, (int)SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
+                agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
         }
 
         /// <summary>
@@ -569,7 +569,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             e.SuppressKeyPress = true;
 
             var current = Calc.Agents[SelectedTeam, SelecetedAgent].Position;
-            var next = agentActivityData[(int)SelectedTeam, (int)SelecetedAgent];
+            var next = agentActivityData[SelectedTeam, SelecetedAgent];
 
             Console.WriteLine(e.KeyCode);
             try
@@ -619,7 +619,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 }
 
                 current = Calc.Agents[SelectedTeam, SelecetedAgent].Position;
-                next = agentActivityData[(int)SelectedTeam, (int)SelecetedAgent];
+                next = agentActivityData[SelectedTeam, SelecetedAgent];
 
                 ClickedField = current;
                 if (next.Destination.X < 0 ||
