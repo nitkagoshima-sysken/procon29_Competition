@@ -107,13 +107,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
-        public static void CheckCollision(this AgentActivityData[,] agentActivityData)
+        public static void CheckCollision(this AgentActivityDatas agentActivityData)
         {
             foreach (Team team in Enum.GetValues(typeof(Team)))
             {
                 foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                 {
-                    var item = agentActivityData[(int)team, (int)agent];
+                    var item = agentActivityData[team, agent];
                     if (item.AgentStatusData.IsRequest())
                     {
                         foreach (Team otherteam in Enum.GetValues(typeof(Team)))
@@ -121,7 +121,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                             foreach (AgentNumber otheragent in Enum.GetValues(typeof(AgentNumber)))
                             {
                                 if (team == otherteam && agent == otheragent) continue;
-                                var otheritem = agentActivityData[(int)otherteam, (int)otheragent];
+                                var otheritem = agentActivityData[otherteam, otheragent];
                                 if (item.Destination == otheritem.Destination)
                                 {
                                     if (team == otherteam)
