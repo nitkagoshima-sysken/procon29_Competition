@@ -42,7 +42,7 @@ namespace nitkagoshima_sysken
                 /// </summary>
                 /// <param name="action">どうエージェントが動くか指定します。</param>
                 /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
-                public Calc Simulate(AgentActivityData[,] action)
+                public Calc Simulate(AgentsActivityData action)
                 {
                     Calc.MoveAgent(action);
                     var c = (Calc)Calc.DeepCopy();
@@ -75,7 +75,6 @@ namespace nitkagoshima_sysken
                     Calc.Undo();
                     return c;
                 }
-
             }
         }
     }
