@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
-    public class AgentActivityDatas : IEnumerable
+    public class AgentActivityDatas : IEnumerable<AgentActivityData>
     {
         AgentActivityData[,] Array { get; set; } = new AgentActivityData[Enum.GetValues(typeof(Team)).Length, Enum.GetValues(typeof(AgentNumber)).Length];
 
@@ -15,9 +15,33 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// 列挙します。
         /// </summary>
         /// <returns>列挙されたエージェント</returns>
-        public IEnumerator GetEnumerator()
+        public IEnumerator<AgentActivityData> GetEnumerator()
         {
-            foreach (var item in Array)
+            foreach (AgentActivityData item in Array)
+            {
+                yield return item;
+            }
+        }
+
+        /// <summary>
+        /// 列挙します
+        /// </summary>
+        /// <returns>列挙されたセル</returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            foreach (AgentActivityData item in Array)
+            {
+                yield return item;
+            }
+        }
+
+        /// <summary>
+        /// 列挙します
+        /// </summary>
+        /// <returns>列挙されたセル</returns>
+        IEnumerator<AgentActivityData> IEnumerable<AgentActivityData>.GetEnumerator()
+        {
+            foreach (AgentActivityData item in Array)
             {
                 yield return item;
             }
