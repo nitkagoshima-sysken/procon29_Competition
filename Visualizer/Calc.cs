@@ -494,11 +494,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         void CheckAgentActivityData(AgentActivityData[,] agentActivityData)
         {
-            foreach (int team in TeamArray)
+            foreach (Team team in TeamArray)
             {
-                foreach (int agent in AgentArray)
+                foreach (AgentNumber agent in AgentArray)
                 {
-                    var item = agentActivityData[team, agent];
+                    var item = agentActivityData[(int)team, (int)agent];
                     // 何もしないのは、無条件で成功する(1)
                     // SucceededNotToDoAnything
                     if (item.AgentStatusData == AgentStatusCode.RequestNotToDoAnything)
@@ -513,7 +513,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // 自分自身の衝突をチェック(2)
                     // YouHadCollisionsWithYourselfAndYouFailedToMoveBecauseYouAreThereAlready
                     // YouHadCollisionsWithYourselfAndYouFailedToRemoveTilesFromYourTeam;
-                    if (item.Destination == Agents[(Team)team, (AgentNumber)agent].Position)
+                    if (item.Destination == Agents[team, agent].Position)
                         switch (item.AgentStatusData)
                         {
                             case AgentStatusCode.RequestMovement:
@@ -529,7 +529,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // FailedInMovingByBeingNotChebyshevNeighborhood
                     // FailedInRemovingOurTileByBeingNotChebyshevNeighborhood
                     // FailedInRemovingOpponentTileByBeingNotChebyshevNeighborhood
-                    if (item.Destination.ChebyshevDistance(Agents[(Team)team, (AgentNumber)agent].Position) != 1)
+                    if (item.Destination.ChebyshevDistance(Agents[team, agent].Position) != 1)
                         switch (item.AgentStatusData)
                         {
                             case AgentStatusCode.RequestMovement:
@@ -596,14 +596,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     {
                         foreach (AgentNumber otheragent in AgentArray)
                         {
-                            if (team == (int)otherteam && agent == (int)otheragent) continue;
+                            if (team == otherteam && agent == otheragent) continue;
                             var otheritem = agentActivityData[(int)otherteam, (int)otheragent];
                             var otherposition = Agents[otherteam, otheragent].Position;
                             if ((otheritem.AgentStatusData == AgentStatusCode.RequestNotToDoAnything ||
                                 otheritem.AgentStatusData == AgentStatusCode.NotDoneAnything) &&
                                 item.Destination == otherposition)
                             {
-                                if (team == (int)otherteam)
+                                if (team == otherteam)
                                 {
                                     item.ToFailByCollisionWithTheLazyOurTeam();
                                 }
