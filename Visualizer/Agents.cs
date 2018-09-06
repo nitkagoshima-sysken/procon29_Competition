@@ -7,7 +7,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// <summary>
     /// エージェントたちを表します。
     /// </summary>
-    public class Agents : IEnumerable
+    public class Agents : IEnumerable<Agent>
     {
         Agent[,] Array { get; set; } = new Agent[Enum.GetValues(typeof(Team)).Length, Enum.GetValues(typeof(AgentNumber)).Length];
 
@@ -15,9 +15,33 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// 列挙します。
         /// </summary>
         /// <returns>列挙されたエージェント</returns>
-        public IEnumerator GetEnumerator()
+        public IEnumerator<Agent> GetEnumerator()
         {
             foreach (var item in Array)
+            {
+                yield return item;
+            }
+        }
+
+        /// <summary>
+        /// 列挙します
+        /// </summary>
+        /// <returns>列挙されたセル</returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            foreach (Agent item in Array)
+            {
+                yield return item;
+            }
+        }
+
+        /// <summary>
+        /// 列挙します
+        /// </summary>
+        /// <returns>列挙されたセル</returns>
+        IEnumerator<Agent> IEnumerable<Agent>.GetEnumerator()
+        {
+            foreach (Agent item in Array)
             {
                 yield return item;
             }

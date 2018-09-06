@@ -43,7 +43,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             this.Resize += new System.EventHandler(this.MainForm_Resize);
 
             log = new Logger(messageBox);
-            log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 9.1)");
+            log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 10.0)");
 
             // PQRファイルを直接読み込む
             // ちなみにQR_code_sample.pdfで登場したQRコード
@@ -329,21 +329,21 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 bot[0].Team = Team.A;
                 bot[0].Question(Calc);
                 var a = bot[0].Answer();
-                show.agentActivityData[0, 0] = a[0];
-                show.agentActivityData[0, 1] = a[1];
+                show.agentActivityData[Team.A, AgentNumber.One] = a[0];
+                show.agentActivityData[Team.A, AgentNumber.Two] = a[1];
             }
             if (bot[1] != null)
             {
                 bot[1].Team = Team.B;
                 bot[1].Question(Calc);
                 var a = bot[1].Answer();
-                show.agentActivityData[1, 0] = a[0];
-                show.agentActivityData[1, 1] = a[1];
+                show.agentActivityData[Team.B, AgentNumber.One] = a[0];
+                show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
             }
 
             Calc.MoveAgent(show.agentActivityData);
 
-            foreach (var item in show.agentActivityData)
+            foreach (AgentActivityData item in show.agentActivityData)
             {
                 item.AgentStatusData = AgentStatusCode.NotDoneAnything;
             }
