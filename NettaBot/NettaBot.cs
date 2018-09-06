@@ -32,12 +32,13 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                                         Team,
                                         agent.AgentNumber,
                                         MoveOrRemoveTile(agent.Position + arrow));
-                                    if (maxpoint < c.TotalPoint(Team))
+                                    Console.WriteLine((agent.Position + arrow) + ":" + c.TotalPoint(Team) + ":" + c.TotalPoint(Team.Opponent()));
+                                    if (maxpoint < c.TotalPoint(Team) - c.TotalPoint(Team.Opponent()))
                                     {
-                                        maxpoint = c.TotalPoint(Team);
+                                        maxpoint = c.TotalPoint(Team) - c.TotalPoint(Team.Opponent());
                                         coordinate = new Coordinate(agent.Position + arrow);
+                                        result[(int)agent.AgentNumber] = MoveOrRemoveTile(coordinate);
                                     }
-                                    result[(int)agent.AgentNumber] = MoveOrRemoveTile(coordinate);
                                 }
                                 catch { }
                             }
@@ -57,18 +58,20 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                                         Team,
                                         agent.AgentNumber,
                                        MoveOrRemoveTile(agent.Position + arrow));
-                                    if (maxpoint < c.TotalPoint(Team))
+                                    Console.WriteLine((agent.Position + arrow) + ":" + c.TotalPoint(Team) + ":" + c.TotalPoint(Team.Opponent()));
+                                    if (maxpoint < c.TotalPoint(Team) - c.TotalPoint(Team.Opponent()))
                                     {
-                                        maxpoint = c.TotalPoint(Team);
+                                        maxpoint = c.TotalPoint(Team) - c.TotalPoint(Team.Opponent());
                                         coordinate = new Coordinate(agent.Position + arrow);
+                                        result[(int)agent.AgentNumber] = MoveOrRemoveTile(coordinate);
                                     }
-                                    result[(int)agent.AgentNumber] = MoveOrRemoveTile(coordinate);
                                 }
                                 catch { }
                             }
                         }
 
                     }
+                    Console.WriteLine((Team.Opponent() == Team.A) + ":" + maxpoint + ";" + coordinate);
                 }
             }
 
