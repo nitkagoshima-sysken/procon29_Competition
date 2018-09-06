@@ -581,7 +581,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     }
                     // 移動先に相手のタイルが置いてないかチェック(1)
                     // FailedInMovingByTryingItWithoutRemovingTheOpponentTile
-                    if (Field[item.Destination].IsTileOn[(team == (int)Team.A) ? Team.B : Team.A])
+                    if (item.AgentStatusData == AgentStatusCode.RequestMovement &&
+                        Field[item.Destination].IsTileOn[(team == (int)Team.A) ? Team.B : Team.A])
                     {
                         item.AgentStatusData = AgentStatusCode.FailedInMovingByTryingItWithoutRemovingTheOpponentTile;
                         continue;
