@@ -45,7 +45,6 @@ class ProconNNControl:
         EvalutionsArray = np.array(Evalutions)
         Next = Movables[EvalutionsArray.argmax()]
         self.log.LogWrite('Next position {}\n'.format(Next))
-        print(EvalutionsArray[EvalutionsArray.argmax()])
         self.log.LogWrite('Evalutions {}\n'.format(EvalutionsArray.argmax()), logtype=pro29NN.SYSTEM_LOG)
         MyAgent[0].NextSet(Next[0][1], overlap=Next[0][0])
         MyAgent[1].NextSet(Next[1][1], overlap=Next[1][0])
@@ -71,20 +70,19 @@ class ProconNNControl:
         for x in range(self.x):
             for y in range(self.y):
                 Blank.append(x*1000+y)
-        My = Agent.TempAgentData(Mydata.AllPoint)
-        Enemy = Agent.TempAgentData(Mydata.AllPoint)
+        My = Agent.TempAgentData(Mydata.AllPoint, Mydata, MyAgent)
+        Enemy = Agent.TempAgentData(Mydata.AllPoint, Enemydata, EnemyAgent)
         My.GetPoint([pos1, pos2], Enemy)
         My.FieldPointSearch()
         Enemy.FieldPointSearch()
-        MyAgent[0].next, MyAgent[1].next = pos1, pos2
-        MyAgent[0].TurnSet(Enemy.GetPosition)
-        MyAgent[1].TurnSet(Enemy.GetPosition)
+        My.TurnSet(Enemy.GetPosition, [pos1, pos2])
+        Enemy.TurnSet(My.GetPosition, [[True, 0], [True, 0]])
         AgentData['MyGet'], AgentData['MyExist'], AgentData['MyFill'] = My.GetPosition, [pos1[1],], My.GetField
-        AgentData['MyMovable'] = MyAgent[0].movable + MyAgent[1].movable
-        AgentData['MyRemovable'] = MyAgent[0].removable + MyAgent[1].removable
+        AgentData['MyMovable'] = My.Agent[0].movable + My.Agent[1].movable
+        AgentData['MyRemovable'] = My.Agent[0].removable + My.Agent[1].removable
         AgentData['EnemyGet'], AgentData['EnemyExist'], AgentData['EnemyFill'] = Enemy.GetPosition, [pos1[1],], Enemy.GetField
-        AgentData['EnemyMovable'] = EnemyAgent[0].movable + EnemyAgent[1].movable
-        AgentData['EnemyRemovable'] = EnemyAgent[0].removable + EnemyAgent[1].removable
+        AgentData['EnemyMovable'] = Enemy.Agent[0].movable + Enemy.Agent[1].movable
+        AgentData['EnemyRemovable'] = Enemy.Agent[0].removable + Enemy.Agent[1].removable
         Blank = [i for i in Blank if i not in AgentData['MyGet'] + [AgentData['MyExist'],] + AgentData['MyFill']\
                                             + AgentData['MyMovable'] + AgentData['MyRemovable']\
                                             + AgentData['EnemyGet'] + [AgentData['EnemyExist'],] + AgentData['EnemyFill']\
@@ -95,13 +93,12 @@ class ProconNNControl:
 
     def UpdatePosition(self, AgentData):
         FieldData = []
-        for i in range(11):
+        for key, val in AgentData.items():
             temp = [[0 for i in range(12)] for j in range(12)]
             FieldData.append(temp)
-        for key, val in AgentData.items():
             for j in range(len(val)):
                 x, y, point = self.PositionCalc(val[j])
-                FieldData[i][x][y] = point
+                FieldData[-1][x][y] = point
         return FieldData
 
 class FakeBot():

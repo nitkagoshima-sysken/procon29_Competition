@@ -249,10 +249,17 @@ def Menu_handler(event):
         debag_flag = True
         log.LogWrite('Start debag mode\n', logtype=pro29NN.SYSTEM_LOG)
     elif Id_num == 20:
-        log.LogWrite('Open about info\n', logtype=pro29NN.SYSTEM_LOG)
+        log.LogWrite('Open app about info\n', logtype=pro29NN.SYSTEM_LOG)
         info = adv.AboutDialogInfo()
-        info.SetName('PPAP -pro29NN Python Application Project-')
+        info.SetName(appname)
         info.SetVersion('2.0.0')
+        info.SetCopyright('Copyright (c) 2018 Glaz egy.')
+        adv.AboutBox(info)
+    elif Id_num == 21:
+        log.LogWrite('Open bot about info\n', logtype=pro29NN.SYSTEM_LOG)
+        info = adv.AboutDialogInfo()
+        info.SetName('PROCON29 NN and EC')
+        info.SetVersion('0.0.5')
         info.SetCopyright('Copyright (c) 2018 Glaz egy.')
         adv.AboutBox(info)
     
@@ -417,9 +424,9 @@ if __name__=='__main__':
     col_check[1][0] = False
     False_list = [False, False]
     start_flag = False
-
+    appname = 'PPAP -PROCON29NN Python Application Project-'
     app = wx.App()
-    frame = wx.Frame(None, -1, 'PPAP -pro29NN Python Application Project-', size=(800,900), style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN | wx.MINIMIZE_BOX)
+    frame = wx.Frame(None, -1, appname, size=(800,900), style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN | wx.MINIMIZE_BOX)
 
     panel = wx.Panel(frame,-1)
     field = []
@@ -479,8 +486,10 @@ if __name__=='__main__':
     file_menu.Append(debag_mode)
     menu_bar.Append(file_menu, 'ファイル')
     help_menu = wx.Menu()
-    about = wx.MenuItem(help_menu, 20, 'バージョン情報')
-    help_menu.Append(about)
+    appabout = wx.MenuItem(help_menu, 20, 'アプリケーションバージョン情報')
+    botabout = wx.MenuItem(help_menu, 21, 'ボットバージョン情報')
+    help_menu.Append(appabout)
+    help_menu.Append(botabout)
     menu_bar.Append(help_menu, 'ヘルプ')
     frame.SetMenuBar(menu_bar)
     log.LogWrite('Init setup finished.', logtype=pro29NN.SYSTEM_LOG)

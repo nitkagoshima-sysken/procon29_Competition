@@ -153,14 +153,15 @@ class AgentData:
             return -2
 
 class TempAgentData:
-    def __init__(self, point):
+    def __init__(self, point, InputData, Agent):
         self.GetPosition = []
         self.AllPoint = point
         self.buffer = []
         self.GetField = []
         self.x, self.y = len(point[0]), len(point)
         self.get = [[0 for i in range(self.x+2)]for j in range(self.y+2)]
-    
+        self.DataCopy(InputData, Agent)
+
     def GetPoint(self, get, enemy_data):
         if str(type(get)) == "<class 'list'>":
             for i in range(len(get)):
@@ -225,6 +226,58 @@ class TempAgentData:
                 self.get[self.buffer[i][1]][self.buffer[i][0]] = -2
             return -2
 
-    def DataCopy(self, InputData):
-        self.GetPosition = InputData.GetPosition
-        self.GetField = InputData.GetField
+    def MovableSet(self, eget, agent):
+        movable = []
+        movable.append(agent.now -(1000 + 1))
+        movable.append(agent.now - 1000)
+        movable.append(agent.now -(1000 - 1))
+        movable.append(agent.now +(1000 + 1))
+        movable.append(agent.now + 1000)
+        movable.append(agent.now +(1000 - 1))
+        movable.append(agent.now + 1)
+        movable.append(agent.now - 1)
+        movable = [item for item in movable if item not in agent.out]
+        removable = [item for item in movable if item in eget]
+        return (movable, removable)
+
+    def TurnSet(self, eget, pos):
+        for i in range(len(self.Agent)):
+            self.Agent[i].next = pos[i]
+            self.Agent[i].TurnSet(eget)
+
+    def DataCopy(self, InputData, Agent):
+        self.Agent = []
+        self.GetPosition = InputData.GetPosition[:]
+        self.GetField = InputData.GetField[:]
+        for agent in Agent:
+            self.Agent.append(TempAgent(agent.now, agent.out))
+
+class TempAgent:
+    def __init__(self, now, out):
+        self.now = now
+        self.next = [False, now]
+        self.out = out
+        self.movable, self.removable = 0, 0
+
+    def MovableSet(self, eget):
+        movable = []
+        movable.append(self.now -(1000 + 1))
+        movable.append(self.now - 1000)
+        movable.append(self.now -(1000 - 1))
+        movable.append(self.now +(1000 + 1))
+        movable.append(self.now + 1000)
+        movable.append(self.now +(1000 - 1))
+        movable.append(self.now + 1)
+        movable.append(self.now - 1)
+        movable = [item for item in movable if item not in self.out]
+        removable = [item for item in movable if item in eget]
+        return (movable, removable)
+
+    def TurnSet(self, eget):
+        if self.next[0] or self.next[1] == 0:
+            self.now = self.now
+        else:
+            self.now = self.next[1]
+        self.next[0] = False
+        self.movable, self.removable = self.MovableSet(eget)
+        self.overlap_flag = False
