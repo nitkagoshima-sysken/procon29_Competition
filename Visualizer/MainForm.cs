@@ -30,7 +30,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         CreateNewForm createNewForm = new CreateNewForm();
         public static dynamic[] bot = new dynamic[2];
         public static string[] botName = new string[2];
-        public static int maxTurn;
+        public static int maxTurn = 10;
 
         /// <summary>
         /// MainForm
@@ -43,7 +43,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             this.Resize += new System.EventHandler(this.MainForm_Resize);
 
             log = new Logger(messageBox);
-            log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 10.0)");
+            log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 12.0)");
 
             // PQRファイルを直接読み込む
             // ちなみにQR_code_sample.pdfで登場したQRコード
@@ -80,6 +80,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             TurnProgressCheck();
 
             ReadBotsTxt();
+            ReadCalcTsv();
         }
 
 
@@ -285,19 +286,103 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
             catch (Exception)
             {
-                MessageBox.Show("VisualizerはPQRファイルが確かに存在することを確認しました。\n" +
+                MessageBox.Show(
+                    "VisualizerはPQRファイルが確かに存在することを確認しました。\n" +
                     "そして、ファイルを開き、読み込むことに成功しました。\n" +
                     "しかし、解析の結果、正規なPQRデータではないことが判明しました。\n" +
-                    "そのため、これらのデータは破棄され、Visualizerに反映されません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    "そのため、これらのデータは破棄され、Visualizerに反映されません。",
+                    "エラー",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
         public void ReadBotsTxt()
         {
-
+            if (System.IO.File.Exists(@".\Prefetching\Bots.tsv"))
+            {
+                var reader = new System.IO.StreamReader(@".\Prefetching\Bots.tsv", System.Text.Encoding.Default);
+                string result = string.Empty;
+                while (reader.Peek() >= 0)
+                {
+                    string line = reader.ReadLine();
+                    if (System.Text.RegularExpressions.Regex.IsMatch(
+                        line,
+                        @"^A\t.*"))
+                    {
+                        MessageBox.Show("Bots.tsvによってボットが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        var name = line.Substring(2);
+                        ConnectBot(0, name);
+                    }
+                    else if (System.Text.RegularExpressions.Regex.IsMatch(
+                        line,
+                        @"^B\t.*"))
+                    {
+                        MessageBox.Show("Bots.tsvによってボットが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        var name = line.Substring(2);
+                        ConnectBot(1, name);
+                    }
+                }
+                reader.Close();
+            }
+            else
+            {
+                using (var file = System.IO.File.Create(@".\Prefetching\Bots.tsv"))
+                {
+                    if (file != null)
+                    {
+                        file.Close();
+                    }
+                }
+            }
         }
 
-        public void ConnectBot(string path)
+        public void ReadCalcTsv()
+        {
+            if (System.IO.File.Exists(@".\Prefetching\Calc.tsv"))
+            {
+                var reader = new System.IO.StreamReader(@".\Prefetching\Calc.tsv", System.Text.Encoding.Default);
+                string result = string.Empty;
+                while (reader.Peek() >= 0)
+                {
+                    string line = reader.ReadLine();
+                    if (System.Text.RegularExpressions.Regex.IsMatch(
+                        line,
+                        @"^Pqr\t.+"))
+                    {
+                        MessageBox.Show("Pqr.tsvによってPQRファイルが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        var name = line.Substring(4);
+                        OpenPQRFile(name);
+                    }
+                    else if (System.Text.RegularExpressions.Regex.IsMatch(
+                        line,
+                        @"^MaxTurn\t\d+"))
+                    {
+                        MessageBox.Show("Pqr.tsvによって最大ターン数が読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        var name = line.Substring(8);
+                        Calc.MaxTurn = int.Parse(name);
+                    }
+                }
+                reader.Close();
+            }
+            else
+            {
+                using (var file = System.IO.File.Create(@".\Prefetching\Calc.tsv"))
+                {
+                    if (file != null)
+                    {
+                        file.Close();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public void ConnectBot(int n, string path)
         {
             try
             {
@@ -307,8 +392,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 foreach (System.Text.RegularExpressions.Match match in mc)
                 {
-                    var bot1 = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
-                    botName[1] = match.Groups["file"].Value;
+                    bot[n] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
+                    MainForm.botName[n] = match.Groups["file"].Value;
                 }
             }
             catch (Exception)

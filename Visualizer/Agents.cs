@@ -7,6 +7,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// <summary>
     /// エージェントたちを表します。
     /// </summary>
+    [Serializable]
     public class Agents : IEnumerable<Agent>
     {
         Agent[,] Array { get; set; } = new Agent[Enum.GetValues(typeof(Team)).Length, Enum.GetValues(typeof(AgentNumber)).Length];
