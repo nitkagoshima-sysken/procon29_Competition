@@ -60,8 +60,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <returns>objectのディープコピー</returns>
         public object DeepCopy()
-        {
-            return new Calc((BaseCalc)(new BaseCalc(this)).DeepCopy());
+        {            
+            return new Calc((new BaseCalc(this)).DeepClone());
         }
 
         /// <summary>
