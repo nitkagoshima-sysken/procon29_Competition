@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -285,10 +285,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
             catch (Exception)
             {
-                MessageBox.Show("VisualizerはPQRファイルが確かに存在することを確認しました。\n" +
+                MessageBox.Show(
+                    "VisualizerはPQRファイルが確かに存在することを確認しました。\n" +
                     "そして、ファイルを開き、読み込むことに成功しました。\n" +
                     "しかし、解析の結果、正規なPQRデータではないことが判明しました。\n" +
-                    "そのため、これらのデータは破棄され、Visualizerに反映されません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    "そのため、これらのデータは破棄され、Visualizerに反映されません。",
+                    "エラー",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
