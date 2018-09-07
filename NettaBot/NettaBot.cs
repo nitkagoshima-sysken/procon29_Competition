@@ -24,6 +24,7 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                 foreach (Arrow arrowTwo in Enum.GetValues(typeof(Arrow)))
                 {
                     var destinationTwo = agentTwo.Position + arrowTwo;
+                    try {
 
                     if (((destinationOne.X + destinationOne.Y) % 2 != 0) == isOdd)
                     {
@@ -31,22 +32,29 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                     }
                     else
                     {
-                        agentActivityDatas[(int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                        continue;
                     }
+
                     if (((destinationTwo.X + destinationTwo.Y) % 2 != 0) == isOdd)
                     {
-                        agentActivityDatas[(int)AgentNumber.Two] = MoveOrRemoveTile(destinationOne);
+                        agentActivityDatas[(int)AgentNumber.Two] = MoveOrRemoveTile(destinationTwo);
                     }
                     else
                     {
-                        agentActivityDatas[(int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                        continue;
                     }
-                    var c = Simulate(Team, agentActivityDatas);
-                    if(maxpoint < c.TotalPoint(Team) - c.TotalPoint(Team.Opponent()))
-                    {
-                        maxpoint = c.TotalPoint(Team) - c.TotalPoint(Team.Opponent());
-                        result = agentActivityDatas;
+                    Console.WriteLine(destinationOne + ":" + destinationTwo);
+                    Console.WriteLine(isOdd +":"+ ((destinationOne.X + destinationOne.Y) % 2 != 0) +":"+ ((destinationTwo.X + destinationTwo.Y) % 2 != 0));
+                    Console.WriteLine(agentActivityDatas[0].AgentStatusData + ":" + agentActivityDatas[1].AgentStatusData);
+                        var c = Simulate(Team, agentActivityDatas);
+                        Console.WriteLine(c.TotalPoint(Team)+":"+c.TotalPoint(Team.Opponent()));
+                        if (maxpoint < c.TotalPoint(Team) )
+                        {
+                            maxpoint = c.TotalPoint(Team);
+                            result = agentActivityDatas;
+                        }
                     }
+                    catch { }
                 }
             }
 
