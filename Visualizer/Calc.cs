@@ -61,7 +61,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>objectのディープコピー</returns>
         public object DeepCopy()
         {
-            return new Calc(MaxTurn, new Field(Field), new Coordinate[] { Agents[Team.A, AgentNumber.One].Position, Agents[Team.A, AgentNumber.Two].Position });
+            return new Calc((BaseCalc)(new BaseCalc(this)).DeepCopy());
         }
 
         /// <summary>
