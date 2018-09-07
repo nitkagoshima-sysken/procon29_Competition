@@ -51,7 +51,7 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                         if (maxpoint < c.TotalPoint(Team) )
                         {
                             maxpoint = c.TotalPoint(Team);
-                            result = agentActivityDatas;
+                            result = agentActivityDatas.DeepClone();
                         }
                     }
                     catch { }
