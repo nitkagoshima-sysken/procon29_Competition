@@ -111,6 +111,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ObjectExtension.cs" />
     <Compile Include="PointExpansion.cs" />
     <Compile Include="PqrData.cs" />
     <Compile Include="PqrDataExpansion.cs" />

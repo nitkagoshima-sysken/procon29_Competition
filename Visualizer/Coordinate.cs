@@ -9,6 +9,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// <summary>
     /// フィールド上の座標を表します。
     /// </summary>
+    [Serializable]
     public struct Coordinate : IComparable<Coordinate>
     {
         /// <summary>
