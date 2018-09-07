@@ -300,25 +300,25 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             if (System.IO.File.Exists("Bots.txt"))
             {
-                var reader = new System.IO.StreamReader(@"Bots.txt", System.Text.Encoding.Default);
+                var reader = new System.IO.StreamReader(@"Bots.tsv", System.Text.Encoding.Default);
                 string result = string.Empty;
                 while (reader.Peek() >= 0)
                 {
                     string line = reader.ReadLine();
                     if (System.Text.RegularExpressions.Regex.IsMatch(
                         line,
-                        @"{A} .*"))
+                        @"A\t.*"))
                     {
                         MessageBox.Show("Bots.txtによってボットが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        var name = line.Substring(4);
+                        var name = line.Substring(2);
                         ConnectBot(0, name);
                     }
                     else if (System.Text.RegularExpressions.Regex.IsMatch(
                         line,
-                        @"{B} .*"))
+                        @"B\t.*"))
                     {
                         MessageBox.Show("Bots.txtによってボットが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        var name = line.Substring(4);
+                        var name = line.Substring(2);
                         ConnectBot(1, name);
                     }
                 }
