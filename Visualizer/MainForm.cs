@@ -300,7 +300,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             if (System.IO.File.Exists("Bots.txt"))
             {
-                var reader = new System.IO.StreamReader(@"Bots.tsv", System.Text.Encoding.Default);
+                var reader = new System.IO.StreamReader(@".\Prefetching\Bots.tsv", System.Text.Encoding.Default);
                 string result = string.Empty;
                 while (reader.Peek() >= 0)
                 {
