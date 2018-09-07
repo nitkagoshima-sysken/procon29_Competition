@@ -30,7 +30,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         CreateNewForm createNewForm = new CreateNewForm();
         public static dynamic[] bot = new dynamic[2];
         public static string[] botName = new string[2];
-        public static int maxTurn;
+        public static int maxTurn = 10;
 
         /// <summary>
         /// MainForm
@@ -80,6 +80,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             TurnProgressCheck();
 
             ReadBotsTxt();
+            ReadCalcTsv();
         }
 
 
@@ -298,7 +299,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         public void ReadBotsTxt()
         {
-            if (System.IO.File.Exists("Bots.txt"))
+            if (System.IO.File.Exists(@".\Prefetching\Bots.tsv"))
             {
                 var reader = new System.IO.StreamReader(@".\Prefetching\Bots.tsv", System.Text.Encoding.Default);
                 string result = string.Empty;
@@ -307,17 +308,17 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     string line = reader.ReadLine();
                     if (System.Text.RegularExpressions.Regex.IsMatch(
                         line,
-                        @"A\t.*"))
+                        @"^A\t.*"))
                     {
-                        MessageBox.Show("Bots.txtによってボットが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Bots.tsvによってボットが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         var name = line.Substring(2);
                         ConnectBot(0, name);
                     }
                     else if (System.Text.RegularExpressions.Regex.IsMatch(
                         line,
-                        @"B\t.*"))
+                        @"^B\t.*"))
                     {
-                        MessageBox.Show("Bots.txtによってボットが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Bots.tsvによってボットが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         var name = line.Substring(2);
                         ConnectBot(1, name);
                     }
@@ -326,7 +327,47 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
             else
             {
-                using (var file = System.IO.File.Create(@"Bots.txt"))
+                using (var file = System.IO.File.Create(@".\Prefetching\Bots.tsv"))
+                {
+                    if (file != null)
+                    {
+                        file.Close();
+                    }
+                }
+            }
+        }
+
+        public void ReadCalcTsv()
+        {
+            if (System.IO.File.Exists(@".\Prefetching\Calc.tsv"))
+            {
+                var reader = new System.IO.StreamReader(@".\Prefetching\Calc.tsv", System.Text.Encoding.Default);
+                string result = string.Empty;
+                while (reader.Peek() >= 0)
+                {
+                    string line = reader.ReadLine();
+                    if (System.Text.RegularExpressions.Regex.IsMatch(
+                        line,
+                        @"^Pqr\t.+"))
+                    {
+                        MessageBox.Show("Pqr.tsvによってPQRファイルが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        var name = line.Substring(4);
+                        OpenPQRFile(name);
+                    }
+                    else if (System.Text.RegularExpressions.Regex.IsMatch(
+                        line,
+                        @"^MaxTurn\t\d+"))
+                    {
+                        MessageBox.Show("Pqr.tsvによって最大ターン数が読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        var name = line.Substring(8);
+                        Calc.MaxTurn = int.Parse(name);
+                    }
+                }
+                reader.Close();
+            }
+            else
+            {
+                using (var file = System.IO.File.Create(@".\Prefetching\Calc.tsv"))
                 {
                     if (file != null)
                     {
