@@ -1,10 +1,11 @@
-﻿
+﻿using System;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     /// <summary>
     /// 1ターンのデータを表します
     /// </summary>
+    [Serializable]
     public class TurnData
     {
         /// <summary>
@@ -21,7 +22,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// エージェントの行動データを設定または取得します
         /// </summary>
         public AgentsActivityData AgentActivityDatas { get; set; }
-        
+
         /// <summary>
         /// XML化するために宣言します
         /// </summary>

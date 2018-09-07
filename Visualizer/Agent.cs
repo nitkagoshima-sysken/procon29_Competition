@@ -1,8 +1,11 @@
-﻿namespace nitkagoshima_sysken.Procon29.Visualizer
+﻿using System;
+
+namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     /// <summary>
     /// エージェントを表します
     /// </summary>
+    [Serializable]
     public class Agent
     {
         /// <summary>

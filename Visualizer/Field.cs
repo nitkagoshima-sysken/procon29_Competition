@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
@@ -6,6 +7,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// <summary>
     /// 競技フィールドを表します。
     /// </summary>
+    [Serializable]
     public class Field : IEnumerable<Cell>
     {
         Cell[,] Cells { get; set; }
