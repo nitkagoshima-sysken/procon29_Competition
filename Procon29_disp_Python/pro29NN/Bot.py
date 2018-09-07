@@ -4,6 +4,7 @@ import pickle
 import wx
 import pro29NN
 from . import ProconNetwork
+from . import Agent
 import numpy as np
 from collections import OrderedDict
 
@@ -11,7 +12,7 @@ class ProconNNControl:
     """
     Neural network control class.
     """
-    def __init__(self, MyAgentData, EnemyAgentData, log, network):
+    def __init__(self, MyAgentData, EnemyAgentData, log, network, flags):
         self.MyAgentData = MyAgentData
         self.EnemyAgentData = EnemyAgentData
         self.AllPoint = MyAgentData.AllPoint
@@ -19,31 +20,37 @@ class ProconNNControl:
         self.params = {}
         self.log = log
         self.NetWork = network
+        self.flags = flags
 
     def NextEvalution(self, NextPosition1, NextPosition2, MyAgent, EnemyAgent):
         AgentDataRaw = self.PositionRawUpdate(self.MyAgentData, self.EnemyAgentData\
                                             , NextPosition1, NextPosition2, MyAgent, EnemyAgent)
         FieldData = self.UpdatePosition(AgentDataRaw)
-        return self.NetWork.predict(FieldData)
+        FieldDataArray = np.array(FieldData)
+        return self.NetWork.predict(FieldDataArray.reshape(-1, 11, 12, 12))
 
-    def NextOut(self, NextMovable, MyAgent, EnemyAgent):
+    def NextSet(self, MyAgent, EnemyAgent):
         """
-        NextMovable data struct:
-        [[[remove, pos1], [remove, pos2], ..., [remove, pos8]], [[remove, pos1], [remove, pos2], ..., [remove, pos8]]]
-        *The length of the list may not be eight.
+
         """
+        Move1 = [[False, pos] for pos in MyAgent[0].movable] + [[True, pos] for pos in MyAgent[0].removable]
+        Move2 = [[False, pos] for pos in MyAgent[1].movable] + [[True, pos] for pos in MyAgent[1].removable]
         Evalutions = []
         Movables = []
-        Move1, Move2 = NextMovable
         for NextMove1 in Move1:
             for NextMove2 in Move2:
                 Evalutions.append(self.NextEvalution(NextMove1, NextMove2, MyAgent, EnemyAgent))
-                Movables.append(NextMove1, NextMove2)
+                print('Pos {}, {}: Eva{}'.format(NextMove1, NextMove2, Evalutions[-1]))
+                Movables.append([NextMove1, NextMove2])
         EvalutionsArray = np.array(Evalutions)
         Next = Movables[EvalutionsArray.argmax()]
-        self.log.LogWrite('Next position {}'.format(Next))
-        self.log.LogWrite('Evalutions {}'.format(EvalutionsArray.argmax()))
-        return Next
+        self.log.LogWrite('Next position {}\n'.format(Next))
+        print(EvalutionsArray[EvalutionsArray.argmax()])
+        self.log.LogWrite('Evalutions {}\n'.format(EvalutionsArray.argmax()), logtype=pro29NN.SYSTEM_LOG)
+        MyAgent[0].NextSet(Next[0][1], overlap=Next[0][0])
+        MyAgent[1].NextSet(Next[1][1], overlap=Next[1][0])
+        self.flags.next[0] = Next[0][1]
+        self.flags.next[1] = Next[1][1]
 
     def SavePickle(self, File_name='ProconNN.pkl'):
         with open(File_name, 'wb') as f:
@@ -64,23 +71,23 @@ class ProconNNControl:
         for x in range(self.x):
             for y in range(self.y):
                 Blank.append(x*1000+y)
-        My = Mydata
-        Enemy = Enemydata
+        My = Agent.TempAgentData(Mydata.AllPoint)
+        Enemy = Agent.TempAgentData(Mydata.AllPoint)
         My.GetPoint([pos1, pos2], Enemy)
         My.FieldPointSearch()
         Enemy.FieldPointSearch()
         MyAgent[0].next, MyAgent[1].next = pos1, pos2
-        MyAgent[0].TurnSet()
-        MyAgent[1].TurnSet()
-        AgentData['MyGet'], AgentData['MyExist'], AgentData['MyFill'] = My.GetPosition, pos1[1], My.GetField
+        MyAgent[0].TurnSet(Enemy.GetPosition)
+        MyAgent[1].TurnSet(Enemy.GetPosition)
+        AgentData['MyGet'], AgentData['MyExist'], AgentData['MyFill'] = My.GetPosition, [pos1[1],], My.GetField
         AgentData['MyMovable'] = MyAgent[0].movable + MyAgent[1].movable
         AgentData['MyRemovable'] = MyAgent[0].removable + MyAgent[1].removable
-        AgentData['EnemyGet'], AgentData['EnemyExist'], AgentData['EnemyFill'] = Enemy.GetPosition, pos1[1], Enemy.GetField
+        AgentData['EnemyGet'], AgentData['EnemyExist'], AgentData['EnemyFill'] = Enemy.GetPosition, [pos1[1],], Enemy.GetField
         AgentData['EnemyMovable'] = EnemyAgent[0].movable + EnemyAgent[1].movable
         AgentData['EnemyRemovable'] = EnemyAgent[0].removable + EnemyAgent[1].removable
-        Blank = [i for i in Blank if i not in AgentData['MyGet'] + AgentData['MyExist'] + AgentData['MyFill']\
+        Blank = [i for i in Blank if i not in AgentData['MyGet'] + [AgentData['MyExist'],] + AgentData['MyFill']\
                                             + AgentData['MyMovable'] + AgentData['MyRemovable']\
-                                            + AgentData['EnemyGet'] + AgentData['EnemyExist'] + AgentData['EnemyFill']\
+                                            + AgentData['EnemyGet'] + [AgentData['EnemyExist'],] + AgentData['EnemyFill']\
                                             + AgentData['EnemyMovable'] + AgentData['EnemyRemovable']]
         AgentData['Blank'] = Blank
         return AgentData
@@ -91,13 +98,9 @@ class ProconNNControl:
         for i in range(11):
             temp = [[0 for i in range(12)] for j in range(12)]
             FieldData.append(temp)
-        for i, item in AgentData.items():
-            if str(AgentData[item]) == "<class 'list'>":
-                for j in range(len(AgentData[item])):
-                    x, y, point = self.PositionCalc(AgentData[item][j])
-                    FieldData[i][x][y] = point
-            else:
-                x, y, point = self.PositionCalc(AgentData[item])
+        for key, val in AgentData.items():
+            for j in range(len(val)):
+                x, y, point = self.PositionCalc(val[j])
                 FieldData[i][x][y] = point
         return FieldData
 
@@ -128,7 +131,6 @@ class FakeBot():
     def move(self, agent, pos, num):
         if pos in agent.removable:
             agent.NextSet(pos, overlap=True)
-            self.flags.next[num] = pos
         else:
             agent.NextSet(pos)
-            self.flags.next[num] = pos
+        self.flags.next[num] = pos

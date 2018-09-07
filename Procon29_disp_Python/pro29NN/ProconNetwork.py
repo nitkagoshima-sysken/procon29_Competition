@@ -20,7 +20,7 @@ class Network:
         'relu'または'he'を指定した場合は「Heの初期値」を設定
         'sigmoid'または'xavier'を指定した場合は「Xavierの初期値」を設定
     """
-    def __init__(self, input_dim=(9, 12, 12), 
+    def __init__(self, input_dim=(11, 12, 12), 
                  conv_param={'filter_num':30, 'filter_size':5, 'pad':0, 'stride':1},
                  hidden_size=100, output_size=1, weight_init_std=0.01):
         filter_num = conv_param['filter_num']
@@ -157,15 +157,6 @@ class Convolution:
         self.b = b
         self.stride = stride
         self.pad = pad
-        
-        # 中間データ（backward時に使用）
-        self.x = None   
-        self.col = None
-        self.col_W = None
-        
-        # 重み・バイアスパラメータの勾配
-        self.dW = None
-        self.db = None
 
     def forward(self, x):
         FN, C, FH, FW = self.W.shape
@@ -178,10 +169,6 @@ class Convolution:
 
         out = np.dot(col, col_W) + self.b
         out = out.reshape(N, out_h, out_w, -1).transpose(0, 3, 1, 2)
-
-        self.x = x
-        self.col = col
-        self.col_W = col_W
 
         return out
 

@@ -70,34 +70,38 @@ class AgentData:
         self.RemovableColor = '#FF77FF'
         self.LogFile = logfile
     
-    def GetPoint(self, get, enemy_data):
+    def GetPoint(self, get, enemy_data, logout=True):
         if str(type(get)) == "<class 'list'>":
             for i in range(len(get)):
                 if get[i][0] or get[i][1] == 0:
-                    self.Remove(get[i], enemy_data)
+                    self.Remove(get[i], enemy_data, logout)
                 else:
                     self.GetPosition.append(get[i][1])
                     self.Point += self.AllPoint[get[i][1]%1000-1][int(get[i][1]/1000)-1]
-                    self.LogFile.LogWrite('{} Get:({},{}) Point:{}\n'\
+                    if logout:
+                        self.LogFile.LogWrite('{} Get:({},{}) Point:{}\n'\
                                         .format(self.Color, int(get[i][1]/1000), get[i][1]%1000, self.AllPoint[get[i][1]%1000-1][int(get[i][1]/1000)-1]))
         else:
             if get[0] or get[1] == 0:
-                self.Remove(get[i], enemy_data)
+                self.Remove(get[i], enemy_data, logout)
             else:
                 self.GetPosition.append(get[1])
                 self.Point += self.AllPoint[get[1]%1000-1][int(get[1]/1000)-1]
-                self.LogFile.LogWrite('{} Get:({},{}) Point:{}\n'\
+                if logout:
+                    self.LogFile.LogWrite('{} Get:({},{}) Point:{}\n'\
                                     .format(self.Color, int(get[1]/1000), get[1]%1000, self.AllPoint[get[1]%1000-1][int(get[1]/1000)-1]))
-        self.LogFile.LogWrite('Now {} get point:{}\n'.format(self.Color, self.Point))
+        if logout:
+            self.LogFile.LogWrite('Now {} get point:{}\n'.format(self.Color, self.Point))
 
-    def Remove(self, rm, enemy):
+    def Remove(self, rm, enemy, logout=True):
         if rm[1] != 0:
             enemy.GetPosition.remove(rm[1])
             enemy.Point -= self.AllPoint[int(rm[1]%1000)-1][int(rm[1]/1000)-1]
-            self.LogFile.LogWrite('{} Remove:({},{}) Point:{}\n'\
+            if logout:
+                self.LogFile.LogWrite('{} Remove:({},{}) Point:{}\n'\
                                 .format(enemy.Color, int(rm[1]/1000), int(rm[1]%1000), self.AllPoint[int(rm[1]%1000)-1][int(rm[1]/1000)-1]))
 
-    def FieldPointSearch(self):
+    def FieldPointSearch(self, logout=True):
         self.GetField = []
         self.TerritoryPoint = 0
         for i in range(self.y+2):
@@ -120,7 +124,8 @@ class AgentData:
                 if self.get[i][j] == 2:
                     self.GetField.append(j*1000+i)
         self.GetField = [item for item in self.GetField if item not in self.GetPosition]
-        self.LogFile.LogWrite('Territory Posirion{}\n'.format(self.GetField))
+        if logout:
+            self.LogFile.LogWrite('Territory Posirion{}\n'.format(self.GetField))
         for i in range(len(self.GetField)):
             self.TerritoryPoint += abs(self.AllPoint[self.GetField[i]%1000-1][int(self.GetField[i]/1000)-1])
 
@@ -146,3 +151,80 @@ class AgentData:
             for i in range(len(self.buffer)):
                 self.get[self.buffer[i][1]][self.buffer[i][0]] = -2
             return -2
+
+class TempAgentData:
+    def __init__(self, point):
+        self.GetPosition = []
+        self.AllPoint = point
+        self.buffer = []
+        self.GetField = []
+        self.x, self.y = len(point[0]), len(point)
+        self.get = [[0 for i in range(self.x+2)]for j in range(self.y+2)]
+    
+    def GetPoint(self, get, enemy_data):
+        if str(type(get)) == "<class 'list'>":
+            for i in range(len(get)):
+                if get[i][0] or get[i][1] == 0:
+                    self.Remove(get[i], enemy_data)
+                else:
+                    self.GetPosition.append(get[i][1])
+        else:
+            if get[0] or get[1] == 0:
+                self.Remove(get[i], enemy_data)
+            else:
+                self.GetPosition.append(get[1])
+
+    def Remove(self, rm, enemy):
+        if rm[1] != 0:
+            enemy.GetPosition.remove(rm[1])
+
+    def FieldPointSearch(self):
+        self.GetField = []
+        self.TerritoryPoint = 0
+        for i in range(self.y+2):
+            for j in range(self.x+2):
+                if (j*1000)+i in self.GetPosition:
+                    self.get[i][j] = 1
+                elif i == 0 or j == 0 or i == self.y+1 or j == self.x+1:
+                    self.get[i][j] = -1
+                else:
+                    self.get[i][j] = 0
+        for i in range(self.y+1):
+            for j in range(self.x+1):
+                if self.get[i][j] == 1:
+                    for k in range(self.x-j):
+                        if self.get[i][j+k] == 0:
+                            del self.buffer[:]
+                            self.TerritoryFill(j+k, i)
+        for i in range(len(self.get)):
+            for j in range(len(self.get[0])):
+                if self.get[i][j] == 2:
+                    self.GetField.append(j*1000+i)
+        self.GetField = [item for item in self.GetField if item not in self.GetPosition]
+
+    def TerritoryFill(self, x, y):
+        self.buffer.append((x, y))
+        if self.get[y-1][x] == -1 or self.get[y][x+1] == -1 or self.get[y+1][x] == -1 or self.get[y][x-1] == -1 or\
+            self.get[y-1][x] == -2 or self.get[y][x+1] == -2 or self.get[y+1][x] == -2 or self.get[y][x-1] == -2:
+            self.get[y][x] = -2
+            return -2
+        else:
+            self.get[y][x] = 2
+        if self.get[y][x+1] == 0 and self.get[y][x] != -2:
+            self.get[y][x] = self.TerritoryFill(x+1, y)
+        if self.get[y][x-1] == 0 and self.get[y][x] != -2:
+            self.get[y][x] = self.TerritoryFill(x-1, y)
+        if self.get[y-1][x] == 0 and self.get[y][x] != -2:
+            self.get[y][x] = self.TerritoryFill(x, y-1)
+        if self.get[y+1][x] == 0 and self.get[y][x] != -2:
+            self.get[y][x] = self.TerritoryFill(x, y+1)
+        if self.get[y][x] != -2:
+            return 2
+        else:
+            for i in range(len(self.buffer)):
+                self.get[self.buffer[i][1]][self.buffer[i][0]] = -2
+            return -2
+
+    def DataCopy(self, InputData):
+        self.GetPosition = InputData.GetPosition
+        self.GetField = InputData.GetField

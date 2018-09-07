@@ -271,7 +271,7 @@ def Radio_handler(event):
             start.Disable()
         elif mode == 1:
             if modes.auto == False:
-                modes.AutoSet(log, field[0], [agent[2], agent[3]], red_Flags)
+                modes.AutoSet(log, agent_data[1], agent_data[0], [agent[2], agent[3]], red_Flags)
             color_select.Enable()
             start.Enable()
         elif mode == 2:
@@ -327,8 +327,9 @@ def Button_handler(event):
             log.LogWrite('Cancel step\n')
         elif Id_num == 202:
             if blue_Flags.flag == False_list and blue_Flags.end == False:
-                modes.bot[0].NextPositionSet(agent[2], agent_data[1], (agent[0].now, agent[1].now), 0)
-                modes.bot[1].NextPositionSet(agent[3], agent_data[1], (agent[0].now, agent[1].now), 1)
+                modes.bot.NextSet([agent[2], agent[3]], [agent[0], agent[1]])
+                #modes.bot[0].NextPositionSet(agent[2], agent_data[1], (agent[0].now, agent[1].now), 0)
+                #modes.bot[1].NextPositionSet(agent[3], agent_data[1], (agent[0].now, agent[1].now), 1)
                 turnendfunc()
             else:
                 log.LogWrite('No finish all step\n', logtype=pro29NN.ERROR)

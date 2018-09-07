@@ -68,7 +68,7 @@ class Modes():
     def AutoSet(self, log, MyagentData, EnemyagentData, agent, flags):
         self.Clear()
         network = ProconNetwork.Network()
-        self.bot = Bot.ProconNNControl(MyagentData, EnemyagentData, log, network)
+        self.bot = Bot.ProconNNControl(MyagentData, EnemyagentData, log, network, flags)
         self.auto = True
         self.AutoSetFlag = True
 
