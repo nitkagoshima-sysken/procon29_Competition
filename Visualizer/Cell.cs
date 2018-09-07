@@ -6,6 +6,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// <summary>
     /// 競技フィールドにおける任意の1マスのデータ構造を表します。
     /// </summary>
+    [Serializable]
     public class Cell
     {
         /// <summary>

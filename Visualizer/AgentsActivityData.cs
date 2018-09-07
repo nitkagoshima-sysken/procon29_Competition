@@ -10,6 +10,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// <summary>
     /// エージェントたちの行動データを表します
     /// </summary>
+    [Serializable]
     public class AgentsActivityData : IEnumerable<AgentActivityData>
     {
         AgentActivityData[,] Array { get; set; } = new AgentActivityData[Enum.GetValues(typeof(Team)).Length, Enum.GetValues(typeof(AgentNumber)).Length];

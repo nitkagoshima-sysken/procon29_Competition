@@ -6,6 +6,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// <summary>
     /// チームごとの真偽を表します。
     /// </summary>
+    [Serializable]
     public class TeamBool : IEnumerable
     {
         bool[] Array { get; set; } = new bool[Enum.GetValues(typeof(Team)).Length];

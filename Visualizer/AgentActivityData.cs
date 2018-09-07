@@ -1,10 +1,11 @@
-﻿using System.Drawing;
+﻿using System;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     /// <summary>
     /// エージェントの行動データを表します
     /// </summary>
+    [Serializable]
     public class AgentActivityData
     {
         /// <summary>
