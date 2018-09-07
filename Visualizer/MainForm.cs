@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -298,10 +298,50 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         public void ReadBotsTxt()
         {
-
+            if (System.IO.File.Exists("Bots.txt"))
+            {
+                var reader = new System.IO.StreamReader(@"Bots.txt", System.Text.Encoding.Default);
+                string result = string.Empty;
+                while (reader.Peek() >= 0)
+                {
+                    string line = reader.ReadLine();
+                    if (System.Text.RegularExpressions.Regex.IsMatch(
+                        line,
+                        @"{A} .*"))
+                    {
+                        MessageBox.Show("Bots.txtによってボットが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        var name = line.Substring(4);
+                        ConnectBot(0, name);
+                    }
+                    else if (System.Text.RegularExpressions.Regex.IsMatch(
+                        line,
+                        @"{B} .*"))
+                    {
+                        MessageBox.Show("Bots.txtによってボットが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        var name = line.Substring(4);
+                        ConnectBot(1, name);
+                    }
+                }
+                reader.Close();
+            }
+            else
+            {
+                using (var file = System.IO.File.Create(@"Bots.txt"))
+                {
+                    if (file != null)
+                    {
+                        file.Close();
+                    }
+                }
+            }
         }
 
-        public void ConnectBot(string path)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public void ConnectBot(int n, string path)
         {
             try
             {
@@ -311,8 +351,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 foreach (System.Text.RegularExpressions.Match match in mc)
                 {
-                    var bot1 = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
-                    botName[1] = match.Groups["file"].Value;
+                    bot[n] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
+                    MainForm.botName[n] = match.Groups["file"].Value;
                 }
             }
             catch (Exception)
