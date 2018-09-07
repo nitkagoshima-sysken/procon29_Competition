@@ -1,4 +1,8 @@
-# Procon29 Visualizer 12.0
+# Procon29 Visualizer 12.1
+
+## What's new Version 12.1
+
+Visualizerのログ画面にディスティネーションが常に`{0,0}`になるバグを修正
 
 ## What's new
 
@@ -174,6 +178,10 @@ Calc.tsvを使えば、毎回同じPQRファイルを読み込まなくて済む
 
 - PQRファイルのプリフェッチング機能が追加された
 - Calc.DeepCopyの中身を変更した（開発者向け）
+
+### Version 12.1
+
+- Visualizerのログ画面にディスティネーションが常に`{0,0}`になるバグを修正
 
 ## 君は開発者のフレンズなんだね！
 

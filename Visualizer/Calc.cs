@@ -697,6 +697,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 FieldHistory[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.Two].AgentStatusData = agentActivityData[Team.A, AgentNumber.Two].AgentStatusData;
                 FieldHistory[Turn - 1].AgentActivityDatas[Team.B, AgentNumber.One].AgentStatusData = agentActivityData[Team.B, AgentNumber.One].AgentStatusData;
                 FieldHistory[Turn - 1].AgentActivityDatas[Team.B, AgentNumber.Two].AgentStatusData = agentActivityData[Team.B, AgentNumber.Two].AgentStatusData;
+                FieldHistory[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One].Destination = agentActivityData[Team.A, AgentNumber.One].Destination;
+                FieldHistory[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.Two].Destination = agentActivityData[Team.A, AgentNumber.Two].Destination;
+                FieldHistory[Turn - 1].AgentActivityDatas[Team.B, AgentNumber.One].Destination = agentActivityData[Team.B, AgentNumber.One].Destination;
+                FieldHistory[Turn - 1].AgentActivityDatas[Team.B, AgentNumber.Two].Destination = agentActivityData[Team.B, AgentNumber.Two].Destination;
 
                 foreach (Team team in TeamArray)
                 {
