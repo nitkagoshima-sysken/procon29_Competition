@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
@@ -19,21 +20,25 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントたちを表します
         /// </summary>
+        [XmlElement(Order = 4)]
         public Agents Agents { get => FieldHistory[Turn].Agents; set => FieldHistory[Turn].Agents = value; }
 
         /// <summary>
         /// フィールドを設定または取得します。
         /// </summary>
+        [XmlElement(Order = 5)]
         public Field Field { get => FieldHistory[Turn].Field; set => FieldHistory[Turn].Field = value; }
 
         /// <summary>
         /// ターンを設定または取得します。
         /// </summary>
+        [XmlElement(Order = 0)]
         public int Turn { get; set; }
 
         /// <summary>
         /// ターンの終わりを設定または取得します。
         /// </summary>
+        [XmlElement(Order = 1)]
         public int MaxTurn
         {
             get => maxTurn;
@@ -43,11 +48,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// フィールドの歴史を設定または取得します。
         /// </summary>
+        [XmlElement(Order = 3)]
         public List<TurnData> FieldHistory { get; set; } = new List<TurnData>();
 
         /// <summary>
         /// エージェントの略称を返します。
         /// </summary>
+        [XmlElement(Order = 2)]
         public static string[,] ShortTeamAgentName => new string[2, 2] { { "Strawberry", "Apple", }, { "Kiwi", "Muscat", }, };
 
         /// <summary>

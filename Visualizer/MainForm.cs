@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -232,31 +232,27 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="e"></param>
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //OpenFileDialogクラスのインスタンスを作成
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            //はじめのファイル名を指定する
-            //はじめに「ファイル名」で表示される文字列を指定する
-            openFileDialog.FileName = "";
-            //はじめに表示されるフォルダを指定する
-            //指定しない（空の文字列）の時は、現在のディレクトリが表示される
-            openFileDialog.InitialDirectory = "";
-            //[ファイルの種類]に表示される選択肢を指定する
-            //指定しないとすべてのファイルが表示される
-            openFileDialog.Filter = "PQRファイル(*.pqr)|*.pqr|すべてのファイル(*.*)|*.*";
-            //[ファイルの種類]ではじめに選択されるものを指定する
-            //1番目の「PQRファイル」が選択されているようにする
-            openFileDialog.FilterIndex = 1;
+            openFileDialog1.FileName = "";
+            openFileDialog1.InitialDirectory = "";
+            openFileDialog1.Filter = "XMLファイル(*.xml)|*.xml|すべてのファイル(*.*)|*.*";
             //タイトルを設定する
-            openFileDialog.Title = "開くファイルを選択してください";
+            openFileDialog1.Title = "開くファイルを選択してください";
             //ダイアログボックスを閉じる前に現在のディレクトリを復元するようにする
-            openFileDialog.RestoreDirectory = true;
+            openFileDialog1.RestoreDirectory = true;
 
             //ダイアログを表示する
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                //OKボタンがクリックされたとき、選択されたファイル名を開き、データを読み込む       
-                OpenPQRFile(openFileDialog.FileName);
+                //XmlSerializerオブジェクトを作成
+                System.Xml.Serialization.XmlSerializer serializer =
+            new System.Xml.Serialization.XmlSerializer(typeof(XmlCalc));
+                //読み込むファイルを開く
+                System.IO.StreamReader sr = new System.IO.StreamReader(
+                    openFileDialog1.FileName, new System.Text.UTF8Encoding(false));
+                //XMLファイルから読み込み、逆シリアル化する
+                Calc = new Calc((XmlCalc)serializer.Deserialize(sr));
+                //ファイルを閉じる
+                sr.Close();
             }
         }
 
