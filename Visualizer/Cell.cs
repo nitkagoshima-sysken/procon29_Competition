@@ -139,21 +139,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public static Cell[,] CSVToFields(string str) => ListWithHeightAndWidthToFields(CSVtoList(str));
 
         /// <summary>
-        /// 現在のobjectのディープコピーを行います。
-        /// </summary>
-        /// <returns>objectのディープコピー</returns>
-        public object DeepCopy()
-        {
-            var cell = new Cell
-            {
-                Point = Point,
-                IsEnclosed = new TeamBool(IsEnclosed),
-                IsTileOn = new TeamBool(IsTileOn),
-            };            
-            return cell;
-        }
-
-        /// <summary>
         /// 人間が判読できる文字列に変換します
         /// </summary>
         /// <returns></returns>

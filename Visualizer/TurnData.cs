@@ -55,19 +55,5 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             Agents = agents;
             AgentActivityDatas = new AgentsActivityData();
         }
-
-        /// <summary>
-        /// 現在のobjectのディープコピーを行います。
-        /// </summary>
-        /// <returns>objectのディープコピー</returns>
-        public object DeepCopy()
-        {
-            var cloned =
-                new TurnData(
-                    new Field(Field),
-                    new Agents(Agents),
-                    new AgentsActivityData(AgentActivityDatas));
-            return cloned;
-        }
     }
 }

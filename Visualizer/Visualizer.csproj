@@ -89,10 +89,11 @@
     <Compile Include="AgentsActivityData.cs" />
     <Compile Include="AgentNumber.cs" />
     <Compile Include="AgentActivityData.cs" />
+    <Compile Include="AgentsActivityDataExtension.cs" />
     <Compile Include="AgentStatusCode.cs" />
-    <Compile Include="AgentStatusCodeExpansion.cs" />
+    <Compile Include="AgentStatusCodeExtension.cs" />
     <Compile Include="Arrow.cs" />
-    <Compile Include="BaseCalc.cs" />
+    <Compile Include="XmlCalc.cs" />
     <Compile Include="Calc.cs" />
     <Compile Include="Coordinate.cs" />
     <Compile Include="CreateNewForm.cs">
@@ -103,7 +104,7 @@
     </Compile>
     <Compile Include="Cell.cs" />
     <Compile Include="Field.cs" />
-    <Compile Include="FieldExpansion.cs" />
+    <Compile Include="FieldExtension.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -112,9 +113,9 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ObjectExtension.cs" />
-    <Compile Include="PointExpansion.cs" />
+    <Compile Include="PointExtension.cs" />
     <Compile Include="PqrData.cs" />
-    <Compile Include="PqrDataExpansion.cs" />
+    <Compile Include="PqrDataExtension.cs" />
     <Compile Include="PqrReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -130,9 +131,9 @@
     <Compile Include="Agents.cs" />
     <Compile Include="TeamBool.cs" />
     <Compile Include="TeamDesign.cs" />
-    <Compile Include="TeamExpansion.cs" />
+    <Compile Include="TeamExtension.cs" />
     <Compile Include="TurnData.cs" />
-    <Compile Include="TurnDataExpansion.cs" />
+    <Compile Include="AgentActivityDataExtension.cs" />
     <EmbeddedResource Include="CreateNewForm.resx">
       <DependentUpon>CreateNewForm.cs</DependentUpon>
     </EmbeddedResource>
