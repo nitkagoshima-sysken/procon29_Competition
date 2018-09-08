@@ -1,19 +1,18 @@
-# Procon29 Visualizer 13.0
+# Procon29 Visualizer 14.0
 
 ## What's new
 
-### FieldListが廃止された（開発者向け）
+### AgentArrayが廃止された（開発者向け）
 
-Visualizer 13.0以降、`Calc.FieldList`は廃止された。  
-同様なことをするには`Calc.Field`を使用すればいい。
+Visualizer 14.0以降、`Calc.AgentArray`及び`BaseCalc.AgentArray`が廃止されました。
+同様なことをするには、`Enum.GetValues(typeof(AgentNumber))`を使用してください。
+これはコードの可読性を高めるために、廃止されました。
 
-### DeepCloneが実装された（開発者向け）
+### TeamArrayが廃止された（開発者向け）
 
-シリアライズ可能なクラスや構造体をDeepCloneによってディープコピー可能になった。
-
-### Calc.DeepCopyが修正された（開発者向け）
-
-Visualizer 12.0でCalc.DeepCopyの中身が変更されたソースコードが正しく修正されたことを確認した。
+Visualizer 14.0以降、`Calc.TeamArray`及び`BaseCalc.TeamArray`が廃止されました。
+同様なことをするには、`Enum.GetValues(typeof(AgentNumber))`を使用してください。
+これはコードの可読性を高めるために、廃止されました。
 
 ## 操作方法
 
@@ -189,6 +188,11 @@ Visualizer 12.0でCalc.DeepCopyの中身が変更されたソースコードが�
 - FieldListが廃止された（開発者向け）
 - DeepCloneが実装された（開発者向け）
 - Calc.DeepCopyが修正された（開発者向け）
+
+## Version 14.0
+
+- AgentArrayが廃止された（開発者向け）
+- TeamArrayが廃止された（開発者向け）
 
 ## 君は開発者のフレンズなんだね！
 
