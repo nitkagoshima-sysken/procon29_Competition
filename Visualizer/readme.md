@@ -2,9 +2,18 @@
 
 ## What's new
 
-### BaseCalcのメソッドが消去された
+### BaseCalcからXmlCalcに変更された（開発者向け）
 
-Visualizer 15.0以降、`BaseCalc`
+Visualizer 15.0で、`BaseCalc`が`XmlCalc`に変更され、
+`Calc`をXMLに変換する際に`XmlCalc`に変換してから行うためにのみ使用されるようになりました。  
+ですので、Visualizer 15.0以降では、それ以外の用途のときは必ず`Calc`を使用してください。  
+また、`XmlCalc`では`Calc`にはあった大半のメソッドが取り除かれました。
+
+### ExpansionがExtensionに変更された（開発者向け）
+
+拡張メソッドを実装されたクラスにはExpansionとExtensionが混在していましたが、  
+Visualizer 15.0で、Extensionに統一されました。  
+ボット開発者は一度、リビルドしてから実行してください。
 
 ## 操作方法
 
@@ -189,6 +198,11 @@ Visualizer 15.0以降、`BaseCalc`
 #### Version 14.1
 
 - readme.mdの微調整
+
+### Version 15.0
+
+- BaseCalcからXmlCalcに変更された（開発者向け）
+- ExpansionがExtensionに変更された（開発者向け）
 
 ## バージョンの上がり方について
 
