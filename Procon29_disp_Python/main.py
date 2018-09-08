@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
+from concurrent.futures import ThreadPoolExecutor
+from pro29NN.WindowControl import *
 from pyzbar.pyzbar import decode
 from PIL import Image
 from wx import adv
 import configparser as config
-from concurrent.futures import ThreadPoolExecutor
 import time
 import pro29NN
-from pro29NN.WindowControl import *
 import os
 import wx
 import sys
@@ -75,8 +75,6 @@ def createbutton(text):
     agent[1].TurnSet(agent_data[1].GetPosition)
     agent[2].TurnSet(agent_data[0].GetPosition)
     agent[3].TurnSet(agent_data[0].GetPosition)
-    if modes.auto:
-        modes.AutoSet(log, field[0], [agent[2], agent[3]], red_Flags)
     bluepoint_text.SetLabel('青\n取得済み得点:{} \n領域得点:{}'\
                                 .format(agent_data[0].Point, agent_data[0].TerritoryPoint))
     redpoint_text.SetLabel('赤\n取得済み得点:{} \n領域得点:{}'\

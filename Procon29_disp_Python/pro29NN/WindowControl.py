@@ -2,6 +2,7 @@
 
 from . import Bot
 from . import ProconNetwork
+from . import Evolutionary
 import wx
 
 class SelectDialog(wx.Dialog):
@@ -74,10 +75,8 @@ class Modes():
 
     def LearnSet(self, log, field, agent, flags):
         self.Clear()
-        self.bot = [Bot.FakeBot(log, field, agent[0].now, flags[0]),\
-                    Bot.FakeBot(log, field, agent[1].now, flags[0]),\
-                    Bot.FakeBot(log, field, agent[2].now, flags[1]),\
-                    Bot.FakeBot(log, field, agent[3].now, flags[1])]
+        Evo = Evolutionary.GeneManagement()
+        
         self.learn = True
         self.LearnSetFlag = True
 
