@@ -1,19 +1,10 @@
-# Procon29 Visualizer 15.0
+# Procon29 Visualizer 16.0
 
 ## What's new
 
-### BaseCalcからXmlCalcに変更された（開発者向け）
+### 黒歴史DeepCopyが抹消された
 
-Visualizer 15.0で、`BaseCalc`が`XmlCalc`に変更され、
-`Calc`をXMLに変換する際に`XmlCalc`に変換してから行うためにのみ使用されるようになりました。  
-ですので、Visualizer 15.0以降では、それ以外の用途のときは必ず`Calc`を使用してください。  
-また、`XmlCalc`では`Calc`にはあった大半のメソッドが取り除かれました。
-
-### ExpansionがExtensionに変更された（開発者向け）
-
-拡張メソッドを実装されたクラスにはExpansionとExtensionが混在していましたが、  
-Visualizer 15.0で、Extensionに統一されました。  
-ボット開発者は一度、リビルドしてから実行してください。
+代わりに`DeepClone`をお使いください。
 
 ## 操作方法
 
