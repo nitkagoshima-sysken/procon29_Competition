@@ -50,17 +50,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         public static string[,] ShortTeamAgentName => new string[2, 2] { { "Strawberry", "Apple", }, { "Kiwi", "Muscat", }, };
 
-
-        /// <summary>
-        /// Team列挙体のすべての要素を配列にします
-        /// </summary>
-        public static Array TeamArray => Enum.GetValues(typeof(Team));
-
-        /// <summary>
-        /// Agent列挙体のすべての要素を配列にします
-        /// </summary>
-        public static Array AgentArray => Enum.GetValues(typeof(AgentNumber));
-
         /// <summary>
         /// 現在のobjectのディープコピーを行います。
         /// </summary>
@@ -105,7 +94,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             FieldHistory.Add(new TurnData(new Field(point.GetLength(1), point.GetLength(0)), new Agents()));
 
             InitializationOfField(point);
-            foreach (AgentNumber agent in AgentArray)
+            foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
             {
                 Agents[Team.A, agent].Position = initPosition[(int)agent];
                 PutTile(team: 0, agent: agent);
@@ -130,7 +119,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // TurnData作成
             FieldHistory.Add(new TurnData(field, new Agents()));
 
-            foreach (AgentNumber agent in AgentArray)
+            foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
             {
                 Agents[Team.A, agent].Position = initPosition[(int)agent];
                 PutTile(team: 0, agent: agent);
@@ -306,7 +295,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         private void CheckEnclosedArea()
         {
-            foreach (Team team in TeamArray)
+            foreach (Team team in Enum.GetValues(typeof(Team)))
             {
                 CheckEnclosedArea(team);
             }
@@ -403,9 +392,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 // TurnData作成
                 var a = new Agents();
-                for (Team team = 0; (int)team < TeamArray.Length; team++)
+                for (Team team = 0; (int)team < Enum.GetValues(typeof(Team)).Length; team++)
                 {
-                    for (AgentNumber agent = 0; (int)agent < AgentArray.Length; agent++)
+                    for (AgentNumber agent = 0; (int)agent < Enum.GetValues(typeof(AgentNumber)).Length; agent++)
                     {
                         a[team, agent] = new Agent(Agents[team, agent]);
                     }
@@ -462,7 +451,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
 
             bool movable = false;
-            foreach (Team otherteam in TeamArray)
+            foreach (Team otherteam in Enum.GetValues(typeof(Team)))
             {
                 if (otherteam != team)
                 {
@@ -492,9 +481,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         void CheckAgentActivityData(AgentsActivityData agentActivityData)
         {
-            foreach (Team team in TeamArray)
+            foreach (Team team in Enum.GetValues(typeof(Team)))
             {
-                foreach (AgentNumber agent in AgentArray)
+                foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                 {
                     var item = agentActivityData[team, agent];
                     // 何もしないのは、無条件で成功する(1)
@@ -590,9 +579,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // FailedInRemovingOurTileWithTheLazyOurTeam
                     // FailedInMovingByCollisionWithTheLazyOpponent
                     // FailedInRemovingOpponentTileWithTheLazyOpponent
-                    foreach (Team otherteam in TeamArray)
+                    foreach (Team otherteam in Enum.GetValues(typeof(Team)))
                     {
-                        foreach (AgentNumber otheragent in AgentArray)
+                        foreach (AgentNumber otheragent in Enum.GetValues(typeof(AgentNumber)))
                         {
                             if (team == otherteam && agent == otheragent) continue;
                             var otheritem = agentActivityData[otherteam, otheragent];
@@ -627,14 +616,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // FailedInMovingByInvolvedInOtherCollisions
             // FailedInRemovingOpponentTileByInvolvedInOtherCollisions
             // FailedInRemovingOurTileByInvolvedInOtherCollisions
-            foreach (Team team in TeamArray)
+            foreach (Team team in Enum.GetValues(typeof(Team)))
             {
-                foreach (AgentNumber agent in AgentArray)
+                foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                 {
                     var item = agentActivityData[team, agent];
-                    foreach (Team otherteam in TeamArray)
+                    foreach (Team otherteam in Enum.GetValues(typeof(Team)))
                     {
-                        foreach (AgentNumber otheragent in AgentArray)
+                        foreach (AgentNumber otheragent in Enum.GetValues(typeof(AgentNumber)))
                         {
                             if (team == otherteam && agent == otheragent) continue;
                             var otheritem = agentActivityData[otherteam, otheragent];
@@ -696,9 +685,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 FieldHistory[Turn - 1].AgentActivityDatas[Team.B, AgentNumber.One].AgentStatusData = agentActivityData[Team.B, AgentNumber.One].AgentStatusData;
                 FieldHistory[Turn - 1].AgentActivityDatas[Team.B, AgentNumber.Two].AgentStatusData = agentActivityData[Team.B, AgentNumber.Two].AgentStatusData;
 
-                foreach (Team team in TeamArray)
+                foreach (Team team in Enum.GetValues(typeof(Team)))
                 {
-                    foreach (AgentNumber agent in AgentArray)
+                    foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                     {
                         switch (agentActivityData[team, agent].AgentStatusData)
                         {
