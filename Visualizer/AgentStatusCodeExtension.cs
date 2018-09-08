@@ -1,6 +1,6 @@
 ﻿namespace nitkagoshima_sysken.Procon29.Visualizer
 {
-    static class AgentStatusCodeExpansion
+    static class AgentStatusCodeExtension
     {
         /// <summary>
         /// エージェントの行動の状態がリクエストであることを判定します

@@ -3,7 +3,7 @@
     /// <summary>
     /// フィールドの拡張メソッドを定義するためのクラスです。
     /// </summary>
-    public static class FieldExpansion
+    public static class FieldExtension
     {
         /// <summary>
         /// フィールドの幅を取得します。
