@@ -132,7 +132,7 @@
     <Compile Include="TeamDesign.cs" />
     <Compile Include="TeamExtension.cs" />
     <Compile Include="TurnData.cs" />
-    <Compile Include="TurnDataExtension.cs" />
+    <Compile Include="AgentActivityDataExtension.cs" />
     <EmbeddedResource Include="CreateNewForm.resx">
       <DependentUpon>CreateNewForm.cs</DependentUpon>
     </EmbeddedResource>

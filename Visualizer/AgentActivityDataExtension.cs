@@ -3,9 +3,9 @@
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     /// <summary>
-    /// TurnData関連の拡張メソッドを定義するためのクラスです。
+    /// AgentActivityDataの拡張メソッドを定義するためのクラスです。
     /// </summary>
-    static class TurnDataExtension
+    static class AgentActivityDataExtension
     {
 
         /// <summary>
