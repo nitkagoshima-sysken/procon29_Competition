@@ -51,14 +51,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>objectのディープコピー</returns>
         public object DeepCopy()
         {            
-            return new Calc((new BaseCalc(this)).DeepClone());
+            return new Calc((new XmlCalc(this)).DeepClone());
         }
 
         /// <summary>
         /// Calcを初期化します。
         /// </summary>
         /// <param name="calc"></param>
-        public Calc(BaseCalc calc)
+        public Calc(XmlCalc calc)
         {
             MaxTurn = calc.MaxTurn;
             Turn = calc.Turn;

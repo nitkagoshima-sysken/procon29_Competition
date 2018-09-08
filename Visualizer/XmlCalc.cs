@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     /// <summary>
-    /// Calcの基底クラスです。XMLで管理する際に使用される予定です。
+    /// CalcをXMLで管理する際に使用されるクラスです。
     /// </summary>
     [System.Xml.Serialization.XmlInclude(typeof(Agent))]
     [System.Xml.Serialization.XmlInclude(typeof(AgentActivityData))]
     [Serializable]
-    public class BaseCalc
+    public class XmlCalc
     {
         int maxTurn;
 
@@ -62,7 +62,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// BaseCalcを初期化をします。
         /// </summary>
-        public BaseCalc()
+        public XmlCalc()
         {
 
         }
@@ -71,7 +71,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// Calcを初期化します。
         /// </summary>
         /// <param name="calc"></param>
-        public BaseCalc(Calc calc)
+        public XmlCalc(Calc calc)
         {
             MaxTurn = calc.MaxTurn;
             Turn = calc.Turn;
@@ -85,7 +85,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="maxTurn">最大ターン数を設定します。</param>
         /// <param name="point">フィールドのポイントを設定します。</param>
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public BaseCalc(int maxTurn, int[,] point, Coordinate[] initPosition)
+        public XmlCalc(int maxTurn, int[,] point, Coordinate[] initPosition)
         {
             MaxTurn = maxTurn;
             // Turn -> 0
@@ -111,7 +111,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="maxTurn">最大ターン数を設定します。</param>
         /// <param name="field">フィールドのポイントを設定します。</param>
         /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public BaseCalc(int maxTurn, Field field, Coordinate[] initPosition)
+        public XmlCalc(int maxTurn, Field field, Coordinate[] initPosition)
         {
             MaxTurn = maxTurn;
             // Turn -> 0

@@ -1,18 +1,10 @@
-# Procon29 Visualizer 14.1
+# Procon29 Visualizer 15.0
 
 ## What's new
 
-### AgentArrayが廃止された（開発者向け）
+### BaseCalcのメソッドが消去された
 
-Visualizer 14.0以降、`Calc.AgentArray`及び`BaseCalc.AgentArray`が廃止されました。
-同様なことをするには、`Enum.GetValues(typeof(AgentNumber))`を使用してください。
-これはコードの可読性を高めるために、廃止されました。
-
-### TeamArrayが廃止された（開発者向け）
-
-Visualizer 14.0以降、`Calc.TeamArray`及び`BaseCalc.TeamArray`が廃止されました。
-同様なことをするには、`Enum.GetValues(typeof(AgentNumber))`を使用してください。
-これはコードの可読性を高めるために、廃止されました。
+Visualizer 15.0以降、`BaseCalc`
 
 ## 操作方法
 
