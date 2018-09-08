@@ -89,6 +89,7 @@
     <Compile Include="AgentsActivityData.cs" />
     <Compile Include="AgentNumber.cs" />
     <Compile Include="AgentActivityData.cs" />
+    <Compile Include="AgentsActivityDataExtension.cs" />
     <Compile Include="AgentStatusCode.cs" />
     <Compile Include="AgentStatusCodeExtension.cs" />
     <Compile Include="Arrow.cs" />
