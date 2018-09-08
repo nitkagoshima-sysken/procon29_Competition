@@ -46,15 +46,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public static string[,] ShortTeamAgentName => new string[2, 2] { { "Strawberry", "Apple", }, { "Kiwi", "Muscat", }, };
 
         /// <summary>
-        /// 現在のobjectのディープコピーを行います。
-        /// </summary>
-        /// <returns>objectのディープコピー</returns>
-        public object DeepCopy()
-        {            
-            return new Calc((new XmlCalc(this)).DeepClone());
-        }
-
-        /// <summary>
         /// Calcを初期化します。
         /// </summary>
         /// <param name="calc"></param>

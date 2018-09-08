@@ -82,22 +82,5 @@
         /// <param name="point">対称となるマス</param>
         /// <returns></returns>
         public static Cell Take(this Cell[,] field, Coordinate point) => field[point.X, point.Y];
-
-        /// <summary>
-        /// 現在のobjectのディープコピーを行います。
-        /// </summary>
-        /// <returns>objectのディープコピー</returns>
-        public static object DeepCopy(this Cell[,] field)
-        {
-            var cloned = new Cell[field.Width(), field.Height()];
-            for (int x = 0; x < cloned.Width(); x++)
-            {
-                for (int y = 0; y < cloned.Height(); y++)
-                {
-                    cloned[x, y] = (Cell)field[x, y].DeepCopy();
-                }
-            }
-            return cloned;
-        }
     }
 }
