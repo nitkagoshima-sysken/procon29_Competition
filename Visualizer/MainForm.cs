@@ -297,6 +297,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         public void ReadBotsTxt()
         {
+            if (!Directory.Exists("Prefetching"))
+            {
+                Directory.CreateDirectory("Prefetching");
+            }
             if (System.IO.File.Exists(@".\Prefetching\Bots.tsv"))
             {
                 var reader = new System.IO.StreamReader(@".\Prefetching\Bots.tsv", System.Text.Encoding.Default);
