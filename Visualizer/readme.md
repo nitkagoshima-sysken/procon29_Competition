@@ -1,18 +1,19 @@
-# Procon29 Visualizer 12.1
-
-## What's new Version 12.1
-
-Visualizerのログ画面にディスティネーションが常に`{0,0}`になるバグを修正
+# Procon29 Visualizer 13.0
 
 ## What's new
 
-### PQRファイルのプリフェッチング機能が追加された
+### FieldListが廃止された（開発者向け）
 
-Calc.tsvを使えば、毎回同じPQRファイルを読み込まなくて済むようになります。
+Visualizer 13.0以降、`Calc.FieldList`は廃止された。  
+同様なことをするには`Calc.Field`を使用すればいい。
 
-### Calc.DeepCopyの中身を変更した（開発者向け）
+### DeepCloneが実装された（開発者向け）
 
-バグが直ったとは言っていない。
+シリアライズ可能なクラスや構造体をDeepCloneによってディープコピー可能になった。
+
+### Calc.DeepCopyが修正された（開発者向け）
+
+Visualizer 12.0でCalc.DeepCopyの中身が変更されたソースコードが正しく修正されたことを確認した。
 
 ## 操作方法
 
@@ -182,6 +183,12 @@ Calc.tsvを使えば、毎回同じPQRファイルを読み込まなくて済む
 ### Version 12.1
 
 - Visualizerのログ画面にディスティネーションが常に`{0,0}`になるバグを修正
+
+## Version 13.0
+
+- FieldListが廃止された（開発者向け）
+- DeepCloneが実装された（開発者向け）
+- Calc.DeepCopyが修正された（開発者向け）
 
 ## 君は開発者のフレンズなんだね！
 
