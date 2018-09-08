@@ -1,4 +1,4 @@
-# Procon29 Visualizer 14.0
+# Procon29 Visualizer 14.1
 
 ## What's new
 
@@ -179,20 +179,31 @@ Visualizer 14.0以降、`Calc.TeamArray`及び`BaseCalc.TeamArray`が廃止さ�
 - PQRファイルのプリフェッチング機能が追加された
 - Calc.DeepCopyの中身を変更した（開発者向け）
 
-### Version 12.1
+#### Version 12.1
 
 - Visualizerのログ画面にディスティネーションが常に`{0,0}`になるバグを修正
 
-## Version 13.0
+### Version 13.0
 
 - FieldListが廃止された（開発者向け）
 - DeepCloneが実装された（開発者向け）
 - Calc.DeepCopyが修正された（開発者向け）
 
-## Version 14.0
+### Version 14.0
 
 - AgentArrayが廃止された（開発者向け）
 - TeamArrayが廃止された（開発者向け）
+
+#### Version 14.1
+
+- readme.mdの微調整
+
+## バージョンの上がり方について
+
+Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバージョン.マイナーバージョン.ビルドバージョン`で表されます。  
+メジャーバージョンは基本的に`1`のままですので、普段は`14.1`というように省略されます。  
+マイナーバージョンは、主に外見の変化、内部の互換性のない仕様の変化などのときに上がります。
+ビルドバージョンは、小さなバグの修正や、コードの最適化などのときに上がります。
 
 ## 君は開発者のフレンズなんだね！
 
