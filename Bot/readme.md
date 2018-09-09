@@ -2,7 +2,7 @@
 
 ## What's new (ver. 4.17.1)
 
-### Visualier 17.1 に対応した
+### Visualizer 17.1 に対応した
 
 ## What's new
 
