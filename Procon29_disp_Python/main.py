@@ -188,17 +188,8 @@ def start_func():
         errordialog.ShowModal()
         errordialog.Destroy()
 
-def OpenFile(file):
-    if '.png' in file:
-        data = decode(Image.open(file))
-        text = data[0][0].decode('utf-8', 'ignore')
-        return text.split(':')
-    elif '.pqr' in file:
-        f = open(file, 'r')
-        text = f.read()
-        return text.replace('\n','').split(':')
-    else:
-        raise FormatError(file)
+def StartLearn():
+    pass
 
 def FileOpenAll(filedata):
     global load_file_flag
@@ -206,8 +197,8 @@ def FileOpenAll(filedata):
     if len(field) != 0:
         FiledClear()
     try:
-        text = OpenFile(filedata)
-    except FormatError:
+        text = pro29NN.Functions.OpenFile(filedata)
+    except pro29NN.Functions.FormatError:
         log.LogWrite("Can't open file", logtype=pro29NN.ERROR)
     else:
         log.LogWrite('File open {}\n'.format(filedata), logtype=pro29NN.FILE_LOG)
@@ -256,8 +247,8 @@ def Menu_handler(event):
     elif Id_num == 21:
         log.LogWrite('Open bot about info\n', logtype=pro29NN.SYSTEM_LOG)
         info = adv.AboutDialogInfo()
-        info.SetName('PROCON29 NN and EC')
-        info.SetVersion('0.0.5')
+        info.SetName('水素でGo')
+        info.SetVersion('0.1.0')
         info.SetCopyright('Copyright (c) 2018 Glaz egy.')
         adv.AboutBox(info)
     
@@ -286,7 +277,7 @@ def Radio_handler(event):
             start.Enable()
         elif mode == 3:
             if modes.learn == False:
-                modes.LearnSet(log, field[0], agent, [blue_Flags, red_Flags])
+                modes.LearnSet(log)
             color_select.Disable()
             start.Enable()
             cancel.Disable()
@@ -333,8 +324,6 @@ def Button_handler(event):
         elif Id_num == 202:
             if blue_Flags.flag == False_list and blue_Flags.end == False:
                 modes.bot.NextSet([agent[2], agent[3]], [agent[0], agent[1]])
-                #modes.bot[0].NextPositionSet(agent[2], agent_data[1], (agent[0].now, agent[1].now), 0)
-                #modes.bot[1].NextPositionSet(agent[3], agent_data[1], (agent[0].now, agent[1].now), 1)
                 turnendfunc()
             else:
                 log.LogWrite('No finish all step\n', logtype=pro29NN.ERROR)
@@ -347,10 +336,7 @@ def Button_handler(event):
         if Id_num == 200:
             start_func()
             for i in range(turn):
-                modes.bot[0].NextPositionSet(agent[0], agent_data[0], (agent[2].now, agent[3].now), 0)
-                modes.bot[1].NextPositionSet(agent[1], agent_data[0], (agent[2].now, agent[3].now), 1)
-                modes.bot[2].NextPositionSet(agent[2], agent_data[1], (agent[0].now, agent[1].now), 0)
-                modes.bot[3].NextPositionSet(agent[3], agent_data[1], (agent[0].now, agent[1].now), 1)
+
                 turnendfunc()
         elif start_flag == False:
             log.LogWrite('Not start Game', logtype=pro29NN.ERROR)

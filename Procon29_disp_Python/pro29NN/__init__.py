@@ -15,3 +15,4 @@ from . import ProconNetwork
 from . import Bot
 from . import SystemControl
 from . import Evolutionary
+from . import Functions
