@@ -38,6 +38,8 @@
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CreateNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveAsSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UndoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RedoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,8 +47,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.SaveAsSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
@@ -178,16 +178,31 @@
             // CreateNewToolStripMenuItem
             // 
             this.CreateNewToolStripMenuItem.Name = "CreateNewToolStripMenuItem";
-            this.CreateNewToolStripMenuItem.Size = new System.Drawing.Size(230, 28);
+            this.CreateNewToolStripMenuItem.Size = new System.Drawing.Size(243, 28);
             this.CreateNewToolStripMenuItem.Text = "新規作成(&N)";
             this.CreateNewToolStripMenuItem.Click += new System.EventHandler(this.CreateNewToolStripMenuItem_Click);
             // 
             // OpenToolStripMenuItem
             // 
             this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(230, 28);
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(243, 28);
             this.OpenToolStripMenuItem.Text = "開く(&O)";
             this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
+            // 
+            // SaveToolStripMenuItem
+            // 
+            this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
+            this.SaveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(243, 28);
+            this.SaveToolStripMenuItem.Text = "上書き保存(&S)";
+            this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
+            // 
+            // SaveAsSToolStripMenuItem
+            // 
+            this.SaveAsSToolStripMenuItem.Name = "SaveAsSToolStripMenuItem";
+            this.SaveAsSToolStripMenuItem.Size = new System.Drawing.Size(243, 28);
+            this.SaveAsSToolStripMenuItem.Text = "名前をつけて保存(&A)";
+            this.SaveAsSToolStripMenuItem.Click += new System.EventHandler(this.SaveAsSToolStripMenuItem_Click);
             // 
             // EditToolStripMenuItem
             // 
@@ -247,20 +262,6 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(80, 19);
             this.toolStripStatusLabel1.Text = "{} Point:";
-            // 
-            // SaveAsSToolStripMenuItem
-            // 
-            this.SaveAsSToolStripMenuItem.Name = "SaveAsSToolStripMenuItem";
-            this.SaveAsSToolStripMenuItem.Size = new System.Drawing.Size(230, 28);
-            this.SaveAsSToolStripMenuItem.Text = "名前をつけて保存(&A)";
-            this.SaveAsSToolStripMenuItem.Click += new System.EventHandler(this.SaveAsSToolStripMenuItem_Click);
-            // 
-            // SaveToolStripMenuItem
-            // 
-            this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
-            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(230, 28);
-            this.SaveToolStripMenuItem.Text = "上書き保存(&S)";
-            this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // openFileDialog1
             // 

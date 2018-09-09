@@ -1,4 +1,4 @@
-# Procon29 Visualizer 17.1
+# Procon29 Visualizer 17.2
 
 ## What's new
 
@@ -11,6 +11,12 @@
 ## What's new Version 17.1
 
 ### Prefetchingディレクトリが存在しないとき例外が発生するバグを修正
+
+## What's new Version 17.2
+
+### `Ctrl`+`S`で試合を保存できるようになった
+
+### readme.mdの微調整
 
 ## 操作方法
 
@@ -35,14 +41,31 @@
 |`NumPad7`| 選択されたエージェントが左上に移動する |
 |`NumPad8`| 選択されたエージェントが上に移動する |
 |`NumPad9`| 選択されたエージェントが右上に移動する |
-|`Ctrl`+`Z`| ターンを元に戻す |
+|`Ctrl`+`S`| 試合を保存する |
 |`Ctrl`+`Y`| ターンをやり直す |
+|`Ctrl`+`Z`| ターンを元に戻す |
 
-## ボットのプリフェッチング機能の使い方
+## プリフェッチング機能の使い方
 
-`Bot.tsv`を開きます。
-オレンジチームにボットをあらかじめ追加したい場合は文頭から`A`+[Tab]+[ボットのパス名]を書きます。
-ライムチームにボットをあらかじめ追加したい場合は文頭から`B`+[Tab]+[ボットのパス名]を書きます。
+`Visualizer.exe`のあるディレクトリに`Prefetching`というディレクトリが存在するはずです。  
+存在しない場合は一度、`Visualizer.exe`を実行すると、生成されます。  
+`Prefetching`の中にあるTSVファイルに特別なコマンドを入力すると、  
+次回実行時にVisualizerがそのファイルを読み、コマンドに応じた変化が生じます。
+
+### Bots.tsv
+
+|コマンド|引数|機能|
+|:-:|:-:|:-:|
+|`A`|path|オレンジチームに指定したボットが読み込まれる|
+|`B`|path|ライムチームに指定したボットが読み込まれる|
+
+### Calc.tsv
+
+|コマンド|引数|機能|
+|:-:|:-:|:-:|
+|`Pqr`|path|指定したPQRファイルが読み込まれる|
+|`Turn`|digit|指定したターンが読み込まれる|
+|`MaxTurn`|digit|指定した最大ターン数が読み込まれる|
 
 ## Version
 
@@ -189,8 +212,8 @@
 
 ### Version 14.0
 
-- AgentArrayが廃止された（開発者向け）
-- TeamArrayが廃止された（開発者向け）
+- `Calc.AgentArray`が廃止された（開発者向け）
+- `Calc.TeamArray`が廃止された（開発者向け）
 
 #### Version 14.1
 
@@ -199,11 +222,47 @@
 ### Version 15.0
 
 - BaseCalcからXmlCalcに変更された（開発者向け）
-- ExpansionがExtensionに変更された（開発者向け）
+- `XmlCalc.Sum()`が廃止された（開発者向け）
+- `XmlCalc.SumAbs()`が廃止された（開発者向け）
+- `XmlCalc.AreaPoint(Team)`が廃止された（開発者向け）
+- `XmlCalc.EnclosedPoint(Team)`が廃止された（開発者向け）
+- `XmlCalc.TotalPoint(Team)`が廃止された（開発者向け）
+- `XmlCalc.PointMapCheck()`が廃止された（開発者向け）
+- `XmlCalc.IsFillable(Team, Coordinate)`が廃止された（開発者向け）
+- `XmlCalc.FillFalseInIsEnclosed(Team, Coordinate)`が廃止された（開発者向け）
+- `XmlCalc.ResetTrueInIsEnclosed(Team)`が廃止された（開発者向け）
+- `XmlCalc.ResetTrueInIsEnclosed()`が廃止された（開発者向け）
+- `XmlCalc.CheckEnclosedArea(Team)`が廃止された（開発者向け）
+- `XmlCalc.CheckEnclosedArea()`が廃止された（開発者向け）
+- `XmlCalc.IsAgentHereOrInMooreNeighborhood(Team, AgentNumber, Coordinate)`が廃止された（開発者向け）
+- `XmlCalc.IsAgentHereOrInMooreNeighborhood(Coordinate)`が廃止された（開発者向け）
+- `XmlCalc.IsOneAgentHereOrInMooreNeighborhood(Coordinate)`が廃止された（開発者向け）
+- `XmlCalc.IsAgentHere(Coordinate)`が廃止された（開発者向け）
+- `XmlCalc.IsAgentInMooreNeighborhood(Coordinate)`が廃止された（開発者向け）
+- `XmlCalc.IsOneAgentInMooreNeighborhood(Coordinate)`が廃止された（開発者向け）
+- `XmlCalc.Undo()`が廃止された（開発者向け）
+- `XmlCalc.Redo()`が廃止された（開発者向け）
+- `XmlCalc.RemoveTile()`が廃止された（開発者向け）
+- `XmlCalc.MoveAgent(Team, AgentNumber, Coordinate)`が廃止された（開発者向け）
+- `XmlCalc.CheckAgentActivityData(AgentsActivityData)`が廃止された（開発者向け）
+- `XmlCalc.MoveAgent(AgentsActivityData)`が廃止された（開発者向け）
+- `XmlCalc.MoveAgent(Team, AgentActivityData[])`が廃止された（開発者向け）
+- `XmlCalc.MoveAgent(Team, AgentNumber, AgentActivityData)`が廃止された（開発者向け）
+- `AgentStatusCodeExpansion`が`AgentStatusCodeExtension`に変更された（開発者向け）
+- `FieldExpansion`が`FieldExtension`に変更された（開発者向け）
+- `PointExpansion`が`PointExtension`に変更された（開発者向け）
+- `PqrDataExpansion`が`PqrDataExtension`に変更された（開発者向け）
+- `TeamExpansion`が`TeamExtension`に変更された（開発者向け）
+- `TurnDataExpansion`が`TurnDataExtension`に変更された（開発者向け）
 
 ### Version 16.0
 
-- 黒歴史`DeepCopy`が抹消された
+- `AgentActivityData.DeepCopy()`が廃止された（開発者向け）
+- `Calc.DeepCopy()`が廃止された（開発者向け）
+- `Cell.DeepCopy()`が廃止された（開発者向け）
+- `FieldExtension.DeepCopy()`が廃止された（開発者向け）
+- `TurnData.DeepCopy()`が廃止された（開発者向け）
+- `XmlCalc.DeepCopy()`が廃止された（開発者向け）
 
 ### Version 17.0
 
@@ -214,6 +273,11 @@
 #### Version 17.1
 
 - Prefetchingディレクトリが存在しないとき例外が発生するバグを修正
+
+#### Version 17.2
+
+- `Ctrl`+`S`で試合を保存できるようになった
+- readme.mdの微調整
 
 ## バージョンの上がり方について
 
@@ -246,8 +310,7 @@ Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバ�
 
 ## コードメトリックス
 
-commit: `21be2795a19b75c90228285b8734ed9c7781f989`
-
-|保守容易性指数|サイクロマティック複雑度|継承の深さ|クラス結合|コード行|
-|:-:|:-:|:-:|:-:|:-:|  
-|80|571|7|125|1546|
+|バージョン|保守容易性指数|サイクロマティック複雑度|継承の深さ|クラス結合|コード行|
+|:-:|:-:|:-:|:-:|:-:|:-:|  
+|6.0|80|571|7|125|1546|
+|17.1|81|745|7|168|1902|
