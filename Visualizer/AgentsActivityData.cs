@@ -91,7 +91,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="obj"></param>
         public void Add(System.Object obj)
         {
-            throw new System.NotImplementedException();
         }
     }
 }

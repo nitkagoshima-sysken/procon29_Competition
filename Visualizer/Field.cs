@@ -56,7 +56,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// フィールドの高さを取得します。
         /// </summary>
-        public int Height => Cells.GetLength(1);
+        public int Height => Cells.GetLength(1);       
 
         /// <summary>
         /// フィールドの初期化をします。
@@ -129,7 +129,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="obj"></param>
         public void Add(System.Object obj)
         {
-            throw new System.NotImplementedException();
+           // throw new System.NotImplementedException();
         }
 
         /// <summary>

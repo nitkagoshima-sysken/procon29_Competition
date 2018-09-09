@@ -28,7 +28,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         public TurnData()
         {
-            throw new System.NotImplementedException();
         }
 
         /// <summary>
