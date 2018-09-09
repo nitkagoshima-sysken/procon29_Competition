@@ -9,7 +9,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// <summary>
     /// Teamの拡張メソッドを定義するためのクラスです。
     /// </summary>
-    public static class TeamExpansion
+    public static class TeamExtension
     {
         /// <summary>
         /// 指定したチームの相手のチームを表します。

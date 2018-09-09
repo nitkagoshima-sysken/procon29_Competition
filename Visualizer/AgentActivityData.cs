@@ -1,10 +1,11 @@
-﻿using System.Drawing;
+﻿using System;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     /// <summary>
     /// エージェントの行動データを表します
     /// </summary>
+    [Serializable]
     public class AgentActivityData
     {
         /// <summary>
@@ -55,11 +56,5 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             AgentStatusData = agentStatusData;
             Destination = destination;
         }
-
-        /// <summary>
-        /// 現在のobjectのディープコピーを行います。
-        /// </summary>
-        /// <returns>objectのディープコピー</returns>
-        public object DeepCopy => new AgentActivityData(AgentStatusData, Destination);
     }
 }
