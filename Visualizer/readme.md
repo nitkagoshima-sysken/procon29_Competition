@@ -29,6 +29,10 @@
 
 Visualizer 18.0以降、それ以前に生成されたXMLファイルは互換性がなく、読み込めません。  
 
+## What's new Version 18.1
+
+- code golf
+
 ## 操作方法
 
  1. クリックで対象のエージェントを選択しよう。
@@ -316,6 +320,10 @@ Visualizer 18.0以降、それ以前に生成されたXMLファイルは互換�
 - `XmlCalc.InitializationOfField()`を廃止（開発者向け）
 - `XmlCalc.TurnEnd()`を廃止（開発者向け）
 - `XmlCalc.PutTile()`を廃止（開発者向け）
+
+#### Version 18.1
+
+- code golf
 
 ## バージョンの上がり方について
 
