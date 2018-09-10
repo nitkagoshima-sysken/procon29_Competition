@@ -703,11 +703,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="agentActivityData"></param> 
         public void MoveAgent(Team team, AgentActivityData[] agentActivityData)
         {
-            var agentActivityDatas = new AgentsActivityData();
+            var agentActivityDatas = new AgentsActivityData(AgentStatusCode.RequestNotToDoAnything);
             foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
             {
                 agentActivityDatas[team, agent] = agentActivityData[(int)agent];
-                agentActivityDatas[team.Opponent(), agent] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
             }
             MoveAgent(agentActivityDatas);
         }
@@ -720,14 +719,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="agentActivityData"></param> 
         public void MoveAgent(Team team, AgentNumber agent, AgentActivityData agentActivityData)
         {
-            var agentActivityDatas = new AgentsActivityData();
-            foreach (Team otherteam in Enum.GetValues(typeof(Team)))
-            {
-                foreach (AgentNumber otheragent in Enum.GetValues(typeof(AgentNumber)))
-                {
-                    agentActivityDatas[otherteam, otheragent] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                }
-            }
+            var agentActivityDatas = new AgentsActivityData(AgentStatusCode.RequestNotToDoAnything);            
             agentActivityDatas[team, agent] = agentActivityData;
             MoveAgent(agentActivityDatas);
         }
