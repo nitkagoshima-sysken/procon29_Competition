@@ -67,6 +67,23 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
+        /// Fieldの初期化を行います。
+        /// </summary>
+        /// <param name="cell">コピーするマスを指定します。</param>
+        public Cell(XmlCell cell)
+        {
+            Point = cell.Point;
+            IsTileOn = new TeamBool();
+            IsEnclosed = new TeamBool();
+            foreach (Team team in Enum.GetValues(typeof(Team)))
+            {
+                IsTileOn[team] = cell.IsTileOn[(int)team];
+                IsEnclosed[team] = cell.IsEnclosed[(int)team];
+            }
+            Coordinate = new Coordinate(cell.Coordinate);
+        }
+
+        /// <summary>
         /// CSV形式の文字列をListに変換します。
         /// </summary>
         /// <param name="str">変換する文字列</param>

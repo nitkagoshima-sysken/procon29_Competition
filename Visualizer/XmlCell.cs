@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
+    [Serializable]
     public class XmlCell
     {
         /// <summary>
@@ -13,32 +14,28 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// ポイントには、-16以上16以下の整数値の点数が設定、または取得されます。
         /// ただし、0以下の点数のポイントは、少数しか存在しません。
         /// </summary>
-        public int Point { get; set; }
+        public int Point { get; set; } = 0;
 
         /// <summary>
         /// そのマスにタイルが置かれているかを表します。
         /// </summary>
-        public bool[] IsTileOn { get; set; }
+        public bool[] IsTileOn { get; set; } = new bool[2];
 
         /// <summary>
         /// そのマスがタイルに囲まれているかを表します。
         /// </summary>
-        public bool[] IsEnclosed { get; set; }
+        public bool[] IsEnclosed { get; set; } = new bool[2];
 
         /// <summary>
         /// そのマスがフィールドのどこにあるかを表します。
         /// </summary>
-        public Coordinate Coordinate { get; set; }
+        public Coordinate Coordinate { get; set; } = new Coordinate();
 
         /// <summary>
         /// Fieldの初期化を行います。
         /// </summary>
         public XmlCell()
         {
-            Point = 0;
-            IsTileOn = new bool[2];
-            IsEnclosed = new bool[2];
-            Coordinate = new Coordinate();
         }
 
         /// <summary>

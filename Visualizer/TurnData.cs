@@ -30,6 +30,24 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
         }
 
+        public TurnData(XmlTurnData xmlTurnData)
+        {
+            Agents = new Agents();
+            for (int i = 0; i < 4; i++)
+            {
+                Agents[(Team)(i / 2), (AgentNumber)(i % 2)] = xmlTurnData.Agents[i];
+            }
+            AgentActivityDatas = xmlTurnData.AgentActivityDatas;
+            Field = new Field(xmlTurnData.Width, xmlTurnData.Height);
+            for (int x = 0; x < xmlTurnData.Width; x++)
+            {
+                for (int y = 0; y < xmlTurnData.Height; y++)
+                {
+                    Field[x, y] = new Cell(xmlTurnData.Field[y * xmlTurnData.Width + x]);
+                }
+            }
+        }
+
         /// <summary>
         /// 初期化します
         /// </summary>

@@ -22,7 +22,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// フィールドを設定または取得します
         /// </summary>
-        public Cell[] Field { get; set; }
+        public XmlCell[] Field { get; set; }
 
         /// <summary>
         /// エージェントの位置を設定または取得します
@@ -52,12 +52,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             Height = turnData.Field.Height;
             Width = turnData.Field.Width;
             var max = Height * Width;
-            Field = new Cell[max];
+            Field = new XmlCell[max];
             for (int x = 0; x < Width; x++)
             {
                 for (int y = 0; y < Height; y++)
                 {
-                    Field[y * Width + x] = turnData.Field[x, y];
+                    Field[y * Width + x] = new XmlCell(turnData.Field[x, y]);
                 }
             }
         }

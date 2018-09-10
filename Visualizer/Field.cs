@@ -78,7 +78,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             foreach (var item in field.GetEnumerator())
                 this[item.Coordinate] = new Cell(item);
         }
-
+       
         /// <summary>
         /// フィールドの任意のマスを取得または設定します。
         /// </summary>

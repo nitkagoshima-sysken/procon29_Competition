@@ -245,7 +245,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 //XmlSerializerオブジェクトを作成
                 System.Xml.Serialization.XmlSerializer serializer =
-            new System.Xml.Serialization.XmlSerializer(typeof(XmlCalc));
+                    new System.Xml.Serialization.XmlSerializer(typeof(XmlCalc));
                 //読み込むファイルを開く
                 System.IO.StreamReader sr = new System.IO.StreamReader(
                     openFileDialog1.FileName, new System.Text.UTF8Encoding(false));
@@ -253,6 +253,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 Calc = new Calc((XmlCalc)serializer.Deserialize(sr));
                 //ファイルを閉じる
                 sr.Close();
+                show.Calc = Calc;
+                show.Showing(FieldDisplay);
             }
         }
 
