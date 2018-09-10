@@ -10,9 +10,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// <summary>
     /// CalcをXMLで管理する際に使用されるクラスです。
     /// </summary>
-    [System.Xml.Serialization.XmlInclude(typeof(Agent))]
-    [System.Xml.Serialization.XmlInclude(typeof(AgentActivityData))]
+    [XmlInclude(typeof(Agent))]
+    [XmlInclude(typeof(AgentActivityData))]
     [Serializable]
+    [XmlRoot("Calc")]
     public class XmlCalc
     {
         /// <summary>
@@ -28,6 +29,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// フィールドの歴史を設定または取得します。
         /// </summary>
+        [XmlArrayItem("TurnData")]
         public List<XmlTurnData> FieldHistory { get; set; } = new List<XmlTurnData>();
 
         /// <summary>

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     [Serializable]
+    [XmlRoot("TurnData")]
     public class XmlTurnData
     {
         /// <summary>
@@ -22,6 +24,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// フィールドを設定または取得します
         /// </summary>
+        [XmlArrayItem("Cell")]
         public XmlCell[] Field { get; set; }
 
         /// <summary>
