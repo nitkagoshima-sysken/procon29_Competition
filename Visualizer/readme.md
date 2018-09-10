@@ -1,22 +1,33 @@
-# Procon29 Visualizer 17.2
+# Procon29 Visualizer 18.0
 
 ## What's new
 
-### 試合のデータを「名前をつけて保存」できるようになった
+- 保存した試合を開けないバグを修正
+- `Agent`の引数なしコンストラクタを実装（開発者向け）
+- `TurnData`の引数なしコンストラクタを実装（開発者向け）
+- `Agents.Add()`を実装（開発者向け）
+- `AgentsActivityData.Add()`を実装（開発者向け）
+- `Field.Add()`を実装（開発者向け）
+- `XmlTurnData`を追加（開発者向け）
+- `XmlCell`を追加（開発者向け）
+- `Calc(XmlCalc)`を実装（開発者向け）
+- `XmlCalc(Calc)`を実装（開発者向け）
+- `Cell(XmlCell)`を実装（開発者向け）
+- `XmlCell(Cell)`を実装（開発者向け）
+- `TurnData(XmlTurnData)`を実装（開発者向け）
+- `XmlTurnData(TurnData)`を実装（開発者向け）
+- `XmlCalc.Agents`を廃止（開発者向け）
+- `XmlCalc.Field`を廃止（開発者向け）
+- `XmlCalc.Height`を廃止（開発者向け）
+- `XmlCalc.Width`を廃止（開発者向け）
+- `XmlCalc(int, int[,], Coordinate[])`を廃止（開発者向け）
+- `XmlCalc(int, Field, Coordinate[])`を廃止（開発者向け）
+- `XmlCalc.ComplementEnemysPosition()`を廃止（開発者向け）
+- `XmlCalc.InitializationOfField()`を廃止（開発者向け）
+- `XmlCalc.TurnEnd()`を廃止（開発者向け）
+- `XmlCalc.PutTile()`を廃止（開発者向け）
 
-### 試合のデータを「上書き保存」できるようになった
-
-### PQRファイルを開く機能が試合のデータを開く機能に変更された
-
-## What's new Version 17.1
-
-### Prefetchingディレクトリが存在しないとき例外が発生するバグを修正
-
-## What's new Version 17.2
-
-### `Ctrl`+`S`で試合を保存できるようになった
-
-### readme.mdの微調整
+Visualizer 18.0以降、それ以前に生成されたXMLファイルは互換性がなく、読み込めません。  
 
 ## 操作方法
 
@@ -278,6 +289,33 @@
 
 - `Ctrl`+`S`で試合を保存できるようになった
 - readme.mdの微調整
+
+### Version 18.0
+
+- 保存した試合を開けないバグを修正
+- `Agent`の引数なしコンストラクタを実装（開発者向け）
+- `TurnData`の引数なしコンストラクタを実装（開発者向け）
+- `Agents.Add()`を実装（開発者向け）
+- `AgentsActivityData.Add()`を実装（開発者向け）
+- `Field.Add()`を実装（開発者向け）
+- `XmlTurnData`を追加（開発者向け）
+- `XmlCell`を追加（開発者向け）
+- `Calc(XmlCalc)`を実装（開発者向け）
+- `XmlCalc(Calc)`を実装（開発者向け）
+- `Cell(XmlCell)`を実装（開発者向け）
+- `XmlCell(Cell)`を実装（開発者向け）
+- `TurnData(XmlTurnData)`を実装（開発者向け）
+- `XmlTurnData(TurnData)`を実装（開発者向け）
+- `XmlCalc.Agents`を廃止（開発者向け）
+- `XmlCalc.Field`を廃止（開発者向け）
+- `XmlCalc.Height`を廃止（開発者向け）
+- `XmlCalc.Width`を廃止（開発者向け）
+- `XmlCalc(int, int[,], Coordinate[])`を廃止（開発者向け）
+- `XmlCalc(int, Field, Coordinate[])`を廃止（開発者向け）
+- `XmlCalc.ComplementEnemysPosition()`を廃止（開発者向け）
+- `XmlCalc.InitializationOfField()`を廃止（開発者向け）
+- `XmlCalc.TurnEnd()`を廃止（開発者向け）
+- `XmlCalc.PutTile()`を廃止（開発者向け）
 
 ## バージョンの上がり方について
 
