@@ -721,43 +721,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public void MoveAgent(Team team, AgentNumber agent, AgentActivityData agentActivityData)
         {
             var agentActivityDatas = new AgentsActivityData();
-            switch (team)
+            foreach (Team otherteam in Enum.GetValues(typeof(Team)))
             {
-                case Team.A:
-                    switch (agent)
-                    {
-                        case AgentNumber.One:
-                            agentActivityDatas[Team.A, AgentNumber.One] = agentActivityData;
-                            agentActivityDatas[Team.A, AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[Team.B, AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[Team.B, AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            break;
-                        case AgentNumber.Two:
-                            agentActivityDatas[Team.A, AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[Team.A, AgentNumber.Two] = agentActivityData;
-                            agentActivityDatas[Team.B, AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[Team.B, AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            break;
-                    }
-                    break;
-                case Team.B:
-                    switch (agent)
-                    {
-                        case AgentNumber.One:
-                            agentActivityDatas[Team.A, AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[Team.A, AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[Team.B, AgentNumber.One] = agentActivityData;
-                            agentActivityDatas[Team.B, AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            break;
-                        case AgentNumber.Two:
-                            agentActivityDatas[Team.A, AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[Team.A, AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[Team.B, AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[Team.B, AgentNumber.Two] = agentActivityData;
-                            break;
-                    }
-                    break;
+                foreach (AgentNumber otheragent in Enum.GetValues(typeof(AgentNumber)))
+                {
+                    agentActivityDatas[otherteam, otheragent] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
+                }
             }
+            agentActivityDatas[team, agent] = agentActivityData;
             MoveAgent(agentActivityDatas);
         }
     }
