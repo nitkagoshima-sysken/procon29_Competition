@@ -704,20 +704,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public void MoveAgent(Team team, AgentActivityData[] agentActivityData)
         {
             var agentActivityDatas = new AgentsActivityData();
-            switch (team)
+            foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
             {
-                case Team.A:
-                    agentActivityDatas[Team.A, AgentNumber.One] = agentActivityData[0];
-                    agentActivityDatas[Team.A, AgentNumber.Two] = agentActivityData[1];
-                    agentActivityDatas[Team.B, AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                    agentActivityDatas[Team.B, AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                    break;
-                case Team.B:
-                    agentActivityDatas[Team.A, AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                    agentActivityDatas[Team.A, AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                    agentActivityDatas[Team.B, AgentNumber.One] = agentActivityData[0];
-                    agentActivityDatas[Team.B, AgentNumber.Two] = agentActivityData[1];
-                    break;
+                agentActivityDatas[team, agent] = agentActivityData[(int)agent];
+                agentActivityDatas[team.Opponent(), agent] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
             }
             MoveAgent(agentActivityDatas);
         }
