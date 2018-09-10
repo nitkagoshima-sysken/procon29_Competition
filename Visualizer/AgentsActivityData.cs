@@ -74,6 +74,18 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
+        /// AgentActivityDatas を初期化します。
+        /// </summary>
+        /// <param name="agentStatusCode">指定した AgentStatusCode で初期化します。</param>
+        public AgentsActivityData(AgentStatusCode agentStatusCode)
+        {
+            Array[0, 0] = new AgentActivityData(agentStatusCode);
+            Array[0, 1] = new AgentActivityData(agentStatusCode);
+            Array[1, 0] = new AgentActivityData(agentStatusCode);
+            Array[1, 1] = new AgentActivityData(agentStatusCode);
+        }
+
+        /// <summary>
         /// エージェントアクティビティデータを取得または設定します
         /// </summary>
         /// <param name="team">対象となる所属チーム</param>
