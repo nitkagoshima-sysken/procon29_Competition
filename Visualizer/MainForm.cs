@@ -28,9 +28,21 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         TeamDesign[] teamDesigns;
 
         CreateNewForm createNewForm = new CreateNewForm();
-        public static dynamic[] bot = new dynamic[2];
-        public static string[] botName = new string[2];
-        public static int maxTurn = 10;
+
+        /// <summary>
+        /// ボットを設定または取得します。
+        /// </summary>
+        public static dynamic[] Bot { get; set; } = new dynamic[2];
+
+        /// <summary>
+        /// ボットの名前を設定または取得します。
+        /// </summary>
+        public static string[] BotName { get; set; } = new string[2];
+
+        /// <summary>
+        /// 最大ターンのデフォルト値を設定または取得します。
+        /// </summary>
+        public static int MaxTurn = 10;
 
         /// <summary>
         /// MainForm
@@ -39,8 +51,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             InitializeComponent();
 
-            this.FieldDisplay.MouseMove += new MouseEventHandler(FieldDisplay_MouseMove);
-            this.Resize += new System.EventHandler(this.MainForm_Resize);
+            FieldDisplay.MouseMove += new MouseEventHandler(FieldDisplay_MouseMove);
+            Resize += new System.EventHandler(MainForm_Resize);
 
             log = new Logger(messageBox);
             var version = System.Diagnostics.FileVersionInfo.GetVersionInfo(
@@ -149,7 +161,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="e"></param>
         private void FieldDisplay_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-
             show.DoubleClickedShow();
         }
 
@@ -261,7 +272,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             createNewForm.ShowDialog(this);
-            Calc.MaxTurn = maxTurn;
+            Calc.MaxTurn = MaxTurn;
             //OKボタンがクリックされたとき、選択されたファイル名を開き、データを読み込む    
             if (createNewForm.SelectPQRFile != ".pqr" && createNewForm.SelectPQRFile != null)
                 OpenPQRFile(createNewForm.SelectPQRFile);
@@ -280,7 +291,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 log.WriteLine(Color.LightGray, reader.Stream);
                 var pqr = reader.ConvertToPqrData();
                 pqr.IsRegular();
-                Calc = new Calc(maxTurn, pqr.Fields, new Coordinate[2] { pqr.One, pqr.Two });
+                Calc = new Calc(MaxTurn, pqr.Fields, new Coordinate[2] { pqr.One, pqr.Two });
                 show = new Show(Calc, teamDesigns, FieldDisplay);
                 show.Showing(FieldDisplay);
             }
@@ -396,8 +407,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 foreach (System.Text.RegularExpressions.Match match in mc)
                 {
-                    bot[n] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
-                    MainForm.botName[n] = match.Groups["file"].Value;
+                    Bot[n] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
+                    MainForm.BotName[n] = match.Groups["file"].Value;
                 }
             }
             catch (Exception)
@@ -413,19 +424,19 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         private void TurnEnd()
         {
-            if (bot[0] != null)
+            if (Bot[0] != null)
             {
-                bot[0].Team = Team.A;
-                bot[0].Question(Calc);
-                var a = bot[0].Answer();
+                Bot[0].Team = Team.A;
+                Bot[0].Question(Calc);
+                var a = Bot[0].Answer();
                 show.agentActivityData[Team.A, AgentNumber.One] = a[0];
                 show.agentActivityData[Team.A, AgentNumber.Two] = a[1];
             }
-            if (bot[1] != null)
+            if (Bot[1] != null)
             {
-                bot[1].Team = Team.B;
-                bot[1].Question(Calc);
-                var a = bot[1].Answer();
+                Bot[1].Team = Team.B;
+                Bot[1].Question(Calc);
+                var a = Bot[1].Answer();
                 show.agentActivityData[Team.B, AgentNumber.One] = a[0];
                 show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
             }
@@ -441,17 +452,17 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             WriteLog();
             TurnProgressCheck();
 
-            if (bot[0] != null)
+            if (Bot[0] != null)
             {
-                log.WriteLine(Color.SkyBlue, "[" + botName[0] + "]");
+                log.WriteLine(Color.SkyBlue, "[" + BotName[0] + "]");
                 var d = Calc.FieldHistory[Calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One];
                 log.WriteLine(Color.SkyBlue, "A1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
                 d = Calc.FieldHistory[Calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.Two];
                 log.WriteLine(Color.SkyBlue, "A2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
             }
-            if (bot[1] != null)
+            if (Bot[1] != null)
             {
-                log.WriteLine(Color.SkyBlue, "[" + botName[1] + "]");
+                log.WriteLine(Color.SkyBlue, "[" + BotName[1] + "]");
                 var d = Calc.FieldHistory[Calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.One];
                 log.WriteLine(Color.SkyBlue, "B1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
                 d = Calc.FieldHistory[Calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.Two];
