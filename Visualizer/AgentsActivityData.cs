@@ -65,12 +65,24 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// AgentActivityDatas を初期化します。
         /// </summary>
-        public AgentsActivityData(AgentsActivityData agentActivityDatas)
+        public AgentsActivityData(AgentsActivityData agentsActivityData)
         {
-            Array[0, 0] = new AgentActivityData(agentActivityDatas[Team.A, AgentNumber.One]);
-            Array[0, 1] = new AgentActivityData(agentActivityDatas[Team.A, AgentNumber.Two]);
-            Array[1, 0] = new AgentActivityData(agentActivityDatas[Team.B, AgentNumber.One]);
-            Array[1, 1] = new AgentActivityData(agentActivityDatas[Team.B, AgentNumber.Two]);
+            Array[0, 0] = new AgentActivityData(agentsActivityData[Team.A, AgentNumber.One]);
+            Array[0, 1] = new AgentActivityData(agentsActivityData[Team.A, AgentNumber.Two]);
+            Array[1, 0] = new AgentActivityData(agentsActivityData[Team.B, AgentNumber.One]);
+            Array[1, 1] = new AgentActivityData(agentsActivityData[Team.B, AgentNumber.Two]);
+        }
+
+        /// <summary>
+        /// AgentActivityDatas を初期化します。
+        /// </summary>
+        /// <param name="agentStatusCode">指定した AgentStatusCode で初期化します。</param>
+        public AgentsActivityData(AgentStatusCode agentStatusCode)
+        {
+            Array[0, 0] = new AgentActivityData(agentStatusCode);
+            Array[0, 1] = new AgentActivityData(agentStatusCode);
+            Array[1, 0] = new AgentActivityData(agentStatusCode);
+            Array[1, 1] = new AgentActivityData(agentStatusCode);
         }
 
         /// <summary>
@@ -91,7 +103,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="obj"></param>
         public void Add(System.Object obj)
         {
-            throw new System.NotImplementedException();
         }
     }
 }

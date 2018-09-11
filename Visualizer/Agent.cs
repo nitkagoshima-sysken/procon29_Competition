@@ -30,7 +30,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         public Agent()
         {
-            throw new System.NotImplementedException();
         }
 
         /// <summary>
