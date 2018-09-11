@@ -28,9 +28,21 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         TeamDesign[] teamDesigns;
 
         CreateNewForm createNewForm = new CreateNewForm();
-        public static dynamic[] bot = new dynamic[2];
-        public static string[] botName = new string[2];
-        public static int maxTurn = 10;
+
+        /// <summary>
+        /// ボットを設定または取得します。
+        /// </summary>
+        public static dynamic[] Bot { get; set; } = new dynamic[2];
+
+        /// <summary>
+        /// ボットの名前を設定または取得します。
+        /// </summary>
+        public static string[] BotName { get; set; } = new string[2];
+
+        /// <summary>
+        /// 最大ターンのデフォルト値を設定または取得します。
+        /// </summary>
+        public static int MaxTurn = 10;
 
         /// <summary>
         /// MainForm
@@ -39,11 +51,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             InitializeComponent();
 
-            this.FieldDisplay.MouseMove += new MouseEventHandler(FieldDisplay_MouseMove);
-            this.Resize += new System.EventHandler(this.MainForm_Resize);
+            FieldDisplay.MouseMove += new MouseEventHandler(FieldDisplay_MouseMove);
+            Resize += new System.EventHandler(MainForm_Resize);
 
             log = new Logger(messageBox);
-            log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. 12.0)");
+            var version = System.Diagnostics.FileVersionInfo.GetVersionInfo(
+                System.Reflection.Assembly.GetExecutingAssembly().Location);
+            log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. " + version.FileMinorPart + "." + version.FileBuildPart + ")");
 
             // PQRファイルを直接読み込む
             // ちなみにQR_code_sample.pdfで登場したQRコード
@@ -147,7 +161,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="e"></param>
         private void FieldDisplay_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-
             show.DoubleClickedShow();
         }
 
@@ -230,38 +243,36 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="e"></param>
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //OpenFileDialogクラスのインスタンスを作成
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            //はじめのファイル名を指定する
-            //はじめに「ファイル名」で表示される文字列を指定する
-            openFileDialog.FileName = "";
-            //はじめに表示されるフォルダを指定する
-            //指定しない（空の文字列）の時は、現在のディレクトリが表示される
-            openFileDialog.InitialDirectory = "";
-            //[ファイルの種類]に表示される選択肢を指定する
-            //指定しないとすべてのファイルが表示される
-            openFileDialog.Filter = "PQRファイル(*.pqr)|*.pqr|すべてのファイル(*.*)|*.*";
-            //[ファイルの種類]ではじめに選択されるものを指定する
-            //1番目の「PQRファイル」が選択されているようにする
-            openFileDialog.FilterIndex = 1;
+            openFileDialog1.FileName = "";
+            openFileDialog1.InitialDirectory = "";
+            openFileDialog1.Filter = "XMLファイル(*.xml)|*.xml|すべてのファイル(*.*)|*.*";
             //タイトルを設定する
-            openFileDialog.Title = "開くファイルを選択してください";
+            openFileDialog1.Title = "開くファイルを選択してください";
             //ダイアログボックスを閉じる前に現在のディレクトリを復元するようにする
-            openFileDialog.RestoreDirectory = true;
+            openFileDialog1.RestoreDirectory = true;
 
             //ダイアログを表示する
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                //OKボタンがクリックされたとき、選択されたファイル名を開き、データを読み込む       
-                OpenPQRFile(openFileDialog.FileName);
+                //XmlSerializerオブジェクトを作成
+                System.Xml.Serialization.XmlSerializer serializer =
+                    new System.Xml.Serialization.XmlSerializer(typeof(XmlCalc));
+                //読み込むファイルを開く
+                System.IO.StreamReader sr = new System.IO.StreamReader(
+                    openFileDialog1.FileName, new System.Text.UTF8Encoding(false));
+                //XMLファイルから読み込み、逆シリアル化する
+                Calc = new Calc((XmlCalc)serializer.Deserialize(sr));
+                //ファイルを閉じる
+                sr.Close();
+                show.Calc = Calc;
+                show.Showing(FieldDisplay);
             }
         }
 
         private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             createNewForm.ShowDialog(this);
-            Calc.MaxTurn = maxTurn;
+            Calc.MaxTurn = MaxTurn;
             //OKボタンがクリックされたとき、選択されたファイル名を開き、データを読み込む    
             if (createNewForm.SelectPQRFile != ".pqr" && createNewForm.SelectPQRFile != null)
                 OpenPQRFile(createNewForm.SelectPQRFile);
@@ -280,7 +291,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 log.WriteLine(Color.LightGray, reader.Stream);
                 var pqr = reader.ConvertToPqrData();
                 pqr.IsRegular();
-                Calc = new Calc(maxTurn, pqr.Fields, new Coordinate[2] { pqr.One, pqr.Two });
+                Calc = new Calc(MaxTurn, pqr.Fields, new Coordinate[2] { pqr.One, pqr.Two });
                 show = new Show(Calc, teamDesigns, FieldDisplay);
                 show.Showing(FieldDisplay);
             }
@@ -299,6 +310,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         public void ReadBotsTxt()
         {
+            if (!Directory.Exists("Prefetching"))
+            {
+                Directory.CreateDirectory("Prefetching");
+            }
             if (System.IO.File.Exists(@".\Prefetching\Bots.tsv"))
             {
                 var reader = new System.IO.StreamReader(@".\Prefetching\Bots.tsv", System.Text.Encoding.Default);
@@ -392,8 +407,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 foreach (System.Text.RegularExpressions.Match match in mc)
                 {
-                    bot[n] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
-                    MainForm.botName[n] = match.Groups["file"].Value;
+                    Bot[n] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
+                    MainForm.BotName[n] = match.Groups["file"].Value;
                 }
             }
             catch (Exception)
@@ -409,19 +424,19 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         private void TurnEnd()
         {
-            if (bot[0] != null)
+            if (Bot[0] != null)
             {
-                bot[0].Team = Team.A;
-                bot[0].Question(Calc);
-                var a = bot[0].Answer();
+                Bot[0].Team = Team.A;
+                Bot[0].Question(Calc);
+                var a = Bot[0].Answer();
                 show.agentActivityData[Team.A, AgentNumber.One] = a[0];
                 show.agentActivityData[Team.A, AgentNumber.Two] = a[1];
             }
-            if (bot[1] != null)
+            if (Bot[1] != null)
             {
-                bot[1].Team = Team.B;
-                bot[1].Question(Calc);
-                var a = bot[1].Answer();
+                Bot[1].Team = Team.B;
+                Bot[1].Question(Calc);
+                var a = Bot[1].Answer();
                 show.agentActivityData[Team.B, AgentNumber.One] = a[0];
                 show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
             }
@@ -437,17 +452,17 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             WriteLog();
             TurnProgressCheck();
 
-            if (bot[0] != null)
+            if (Bot[0] != null)
             {
-                log.WriteLine(Color.SkyBlue, "[" + botName[0] + "]");
+                log.WriteLine(Color.SkyBlue, "[" + BotName[0] + "]");
                 var d = Calc.FieldHistory[Calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One];
                 log.WriteLine(Color.SkyBlue, "A1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
                 d = Calc.FieldHistory[Calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.Two];
                 log.WriteLine(Color.SkyBlue, "A2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
             }
-            if (bot[1] != null)
+            if (Bot[1] != null)
             {
-                log.WriteLine(Color.SkyBlue, "[" + botName[1] + "]");
+                log.WriteLine(Color.SkyBlue, "[" + BotName[1] + "]");
                 var d = Calc.FieldHistory[Calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.One];
                 log.WriteLine(Color.SkyBlue, "B1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
                 d = Calc.FieldHistory[Calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.Two];
@@ -457,12 +472,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             //XmlSerializerオブジェクトを作成
             //オブジェクトの型を指定する
             System.Xml.Serialization.XmlSerializer serializer =
-                new System.Xml.Serialization.XmlSerializer(typeof(BaseCalc));
+                new System.Xml.Serialization.XmlSerializer(typeof(XmlCalc));
             //書き込むファイルを開く（UTF-8 BOM無し）
             System.IO.StreamWriter sw = new System.IO.StreamWriter(
                 "log.xml", false, new System.Text.UTF8Encoding(false));
             //シリアル化し、XMLファイルに保存する
-            serializer.Serialize(sw, new BaseCalc(Calc));
+            serializer.Serialize(sw, new XmlCalc(Calc));
             //ファイルを閉じる
             sw.Close();
         }
@@ -481,6 +496,58 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             show.Showing(FieldDisplay);
             WriteLog();
             TurnProgressCheck();
+        }
+
+        private void SaveAsSToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.Filter = "XMLファイル(*.xml)|*.xml|すべてのファイル(*.*)|*.*";
+            saveFileDialog1.Title = "保存先のファイルを選択してください";
+            saveFileDialog1.RestoreDirectory = true;
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                //OKボタンがクリックされたとき、選択されたファイル名を表示する
+                Console.WriteLine(saveFileDialog1.FileName);
+
+                //XmlSerializerオブジェクトを作成
+                //オブジェクトの型を指定する
+                System.Xml.Serialization.XmlSerializer serializer =
+                    new System.Xml.Serialization.XmlSerializer(typeof(XmlCalc));
+                //書き込むファイルを開く（UTF-8 BOM無し）
+                System.IO.StreamWriter sw = new System.IO.StreamWriter(
+                    saveFileDialog1.FileName, false, new System.Text.UTF8Encoding(false));
+                //シリアル化し、XMLファイルに保存する
+                serializer.Serialize(sw, new XmlCalc(Calc));
+                //ファイルを閉じる
+                sw.Close();
+            }
+        }
+
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.FileName == "")
+            {
+                saveFileDialog1.Filter = "XMLファイル(*.xml)|*.xml|すべてのファイル(*.*)|*.*";
+                saveFileDialog1.Title = "保存先のファイルを選択してください";
+                saveFileDialog1.RestoreDirectory = true;
+                if (saveFileDialog1.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
+            }
+            //OKボタンがクリックされたとき、選択されたファイル名を表示する
+            Console.WriteLine(saveFileDialog1.FileName);
+
+            //XmlSerializerオブジェクトを作成
+            //オブジェクトの型を指定する
+            System.Xml.Serialization.XmlSerializer serializer =
+                new System.Xml.Serialization.XmlSerializer(typeof(XmlCalc));
+            //書き込むファイルを開く（UTF-8 BOM無し）
+            System.IO.StreamWriter sw = new System.IO.StreamWriter(
+                saveFileDialog1.FileName, false, new System.Text.UTF8Encoding(false));
+            //シリアル化し、XMLファイルに保存する
+            serializer.Serialize(sw, new XmlCalc(Calc));
+            //ファイルを閉じる
+            sw.Close();
         }
     }
 }

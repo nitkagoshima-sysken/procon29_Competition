@@ -45,34 +45,19 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary> 
         public static string[,] ShortTeamAgentName => new string[2, 2] { { "Strawberry", "Apple", }, { "Kiwi", "Muscat", }, };
 
-        /// <summary> 
-        /// Team列挙体のすべての要素を配列にします 
-        /// </summary> 
-        public static Array TeamArray => Enum.GetValues(typeof(Team));
-
-        /// <summary> 
-        /// Agent列挙体のすべての要素を配列にします 
-        /// </summary> 
-        public static Array AgentArray => Enum.GetValues(typeof(AgentNumber));
-
-        /// <summary>
-        /// 現在のobjectのディープコピーを行います。
-        /// </summary>
-        /// <returns>objectのディープコピー</returns>
-        public object DeepCopy()
-        {            
-            return new Calc((new BaseCalc(this)).DeepClone());
-        }
-
         /// <summary>
         /// Calcを初期化します。
         /// </summary>
         /// <param name="calc"></param>
-        public Calc(BaseCalc calc)
+        public Calc(XmlCalc calc)
         {
             MaxTurn = calc.MaxTurn;
             Turn = calc.Turn;
-            FieldHistory = calc.FieldHistory;
+            foreach (var item in calc.FieldHistory)
+            {
+                FieldHistory.Add(new TurnData(item));
+            }
+            Agents = FieldHistory[Turn].Agents;
         }
 
         /// <summary>
@@ -90,7 +75,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             FieldHistory.Add(new TurnData(new Field(point.GetLength(1), point.GetLength(0)), new Agents()));
 
             InitializationOfField(point);
-            foreach (AgentNumber agent in AgentArray)
+            foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
             {
                 Agents[Team.A, agent].Position = initPosition[(int)agent];
                 PutTile(team: 0, agent: agent);
@@ -115,7 +100,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // TurnData作成
             FieldHistory.Add(new TurnData(field, new Agents()));
 
-            foreach (AgentNumber agent in AgentArray)
+            foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
             {
                 Agents[Team.A, agent].Position = initPosition[(int)agent];
                 PutTile(team: 0, agent: agent);
@@ -163,50 +148,33 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
-        /// <summary> 
-        /// フィールドのリストを返します。 
-        /// </summary> 
-        [Obsolete("わざわざFieldListを使わなくてもFieldでリストのように扱えるようになりました")]
-        public List<Cell> FieldList
-        {
-            get
-            {
-                var list = new List<Cell>();
-                foreach (Cell cell in Field.GetEnumerator())
-                {
-                    list.Add(cell);
-                }
-                return list;
-            }
-        }
-
-        public int CalcPoint(Func<Cell, bool> func) => FieldList.Sum(x => (func(x)) ? x.Point : 0);
+        public int CalcPoint(Func<Cell, bool> func) => Field.Sum(x => (func(x)) ? x.Point : 0);
 
         /// <summary> 
         /// すべてのフィールドのポイントの和を計算します。 
         /// </summary> 
         /// <returns>すべてのフィールドのポイントの和</returns> 
-        public int Sum() => FieldList.Sum(x => x.Point);
+        public int Sum() => Field.Sum(x => x.Point);
 
         /// <summary> 
         /// すべてのフィールドのポイントの絶対値の和を計算します。 
         /// </summary> 
         /// <returns>すべてのフィールドのポイントの絶対値の和</returns> 
-        public int SumAbs() => FieldList.Sum(x => ((x.Point > 0) ? x.Point : -x.Point));
+        public int SumAbs() => Field.Sum(x => ((x.Point > 0) ? x.Point : -x.Point));
 
         /// <summary> 
         /// 指定したチームの直接的なエリアのポイントの合計を計算します。 
         /// </summary> 
         /// <param name="team">計算するチーム</param> 
         /// <returns>指定したチームの直接的なエリアのポイントの合計</returns> 
-        public int AreaPoint(Team team) => FieldList.Sum(x => ((x.IsTileOn[team] == true) ? x.Point : 0));
+        public int AreaPoint(Team team) => Field.Sum(x => ((x.IsTileOn[team] == true) ? x.Point : 0));
 
         /// <summary> 
         /// 指定したチームが囲んだエリアのポイントの絶対値の合計を計算します。 
         /// </summary> 
         /// <param name="team">計算するチーム</param> 
         /// <returns>指定したチームが囲んだエリアのポイントの絶対値の合計</returns> 
-        public int EnclosedPoint(Team team) => FieldList.Sum(x => ((x.IsEnclosed[team] == true) ? Math.Abs(x.Point) : 0));
+        public int EnclosedPoint(Team team) => Field.Sum(x => ((x.IsEnclosed[team] == true) ? Math.Abs(x.Point) : 0));
 
         /// <summary> 
         /// 指定したチームの合計ポイントを計算します。 
@@ -308,7 +276,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         private void CheckEnclosedArea()
         {
-            foreach (Team team in TeamArray)
+            foreach (Team team in Enum.GetValues(typeof(Team)))
             {
                 CheckEnclosedArea(team);
             }
@@ -405,9 +373,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 // TurnData作成 
                 var a = new Agents();
-                for (Team team = 0; (int)team < TeamArray.Length; team++)
+                for (Team team = 0; (int)team < Enum.GetValues(typeof(Team)).Length; team++)
                 {
-                    for (AgentNumber agent = 0; (int)agent < AgentArray.Length; agent++)
+                    for (AgentNumber agent = 0; (int)agent < Enum.GetValues(typeof(AgentNumber)).Length; agent++)
                     {
                         a[team, agent] = new Agent(Agents[team, agent]);
                     }
@@ -464,7 +432,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
 
             bool movable = false;
-            foreach (Team otherteam in TeamArray)
+            foreach (Team otherteam in Enum.GetValues(typeof(Team)))
             {
                 if (otherteam != team)
                 {
@@ -494,9 +462,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         void CheckAgentActivityData(AgentsActivityData agentActivityData)
         {
-            foreach (Team team in TeamArray)
+            foreach (Team team in Enum.GetValues(typeof(Team)))
             {
-                foreach (AgentNumber agent in AgentArray)
+                foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                 {
                     var item = agentActivityData[team, agent];
                     // 何もしないのは、無条件で成功する(1)
@@ -592,9 +560,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // FailedInRemovingOurTileWithTheLazyOurTeam
                     // FailedInMovingByCollisionWithTheLazyOpponent
                     // FailedInRemovingOpponentTileWithTheLazyOpponent
-                    foreach (Team otherteam in TeamArray)
+                    foreach (Team otherteam in Enum.GetValues(typeof(Team)))
                     {
-                        foreach (AgentNumber otheragent in AgentArray)
+                        foreach (AgentNumber otheragent in Enum.GetValues(typeof(AgentNumber)))
                         {
                             if (team == otherteam && agent == otheragent) continue;
                             var otheritem = agentActivityData[otherteam, otheragent];
@@ -629,14 +597,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // FailedInMovingByInvolvedInOtherCollisions
             // FailedInRemovingOpponentTileByInvolvedInOtherCollisions
             // FailedInRemovingOurTileByInvolvedInOtherCollisions
-            foreach (Team team in TeamArray)
+            foreach (Team team in Enum.GetValues(typeof(Team)))
             {
-                foreach (AgentNumber agent in AgentArray)
+                foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                 {
                     var item = agentActivityData[team, agent];
-                    foreach (Team otherteam in TeamArray)
+                    foreach (Team otherteam in Enum.GetValues(typeof(Team)))
                     {
-                        foreach (AgentNumber otheragent in AgentArray)
+                        foreach (AgentNumber otheragent in Enum.GetValues(typeof(AgentNumber)))
                         {
                             if (team == otherteam && agent == otheragent) continue;
                             var otheritem = agentActivityData[otherteam, otheragent];
@@ -692,15 +660,18 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 // ターンエンドの処理 
                 TurnEnd();
-                // ログを取る 
-                FieldHistory[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One].AgentStatusData = agentActivityData[Team.A, AgentNumber.One].AgentStatusData;
-                FieldHistory[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.Two].AgentStatusData = agentActivityData[Team.A, AgentNumber.Two].AgentStatusData;
-                FieldHistory[Turn - 1].AgentActivityDatas[Team.B, AgentNumber.One].AgentStatusData = agentActivityData[Team.B, AgentNumber.One].AgentStatusData;
-                FieldHistory[Turn - 1].AgentActivityDatas[Team.B, AgentNumber.Two].AgentStatusData = agentActivityData[Team.B, AgentNumber.Two].AgentStatusData;
-
-                foreach (Team team in TeamArray)
+                // ログを取る
+                foreach (Team team in Enum.GetValues(typeof(Team)))
                 {
-                    foreach (AgentNumber agent in AgentArray)
+                    foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
+                    {
+                        FieldHistory[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One].AgentStatusData = agentActivityData[Team.A, AgentNumber.One].AgentStatusData;
+                        FieldHistory[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One].Destination = agentActivityData[Team.A, AgentNumber.One].Destination;
+                    }
+                }                
+                foreach (Team team in Enum.GetValues(typeof(Team)))
+                {
+                    foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                     {
                         switch (agentActivityData[team, agent].AgentStatusData)
                         {
@@ -731,21 +702,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="agentActivityData"></param> 
         public void MoveAgent(Team team, AgentActivityData[] agentActivityData)
         {
-            var agentActivityDatas = new AgentsActivityData();
-            switch (team)
+            var agentActivityDatas = new AgentsActivityData(AgentStatusCode.RequestNotToDoAnything);
+            foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
             {
-                case Team.A:
-                    agentActivityDatas[Team.A, AgentNumber.One] = agentActivityData[0];
-                    agentActivityDatas[Team.A, AgentNumber.Two] = agentActivityData[1];
-                    agentActivityDatas[Team.B, AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                    agentActivityDatas[Team.B, AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                    break;
-                case Team.B:
-                    agentActivityDatas[Team.A, AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                    agentActivityDatas[Team.A, AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                    agentActivityDatas[Team.B, AgentNumber.One] = agentActivityData[0];
-                    agentActivityDatas[Team.B, AgentNumber.Two] = agentActivityData[1];
-                    break;
+                agentActivityDatas[team, agent] = agentActivityData[(int)agent];
             }
             MoveAgent(agentActivityDatas);
         }
@@ -758,44 +718,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="agentActivityData"></param> 
         public void MoveAgent(Team team, AgentNumber agent, AgentActivityData agentActivityData)
         {
-            var agentActivityDatas = new AgentsActivityData();
-            switch (team)
-            {
-                case Team.A:
-                    switch (agent)
-                    {
-                        case AgentNumber.One:
-                            agentActivityDatas[Team.A, AgentNumber.One] = agentActivityData;
-                            agentActivityDatas[Team.A, AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[Team.B, AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[Team.B, AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            break;
-                        case AgentNumber.Two:
-                            agentActivityDatas[Team.A, AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[Team.A, AgentNumber.Two] = agentActivityData;
-                            agentActivityDatas[Team.B, AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[Team.B, AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            break;
-                    }
-                    break;
-                case Team.B:
-                    switch (agent)
-                    {
-                        case AgentNumber.One:
-                            agentActivityDatas[Team.A, AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[Team.A, AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[Team.B, AgentNumber.One] = agentActivityData;
-                            agentActivityDatas[Team.B, AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            break;
-                        case AgentNumber.Two:
-                            agentActivityDatas[Team.A, AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[Team.A, AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[Team.B, AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
-                            agentActivityDatas[Team.B, AgentNumber.Two] = agentActivityData;
-                            break;
-                    }
-                    break;
-            }
+            var agentActivityDatas = new AgentsActivityData(AgentStatusCode.RequestNotToDoAnything);
+            agentActivityDatas[team, agent] = agentActivityData;
             MoveAgent(agentActivityDatas);
         }
     }

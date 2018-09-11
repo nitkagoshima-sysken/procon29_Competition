@@ -383,7 +383,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             return canvas;
         }
-       
+
         /// <summary>
         /// 表示を行います。
         /// </summary>
@@ -491,28 +491,29 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         public void ClickShow()
         {
-            if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[((SelectedTeam == Team.A) ? Team.B : Team.A)])
+            if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[SelectedTeam.Opponent()])
+            {
                 agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
+            }
             else if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[SelectedTeam])
             {
                 //メッセージボックスを表示する
                 DialogResult result = MessageBox.Show("タイルを取り除きますか？", "質問", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
                 //何が選択されたか調べる
-                if (result == DialogResult.Yes)
+                switch (result)
                 {
-                    //「はい」が選択された時
-                    Console.WriteLine("「はい」が選択されました");
-                    agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOurTile;
-                }
-                else if (result == DialogResult.No)
-                {
-                    //「いいえ」が選択された時
-                    Console.WriteLine("「いいえ」が選択されました");
-                    agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
+                    case DialogResult.Yes:
+                        agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOurTile;
+                        break;
+                    case DialogResult.No:
+                        agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
+                        break;
                 }
             }
             else
+            {
                 agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
+            }
         }
 
         public void KeyDownShow()
