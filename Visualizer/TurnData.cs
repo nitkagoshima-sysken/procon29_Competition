@@ -28,7 +28,24 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         public TurnData()
         {
-            throw new System.NotImplementedException();
+        }
+
+        public TurnData(XmlTurnData xmlTurnData)
+        {
+            Agents = new Agents();
+            for (int i = 0; i < 4; i++)
+            {
+                Agents[(Team)(i / 2), (AgentNumber)(i % 2)] = xmlTurnData.Agents[i];
+            }
+            AgentActivityDatas = xmlTurnData.AgentActivityDatas;
+            Field = new Field(xmlTurnData.Width, xmlTurnData.Height);
+            for (int x = 0; x < xmlTurnData.Width; x++)
+            {
+                for (int y = 0; y < xmlTurnData.Height; y++)
+                {
+                    Field[x, y] = new Cell(xmlTurnData.Field[y * xmlTurnData.Width + x]);
+                }
+            }
         }
 
         /// <summary>
@@ -54,20 +71,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             Field = field;
             Agents = agents;
             AgentActivityDatas = new AgentsActivityData();
-        }
-
-        /// <summary>
-        /// 現在のobjectのディープコピーを行います。
-        /// </summary>
-        /// <returns>objectのディープコピー</returns>
-        public object DeepCopy()
-        {
-            var cloned =
-                new TurnData(
-                    new Field(Field),
-                    new Agents(Agents),
-                    new AgentsActivityData(AgentActivityDatas));
-            return cloned;
         }
     }
 }

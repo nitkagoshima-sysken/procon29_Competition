@@ -3,11 +3,10 @@
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     /// <summary>
-    /// TurnData関連の拡張メソッドを定義するためのクラスです。
+    /// AgentActivityDataの拡張メソッドを定義するためのクラスです。
     /// </summary>
-    static class TurnDataExpansion
+    static class AgentActivityDataExtension
     {
-
         /// <summary>
         /// リクエストが自分のチームとコリジョンが発生し、失敗したとして処理します
         /// </summary>
@@ -104,41 +103,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     return;
                 default:
                     return;
-            }
-        }
-
-        public static void CheckCollision(this AgentsActivityData agentActivityData)
-        {
-            foreach (Team team in Enum.GetValues(typeof(Team)))
-            {
-                foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
-                {
-                    var item = agentActivityData[team, agent];
-                    if (item.AgentStatusData.IsRequest())
-                    {
-                        foreach (Team otherteam in Enum.GetValues(typeof(Team)))
-                        {
-                            foreach (AgentNumber otheragent in Enum.GetValues(typeof(AgentNumber)))
-                            {
-                                if (team == otherteam && agent == otheragent) continue;
-                                var otheritem = agentActivityData[otherteam, otheragent];
-                                if (item.Destination == otheritem.Destination)
-                                {
-                                    if (team == otherteam)
-                                    {
-                                        item.ToFailBySelfCollision();
-                                        otheritem.ToFailBySelfCollision();
-                                    }
-                                    else
-                                    {
-                                        item.ToFailByCollisionWithEachOther();
-                                        otheritem.ToFailByCollisionWithEachOther();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
             }
         }
     }

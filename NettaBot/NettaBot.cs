@@ -12,66 +12,49 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
         {
             var result = new AgentActivityData[2];
 
-            foreach (Agent agent in Calc.Agents)
+            var agentOne = Calc.Agents[Team, AgentNumber.One];
+            var agentTwo = Calc.Agents[Team, AgentNumber.Two];
+            var isOdd = IsOdd();
+            var agentActivityDatas = new AgentActivityData[2];
+            var maxpoint = int.MinValue;
+            foreach(Arrow arrowOne in Enum.GetValues(typeof(Arrow)))
             {
-                if (agent.Team == Team)
-                {
-                    var maxpoint = int.MinValue;
-                    Coordinate coordinate = new Coordinate();
-                    if (((agent.Position.X + agent.Position.Y) % 2 != 0) == true)
-                    {
+                var destinationOne = agentOne.Position + arrowOne;
 
-                        foreach (Arrow arrow in Enum.GetValues(typeof(Arrow)))
-                        {
-                            Coordinate slanting = new Coordinate() + arrow;
-                            if (slanting.X * slanting.Y == 0)
-                            {
-                                try
-                                {
-                                    var c = Simulate(
-                                        Team,
-                                        agent.AgentNumber,
-                                        MoveOrRemoveTile(agent.Position + arrow));
-                                    Console.WriteLine((agent.Position + arrow) + ":" + c.TotalPoint(Team) + ":" + c.TotalPoint(Team.Opponent()));
-                                    if (maxpoint < c.TotalPoint(Team) - c.TotalPoint(Team.Opponent()))
-                                    {
-                                        maxpoint = c.TotalPoint(Team) - c.TotalPoint(Team.Opponent());
-                                        coordinate = new Coordinate(agent.Position + arrow);
-                                        result[(int)agent.AgentNumber] = MoveOrRemoveTile(coordinate);
-                                    }
-                                }
-                                catch { }
-                            }
-                        }
+                foreach (Arrow arrowTwo in Enum.GetValues(typeof(Arrow)))
+                {
+                    var destinationTwo = agentTwo.Position + arrowTwo;
+                    try {
+
+                    if (((destinationOne.X + destinationOne.Y) % 2 != 0) == isOdd)
+                    {
+                        agentActivityDatas[(int)AgentNumber.One] = MoveOrRemoveTile(destinationOne);
                     }
                     else
                     {
-                        
-                        foreach(Arrow arrow in Enum.GetValues(typeof(Arrow)))
-                        {
-                            var slanting = new Coordinate() + arrow;
-                            if (slanting.X * slanting.Y != 0)
-                            {
-                                try
-                                {
-                                    var c = Simulate(
-                                        Team,
-                                        agent.AgentNumber,
-                                       MoveOrRemoveTile(agent.Position + arrow));
-                                    Console.WriteLine((agent.Position + arrow) + ":" + c.TotalPoint(Team) + ":" + c.TotalPoint(Team.Opponent()));
-                                    if (maxpoint < c.TotalPoint(Team) - c.TotalPoint(Team.Opponent()))
-                                    {
-                                        maxpoint = c.TotalPoint(Team) - c.TotalPoint(Team.Opponent());
-                                        coordinate = new Coordinate(agent.Position + arrow);
-                                        result[(int)agent.AgentNumber] = MoveOrRemoveTile(coordinate);
-                                    }
-                                }
-                                catch { }
-                            }
-                        }
-
+                        continue;
                     }
-                    Console.WriteLine((Team.Opponent() == Team.A) + ":" + maxpoint + ";" + coordinate);
+
+                    if (((destinationTwo.X + destinationTwo.Y) % 2 != 0) == isOdd)
+                    {
+                        agentActivityDatas[(int)AgentNumber.Two] = MoveOrRemoveTile(destinationTwo);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    Console.WriteLine(destinationOne + ":" + destinationTwo);
+                    Console.WriteLine(isOdd +":"+ ((destinationOne.X + destinationOne.Y) % 2 != 0) +":"+ ((destinationTwo.X + destinationTwo.Y) % 2 != 0));
+                    Console.WriteLine(agentActivityDatas[0].AgentStatusData + ":" + agentActivityDatas[1].AgentStatusData);
+                        var c = Simulate(Team, agentActivityDatas);
+                        Console.WriteLine(c.TotalPoint(Team)+":"+c.TotalPoint(Team.Opponent()));
+                        if (maxpoint < c.TotalPoint(Team) )
+                        {
+                            maxpoint = c.TotalPoint(Team);
+                            result = agentActivityDatas.DeepClone();
+                        }
+                    }
+                    catch { }
                 }
             }
 

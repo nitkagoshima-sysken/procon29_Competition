@@ -54,14 +54,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <returns></returns>
         public override string ToString() => String.Format("{{{0}, {1}}}", this[Team.A], this[Team.B]);
-        
+
         /// <summary>
         /// XML化するために宣言します
         /// </summary>
         /// <param name="obj"></param>
         public void Add(System.Object obj)
         {
-            throw new System.NotImplementedException();
         }
     }
 }
