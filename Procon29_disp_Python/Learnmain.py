@@ -7,7 +7,6 @@ from kivy.lang import Builder
 from pro29NN.WindowControl import *
 from kivy.app import App
 from threading import Thread
-import mypool
 import subprocess
 import pro29NN
 import Learn

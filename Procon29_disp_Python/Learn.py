@@ -3,7 +3,6 @@
 from pro29NN.WindowControl import *
 import concurrent.futures
 import pro29NN
-import mypool
 import random
 import copy
 import wx
@@ -87,7 +86,7 @@ class LearnClassMain():
                     paramsScore = paramsScores[j][k][1]
             k = 0
             for num in paramsScore:
-                paramsScores[i][1] = num / self.fieldatanum
+                paramsScores[k][1] = num / self.fieldatanum
                 k += 1
             self.Evo.SelectGene(paramsScores)
     
