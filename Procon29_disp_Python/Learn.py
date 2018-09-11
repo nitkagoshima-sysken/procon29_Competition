@@ -11,7 +11,7 @@ import os
 
 class LearnClassMain():
     def __init__(self):
-        pass
+        self.paramsnum = 5
 
     def SetLearn(self):
         self.fieldatanum = 1
@@ -78,17 +78,18 @@ class LearnClassMain():
         for i in range(self.GeneNum):
             self.log.LogWrite('{} generation start\n'.format(i), logtype=pro29NN.LEARN)
             paramsScores = []
-            paramsScore = [0 for ii in range(100)]
+            paramsScore = [0 for ii in range(self.paramsnum)]
+            params = []
             for FieldAgent in self.FieldAgent:
                 paramsScores.append(self.LearnProsess(FieldAgent))
-            for j in range(self.fieldatanum):
-                for k in range(100):
-                    paramsScore = paramsScores[j][k][1]
+            for j in range(self.fieldatanum-1):
+                for k in range(self.paramsnum):
+                    paramsScore[k] += paramsScores[j][k][1]
             k = 0
             for num in paramsScore:
-                paramsScores[k][1] = num / self.fieldatanum
+                params.append([paramsScores[0][k][0], num / self.fieldatanum])
                 k += 1
-            self.Evo.SelectGene(paramsScores)
+            self.Evo.SelectGene(params)
     
     def LearnProsess(self, FieldAgent):
         paramsScore = []
@@ -99,7 +100,7 @@ class LearnClassMain():
         network.load_params(file_name='gene/params{}.pkl'.format(100 if os.path.isfile('gene/params100.pkl') else random.randint(0, 99)))
         red_flags = Flags()
         
-        for i in range(100):
+        for i in range(self.paramsnum):
             self.log.LogWrite('openfile pickle file params{}\n'.format(i), logtype=pro29NN.LEARN)
             controler = pro29NN.Bot.ProconNNControl(TempData['agentdatared'].AllPoint, self.log, network, red_flags)
             blue_flags = Flags()
@@ -111,7 +112,7 @@ class LearnClassMain():
         return paramsScore
 
     def Gaming(self, con, con2, flag1, flag2, TempData):
-        for i in range(random.randint(100, 120)):
+        for i in range(random.randint(10, 15)):
             con.NextSet(TempData['agentred'], TempData['agentblue'], TempData['agentdatared'], TempData['agentdatablue'], logout=False)
             con2.NextSet(TempData['agentblue'], TempData['agentred'], TempData['agentdatablue'], TempData['agentdatared'], logout=False)
             for i in range(2):

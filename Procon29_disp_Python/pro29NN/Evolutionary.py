@@ -11,8 +11,8 @@ SelectDic = {'Tournament':0,
             'Ranking':2,
             'Elite':3}
 
-def ParamsClassCreate(prams):
-    return ParamsData(prams[0], prams[1])
+def ParamsClassCreate(params):
+    return ParamsData(params[0], params[1])
 
 def swap(num1, num2):
     temp = num1
@@ -69,12 +69,12 @@ class GeneManagement:
         for child in NextGeneration:
             if random.random() < self.MUTPB:
                 child = self.MutantGenerate(child)
-            Mutant.append()
+            Mutant.append(child)
         NextGeneration = copy.deepcopy(Mutant)
 
         i = 0
         for child in NextGeneration:
-            self.SaveParams(child.params, FileName='params{}.pkl'.format(i))
+            self.SaveParams(child, FileName='params{}.pkl'.format(i))
             i += 1
         
     def SelectTournament(self, params, toursize=3):
@@ -145,7 +145,7 @@ class GeneManagement:
         params = {}
         for key, val in Data.params.items():
             params[key] = val
-        with open('gene'+FileName, 'wb') as f:
+        with open('gene/'+FileName, 'wb') as f:
             pickle.dump(params, f)
 
 if __name__=='__main__':
