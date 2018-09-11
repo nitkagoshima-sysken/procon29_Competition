@@ -1,4 +1,4 @@
-# Procon29 Visualizer 18.0
+# Procon29 Visualizer 18.2
 
 ## What's new
 
@@ -31,8 +31,13 @@ Visualizer 18.0以降、それ以前に生成されたXMLファイルは互換�
 
 ## What's new Version 18.1
 
-- `MainForm`におけるソースコードの管理
 - readme.mdの微調整
+- `MainForm`におけるソースコードの管理（開発者向け）
+
+## What's new Version 18.2
+
+- `Calc`におけるソースコードの管理（開発者向け）
+- `Show`におけるソースコードの管理（開発者向け）
 
 ## 操作方法
 
@@ -324,8 +329,13 @@ Visualizer 18.0以降、それ以前に生成されたXMLファイルは互換�
 
 #### Version 18.1
 
-- `MainForm`におけるソースコードの管理
 - readme.mdの微調整
+- `MainForm`におけるソースコードの管理（開発者向け）
+
+#### Version 18.2
+
+- `Calc`におけるソースコードの管理（開発者向け）
+- `Show`におけるソースコードの管理（開発者向け）
 
 ## バージョンの上がり方について
 
