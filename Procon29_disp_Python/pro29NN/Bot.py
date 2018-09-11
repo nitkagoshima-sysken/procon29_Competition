@@ -3,6 +3,7 @@
 import pickle
 import wx
 import pro29NN
+import copy
 from . import ProconNetwork
 from . import Agent
 import numpy as np
@@ -12,24 +13,22 @@ class ProconNNControl:
     """
     Neural network control class.
     """
-    def __init__(self, MyAgentData, EnemyAgentData, log, network, flags):
-        self.MyAgentData = MyAgentData
-        self.EnemyAgentData = EnemyAgentData
-        self.AllPoint = MyAgentData.AllPoint
+    def __init__(self, AllPoint, log, network, flags):
+        self.AllPoint = AllPoint
         self.x, self.y = len(self.AllPoint[0]), len(self.AllPoint)
         self.params = {}
         self.log = log
         self.NetWork = network
         self.flags = flags
 
-    def NextEvalution(self, NextPosition1, NextPosition2, MyAgent, EnemyAgent):
-        AgentDataRaw = self.PositionRawUpdate(self.MyAgentData, self.EnemyAgentData\
+    def NextEvalution(self, NextPosition1, NextPosition2, MyAgent, EnemyAgent, MyAgetnData, EnemyAgentData):
+        AgentDataRaw = self.PositionRawUpdate(MyAgetnData, EnemyAgentData\
                                             , NextPosition1, NextPosition2, MyAgent, EnemyAgent)
         FieldData = self.UpdatePosition(AgentDataRaw)
         FieldDataArray = np.array(FieldData)
         return self.NetWork.predict(FieldDataArray.reshape(-1, 11, 12, 12))
 
-    def NextSet(self, MyAgent, EnemyAgent):
+    def NextSet(self, MyAgent, EnemyAgent, MyAgetnData, EnemyAgentData, logout=True):
         """
 
         """
@@ -39,13 +38,16 @@ class ProconNNControl:
         Movables = []
         for NextMove1 in Move1:
             for NextMove2 in Move2:
-                Evalutions.append(self.NextEvalution(NextMove1, NextMove2, MyAgent, EnemyAgent))
-                print('Pos {}, {}: Eva{}'.format(NextMove1, NextMove2, Evalutions[-1]))
-                Movables.append([NextMove1, NextMove2])
+                Movables.append([copy.deepcopy(NextMove1), copy.deepcopy(NextMove2)])
+                Evalutions.append(self.NextEvalution(NextMove1, NextMove2, MyAgent, EnemyAgent, MyAgetnData, EnemyAgentData))
+                print('Pos {}: Eva{}'.format(Movables[-1], Evalutions[-1]))
         EvalutionsArray = np.array(Evalutions)
         Next = Movables[EvalutionsArray.argmax()]
-        self.log.LogWrite('Next position {}\n'.format(Next))
-        self.log.LogWrite('Evalutions {}\n'.format(EvalutionsArray.argmax()), logtype=pro29NN.SYSTEM_LOG)
+        Eva = EvalutionsArray[EvalutionsArray.argmax()]
+        if logout:
+            self.log.LogWrite('Next position {}\n'.format(Next))
+            self.log.LogWrite('Evalutions {}\n'.format(Eva), logtype=pro29NN.SYSTEM_LOG)
+        print('Best Eva: {}'.format(Eva))
         MyAgent[0].NextSet(Next[0][1], overlap=Next[0][0])
         MyAgent[1].NextSet(Next[1][1], overlap=Next[1][0])
         self.flags.next[0] = Next[0][1]
@@ -61,7 +63,7 @@ class ProconNNControl:
 
     def PositionCalc(self, Position):
         x, y = Position//1000-1, Position%1000-1
-        point = self.AllPoint[y][x]
+        point = self.AllPoint[y][x] + 17
         return (x, y, point)
 
     def PositionRawUpdate(self, Mydata, Enemydata, pos1, pos2, MyAgent, EnemyAgent):

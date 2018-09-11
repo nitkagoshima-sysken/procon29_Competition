@@ -7,7 +7,8 @@ type_dic = {pro29NN.GAME_LOG:'[Game Log] ',\
             pro29NN.SYSTEM_LOG:'[System Log] ',\
             pro29NN.FILE_LOG:'[File Log] ',\
             pro29NN.ERROR:'[Error] ',\
-            pro29NN.DEBAG:'[Debag] '}
+            pro29NN.DEBAG:'[Debag] ',\
+            pro29NN.LEARN:'[Learn log] '}
 
 class LogControl:
     def __init__(self, file_name):

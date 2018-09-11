@@ -167,3 +167,44 @@ class Field:
         """
         self.field.Destroy()
         self.log.LogWrite('Clear ALL', logtype=pro29NN.SYSTEM_LOG)
+
+class LearnField:
+    """
+    Field control class.
+    qrdata : Input qrdata.
+    """
+    def __init__(self, qrdata):
+        self.y, self.x = map(int,qrdata[0].split(' '))
+        self.field_out = []
+        self.field_size =[]
+        self.point =[]
+        for i in range(self.y+2):
+            for j in range(self.x+2):
+                self.field_out.append(j*1000+i)
+                if i != 0 and j != 0 and i != self.y+1 and j != self.x+1:
+                    self.field_size.append(j*1000+i)
+        self.field_out = [item for item in self.field_out if item not in self.field_size]
+        for i in range(self.y):
+            self.point.append(list(map(int, qrdata[i+1].strip().split(' '))))
+
+    def FieldTypeAnalysis(self):
+        """
+        Analysising fiedl type method.
+        """
+        typenum = 0
+        if self.point[0][0] == self.point[self.y-1][0] and\
+            self.point[1][0] == self.point[self.y-2][0] and\
+            self.point[2][0] == self.point[self.y-3][0]:
+            typenum -= 1
+        if self.point[self.y-1][0] == self.point[self.y-1][self.x-1] and\
+            self.point[self.y-1][1] == self.point[self.y-1][self.x-2] and\
+            self.point[self.y-1][2] == self.point[self.y-1][self.x-3]:
+            typenum += 1
+        return typenum
+
+    def Destroy(self):
+        """
+        Destroy field object method.
+        """
+        self.field.Destroy()
+        self.log.LogWrite('Clear ALL', logtype=pro29NN.SYSTEM_LOG)

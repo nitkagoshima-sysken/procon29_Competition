@@ -42,11 +42,11 @@ class GeneManagement:
 
     def CreateGene(self, Seed=False):
         if Seed:
-            self.GeneSeedSelect('../gene/params0.pkl', '../gene/params1.pkl')
+            self.GeneSeedSelect('gene/params0.pkl', 'gene/params1.pkl')
         else:
             for i in range(self.GeneNum):
                 Network = ProconNetwork.Network()
-                Network.save_params(file_name='../gene/params{}.pkl'.format(i))
+                Network.save_params(file_name='gene/params{}.pkl'.format(i))
 
     def SelectGene(self, paramsdata):
         if self.SelectMethod == 0:
@@ -74,7 +74,7 @@ class GeneManagement:
 
         i = 0
         for child in NextGeneration:
-            self.SaveParams(child, FileName='params{}.pkl'.format(i))
+            self.SaveParams(child.params, FileName='params{}.pkl'.format(i))
             i += 1
         
     def SelectTournament(self, params, toursize=3):
@@ -145,7 +145,7 @@ class GeneManagement:
         params = {}
         for key, val in Data.params.items():
             params[key] = val
-        with open(FileName, 'wb') as f:
+        with open('gene'+FileName, 'wb') as f:
             pickle.dump(params, f)
 
 if __name__=='__main__':

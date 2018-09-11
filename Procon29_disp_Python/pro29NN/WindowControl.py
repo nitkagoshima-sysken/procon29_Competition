@@ -69,21 +69,11 @@ class Modes():
     def AutoSet(self, log, MyagentData, EnemyagentData, agent, flags):
         self.Clear()
         network = ProconNetwork.Network()
-        self.bot = Bot.ProconNNControl(MyagentData, EnemyagentData, log, network, flags)
+        self.bot = Bot.ProconNNControl(MyagentData.AllPoint, log, network, flags)
         self.auto = True
         self.AutoSetFlag = True
 
     def LearnSet(self, log):
         self.Clear()
-        Evo = Evolutionary.GeneManagement()
-        GeneDialog = wx.TextEntryDialog(None, '世代数を入力してください', '世代数設定')
-        GeneDialog.SetValue('40')
-        GeneDialog.ShowModal()
-        self.GeneNum = int(GeneDialog.GetValue())
-        GeneDialog.Destroy()
-        FileDialog = wx.FileDialog(None, 'Select File', style=wx.FD_MULTIPLE)
-        FileDialog.SetWildcard('*.png;*.pqr')
-        FileDialog.ShowModal()
-        FilePath = FileDialog.GetPaths()
         self.learn = True
         self.LearnSetFlag = True
