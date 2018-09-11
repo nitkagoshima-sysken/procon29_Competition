@@ -14,6 +14,7 @@ import pro29NN
 import os
 import wx
 import sys
+import Learn
 
 pool = ThreadPoolExecutor(4)
 
@@ -334,8 +335,8 @@ def Button_handler(event):
             FieldButtonFunc(Id_num)
     elif modes.learn:
         if Id_num == 200:
-            learn = LearnClass()
-            learn.StartLearn()
+            learn = Learn.LearnClassMain()
+            learn.SetLearn()
     else:
         if Id_num == 201:
             CancelFunc()

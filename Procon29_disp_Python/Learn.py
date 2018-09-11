@@ -11,7 +11,7 @@ import os
 
 class LearnClassMain():
     def __init__(self):
-        self.paramsnum = 5
+        self.paramsnum = 100
 
     def SetLearn(self):
         self.fieldatanum = 1
