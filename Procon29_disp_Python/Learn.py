@@ -28,7 +28,7 @@ def LearnProcess(FieldAgent, start, log):
     network2 = pro29NN.ProconNetwork.Network()
     network.load_params(file_name='gene/params{}.pkl'.format(100 if os.path.isfile('gene/params100.pkl') else random.randint(0, 99)))
     red_flags = Flags()
-    log.LogWrite('openfile pickle file params{}\n'.format(start), logtype=pro29NN.LEARN)
+    log.LogWrite('open pickle file params{}\n'.format(start), logtype=pro29NN.LEARN)
     controler = pro29NN.Bot.ProconNNControl(TempData['agentdatared'].AllPoint, log, network, red_flags)
     blue_flags = Flags()
     network2.load_params(file_name='gene/params{}.pkl'.format(start))
@@ -135,6 +135,7 @@ class LearnClassMain():
             paramsScores = []
             paramsScore = [0 for ii in range(self.paramsnum)]
             params = []
+            jj = 0
             for FieldAgent in self.FieldAgent:
                 if '--no-parallel' in self.argv:
                     paratemp = []
@@ -144,6 +145,8 @@ class LearnClassMain():
                 else:
                     #paramsScores += multiprocessingParallel(FieldAgent, self.paramsnum, self.log)
                     paramsScores += Parallel(n_jobs=-1)([delayed(LearnProcess)(FieldAgent, n, self.log) for n in range(self.paramsnum)])
+                self.log.LogWrite('Finished {} FieldFile\n'.format(jj), logtype=pro29NN.LEARN)
+                jj += 1
             for j in range(self.fieldatanum-1):
                 for key, val in paramsScores[j].items():
                     paramsScore[key] += val[1]
