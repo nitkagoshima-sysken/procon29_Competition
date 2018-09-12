@@ -82,7 +82,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public Field(Field field)
         {
             Array = new Cell[field.Width, field.Height];
-            foreach (var item in field.GetEnumerator())
+            foreach (var item in field)
                 this[item.Coordinate] = new Cell(item);
         }
 
