@@ -51,7 +51,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// Agentsを初期化します。
+        /// FruitFairiesを初期化します。
         /// </summary>
         public FruitFairies()
         {
@@ -62,7 +62,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// エージェントを取得または設定します
+        /// フルーツフェアリーを取得または設定します
         /// </summary>
         /// <param name="team">対象となる所属チーム</param>
         /// <param name="agent">対象となるエージェント番号</param>
@@ -74,7 +74,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// エージェントたちを取得または設定します
+        /// フルーツフェアリーたちを取得または設定します
         /// </summary>
         /// <param name="team">対象となる所属チーム</param>
         /// <returns></returns>
