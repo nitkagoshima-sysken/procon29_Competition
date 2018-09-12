@@ -40,14 +40,14 @@ class ProconNNControl:
             for NextMove2 in Move2:
                 Movables.append([copy.deepcopy(NextMove1), copy.deepcopy(NextMove2)])
                 Evalutions.append(self.NextEvalution(NextMove1, NextMove2, MyAgent, EnemyAgent, MyAgetnData, EnemyAgentData))
-                print('Pos {}: Eva{}'.format(Movables[-1], Evalutions[-1]))
+                if logout: print('Pos {}: Eva{}'.format(Movables[-1], Evalutions[-1]))
         EvalutionsArray = np.array(Evalutions)
         Next = Movables[EvalutionsArray.argmax()]
         Eva = EvalutionsArray[EvalutionsArray.argmax()]
         if logout:
             self.log.LogWrite('Next position {}\n'.format(Next))
             self.log.LogWrite('Evalutions {}\n'.format(Eva), logtype=pro29NN.SYSTEM_LOG)
-        print('Best Eva: {}'.format(Eva))
+        if logout: print('Best Eva: {}'.format(Eva))
         MyAgent[0].NextSet(Next[0][1], overlap=Next[0][0])
         MyAgent[1].NextSet(Next[1][1], overlap=Next[1][0])
         self.flags.next[0] = Next[0][1]

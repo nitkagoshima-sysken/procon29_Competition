@@ -17,25 +17,24 @@ def multiprocessingParallel(FieldAgent, num, log):
     paralist = [(FieldAgent, n, log) for n in range(num)]
     p = Pool(8)
     temp = p.map(wrapper, paralist)
+    print(len(temp))
     p.close()
     return temp
 
 def LearnProcess(FieldAgent, start, log):
     paramsScore = {}
-    InitData = copy.deepcopy(FieldAgent)
     TempData = copy.deepcopy(FieldAgent)
     network = pro29NN.ProconNetwork.Network()
     network2 = pro29NN.ProconNetwork.Network()
     network.load_params(file_name='gene/params{}.pkl'.format(100 if os.path.isfile('gene/params100.pkl') else random.randint(0, 99)))
     red_flags = Flags()
-    log.LogWrite('open pickle file params{}\n'.format(start), logtype=pro29NN.LEARN)
     controler = pro29NN.Bot.ProconNNControl(TempData['agentdatared'].AllPoint, log, network, red_flags)
     blue_flags = Flags()
     network2.load_params(file_name='gene/params{}.pkl'.format(start))
     controler2 = pro29NN.Bot.ProconNNControl(TempData['agentdatablue'].AllPoint, log, network2, blue_flags)
     score = Gaming(controler, controler2, red_flags, blue_flags, TempData)
     paramsScore[start] = [network2.params, score]
-    TempData = copy.deepcopy(InitData)
+    log.LogWrite('open pickle file params{}\n'.format(start), logtype=pro29NN.LEARN)
     return paramsScore
 
 def Gaming(con, con2, flag1, flag2, TempData):
@@ -140,18 +139,21 @@ class LearnClassMain():
                 if '--no-parallel' in self.argv:
                     paratemp = []
                     for n in range(self.paramsnum):
-                        paratemp += LearnProcess(FieldAgent, n, self.log)
+                        paratemp += [LearnProcess(FieldAgent, n, self.log)]
                     paramsScores += paratemp
                 else:
-                    #paramsScores += multiprocessingParallel(FieldAgent, self.paramsnum, self.log)
-                    paramsScores += Parallel(n_jobs=-1)([delayed(LearnProcess)(FieldAgent, n, self.log) for n in range(self.paramsnum)])
+                    #paramsScores += [multiprocessingParallel(FieldAgent, self.paramsnum, self.log)]
+                    paramsScores += [Parallel(n_jobs=-1)([delayed(LearnProcess)(FieldAgent, n, self.log) for n in range(self.paramsnum)])]
                 self.log.LogWrite('Finished {} FieldFile\n'.format(jj), logtype=pro29NN.LEARN)
                 jj += 1
+            temp = {}
             for j in range(self.fieldatanum-1):
-                for key, val in paramsScores[j].items():
-                    paramsScore[key] += val[1]
+                for k in range(self.paramsnum):
+                    items = list(paramsScores[j][k].items())
+                    paramsScore[items[0][0]] += items[0][1][1]
+                    temp[items[0][0]] = items[0][1]
             for num in range(len(paramsScore)):
-                params.append([paramsScores[0][num][0], paramsScore[num] / self.fieldatanum])
+                params.append([temp[num][0], paramsScore[num] / self.fieldatanum])
             self.Evo.SelectGene(params)
     
 if __name__=='__main__':
