@@ -10,15 +10,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     [Serializable]
     public class Field : IEnumerable<Cell>
     {
-        Cell[,] Cells { get; set; }
+        Cell[,] Array { get; set; }
 
         /// <summary>
         /// Cellを列挙します。
         /// </summary>
         /// <returns>列挙されたセル</returns>
-        public IEnumerable<Cell> GetEnumerator()
+        public IEnumerator<Cell> GetEnumerator()
         {
-            foreach (Cell item in Cells)
+            foreach (Cell item in Array)
             {
                 yield return item;
             }
@@ -30,7 +30,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>列挙されたセル</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            foreach (Cell item in Cells)
+            foreach (Cell item in Array)
             {
                 yield return item;
             }
@@ -42,21 +42,28 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>列挙されたセル</returns>
         IEnumerator<Cell> IEnumerable<Cell>.GetEnumerator()
         {
-            foreach (Cell item in Cells)
+            foreach (Cell item in Array)
             {
                 yield return item;
             }
         }
-       
+
         /// <summary>
         /// フィールドの幅を取得します。
         /// </summary>
-        public int Width => Cells.GetLength(0);
+        public int Width => Array.GetLength(0);
 
         /// <summary>
         /// フィールドの高さを取得します。
         /// </summary>
-        public int Height => Cells.GetLength(1);       
+        public int Height => Array.GetLength(1);
+
+        /// <summary>
+        /// Agentsを初期化します。
+        /// </summary>
+        public Field()
+        {
+        }
 
         /// <summary>
         /// フィールドの初期化をします。
@@ -65,7 +72,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="height">フィールドの高さ</param>
         public Field(int width, int height)
         {
-            Cells = new Cell[width, height];
+            Array = new Cell[width, height];
         }
 
         /// <summary>
@@ -74,11 +81,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="field">コピーしたいフィールド</param>
         public Field(Field field)
         {
-            Cells = new Cell[field.Width, field.Height];
+            Array = new Cell[field.Width, field.Height];
             foreach (var item in field.GetEnumerator())
                 this[item.Coordinate] = new Cell(item);
         }
-       
+
         /// <summary>
         /// フィールドの任意のマスを取得または設定します。
         /// </summary>
@@ -87,8 +94,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns></returns>
         public Cell this[int x, int y]
         {
-            set { Cells[x, y] = value; }
-            get { return Cells[x, y]; }
+            set { Array[x, y] = value; }
+            get { return Array[x, y]; }
         }
 
         /// <summary>
@@ -98,8 +105,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns></returns>
         public Cell this[Coordinate coordinate]
         {
-            set { Cells[coordinate.X, coordinate.Y] = value; }
-            get { return Cells[coordinate.X, coordinate.Y]; }
+            set { Array[coordinate.X, coordinate.Y] = value; }
+            get { return Array[coordinate.X, coordinate.Y]; }
         }
 
         /// <summary>
@@ -122,24 +129,24 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="point">対称となるマス</param>
         /// <returns></returns>
         public Coordinate FlipHorizontalAndVertical(Coordinate point) => new Coordinate(Width - 1 - point.X, Height - 1 - point.Y);
-        
+
         /// <summary>
         /// XML化するために宣言します
         /// </summary>
         /// <param name="obj"></param>
         public void Add(System.Object obj)
         {
-           // throw new System.NotImplementedException();
+            // throw new System.NotImplementedException();
         }
 
         /// <summary>
         /// 上下対称なら真、そうでなければ偽が返ってきます。
         /// </summary>
-        public bool IsVerticallySymmetrical => Cells.VerticallySymmetricalCheck();
+        public bool IsVerticallySymmetrical => Array.VerticallySymmetricalCheck();
 
         /// <summary>
         /// 左右対称なら真、そうでなければ偽が返ってきます。
         /// </summary>
-        public bool IsHorizontallySymmetrical => Cells.HorizontallySymmetricalCheck();        
+        public bool IsHorizontallySymmetrical => Array.HorizontallySymmetricalCheck();
     }
 }
