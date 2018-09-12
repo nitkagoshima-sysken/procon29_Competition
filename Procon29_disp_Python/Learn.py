@@ -1,17 +1,83 @@
 # -*- coding: utf-8 -*-
 
+from joblib import Parallel, delayed
+from multiprocessing import Pool
 from pro29NN.WindowControl import *
-import concurrent.futures
 import pro29NN
 import random
 import copy
+import sys
 import wx
 import os
+
+def wrapper(args):
+    return LearnProcess(*args)
+
+def multiprocessingParallel(FieldAgent, num, log):
+    paralist = [(FieldAgent, n, log) for n in range(num)]
+    p = Pool(8)
+    temp = p.map(wrapper, paralist)
+    p.close()
+    return temp
+
+def LearnProcess(FieldAgent, start, log):
+    paramsScore = {}
+    InitData = copy.deepcopy(FieldAgent)
+    TempData = copy.deepcopy(FieldAgent)
+    network = pro29NN.ProconNetwork.Network()
+    network2 = pro29NN.ProconNetwork.Network()
+    network.load_params(file_name='gene/params{}.pkl'.format(100 if os.path.isfile('gene/params100.pkl') else random.randint(0, 99)))
+    red_flags = Flags()
+    log.LogWrite('openfile pickle file params{}\n'.format(start), logtype=pro29NN.LEARN)
+    controler = pro29NN.Bot.ProconNNControl(TempData['agentdatared'].AllPoint, log, network, red_flags)
+    blue_flags = Flags()
+    network2.load_params(file_name='gene/params{}.pkl'.format(start))
+    controler2 = pro29NN.Bot.ProconNNControl(TempData['agentdatablue'].AllPoint, log, network2, blue_flags)
+    score = Gaming(controler, controler2, red_flags, blue_flags, TempData)
+    paramsScore[start] = [network2.params, score]
+    TempData = copy.deepcopy(InitData)
+    """
+    for i in range(start):
+        self.log.LogWrite('openfile pickle file params{}\n'.format(i), logtype=pro29NN.LEARN)
+        controler = pro29NN.Bot.ProconNNControl(TempData['agentdatared'].AllPoint, self.log, network, red_flags)
+        blue_flags = Flags()
+        network2.load_params(file_name='gene/params{}.pkl'.format(i))
+        controler2 = pro29NN.Bot.ProconNNControl(TempData['agentdatablue'].AllPoint, self.log, network2, blue_flags)
+        score = self.Gaming(controler, controler2, red_flags, blue_flags, TempData)
+        paramsScore.append([network2.params, score])
+        TempData = copy.deepcopy(InitData)
+    """
+    return paramsScore
+
+def Gaming(con, con2, flag1, flag2, TempData):
+    for i in range(random.randint(100, 150)):
+        con.NextSet(TempData['agentred'], TempData['agentblue'], TempData['agentdatared'], TempData['agentdatablue'], logout=False)
+        con2.NextSet(TempData['agentblue'], TempData['agentred'], TempData['agentdatablue'], TempData['agentdatared'], logout=False)
+        for i in range(2):
+            for j in range(2):
+                Overlap(i, j, flag1, flag2, TempData)
+        TempData['agentdatablue'].GetPoint([TempData['agentblue'][0].next, TempData['agentblue'][1].next], TempData['agentdatared'])
+        TempData['agentdatared'].GetPoint([TempData['agentred'][0].next, TempData['agentred'][1].next], TempData['agentdatablue'])
+        TempData['agentdatablue'].FieldPointSearch()
+        TempData['agentdatared'].FieldPointSearch()
+        TempData['agentblue'][0].TurnSet(TempData['agentdatared'].GetPosition)
+        TempData['agentblue'][1].TurnSet(TempData['agentdatared'].GetPosition)
+        TempData['agentred'][0].TurnSet(TempData['agentdatablue'].GetPosition)
+        TempData['agentred'][1].TurnSet(TempData['agentdatablue'].GetPosition)
+    red_point = TempData['agentdatared'].Point + TempData['agentdatared'].TerritoryPoint
+    blue_point = TempData['agentdatablue'].Point + TempData['agentdatablue'].TerritoryPoint
+    return blue_point-red_point
+
+def Overlap(i, j, flag1, flag2, TempData):
+    if flag1.next[i] == flag2.next[j]:
+        TempData['agentred'][i].next[1] = 0
+        TempData['agentblue'][j].next[1] = 0
 
 
 class LearnClassMain():
     def __init__(self):
         self.paramsnum = 100
+        self.argv = sys.argv
 
     def SetLearn(self):
         self.fieldatanum = 1
@@ -81,26 +147,39 @@ class LearnClassMain():
             paramsScore = [0 for ii in range(self.paramsnum)]
             params = []
             for FieldAgent in self.FieldAgent:
-                paramsScores.append(self.LearnProsess(FieldAgent))
+                if '--no-parallel' in self.argv:
+                    paratemp = []
+                    for n in range(self.paramsnum):
+                        paratemp += LearnProcess(FieldAgent, n, self.log)
+                    paramsScores += paratemp
+                else:
+                    #paramsScores += multiprocessingParallel(FieldAgent, self.paramsnum, self.log)
+                    paramsScores += Parallel(n_jobs=-1)([delayed(LearnProcess)(FieldAgent, n, self.log) for n in range(self.paramsnum)])
             for j in range(self.fieldatanum-1):
-                for k in range(self.paramsnum):
-                    paramsScore[k] += paramsScores[j][k][1]
-            k = 0
-            for num in paramsScore:
-                params.append([paramsScores[0][k][0], num / self.fieldatanum])
-                k += 1
+                for key, val in paramsScores[j].items():
+                    paramsScore[key] += val[1]
+            for num in range(len(paramsScore)):
+                params.append([paramsScores[0][num][0], paramsScore[num] / self.fieldatanum])
             self.Evo.SelectGene(params)
-    
-    def LearnProsess(self, FieldAgent):
-        paramsScore = []
+    """
+    def LearnProcess(self, FieldAgent, start):
+        paramsScore = {}
         InitData = copy.deepcopy(FieldAgent)
         TempData = copy.deepcopy(FieldAgent)
         network = pro29NN.ProconNetwork.Network()
         network2 = pro29NN.ProconNetwork.Network()
         network.load_params(file_name='gene/params{}.pkl'.format(100 if os.path.isfile('gene/params100.pkl') else random.randint(0, 99)))
         red_flags = Flags()
-        
-        for i in range(self.paramsnum):
+        self.log.LogWrite('openfile pickle file params{}\n'.format(start), logtype=pro29NN.LEARN)
+        controler = pro29NN.Bot.ProconNNControl(TempData['agentdatared'].AllPoint, self.log, network, red_flags)
+        blue_flags = Flags()
+        network2.load_params(file_name='gene/params{}.pkl'.format(start))
+        controler2 = pro29NN.Bot.ProconNNControl(TempData['agentdatablue'].AllPoint, self.log, network2, blue_flags)
+        score = self.Gaming(controler, controler2, red_flags, blue_flags, TempData)
+        paramsScore[start] = [network2.params, score]
+        TempData = copy.deepcopy(InitData)
+        '''
+        for i in range(start):
             self.log.LogWrite('openfile pickle file params{}\n'.format(i), logtype=pro29NN.LEARN)
             controler = pro29NN.Bot.ProconNNControl(TempData['agentdatared'].AllPoint, self.log, network, red_flags)
             blue_flags = Flags()
@@ -109,6 +188,7 @@ class LearnClassMain():
             score = self.Gaming(controler, controler2, red_flags, blue_flags, TempData)
             paramsScore.append([network2.params, score])
             TempData = copy.deepcopy(InitData)
+        '''
         return paramsScore
 
     def Gaming(self, con, con2, flag1, flag2, TempData):
@@ -134,7 +214,7 @@ class LearnClassMain():
         if flag1.next[i] == flag2.next[j]:
             TempData['agentred'][i].next[1] = 0
             TempData['agentblue'][j].next[1] = 0
-
+    """
 if __name__=='__main__':
     app = wx.App()
     Learn = LearnClassMain()

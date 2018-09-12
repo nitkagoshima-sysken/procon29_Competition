@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from kivy.uix.screenmanager import ScreenManager, Screen
 from concurrent.futures import ThreadPoolExecutor
-from kivy.properties import StringProperty
 from pro29NN.WindowControl import *
-from kivy.uix.widget import Widget
 from pyzbar.pyzbar import decode
-from kivy.app import App
 from PIL import Image
 from wx import adv
 import time
@@ -386,60 +382,6 @@ def Key_handler(event):
         log.LogWrite('Cancel step\n')
 
 
-def buttonClicked():
-    print("call def")
-    text = 'Hello World'
-
-    return text
-
-class LearnClass:
-    def __init__(self):
-        self.Evo = pro29NN.Evolutionary.GeneManagement()
-        GeneDialog = wx.TextEntryDialog(None, '世代数を入力してください', '世代数設定')
-        GeneDialog.SetValue('40')
-        GeneDialog.ShowModal()
-        self.GeneNum = int(GeneDialog.GetValue())
-        GeneDialog.Destroy()
-        self.FieldAgent = []
-        FileDialog = wx.FileDialog(None, 'Select File', style=wx.FD_MULTIPLE)
-        FileDialog.SetWildcard('*.png;*.pqr')
-        FileDialog.ShowModal()
-        self.FilePath = FileDialog.GetPaths()
-        for file in self.FilePath:
-            qrdata = pro29NN.Functions.OpenFile(file)
-            self.Setting(qrdata)
-    
-    def StartLearn(self):
-        from kivy.core.window import Window
-        Window.size = (1600, 900)
-        HGLSApp().run()
-    
-    def Setting(self, text):
-        TempData = {}
-        TempData['field'] = pro29NN.FieldControl.LearnField(text)
-        TempData['agentdatablue'] = pro29NN.Agent.LaernAgentData('blue', TempData['field'].point)
-        TempData['agentdatared'] = pro29NN.Agent.LaernAgentData('red', TempData['field'].point)
-        pos1_y, pos1_x = map(int, text[TempData['field'].y+1].strip().split(' '))
-        pos2_y, pos2_x = map(int, text[TempData['field'].y+2].strip().split(' '))
-        fieldType = TempData['field'].FieldTypeAnalysis()
-
-        
-class TextWidget(Widget):
-    def __init__(self, **kwargs):
-        super(TextWidget, self).__init__(**kwargs)
-        self.text = ''
-
-    def buttonClicked(self):
-        self.text = 'Hello World'
-
-
-class HGLSApp(App):
-    def __init__(self, **kwargs):
-        super(HGLSApp, self).__init__(**kwargs)
-        self.title = 'greeting'
-
-    def build(self):
-        return TextWidget()
 
 if __name__=='__main__':
     app = wx.App()
