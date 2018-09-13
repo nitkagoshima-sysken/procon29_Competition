@@ -63,6 +63,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     if (coordinate == agent.Position)
                     {
                         ClickedAgent = agent;
+                        AgentsActivityData[agent.Team, agent.AgentNumber].AgentStatusData = AgentStatusCode.RequestNotToDoAnything;
+                        AgentsActivityData[agent.Team, agent.AgentNumber].Destination = coordinate;
                         return;
                     }
                 }
