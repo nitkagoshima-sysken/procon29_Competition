@@ -3,7 +3,6 @@
 #include <time.h>
 #include <string.h>
 
-//#include "getopt.h"
 #include "FieldDataGenerator.h"
 
 #define MAX_POINT 16
@@ -31,7 +30,7 @@ int main(int argc,char* argv[]){
       case 't':type = atoi(optarg);break;
       case 'n':number = atoi(optarg);break;
       case 'r':rate_of_minus = atof(optarg);break;
-      default: printf("Usage: %s [-v argment] [-s argment] [-y argment] [-r rate_of_minus] filename ...\n", argv[0]);break;
+      default: printf("Usage: %s [-v argment] [-s argment] [-n argment] [-r rate_of_minus] filename ...\n", argv[0]);break;
     }
   }
 
