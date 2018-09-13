@@ -7,9 +7,13 @@ SYSTEM_LOG = 1
 FILE_LOG = 10
 ERROR = 11
 DEBAG = 100
+LEARN = 101
 EXIT = wx.ID_EXIT
 
 from . import Agent
-from . import SystemControl
-from . import Bot
 from . import FieldControl
+from . import ProconNetwork
+from . import Bot
+from . import SystemControl
+from . import Evolutionary
+from . import Functions

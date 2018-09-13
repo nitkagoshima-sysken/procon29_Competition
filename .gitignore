@@ -261,5 +261,7 @@ __pycache__/
 *.pyc
 
 *.ico
+
+*.pkl
 *.tds
 *.pqr
