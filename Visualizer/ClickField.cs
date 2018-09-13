@@ -82,8 +82,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
             catch (Exception)
             {
-
-                throw;
+                MessageBox.Show("フィールドの外です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

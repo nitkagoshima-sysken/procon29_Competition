@@ -8,7 +8,10 @@ using System.Threading.Tasks;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
-    class TeamDesigns : IEnumerable<TeamDesign>
+    /// <summary>
+    /// チームデザインを配列にします。
+    /// </summary>
+    public class TeamDesigns : IEnumerable<TeamDesign>
     {
         TeamDesign[] Array { get; set; } = new TeamDesign[Enum.GetValues(typeof(Team)).Length];
 

@@ -463,9 +463,23 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントが移動する矢印を描画します。
         /// </summary>
-        protected void DrawArrow()
+        public void DrawArrow(Team team, Coordinate from, Coordinate to)
         {
+            Graphics graphics = Graphics.FromImage(Bitmap);
+            Pen pen = new Pen(Color.Red, 8);
+            pen.DashStyle = DashStyle.Dot;
+            pen.EndCap = LineCap.ArrowAnchor;
+            graphics.DrawLine(
+                pen,
+                (int)((from.X + 0.5) * CellWidth),
+                (int)((from.Y + 0.5) * CellHeight),
+                (int)((to.X + 0.5) * CellWidth),
+                (int)((to.Y + 0.5) * CellHeight));
+        }
 
+        protected bool MoveOrRemove()
+        {
+            return true;
         }
 
         /// <summary>
@@ -478,7 +492,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Calc.Field.Height;
             Point systemCursorPosition = Cursor.Position;
             Point pictureBoxCursorPosition = pictureBox.PointToClient(systemCursorPosition);
-            return new Point(
+            return new Coordinate(
                 x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
                 y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
         }

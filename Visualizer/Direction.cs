@@ -9,7 +9,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// <summary>
     /// 向きを表します。
     /// </summary>
-    enum Direction
+    public enum Direction
     {
         /// <summary>
         /// 右向きを表します。

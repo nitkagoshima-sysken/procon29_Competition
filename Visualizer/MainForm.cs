@@ -95,6 +95,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             ReadBotsTxt();
             ReadCalcTsv();
+            
         }
 
 
@@ -151,6 +152,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void FieldDisplay_MouseClick(object sender, MouseEventArgs e)
         {
             show.ClickedShow(FieldDisplay);
+            show.ClickShow();
             messageBox.Select(messageBox.Text.Length, 0);
         }
 
@@ -161,7 +163,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="e"></param>
         private void FieldDisplay_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            show.DoubleClickedShow();
         }
 
         /// <summary>
