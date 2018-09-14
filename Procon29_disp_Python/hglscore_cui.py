@@ -3,6 +3,7 @@
 from joblib import Parallel, delayed
 from multiprocessing import Pool
 from pro29NN.WindowControl import *
+import argparse
 import pro29NN
 import random
 import copy
@@ -57,6 +58,11 @@ class LearnClassMain():
         self.argv = sys.argv
 
     def SetLearn(self):
+        parser = argparse.ArgumentParser()
+        parser.add_argument('-t', '--threads', nargs='?', const=-1, default=-1, type=int)
+        parser.add_argument('--no-parallel', help='optional', action='store_true')
+        parser.add_argument('-n', '--no-textfile', help='optional', action='store_true')
+        self.args = parser.parse_args()
         self.fieldatanum = 1
         log_file = input('Log file name: ')
         self.log = pro29NN.SystemControl.LogControl(log_file)
@@ -66,7 +72,7 @@ class LearnClassMain():
         if not os.path.isfile('gene/params0.pkl'):
             self.Evo.CreateGene()
         self.GeneNum = int(input('Number of generations:'))
-        if '-n' in sys.argv:
+        if self.args.no_textfile:
             path = input('Field Data directory:')
             self.FilePath = glob.glob(path+'/*.pqr')
         else:
@@ -95,16 +101,12 @@ class LearnClassMain():
             agent2next[0], agent2next[1] = (TempData['field'].x-pos1_x+1)*1000+(TempData['field'].y-pos1_y+1), (TempData['field'].x-pos2_x+1)*1000+(TempData['field'].y-pos2_y+1)
             if agent1next[0] in agent2next or agent1next[1] in agent2next:
                 agent2next[0], agent2next[1] = pos1_x*1000+(TempData['field'].y-pos1_y+1), pos2_x*1000+(TempData['field'].y-pos2_y+1)
-                #red_Flags.next[0], red_Flags.next[1] = (agent1_x)*1000+(field[0].y-agent1_y+1), (agent2_x)*1000+(field[0].y-agent2_y+1)
             if agent1next[0] in agent2next or agent1next[1] in agent2next:
                 agent2next[0], agent2next[1] = (TempData['field'].x-pos1_x+1)*1000+pos1_y, (TempData['field'].x-pos2_x+1)*1000+pos2_y
-                #red_Flags.next[0], red_Flags.next[1] = (field[0].x-agent1_x+1)*1000+(agent1_y), (field[0].x-agent2_x+1)*1000+(agent2_y)
         elif fieldType == -1:
             agent2next[0], agent2next[1] = pos1_x*1000+(TempData['field'].y-pos1_y+1), pos2_x*1000+(TempData['field'].y-pos2_y+1)
-            #red_Flags.next[0], red_Flags.next[1] = (agent1_x)*1000+(field[0].y-agent1_y+1), (agent2_x)*1000+(field[0].y-agent2_y+1)
         elif fieldType == 1:
             agent2next[0], agent2next[1] = (TempData['field'].x-pos1_x+1)*1000+pos1_y, (TempData['field'].x-pos2_x+1)*1000+pos2_y
-            #red_Flags.next[0], red_Flags.next[1] = (field[0].x-agent1_x+1)*1000+(agent1_y), (field[0].x-agent2_x+1)*1000+(agent2_y)
         TempData['agentblue'] = []
         TempData['agentred'] = []
         TempData['agentblue'].append(pro29NN.Agent.LearnAgent(agent1next[0], TempData['field'].field_out))
@@ -127,14 +129,13 @@ class LearnClassMain():
             params = []
             jj = 0
             for FieldAgent in self.FieldAgent:
-                if '--no-parallel' in self.argv:
+                if self.args.no_parallel:
                     paratemp = []
                     for n in range(self.paramsnum):
                         paratemp += [LearnProcess(FieldAgent, n, self.log)]
                     paramsScores += paratemp
                 else:
-                    #paramsScores += [multiprocessingParallel(FieldAgent, self.paramsnum, self.log)]
-                    paramsScores += [Parallel(n_jobs=-1)([delayed(LearnProcess)(FieldAgent, n, self.log) for n in range(self.paramsnum)])]
+                    paramsScores += [Parallel(n_jobs=self.args.threads)([delayed(LearnProcess)(FieldAgent, n, self.log) for n in range(self.paramsnum)])]
                 self.log.LogWrite('Finished {} FieldFile\n'.format(jj), logtype=pro29NN.LEARN)
                 jj += 1
             temp = {}
@@ -145,7 +146,7 @@ class LearnClassMain():
                     temp[items[0][0]] = items[0][1]
             for num in range(len(paramsScore)):
                 params.append([temp[num][0], paramsScore[num] / self.fieldatanum])
-            #self.Evo.SelectGene(params)
+            self.Evo.SelectGene(params)
     
 if __name__=='__main__':
     Learn = LearnClassMain()
