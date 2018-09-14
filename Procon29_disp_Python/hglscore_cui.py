@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from joblib import Parallel, delayed
+from multiprocessing import Pool
 from pro29NN.WindowControl import *
 import pro29NN
 import random
 import copy
 import sys
-import wx
 import os
 
 def LearnProcess(FieldAgent, start, log):
@@ -52,28 +52,24 @@ def Overlap(i, j, flag1, flag2, TempData):
 
 class LearnClassMain():
     def __init__(self):
-        self.paramsnum = 100
+        self.paramsnum = 1
         self.argv = sys.argv
 
     def SetLearn(self):
         self.fieldatanum = 1
-        self.log = pro29NN.SystemControl.LogControl('learn.log')
+        log_file = input('Log file name: ')
+        self.log = pro29NN.SystemControl.LogControl(log_file)
         self.Evo = pro29NN.Evolutionary.GeneManagement()
         if not os.path.isfile('gene/params0.pkl'):
             self.Evo.CreateGene()
-        GeneDialog = wx.TextEntryDialog(None, '世代数を入力してください', '世代数設定')
-        GeneDialog.SetValue('40')
-        GeneDialog.ShowModal()
-        self.GeneNum = int(GeneDialog.GetValue())
-        GeneDialog.Destroy()
+        self.GeneNum = int(input('Number of generations:'))
+        path = input('Field Files list: ')
+        with open(path, 'r') as f:
+            self.FilePath = [line.strip() for line in f.readlines()]
         self.FieldAgent = []
-        FileDialog = wx.FileDialog(None, 'Select File', style=wx.FD_MULTIPLE)
-        FileDialog.SetWildcard('*.png;*.pqr')
-        FileDialog.ShowModal()
-        self.FilePath = FileDialog.GetPaths()
-        for file in self.FilePath:
+        for file_name in self.FilePath:
             self.fieldatanum += 1
-            qrdata = pro29NN.Functions.OpenFile(file)
+            qrdata = pro29NN.Functions.OpenFile(file_name)
             self.FieldAgent.append(self.Setting(qrdata))
         self.StartLearn()
     
@@ -92,12 +88,16 @@ class LearnClassMain():
             agent2next[0], agent2next[1] = (TempData['field'].x-pos1_x+1)*1000+(TempData['field'].y-pos1_y+1), (TempData['field'].x-pos2_x+1)*1000+(TempData['field'].y-pos2_y+1)
             if agent1next[0] in agent2next or agent1next[1] in agent2next:
                 agent2next[0], agent2next[1] = pos1_x*1000+(TempData['field'].y-pos1_y+1), pos2_x*1000+(TempData['field'].y-pos2_y+1)
+                #red_Flags.next[0], red_Flags.next[1] = (agent1_x)*1000+(field[0].y-agent1_y+1), (agent2_x)*1000+(field[0].y-agent2_y+1)
             if agent1next[0] in agent2next or agent1next[1] in agent2next:
                 agent2next[0], agent2next[1] = (TempData['field'].x-pos1_x+1)*1000+pos1_y, (TempData['field'].x-pos2_x+1)*1000+pos2_y
+                #red_Flags.next[0], red_Flags.next[1] = (field[0].x-agent1_x+1)*1000+(agent1_y), (field[0].x-agent2_x+1)*1000+(agent2_y)
         elif fieldType == -1:
             agent2next[0], agent2next[1] = pos1_x*1000+(TempData['field'].y-pos1_y+1), pos2_x*1000+(TempData['field'].y-pos2_y+1)
+            #red_Flags.next[0], red_Flags.next[1] = (agent1_x)*1000+(field[0].y-agent1_y+1), (agent2_x)*1000+(field[0].y-agent2_y+1)
         elif fieldType == 1:
             agent2next[0], agent2next[1] = (TempData['field'].x-pos1_x+1)*1000+pos1_y, (TempData['field'].x-pos2_x+1)*1000+pos2_y
+            #red_Flags.next[0], red_Flags.next[1] = (field[0].x-agent1_x+1)*1000+(agent1_y), (field[0].x-agent2_x+1)*1000+(agent2_y)
         TempData['agentblue'] = []
         TempData['agentred'] = []
         TempData['agentblue'].append(pro29NN.Agent.LearnAgent(agent1next[0], TempData['field'].field_out))
@@ -126,6 +126,7 @@ class LearnClassMain():
                         paratemp += [LearnProcess(FieldAgent, n, self.log)]
                     paramsScores += paratemp
                 else:
+                    #paramsScores += [multiprocessingParallel(FieldAgent, self.paramsnum, self.log)]
                     paramsScores += [Parallel(n_jobs=-1)([delayed(LearnProcess)(FieldAgent, n, self.log) for n in range(self.paramsnum)])]
                 self.log.LogWrite('Finished {} FieldFile\n'.format(jj), logtype=pro29NN.LEARN)
                 jj += 1
@@ -137,9 +138,8 @@ class LearnClassMain():
                     temp[items[0][0]] = items[0][1]
             for num in range(len(paramsScore)):
                 params.append([temp[num][0], paramsScore[num] / self.fieldatanum])
-            self.Evo.SelectGene(params)
+            #self.Evo.SelectGene(params)
     
 if __name__=='__main__':
-    app = wx.App()
     Learn = LearnClassMain()
     Learn.SetLearn()

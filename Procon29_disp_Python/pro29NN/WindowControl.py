@@ -69,6 +69,7 @@ class Modes():
     def AutoSet(self, log, MyagentData, EnemyagentData, agent, flags):
         self.Clear()
         network = ProconNetwork.Network()
+        network.load_params(file_name='gene/params100.pkl')
         self.bot = Bot.ProconNNControl(MyagentData.AllPoint, log, network, flags)
         self.auto = True
         self.AutoSetFlag = True
