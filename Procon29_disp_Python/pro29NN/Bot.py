@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import pickle
-import wx
 import pro29NN
 import copy
 from . import ProconNetwork

@@ -2,8 +2,6 @@
 
 from pyzbar.pyzbar import decode
 from PIL import Image
-from wx import adv
-import wx
 import os
 import sys
 

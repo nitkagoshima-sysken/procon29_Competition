@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import pickle
-import wx
 import pro29NN
 
 class Field:
@@ -11,6 +10,7 @@ class Field:
     logfile : logfile select.
     """
     def __init__(self, qrdata, field, logfile):
+        import wx
         self.y, self.x = map(int,qrdata[0].split(' '))
         self.field_out = []
         self.field_size =[]
