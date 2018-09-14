@@ -6,6 +6,7 @@ from pro29NN.WindowControl import *
 import pro29NN
 import random
 import copy
+import glob
 import sys
 import os
 
@@ -52,7 +53,7 @@ def Overlap(i, j, flag1, flag2, TempData):
 
 class LearnClassMain():
     def __init__(self):
-        self.paramsnum = 1
+        self.paramsnum = 100
         self.argv = sys.argv
 
     def SetLearn(self):
@@ -60,12 +61,18 @@ class LearnClassMain():
         log_file = input('Log file name: ')
         self.log = pro29NN.SystemControl.LogControl(log_file)
         self.Evo = pro29NN.Evolutionary.GeneManagement()
+        if not os.path.isdir('gene'):
+            os.mkdir('gene')
         if not os.path.isfile('gene/params0.pkl'):
             self.Evo.CreateGene()
         self.GeneNum = int(input('Number of generations:'))
-        path = input('Field Files list: ')
-        with open(path, 'r') as f:
-            self.FilePath = [line.strip() for line in f.readlines()]
+        if '-n' in sys.argv:
+            path = input('Field Data directory:')
+            self.FilePath = glob.glob(path+'/*.pqr')
+        else:
+            path = input('Field Files list: ')
+            with open(path, 'r') as f:
+                self.FilePath = [line.strip() for line in f.readlines()]
         self.FieldAgent = []
         for file_name in self.FilePath:
             self.fieldatanum += 1

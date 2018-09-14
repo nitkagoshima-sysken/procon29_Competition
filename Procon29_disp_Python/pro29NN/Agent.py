@@ -75,7 +75,7 @@ class AgentData:
             for i in range(len(get)):
                 if get[i][0] or get[i][1] == 0:
                     self.Remove(get[i], enemy_data, logout)
-                else:
+                elif get[i][1] not in self.GetPosition:
                     self.GetPosition.append(get[i][1])
                     self.Point += self.AllPoint[get[i][1]%1000-1][int(get[i][1]/1000)-1]
                     if logout:
@@ -84,7 +84,7 @@ class AgentData:
         else:
             if get[0] or get[1] == 0:
                 self.Remove(get[i], enemy_data, logout)
-            else:
+            elif get[1] not in self.GetPosition:
                 self.GetPosition.append(get[1])
                 self.Point += self.AllPoint[get[1]%1000-1][int(get[1]/1000)-1]
                 if logout:

@@ -59,6 +59,8 @@ class LearnClassMain():
         self.fieldatanum = 1
         self.log = pro29NN.SystemControl.LogControl('learn.log')
         self.Evo = pro29NN.Evolutionary.GeneManagement()
+        if not os.path.isdir('gene'):
+            os.mkdir('gene')
         if not os.path.isfile('gene/params0.pkl'):
             self.Evo.CreateGene()
         GeneDialog = wx.TextEntryDialog(None, '世代数を入力してください', '世代数設定')
