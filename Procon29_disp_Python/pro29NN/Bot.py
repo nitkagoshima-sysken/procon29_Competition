@@ -37,9 +37,10 @@ class ProconNNControl:
         Movables = []
         for NextMove1 in Move1:
             for NextMove2 in Move2:
-                Movables.append([copy.deepcopy(NextMove1), copy.deepcopy(NextMove2)])
-                Evalutions.append(self.NextEvalution(copy.deepcopy(NextMove1), copy.deepcopy(NextMove2), MyAgent, EnemyAgent, MyAgetnData, EnemyAgentData))
-                if logout: print('Pos {}: Eva{}'.format(Movables[-1], Evalutions[-1]))
+                if NextMove1 != NextMove2:
+                    Movables.append([copy.deepcopy(NextMove1), copy.deepcopy(NextMove2)])
+                    Evalutions.append(self.NextEvalution(copy.deepcopy(NextMove1), copy.deepcopy(NextMove2), MyAgent, EnemyAgent, MyAgetnData, EnemyAgentData))
+                    if logout: print('Pos {}: Eva{}'.format(Movables[-1], Evalutions[-1]))
         EvalutionsArray = np.array(Evalutions)
         Next = Movables[EvalutionsArray.argmax()]
         Eva = EvalutionsArray[EvalutionsArray.argmax()]
