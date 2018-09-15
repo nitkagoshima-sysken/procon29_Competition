@@ -3,7 +3,7 @@
 #include <time.h>
 #include <string.h>
 
-#include "getopt.h"
+#include "FieldDataGenerator.h"
 
 #define MAX_POINT 16
 
@@ -16,10 +16,10 @@ double rate_of_minus = 0.3;
 int main(int argc,char* argv[]){
   int vertical = 12;
   int side = 12;
-  int type = 3;
+  int type = 2;
   int number = 1;
   int opt,i;
-  char* filename = "code.txt";
+  char* filename = "code.pqr";
 
   opterr = 0;
 
@@ -30,7 +30,7 @@ int main(int argc,char* argv[]){
       case 't':type = atoi(optarg);break;
       case 'n':number = atoi(optarg);break;
       case 'r':rate_of_minus = atof(optarg);break;
-      default: printf("Usage: %s [-v argment] [-s argment] [-y argment] [-r rate_of_minus] filename ...\n", argv[0]);break;
+      default: printf("Usage: %s [-v argment] [-s argment] [-n argment] [-r rate_of_minus] filename ...\n", argv[0]);break;
     }
   }
 
@@ -113,12 +113,13 @@ void makeField(int vertical, int side, int type, int number, char* filename){
 
     for(i = 0;i < vertical;i++){
       for(j = 0;j < side;j++){
-        fprintf(fp,"%d ",data[i][j]);
+        fprintf(fp,"%d",data[i][j]);
+	if(j<side-1)fprintf(fp," ");
       }
       fprintf(fp,":");
     }
 
-    fprintf(fp,"%d %d:%d %d:",rand()%vertical-1,rand()%side-1,rand()%vertical-1,rand()%side-1);
+    fprintf(fp,"%d %d:%d %d:",rand()%vertical+1,rand()%side+1,rand()%vertical+1,rand()%side+1);
 
     fclose(fp);
   }

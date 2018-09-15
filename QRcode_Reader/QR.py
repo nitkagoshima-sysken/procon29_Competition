@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from pyzbar.pyzbar import decode
 from PIL import Image
 import os
@@ -19,6 +21,7 @@ while(True):
         cv2.imwrite(path, frame)
         break
 
+
 # QRコード(QRcode.png)の指定
 image = 'photo.png'
 # QRコードの読取り
@@ -32,4 +35,5 @@ outt = outt.split(':')
 for i in range(len(outt)-1):
     f.write(outt[i].strip()+':'+'\n')
     print(outt[i].strip()+':')
+
 f.close()
