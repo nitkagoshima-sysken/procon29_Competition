@@ -35,7 +35,7 @@ class Agent:
         self.next[0] = False
         self.movable, self.removable = self.MovableSet(eget)
         self.overlap_flag = False
-    
+
     def NextSet(self, next, overlap=False):
         if overlap:
             self.next[0] = True
@@ -45,7 +45,7 @@ class Agent:
             self.next[0] = False
             self.next[1] = next
             self.logfile.LogWrite('{} Next set ({},{})\n'.format(self.color, int(next/1000), next%1000))
-    
+
 class AgentData:
     def __init__(self, color, logfile, point):
         self.GetPosition = []
@@ -69,7 +69,7 @@ class AgentData:
             self.FillColor = '#778800'
         self.RemovableColor = '#FF77FF'
         self.LogFile = logfile
-    
+
     def GetPoint(self, get, enemy_data, logout=True):
         if str(type(get)) == "<class 'list'>":
             for i in range(len(get)):

@@ -201,10 +201,4 @@ class LearnField:
             self.point[self.y-1][2] == self.point[self.y-1][self.x-3]:
             typenum += 1
         return typenum
-
-    def Destroy(self):
-        """
-        Destroy field object method.
-        """
-        self.field.Destroy()
-        self.log.LogWrite('Clear ALL', logtype=pro29NN.SYSTEM_LOG)
+        

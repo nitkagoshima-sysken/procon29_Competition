@@ -51,7 +51,6 @@ def Overlap(i, j, flag1, flag2, TempData):
         TempData['agentred'][i].next[1] = 0
         TempData['agentblue'][j].next[1] = 0
 
-
 class LearnClassMain():
     def __init__(self):
         self.paramsnum = 100
@@ -85,7 +84,7 @@ class LearnClassMain():
             qrdata = pro29NN.Functions.OpenFile(file_name)
             self.FieldAgent.append(self.Setting(qrdata))
         self.StartLearn()
-    
+
     def Setting(self, text):
         TempData = {}
         agent1next = [0, 0]
@@ -120,7 +119,7 @@ class LearnClassMain():
         TempData['agentred'][0].TurnSet(TempData['agentdatablue'].GetPosition)
         TempData['agentred'][1].TurnSet(TempData['agentdatablue'].GetPosition)
         return TempData
-    
+
     def StartLearn(self):
         for i in range(self.GeneNum):
             self.log.LogWrite('{} generation start\n'.format(i), logtype=pro29NN.LEARN)
@@ -147,7 +146,7 @@ class LearnClassMain():
             for num in range(len(paramsScore)):
                 params.append([temp[num][0], paramsScore[num] / self.fieldatanum])
             self.Evo.SelectGene(params)
-    
+
 if __name__=='__main__':
     Learn = LearnClassMain()
     Learn.SetLearn()

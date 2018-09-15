@@ -91,7 +91,6 @@ class ProconNNControl:
         AgentData['Blank'] = Blank
         return AgentData
 
-
     def UpdatePosition(self, AgentData):
         FieldData = []
         for key, val in AgentData.items():
@@ -108,7 +107,6 @@ class FakeBot():
         self.position = position
         self.filed_point = field_data.point
         self.flags = flags
-
 
     def NextPositionSet(self, agent, agent_data, enow, num):
         temp = -10
