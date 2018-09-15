@@ -40,7 +40,7 @@ class Modes():
         self.AutoSetFlag = False
         self.LearnSetFlag = False
 
-    def AutoSet(self, log, MyagentData, EnemyagentData, agent, flags):
+    def AutoSet(self, log, MyagentData, EnemyagentData, flags):
         self.Clear()
         network = ProconNetwork.Network()
         network.load_params(file_name='gene/params100.pkl')

@@ -289,7 +289,7 @@ def Radio_handler(event):
             start.Disable()
         elif mode == 1:
             if modes.auto == False:
-                modes.AutoSet(log, agent_data[1], agent_data[0], [agent[2], agent[3]], red_Flags)
+                modes.AutoSet(log, agent_data[1], agent_data[0], red_Flags)
             color_select.Enable()
             start.Enable()
         elif mode == 2:

@@ -31,14 +31,14 @@ class ProconNNControl:
         """
 
         """
-        Move1 = [[False, pos] for pos in MyAgent[0].movable] + [[True, pos] for pos in MyAgent[0].removable]
-        Move2 = [[False, pos] for pos in MyAgent[1].movable] + [[True, pos] for pos in MyAgent[1].removable]
+        Move1 = [[False, pos] for pos in MyAgent[0].movable if pos not in MyAgent[0].removable] + [[True, pos] for pos in MyAgent[0].removable]
+        Move2 = [[False, pos] for pos in MyAgent[1].movable if pos not in MyAgent[1].removable] + [[True, pos] for pos in MyAgent[1].removable]
         Evalutions = []
         Movables = []
         for NextMove1 in Move1:
             for NextMove2 in Move2:
                 Movables.append([copy.deepcopy(NextMove1), copy.deepcopy(NextMove2)])
-                Evalutions.append(self.NextEvalution(NextMove1, NextMove2, MyAgent, EnemyAgent, MyAgetnData, EnemyAgentData))
+                Evalutions.append(self.NextEvalution(copy.deepcopy(NextMove1), copy.deepcopy(NextMove2), MyAgent, EnemyAgent, MyAgetnData, EnemyAgentData))
                 if logout: print('Pos {}: Eva{}'.format(Movables[-1], Evalutions[-1]))
         EvalutionsArray = np.array(Evalutions)
         Next = Movables[EvalutionsArray.argmax()]
