@@ -93,6 +93,13 @@
     <Compile Include="AgentStatusCode.cs" />
     <Compile Include="AgentStatusCodeExtension.cs" />
     <Compile Include="Arrow.cs" />
+    <Compile Include="CharactorBitmap.cs" />
+    <Compile Include="ClickField.cs" />
+    <Compile Include="Direction.cs" />
+    <Compile Include="DrawField.cs" />
+    <Compile Include="FruitFairies.cs" />
+    <Compile Include="FruitFairy.cs" />
+    <Compile Include="TeamDesigns.cs" />
     <Compile Include="XmlCalc.cs" />
     <Compile Include="Calc.cs" />
     <Compile Include="Coordinate.cs" />

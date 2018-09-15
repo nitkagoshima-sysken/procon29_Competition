@@ -1,48 +1,25 @@
-# Procon29 Visualizer 18.2
+# Procon29 Visualizer 19.0
 
 ## What's new
 
-- 保存した試合を開けないバグを修正
-- `Agent`の引数なしコンストラクタを実装（開発者向け）
-- `TurnData`の引数なしコンストラクタを実装（開発者向け）
-- `Agents.Add()`を実装（開発者向け）
-- `AgentsActivityData.Add()`を実装（開発者向け）
-- `Field.Add()`を実装（開発者向け）
-- `XmlTurnData`を追加（開発者向け）
-- `XmlCell`を追加（開発者向け）
-- `Calc(XmlCalc)`を実装（開発者向け）
-- `XmlCalc(Calc)`を実装（開発者向け）
-- `Cell(XmlCell)`を実装（開発者向け）
-- `XmlCell(Cell)`を実装（開発者向け）
-- `TurnData(XmlTurnData)`を実装（開発者向け）
-- `XmlTurnData(TurnData)`を実装（開発者向け）
-- `XmlCalc.Agents`を廃止（開発者向け）
-- `XmlCalc.Field`を廃止（開発者向け）
-- `XmlCalc.Height`を廃止（開発者向け）
-- `XmlCalc.Width`を廃止（開発者向け）
-- `XmlCalc(int, int[,], Coordinate[])`を廃止（開発者向け）
-- `XmlCalc(int, Field, Coordinate[])`を廃止（開発者向け）
-- `XmlCalc.ComplementEnemysPosition()`を廃止（開発者向け）
-- `XmlCalc.InitializationOfField()`を廃止（開発者向け）
-- `XmlCalc.TurnEnd()`を廃止（開発者向け）
-- `XmlCalc.PutTile()`を廃止（開発者向け）
+### クリックだけで操作できるようになった
 
-Visualizer 18.0以降、それ以前に生成されたXMLファイルは互換性がなく、読み込めません。  
+詳しくは操作方法を見て！
 
-## What's new Version 18.1
+### デバッグモードのみオートセーブされるように変更された
 
-- readme.mdの微調整
-- `MainForm`におけるソースコードの管理（開発者向け）
+オートセーブが思いの外、重いので。
 
-## What's new Version 18.2
+### 矢印が表示されるようになった
 
-- `Calc`におけるソースコードの管理（開発者向け）
-- `Show`におけるソースコードの管理（開発者向け）
+少しだけ分かりやすくなったと思う。
+
+### ダブルクリックした直後にマウスをフィールドの外に移動させるとエラーになるバグを修正
 
 ## 操作方法
 
  1. クリックで対象のエージェントを選択しよう。
- 2. ダブルクリックで行きたい場所、またはタイルを取り除く場所を選択しよう。
+ 2. クリックで行きたい場所、またはタイルを取り除く場所を選択しよう。
  3. キミが操作可能なすべてのエージェントに対して上の操作を繰り返す。
  4. 最後にターンエンドを押す。
 
@@ -336,6 +313,18 @@ Visualizer 18.0以降、それ以前に生成されたXMLファイルは互換�
 
 - `Calc`におけるソースコードの管理（開発者向け）
 - `Show`におけるソースコードの管理（開発者向け）
+
+### Version 19.0
+
+- クリックだけで操作できるようになった
+- デバッグモードのみオートセーブされるように変更された
+- 矢印が表示されるようになった
+- ダブルクリックした直後にマウスをフィールドの外に移動させるとエラーになるバグを修正
+- `TeamDesigns`を追加（開発者向け）
+- `Direction`を追加（開発者向け）
+- `CharactorBitmap`を追加（開発者向け）
+- `DrawField`を追加（開発者向け）
+- `ClickField`を追加（開発者向け）
 
 ## バージョンの上がり方について
 

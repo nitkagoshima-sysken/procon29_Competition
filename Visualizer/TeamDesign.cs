@@ -5,7 +5,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// <summary>
     /// チームのデザインを表現します。
     /// </summary>
-    class TeamDesign
+    public class TeamDesign
     {
         /// <summary>
         /// チームの名前を設定または取得します。

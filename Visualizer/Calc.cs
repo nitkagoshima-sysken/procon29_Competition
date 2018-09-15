@@ -233,7 +233,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="team">対象となるチーム</param>
         private void ResetTrueInIsEnclosed(Team team)
         {
-            foreach (Cell cell in Field.GetEnumerator())
+            foreach (Cell cell in Field)
             {
                 cell.IsEnclosed[team] = true;
             }
@@ -265,7 +265,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         FillFalseInIsEnclosed(team, new Coordinate(x, y));
                 }
             }
-            foreach (Cell item in Field.GetEnumerator())
+            foreach (Cell item in Field)
             {
                 if (item.IsTileOn[team]) item.IsEnclosed[team] = false;
             }
@@ -453,7 +453,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             CheckEnclosedArea(team);
 
-            foreach (Cell item in Field.GetEnumerator())
+            foreach (Cell item in Field)
             {
                 if (item.IsTileOn[Team.A]) item.IsEnclosed[Team.A] = false;
                 if (item.IsTileOn[Team.B]) item.IsEnclosed[Team.B] = false;

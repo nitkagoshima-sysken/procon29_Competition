@@ -45,6 +45,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public static int MaxTurn = 10;
 
         /// <summary>
+        /// デバッグモードを設定または取得します。
+        /// </summary>
+        public bool Debug { get; set; }
+
+        /// <summary>
         /// MainForm
         /// </summary>
         public MainForm()
@@ -95,6 +100,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             ReadBotsTxt();
             ReadCalcTsv();
+
         }
 
 
@@ -151,6 +157,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void FieldDisplay_MouseClick(object sender, MouseEventArgs e)
         {
             show.ClickedShow(FieldDisplay);
+            show.ClickShow();
             messageBox.Select(messageBox.Text.Length, 0);
         }
 
@@ -161,7 +168,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="e"></param>
         private void FieldDisplay_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            show.DoubleClickedShow();
         }
 
         /// <summary>
@@ -469,17 +475,20 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 log.WriteLine(Color.SkyBlue, "B2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
             }
 
-            //XmlSerializerオブジェクトを作成
-            //オブジェクトの型を指定する
-            System.Xml.Serialization.XmlSerializer serializer =
-                new System.Xml.Serialization.XmlSerializer(typeof(XmlCalc));
-            //書き込むファイルを開く（UTF-8 BOM無し）
-            System.IO.StreamWriter sw = new System.IO.StreamWriter(
-                "log.xml", false, new System.Text.UTF8Encoding(false));
-            //シリアル化し、XMLファイルに保存する
-            serializer.Serialize(sw, new XmlCalc(Calc));
-            //ファイルを閉じる
-            sw.Close();
+            if (Debug)
+            {
+                //XmlSerializerオブジェクトを作成
+                //オブジェクトの型を指定する
+                System.Xml.Serialization.XmlSerializer serializer =
+                    new System.Xml.Serialization.XmlSerializer(typeof(XmlCalc));
+                //書き込むファイルを開く（UTF-8 BOM無し）
+                System.IO.StreamWriter sw = new System.IO.StreamWriter(
+                    "log.xml", false, new System.Text.UTF8Encoding(false));
+                //シリアル化し、XMLファイルに保存する
+                serializer.Serialize(sw, new XmlCalc(Calc));
+                //ファイルを閉じる
+                sw.Close();
+            }
         }
 
         private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
