@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from joblib import Parallel, delayed
-from multiprocessing import Pool
 from pro29NN.WindowControl import *
 import argparse
 import pro29NN
@@ -122,6 +121,7 @@ class LearnClassMain():
 
     def StartLearn(self):
         for i in range(self.GeneNum):
+            print('{} generation start'.format(i))
             self.log.LogWrite('{} generation start\n'.format(i), logtype=pro29NN.LEARN)
             paramsScores = []
             paramsScore = [0 for ii in range(self.paramsnum)]
