@@ -31,8 +31,10 @@ class ProconNNControl:
         """
 
         """
-        Move1 = [[False, pos] for pos in MyAgent[0].movable if pos not in MyAgent[0].removable] + [[True, pos] for pos in MyAgent[0].removable]
-        Move2 = [[False, pos] for pos in MyAgent[1].movable if pos not in MyAgent[1].removable] + [[True, pos] for pos in MyAgent[1].removable]
+        Move1 = [[False, pos] for pos in MyAgent[0].movable if pos not in MyAgent[0].removable if pos != MyAgent[1].now]\
+                + [[True, pos] for pos in MyAgent[0].removable if pos != MyAgent[1].now]
+        Move2 = [[False, pos] for pos in MyAgent[1].movable if pos not in MyAgent[1].removable if pos != MyAgent[0].now]\
+                + [[True, pos] for pos in MyAgent[1].removable if pos != MyAgent[0].now]
         Evalutions = []
         Movables = []
         for NextMove1 in Move1:
@@ -94,7 +96,7 @@ class ProconNNControl:
 
     def UpdatePosition(self, AgentData):
         FieldData = []
-        for key, val in AgentData.items():
+        for _, val in AgentData.items():
             temp = [[0 for i in range(12)] for j in range(12)]
             FieldData.append(temp)
             for j in range(len(val)):

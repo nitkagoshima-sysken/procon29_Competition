@@ -137,6 +137,8 @@ def turnendfunc():
     agent[1].TurnSet(agent_data[1].GetPosition)
     agent[2].TurnSet(agent_data[0].GetPosition)
     agent[3].TurnSet(agent_data[0].GetPosition)
+    log.LogWrite('Blue Getposition:{}\n'.format(agent_data[0].GetPosition))
+    log.LogWrite('Red Getposition:{}\n'.format(agent_data[1].GetPosition))
     bluepoint_text.SetLabel('青\n取得済み得点:{} \n領域得点:{}'\
                                 .format(agent_data[0].Point, agent_data[0].TerritoryPoint))
     redpoint_text.SetLabel('赤\n取得済み得点:{} \n領域得点:{}'\
@@ -411,99 +413,95 @@ def Key_handler(event):
 
 if __name__=='__main__':
     app = wx.App()
-    if 'laern' in sys.argv:
-        learn = LearnClass()
-        learn.StartLearn()
-    else:
-        log = pro29NN.SystemControl.LogControl('game.log')
-        text = ''
-        play_color = 'blue'
-        load_file_flag = False
-        blue_Flags = Flags()
-        red_Flags = Flags()
-        field_type = 0
-        endflag = False
-        turn = 10
-        nowturn = 1
-        debag_flag = False
-        col_check = [[True for i in range(5)] for j in range(2)]
-        col_check[0][0] = False
-        col_check[1][0] = False
-        False_list = [False, False]
-        start_flag = False
-        appname = 'PPAP -PROCON29NN Python Application Project-'
-        frame = wx.Frame(None, -1, appname, size=(800,900), style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN | wx.MINIMIZE_BOX)
+    log = pro29NN.SystemControl.LogControl('game.log')
+    text = ''
+    play_color = 'blue'
+    load_file_flag = False
+    blue_Flags = Flags()
+    red_Flags = Flags()
+    field_type = 0
+    endflag = False
+    turn = 10
+    nowturn = 1
+    debag_flag = False
+    col_check = [[True for i in range(5)] for j in range(2)]
+    col_check[0][0] = False
+    col_check[1][0] = False
+    False_list = [False, False]
+    start_flag = False
+    appname = 'PPAP -PROCON29NN Python Application Project-'
+    frame = wx.Frame(None, -1, appname, size=(800,900), style=wx.SYSTEM_MENU | wx.CAPTION | wx.CLOSE_BOX | wx.CLIP_CHILDREN | wx.MINIMIZE_BOX)
 
-        panel = wx.Panel(frame,-1)
-        field = []
-        agent = []
-        agent_data = []
+    panel = wx.Panel(frame,-1)
+    field = []
+    agent = []
+    agent_data = []
 
-        mode_type = ('手動入力モード','疑似対戦モード','実対戦モード','学習モード')
-        mode_select = wx.RadioBox(panel, 100, 'モードセレクト', choices=mode_type)
-        mode_select.SetSelection(0)
-        now_mode = mode_select.GetSelection()
-        modes = Modes()
-        modes.manual = True
-        team_color = ('青チーム','赤チーム')
-        color_select = wx.RadioBox(panel, 101, '操作色選択', choices=team_color)
-        color_select.SetSelection(0)
-        now_color = color_select.GetSelection()
-        color_select.Disable()
-        start = wx.Button(panel, 200, 'スタート', size=(80,50))
-        start.Disable()
-        cancel = wx.Button(panel, 201, 'キャンセル', size=(80,50))
-        turn_end = wx.Button(panel, 202, 'ターンエンド',size=(80,50))
-        layout = wx.BoxSizer(wx.HORIZONTAL)
-        layout.Add(mode_select, border=10)
-        layout.Add(color_select, border=10)
-        layout.Add(start)
-        layout.Add(cancel)
-        layout.Add(turn_end)
-        panel.SetSizer(layout)
+    mode_type = ('手動入力モード','疑似対戦モード','実対戦モード','学習モード')
+    mode_select = wx.RadioBox(panel, 100, 'モードセレクト', choices=mode_type)
+    mode_select.SetSelection(0)
+    now_mode = mode_select.GetSelection()
+    modes = Modes()
+    modes.manual = True
+    team_color = ('青チーム','赤チーム')
+    color_select = wx.RadioBox(panel, 101, '操作色選択', choices=team_color)
+    color_select.SetSelection(0)
+    now_color = color_select.GetSelection()
+    color_select.Disable()
+    start = wx.Button(panel, 200, 'スタート', size=(80,50))
+    start.Disable()
+    cancel = wx.Button(panel, 201, 'キャンセル', size=(80,50))
+    turn_end = wx.Button(panel, 202, 'ターンエンド',size=(80,50))
+    layout = wx.BoxSizer(wx.HORIZONTAL)
+    layout.Add(mode_select, border=10)
+    layout.Add(color_select, border=10)
+    layout.Add(start)
+    layout.Add(cancel)
+    layout.Add(turn_end)
+    panel.SetSizer(layout)
 
-        gauge = wx.Gauge(panel, range=turn, style=wx.GA_VERTICAL, pos=(710, 120), size=(70, 700))
-        gauge.GetShadowWidth()
+    gauge = wx.Gauge(panel, range=turn, style=wx.GA_VERTICAL, pos=(710, 120), size=(70, 700))
+    gauge.GetShadowWidth()
 
-        bluepoint_text = wx.StaticText(panel, -1, '青\n取得済み得点:0 \n領域得点:0', style=wx.SIMPLE_BORDER, pos=(0,51))
-        redpoint_text = wx.StaticText(panel, -1, '赤\n取得済み得点:0 \n領域得点:0', style=wx.SIMPLE_BORDER, pos=(0,99))
-        turnunm = wx.StaticText(panel, -1, '現在ターン数:1\n全ターン数:0\n残りターン数:0', style=wx.SIMPLE_BORDER, pos=(680,51), size=(100,50))
+    bluepoint_text = wx.StaticText(panel, -1, '青\n取得済み得点:0 \n領域得点:0', style=wx.SIMPLE_BORDER, pos=(0,51))
+    redpoint_text = wx.StaticText(panel, -1, '赤\n取得済み得点:0 \n領域得点:0', style=wx.SIMPLE_BORDER, pos=(0,99))
+    turnunm = wx.StaticText(panel, -1, '現在ターン数:1\n全ターン数:0\n残りターン数:0', style=wx.SIMPLE_BORDER, pos=(680,51), size=(100,50))
 
-        col_set = ('現在地のみ','現在地','移動可能','移動済み','獲得領域')
-        wx.StaticText(panel, -1, '青表示色選択', pos=(0,150))
-        coloring_select_blue = wx.CheckListBox(panel, 300, choices=col_set, pos=(0,170), size=(100,100))
-        coloring_select_blue.SetCheckedItems((1,2,3,4))
-        wx.StaticText(panel, -1, '赤表示色選択', pos=(0,275))
-        coloring_select_red = wx.CheckListBox(panel, 301, choices=col_set, pos=(0,295), size=(100,100))
-        coloring_select_red.SetCheckedItems((1,2,3,4))
+    col_set = ('現在地のみ','現在地','移動可能','移動済み','獲得領域')
+    wx.StaticText(panel, -1, '青表示色選択', pos=(0,150))
+    coloring_select_blue = wx.CheckListBox(panel, 300, choices=col_set, pos=(0,170), size=(100,100))
+    coloring_select_blue.SetCheckedItems((1,2,3,4))
+    wx.StaticText(panel, -1, '赤表示色選択', pos=(0,275))
+    coloring_select_red = wx.CheckListBox(panel, 301, choices=col_set, pos=(0,295), size=(100,100))
+    coloring_select_red.SetCheckedItems((1,2,3,4))
 
-        #Setting menubar
-        menu_bar = wx.MenuBar()
-        file_menu = wx.Menu()
-        open_file = wx.MenuItem(file_menu, 10, 'ファイルを開く')
-        start_game = wx.MenuItem(file_menu, 11, 'ゲームスタート')
-        clear_disp = wx.MenuItem(file_menu, 12, '画面クリア')
-        exit_app = wx.MenuItem(file_menu, 13, '終了')
-        debag_mode = wx.MenuItem(file_menu, 14, 'デバッグモード')
-        file_menu.Append(open_file)
-        file_menu.Append(start_game)
-        file_menu.Append(clear_disp)
-        file_menu.Append(exit_app)
-        file_menu.Append(debag_mode)
-        menu_bar.Append(file_menu, 'ファイル')
-        help_menu = wx.Menu()
-        appabout = wx.MenuItem(help_menu, 20, 'アプリケーションバージョン情報')
-        botabout = wx.MenuItem(help_menu, 21, 'ボットバージョン情報')
-        help_menu.Append(appabout)
-        help_menu.Append(botabout)
-        menu_bar.Append(help_menu, 'ヘルプ')
-        frame.SetMenuBar(menu_bar)
-        log.LogWrite('Init setup finished.', logtype=pro29NN.SYSTEM_LOG)
-        frame.Bind(wx.EVT_MENU, Menu_handler)
-        frame.Bind(wx.EVT_BUTTON, Button_handler)
-        frame.Bind(wx.EVT_RADIOBOX, Radio_handler)
-        frame.Bind(wx.EVT_CHECKLISTBOX, Check_handler)
-        frame.Bind(wx.EVT_KEY_DOWN, Key_handler)
+    #Setting menubar
+    menu_bar = wx.MenuBar()
+    file_menu = wx.Menu()
+    open_file = wx.MenuItem(file_menu, 10, 'ファイルを開く')
+    start_game = wx.MenuItem(file_menu, 11, 'ゲームスタート')
+    clear_disp = wx.MenuItem(file_menu, 12, '画面クリア')
+    exit_app = wx.MenuItem(file_menu, 13, '終了')
+    debag_mode = wx.MenuItem(file_menu, 14, 'デバッグモード')
+    file_menu.Append(open_file)
+    file_menu.Append(start_game)
+    file_menu.Append(clear_disp)
+    file_menu.Append(exit_app)
+    file_menu.Append(debag_mode)
+    menu_bar.Append(file_menu, 'ファイル')
+    help_menu = wx.Menu()
+    appabout = wx.MenuItem(help_menu, 20, 'アプリケーションバージョン情報')
+    botabout = wx.MenuItem(help_menu, 21, 'ボットバージョン情報')
+    help_menu.Append(appabout)
+    help_menu.Append(botabout)
+    menu_bar.Append(help_menu, 'ヘルプ')
+    frame.SetMenuBar(menu_bar)
+    log.LogWrite('Init setup finished.\n', logtype=pro29NN.SYSTEM_LOG)
+    frame.Bind(wx.EVT_MENU, Menu_handler)
+    frame.Bind(wx.EVT_BUTTON, Button_handler)
+    frame.Bind(wx.EVT_RADIOBOX, Radio_handler)
+    frame.Bind(wx.EVT_CHECKLISTBOX, Check_handler)
+    frame.Bind(wx.EVT_KEY_DOWN, Key_handler)
 
-        frame.Show()
-        app.MainLoop()
+    frame.Show()
+    app.MainLoop()
