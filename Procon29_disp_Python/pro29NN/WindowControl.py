@@ -3,33 +3,7 @@
 from . import Bot
 from . import ProconNetwork
 from . import Evolutionary
-import wx
 
-class SelectDialog(wx.Dialog):
-    """
-    Dialog fo select class.
-    parent : Select parent object. Default=None
-    id : Object id set. Default=wx.ID_ANY
-    title : Dialog title setting.
-    text : Dialog out string.
-    size : Dialog size setting.
-    """
-    def __init__(self, parent=None, id=wx.ID_ANY, title='', text='', size=(400, 100)):
-        wx.Dialog.__init__(self, parent, id, title, size=size)
-        self.text = wx.StaticText(self, -1, text,style=wx.SIMPLE_BORDER)
-        button1 = wx.Button(self, wx.ID_OK, '1')
-        button1.SetDefault()
-        button2 = wx.Button(self, wx.ID_CANCEL, '2')
-
-        button_sizer = wx.StdDialogButtonSizer()
-        button_sizer.AddButton(button1)
-        button_sizer.AddButton(button2)
-        button_sizer.Realize()
-
-        sizer = wx.BoxSizer(wx.VERTICAL)
-        sizer.Add(self.text, 1, wx.EXPAND | wx.ALL, 3)
-        sizer.Add(button_sizer, 0, wx.EXPAND | wx.ALL, 5)
-        self.SetSizer(sizer)
 
 class Flags():
     """
@@ -66,7 +40,7 @@ class Modes():
         self.AutoSetFlag = False
         self.LearnSetFlag = False
 
-    def AutoSet(self, log, MyagentData, EnemyagentData, agent, flags):
+    def AutoSet(self, log, MyagentData, EnemyagentData, flags):
         self.Clear()
         network = ProconNetwork.Network()
         network.load_params(file_name='gene/params100.pkl')

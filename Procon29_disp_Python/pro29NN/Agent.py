@@ -35,7 +35,7 @@ class Agent:
         self.next[0] = False
         self.movable, self.removable = self.MovableSet(eget)
         self.overlap_flag = False
-    
+
     def NextSet(self, next, overlap=False):
         if overlap:
             self.next[0] = True
@@ -45,7 +45,7 @@ class Agent:
             self.next[0] = False
             self.next[1] = next
             self.logfile.LogWrite('{} Next set ({},{})\n'.format(self.color, int(next/1000), next%1000))
-    
+
 class AgentData:
     def __init__(self, color, logfile, point):
         self.GetPosition = []
@@ -69,38 +69,37 @@ class AgentData:
             self.FillColor = '#778800'
         self.RemovableColor = '#FF77FF'
         self.LogFile = logfile
-    
-    def GetPoint(self, get, enemy_data, logout=True):
-        if str(type(get)) == "<class 'list'>":
-            for i in range(len(get)):
-                if get[i][0] or get[i][1] == 0:
-                    self.Remove(get[i], enemy_data, logout)
-                elif get[i][1] not in self.GetPosition:
-                    self.GetPosition.append(get[i][1])
-                    self.Point += self.AllPoint[get[i][1]%1000-1][int(get[i][1]/1000)-1]
+
+    def GetPoint(self, gets, enemy_data, logout=True):
+        if str(type(gets)) == "<class 'list'>":
+            for get in gets:
+                if get[1] in enemy_data.GetPosition:
+                    self.Remove(get, enemy_data, logout)
+                elif get[1] not in self.GetPosition:
+                    self.GetPosition.append(get[1])
+                    self.Point += self.AllPoint[get[1]%1000-1][get[1]//1000-1]
                     if logout:
                         self.LogFile.LogWrite('{} Get:({},{}) Point:{}\n'\
-                                        .format(self.Color, int(get[i][1]/1000), get[i][1]%1000, self.AllPoint[get[i][1]%1000-1][int(get[i][1]/1000)-1]))
+                                        .format(self.Color, get[1]//1000, get[1]%1000, self.AllPoint[get[1]%1000-1][get[1]//1000-1]))
         else:
-            if get[0] or get[1] == 0:
-                self.Remove(get[i], enemy_data, logout)
+            if gets[1] in enemy_data.GetPosition:
+                self.Remove(gets, enemy_data, logout)
             elif get[1] not in self.GetPosition:
                 self.GetPosition.append(get[1])
-                self.Point += self.AllPoint[get[1]%1000-1][int(get[1]/1000)-1]
+                self.Point += self.AllPoint[get[1]%1000-1][get[1]//1000-1]
                 if logout:
                     self.LogFile.LogWrite('{} Get:({},{}) Point:{}\n'\
-                                    .format(self.Color, int(get[1]/1000), get[1]%1000, self.AllPoint[get[1]%1000-1][int(get[1]/1000)-1]))
+                                    .format(self.Color, get[1]//1000, get[1]%1000, self.AllPoint[get[1]%1000-1][get[1]//1000-1]))
         if logout:
             self.LogFile.LogWrite('Now {} get point:{}\n'.format(self.Color, self.Point))
 
     def Remove(self, rm, enemy, logout=True):
-        print('Remove')
-        if rm[1] != 0:
-            enemy.GetPosition.remove(rm[1])
-            enemy.Point -= self.AllPoint[int(rm[1]%1000)-1][int(rm[1]/1000)-1]
-            if logout:
-                self.LogFile.LogWrite('{} Remove:({},{}) Point:{}\n'\
-                                .format(enemy.Color, int(rm[1]/1000), int(rm[1]%1000), self.AllPoint[int(rm[1]%1000)-1][int(rm[1]/1000)-1]))
+        if enemy.Color == 'blue': print('Remove')
+        enemy.GetPosition.remove(rm[1])
+        enemy.Point -= self.AllPoint[rm[1]%1000-1][rm[1]//1000-1]
+        if logout:
+            self.LogFile.LogWrite('{} Remove:({},{}) Point:{}\n'\
+                            .format(enemy.Color, rm[1]//1000, rm[1]%1000, self.AllPoint[rm[1]%1000-1][rm[1]//1000-1]))
 
     def FieldPointSearch(self, logout=True):
         self.GetField = []
@@ -163,22 +162,21 @@ class TempAgentData:
         self.get = [[0 for i in range(self.x+2)]for j in range(self.y+2)]
         self.DataCopy(InputData, Agent)
 
-    def GetPoint(self, get, enemy_data):
-        if str(type(get)) == "<class 'list'>":
-            for i in range(len(get)):
-                if get[i][0] or get[i][1] == 0:
-                    self.Remove(get[i], enemy_data)
-                elif get[i][1] not in self.GetPosition:
-                    self.GetPosition.append(get[i][1])
+    def GetPoint(self, gets, enemy_data):
+        if str(type(gets)) == "<class 'list'>":
+            for get in gets:
+                if get[1] in enemy_data.GetPosition:
+                    self.Remove(get, enemy_data)
+                elif get[1] not in self.GetPosition:
+                    self.GetPosition.append(get[1])
         else:
-            if get[0] or get[1] == 0:
-                self.Remove(get[i], enemy_data)
-            elif get[1] not in self.GetPosition:
-                self.GetPosition.append(get[1])
+            if gets[1] in enemy_data.GetPosition:
+                self.Remove(gets, enemy_data)
+            elif gets[1] not in self.GetPosition:
+                self.GetPosition.append(gets)
 
     def Remove(self, rm, enemy):
-        if rm[1] != 0:
-            enemy.GetPosition.remove(rm[1])
+        enemy.GetPosition.remove(rm[1])
 
     def FieldPointSearch(self):
         self.GetField = []
@@ -295,29 +293,28 @@ class LaernAgentData:
         self.get = [[0 for i in range(self.x+2)]for j in range(self.y+2)]
         self.TerritoryPoint = 0
     
-    def GetPoint(self, get, enemy_data, logout=True):
-        if str(type(get)) == "<class 'list'>":
-            for i in range(len(get)):
-                if get[i][0] or get[i][1] == 0:
-                    self.Remove(get[i], enemy_data, logout)
-                elif get[i][1] not in self.GetPosition:
-                    self.GetPosition.append(get[i][1])
-                    self.Point += self.AllPoint[get[i][1]%1000-1][int(get[i][1]/1000)-1]
+    def GetPoint(self, gets, enemy_data):
+        if str(type(gets)) == "<class 'list'>":
+            for get in gets:
+                if get[1] in enemy_data.GetPosition:
+                    self.Remove(get, enemy_data)
+                elif get[1] not in self.GetPosition:
+                    self.GetPosition.append(get[1])
+                    self.Point += self.AllPoint[get[1]%1000-1][get[1]//1000-1]
 
         else:
-            if get[0] or get[1] == 0:
-                self.Remove(get[i], enemy_data, logout)
-            elif get[1] not in self.GetPosition:
-                self.GetPosition.append(get[1])
-                self.Point += self.AllPoint[get[1]%1000-1][int(get[1]/1000)-1]
+            if gets[1] in enemy_data.GetPosition:
+                self.Remove(gets, enemy_data)
+            elif gets[1] not in self.GetPosition:
+                self.GetPosition.append(gets[1])
+                self.Point += self.AllPoint[gets[1]%1000-1][gets[1]//1000-1]
 
 
-    def Remove(self, rm, enemy, logout=True):
-        if rm[1] != 0:
-            enemy.GetPosition.remove(rm[1])
-            enemy.Point -= self.AllPoint[int(rm[1]%1000)-1][int(rm[1]/1000)-1]
+    def Remove(self, rm, enemy_data):
+        enemy_data.GetPosition.remove(rm[1])
+        enemy_data.Point -= self.AllPoint[rm[1]%1000-1][rm[1]//1000-1]
             
-    def FieldPointSearch(self, logout=True):
+    def FieldPointSearch(self):
         self.GetField = []
         self.TerritoryPoint = 0
         for i in range(self.y+2):

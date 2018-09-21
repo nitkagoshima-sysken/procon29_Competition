@@ -51,7 +51,8 @@ class GeneManagement:
     def SelectGene(self, paramsdata):
         if self.SelectMethod == 0:
             params = list(map(ParamsClassCreate, paramsdata))
-            self.SaveParams(max(params, key=attrgetter('score')), FileName='params100.pkl')
+            temp = max(params, key=attrgetter('score'))
+            if temp.score > 0: self.SaveParams(temp, FileName='params100.pkl')
             NextGeneration = self.SelectTournament(params)
         elif self.SelectMethod == 1:
             pass
@@ -79,7 +80,7 @@ class GeneManagement:
         
     def SelectTournament(self, params, toursize=3):
         choice = []
-        for i in range(self.GeneNum):
+        for _ in range(self.GeneNum):
             select = [random.choice(params) for j in range(toursize)]
             choice.append(max(select, key=attrgetter('score')))
         return choice

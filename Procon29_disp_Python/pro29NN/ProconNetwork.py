@@ -159,8 +159,8 @@ class Convolution:
         self.pad = pad
 
     def forward(self, x):
-        FN, C, FH, FW = self.W.shape
-        N, C, H, W = x.shape
+        FN, _, FH, FW = self.W.shape
+        N, _, H, W = x.shape
         out_h = 1 + int((H + 2*self.pad - FH) / self.stride)
         out_w = 1 + int((W + 2*self.pad - FW) / self.stride)
 

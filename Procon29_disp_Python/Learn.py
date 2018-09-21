@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from joblib import Parallel, delayed
-from pro29NN.WindowControl import *
+from pro29NN.WindowControl import Flags
 import pro29NN
 import random
 import copy

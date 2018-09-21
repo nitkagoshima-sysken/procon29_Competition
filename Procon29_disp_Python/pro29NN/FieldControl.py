@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import pickle
-import wx
 import pro29NN
 
 class Field:
@@ -11,6 +10,7 @@ class Field:
     logfile : logfile select.
     """
     def __init__(self, qrdata, field, logfile):
+        import wx
         self.y, self.x = map(int,qrdata[0].split(' '))
         self.field_out = []
         self.field_size =[]
@@ -201,10 +201,4 @@ class LearnField:
             self.point[self.y-1][2] == self.point[self.y-1][self.x-3]:
             typenum += 1
         return typenum
-
-    def Destroy(self):
-        """
-        Destroy field object method.
-        """
-        self.field.Destroy()
-        self.log.LogWrite('Clear ALL', logtype=pro29NN.SYSTEM_LOG)
+        
