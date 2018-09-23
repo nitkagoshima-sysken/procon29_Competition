@@ -599,6 +599,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// エージェントを表示します。
         /// </summary>
         /// <param name="turn">描画するマスを指定します</param>
+        /// <param name="cursor">カーソルの座標を指定します。</param>
         protected void DrawAgent(int turn, Coordinate cursor)
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
