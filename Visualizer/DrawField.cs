@@ -100,7 +100,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 描画するピクチャーボックスを設定または取得します。
         /// </summary>
-        public PictureBox PictureBox { get; set; }
+        //public PictureBox PictureBox { get; set; }
 
         /// <summary>
         /// 描画するときの色を設定または取得します。
@@ -183,8 +183,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 描画します。
         /// </summary>
-        /// <returns></returns>
-        public void Draw()
+        /// <param name="cursor">描画するマスを指定します</param>
+        public void Draw(Coordinate cursor)
         {
             Ready();
             DrawBackground();
@@ -193,9 +193,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             DrawEdge();
             DrawPoint();
             DrawFruitFairies();
-            DrawMouseOverCell();
-            DrawAgent();
-            DrawAgentName();
+            DrawMouseOverCell(cursor);
+            DrawAgent(cursor);
+            DrawAgentName(cursor);
         }
 
         /// <summary>
@@ -439,12 +439,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// マウスオーバーしたマスを描画します。
         /// </summary>
-        protected void DrawMouseOverCell()
+        /// <param name="cursor">カーソルの座標を指定します。</param>
+        protected void DrawMouseOverCell(Coordinate cursor)
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
             var mouseOverCell = new Coordinate(
-                x: CursorPosition(PictureBox).X,
-                y: CursorPosition(PictureBox).Y);
+                x: cursor.X,
+                y: cursor.Y);
             if ((mouseOverCell.X < Calc.Field.Width) && (mouseOverCell.Y < Calc.Field.Height))
                 graphics.FillRectangle(
                     brush: MouseOverCellBrush,
@@ -457,7 +458,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントを表示します。
         /// </summary>
-        protected void DrawAgent()
+        /// <param name="cursor">カーソルの座標を指定します。</param>
+        protected void DrawAgent(Coordinate cursor)
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
             // 上から順に描画するためにリスト化してソートする。
@@ -470,40 +472,37 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // エージェントを女の子にするところ
             foreach (var agent in list)
             {
-                DrawAgent(graphics, agent);
+                DrawAgent(graphics, agent, cursor);
             }
             graphics.Dispose();
         }
 
         /// <summary>
-        /// フルーツフェアリーたちを描画します。
+        /// エージェントたちを描画します。
         /// </summary>
         /// <param name="agent">描画するエージェントを指定します</param>
-        public void DrawAgent(Agent agent)
+        /// <param name="cursor">カーソルの座標を指定します。</param>
+        public void DrawAgent(Agent agent, Coordinate cursor)
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
-            DrawAgent(graphics, agent);
+            DrawAgent(graphics, agent, cursor);
             graphics.Dispose();
         }
 
         /// <summary>
-        /// フルーツフェアリーたちを描画します。
+        /// エージェントたちを描画します。
         /// </summary>
         /// <param name="graphics">描画サーフェスを指定します</param>
         /// <param name="agent">描画するエージェントを指定します</param>
-        protected void DrawAgent(Graphics graphics, Agent agent)
+        /// <param name="cursor">カーソルの座標を指定します。</param>
+        protected void DrawAgent(Graphics graphics, Agent agent, Coordinate cursor)
         {
-            float f = Bitmap.Height / 3000.0f;
-            var bmp = (Calc.Agents[agent.Team, agent.AgentNumber].Position.X > Calc.Field.Width / 2)
-                ? AgentBitmap[(int)agent.Team, Direction.Rightward]
-                : AgentBitmap[(int)agent.Team, Direction.Leftward];
             // 司令塔の邪魔にならないように、エージェントの真上のマスをマウスが通ったときに、
             // フルーツフェアリーたちの魔法で透明になるという設定
             ImageAttributes imageAttributes;
-            if (PictureBox != null &&
-                CursorPosition(PictureBox).X == Calc.Agents[agent.Team, agent.AgentNumber].Position.X && (
-                CursorPosition(PictureBox).Y == Calc.Agents[agent.Team, agent.AgentNumber].Position.Y - 1 ||
-                CursorPosition(PictureBox).Y == Calc.Agents[agent.Team, agent.AgentNumber].Position.Y))
+            if (cursor.X == Calc.Agents[agent.Team, agent.AgentNumber].Position.X && (
+                cursor.Y == Calc.Agents[agent.Team, agent.AgentNumber].Position.Y - 1 ||
+                cursor.Y == Calc.Agents[agent.Team, agent.AgentNumber].Position.Y))
             {
                 imageAttributes = AgentTransparentImageAttributes;
             }
@@ -511,6 +510,33 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 imageAttributes = AgentImageAttributes;
             }
+            DrawAgent(graphics, agent, imageAttributes);
+        }
+
+        /// <summary>
+        /// エージェントたちを描画します。
+        /// </summary>
+        /// <param name="graphics">描画サーフェスを指定します</param>
+        /// <param name="agent">描画するエージェントを指定します</param>
+        protected void DrawAgent(Graphics graphics, Agent agent)
+        {
+            ImageAttributes imageAttributes;
+            imageAttributes = AgentImageAttributes;
+            DrawAgent(graphics, agent, imageAttributes);
+        }
+
+        /// <summary>
+        /// エージェントたちを描画します。
+        /// </summary>
+        /// <param name="graphics">描画サーフェスを指定します</param>
+        /// <param name="agent">描画するエージェントを指定します</param>
+        /// <param name="imageAttributes"></param>
+        protected void DrawAgent(Graphics graphics, Agent agent, ImageAttributes imageAttributes)
+        {
+            float f = Bitmap.Height / 3000.0f;
+            var bmp = (Calc.Agents[agent.Team, agent.AgentNumber].Position.X > Calc.Field.Width / 2)
+                ? AgentBitmap[(int)agent.Team, Direction.Rightward]
+                : AgentBitmap[(int)agent.Team, Direction.Leftward];
             graphics.DrawImage(
                 image: bmp,
                 destRect: new Rectangle
@@ -531,23 +557,58 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 短い名前を表示します。
         /// </summary>
+        /// <param name="cursor">カーソルの座標を指定します。</param>
+        protected void DrawAgentName(Coordinate cursor)
+        {
+            Graphics graphics = Graphics.FromImage(Bitmap);
+            foreach (var agent in Calc.Agents)
+            {
+                if (!(cursor.X == agent.Position.X &&
+                    cursor.Y == agent.Position.Y - 1))
+                {
+                    DrawAgentName(graphics, agent);
+                }
+            }
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// 短い名前を表示します。
+        /// </summary>
         protected void DrawAgentName()
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
             foreach (var agent in Calc.Agents)
             {
-                if (!(CursorPosition(PictureBox).X == agent.Position.X &&
-                    CursorPosition(PictureBox).Y == agent.Position.Y - 1))
-                {
-                    graphics.DrawString(
-                        s: agent.Name,
-                        font: NameFont,
-                        brush: new SolidBrush(color: Color.FromArgb(0xCC, Color.White)),
-                        x: (float)(agent.Position.X + 0.0) * CellWidth,
-                        y: (float)(agent.Position.Y + 0.75) * CellHeight);
-                }
+                DrawAgentName(graphics, agent);
             }
             graphics.Dispose();
+        }
+
+        /// <summary>
+        /// 短い名前を表示します。
+        /// </summary>
+        /// <param name="agent">描画するエージェントを指定します</param>
+        protected void DrawAgentName(Agent agent)
+        {
+            Graphics graphics = Graphics.FromImage(Bitmap);
+            DrawAgentName(graphics, agent);
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// 短い名前を表示します。
+        /// </summary>
+        /// <param name="graphics">描画サーフェスを指定します</param>
+        /// <param name="agent">描画するエージェントを指定します</param>
+        protected void DrawAgentName(Graphics graphics, Agent agent)
+        {
+            graphics.DrawString(
+                    s: agent.Name,
+                    font: NameFont,
+                    brush: new SolidBrush(color: Color.FromArgb(0xCC, Color.White)),
+                    x: (float)(agent.Position.X + 0.0) * CellWidth,
+                    y: (float)(agent.Position.Y + 0.75) * CellHeight);
         }
 
         /// <summary>
@@ -566,21 +627,5 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 (int)((to.X + 0.5) * CellWidth),
                 (int)((to.Y + 0.5) * CellHeight));
         }
-
-        /// <summary>
-        /// カーソルがどのフィールドの上にいるかを計算します。
-        /// </summary>
-        /// <returns></returns>
-        public Coordinate CursorPosition(PictureBox pictureBox)
-        {
-            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Calc.Field.Width;
-            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Calc.Field.Height;
-            Point systemCursorPosition = Cursor.Position;
-            Point pictureBoxCursorPosition = pictureBox.PointToClient(systemCursorPosition);
-            return new Coordinate(
-                x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
-                y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
-        }
-
     }
 }

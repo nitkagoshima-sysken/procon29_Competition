@@ -142,6 +142,16 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
+        /// 前のカーソルの状態を設定または取得します。
+        /// </summary>
+        public Coordinate precursor { get; set; }
+
+        /// <summary>
+        /// フィールドを描画するオブジェクトを設定または取得します。
+        /// </summary>
+        public DrawField drawField { get; set; }
+
+        /// <summary>
         /// PictureBoxを新たに生成します。
         /// </summary>
         /// <param name="pictureBox">表示するPictureBox</param>
@@ -155,24 +165,24 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             Bitmap = canvas;
 
-            DrawField drawField = new DrawField(Calc, canvas);
-            drawField.AgentsActivityData = agentActivityData;
-            drawField.PictureBox = pictureBox;
-            drawField.Draw();
-
-            var coordinate = CursorPosition(PictureBox);
+            var cursor = CursorPosition(PictureBox);
+           
+                drawField = new DrawField(Calc, canvas);
+                drawField.AgentsActivityData = agentActivityData;
+                drawField.Draw(cursor);
+            precursor = cursor;
             try
             {
                 foreach (var agent in Calc.Agents)
                 {
-                    if (ClickField.ClickedAgent == agent && coordinate.ChebyshevDistance(agent.Position) == 1)
+                    if (ClickField.ClickedAgent == agent && cursor.ChebyshevDistance(agent.Position) == 1)
                     {
-                        drawField.DrawArrow(agent.Team, agent.Position, coordinate);
+                        drawField.DrawArrow(agent.Team, agent.Position, cursor);
                         break;
                     }
-                    else if (coordinate.ChebyshevDistance(agent.Position) == 1 && coordinate.ChebyshevDistance(ClickField.ClickedAgent.Position) != 1)
+                    else if (cursor.ChebyshevDistance(agent.Position) == 1 && cursor.ChebyshevDistance(ClickField.ClickedAgent.Position) != 1)
                     {
-                        drawField.DrawArrow(agent.Team, agent.Position, coordinate);
+                        drawField.DrawArrow(agent.Team, agent.Position, cursor);
                         break;
                     }
                 }
