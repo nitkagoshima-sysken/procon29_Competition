@@ -7,18 +7,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     class Show
     {
-        private TeamDesign[] teamDesign;
-        private PictureBox pictureBox;
-        private Logger procon29_Logger;
-        private SolidBrush backGroundSolidBrush = new SolidBrush(Color.FromArgb(48, 48, 48));
-        private SolidBrush selectSolidBrush = new SolidBrush(Color.FromArgb(50, Color.DarkGray));
-        private SolidBrush clickedSolidBrush = new SolidBrush(Color.FromArgb(100, Color.SkyBlue));
-        private Font pointFont;
-        private System.Drawing.Point clickedField;
-
-        private Bitmap[] agentBitmap;
-        private Bitmap[] fairyBitmap;
-
         public AgentsActivityData agentActivityData = new AgentsActivityData();
 
         /// <summary>
@@ -54,47 +42,42 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 描画するときの色を設定または取得します。
         /// </summary>
-        public TeamDesign[] TeamDesign { get => teamDesign; set => teamDesign = value; }
+        public TeamDesign[] TeamDesign { get; set; }
 
         /// <summary>
         /// 描画する対象となるPictureBoxを設定または取得します。
         /// </summary>
-        public PictureBox PictureBox { get => pictureBox; set => pictureBox = value; }
+        public PictureBox PictureBox { get; set; }
 
         /// <summary>
         /// 背景をどのように塗りつぶすか設定または取得します。
         /// </summary>
-        public SolidBrush BackGroundSolidBrush { get => backGroundSolidBrush; set => backGroundSolidBrush = value; }
+        public SolidBrush BackGroundSolidBrush { get; set; } = new SolidBrush(Color.FromArgb(48, 48, 48));
 
         /// <summary>
         /// 選択したフィールドをどのように塗りつぶすか設定または取得します。
         /// </summary>
-        public SolidBrush SelectSolidBrush { get => selectSolidBrush; set => selectSolidBrush = value; }
+        public SolidBrush SelectSolidBrush { get; set; } = new SolidBrush(Color.FromArgb(50, Color.DarkGray));
 
         /// <summary>
         /// クリックしたフィールドをどのように塗りつぶすか設定または取得します。
         /// </summary>
-        public SolidBrush ClickedSolidBrush { get => clickedSolidBrush; set => clickedSolidBrush = value; }
+        public SolidBrush ClickedSolidBrush { get; set; } = new SolidBrush(Color.FromArgb(100, Color.SkyBlue));
 
         /// <summary>
         /// フォントの設定または取得します。
         /// </summary>
-        public Font PointFont { get => pointFont; set => pointFont = value; }
-
-        /// <summary>
-        /// フォントの設定または取得します。
-        /// </summary>
-        //public static string PointFamilyName => pointFamilyName;
+        public Font PointFont { get; set; }
 
         /// <summary>
         /// クリックしたときのフィールドの場所の設定または取得します。
         /// </summary>
-        public Point ClickedField { get => clickedField; set => clickedField = value; }
+        public Point ClickedField { get; set; }
 
         /// <summary>
         /// ログを書き込むためのProcon29_Loggerを設定または取得します。
         /// </summary>
-        internal Logger Procon29_Logger { get => procon29_Logger; set => procon29_Logger = value; }
+        internal Logger Procon29_Logger { get; set; }
 
         public Team SelectedTeam { get; set; }
         public AgentNumber SelecetedAgent { get; set; }
@@ -102,12 +85,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントの画像を設定または取得します。
         /// </summary>
-        public Bitmap[] AgentBitmap { get => agentBitmap; set => agentBitmap = value; }
+        public Bitmap[] AgentBitmap { get; set; }
 
         /// <summary>
         /// フルーツフェアリーの画像を設定または取得します。
         /// </summary>
-        public Bitmap[] FairyBitmap { get => fairyBitmap; set => fairyBitmap = value; }
+        public Bitmap[] FairyBitmap { get; set; }
 
         /// <summary>
         /// Procon29_Showの初期化を行います。
@@ -221,78 +204,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             if (pictureBox.Image != null) pictureBox.Image.Dispose();
             //pictureBoxに表示する
             pictureBox.Image = canvas;
-        }
-
-        /// <summary>
-        /// フィールドの背景を指定したビットマップに描画します。
-        /// </summary>
-        protected void DrawBackground()
-        {
-            Graphics graphics = Graphics.FromImage(Bitmap);
-            CellHeight = Bitmap.Height / Calc.Field.Height;
-            CellWidth = Bitmap.Width / Calc.Field.Width;
-
-            // 背景の表示
-            graphics.FillRectangle(
-                brush: BackGroundSolidBrush,
-                x: 0,
-                y: 0,
-                width: Bitmap.Width,
-                height: Bitmap.Height);
-
-            graphics.Dispose();
-        }
-
-        /// <summary>
-        /// フィールドの囲み領域を描画します。
-        /// </summary>
-        protected void DrawEnclosedCell()
-        {
-            Graphics graphics = Graphics.FromImage(Bitmap);
-            CellHeight = Bitmap.Height / Calc.Field.Height;
-            CellWidth = Bitmap.Width / Calc.Field.Width;
-
-            // 囲み領域の表示
-            foreach (var cell in Calc.Field)
-            {
-                // 両チームともタイルを囲んでいるとき
-                if (cell.IsEnclosed[Team.A] && cell.IsEnclosed[Team.B])
-                {
-                    graphics.FillRectangle(
-                        brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesigns[Team.A].AgentColor),
-                        x: cell.Coordinate.X * CellWidth,
-                        y: cell.Coordinate.Y * CellHeight,
-                        width: CellWidth / 2,
-                        height: CellHeight);
-                    graphics.FillRectangle(
-                        brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesigns[Team.B].AgentColor),
-                        x: cell.Coordinate.X * CellWidth + CellWidth / 2,
-                        y: cell.Coordinate.Y * CellHeight,
-                        width: CellWidth / 2,
-                        height: CellHeight);
-                }
-                // チームAだけ囲んでいるとき
-                else if (cell.IsEnclosed[Team.A])
-                {
-                    graphics.FillRectangle(
-                        brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesigns[Team.A].AgentColor),
-                        x: cell.Coordinate.X * CellWidth,
-                        y: cell.Coordinate.Y * CellHeight,
-                        width: CellWidth,
-                        height: CellHeight);
-                }
-                // チームBだけ囲んでいるとき
-                else if (cell.IsEnclosed[Team.B])
-                {
-                    graphics.FillRectangle(
-                        brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesigns[Team.B].AgentColor),
-                        x: cell.Coordinate.X * CellWidth,
-                        y: cell.Coordinate.Y * CellHeight,
-                        width: CellWidth,
-                        height: CellHeight);
-                }
-            }
-            graphics.Dispose();
         }
 
         /// <summary>
@@ -478,7 +389,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 MessageBox.Show("不正なキー入力です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            Showing(pictureBox);
+            Showing(PictureBox);
         }
 
 
