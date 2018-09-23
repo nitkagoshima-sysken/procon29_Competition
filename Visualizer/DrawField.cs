@@ -252,6 +252,21 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// フィールドの囲み領域を描画します。
         /// </summary>
+        /// <param name="turn">描画するマスを指定します</param>
+        protected void DrawEnclosedCell(int turn)
+        {
+            Graphics graphics = Graphics.FromImage(Bitmap);
+            // 囲み領域の表示
+            foreach (var cell in Calc.FieldHistory[turn].Field)
+            {
+                DrawEnclosedCell(graphics, cell);
+            }
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// フィールドの囲み領域を描画します。
+        /// </summary>
         /// <param name="cell">描画するマスを指定します</param>
         public void DrawEnclosedCell(Cell cell)
         {
@@ -312,6 +327,20 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
             foreach (var cell in Calc.Field)
+            {
+                DrawTile(graphics, cell);
+            }
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// タイルを描画します。
+        /// </summary>
+        /// <param name="turn">描画するマスを指定します</param>
+        protected void DrawTile(int turn)
+        {
+            Graphics graphics = Graphics.FromImage(Bitmap);
+            foreach (var cell in Calc.FieldHistory[turn].Field)
             {
                 DrawTile(graphics, cell);
             }
@@ -511,6 +540,51 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントを表示します。
         /// </summary>
+        /// <param name="turn">描画するマスを指定します</param>
+        protected void DrawAgent(int turn)
+        {
+            Graphics graphics = Graphics.FromImage(Bitmap);
+            // 上から順に描画するためにリスト化してソートする。
+            List<Agent> list = new List<Agent>();
+            foreach (var item in Calc.FieldHistory[turn].Agents)
+            {
+                list.Add(item);
+            }
+            list.Sort((a, b) => a.Position.Y - b.Position.Y);
+            // エージェントを女の子にするところ
+            foreach (var agent in list)
+            {
+                DrawAgent(graphics, agent);
+            }
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// エージェントを表示します。
+        /// </summary>
+        /// <param name="turn">描画するマスを指定します</param>
+        protected void DrawAgent(int turn, Coordinate cursor)
+        {
+            Graphics graphics = Graphics.FromImage(Bitmap);
+            // 上から順に描画するためにリスト化してソートする。
+            List<Agent> list = new List<Agent>();
+            foreach (var item in Calc.FieldHistory[turn].Agents)
+            {
+                list.Add(item);
+            }
+            list.Sort((a, b) => a.Position.Y - b.Position.Y);
+            // エージェントを女の子にするところ
+            foreach (var agent in list)
+            {
+                DrawAgent(graphics, agent, cursor);
+            }
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// エージェントを表示します。
+        /// </summary>
+        /// <param name="cursor">カーソルの座標を指定します。</param>
         protected void DrawAgent(Coordinate cursor)
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
@@ -609,11 +683,44 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 短い名前を表示します。
         /// </summary>
+        /// <param name="turn">描画するマスを指定します</param>
+        protected void DrawAgentName(int turn)
+        {
+            Graphics graphics = Graphics.FromImage(Bitmap);
+            foreach (var agent in Calc.FieldHistory[turn].Agents)
+            {
+                DrawAgentName(graphics, agent);
+            }
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// 短い名前を表示します。
+        /// </summary>
         /// <param name="cursor">カーソルの座標を指定します。</param>
         protected void DrawAgentName(Coordinate cursor)
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
             foreach (var agent in Calc.Agents)
+            {
+                if (!(cursor.X == agent.Position.X &&
+                    cursor.Y == agent.Position.Y - 1))
+                {
+                    DrawAgentName(graphics, agent);
+                }
+            }
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// 短い名前を表示します。
+        /// </summary>
+        /// <param name="turn">描画するマスを指定します</param>
+        /// <param name="cursor">カーソルの座標を指定します。</param>
+        protected void DrawAgentName(int turn, Coordinate cursor)
+        {
+            Graphics graphics = Graphics.FromImage(Bitmap);
+            foreach (var agent in Calc.FieldHistory[turn].Agents)
             {
                 if (!(cursor.X == agent.Position.X &&
                     cursor.Y == agent.Position.Y - 1))
