@@ -178,6 +178,22 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 描画します。
         /// </summary>
+        public void Draw()
+        {
+            Ready();
+            DrawBackground();
+            DrawEnclosedCell();
+            DrawTile();
+            DrawEdge();
+            DrawPoint();
+            DrawFruitFairies();
+            DrawAgent();
+            DrawAgentName();
+        }
+
+        /// <summary>
+        /// 描画します。
+        /// </summary>
         /// <param name="cursor">描画するマスを指定します</param>
         public void Draw(Coordinate cursor)
         {
@@ -453,7 +469,27 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントを表示します。
         /// </summary>
-        /// <param name="cursor">カーソルの座標を指定します。</param>
+        protected void DrawAgent()
+        {
+            Graphics graphics = Graphics.FromImage(Bitmap);
+            // 上から順に描画するためにリスト化してソートする。
+            List<Agent> list = new List<Agent>();
+            foreach (var item in Calc.Agents)
+            {
+                list.Add(item);
+            }
+            list.Sort((a, b) => a.Position.Y - b.Position.Y);
+            // エージェントを女の子にするところ
+            foreach (var agent in list)
+            {
+                DrawAgent(graphics, agent);
+            }
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// エージェントを表示します。
+        /// </summary>
         protected void DrawAgent(Coordinate cursor)
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
