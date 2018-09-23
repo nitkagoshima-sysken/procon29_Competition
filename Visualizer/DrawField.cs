@@ -210,6 +210,42 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
+        /// 描画します。
+        /// </summary>
+        /// <param name="turn">描画するターンを指定します</param>
+        public void Draw(int turn)
+        {
+            Ready();
+            DrawBackground();
+            DrawEnclosedCell(turn);
+            DrawTile(turn);
+            DrawEdge();
+            DrawPoint();
+            DrawFruitFairies();
+            DrawAgent(turn);
+            DrawAgentName(turn);
+        }
+
+        /// <summary>
+        /// 描画します。
+        /// </summary>
+        /// <param name="turn">描画するターンを指定します</param>
+        /// <param name="cursor">描画するマスを指定します</param>
+        public void Draw(int turn, Coordinate cursor)
+        {
+            Ready();
+            DrawBackground();
+            DrawEnclosedCell(turn);
+            DrawTile(turn);
+            DrawEdge();
+            DrawPoint();
+            DrawFruitFairies();
+            DrawMouseOverCell(cursor);
+            DrawAgent(turn, cursor);
+            DrawAgentName(turn, cursor);
+        }
+
+        /// <summary>
         /// フィールドの描画を準備します。
         /// </summary>
         protected void Ready()
