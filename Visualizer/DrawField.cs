@@ -98,11 +98,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public Font PointFont { get; set; }
 
         /// <summary>
-        /// 描画するピクチャーボックスを設定または取得します。
-        /// </summary>
-        //public PictureBox PictureBox { get; set; }
-
-        /// <summary>
         /// 描画するときの色を設定または取得します。
         /// </summary>
         public TeamDesigns TeamDesigns { get; set; } = new TeamDesigns();
