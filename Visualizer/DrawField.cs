@@ -567,11 +567,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 (int)((to.Y + 0.5) * CellHeight));
         }
 
-        protected bool MoveOrRemove()
-        {
-            return true;
-        }
-
         /// <summary>
         /// カーソルがどのフィールドの上にいるかを計算します。
         /// </summary>
