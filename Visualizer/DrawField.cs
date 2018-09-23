@@ -219,8 +219,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 brush: BackColorSolidBrush,
                 x: 0,
                 y: 0,
-                width: Bitmap.Width,
-                height: Bitmap.Height);
+                width: Bitmap.Width / Calc.Field.Width * Calc.Field.Width,
+                height: Bitmap.Height / Calc.Field.Height * Calc.Field.Height);
             graphics.Dispose();
         }
 
@@ -281,18 +281,39 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             Graphics graphics = Graphics.FromImage(Bitmap);
             foreach (var cell in Calc.Field)
             {
-                foreach (Team team in Enum.GetValues(typeof(Team)))
-                {
-                    if (cell.IsTileOn[team])
-                        graphics.FillRectangle(
-                            brush: new SolidBrush(TeamDesigns[team].AgentColor),
-                            x: cell.Coordinate.X * CellWidth,
-                            y: cell.Coordinate.Y * CellHeight,
-                            width: CellWidth,
-                            height: CellHeight);
-                }
+                DrawTile(graphics, cell);
             }
             graphics.Dispose();
+        }
+
+        /// <summary>
+        /// タイルを描画します。
+        /// </summary>
+        /// <param name="cell">描画するマスを指定します</param>
+        public void DrawTile(Cell cell)
+        {
+            Graphics graphics = Graphics.FromImage(Bitmap);
+            DrawTile(graphics, cell);
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// タイルを描画します。
+        /// </summary>
+        /// <param name="graphics">描画サーフェスを指定します</param>
+        /// <param name="cell">描画するマスを指定します</param>
+        protected void DrawTile(Graphics graphics, Cell cell)
+        {
+            foreach (Team team in Enum.GetValues(typeof(Team)))
+            {
+                if (cell.IsTileOn[team])
+                    graphics.FillRectangle(
+                        brush: new SolidBrush(TeamDesigns[team].AgentColor),
+                        x: cell.Coordinate.X * CellWidth,
+                        y: cell.Coordinate.Y * CellHeight,
+                        width: CellWidth,
+                        height: CellHeight);
+            }
         }
 
         /// <summary>
@@ -314,6 +335,33 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
+        /// マスの枠を描画します。
+        /// </summary>
+        /// <param name="cell">描画するマスを指定します</param>
+        public void DrawEdge(Cell cell)
+        {
+            Graphics graphics = Graphics.FromImage(Bitmap);
+            DrawEdge(graphics, cell);
+            graphics.Dispose();
+
+        }
+
+        /// <summary>
+        /// マスの枠を描画します。
+        /// </summary>
+        /// <param name="graphics">描画サーフェスを指定します</param>
+        /// <param name="cell">描画するマスを指定します</param>
+        protected void DrawEdge(Graphics graphics, Cell cell)
+        {
+            graphics.DrawRectangle(
+                    pen: EdgePen,
+                    x: cell.Coordinate.X * CellWidth,
+                    y: cell.Coordinate.Y * CellHeight,
+                    width: CellWidth,
+                    height: CellHeight);
+        }
+
+        /// <summary>
         /// マスの得点を描画します。
         /// </summary>
         protected void DrawPoint()
@@ -321,14 +369,35 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             Graphics graphics = Graphics.FromImage(Bitmap);
             foreach (var cell in Calc.Field)
             {
-                graphics.DrawString(
+                DrawPoint(graphics, cell);
+            }
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// マスの得点を描画します。
+        /// </summary>
+        /// <param name="cell">描画するマスを指定します</param>
+        public void DrawPoint(Cell cell)
+        {
+            Graphics graphics = Graphics.FromImage(Bitmap);
+            DrawPoint(graphics, cell);
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// マスの枠を描画します。
+        /// </summary>
+        /// <param name="graphics">描画サーフェスを指定します</param>
+        /// <param name="cell">描画するマスを指定します</param>
+        protected void DrawPoint(Graphics graphics, Cell cell)
+        {
+            graphics.DrawString(
                     s: ((0 <= cell.Point && cell.Point <= 9) ? " " : string.Empty) + cell.Point.ToString(),
                     font: PointFont,
                     brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
                     x: (float)(cell.Coordinate.X + ((-10 <= cell.Point) ? 0.1 : 0.0)) * CellWidth,
                     y: (float)(cell.Coordinate.Y + 0.1) * CellHeight);
-            }
-            graphics.Dispose();
         }
 
         /// <summary>
@@ -401,41 +470,62 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // エージェントを女の子にするところ
             foreach (var agent in list)
             {
-                float f = Bitmap.Height / 3000.0f;
-                var bmp = (Calc.Agents[agent.Team, agent.AgentNumber].Position.X > Calc.Field.Width / 2)
-                    ? AgentBitmap[(int)agent.Team, Direction.Rightward]
-                    : AgentBitmap[(int)agent.Team, Direction.Leftward];
-                // 司令塔の邪魔にならないように、エージェントの真上のマスをマウスが通ったときに、
-                // フルーツフェアリーたちの魔法で透明になるという設定
-                ImageAttributes imageAttributes;
-                if (PictureBox != null &&
-                    CursorPosition(PictureBox).X == Calc.Agents[agent.Team, agent.AgentNumber].Position.X && (
-                    CursorPosition(PictureBox).Y == Calc.Agents[agent.Team, agent.AgentNumber].Position.Y - 1 ||
-                    CursorPosition(PictureBox).Y == Calc.Agents[agent.Team, agent.AgentNumber].Position.Y))
-                {
-                    imageAttributes = AgentTransparentImageAttributes;
-                }
-                else
-                {
-                    imageAttributes = AgentImageAttributes;
-                }
-                graphics.DrawImage(
-                    image: bmp,
-                    destRect: new Rectangle
-                    {
-                        X = (int)(Calc.Agents[agent.Team, agent.AgentNumber].Position.X * CellWidth),
-                        Y = (int)(Calc.Agents[agent.Team, agent.AgentNumber].Position.Y * CellHeight - (bmp.Height * f * 0.55f)),
-                        Width = (int)(bmp.Width * f),
-                        Height = (int)(bmp.Height * f)
-                    },
-                    srcX: 0,
-                    srcY: 0,
-                    srcWidth: bmp.Width,
-                    srcHeight: bmp.Height,
-                    srcUnit: GraphicsUnit.Pixel,
-                    imageAttrs: imageAttributes);
+                DrawAgent(graphics, agent);
             }
             graphics.Dispose();
+        }
+
+        /// <summary>
+        /// フルーツフェアリーたちを描画します。
+        /// </summary>
+        /// <param name="agent">描画するエージェントを指定します</param>
+        public void DrawAgent(Agent agent)
+        {
+            Graphics graphics = Graphics.FromImage(Bitmap);
+            DrawAgent(graphics, agent);
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// フルーツフェアリーたちを描画します。
+        /// </summary>
+        /// <param name="graphics">描画サーフェスを指定します</param>
+        /// <param name="agent">描画するエージェントを指定します</param>
+        protected void DrawAgent(Graphics graphics, Agent agent)
+        {
+            float f = Bitmap.Height / 3000.0f;
+            var bmp = (Calc.Agents[agent.Team, agent.AgentNumber].Position.X > Calc.Field.Width / 2)
+                ? AgentBitmap[(int)agent.Team, Direction.Rightward]
+                : AgentBitmap[(int)agent.Team, Direction.Leftward];
+            // 司令塔の邪魔にならないように、エージェントの真上のマスをマウスが通ったときに、
+            // フルーツフェアリーたちの魔法で透明になるという設定
+            ImageAttributes imageAttributes;
+            if (PictureBox != null &&
+                CursorPosition(PictureBox).X == Calc.Agents[agent.Team, agent.AgentNumber].Position.X && (
+                CursorPosition(PictureBox).Y == Calc.Agents[agent.Team, agent.AgentNumber].Position.Y - 1 ||
+                CursorPosition(PictureBox).Y == Calc.Agents[agent.Team, agent.AgentNumber].Position.Y))
+            {
+                imageAttributes = AgentTransparentImageAttributes;
+            }
+            else
+            {
+                imageAttributes = AgentImageAttributes;
+            }
+            graphics.DrawImage(
+                image: bmp,
+                destRect: new Rectangle
+                {
+                    X = (int)(Calc.Agents[agent.Team, agent.AgentNumber].Position.X * CellWidth),
+                    Y = (int)(Calc.Agents[agent.Team, agent.AgentNumber].Position.Y * CellHeight - (bmp.Height * f * 0.55f)),
+                    Width = (int)(bmp.Width * f),
+                    Height = (int)(bmp.Height * f)
+                },
+                srcX: 0,
+                srcY: 0,
+                srcWidth: bmp.Width,
+                srcHeight: bmp.Height,
+                srcUnit: GraphicsUnit.Pixel,
+                imageAttrs: imageAttributes);
         }
 
         /// <summary>
