@@ -244,44 +244,65 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // 囲み領域の表示
             foreach (var cell in Calc.Field)
             {
-                // 両チームともタイルを囲んでいるとき
-                if (cell.IsEnclosed[Team.A] && cell.IsEnclosed[Team.B])
-                {
-                    graphics.FillRectangle(
-                        brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesigns[Team.A].AgentColor),
-                        x: cell.Coordinate.X * CellWidth,
-                        y: cell.Coordinate.Y * CellHeight,
-                        width: CellWidth / 2,
-                        height: CellHeight);
-                    graphics.FillRectangle(
-                        brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesigns[Team.B].AgentColor),
-                        x: cell.Coordinate.X * CellWidth + CellWidth / 2,
-                        y: cell.Coordinate.Y * CellHeight,
-                        width: CellWidth / 2,
-                        height: CellHeight);
-                }
-                // チームAだけ囲んでいるとき
-                else if (cell.IsEnclosed[Team.A])
-                {
-                    graphics.FillRectangle(
-                        brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesigns[Team.A].AgentColor),
-                        x: cell.Coordinate.X * CellWidth,
-                        y: cell.Coordinate.Y * CellHeight,
-                        width: CellWidth,
-                        height: CellHeight);
-                }
-                // チームBだけ囲んでいるとき
-                else if (cell.IsEnclosed[Team.B])
-                {
-                    graphics.FillRectangle(
-                        brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesigns[Team.B].AgentColor),
-                        x: cell.Coordinate.X * CellWidth,
-                        y: cell.Coordinate.Y * CellHeight,
-                        width: CellWidth,
-                        height: CellHeight);
-                }
+                DrawEnclosedCell(graphics, cell);
             }
             graphics.Dispose();
+        }
+
+        /// <summary>
+        /// フィールドの囲み領域を描画します。
+        /// </summary>
+        /// <param name="cell">描画するマスを指定します</param>
+        public void DrawEnclosedCell(Cell cell)
+        {
+            Graphics graphics = Graphics.FromImage(Bitmap);
+            DrawEnclosedCell(graphics, cell);
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// フィールドの囲み領域を描画します。
+        /// </summary>
+        /// <param name="graphics">描画サーフェスを指定します</param>
+        /// <param name="cell">描画するマスを指定します</param>
+        protected void DrawEnclosedCell(Graphics graphics, Cell cell)
+        {
+            // 両チームともタイルを囲んでいるとき
+            if (cell.IsEnclosed[Team.A] && cell.IsEnclosed[Team.B])
+            {
+                graphics.FillRectangle(
+                    brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesigns[Team.A].AgentColor),
+                    x: cell.Coordinate.X * CellWidth,
+                    y: cell.Coordinate.Y * CellHeight,
+                    width: CellWidth / 2,
+                    height: CellHeight);
+                graphics.FillRectangle(
+                    brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesigns[Team.B].AgentColor),
+                    x: cell.Coordinate.X * CellWidth + CellWidth / 2,
+                    y: cell.Coordinate.Y * CellHeight,
+                    width: CellWidth / 2,
+                    height: CellHeight);
+            }
+            // チームAだけ囲んでいるとき
+            else if (cell.IsEnclosed[Team.A])
+            {
+                graphics.FillRectangle(
+                    brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesigns[Team.A].AgentColor),
+                    x: cell.Coordinate.X * CellWidth,
+                    y: cell.Coordinate.Y * CellHeight,
+                    width: CellWidth,
+                    height: CellHeight);
+            }
+            // チームBだけ囲んでいるとき
+            else if (cell.IsEnclosed[Team.B])
+            {
+                graphics.FillRectangle(
+                    brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesigns[Team.B].AgentColor),
+                    x: cell.Coordinate.X * CellWidth,
+                    y: cell.Coordinate.Y * CellHeight,
+                    width: CellWidth,
+                    height: CellHeight);
+            }
         }
 
         /// <summary>
