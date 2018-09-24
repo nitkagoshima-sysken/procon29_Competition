@@ -221,7 +221,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             DrawTile(turn);
             DrawEdge();
             DrawPoint();
-            DrawFruitFairies();
+            DrawFruitFairies(turn);
             DrawAgent(turn);
             DrawAgentName(turn);
         }
@@ -529,6 +529,49 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         srcUnit: GraphicsUnit.Pixel,
                         imageAttrs: FruitFairyImageAttributes);
                 }
+            }
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// フルーツフェアリーたちを描画します。
+        /// </summary>
+        protected void DrawFruitFairies(int turn)
+        {
+            Graphics graphics = Graphics.FromImage(Bitmap);
+            try
+            {
+                foreach (Team team in Enum.GetValues(typeof(Team)))
+                {
+                    foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
+                    {
+                        float f = Bitmap.Height / 12000.0f;
+
+                        var bmp = (Calc.FieldHistory[turn + 1].AgentActivityDatas[team, agent].Destination.X < Calc.Field.Width / 2)
+                            ? FruitFairyBitmap[(int)team * 2 + (int)agent, Direction.Rightward]
+                            : FruitFairyBitmap[(int)team * 2 + (int)agent, Direction.Leftward];
+
+                        graphics.DrawImage(
+                            image: bmp,
+                            destRect: new Rectangle
+                            {
+                                X = (int)((Calc.FieldHistory[turn + 1].AgentActivityDatas[team, agent].Destination.X + 0.5f) * CellWidth),
+                                Y = (int)((Calc.FieldHistory[turn + 1].AgentActivityDatas[team, agent].Destination.Y + 0.0f) * CellHeight),
+                                Width = (int)(bmp.Width * f),
+                                Height = (int)(bmp.Height * f)
+                            },
+                            srcX: 0,
+                            srcY: 0,
+                            srcWidth: bmp.Width,
+                            srcHeight: bmp.Height,
+                            srcUnit: GraphicsUnit.Pixel,
+                            imageAttrs: FruitFairyImageAttributes);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("catch Exception");
             }
             graphics.Dispose();
         }
