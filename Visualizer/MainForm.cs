@@ -316,36 +316,30 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         public void ReadBotsTxt()
         {
+            // "Prefetching" というディレクトリが存在しない場合、作成する
             if (!Directory.Exists("Prefetching"))
             {
                 Directory.CreateDirectory("Prefetching");
             }
             if (System.IO.File.Exists(@".\Prefetching\Bots.tsv"))
             {
-                var reader = new System.IO.StreamReader(@".\Prefetching\Bots.tsv", System.Text.Encoding.Default);
-                string result = string.Empty;
-                while (reader.Peek() >= 0)
+                var reader = new TsvReader(@".\Prefetching\Bots.tsv");
+                reader.ReadTsvFile();
+                reader.ConvertToTsvData();
+                var result = reader.TsvData;
+
+                if (result.ContainsKey("A"))
                 {
-                    string line = reader.ReadLine();
-                    if (System.Text.RegularExpressions.Regex.IsMatch(
-                        line,
-                        @"^A\t.*"))
-                    {
-                        MessageBox.Show("Bots.tsvによってボットが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        var name = line.Substring(2);
-                        ConnectBot(0, name);
-                    }
-                    else if (System.Text.RegularExpressions.Regex.IsMatch(
-                        line,
-                        @"^B\t.*"))
-                    {
-                        MessageBox.Show("Bots.tsvによってボットが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        var name = line.Substring(2);
-                        ConnectBot(1, name);
-                    }
+                    MessageBox.Show("Bots.tsvによってボットが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ConnectBot(0, result["A"][0]);
                 }
-                reader.Close();
+                if (result.ContainsKey("B"))
+                {
+                    MessageBox.Show("Bots.tsvによってボットが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ConnectBot(0, result["B"][0]);
+                }
             }
+            // "Bots.tsv" というディレクトリが存在しない場合、作成する
             else
             {
                 using (var file = System.IO.File.Create(@".\Prefetching\Bots.tsv"))
@@ -362,30 +356,24 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             if (System.IO.File.Exists(@".\Prefetching\Calc.tsv"))
             {
-                var reader = new System.IO.StreamReader(@".\Prefetching\Calc.tsv", System.Text.Encoding.Default);
-                string result = string.Empty;
-                while (reader.Peek() >= 0)
+                var reader = new TsvReader(@".\Prefetching\Calc.tsv");
+                reader.ReadTsvFile();
+                reader.ConvertToTsvData();
+                var result = reader.TsvData;
+
+                if (result.ContainsKey("Pqr"))
                 {
-                    string line = reader.ReadLine();
-                    if (System.Text.RegularExpressions.Regex.IsMatch(
-                        line,
-                        @"^Pqr\t.+"))
-                    {
-                        MessageBox.Show("Pqr.tsvによってPQRファイルが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        var name = line.Substring(4);
-                        OpenPQRFile(name);
-                    }
-                    else if (System.Text.RegularExpressions.Regex.IsMatch(
-                        line,
-                        @"^MaxTurn\t\d+"))
-                    {
-                        MessageBox.Show("Pqr.tsvによって最大ターン数が読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        var name = line.Substring(8);
-                        Calc.MaxTurn = int.Parse(name);
-                    }
+                    MessageBox.Show("Pqr.tsvによってPQRファイルが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    OpenPQRFile(result["Pqr"][0].Trim());
+                    Console.WriteLine("\""+result["Pqr"][0].Trim() + "\"");
                 }
-                reader.Close();
+                if (result.ContainsKey("MaxTurn"))
+                {
+                    MessageBox.Show("Pqr.tsvによって最大ターン数が読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Calc.MaxTurn = int.Parse(result["MaxTurn"][0]);
+                }
             }
+            // "Calc.tsv" というディレクトリが存在しない場合、作成する
             else
             {
                 using (var file = System.IO.File.Create(@".\Prefetching\Calc.tsv"))
