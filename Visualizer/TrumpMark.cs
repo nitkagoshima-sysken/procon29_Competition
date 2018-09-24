@@ -21,5 +21,9 @@
         /// クラブを表します。
         /// </summary>
         Club,
+        /// <summary>
+        /// ジョーカーを表します。
+        /// </summary>
+        Joker,
     }
 }
