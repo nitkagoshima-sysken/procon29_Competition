@@ -6,6 +6,10 @@
     enum TrumpMark
     {
         /// <summary>
+        /// スペードを表します。
+        /// </summary>
+        Spade,
+        /// <summary>
         /// ハートを表します。
         /// </summary>
         Heart,
@@ -17,9 +21,5 @@
         /// クラブを表します。
         /// </summary>
         Club,
-        /// <summary>
-        /// スペードを表します。
-        /// </summary>
-        Spade,
     }
 }
