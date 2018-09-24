@@ -112,6 +112,8 @@
       <DependentUpon>SplashForm.cs</DependentUpon>
     </Compile>
     <Compile Include="TeamDesigns.cs" />
+    <Compile Include="TrumpMark.cs" />
+    <Compile Include="TrumpNumber.cs" />
     <Compile Include="XmlCalc.cs" />
     <Compile Include="Calc.cs" />
     <Compile Include="Coordinate.cs" />

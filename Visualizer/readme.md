@@ -1,20 +1,48 @@
-# Procon29 Visualizer 19.0
+# Procon29 Visualizer 20.0
 
 ## What's new
 
-### クリックだけで操作できるようになった
-
-詳しくは操作方法を見て！
-
-### デバッグモードのみオートセーブされるように変更された
-
-オートセーブが思いの外、重いので。
-
-### 矢印が表示されるようになった
-
-少しだけ分かりやすくなったと思う。
-
-### ダブルクリックした直後にマウスをフィールドの外に移動させるとエラーになるバグを修正
+- Visualizerの起動中にスプラッシュウインドウを表示するにした
+- `Show`におけるソースコードの管理（開発者向け）
+- `DrawField`におけるソースコードの管理（開発者向け）
+- `Show.teamDesign`を廃止（開発者向け）
+- `Show.pictureBox`を廃止（開発者向け）
+- `Show.procon29_Logger`を廃止（開発者向け）
+- `Show.backGroundSolidBrush`を廃止（開発者向け）
+- `Show.selectSolidBrush`を廃止（開発者向け）
+- `Show.clickedSolidBrush`を廃止（開発者向け）
+- `Show.pointFont`を廃止（開発者向け）
+- `Show.clickedField`を廃止（開発者向け）
+- `Show.agentBitmap`を廃止（開発者向け）
+- `Show.fairyBitmap`を廃止（開発者向け）
+- `Show.PointFont`を廃止（開発者向け）
+- `Show.DrawBackground`を廃止（開発者向け）
+- `Show.DrawEnclosedCell`を廃止（開発者向け）
+- `DrawField.MoveOrRemove`を廃止（開発者向け）
+- `DrawField.PictureBox`を廃止（開発者向け）
+- `DrawField.Draw(Coordinate)`を追加（開発者向け）
+- `DrawField.DrawMouseOverCell(Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgent(Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgent(Agent, Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgent(Graphics, Agent, Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgent(Graphics, Agent)`を追加（開発者向け）
+- `DrawField.DrawAgent(Graphics, Agent, ImageAttributes)`を追加（開発者向け）
+- `DrawField.DrawAgentName(Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgentName(Agent)`を追加（開発者向け）
+- `DrawField.DrawAgentName(Graphics, Agent)`を追加（開発者向け）
+- `DrawField.Draw()`を追加（開発者向け）
+- `DrawField.DrawAgent()`を追加（開発者向け）
+- `DrawField.DrawEnclosedCell(Cell)`を追加（開発者向け）
+- `DrawField.DrawEnclosedCell(Graphics, Cell)`を追加（開発者向け）
+- `DrawField.DrawEnclosedCell(int)`を追加（開発者向け）
+- `DrawField.DrawTile(int)`を追加（開発者向け）
+- `DrawField.DrawAgent(int)`を追加（開発者向け）
+- `DrawField.DrawAgent(int, Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgentName(int)`を追加（開発者向け）
+- `DrawField.DrawAgentName(int, Coordinate)`を追加（開発者向け）
+- `DrawField.Draw(int)`を追加（開発者向け）
+- `DrawField.Draw(int, Coordinate)`を追加（開発者向け）
+- `DrawField.DrawFruitFairies(int)`を追加（開発者向け）
 
 ## 操作方法
 
@@ -325,6 +353,50 @@
 - `CharactorBitmap`を追加（開発者向け）
 - `DrawField`を追加（開発者向け）
 - `ClickField`を追加（開発者向け）
+
+### Version 20.0
+
+- Visualizerの起動中にスプラッシュウインドウを表示するにした
+- `Show`におけるソースコードの管理（開発者向け）
+- `DrawField`におけるソースコードの管理（開発者向け）
+- `Show.teamDesign`を廃止（開発者向け）
+- `Show.pictureBox`を廃止（開発者向け）
+- `Show.procon29_Logger`を廃止（開発者向け）
+- `Show.backGroundSolidBrush`を廃止（開発者向け）
+- `Show.selectSolidBrush`を廃止（開発者向け）
+- `Show.clickedSolidBrush`を廃止（開発者向け）
+- `Show.pointFont`を廃止（開発者向け）
+- `Show.clickedField`を廃止（開発者向け）
+- `Show.agentBitmap`を廃止（開発者向け）
+- `Show.fairyBitmap`を廃止（開発者向け）
+- `Show.PointFont`を廃止（開発者向け）
+- `Show.DrawBackground`を廃止（開発者向け）
+- `Show.DrawEnclosedCell`を廃止（開発者向け）
+- `DrawField.MoveOrRemove`を廃止（開発者向け）
+- `DrawField.PictureBox`を廃止（開発者向け）
+- `DrawField.Draw(Coordinate)`を追加（開発者向け）
+- `DrawField.DrawMouseOverCell(Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgent(Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgent(Agent, Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgent(Graphics, Agent, Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgent(Graphics, Agent)`を追加（開発者向け）
+- `DrawField.DrawAgent(Graphics, Agent, ImageAttributes)`を追加（開発者向け）
+- `DrawField.DrawAgentName(Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgentName(Agent)`を追加（開発者向け）
+- `DrawField.DrawAgentName(Graphics, Agent)`を追加（開発者向け）
+- `DrawField.Draw()`を追加（開発者向け）
+- `DrawField.DrawAgent()`を追加（開発者向け）
+- `DrawField.DrawEnclosedCell(Cell)`を追加（開発者向け）
+- `DrawField.DrawEnclosedCell(Graphics, Cell)`を追加（開発者向け）
+- `DrawField.DrawEnclosedCell(int)`を追加（開発者向け）
+- `DrawField.DrawTile(int)`を追加（開発者向け）
+- `DrawField.DrawAgent(int)`を追加（開発者向け）
+- `DrawField.DrawAgent(int, Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgentName(int)`を追加（開発者向け）
+- `DrawField.DrawAgentName(int, Coordinate)`を追加（開発者向け）
+- `DrawField.Draw(int)`を追加（開発者向け）
+- `DrawField.Draw(int, Coordinate)`を追加（開発者向け）
+- `DrawField.DrawFruitFairies(int)`を追加（開発者向け）
 
 ## バージョンの上がり方について
 
