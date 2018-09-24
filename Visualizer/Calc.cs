@@ -14,12 +14,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントたちを表します
         /// </summary>
-        public Agents Agents { get => FieldHistory[Turn].Agents; set => FieldHistory[Turn].Agents = value; }
+        public Agents Agents { get => History[Turn].Agents; set => History[Turn].Agents = value; }
 
         /// <summary>
         /// フィールドを設定または取得します。
         /// </summary>
-        public Field Field { get => FieldHistory[Turn].Field; set => FieldHistory[Turn].Field = value; }
+        public Field Field { get => History[Turn].Field; set => History[Turn].Field = value; }
 
         /// <summary>
         /// ターンを設定または取得します。
@@ -38,7 +38,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// フィールドの歴史を設定または取得します。
         /// </summary>
-        public List<TurnData> FieldHistory { get; private set; } = new List<TurnData>();
+        public List<TurnData> History { get; private set; } = new List<TurnData>();
 
         /// <summary> 
         /// エージェントの略称を返します。 
@@ -55,9 +55,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             Turn = calc.Turn;
             foreach (var item in calc.FieldHistory)
             {
-                FieldHistory.Add(new TurnData(item));
+                History.Add(new TurnData(item));
             }
-            Agents = FieldHistory[Turn].Agents;
+            Agents = History[Turn].Agents;
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // Turn -> 0
             Turn = 0;
             // TurnData作成
-            FieldHistory.Add(new TurnData(new Field(point.GetLength(1), point.GetLength(0)), new Agents()));
+            History.Add(new TurnData(new Field(point.GetLength(1), point.GetLength(0)), new Agents()));
 
             InitializationOfField(point);
             foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
@@ -98,7 +98,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // Turn -> 0
             Turn = 0;
             // TurnData作成
-            FieldHistory.Add(new TurnData(field, new Agents()));
+            History.Add(new TurnData(field, new Agents()));
 
             foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
             {
@@ -380,7 +380,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         a[team, agent] = new Agent(Agents[team, agent]);
                     }
                 }
-                FieldHistory.Add(new TurnData(new Field(Field), a));
+                History.Add(new TurnData(new Field(Field), a));
                 Turn++;
             }
         }
@@ -399,7 +399,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary> 
         public void Redo()
         {
-            if (Turn == FieldHistory.Count - 1) return;
+            if (Turn == History.Count - 1) return;
             Turn++;
         }
 
@@ -652,8 +652,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 // FieldHistory.Count != Turn 
                 // になる 
                 // TurnEndしたときにやり直す前の未来を消す 
-                if (FieldHistory.Count - 1 != Turn)
-                    FieldHistory.RemoveRange(Turn + 1, FieldHistory.Count - 1 - Turn);
+                if (History.Count - 1 != Turn)
+                    History.RemoveRange(Turn + 1, History.Count - 1 - Turn);
 
                 // 不正な動きをしていないかチェック 
                 CheckAgentActivityData(agentActivityData);
@@ -665,8 +665,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 {
                     foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                     {
-                        FieldHistory[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One].AgentStatusData = agentActivityData[Team.A, AgentNumber.One].AgentStatusData;
-                        FieldHistory[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One].Destination = agentActivityData[Team.A, AgentNumber.One].Destination;
+                        History[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One].AgentStatusData = agentActivityData[Team.A, AgentNumber.One].AgentStatusData;
+                        History[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One].Destination = agentActivityData[Team.A, AgentNumber.One].Destination;
                     }
                 }                
                 foreach (Team team in Enum.GetValues(typeof(Team)))

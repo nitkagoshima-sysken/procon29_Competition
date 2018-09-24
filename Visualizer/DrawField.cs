@@ -293,7 +293,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
             // 囲み領域の表示
-            foreach (var cell in Calc.FieldHistory[turn].Field)
+            foreach (var cell in Calc.History[turn].Field)
             {
                 DrawEnclosedCell(graphics, cell);
             }
@@ -376,7 +376,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         protected void DrawTile(int turn)
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
-            foreach (var cell in Calc.FieldHistory[turn].Field)
+            foreach (var cell in Calc.History[turn].Field)
             {
                 DrawTile(graphics, cell);
             }
@@ -547,7 +547,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     {
                         float f = Bitmap.Height / 12000.0f;
 
-                        var bmp = (Calc.FieldHistory[turn + 1].AgentActivityDatas[team, agent].Destination.X < Calc.Field.Width / 2)
+                        var bmp = (Calc.History[turn + 1].AgentActivityDatas[team, agent].Destination.X < Calc.Field.Width / 2)
                             ? FruitFairyBitmap[(int)team * 2 + (int)agent, Direction.Rightward]
                             : FruitFairyBitmap[(int)team * 2 + (int)agent, Direction.Leftward];
 
@@ -555,8 +555,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                             image: bmp,
                             destRect: new Rectangle
                             {
-                                X = (int)((Calc.FieldHistory[turn + 1].AgentActivityDatas[team, agent].Destination.X + 0.5f) * CellWidth),
-                                Y = (int)((Calc.FieldHistory[turn + 1].AgentActivityDatas[team, agent].Destination.Y + 0.0f) * CellHeight),
+                                X = (int)((Calc.History[turn + 1].AgentActivityDatas[team, agent].Destination.X + 0.5f) * CellWidth),
+                                Y = (int)((Calc.History[turn + 1].AgentActivityDatas[team, agent].Destination.Y + 0.0f) * CellHeight),
                                 Width = (int)(bmp.Width * f),
                                 Height = (int)(bmp.Height * f)
                             },
@@ -625,7 +625,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             Graphics graphics = Graphics.FromImage(Bitmap);
             // 上から順に描画するためにリスト化してソートする。
             List<Agent> list = new List<Agent>();
-            foreach (var item in Calc.FieldHistory[turn].Agents)
+            foreach (var item in Calc.History[turn].Agents)
             {
                 list.Add(item);
             }
@@ -648,7 +648,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             Graphics graphics = Graphics.FromImage(Bitmap);
             // 上から順に描画するためにリスト化してソートする。
             List<Agent> list = new List<Agent>();
-            foreach (var item in Calc.FieldHistory[turn].Agents)
+            foreach (var item in Calc.History[turn].Agents)
             {
                 list.Add(item);
             }
@@ -767,7 +767,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         protected void DrawAgentName(int turn)
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
-            foreach (var agent in Calc.FieldHistory[turn].Agents)
+            foreach (var agent in Calc.History[turn].Agents)
             {
                 DrawAgentName(graphics, agent);
             }
@@ -800,7 +800,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         protected void DrawAgentName(int turn, Coordinate cursor)
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
-            foreach (var agent in Calc.FieldHistory[turn].Agents)
+            foreach (var agent in Calc.History[turn].Agents)
             {
                 if (!(cursor.X == agent.Position.X &&
                     cursor.Y == agent.Position.Y - 1))
