@@ -114,6 +114,7 @@
     <Compile Include="TeamDesigns.cs" />
     <Compile Include="TrumpMark.cs" />
     <Compile Include="TrumpNumber.cs" />
+    <Compile Include="TsvReader.cs" />
     <Compile Include="XmlCalc.cs" />
     <Compile Include="Calc.cs" />
     <Compile Include="Coordinate.cs" />
