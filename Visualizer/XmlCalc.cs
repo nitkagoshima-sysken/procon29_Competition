@@ -30,7 +30,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// フィールドの歴史を設定または取得します。
         /// </summary>
         [XmlArrayItem("TurnData")]
-        public List<XmlTurnData> FieldHistory { get; set; } = new List<XmlTurnData>();
+        public List<XmlTurnData> History { get; set; } = new List<XmlTurnData>();
 
         /// <summary>
         /// エージェントの略称を返します。
@@ -55,7 +55,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             MaxTurn = calc.MaxTurn;
             foreach (var item in calc.History)
             {
-                FieldHistory.Add(new XmlTurnData(item));
+                History.Add(new XmlTurnData(item));
             }
         }
     }

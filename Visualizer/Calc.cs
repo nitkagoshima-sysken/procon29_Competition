@@ -53,7 +53,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             MaxTurn = calc.MaxTurn;
             Turn = calc.Turn;
-            foreach (var item in calc.FieldHistory)
+            foreach (var item in calc.History)
             {
                 History.Add(new TurnData(item));
             }
