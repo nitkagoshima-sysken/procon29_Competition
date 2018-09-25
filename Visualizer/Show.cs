@@ -96,6 +96,39 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// Procon29_Showの初期化を行います。
         /// </summary>
         /// <param name="procon29_Calc">表示するProcon29_Calc</param>
+        public Show(Calc procon29_Calc, PictureBox pictureBox)
+        {
+            Calc = procon29_Calc;
+            PictureBox = pictureBox;
+
+            // ResourceManagerを取得する
+            System.Resources.ResourceManager resource = Properties.Resources.ResourceManager;
+
+            //画像ファイルを読み込んで、Imageオブジェクトとして取得する
+            AgentBitmap = new Bitmap[2];
+            AgentBitmap[0] = (Bitmap)resource.GetObject("Orange");
+            AgentBitmap[1] = (Bitmap)resource.GetObject("Lime");
+            FairyBitmap = new Bitmap[4];
+            FairyBitmap[0] = (Bitmap)resource.GetObject("Strawberry");
+            FairyBitmap[1] = (Bitmap)resource.GetObject("Apple");
+            FairyBitmap[2] = (Bitmap)resource.GetObject("Kiwi");
+            FairyBitmap[3] = (Bitmap)resource.GetObject("Muscat");
+
+            foreach (Team team in Enum.GetValues(typeof(Team)))
+            {
+                foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
+                {
+                    agentActivityData[team, agent] = new AgentActivityData(AgentStatusCode.RequestMovement, Calc.Agents[team, agent].Position);
+                }
+            }
+
+            ClickField = new ClickField(Calc, PictureBox);
+        }
+
+        /// <summary>
+        /// Procon29_Showの初期化を行います。
+        /// </summary>
+        /// <param name="procon29_Calc">表示するProcon29_Calc</param>
         /// <param name="teamDesigns">表示するときのチームデザイン</param>
         public Show(Calc procon29_Calc, TeamDesign[] teamDesigns, PictureBox pictureBox)
         {
@@ -166,10 +199,55 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             Bitmap = canvas;
 
             var cursor = CursorPosition(PictureBox);
-           
-                drawField = new DrawField(Calc, canvas);
-                drawField.AgentsActivityData = agentActivityData;
-                drawField.Draw(cursor);
+
+            drawField = new DrawField(Calc, canvas);
+            drawField.AgentsActivityData = agentActivityData;
+            drawField.Draw(cursor);
+            precursor = cursor;
+            try
+            {
+                foreach (var agent in Calc.Agents)
+                {
+                    if (ClickField.ClickedAgent == agent && cursor.ChebyshevDistance(agent.Position) == 1)
+                    {
+                        drawField.DrawArrow(agent.Team, agent.Position, cursor);
+                        break;
+                    }
+                    else if (cursor.ChebyshevDistance(agent.Position) == 1 && cursor.ChebyshevDistance(ClickField.ClickedAgent.Position) != 1)
+                    {
+                        drawField.DrawArrow(agent.Team, agent.Position, cursor);
+                        break;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("フィールドの外です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return canvas;
+        }
+
+        /// <summary>
+        /// PictureBoxを新たに生成します。
+        /// </summary>
+        /// <param name="pictureBox">表示するPictureBox</param>
+        /// <param name="canvas">表示するBitmap</param>
+        /// <param name="graphics">表示するGraphics</param>
+        /// <param name="turn">表示するターン</param>
+        /// <returns></returns>
+        public Bitmap MakePictureBox(PictureBox pictureBox, Bitmap canvas, Graphics graphics, int turn)
+        {
+            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Calc.Field.Width;
+            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Calc.Field.Height;
+
+            Bitmap = canvas;
+
+            var cursor = CursorPosition(PictureBox);
+
+            drawField = new DrawField(Calc, canvas);
+            drawField.AgentsActivityData = agentActivityData;
+            drawField.Draw(turn, cursor);
             precursor = cursor;
             try
             {
@@ -214,6 +292,27 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             if (pictureBox.Image != null) pictureBox.Image.Dispose();
             //pictureBoxに表示する
             pictureBox.Image = canvas;
+        }
+
+        /// <summary>
+        /// 表示を行います。
+        /// </summary>
+        /// <param name="turn">表示するターンを指定します</param>
+        public void Showing(int turn)
+        {
+            //描画先とするImageオブジェクトを作成する
+            Bitmap canvas = new Bitmap(((PictureBox.Width <= 0) ? 1 : PictureBox.Width), ((PictureBox.Height <= 0) ? 1 : PictureBox.Height));
+            //ImageオブジェクトのGraphicsオブジェクトを作成する
+            Graphics graphics = Graphics.FromImage(canvas);
+
+            MakePictureBox(PictureBox, canvas, graphics, turn);
+
+            //リソースを開放
+            graphics.Dispose();
+            //前のImageオブジェクトのリソースを開放してから
+            if (PictureBox.Image != null) PictureBox.Image.Dispose();
+            //pictureBoxに表示する
+            PictureBox.Image = canvas;
         }
 
         /// <summary>

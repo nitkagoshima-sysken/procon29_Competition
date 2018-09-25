@@ -129,6 +129,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 tableLayoutPanel2.RowStyles[1] = new RowStyle(SizeType.Percent, 100);
                 tableLayoutPanel2.RowStyles[2] = new RowStyle(SizeType.Absolute, 0);
                 MessageBox.Show("試合が終了しました", "お知らせ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                var form = new HistoryForm(Calc);
+                form.ShowDialog();
             }
             else
             {
