@@ -276,22 +276,21 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 表示を行います。
         /// </summary>
-        /// <param name="pictureBox">表示するPictureBoxを指定します</param>
-        public void Showing(PictureBox pictureBox)
+        public void Showing()
         {
             //描画先とするImageオブジェクトを作成する
-            Bitmap canvas = new Bitmap(((pictureBox.Width <= 0) ? 1 : pictureBox.Width), ((pictureBox.Height <= 0) ? 1 : pictureBox.Height));
+            Bitmap canvas = new Bitmap(((PictureBox.Width <= 0) ? 1 : PictureBox.Width), ((PictureBox.Height <= 0) ? 1 : PictureBox.Height));
             //ImageオブジェクトのGraphicsオブジェクトを作成する
             Graphics graphics = Graphics.FromImage(canvas);
 
-            MakePictureBox(pictureBox, canvas, graphics);
+            MakePictureBox(PictureBox, canvas, graphics);
 
             //リソースを開放
             graphics.Dispose();
             //前のImageオブジェクトのリソースを開放してから
-            if (pictureBox.Image != null) pictureBox.Image.Dispose();
+            if (PictureBox.Image != null) PictureBox.Image.Dispose();
             //pictureBoxに表示する
-            pictureBox.Image = canvas;
+            PictureBox.Image = canvas;
         }
 
         /// <summary>
@@ -498,7 +497,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 MessageBox.Show("不正なキー入力です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            Showing(PictureBox);
+            Showing();
         }
 
 

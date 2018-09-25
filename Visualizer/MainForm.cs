@@ -89,7 +89,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     new TeamDesign(name: "Lime", agentColor: Color.LimeGreen, areaColor: Color.LimeGreen),
                 };
             show = new Show(Calc, teamDesigns, FieldDisplay);
-            show.Showing(FieldDisplay);
+            show.Showing();
             Calc.PointMapCheck();
 
             KeyDown += new KeyEventHandler(show.KeyDown);
@@ -148,7 +148,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void MainForm_Resize(object sender, EventArgs e)
         {
             Control c = (Control)sender;
-            show.Showing(FieldDisplay);
+            show.Showing();
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             var delta = DateTime.Now - time;
             if (delta.TotalMilliseconds >= 5.0)
             {
-                show.Showing(FieldDisplay);
+                show.Showing();
                 // フィールド内にいるときは、フィールドの情報を表示する。
                 if (0 <= show.CursorPosition(FieldDisplay).X &&
                     show.CursorPosition(FieldDisplay).X < Calc.Field.Width &&
@@ -241,7 +241,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter) TurnEnd();
-            show.Showing(FieldDisplay);
+            show.Showing();
         }
 
         /// <summary>
@@ -273,7 +273,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 //ファイルを閉じる
                 sr.Close();
                 show.Calc = Calc;
-                show.Showing(FieldDisplay);
+                show.Showing();
             }
         }
 
@@ -301,7 +301,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 pqr.IsRegular();
                 Calc = new Calc(MaxTurn, pqr.Fields, new Coordinate[2] { pqr.One, pqr.Two });
                 show = new Show(Calc, teamDesigns, FieldDisplay);
-                show.Showing(FieldDisplay);
+                show.Showing();
             }
             catch (Exception)
             {
@@ -444,7 +444,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 item.AgentStatusData = AgentStatusCode.NotDoneAnything;
             }
 
-            show.Showing(FieldDisplay);
+            show.Showing();
             WriteLog();
             TurnProgressCheck();
 
@@ -484,7 +484,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Calc.Undo();
-            show.Showing(FieldDisplay);
+            show.Showing();
             WriteLog();
             TurnProgressCheck();
         }
@@ -492,7 +492,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void RedoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Calc.Redo();
-            show.Showing(FieldDisplay);
+            show.Showing();
             WriteLog();
             TurnProgressCheck();
         }
