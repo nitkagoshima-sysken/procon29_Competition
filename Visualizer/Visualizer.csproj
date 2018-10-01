@@ -91,6 +91,8 @@
     <Compile Include="AgentActivityData.cs" />
     <Compile Include="AgentsActivityDataExtension.cs" />
     <Compile Include="AgentStatusCode.cs" />
+    <Compile Include="AgentStatusCodeAction.cs" />
+    <Compile Include="AgentStatusCodeAttribute.cs" />
     <Compile Include="AgentStatusCodeExtension.cs" />
     <Compile Include="Arrow.cs" />
     <Compile Include="CharactorBitmap.cs" />
