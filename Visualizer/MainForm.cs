@@ -50,6 +50,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public bool Debug { get; set; }
 
         /// <summary>
+        /// ゲームのモードを設定または取得します。
+        /// </summary>
+        private PlayMode Mode { get; set; }
+
+        /// <summary>
         /// MainForm
         /// </summary>
         public MainForm()
@@ -367,7 +372,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 {
                     MessageBox.Show("Pqr.tsvによってPQRファイルが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     OpenPQRFile(result["Pqr"][0].Trim());
-                    Console.WriteLine("\""+result["Pqr"][0].Trim() + "\"");
+                    Console.WriteLine("\"" + result["Pqr"][0].Trim() + "\"");
                 }
                 if (result.ContainsKey("MaxTurn"))
                 {
