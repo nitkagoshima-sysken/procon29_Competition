@@ -285,6 +285,7 @@
             this.PracticeModeToolStripMenuItem.Name = "PracticeModeToolStripMenuItem";
             this.PracticeModeToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
             this.PracticeModeToolStripMenuItem.Text = "練習モード";
+            this.PracticeModeToolStripMenuItem.Click += new System.EventHandler(this.PracticeModeToolStripMenuItem_Click);
             // 
             // ProductionModeToolStripMenuItem
             // 

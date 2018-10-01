@@ -553,5 +553,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             //ファイルを閉じる
             sw.Close();
         }
+
+        private void PracticeModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Mode = PlayMode.PracticeMode;
+        }
     }
 }
