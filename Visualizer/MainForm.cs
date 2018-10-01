@@ -558,5 +558,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             Mode = PlayMode.PracticeMode;
         }
+    
+        private void ProductionModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Mode = PlayMode.ProductionMode;
+        }
     }
 }

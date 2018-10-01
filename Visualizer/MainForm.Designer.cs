@@ -292,6 +292,7 @@
             this.ProductionModeToolStripMenuItem.Name = "ProductionModeToolStripMenuItem";
             this.ProductionModeToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
             this.ProductionModeToolStripMenuItem.Text = "本番モード";
+            this.ProductionModeToolStripMenuItem.Click += new System.EventHandler(this.ProductionModeToolStripMenuItem_Click);
             // 
             // MainForm
             // 
