@@ -49,6 +49,9 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.ModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PracticeModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ProductionModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -156,7 +159,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileToolStripMenuItem,
             this.EditToolStripMenuItem,
-            this.ViewToolStripMenuItem});
+            this.ViewToolStripMenuItem,
+            this.ModeToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(782, 31);
@@ -267,6 +271,27 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // ModeToolStripMenuItem
+            // 
+            this.ModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PracticeModeToolStripMenuItem,
+            this.ProductionModeToolStripMenuItem});
+            this.ModeToolStripMenuItem.Name = "ModeToolStripMenuItem";
+            this.ModeToolStripMenuItem.Size = new System.Drawing.Size(93, 27);
+            this.ModeToolStripMenuItem.Text = "モード(&M)";
+            // 
+            // PracticeModeToolStripMenuItem
+            // 
+            this.PracticeModeToolStripMenuItem.Name = "PracticeModeToolStripMenuItem";
+            this.PracticeModeToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.PracticeModeToolStripMenuItem.Text = "練習モード";
+            // 
+            // ProductionModeToolStripMenuItem
+            // 
+            this.ProductionModeToolStripMenuItem.Name = "ProductionModeToolStripMenuItem";
+            this.ProductionModeToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.ProductionModeToolStripMenuItem.Text = "本番モード";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -319,5 +344,8 @@
         private System.Windows.Forms.ToolStripMenuItem SaveAsSToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.ToolStripMenuItem ModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem PracticeModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ProductionModeToolStripMenuItem;
     }
 }
