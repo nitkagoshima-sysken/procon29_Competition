@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -557,11 +557,17 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void PracticeModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Mode = PlayMode.PracticeMode;
+            TurnEndButton.Text = "ターンエンド";
+            TurnEndButton.BackColor = Color.RoyalBlue;
+            TurnEndButton.ForeColor = Color.LightGray;
         }
-    
+
         private void ProductionModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Mode = PlayMode.ProductionMode;
+            TurnEndButton.Text = "ボットで選択";
+            TurnEndButton.BackColor = Color.DarkGray;
+            TurnEndButton.ForeColor = Color.White;
         }
     }
 }
