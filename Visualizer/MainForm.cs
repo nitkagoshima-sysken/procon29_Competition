@@ -52,7 +52,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// ゲームのモードを設定または取得します。
         /// </summary>
-        private PlayMode Mode { get; set; }
+        private PlayMode Mode { get; set; } = PlayMode.PracticeMode;
 
         /// <summary>
         /// MainForm
