@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -425,64 +425,95 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         private void TurnEnd()
         {
-            if (Bot[0] != null)
+            if (TurnEndButton.Text == "ターンエンド")
             {
-                Bot[0].Team = Team.A;
-                Bot[0].Question(Calc);
-                var a = Bot[0].Answer();
-                show.agentActivityData[Team.A, AgentNumber.One] = a[0];
-                show.agentActivityData[Team.A, AgentNumber.Two] = a[1];
-            }
-            if (Bot[1] != null)
-            {
-                Bot[1].Team = Team.B;
-                Bot[1].Question(Calc);
-                var a = Bot[1].Answer();
-                show.agentActivityData[Team.B, AgentNumber.One] = a[0];
-                show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
-            }
+                if (Bot[0] != null)
+                {
+                    Bot[0].Team = Team.A;
+                    Bot[0].Question(Calc);
+                    var a = Bot[0].Answer();
+                    show.agentActivityData[Team.A, AgentNumber.One] = a[0];
+                    show.agentActivityData[Team.A, AgentNumber.Two] = a[1];
+                }
+                if (Bot[1] != null)
+                {
+                    Bot[1].Team = Team.B;
+                    Bot[1].Question(Calc);
+                    var a = Bot[1].Answer();
+                    show.agentActivityData[Team.B, AgentNumber.One] = a[0];
+                    show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
+                }
 
-            Calc.MoveAgent(show.agentActivityData);
+                Calc.MoveAgent(show.agentActivityData);
 
-            foreach (AgentActivityData item in show.agentActivityData)
-            {
-                item.AgentStatusData = AgentStatusCode.NotDoneAnything;
+                foreach (AgentActivityData item in show.agentActivityData)
+                {
+                    item.AgentStatusData = AgentStatusCode.NotDoneAnything;
+                }
+
+                show.Showing();
+                WriteLog();
+                TurnProgressCheck();
+
+                if (Bot[0] != null)
+                {
+                    log.WriteLine(Color.SkyBlue, "[" + BotName[0] + "]");
+                    var d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One];
+                    log.WriteLine(Color.SkyBlue, "A1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
+                    d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.Two];
+                    log.WriteLine(Color.SkyBlue, "A2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
+                }
+                if (Bot[1] != null)
+                {
+                    log.WriteLine(Color.SkyBlue, "[" + BotName[1] + "]");
+                    var d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.One];
+                    log.WriteLine(Color.SkyBlue, "B1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
+                    d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.Two];
+                    log.WriteLine(Color.SkyBlue, "B2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
+                }
+
+                if (Debug)
+                {
+                    //XmlSerializerオブジェクトを作成
+                    //オブジェクトの型を指定する
+                    System.Xml.Serialization.XmlSerializer serializer =
+                        new System.Xml.Serialization.XmlSerializer(typeof(XmlCalc));
+                    //書き込むファイルを開く（UTF-8 BOM無し）
+                    System.IO.StreamWriter sw = new System.IO.StreamWriter(
+                        "log.xml", false, new System.Text.UTF8Encoding(false));
+                    //シリアル化し、XMLファイルに保存する
+                    serializer.Serialize(sw, new XmlCalc(Calc));
+                    //ファイルを閉じる
+                    sw.Close();
+                }
+                if (Mode == PlayMode.ProductionMode)
+                {
+                    TurnEndButton.Text = "ボットで選択";
+                    TurnEndButton.BackColor = Color.DarkGray;
+                    TurnEndButton.ForeColor = Color.White;
+                }
             }
-
-            show.Showing();
-            WriteLog();
-            TurnProgressCheck();
-
-            if (Bot[0] != null)
+            else if (TurnEndButton.Text == "ボットで選択")
             {
-                log.WriteLine(Color.SkyBlue, "[" + BotName[0] + "]");
-                var d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One];
-                log.WriteLine(Color.SkyBlue, "A1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
-                d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.Two];
-                log.WriteLine(Color.SkyBlue, "A2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
-            }
-            if (Bot[1] != null)
-            {
-                log.WriteLine(Color.SkyBlue, "[" + BotName[1] + "]");
-                var d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.One];
-                log.WriteLine(Color.SkyBlue, "B1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
-                d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.Two];
-                log.WriteLine(Color.SkyBlue, "B2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
-            }
-
-            if (Debug)
-            {
-                //XmlSerializerオブジェクトを作成
-                //オブジェクトの型を指定する
-                System.Xml.Serialization.XmlSerializer serializer =
-                    new System.Xml.Serialization.XmlSerializer(typeof(XmlCalc));
-                //書き込むファイルを開く（UTF-8 BOM無し）
-                System.IO.StreamWriter sw = new System.IO.StreamWriter(
-                    "log.xml", false, new System.Text.UTF8Encoding(false));
-                //シリアル化し、XMLファイルに保存する
-                serializer.Serialize(sw, new XmlCalc(Calc));
-                //ファイルを閉じる
-                sw.Close();
+                if (Bot[0] != null)
+                {
+                    Bot[0].Team = Team.A;
+                    Bot[0].Question(Calc);
+                    var a = Bot[0].Answer();
+                    show.agentActivityData[Team.A, AgentNumber.One] = a[0];
+                    show.agentActivityData[Team.A, AgentNumber.Two] = a[1];
+                }
+                if (Bot[1] != null)
+                {
+                    Bot[1].Team = Team.B;
+                    Bot[1].Question(Calc);
+                    var a = Bot[1].Answer();
+                    show.agentActivityData[Team.B, AgentNumber.One] = a[0];
+                    show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
+                }
+                TurnEndButton.Text = "ターンエンド";
+                TurnEndButton.BackColor = Color.RoyalBlue;
+                TurnEndButton.ForeColor = Color.LightGray;
             }
         }
 
