@@ -1,20 +1,9 @@
-# Procon29 Visualizer 19.0
+# Procon29 Visualizer 22.1
 
 ## What's new
 
-### クリックだけで操作できるようになった
-
-詳しくは操作方法を見て！
-
-### デバッグモードのみオートセーブされるように変更された
-
-オートセーブが思いの外、重いので。
-
-### 矢印が表示されるようになった
-
-少しだけ分かりやすくなったと思う。
-
-### ダブルクリックした直後にマウスをフィールドの外に移動させるとエラーになるバグを修正
+- 本番モードと練習モードの実装
+- 本番モードのときに「ボットで選択」ボタンで再描画するように修正
 
 ## 操作方法
 
@@ -326,6 +315,69 @@
 - `DrawField`を追加（開発者向け）
 - `ClickField`を追加（開発者向け）
 
+### Version 20.0
+
+- Visualizerの起動中にスプラッシュウインドウを表示するにした
+- `Show`におけるソースコードの管理（開発者向け）
+- `DrawField`におけるソースコードの管理（開発者向け）
+- `Show.teamDesign`を廃止（開発者向け）
+- `Show.pictureBox`を廃止（開発者向け）
+- `Show.procon29_Logger`を廃止（開発者向け）
+- `Show.backGroundSolidBrush`を廃止（開発者向け）
+- `Show.selectSolidBrush`を廃止（開発者向け）
+- `Show.clickedSolidBrush`を廃止（開発者向け）
+- `Show.pointFont`を廃止（開発者向け）
+- `Show.clickedField`を廃止（開発者向け）
+- `Show.agentBitmap`を廃止（開発者向け）
+- `Show.fairyBitmap`を廃止（開発者向け）
+- `Show.PointFont`を廃止（開発者向け）
+- `Show.DrawBackground`を廃止（開発者向け）
+- `Show.DrawEnclosedCell`を廃止（開発者向け）
+- `DrawField.MoveOrRemove`を廃止（開発者向け）
+- `DrawField.PictureBox`を廃止（開発者向け）
+- `DrawField.Draw(Coordinate)`を追加（開発者向け）
+- `DrawField.DrawMouseOverCell(Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgent(Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgent(Agent, Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgent(Graphics, Agent, Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgent(Graphics, Agent)`を追加（開発者向け）
+- `DrawField.DrawAgent(Graphics, Agent, ImageAttributes)`を追加（開発者向け）
+- `DrawField.DrawAgentName(Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgentName(Agent)`を追加（開発者向け）
+- `DrawField.DrawAgentName(Graphics, Agent)`を追加（開発者向け）
+- `DrawField.Draw()`を追加（開発者向け）
+- `DrawField.DrawAgent()`を追加（開発者向け）
+- `DrawField.DrawEnclosedCell(Cell)`を追加（開発者向け）
+- `DrawField.DrawEnclosedCell(Graphics, Cell)`を追加（開発者向け）
+- `DrawField.DrawEnclosedCell(int)`を追加（開発者向け）
+- `DrawField.DrawTile(int)`を追加（開発者向け）
+- `DrawField.DrawAgent(int)`を追加（開発者向け）
+- `DrawField.DrawAgent(int, Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgentName(int)`を追加（開発者向け）
+- `DrawField.DrawAgentName(int, Coordinate)`を追加（開発者向け）
+- `DrawField.Draw(int)`を追加（開発者向け）
+- `DrawField.Draw(int, Coordinate)`を追加（開発者向け）
+- `DrawField.DrawFruitFairies(int)`を追加（開発者向け）
+
+### Version 21.0
+
+- 試合が終了した際に、リプレイが表示されるようになった
+- `TrumpMark`を追加（開発者向け）
+- `TrumpNumber`を追加（開発者向け）
+- `TsvReader`を追加（開発者向け）
+
+#### Version 21.1
+
+- readme.mdの微調整
+
+### Version 22.0
+
+- 本番モードと練習モードの実装
+
+#### Version 22.1
+
+- 本番モードのときに「ボットで選択」ボタンで再描画するように修正
+
 ## バージョンの上がり方について
 
 Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバージョン.マイナーバージョン.ビルドバージョン`で表されます。  
@@ -364,3 +416,4 @@ Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバ�
 |6.0|80|571|7|125|1546|
 |17.1|81|745|7|168|1902|
 |18.1|81|763|7|171|1924|
+|21.0|82|1026|7|194|2439|

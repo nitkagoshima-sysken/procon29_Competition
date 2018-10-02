@@ -91,6 +91,8 @@
     <Compile Include="AgentActivityData.cs" />
     <Compile Include="AgentsActivityDataExtension.cs" />
     <Compile Include="AgentStatusCode.cs" />
+    <Compile Include="AgentStatusCodeAction.cs" />
+    <Compile Include="AgentStatusCodeAttribute.cs" />
     <Compile Include="AgentStatusCodeExtension.cs" />
     <Compile Include="Arrow.cs" />
     <Compile Include="CharactorBitmap.cs" />
@@ -99,7 +101,23 @@
     <Compile Include="DrawField.cs" />
     <Compile Include="FruitFairies.cs" />
     <Compile Include="FruitFairy.cs" />
+    <Compile Include="HistoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HistoryForm.Designer.cs">
+      <DependentUpon>HistoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PlayMode.cs" />
+    <Compile Include="SplashForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SplashForm.Designer.cs">
+      <DependentUpon>SplashForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TeamDesigns.cs" />
+    <Compile Include="TrumpMark.cs" />
+    <Compile Include="TrumpNumber.cs" />
+    <Compile Include="TsvReader.cs" />
     <Compile Include="XmlCalc.cs" />
     <Compile Include="Calc.cs" />
     <Compile Include="Coordinate.cs" />
@@ -146,6 +164,9 @@
     <EmbeddedResource Include="CreateNewForm.resx">
       <DependentUpon>CreateNewForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="HistoryForm.resx">
+      <DependentUpon>HistoryForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -153,6 +174,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashForm.resx">
+      <DependentUpon>SplashForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
