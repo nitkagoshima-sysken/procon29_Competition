@@ -514,6 +514,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 TurnEndButton.Text = "ターンエンド";
                 TurnEndButton.BackColor = Color.RoyalBlue;
                 TurnEndButton.ForeColor = Color.LightGray;
+                show.Showing();
             }
         }
 
