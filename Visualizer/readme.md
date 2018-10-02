@@ -1,10 +1,8 @@
-# Procon29 Visualizer 21.0
+# Procon29 Visualizer 22.0
 
 ## What's new
 
-- 試合が終了した際に、リプレイが表示されるようになった
-- `TrumpMark`を追加（開発者向け）
-- `TrumpNumber`を追加（開発者向け）
+- 本番モードと練習モードの実装
 
 ## 操作方法
 
@@ -370,6 +368,10 @@
 #### Version 21.1
 
 - readme.mdの微調整
+
+### Version 22.0
+
+- 本番モードと練習モードの実装
 
 ## バージョンの上がり方について
 
