@@ -1,9 +1,13 @@
-# Procon29 Visualizer 22.1
+# Procon29 Visualizer 23.0
 
 ## What's new
 
-- 本番モードと練習モードの実装
-- 本番モードのときに「ボットで選択」ボタンで再描画するように修正
+- `Calc Simulate(AgentsActivityData)`を追加（開発者向け）
+- `Calc Simulate(Team, AgentActivityData[])`を追加（開発者向け）
+- `Calc Simulate(Team, AgentNumber, AgentActivityData)`を追加（開発者向け）
+
+ボット開発で`Simulate(...).Simulate(...)`とすることで2ターン移動した場合のシミュレーションができる。  
+ただし処理はおそらく重いので注意。
 
 ## 操作方法
 
@@ -377,6 +381,12 @@
 #### Version 22.1
 
 - 本番モードのときに「ボットで選択」ボタンで再描画するように修正
+
+### Version 23.0
+
+- `Calc Simulate(AgentsActivityData)`を追加（開発者向け）
+- `Calc Simulate(Team, AgentActivityData[])`を追加（開発者向け）
+- `Calc Simulate(Team, AgentNumber, AgentActivityData)`を追加（開発者向け）
 
 ## バージョンの上がり方について
 
