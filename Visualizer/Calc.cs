@@ -722,5 +722,47 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             agentActivityDatas[team, agent] = agentActivityData;
             MoveAgent(agentActivityDatas);
         }
+
+        /// <summary>
+        /// エージェントを動かしたときに、状態がどう変化するか計算します。
+        /// </summary>
+        /// <param name="action">どうエージェントが動くか指定します。</param>
+        /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
+        public Calc Simulate(AgentsActivityData action)
+        {
+            MoveAgent(action);
+            var c = new Calc(new XmlCalc(this).DeepClone());
+            Undo();
+            return c;
+        }
+
+        /// <summary>
+        /// エージェントを動かしたときに、状態がどう変化するか計算します。
+        /// </summary>
+        /// <param name="team">どのチームが動くか指定します。</param>
+        /// <param name="action">どうエージェントが動くか指定します。</param>
+        /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
+        public Calc Simulate(Team team, AgentActivityData[] action)
+        {
+            MoveAgent(team, action);
+            var c = new Calc(new XmlCalc(this).DeepClone());
+            Undo();
+            return c;
+        }
+
+        /// <summary>
+        /// エージェントを動かしたときに、状態がどう変化するか計算します。
+        /// </summary>
+        /// <param name="team">どのチームが動くか指定します。</param>
+        /// <param name="agentNumber">どのエージェントが動くか指定します。</param>
+        /// <param name="action">どうエージェントが動くか指定します。</param>
+        /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
+        public Calc Simulate(Team team, AgentNumber agentNumber, AgentActivityData action)
+        {
+            MoveAgent(team, agentNumber, action);
+            var c = new Calc(new XmlCalc(this).DeepClone());
+            Undo();
+            return c;
+        }
     }
 }
