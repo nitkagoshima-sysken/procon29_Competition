@@ -1,13 +1,9 @@
-# Procon29 Visualizer 23.0
+# Procon29 Visualizer 24.0
 
 ## What's new
 
-- `Calc Simulate(AgentsActivityData)`を追加（開発者向け）
-- `Calc Simulate(Team, AgentActivityData[])`を追加（開発者向け）
-- `Calc Simulate(Team, AgentNumber, AgentActivityData)`を追加（開発者向け）
-
-ボット開発で`Simulate(...).Simulate(...)`とすることで2ターン移動した場合のシミュレーションができる。  
-ただし処理はおそらく重いので注意。
+- `Calc.CellExist(Coordinate)`を追加（開発者向け）
+- `Calc.CellExist(int, int)`を追加（開発者向け）
 
 ## 操作方法
 
@@ -384,9 +380,14 @@
 
 ### Version 23.0
 
-- `Calc Simulate(AgentsActivityData)`を追加（開発者向け）
-- `Calc Simulate(Team, AgentActivityData[])`を追加（開発者向け）
-- `Calc Simulate(Team, AgentNumber, AgentActivityData)`を追加（開発者向け）
+- `Calc.Simulate(AgentsActivityData)`を追加（開発者向け）
+- `Calc.Simulate(Team, AgentActivityData[])`を追加（開発者向け）
+- `Calc.Simulate(Team, AgentNumber, AgentActivityData)`を追加（開発者向け）
+
+### Version 24.0
+
+- `Calc.CellExist(Coordinate)`を追加（開発者向け）
+- `Calc.CellExist(int, int)`を追加（開発者向け）
 
 ## バージョンの上がり方について
 
