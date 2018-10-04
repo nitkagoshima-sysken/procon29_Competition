@@ -1,9 +1,9 @@
-# Procon29 Visualizer 22.1
+# Procon29 Visualizer 24.0
 
 ## What's new
 
-- 本番モードと練習モードの実装
-- 本番モードのときに「ボットで選択」ボタンで再描画するように修正
+- `Field.CellExist(Coordinate)`を追加（開発者向け）
+- `Field.CellExist(int, int)`を追加（開発者向け）
 
 ## 操作方法
 
@@ -377,6 +377,17 @@
 #### Version 22.1
 
 - 本番モードのときに「ボットで選択」ボタンで再描画するように修正
+
+### Version 23.0
+
+- `Calc.Simulate(AgentsActivityData)`を追加（開発者向け）
+- `Calc.Simulate(Team, AgentActivityData[])`を追加（開発者向け）
+- `Calc.Simulate(Team, AgentNumber, AgentActivityData)`を追加（開発者向け）
+
+### Version 24.0
+
+- `Field.CellExist(Coordinate)`を追加（開発者向け）
+- `Field.CellExist(int, int)`を追加（開発者向け）
 
 ## バージョンの上がり方について
 
