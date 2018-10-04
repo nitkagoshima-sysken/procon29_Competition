@@ -148,5 +148,26 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// 左右対称なら真、そうでなければ偽が返ってきます。
         /// </summary>
         public bool IsHorizontallySymmetrical => Array.HorizontallySymmetricalCheck();
+
+        /// <summary>
+        /// フィールド上の対象の座標にマスが存在するかしないかを返します
+        /// </summary>
+        /// <param name="coordinate">対象の座標</param>
+        /// <returns></returns>
+        public bool CellExist(Coordinate coordinate)
+        {
+            return CellExist(coordinate.X, coordinate.Y);
+        }
+
+        /// <summary>
+        /// フィールド上の対象の座標にマスが存在するかしないかを返します
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public bool CellExist(int x, int y)
+        {
+            return (0 <= x) && (x < Width) && (0 <= y) && (y < Height); 
+        }
     }
 }
