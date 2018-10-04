@@ -2,8 +2,8 @@
 
 ## What's new
 
-- `Calc.CellExist(Coordinate)`を追加（開発者向け）
-- `Calc.CellExist(int, int)`を追加（開発者向け）
+- `Field.CellExist(Coordinate)`を追加（開発者向け）
+- `Field.CellExist(int, int)`を追加（開発者向け）
 
 ## 操作方法
 
@@ -386,8 +386,8 @@
 
 ### Version 24.0
 
-- `Calc.CellExist(Coordinate)`を追加（開発者向け）
-- `Calc.CellExist(int, int)`を追加（開発者向け）
+- `Field.CellExist(Coordinate)`を追加（開発者向け）
+- `Field.CellExist(int, int)`を追加（開発者向け）
 
 ## バージョンの上がり方について
 
