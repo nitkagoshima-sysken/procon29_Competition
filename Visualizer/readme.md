@@ -1,9 +1,13 @@
-# Procon29 Visualizer 25.0
+# Procon29 Visualizer 26.0
 
 ## What's new
 
-- 一度試合が終了した後に、ターン数を変更した場合に、ターンエンドのボタンが再び表示されるように修正しました。
-- `ClickField.PushKey(Keys)`を追加（開発者向け）
+### `PointExtension`から`CoordinateExtension`に変更（開発者向け）
+
+うっかり`PointExtension`から`CoordinateExtension`に変更するのを忘れてました。  
+これのせいでwikiからも漏れて、彼らの知名度が低いです。すみません。  
+ちなみに、`CoordinateExtension`の`ChebyshevDistance(this Coordinate, Coordinate)`を使用しているボットたちは一度、リビルトしなければなりません。  
+つまり、Visualizer 26.0でまた互換性のないVisualizerが完成してしまったわけです。
 
 ## 操作方法
 
@@ -13,6 +17,9 @@
  4. 最後にターンエンドを押す。
 
 ## ショートカットキー一覧
+
+現在(Visualizer 25.0)、謎のバグが発生して、エージェントの選択ができない状態です。  
+`Ctrl`を使ったショートカットは使えるので、そこは安心してお使いしてください。
 
 |Key|What will happen?|
 |:--:|:--:|
@@ -393,6 +400,10 @@
 
 - 一度試合が終了した後に、ターン数を変更した場合に、ターンエンドのボタンが再び表示されるように修正しました。
 - `ClickField.PushKey(Keys)`を追加（開発者向け）
+
+### Version 26.0
+
+- `PointExtension`から`CoordinateExtension`に変更（開発者向け）
 
 ## バージョンの上がり方について
 
