@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -62,6 +62,25 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 {
                     if (coordinate == agent.Position)
                     {
+                        foreach (var neighbor_agent in Calc.Agents)
+                        {
+                            if (neighbor_agent.Position.ChebyshevDistance(coordinate) == 1)
+                            {
+                                DialogResult result = MessageBox.Show("選択するエージェントを" + agent.Name + "に変更しますか？（いいえを押した場合は、" + neighbor_agent.Name + "が" + agent.Name + "のところに移動します。）", "質問", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+                                switch (result)
+                                {
+                                    case DialogResult.Yes:
+                                        ClickedAgent = agent;
+                                        AgentsActivityData[agent.Team, agent.AgentNumber].AgentStatusData = AgentStatusCode.RequestNotToDoAnything;
+                                        AgentsActivityData[agent.Team, agent.AgentNumber].Destination = coordinate;
+                                        break;
+                                    case DialogResult.No:
+                                        MakeRequest(neighbor_agent, coordinate);
+                                        break;
+                                }
+                                return;
+                            }
+                        }
                         ClickedAgent = agent;
                         AgentsActivityData[agent.Team, agent.AgentNumber].AgentStatusData = AgentStatusCode.RequestNotToDoAnything;
                         AgentsActivityData[agent.Team, agent.AgentNumber].Destination = coordinate;
