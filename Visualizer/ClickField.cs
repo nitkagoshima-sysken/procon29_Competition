@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -99,6 +99,60 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         MakeRequest(agent, coordinate);
                         return;
                     }
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("フィールドの外です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// キーを押したときに反応します。
+        /// </summary>
+        public void PushKey(Keys keys)
+        {
+            Console.WriteLine(keys);
+            try
+            {
+                switch (keys)
+                {
+                    case Keys.Q:
+                        ClickedAgent = Calc.Agents[Team.A, AgentNumber.One];
+                        break;
+                    case Keys.W:
+                        ClickedAgent = Calc.Agents[Team.A, AgentNumber.Two];
+                        break;
+                    case Keys.E:
+                        ClickedAgent = Calc.Agents[Team.B, AgentNumber.One];
+                        break;
+                    case Keys.R:
+                        ClickedAgent = Calc.Agents[Team.B, AgentNumber.Two];
+                        break;
+                    case Keys.NumPad1:
+                        MakeRequest(ClickedAgent, ClickedAgent.Position + Arrow.DownLeft);
+                        break;
+                    case Keys.NumPad2:
+                        MakeRequest(ClickedAgent, ClickedAgent.Position + Arrow.Down);
+                        break;
+                    case Keys.NumPad3:
+                        MakeRequest(ClickedAgent, ClickedAgent.Position + Arrow.DownRight);
+                        break;
+                    case Keys.NumPad4:
+                        MakeRequest(ClickedAgent, ClickedAgent.Position + Arrow.Left);
+                        break;
+                    case Keys.NumPad6:
+                        MakeRequest(ClickedAgent, ClickedAgent.Position + Arrow.Right);
+                        break;
+                    case Keys.NumPad7:
+                        MakeRequest(ClickedAgent, ClickedAgent.Position + Arrow.UpLeft);
+                        break;
+                    case Keys.NumPad8:
+                        MakeRequest(ClickedAgent, ClickedAgent.Position + Arrow.Up);
+                        break;
+                    case Keys.NumPad9:
+                        MakeRequest(ClickedAgent, ClickedAgent.Position + Arrow.UpRight);
+                        break;
                 }
             }
             catch (Exception)
