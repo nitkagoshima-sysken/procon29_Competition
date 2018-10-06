@@ -1,9 +1,9 @@
-# Procon29 Visualizer 24.0
+# Procon29 Visualizer 25.0
 
 ## What's new
 
-- `Field.CellExist(Coordinate)`を追加（開発者向け）
-- `Field.CellExist(int, int)`を追加（開発者向け）
+- 一度試合が終了した後に、ターン数を変更した場合に、ターンエンドのボタンが再び表示されるように修正しました。
+- `ClickField.PushKey(Keys)`を追加（開発者向け）
 
 ## 操作方法
 
@@ -388,6 +388,11 @@
 
 - `Field.CellExist(Coordinate)`を追加（開発者向け）
 - `Field.CellExist(int, int)`を追加（開発者向け）
+
+### Version 25.0
+
+- 一度試合が終了した後に、ターン数を変更した場合に、ターンエンドのボタンが再び表示されるように修正しました。
+- `ClickField.PushKey(Keys)`を追加（開発者向け）
 
 ## バージョンの上がり方について
 
