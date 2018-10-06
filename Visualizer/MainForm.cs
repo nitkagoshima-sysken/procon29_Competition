@@ -282,6 +282,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
+        /// <summary>
+        /// ここで新しい試合を作成します。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             createNewForm.ShowDialog(this);
