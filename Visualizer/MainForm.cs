@@ -289,6 +289,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             //OKボタンがクリックされたとき、選択されたファイル名を開き、データを読み込む    
             if (createNewForm.SelectPQRFile != ".pqr" && createNewForm.SelectPQRFile != null)
                 OpenPQRFile(createNewForm.SelectPQRFile);
+            TurnProgressCheck();
         }
 
         /// <summary>
