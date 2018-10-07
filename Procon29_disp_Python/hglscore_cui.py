@@ -27,7 +27,7 @@ def LearnProcess(FieldAgent, start, log):
     return paramsScore
 
 def Gaming(con, con2, flag1, flag2, TempData):
-    for i in range(random.randint(100, 150)):
+    for i in range(random.randint(40, 80)):
         con.NextSet(TempData['agentred'], TempData['agentblue'], TempData['agentdatared'], TempData['agentdatablue'], logout=False)
         con2.NextSet(TempData['agentblue'], TempData['agentred'], TempData['agentdatablue'], TempData['agentdatared'], logout=False)
         for i in range(2):
