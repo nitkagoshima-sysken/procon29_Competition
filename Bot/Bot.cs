@@ -16,7 +16,7 @@ namespace nitkagoshima_sysken
                 /// <summary>
                 /// Bot側のチームを表します
                 /// </summary>
-                public Team Team { get; set; }
+                public Team OurTeam { get; set; }
 
                 /// <summary>
                 /// 初期化するところです
