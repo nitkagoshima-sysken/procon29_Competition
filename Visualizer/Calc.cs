@@ -16,14 +16,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         public Agents Agents
         {
-            get
-            {
-                return History[Turn].Agents;
-            }
-            set
-            {
-                History[Turn].Agents = value;
-            }
+            get { return History[Turn].Agents; }
+            set { History[Turn].Agents = value; }
         }
 
         /// <summary>
@@ -31,14 +25,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         public Field Field
         {
-            get
-            {
-                return History[Turn].Field;
-            }
-            set
-            {
-                History[Turn].Field = value;
-            }
+            get { return History[Turn].Field; }
+            set { History[Turn].Field = value; }
         }
 
         /// <summary>
@@ -51,7 +39,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary> 
         public int MaxTurn
         {
-            get { maxTurn; }
+            get { return maxTurn; }
             set { maxTurn = (value <= 0) ? 1 : value; }
         }
 
@@ -688,7 +676,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         History[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One].AgentStatusData = agentActivityData[Team.A, AgentNumber.One].AgentStatusData;
                         History[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One].Destination = agentActivityData[Team.A, AgentNumber.One].Destination;
                     }
-                }                
+                }
                 foreach (Team team in Enum.GetValues(typeof(Team)))
                 {
                     foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
