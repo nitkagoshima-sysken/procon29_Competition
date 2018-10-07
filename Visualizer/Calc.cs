@@ -29,7 +29,17 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// フィールドを設定または取得します。
         /// </summary>
-        public Field Field { get => History[Turn].Field; set => History[Turn].Field = value; }
+        public Field Field
+        {
+            get
+            {
+                return History[Turn].Field;
+            }
+            set
+            {
+                History[Turn].Field = value;
+            }
+        }
 
         /// <summary>
         /// ターンを設定または取得します。
