@@ -14,7 +14,17 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントたちを表します
         /// </summary>
-        public Agents Agents { get => History[Turn].Agents; set => History[Turn].Agents = value; }
+        public Agents Agents
+        {
+            get
+            {
+                return History[Turn].Agents;
+            }
+            set
+            {
+                History[Turn].Agents = value;
+            }
+        }
 
         /// <summary>
         /// フィールドを設定または取得します。
