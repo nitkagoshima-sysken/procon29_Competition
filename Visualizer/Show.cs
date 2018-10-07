@@ -425,78 +425,80 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public void KeyDown(object sender, KeyEventArgs e)
         {
             e.SuppressKeyPress = true;
+            ClickField.PushKey(e.KeyCode);
+            
 
-            var current = Calc.Agents[SelectedTeam, SelecetedAgent].Position;
-            var next = agentActivityData[SelectedTeam, SelecetedAgent];
+            //var current = Calc.Agents[SelectedTeam, SelecetedAgent].Position;
+            //var next = agentActivityData[SelectedTeam, SelecetedAgent];
 
-            Console.WriteLine(e.KeyCode);
-            try
-            {
-                switch (e.KeyCode)
-                {
-                    case Keys.Q:
-                        SelectedTeam = Team.A;
-                        SelecetedAgent = AgentNumber.One;
-                        break;
-                    case Keys.W:
-                        SelectedTeam = Team.A;
-                        SelecetedAgent = AgentNumber.Two;
-                        break;
-                    case Keys.E:
-                        SelectedTeam = Team.B;
-                        SelecetedAgent = AgentNumber.One;
-                        break;
-                    case Keys.R:
-                        SelectedTeam = Team.B;
-                        SelecetedAgent = AgentNumber.Two;
-                        break;
-                    case Keys.NumPad1:
-                        next.Destination = current + Arrow.DownLeft;
-                        break;
-                    case Keys.NumPad2:
-                        next.Destination = current + Arrow.Down;
-                        break;
-                    case Keys.NumPad3:
-                        next.Destination = current + Arrow.DownRight;
-                        break;
-                    case Keys.NumPad4:
-                        next.Destination = current + Arrow.Left;
-                        break;
-                    case Keys.NumPad6:
-                        next.Destination = current + Arrow.Right;
-                        break;
-                    case Keys.NumPad7:
-                        next.Destination = current + Arrow.UpLeft;
-                        break;
-                    case Keys.NumPad8:
-                        next.Destination = current + Arrow.Up;
-                        break;
-                    case Keys.NumPad9:
-                        next.Destination = current + Arrow.UpRight;
-                        break;
-                }
+            //Console.WriteLine(e.KeyCode);
+            //try
+            //{
+            //    switch (e.KeyCode)
+            //    {
+            //        case Keys.Q:
+            //            SelectedTeam = Team.A;
+            //            SelecetedAgent = AgentNumber.One;
+            //            break;
+            //        case Keys.W:
+            //            SelectedTeam = Team.A;
+            //            SelecetedAgent = AgentNumber.Two;
+            //            break;
+            //        case Keys.E:
+            //            SelectedTeam = Team.B;
+            //            SelecetedAgent = AgentNumber.One;
+            //            break;
+            //        case Keys.R:
+            //            SelectedTeam = Team.B;
+            //            SelecetedAgent = AgentNumber.Two;
+            //            break;
+            //        case Keys.NumPad1:
+            //            next.Destination = current + Arrow.DownLeft;
+            //            break;
+            //        case Keys.NumPad2:
+            //            next.Destination = current + Arrow.Down;
+            //            break;
+            //        case Keys.NumPad3:
+            //            next.Destination = current + Arrow.DownRight;
+            //            break;
+            //        case Keys.NumPad4:
+            //            next.Destination = current + Arrow.Left;
+            //            break;
+            //        case Keys.NumPad6:
+            //            next.Destination = current + Arrow.Right;
+            //            break;
+            //        case Keys.NumPad7:
+            //            next.Destination = current + Arrow.UpLeft;
+            //            break;
+            //        case Keys.NumPad8:
+            //            next.Destination = current + Arrow.Up;
+            //            break;
+            //        case Keys.NumPad9:
+            //            next.Destination = current + Arrow.UpRight;
+            //            break;
+            //    }
 
-                current = Calc.Agents[SelectedTeam, SelecetedAgent].Position;
-                next = agentActivityData[SelectedTeam, SelecetedAgent];
+            //    current = Calc.Agents[SelectedTeam, SelecetedAgent].Position;
+            //    next = agentActivityData[SelectedTeam, SelecetedAgent];
 
-                ClickedField = current;
-                if (next.Destination.X < 0 ||
-                    next.Destination.Y < 0 ||
-                    next.Destination.X >= Calc.Field.Width ||
-                    next.Destination.Y >= Calc.Field.Height)
-                {
-                    next.Destination = current;
-                    throw new Exception();
-                }
-                else if (current != next.Destination)
-                {
-                    KeyDownShow();
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("不正なキー入力です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //    ClickedField = current;
+            //    if (next.Destination.X < 0 ||
+            //        next.Destination.Y < 0 ||
+            //        next.Destination.X >= Calc.Field.Width ||
+            //        next.Destination.Y >= Calc.Field.Height)
+            //    {
+            //        next.Destination = current;
+            //        throw new Exception();
+            //    }
+            //    else if (current != next.Destination)
+            //    {
+            //        KeyDownShow();
+            //    }
+            //}
+            //catch (Exception)
+            //{
+            //    MessageBox.Show("不正なキー入力です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
             Showing();
         }
 

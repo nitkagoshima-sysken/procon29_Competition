@@ -18,6 +18,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public int MaxTrun { get; set; }
         dynamic bot0 { get; set; }
         dynamic bot1 { get; set; }
+        /// <summary>
+        /// 新たなCalcクラスを作成します。
+        /// </summary>
+        public Calc NewCalc { get; set; }
 
         private System.Windows.Forms.TableLayoutPanel Button1;
 

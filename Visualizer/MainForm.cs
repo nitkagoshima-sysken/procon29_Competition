@@ -282,6 +282,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
+        /// <summary>
+        /// ここで新しい試合を作成します。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             createNewForm.ShowDialog(this);
@@ -289,6 +294,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             //OKボタンがクリックされたとき、選択されたファイル名を開き、データを読み込む    
             if (createNewForm.SelectPQRFile != ".pqr" && createNewForm.SelectPQRFile != null)
                 OpenPQRFile(createNewForm.SelectPQRFile);
+            TurnProgressCheck();
         }
 
         /// <summary>
