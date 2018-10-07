@@ -22,7 +22,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// ログとして書き込むリッチテキストを設定または取得します
         /// </summary>
-        public RichTextBox RichTextBox { get => richTextBox; set => richTextBox = value; }
+        public RichTextBox RichTextBox
+        {
+            get { return richTextBox; }
+            set { richTextBox = value; }
+        }
 
         /// <summary>
         /// Procon29_Loggerを初期化します
