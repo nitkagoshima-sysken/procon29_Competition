@@ -1,4 +1,4 @@
-# Procon29 Visualizer 26.0
+# Procon29 Visualizer 27.0
 
 ## What's new
 
