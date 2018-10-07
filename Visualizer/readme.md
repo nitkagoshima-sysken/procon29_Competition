@@ -1,4 +1,4 @@
-# Procon29 Visualizer 27.0
+# Procon29 Visualizer 27.1
 
 ## What's new
 
@@ -405,6 +405,10 @@
 ### Version 27.0
 
 - C# 6にダウングレード
+
+#### Version 27.1
+
+- `Logger.richTextBox`を廃止（開発者向け）
 
 ## バージョンの上がり方について
 
