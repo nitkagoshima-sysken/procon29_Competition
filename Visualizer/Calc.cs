@@ -51,8 +51,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary> 
         public int MaxTurn
         {
-            get => maxTurn;
-            set => maxTurn = (value <= 0) ? 1 : value;
+            get { maxTurn; }
+            set { maxTurn = (value <= 0) ? 1 : value; }
         }
 
         /// <summary>
