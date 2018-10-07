@@ -138,7 +138,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ObjectExtension.cs" />
-    <Compile Include="PointExtension.cs" />
+    <Compile Include="CoordinateExtension.cs" />
     <Compile Include="PqrData.cs" />
     <Compile Include="PqrDataExtension.cs" />
     <Compile Include="PqrReader.cs" />

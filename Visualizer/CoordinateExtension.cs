@@ -3,9 +3,9 @@
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     /// <summary>
-    /// Point型の拡張メソッドを定義するためのクラスです。
+    /// 座標の拡張メソッドを定義するためのクラスです。
     /// </summary>
-    public static class PointExtension
+    public static class CoordinateExtension
     {
         /// <summary>
         /// 二点間のチェビシェフ距離を求めます。

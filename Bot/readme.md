@@ -1,8 +1,10 @@
-# Procon29 Bot 4.17.1
+# Procon29 Bot 5.25.0
 
-## What's new (ver. 4.17.1)
+## What's new (ver. 5.25.0)
 
-### Visualizer 17.1 に対応した
+### `Team`が`OurTeam`に変更された
+
+Bot側のチームを表す、`Team`が`OurTeam`に変更されました。
 
 ## What's new
 
@@ -23,12 +25,17 @@
 
 ### ver. 2.8.0
 
-- Visualier 8.0 に対応した
+- Visualizer 8.0 に対応した
 
 ### ver. 3.10.0
 
-- Visualier 10.0 に対応した
+- Visualizer 10.0 に対応した
 
 ### ver. 4.17.1
 
-- Visualier 17.1 に対応した
+- Visualizer 17.1 に対応した
+
+### ver. 5.25.0
+
+- `Team`が`OurTeam`に変更された
+- readmeの微調整
