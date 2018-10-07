@@ -1,4 +1,6 @@
-﻿namespace nitkagoshima_sysken.Procon29.Visualizer
+﻿using System;
+
+namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     static class AgentStatusCodeExtension
     {
@@ -34,5 +36,26 @@
             agentStatusData == AgentStatusCode.NotDoneAnything ||
             agentStatusData == AgentStatusCode.RequestForbidden);
 
+        /// <summary>
+        /// エージェントステータスコードの属性をリクエストから成功に変更します。
+        /// </summary>
+        /// <param name="agentStatusCode"></param>
+        /// <returns></returns>
+        public static AgentStatusCode ToSucceeded(this AgentStatusCode agentStatusCode)
+        {
+            switch (agentStatusCode)
+            {
+                case AgentStatusCode.RequestNotToDoAnything:
+                    return AgentStatusCode.SucceededNotToDoAnything;
+                case AgentStatusCode.RequestMovement:
+                    return AgentStatusCode.SucceededInMoving;
+                case AgentStatusCode.RequestRemovementOurTile:
+                    return AgentStatusCode.SucceededInRemovingOurTile;
+                case AgentStatusCode.RequestRemovementOpponentTile:
+                    return AgentStatusCode.SucceededInRemovingOpponentTile;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
     }
 }
