@@ -89,7 +89,7 @@ namespace nitkagoshima_sysken
                      */
                     var list =
                         from cell in Calc.Field
-                        where cell.Coordinate.ChebyshevDistance(Calc.Agents[Team, AgentNumber.One].Position) == 1
+                        where cell.Coordinate.ChebyshevDistance(Calc.Agents[OurTeam, AgentNumber.One].Position) == 1
                         select cell.Coordinate;
                     // 取り出したリストから一つずつ座標を取り出して、for文のように繰り返し処理を行う。
                     foreach (var coordinate in list)
@@ -106,12 +106,12 @@ namespace nitkagoshima_sysken
                          * Simulate関数
                          * これはもしもそこへ行ったらどうなるかをシミュレートしてくれる関数です。
                          */
-                        var c = Simulate(team: Team, action: trying);
+                        var c = Simulate(team: OurTeam, action: trying);
 
                         // 今までの中で一番、得点が高かったら、得点とその座標を更新する
-                        if (agnt1maxp < c.TotalPoint(Team))
+                        if (agnt1maxp < c.TotalPoint(OurTeam))
                         {
-                            agnt1maxp = c.TotalPoint(Team);
+                            agnt1maxp = c.TotalPoint(OurTeam);
                             agnt1pos = new Coordinate(coordinate);
                         }
                     }
@@ -133,14 +133,14 @@ namespace nitkagoshima_sysken
                     foreach (Arrow arrow in Enum.GetValues(typeof(Arrow)))
                     {
                         var c = Simulate(
-                            Team,
+                            OurTeam,
                             AgentNumber.Two,
-                            new AgentActivityData(AgentStatusCode.RequestMovement, Calc.Agents[Team, AgentNumber.Two].Position + arrow));
+                            new AgentActivityData(AgentStatusCode.RequestMovement, Calc.Agents[OurTeam, AgentNumber.Two].Position + arrow));
 
-                        if (agnt2maxp < c.TotalPoint(Team))
+                        if (agnt2maxp < c.TotalPoint(OurTeam))
                         {
-                            agnt2maxp = c.TotalPoint(Team);
-                            agnt2pos = new Coordinate(Calc.Agents[Team, AgentNumber.Two].Position + arrow);
+                            agnt2maxp = c.TotalPoint(OurTeam);
+                            agnt2pos = new Coordinate(Calc.Agents[OurTeam, AgentNumber.Two].Position + arrow);
                         }
                     }
                     result[(int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestMovement, agnt2pos);
