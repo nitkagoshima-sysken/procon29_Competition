@@ -1,4 +1,4 @@
-第29回全国高等専門学校プログラミングコンテスト競技部門
+# Program Contest Competition #29
 
 ## Bot
 
