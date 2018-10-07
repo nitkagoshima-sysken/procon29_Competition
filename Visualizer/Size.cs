@@ -11,17 +11,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// </summary>
     struct Size
     {
-        int height, width;
-
         /// <summary>
         /// 高さを表します。
         /// </summary>
-        public int Height { get => height; set => height = value; }
+        public int Height { get; set; }
         /// <summary>
         /// 幅を表します。
         /// </summary>
-        public int Width { get => width; set => width = value; }
-        public Size(int height, int width) { this.height = height; this.width = width; }
+        public int Width { get; set; }
 
+        public Size(int height, int width) { Height = height; Width = width; }
     }
 }

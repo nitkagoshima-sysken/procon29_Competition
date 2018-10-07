@@ -1,13 +1,10 @@
-# Procon29 Visualizer 26.0
+# Procon29 Visualizer 27.0
 
 ## What's new
 
-### `PointExtension`から`CoordinateExtension`に変更（開発者向け）
+### C# 6にダウングレード！
 
-うっかり`PointExtension`から`CoordinateExtension`に変更するのを忘れてました。  
-これのせいでwikiからも漏れて、彼らの知名度が低いです。すみません。  
-ちなみに、`CoordinateExtension`の`ChebyshevDistance(this Coordinate, Coordinate)`を使用しているボットたちは一度、リビルトしなければなりません。  
-つまり、Visualizer 26.0でまた互換性のないVisualizerが完成してしまったわけです。
+完全にコンパイラのバージョンをC# 6に下げたので、これで高専の~~クソ~~パソコンでも動くはず！はず！
 
 ## 操作方法
 
@@ -404,6 +401,10 @@
 ### Version 26.0
 
 - `PointExtension`から`CoordinateExtension`に変更（開発者向け）
+
+### Version 27.0
+
+- C# 6にダウングレード
 
 ## バージョンの上がり方について
 
