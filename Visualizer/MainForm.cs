@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -342,6 +342,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 if (result.ContainsKey("A"))
                 {
+                    log.WriteLine(Color.SkyBlue, "Bots.tsvにより、自分のチームにボット「" + result["A"][0] + "」が読み込まれました。" + BotName[0] + "]");
                     MessageBox.Show("Bots.tsvによってボットが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     ConnectBot(0, result["A"][0]);
                 }
@@ -375,13 +376,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 if (result.ContainsKey("Pqr"))
                 {
-                    MessageBox.Show("Pqr.tsvによってPQRファイルが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    log.WriteLine(Color.SkyBlue, "PQR File \"" + result["Pqr"][0].Trim() + "\" was read by Calc.tsv");
                     OpenPQRFile(result["Pqr"][0].Trim());
                     Console.WriteLine("\"" + result["Pqr"][0].Trim() + "\"");
                 }
                 if (result.ContainsKey("MaxTurn"))
                 {
-                    MessageBox.Show("Pqr.tsvによって最大ターン数が読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    log.WriteLine(Color.SkyBlue, "Max Turn " + result["MaxTurn"][0].Trim() + " was read by Calc.tsv");
                     Calc.MaxTurn = int.Parse(result["MaxTurn"][0]);
                 }
             }
