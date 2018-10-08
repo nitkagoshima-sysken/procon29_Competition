@@ -1,17 +1,18 @@
-# Procon29 Visualizer 28.0
+# Procon29 Visualizer 29.0
 
 ## What's new
 
-- `AgentStatusCodeExtension.IsMovement(this AgentStatusCode)`を追加（開発者向け）
-- `AgentStatusCodeExtension.IsRemovementOutTile(this AgentStatusCode)`を追加（開発者向け）
-- `AgentStatusCodeExtension.IsRemovementOpponentTile(this AgentStatusCode)`を追加（開発者向け）
-- `AgentStatusCodeExtension.ToSucceeded(this AgentStatusCode)`を追加（開発者向け）
-- `AgentStatusCodeExtension.ToRequest(this AgentStatusCode)`を追加（開発者向け）
-- `AgentStatusCodeExtension.ToAction(this AgentStatusCode)`を追加（開発者向け）
-- `AgentStatusCodeExtension.ToAttribute(this AgentStatusCode)`を追加（開発者向け）
-- `AgentStatusCodeExtension.IsRequest(this AgentStatusCode)`のコード最適化（開発者向け）
-- `AgentStatusCodeExtension.IsSucceeded(this AgentStatusCode)`のコード最適化（開発者向け）
-- `AgentStatusCodeExtension.IsFailed(this AgentStatusCode)`のコード最適化（開発者向け）
+### プリフェッチングファイルを読み込んだ際に表示されるダイアログを廃止した
+
+煩わしいんだよね
+
+### プリフェッチングファイルを読み込んだ際にログに表示されるようにした
+
+そのかわりにログに表示するようにした。
+
+### 1ターン目のときにエージェントの位置の表示がおかしいバグを修正
+
+地味に困るバグ
 
 ## 操作方法
 
@@ -429,6 +430,12 @@
 - `AgentStatusCodeExtension.IsRequest(this AgentStatusCode)`のコード最適化（開発者向け）
 - `AgentStatusCodeExtension.IsSucceeded(this AgentStatusCode)`のコード最適化（開発者向け）
 - `AgentStatusCodeExtension.IsFailed(this AgentStatusCode)`のコード最適化（開発者向け）
+
+### Version 29.0
+
+- プリフェッチングファイルを読み込んだ際に表示されるダイアログを廃止した
+- プリフェッチングファイルを読み込んだ際にログに表示されるようにした
+- 1ターン目のときにエージェントの位置の表示がおかしいバグを修正
 
 ## バージョンの上がり方について
 

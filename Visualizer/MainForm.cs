@@ -88,6 +88,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             var pqr = reader.ConvertToPqrData();
             Calc = new Calc(10, pqr.Fields, new Coordinate[2] { pqr.One, pqr.Two });
 
+            ReadBotsTxt();
+            ReadCalcTsv();
+
             teamDesigns =
                 new TeamDesign[2] {
                     new TeamDesign(name: "Orange", agentColor: Color.DarkOrange, areaColor: Color.DarkOrange),
@@ -102,10 +105,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             WriteLog();
             TurnProgressCheck();
-
-            ReadBotsTxt();
-            ReadCalcTsv();
-
         }
 
 
@@ -343,12 +342,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 if (result.ContainsKey("A"))
                 {
-                    MessageBox.Show("Bots.tsvによってボットが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    log.WriteLine(Color.SkyBlue, "Bot \"" + result["A"][0].Trim() + "\" was read on my team by Bot.tsv" + BotName[0] + "]");
                     ConnectBot(0, result["A"][0]);
                 }
                 if (result.ContainsKey("B"))
                 {
-                    MessageBox.Show("Bots.tsvによってボットが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    log.WriteLine(Color.SkyBlue, "Bot \"" + result["B"][0].Trim() + "\" was read on opponent team by Bot.tsv" + BotName[0] + "]");
                     ConnectBot(0, result["B"][0]);
                 }
             }
@@ -376,13 +375,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 if (result.ContainsKey("Pqr"))
                 {
-                    MessageBox.Show("Pqr.tsvによってPQRファイルが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    log.WriteLine(Color.SkyBlue, "PQR File \"" + result["Pqr"][0].Trim() + "\" was read by Calc.tsv");
                     OpenPQRFile(result["Pqr"][0].Trim());
                     Console.WriteLine("\"" + result["Pqr"][0].Trim() + "\"");
                 }
                 if (result.ContainsKey("MaxTurn"))
                 {
-                    MessageBox.Show("Pqr.tsvによって最大ターン数が読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    log.WriteLine(Color.SkyBlue, "Max Turn " + result["MaxTurn"][0].Trim() + " was read by Calc.tsv");
                     Calc.MaxTurn = int.Parse(result["MaxTurn"][0]);
                 }
             }
