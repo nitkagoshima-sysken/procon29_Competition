@@ -87,7 +87,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="agentActivityData">対象となるエージェントの行動データ</param>
         public static void ToSuccess(this AgentActivityData agentActivityData)
         {
-            agentActivityData.AgentStatusData.ToSucceeded();
+            if (agentActivityData.AgentStatusData != AgentStatusCode.NotDoneAnything)
+            {
+                agentActivityData.AgentStatusData = agentActivityData.AgentStatusData.ToSucceeded();
+            }
         }
     }
 }
