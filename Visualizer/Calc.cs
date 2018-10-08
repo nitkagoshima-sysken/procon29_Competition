@@ -524,8 +524,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // FailedInMovingByTryingToGoOutOfTheFieldWithEachOther
                     // FailedInRemovingOurTileByTryingToGoOutOfTheField
                     // FailedInRemovingOpponentTileByTryingToGoOutOfTheField
-                    if (item.Destination.X < 0 || Field.Width <= item.Destination.X ||
-                        item.Destination.Y < 0 || Field.Height <= item.Destination.Y)
+                    if (!Field.CellExist(item.Destination)) {
                         switch (item.AgentStatusData)
                         {
                             case AgentStatusCode.RequestMovement:
@@ -540,6 +539,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                             default:
                                 break;
                         }
+                    }
                     // 剥がそうとしていたタイルが存在していないかチェック(2)
                     // FailedInRemovingOurTileByDoingTileNotExist
                     // FailedInRemovingOpponentTileByDoingTileNotExist
