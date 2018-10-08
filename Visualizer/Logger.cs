@@ -15,14 +15,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     class Logger
     {
         /// <summary>
-        /// ログとして書き込むリッチテキストを設定します
-        /// </summary>
-        private RichTextBox richTextBox;
-
-        /// <summary>
         /// ログとして書き込むリッチテキストを設定または取得します
         /// </summary>
-        public RichTextBox RichTextBox { get => richTextBox; set => richTextBox = value; }
+        public RichTextBox RichTextBox { get; set; }
 
         /// <summary>
         /// Procon29_Loggerを初期化します

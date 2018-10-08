@@ -1,9 +1,10 @@
-# Procon29 Visualizer 24.0
+# Procon29 Visualizer 31.0
 
 ## What's new
 
-- `Field.CellExist(Coordinate)`を追加（開発者向け）
-- `Field.CellExist(int, int)`を追加（開発者向け）
+### Visualizerから外部プログラムの起動が可能になった
+
+これで本番のときはVisualizerから直接QR Code Readerを起動することが可能となった。
 
 ## 操作方法
 
@@ -13,6 +14,9 @@
  4. 最後にターンエンドを押す。
 
 ## ショートカットキー一覧
+
+現在(Visualizer 25.0)、謎のバグが発生して、エージェントの選択ができない状態です。  
+`Ctrl`を使ったショートカットは使えるので、そこは安心してお使いしてください。
 
 |Key|What will happen?|
 |:--:|:--:|
@@ -389,6 +393,50 @@
 - `Field.CellExist(Coordinate)`を追加（開発者向け）
 - `Field.CellExist(int, int)`を追加（開発者向け）
 
+### Version 25.0
+
+- 一度試合が終了した後に、ターン数を変更した場合に、ターンエンドのボタンが再び表示されるように修正しました。
+- `ClickField.PushKey(Keys)`を追加（開発者向け）
+
+### Version 26.0
+
+- `PointExtension`から`CoordinateExtension`に変更（開発者向け）
+
+### Version 27.0
+
+- C# 6にダウングレード
+
+#### Version 27.1
+
+- `Logger.richTextBox`を廃止（開発者向け）
+
+### Version 28.0
+
+- `AgentStatusCodeExtension.IsMovement(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.IsRemovementOutTile(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.IsRemovementOpponentTile(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToSucceeded(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToRequest(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToAction(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToAttribute(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.IsRequest(this AgentStatusCode)`のコード最適化（開発者向け）
+- `AgentStatusCodeExtension.IsSucceeded(this AgentStatusCode)`のコード最適化（開発者向け）
+- `AgentStatusCodeExtension.IsFailed(this AgentStatusCode)`のコード最適化（開発者向け）
+
+### Version 29.0
+
+- プリフェッチングファイルを読み込んだ際に表示されるダイアログを廃止した
+- プリフェッチングファイルを読み込んだ際にログに表示されるようにした
+- 1ターン目のときにエージェントの位置の表示がおかしいバグを修正
+
+### Version 30.0
+
+- 本番モードでターンエンドのときもボットを呼び出してしまうバグを修正
+
+### Version 31.0
+
+- Visualizerから外部プログラムの起動が可能になった
+
 ## バージョンの上がり方について
 
 Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバージョン.マイナーバージョン.ビルドバージョン`で表されます。  
@@ -428,3 +476,5 @@ Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバ�
 |17.1|81|745|7|168|1902|
 |18.1|81|763|7|171|1924|
 |21.0|82|1026|7|194|2439|
+|25.0|83|1064|7|195|2509|
+|28.0|83|1079|7|198|2544|

@@ -60,8 +60,30 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 foreach (var agent in Calc.Agents)
                 {
+                    // エージェントをクリックしたとき
                     if (coordinate == agent.Position)
                     {
+                        foreach (var neighbor_agent in Calc.Agents)
+                        {
+                            // もし、エージェントをクリックした場所の隣に、エージェントがいたとき、
+                            if (neighbor_agent.Position.ChebyshevDistance(coordinate) == 1)
+                            {
+                                DialogResult result = MessageBox.Show("選択するエージェントを" + agent.Name + "に変更しますか？（いいえを押した場合は、" + neighbor_agent.Name + "が" + agent.Name + "のところに移動します。）", "質問", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+                                switch (result)
+                                {
+                                    case DialogResult.Yes:
+                                        ClickedAgent = agent;
+                                        AgentsActivityData[agent.Team, agent.AgentNumber].AgentStatusData = AgentStatusCode.RequestNotToDoAnything;
+                                        AgentsActivityData[agent.Team, agent.AgentNumber].Destination = coordinate;
+                                        break;
+                                    case DialogResult.No:
+                                        MakeRequest(neighbor_agent, coordinate);
+                                        break;
+                                }
+                                return;
+                            }
+                        }
+                        // エージェントをクリックした場所の隣に、エージェントがいないときは、無条件でクリックしたエージェントを選択したエージェントにする。
                         ClickedAgent = agent;
                         AgentsActivityData[agent.Team, agent.AgentNumber].AgentStatusData = AgentStatusCode.RequestNotToDoAnything;
                         AgentsActivityData[agent.Team, agent.AgentNumber].Destination = coordinate;
@@ -80,6 +102,60 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         MakeRequest(agent, coordinate);
                         return;
                     }
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("フィールドの外です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// キーを押したときに反応します。
+        /// </summary>
+        public void PushKey(Keys keys)
+        {
+            Console.WriteLine(keys);
+            try
+            {
+                switch (keys)
+                {
+                    case Keys.Q:
+                        ClickedAgent = Calc.Agents[Team.A, AgentNumber.One];
+                        break;
+                    case Keys.W:
+                        ClickedAgent = Calc.Agents[Team.A, AgentNumber.Two];
+                        break;
+                    case Keys.E:
+                        ClickedAgent = Calc.Agents[Team.B, AgentNumber.One];
+                        break;
+                    case Keys.R:
+                        ClickedAgent = Calc.Agents[Team.B, AgentNumber.Two];
+                        break;
+                    case Keys.NumPad1:
+                        MakeRequest(ClickedAgent, ClickedAgent.Position + Arrow.DownLeft);
+                        break;
+                    case Keys.NumPad2:
+                        MakeRequest(ClickedAgent, ClickedAgent.Position + Arrow.Down);
+                        break;
+                    case Keys.NumPad3:
+                        MakeRequest(ClickedAgent, ClickedAgent.Position + Arrow.DownRight);
+                        break;
+                    case Keys.NumPad4:
+                        MakeRequest(ClickedAgent, ClickedAgent.Position + Arrow.Left);
+                        break;
+                    case Keys.NumPad6:
+                        MakeRequest(ClickedAgent, ClickedAgent.Position + Arrow.Right);
+                        break;
+                    case Keys.NumPad7:
+                        MakeRequest(ClickedAgent, ClickedAgent.Position + Arrow.UpLeft);
+                        break;
+                    case Keys.NumPad8:
+                        MakeRequest(ClickedAgent, ClickedAgent.Position + Arrow.Up);
+                        break;
+                    case Keys.NumPad9:
+                        MakeRequest(ClickedAgent, ClickedAgent.Position + Arrow.UpRight);
+                        break;
                 }
             }
             catch (Exception)

@@ -42,6 +42,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Procon29 Visualizer.xml</DocumentationFile>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -138,7 +139,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ObjectExtension.cs" />
-    <Compile Include="PointExtension.cs" />
+    <Compile Include="CoordinateExtension.cs" />
     <Compile Include="PqrData.cs" />
     <Compile Include="PqrDataExtension.cs" />
     <Compile Include="PqrReader.cs" />
