@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -53,6 +53,16 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// ゲームのモードを設定または取得します。
         /// </summary>
         private PlayMode Mode { get; set; } = PlayMode.PracticeMode;
+
+        /// <summary>
+        /// QRコードリーダーのファイルパスを設定または取得します。
+        /// </summary>
+        private string QRCodeReader_FilePath;
+
+        /// <summary>
+        /// FieldDataGeneratorのファイルパスを設定または取得します。
+        /// </summary>
+        private string FieldDataGenerator_FilePath;
 
         /// <summary>
         /// MainForm
