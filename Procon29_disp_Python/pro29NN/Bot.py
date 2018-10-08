@@ -93,18 +93,6 @@ class ProconNNControl:
                                             + AgentData['EnemyGet'] + [AgentData['EnemyExist'],] + AgentData['EnemyFill']\
                                             + AgentData['EnemyMovable'] + AgentData['EnemyRemovable']]
         AgentData['Blank'] = Blank
-        log = SystemControl.LogControl('debug.log')
-        log.LogWrite('MyGet{}\n'.format(AgentData['MyGet']))
-        log.LogWrite('MyExist{}\n'.format(AgentData['MyExist']))
-        log.LogWrite('MyFill{}\n'.format(AgentData['MyFill']))
-        log.LogWrite('MyMovable{}\n'.format(AgentData['MyMovable']))
-        log.LogWrite('MyRemovable{}\n'.format(AgentData['MyRemovable']))
-        log.LogWrite('EnemyGet{}\n'.format(AgentData['EnemyGet']))
-        log.LogWrite('EnemyExist{}\n'.format(AgentData['EnemyExist']))
-        log.LogWrite('EnemyFill{}\n'.format(AgentData['EnemyFill']))
-        log.LogWrite('EnemyMovable{}\n'.format(AgentData['EnemyMovable']))
-        log.LogWrite('EnemyRemovable{}\n'.format(AgentData['EnemyRemovable']))
-        log.LogWrite('Blank{}\n'.format(AgentData['Blank']))
         return AgentData
 
     def UpdatePosition(self, AgentData):
