@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -353,12 +353,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 if (result.ContainsKey("A"))
                 {
-                    log.WriteLine(Color.SkyBlue, "Bot \"" + result["A"][0].Trim() + "\" was read on my team by Bot.tsv" + BotName[0] + "]");
+                    log.WriteLine(Color.SkyBlue, "[Prefetching] Bot \"" + result["A"][0].Trim() + "\" was read on my team by Bot.tsv" + BotName[0] + "]");
                     ConnectBot(0, result["A"][0]);
                 }
                 if (result.ContainsKey("B"))
                 {
-                    log.WriteLine(Color.SkyBlue, "Bot \"" + result["B"][0].Trim() + "\" was read on opponent team by Bot.tsv" + BotName[0] + "]");
+                    log.WriteLine(Color.SkyBlue, "[Prefetching] Bot \"" + result["B"][0].Trim() + "\" was read on opponent team by Bot.tsv" + BotName[0] + "]");
                     ConnectBot(0, result["B"][0]);
                 }
             }
@@ -386,13 +386,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 if (result.ContainsKey("Pqr"))
                 {
-                    log.WriteLine(Color.SkyBlue, "PQR File \"" + result["Pqr"][0].Trim() + "\" was read by Calc.tsv");
+                    log.WriteLine(Color.SkyBlue, "[Prefetching] PQR File \"" + result["Pqr"][0].Trim() + "\" was read by Calc.tsv");
                     OpenPQRFile(result["Pqr"][0].Trim());
                     Console.WriteLine("\"" + result["Pqr"][0].Trim() + "\"");
                 }
                 if (result.ContainsKey("MaxTurn"))
                 {
-                    log.WriteLine(Color.SkyBlue, "Max Turn " + result["MaxTurn"][0].Trim() + " was read by Calc.tsv");
+                    log.WriteLine(Color.SkyBlue, "[Prefetching] Max Turn " + result["MaxTurn"][0].Trim() + " was read by Calc.tsv");
                     Calc.MaxTurn = int.Parse(result["MaxTurn"][0]);
                 }
             }
