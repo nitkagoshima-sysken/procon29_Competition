@@ -17,58 +17,21 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
 
     class NettaBot : Bot.Bot
     {
-        public NettaBot() : base() { }
+        public NettaBot() : base()
+        {
+        }
+        private Boolean isOdd;
+        private Agent agentOne;
+        private Agent agentTwo;
 
         public override AgentActivityData[] Answer()
         {
+            isOdd = IsOdd();
+            agentOne = Calc.Agents[Team, AgentNumber.One];
+            agentTwo = Calc.Agents[Team, AgentNumber.Two];
             var result = new AgentActivityData[2];
 
-            var agentOne = Calc.Agents[Team, AgentNumber.One];
-            var agentTwo = Calc.Agents[Team, AgentNumber.Two];
-            var isOdd = IsOdd();
-            var agentActivityDatas = new AgentActivityData[2];
-            var maxpoint = int.MinValue;
-            //foreach(Arrow arrowOne in Enum.GetValues(typeof(Arrow)))
-            //{
-            //    var destinationOne = agentOne.Position + arrowOne;
-
-            //    foreach (Arrow arrowTwo in Enum.GetValues(typeof(Arrow)))
-            //    {
-            //        var destinationTwo = agentTwo.Position + arrowTwo;
-            //        try {
-
-            //        if (((destinationOne.X + destinationOne.Y) % 2 != 0) == isOdd)
-            //        {
-            //            agentActivityDatas[(int)AgentNumber.One] = MoveOrRemoveTile(destinationOne);
-            //        }
-            //        else
-            //        {
-            //            continue;
-            //        }
-
-            //        if (((destinationTwo.X + destinationTwo.Y) % 2 != 0) == isOdd)
-            //        {
-            //            agentActivityDatas[(int)AgentNumber.Two] = MoveOrRemoveTile(destinationTwo);
-            //        }
-            //        else
-            //        {
-            //            continue;
-            //        }
-            //        Console.WriteLine(destinationOne + ":" + destinationTwo);
-            //        Console.WriteLine(isOdd +":"+ ((destinationOne.X + destinationOne.Y) % 2 != 0) +":"+ ((destinationTwo.X + destinationTwo.Y) % 2 != 0));
-            //        Console.WriteLine(agentActivityDatas[0].AgentStatusData + ":" + agentActivityDatas[1].AgentStatusData);
-            //            var c = Simulate(Team, agentActivityDatas);
-            //            Console.WriteLine(c.TotalPoint(Team)+":"+c.TotalPoint(Team.Opponent()));
-            //            if (maxpoint < c.TotalPoint(Team) )
-            //            {
-            //                maxpoint = c.TotalPoint(Team);
-            //                result = agentActivityDatas.DeepClone();
-            //            }
-            //        }
-            //        catch { }
-            //    }
-            //}
-            result = BestHand(Calc, 2).AgentActivityData;
+            result = BestHand(Calc, 3).AgentActivityData;
 
             return result;
         }
@@ -78,9 +41,6 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
             var maxpoint = int.MinValue;
             var agentActivityData = new AgentActivityData[2];
             var result = new AgentActivityData[2];
-            var agentOne = calc.Agents[Team, AgentNumber.One];
-            var agentTwo = calc.Agents[Team, AgentNumber.Two];
-            var isOdd = IsOdd();
             foreach (Arrow arrowOne in Enum.GetValues(typeof(Arrow)))
             {
                 var destinationOne = agentOne.Position + arrowOne;
@@ -111,9 +71,9 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                         var c = calc.Simulate(Team, agentActivityData);
                         if (depth <= 1)
                         {
-                            if (maxpoint < c.TotalPoint(Team))
+                            if (maxpoint < c.TotalPoint(Team) - c.TotalPoint(Team.Opponent()))
                             {
-                                maxpoint = c.TotalPoint(Team);
+                                maxpoint = c.TotalPoint(Team)-c.TotalPoint(Team.Opponent());
                                 result = agentActivityData.DeepClone();
                             }
                         }
