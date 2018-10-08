@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -88,6 +88,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             var pqr = reader.ConvertToPqrData();
             Calc = new Calc(10, pqr.Fields, new Coordinate[2] { pqr.One, pqr.Two });
 
+            ReadBotsTxt();
+            ReadCalcTsv();
+
             teamDesigns =
                 new TeamDesign[2] {
                     new TeamDesign(name: "Orange", agentColor: Color.DarkOrange, areaColor: Color.DarkOrange),
@@ -102,10 +105,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             WriteLog();
             TurnProgressCheck();
-
-            ReadBotsTxt();
-            ReadCalcTsv();
-
         }
 
 
