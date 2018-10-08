@@ -8,21 +8,21 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// エージェントの行動の状態がリクエストであることを判定します
         /// </summary>
         /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
-        /// <returns>状態がリクエストなら真、そうでなければ偽</returns>
+        /// <returns>状態がリクエストなら真が返され、そうでなければ偽が返されます。</returns>
         public static bool IsRequest(this AgentStatusCode agentStatusData) => agentStatusData.ToAttribute() == AgentStatusCodeAttribute.Request;
 
         /// <summary>
         /// エージェントの行動が成功したことを判定します
         /// </summary>
         /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
-        /// <returns>状態が成功なら真、そうでなければ偽</returns>
+        /// <returns>状態がリクエストなら真が返され、そうでなければ偽が返されます。</returns>
         public static bool IsSucceeded(this AgentStatusCode agentStatusData) => agentStatusData.ToAttribute() == AgentStatusCodeAttribute.Succeeded;
 
         /// <summary>
         /// エージェントの行動が失敗したことを判定します
         /// </summary>
         /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
-        /// <returns>状態が失敗なら真、そうでなければ偽</returns>
+        /// <returns>状態がリクエストなら真が返され、そうでなければ偽が返されます。</returns>
         public static bool IsFailed(this AgentStatusCode agentStatusData) => agentStatusData.ToAttribute() == AgentStatusCodeAttribute.Failed;
 
         /// <summary>
