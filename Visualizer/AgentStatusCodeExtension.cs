@@ -87,5 +87,27 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 return AgentStatusCodeAction.Other;
             }
         }
+
+        /// <summary>
+        /// エージェントステータスコードの属性を求めます。
+        /// </summary>
+        /// <param name="agentStatusCode">対象のエージェントステータスコード</param>
+        /// <returns>エージェントステータスコードの属性</returns>
+        public static AgentStatusCodeAttribute ToAttribute(this AgentStatusCode agentStatusCode)
+        {
+            if (Enum.GetName(typeof(AgentStatusCode), agentStatusCode).IndexOf("Request") == 0)
+            {
+                return AgentStatusCodeAttribute.Request;
+            }
+            if (Enum.GetName(typeof(AgentStatusCode), agentStatusCode).IndexOf("SucceededIn") == 0)
+            {
+                return AgentStatusCodeAttribute.Succeeded;
+            }
+            if (Enum.GetName(typeof(AgentStatusCode), agentStatusCode).IndexOf("FailedIn") == 0)
+            {
+                return AgentStatusCodeAttribute.Failed;
+            }
+            return AgentStatusCodeAttribute.Undefined;
+        }
     }
 }
