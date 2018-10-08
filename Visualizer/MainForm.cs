@@ -356,13 +356,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 if (result.ContainsKey("A"))
                 {
-                    log.WriteLine(Color.SkyBlue, "[Prefetching] Bot \"" + result["A"][0].Trim() + "\" was read on my team by Bot.tsv" + BotName[0] + "]");
+                    log.WriteLine(Color.SkyBlue, "[Prefetching] Bot \"" + result["A"][0].Trim() + "\" was read on my team by Bot.tsv");
                     ConnectBot(0, result["A"][0]);
                 }
                 if (result.ContainsKey("B"))
                 {
-                    log.WriteLine(Color.SkyBlue, "[Prefetching] Bot \"" + result["B"][0].Trim() + "\" was read on opponent team by Bot.tsv" + BotName[0] + "]");
-                    ConnectBot(0, result["B"][0]);
+                    log.WriteLine(Color.SkyBlue, "[Prefetching] Bot \"" + result["B"][0].Trim() + "\" was read on opponent team by Bot.tsv");
+                    ConnectBot(1, result["B"][0]);
                 }
             }
             // "Bots.tsv" というディレクトリが存在しない場合、作成する
