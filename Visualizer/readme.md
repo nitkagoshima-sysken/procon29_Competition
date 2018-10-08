@@ -1,4 +1,4 @@
-# Procon29 Visualizer 31.0
+# Procon29 Visualizer 31.1
 
 ## What's new
 
@@ -436,6 +436,10 @@
 ### Version 31.0
 
 - Visualizerから外部プログラムの起動が可能になった
+
+#### Version 31.1
+
+- ボットが呼び出せない重大なバグを修正
 
 ## バージョンの上がり方について
 
