@@ -29,21 +29,21 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// エージェントの行動が移動であることを判定します
         /// </summary>
         /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
-        /// <returns>状態がリクエストなら真が返され、そうでなければ偽が返されます。</returns>
+        /// <returns>行動が移動であるなら真が返され、そうでなければ偽が返されます。</returns>
         public static bool IsMovement(this AgentStatusCode agentStatusData) => agentStatusData.ToAction() == AgentStatusCodeAction.Movement;
 
         /// <summary>
         /// エージェントの行動が自分のチームからタイルを取り除くことであることを判定します
         /// </summary>
         /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
-        /// <returns>状態がリクエストなら真が返され、そうでなければ偽が返されます。</returns>
+        /// <returns>行動が自分のチームからタイルを取り除くなら真が返され、そうでなければ偽が返されます。</returns>
         public static bool IsRemovementOutTile(this AgentStatusCode agentStatusData) => agentStatusData.ToAction() == AgentStatusCodeAction.RemovementOurTile;
 
         /// <summary>
         /// エージェントの行動が相手のチームからタイルを取り除くことであることを判定します
         /// </summary>
         /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
-        /// <returns>状態がリクエストなら真が返され、そうでなければ偽が返されます。</returns>
+        /// <returns>行動が相手のチームからタイルを取り除くなら真が返され、そうでなければ偽が返されます。</returns>
         public static bool IsRemovementOpponentTile(this AgentStatusCode agentStatusData) => agentStatusData.ToAction() == AgentStatusCodeAction.RemovementOpponentTile;
 
         /// <summary>
