@@ -87,23 +87,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="agentActivityData">対象となるエージェントの行動データ</param>
         public static void ToSuccess(this AgentActivityData agentActivityData)
         {
-            switch (agentActivityData.AgentStatusData)
-            {
-                case AgentStatusCode.NotDoneAnything:
-                    agentActivityData.AgentStatusData = AgentStatusCode.SucceededNotToDoAnything;
-                    return;
-                case AgentStatusCode.RequestMovement:
-                    agentActivityData.AgentStatusData = AgentStatusCode.SucceededInMoving;
-                    return;
-                case AgentStatusCode.RequestRemovementOurTile:
-                    agentActivityData.AgentStatusData = AgentStatusCode.SucceededInRemovingOurTile;
-                    return;
-                case AgentStatusCode.RequestRemovementOpponentTile:
-                    agentActivityData.AgentStatusData = AgentStatusCode.SucceededInRemovingOpponentTile;
-                    return;
-                default:
-                    return;
-            }
+            agentActivityData.AgentStatusData.ToSucceeded();
         }
     }
 }
