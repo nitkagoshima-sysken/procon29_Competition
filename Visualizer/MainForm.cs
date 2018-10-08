@@ -337,6 +337,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
+        /// <summary>
+        /// ボット関連のプリフェッチングファイルの読み込みです。
+        /// </summary>
         public void ReadBotsTxt()
         {
             // "Prefetching" というディレクトリが存在しない場合、作成する
@@ -375,6 +378,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
+        /// <summary>
+        /// Calc関連のプリフェッチングファイルの読み込みです。
+        /// </summary>
         public void ReadCalcTsv()
         {
             if (System.IO.File.Exists(@".\Prefetching\Calc.tsv"))
