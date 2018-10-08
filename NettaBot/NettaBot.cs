@@ -27,8 +27,8 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
         public override AgentActivityData[] Answer()
         {
             isOdd = IsOdd();
-            agentOne = Calc.Agents[Team, AgentNumber.One];
-            agentTwo = Calc.Agents[Team, AgentNumber.Two];
+            agentOne = Calc.Agents[OurTeam, AgentNumber.One];
+            agentTwo = Calc.Agents[OurTeam, AgentNumber.Two];
             var result = new AgentActivityData[2];
 
             result = BestHand(Calc, 3).AgentActivityData;
@@ -68,12 +68,12 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                         {
                             continue;
                         }
-                        var c = calc.Simulate(Team, agentActivityData);
+                        var c = calc.Simulate(OurTeam, agentActivityData);
                         if (depth <= 1)
                         {
-                            if (maxpoint < c.TotalPoint(Team) - c.TotalPoint(Team.Opponent()))
+                            if (maxpoint < c.TotalPoint(OurTeam) - c.TotalPoint(OurTeam.Opponent()))
                             {
-                                maxpoint = c.TotalPoint(Team)-c.TotalPoint(Team.Opponent());
+                                maxpoint = c.TotalPoint(OurTeam)-c.TotalPoint(OurTeam.Opponent());
                                 result = agentActivityData.DeepClone();
                             }
                         }
@@ -105,7 +105,7 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
 
         private AgentActivityData MoveOrRemoveTile(Coordinate coordinate)
         {
-            if (Calc.Field[coordinate].IsTileOn[Team.Opponent()])
+            if (Calc.Field[coordinate].IsTileOn[OurTeam.Opponent()])
             {
                 return new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, coordinate);
             }
