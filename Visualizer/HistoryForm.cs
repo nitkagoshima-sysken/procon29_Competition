@@ -32,7 +32,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         private void HistoryForm_Resize(object sender, EventArgs e)
         {
-            Showing();
+            if (Calc != null) Showing();
         }
 
         private void TurnTrackBar_ValueChanged(object sender, EventArgs e)
