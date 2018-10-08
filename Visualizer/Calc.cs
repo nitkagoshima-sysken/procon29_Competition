@@ -524,7 +524,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // FailedInMovingByTryingToGoOutOfTheFieldWithEachOther
                     // FailedInRemovingOurTileByTryingToGoOutOfTheField
                     // FailedInRemovingOpponentTileByTryingToGoOutOfTheField
-                    if (!Field.CellExist(item.Destination)) {
+                    if (!Field.CellExist(item.Destination))
+                    {
                         switch (item.AgentStatusData)
                         {
                             case AgentStatusCode.RequestMovement:
