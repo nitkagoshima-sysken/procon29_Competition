@@ -432,21 +432,37 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             if (TurnEndButton.Text == "ターンエンド")
             {
-                if (Bot[0] != null)
+                if (Mode == PlayMode.ProductionMode)
                 {
-                    Bot[0].Team = Team.A;
-                    Bot[0].Question(Calc);
-                    var a = Bot[0].Answer();
-                    show.agentActivityData[Team.A, AgentNumber.One] = a[0];
-                    show.agentActivityData[Team.A, AgentNumber.Two] = a[1];
+                    if (Bot[0] != null)
+                    {
+                        show.agentActivityData[Team.A, AgentNumber.One] = show.agentActivityData[Team.A, AgentNumber.One];
+                        show.agentActivityData[Team.A, AgentNumber.Two] = show.agentActivityData[Team.A, AgentNumber.Two];
+                    }
+                    if (Bot[1] != null)
+                    {
+                        show.agentActivityData[Team.B, AgentNumber.One] = show.agentActivityData[Team.B, AgentNumber.One];
+                        show.agentActivityData[Team.B, AgentNumber.Two] = show.agentActivityData[Team.B, AgentNumber.Two];
+                    }
                 }
-                if (Bot[1] != null)
+                else
                 {
-                    Bot[1].Team = Team.B;
-                    Bot[1].Question(Calc);
-                    var a = Bot[1].Answer();
-                    show.agentActivityData[Team.B, AgentNumber.One] = a[0];
-                    show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
+                    if (Bot[0] != null)
+                    {
+                        Bot[0].Team = Team.A;
+                        Bot[0].Question(Calc);
+                        var a = Bot[0].Answer();
+                        show.agentActivityData[Team.A, AgentNumber.One] = a[0];
+                        show.agentActivityData[Team.A, AgentNumber.Two] = a[1];
+                    }
+                    if (Bot[1] != null)
+                    {
+                        Bot[1].Team = Team.B;
+                        Bot[1].Question(Calc);
+                        var a = Bot[1].Answer();
+                        show.agentActivityData[Team.B, AgentNumber.One] = a[0];
+                        show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
+                    }
                 }
 
                 Calc.MoveAgent(show.agentActivityData);
