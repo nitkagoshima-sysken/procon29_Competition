@@ -60,6 +60,29 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
+        /// エージェントステータスコードの属性を可能な限りリクエストに変更します。
+        /// </summary>
+        /// <param name="agentStatusCode"></param>
+        /// <returns></returns>
+        public static AgentStatusCode ToRequest(this AgentStatusCode agentStatusCode)
+        {
+            if (agentStatusCode == AgentStatusCode.SucceededNotToDoAnything)
+            {
+                return AgentStatusCode.RequestNotToDoAnything;
+            }
+            switch (agentStatusCode.ToAction())
+            {
+                case AgentStatusCodeAction.Movement:
+                    return AgentStatusCode.RequestMovement;
+                case AgentStatusCodeAction.RemovementOurTile:
+                    return AgentStatusCode.RequestRemovementOurTile;
+                case AgentStatusCodeAction.RemovementOpponentTile:
+                    return AgentStatusCode.RequestRemovementOpponentTile;
+            }
+            throw new ArgumentOutOfRangeException();
+        }
+
+        /// <summary>
         /// エージェントステータスコードのアクションを求めます。
         /// </summary>
         /// <param name="agentStatusCode">対象のエージェントステータスコード</param>
