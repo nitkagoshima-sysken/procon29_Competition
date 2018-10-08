@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
@@ -23,10 +23,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
         /// <returns>状態が失敗なら真、そうでなければ偽</returns>
-        public static bool IsFailed(this AgentStatusCode agentStatusData) =>
-            !(agentStatusData.IsRequest() || agentStatusData.IsSucceeded() ||
-            agentStatusData == AgentStatusCode.NotDoneAnything ||
-            agentStatusData == AgentStatusCode.RequestForbidden);
+        public static bool IsFailed(this AgentStatusCode agentStatusData) => agentStatusData.ToAttribute() == AgentStatusCodeAttribute.Failed;
 
         /// <summary>
         /// エージェントステータスコードの属性を可能な限り成功に変更します。
