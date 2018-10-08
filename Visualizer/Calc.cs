@@ -468,13 +468,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
-        void CheckAgentActivityData(AgentsActivityData agentActivityData)
+        void CheckAgentActivityData(AgentsActivityData agentsActivityData)
         {
             foreach (Team team in Enum.GetValues(typeof(Team)))
             {
                 foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                 {
-                    var item = agentActivityData[team, agent];
+                    var item = agentsActivityData[team, agent];
                     // 何もしないのは、無条件で成功する(1)
                     // SucceededNotToDoAnything
                     if (item.AgentStatusData == AgentStatusCode.RequestNotToDoAnything)
@@ -573,7 +573,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         foreach (AgentNumber otheragent in Enum.GetValues(typeof(AgentNumber)))
                         {
                             if (team == otherteam && agent == otheragent) continue;
-                            var otheritem = agentActivityData[otherteam, otheragent];
+                            var otheritem = agentsActivityData[otherteam, otheragent];
                             var otherposition = Agents[otherteam, otheragent].Position;
                             if ((otheritem.AgentStatusData == AgentStatusCode.RequestNotToDoAnything ||
                                 otheritem.AgentStatusData == AgentStatusCode.NotDoneAnything) &&
@@ -599,7 +599,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // FailedInMovingByCollisionWithEachOther;
             // FailedInRemovingOurTileByCollisionWithEachOther;
             // FailedInRemovingOpponentTileByCollisionWithEachOther;
-            agentActivityData.CheckCollision();
+            agentsActivityData.CheckCollision();
             // 移動先のエージェントがコリジョンを起こし、
             // 自分もそのコリジョンに巻き込まれたかチェック(3)
             // FailedInMovingByInvolvedInOtherCollisions
@@ -609,13 +609,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                 {
-                    var item = agentActivityData[team, agent];
+                    var item = agentsActivityData[team, agent];
                     foreach (Team otherteam in Enum.GetValues(typeof(Team)))
                     {
                         foreach (AgentNumber otheragent in Enum.GetValues(typeof(AgentNumber)))
                         {
                             if (team == otherteam && agent == otheragent) continue;
-                            var otheritem = agentActivityData[otherteam, otheragent];
+                            var otheritem = agentsActivityData[otherteam, otheragent];
                             var otherposition = Agents[otherteam, otheragent].Position;
                             if ((otheritem.AgentStatusData == AgentStatusCode.RequestNotToDoAnything ||
                                 otheritem.AgentStatusData == AgentStatusCode.NotDoneAnything ||
@@ -642,7 +642,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 }
             }
             // 全チェック後に残ったリクエストは、成功したとみなす(3)
-            foreach (var item in agentActivityData)
+            foreach (var item in agentsActivityData)
             {
                 item.ToSuccess();
             }
