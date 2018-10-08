@@ -70,22 +70,17 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 return AgentStatusCodeAction.Movement;
             }
-            else if (
-                Enum.GetName(typeof(AgentStatusCode), agentStatusCode).IndexOf("InRemovingOurTile") >= 0 ||
+            if (Enum.GetName(typeof(AgentStatusCode), agentStatusCode).IndexOf("InRemovingOurTile") >= 0 ||
                 Enum.GetName(typeof(AgentStatusCode), agentStatusCode).IndexOf("RemovementOurTile") >= 0)
             {
                 return AgentStatusCodeAction.RemovementOurTile;
             }
-            else if (
-                Enum.GetName(typeof(AgentStatusCode), agentStatusCode).IndexOf("InRemovingOpponentTile") >= 0 ||
+            if (Enum.GetName(typeof(AgentStatusCode), agentStatusCode).IndexOf("InRemovingOpponentTile") >= 0 ||
                 Enum.GetName(typeof(AgentStatusCode), agentStatusCode).IndexOf("RemovementOpponentTile") >= 0)
             {
                 return AgentStatusCodeAction.RemovementOpponentTile;
             }
-            else
-            {
-                return AgentStatusCodeAction.Other;
-            }
+            return AgentStatusCodeAction.Other;
         }
 
         /// <summary>
