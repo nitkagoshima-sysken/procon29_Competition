@@ -16,11 +16,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
         /// <returns>状態が成功なら真、そうでなければ偽</returns>
-        public static bool IsSucceeded(this AgentStatusCode agentStatusData) =>
-            agentStatusData == AgentStatusCode.SucceededNotToDoAnything ||
-            agentStatusData == AgentStatusCode.SucceededInMoving ||
-            agentStatusData == AgentStatusCode.SucceededInRemovingOpponentTile ||
-            agentStatusData == AgentStatusCode.SucceededInRemovingOurTile;
+        public static bool IsSucceeded(this AgentStatusCode agentStatusData) => agentStatusData.ToAttribute() == AgentStatusCodeAttribute.Succeeded;
 
         /// <summary>
         /// エージェントの行動が失敗したことを判定します
