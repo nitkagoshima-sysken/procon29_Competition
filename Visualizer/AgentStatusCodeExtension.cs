@@ -57,5 +57,35 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        /// <summary>
+        /// エージェントステータスコードのアクションを求めます。
+        /// </summary>
+        /// <param name="agentStatusCode">対象のエージェントステータスコード</param>
+        /// <returns>エージェントステータスコードのアクション</returns>
+        public static AgentStatusCodeAction ToAction(this AgentStatusCode agentStatusCode)
+        {
+            if (Enum.GetName(typeof(AgentStatusCode), agentStatusCode).IndexOf("InMoving") >= 0 ||
+                Enum.GetName(typeof(AgentStatusCode), agentStatusCode).IndexOf("Movement") >= 0)
+            {
+                return AgentStatusCodeAction.Movement;
+            }
+            else if (
+                Enum.GetName(typeof(AgentStatusCode), agentStatusCode).IndexOf("InRemovingOurTile") >= 0 ||
+                Enum.GetName(typeof(AgentStatusCode), agentStatusCode).IndexOf("RemovementOurTile") >= 0)
+            {
+                return AgentStatusCodeAction.RemovementOurTile;
+            }
+            else if (
+                Enum.GetName(typeof(AgentStatusCode), agentStatusCode).IndexOf("InRemovingOpponentTile") >= 0 ||
+                Enum.GetName(typeof(AgentStatusCode), agentStatusCode).IndexOf("RemovementOpponentTile") >= 0)
+            {
+                return AgentStatusCodeAction.RemovementOpponentTile;
+            }
+            else
+            {
+                return AgentStatusCodeAction.Other;
+            }
+        }
     }
 }
