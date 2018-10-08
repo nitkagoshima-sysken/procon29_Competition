@@ -1,10 +1,17 @@
-# Procon29 Visualizer 27.1
+# Procon29 Visualizer 28.0
 
 ## What's new
 
-### C# 6にダウングレード！
-
-完全にコンパイラのバージョンをC# 6に下げたので、これで高専の~~クソ~~パソコンでも動くはず！はず！
+- `AgentStatusCodeExtension.IsMovement(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.IsRemovementOutTile(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.IsRemovementOpponentTile(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToSucceeded(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToRequest(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToAction(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToAttribute(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.IsRequest(this AgentStatusCode)`のコード最適化（開発者向け）
+- `AgentStatusCodeExtension.IsSucceeded(this AgentStatusCode)`のコード最適化（開発者向け）
+- `AgentStatusCodeExtension.IsFailed(this AgentStatusCode)`のコード最適化（開発者向け）
 
 ## 操作方法
 
@@ -410,6 +417,19 @@
 
 - `Logger.richTextBox`を廃止（開発者向け）
 
+### Version 28.0
+
+- `AgentStatusCodeExtension.IsMovement(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.IsRemovementOutTile(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.IsRemovementOpponentTile(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToSucceeded(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToRequest(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToAction(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToAttribute(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.IsRequest(this AgentStatusCode)`のコード最適化（開発者向け）
+- `AgentStatusCodeExtension.IsSucceeded(this AgentStatusCode)`のコード最適化（開発者向け）
+- `AgentStatusCodeExtension.IsFailed(this AgentStatusCode)`のコード最適化（開発者向け）
+
 ## バージョンの上がり方について
 
 Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバージョン.マイナーバージョン.ビルドバージョン`で表されます。  
@@ -450,3 +470,4 @@ Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバ�
 |18.1|81|763|7|171|1924|
 |21.0|82|1026|7|194|2439|
 |25.0|83|1064|7|195|2509|
+|28.0|83|1079|7|198|2544|
