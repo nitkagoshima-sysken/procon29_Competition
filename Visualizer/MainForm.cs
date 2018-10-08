@@ -55,6 +55,16 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private PlayMode Mode { get; set; } = PlayMode.PracticeMode;
 
         /// <summary>
+        /// QRコードリーダーのファイルパスを設定または取得します。
+        /// </summary>
+        private string QRCodeReader_FilePath;
+
+        /// <summary>
+        /// FieldDataGeneratorのファイルパスを設定または取得します。
+        /// </summary>
+        private string FieldDataGenerator_FilePath;
+
+        /// <summary>
         /// MainForm
         /// </summary>
         public MainForm()
@@ -90,6 +100,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             ReadBotsTxt();
             ReadCalcTsv();
+            ReadFilePathTsv();
 
             teamDesigns =
                 new TeamDesign[2] {
@@ -342,12 +353,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 if (result.ContainsKey("A"))
                 {
-                    log.WriteLine(Color.SkyBlue, "Bot \"" + result["A"][0].Trim() + "\" was read on my team by Bot.tsv" + BotName[0] + "]");
+                    log.WriteLine(Color.SkyBlue, "[Prefetching] Bot \"" + result["A"][0].Trim() + "\" was read on my team by Bot.tsv" + BotName[0] + "]");
                     ConnectBot(0, result["A"][0]);
                 }
                 if (result.ContainsKey("B"))
                 {
-                    log.WriteLine(Color.SkyBlue, "Bot \"" + result["B"][0].Trim() + "\" was read on opponent team by Bot.tsv" + BotName[0] + "]");
+                    log.WriteLine(Color.SkyBlue, "[Prefetching] Bot \"" + result["B"][0].Trim() + "\" was read on opponent team by Bot.tsv" + BotName[0] + "]");
                     ConnectBot(0, result["B"][0]);
                 }
             }
@@ -375,13 +386,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 if (result.ContainsKey("Pqr"))
                 {
-                    log.WriteLine(Color.SkyBlue, "PQR File \"" + result["Pqr"][0].Trim() + "\" was read by Calc.tsv");
+                    log.WriteLine(Color.SkyBlue, "[Prefetching] PQR File \"" + result["Pqr"][0].Trim() + "\" was read by Calc.tsv");
                     OpenPQRFile(result["Pqr"][0].Trim());
                     Console.WriteLine("\"" + result["Pqr"][0].Trim() + "\"");
                 }
                 if (result.ContainsKey("MaxTurn"))
                 {
-                    log.WriteLine(Color.SkyBlue, "Max Turn " + result["MaxTurn"][0].Trim() + " was read by Calc.tsv");
+                    log.WriteLine(Color.SkyBlue, "[Prefetching] Max Turn " + result["MaxTurn"][0].Trim() + " was read by Calc.tsv");
                     Calc.MaxTurn = int.Parse(result["MaxTurn"][0]);
                 }
             }
@@ -389,6 +400,42 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             else
             {
                 using (var file = System.IO.File.Create(@".\Prefetching\Calc.tsv"))
+                {
+                    if (file != null)
+                    {
+                        file.Close();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// ファイルパス関連のプリフェッチングファイルの読み込みです。
+        /// </summary>
+        public void ReadFilePathTsv()
+        {
+            if (System.IO.File.Exists(@".\Prefetching\FilePath.tsv"))
+            {
+                var reader = new TsvReader(@".\Prefetching\FilePath.tsv");
+                reader.ReadTsvFile();
+                reader.ConvertToTsvData();
+                var result = reader.TsvData;
+
+                if (result.ContainsKey("QRCodeReader"))
+                {
+                    log.WriteLine(Color.SkyBlue, "[Prefetching] QRCodeReader File Path \"" + result["Pqr"][0].Trim() + "\" was read by FilePath.tsv");
+                    FieldDataGenerator_FilePath = result["QRCodeReader"][0].Trim();
+                }
+                if (result.ContainsKey("FieldDataGenerator"))
+                {
+                    log.WriteLine(Color.SkyBlue, "[Prefetching] FieldDataGenerator File Path \"" + result["FieldDataGenerator"][0].Trim() + " was read by FilePath.tsv");
+                    FieldDataGenerator_FilePath = result["FieldDataGenerator"][0].Trim();
+                }
+            }
+            // "FilePath.tsv" というディレクトリが存在しない場合、作成する
+            else
+            {
+                using (var file = System.IO.File.Create(@".\Prefetching\FilePath.tsv"))
                 {
                     if (file != null)
                     {
@@ -621,6 +668,30 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             TurnEndButton.Text = "ボットで選択";
             TurnEndButton.BackColor = Color.DarkGray;
             TurnEndButton.ForeColor = Color.White;
+        }
+
+        private void OpenQRCodeReaderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (System.IO.File.Exists(QRCodeReader_FilePath))
+            {
+                System.Diagnostics.Process.Start(QRCodeReader_FilePath);
+            }
+            else
+            {
+                MessageBox.Show("QR Code Readerのファイルパスが分かりません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void OpenFieldDataGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (System.IO.File.Exists(FieldDataGenerator_FilePath))
+            {
+                System.Diagnostics.Process.Start(FieldDataGenerator_FilePath);
+            }
+            else
+            {
+                MessageBox.Show("Field Data Generatorのファイルパスが分かりません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
