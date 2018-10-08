@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
@@ -9,11 +9,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
         /// <returns>状態がリクエストなら真、そうでなければ偽</returns>
-        public static bool IsRequest(this AgentStatusCode agentStatusData) =>
-            agentStatusData == AgentStatusCode.RequestNotToDoAnything ||
-            agentStatusData == AgentStatusCode.RequestMovement ||
-            agentStatusData == AgentStatusCode.RequestRemovementOpponentTile ||
-            agentStatusData == AgentStatusCode.RequestRemovementOurTile;
+        public static bool IsRequest(this AgentStatusCode agentStatusData) => agentStatusData.ToAttribute() == AgentStatusCodeAttribute.Request;
 
         /// <summary>
         /// エージェントの行動が成功したことを判定します
