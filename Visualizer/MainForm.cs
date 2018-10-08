@@ -100,6 +100,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             ReadBotsTxt();
             ReadCalcTsv();
+            ReadFilePathTsv();
 
             teamDesigns =
                 new TeamDesign[2] {
@@ -399,6 +400,42 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             else
             {
                 using (var file = System.IO.File.Create(@".\Prefetching\Calc.tsv"))
+                {
+                    if (file != null)
+                    {
+                        file.Close();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// ファイルパス関連のプリフェッチングファイルの読み込みです。
+        /// </summary>
+        public void ReadFilePathTsv()
+        {
+            if (System.IO.File.Exists(@".\Prefetching\FilePath.tsv"))
+            {
+                var reader = new TsvReader(@".\Prefetching\FilePath.tsv");
+                reader.ReadTsvFile();
+                reader.ConvertToTsvData();
+                var result = reader.TsvData;
+
+                if (result.ContainsKey("QRCodeReader"))
+                {
+                    log.WriteLine(Color.SkyBlue, "[Prefetching] QRCodeReader File Path \"" + result["Pqr"][0].Trim() + "\" was read by FilePath.tsv");
+                    FieldDataGenerator_FilePath = result["QRCodeReader"][0].Trim();
+                }
+                if (result.ContainsKey("FieldDataGenerator"))
+                {
+                    log.WriteLine(Color.SkyBlue, "[Prefetching] FieldDataGenerator File Path \"" + result["FieldDataGenerator"][0].Trim() + " was read by FilePath.tsv");
+                    FieldDataGenerator_FilePath = result["FieldDataGenerator"][0].Trim();
+                }
+            }
+            // "FilePath.tsv" というディレクトリが存在しない場合、作成する
+            else
+            {
+                using (var file = System.IO.File.Create(@".\Prefetching\FilePath.tsv"))
                 {
                     if (file != null)
                     {
