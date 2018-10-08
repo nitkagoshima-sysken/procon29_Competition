@@ -26,6 +26,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public static bool IsFailed(this AgentStatusCode agentStatusData) => agentStatusData.ToAttribute() == AgentStatusCodeAttribute.Failed;
 
         /// <summary>
+        /// エージェントの行動が移動であることを判定します
+        /// </summary>
+        /// <param name="agentStatusData">対象となるエージェントの行動の状態</param>
+        /// <returns>状態がリクエストなら真が返され、そうでなければ偽が返されます。</returns>
+        public static bool IsMovement(this AgentStatusCode agentStatusData) => agentStatusData.ToAction() == AgentStatusCodeAction.Movement;
+
+        /// <summary>
         /// エージェントステータスコードの属性を可能な限り成功に変更します。
         /// </summary>
         /// <param name="agentStatusCode"></param>
