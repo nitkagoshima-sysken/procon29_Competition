@@ -496,7 +496,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 {
                     if (Bot[0] != null)
                     {
-                        Bot[0].Team = Team.A;
+                        Bot[0].OurTeam = Team.A;
                         Bot[0].Question(Calc);
                         var a = Bot[0].Answer();
                         show.agentActivityData[Team.A, AgentNumber.One] = a[0];
@@ -504,7 +504,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     }
                     if (Bot[1] != null)
                     {
-                        Bot[1].Team = Team.B;
+                        Bot[1].OurTeam = Team.B;
                         Bot[1].Question(Calc);
                         var a = Bot[1].Answer();
                         show.agentActivityData[Team.B, AgentNumber.One] = a[0];
@@ -565,7 +565,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 if (Bot[0] != null)
                 {
-                    Bot[0].Team = Team.A;
+                    Bot[0].OurTeam = Team.A;
                     Bot[0].Question(Calc);
                     var a = Bot[0].Answer();
                     show.agentActivityData[Team.A, AgentNumber.One] = a[0];
@@ -573,7 +573,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 }
                 if (Bot[1] != null)
                 {
-                    Bot[1].Team = Team.B;
+                    Bot[1].OurTeam = Team.B;
                     Bot[1].Question(Calc);
                     var a = Bot[1].Answer();
                     show.agentActivityData[Team.B, AgentNumber.One] = a[0];
