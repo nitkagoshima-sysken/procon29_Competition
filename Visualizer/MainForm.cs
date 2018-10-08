@@ -669,5 +669,29 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             TurnEndButton.BackColor = Color.DarkGray;
             TurnEndButton.ForeColor = Color.White;
         }
+
+        private void OpenQRCodeReaderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (System.IO.File.Exists(QRCodeReader_FilePath))
+            {
+                System.Diagnostics.Process.Start(QRCodeReader_FilePath);
+            }
+            else
+            {
+                MessageBox.Show("QR Code Readerのファイルパスが分かりません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void OpenFieldDataGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (System.IO.File.Exists(FieldDataGenerator_FilePath))
+            {
+                System.Diagnostics.Process.Start(FieldDataGenerator_FilePath);
+            }
+            else
+            {
+                MessageBox.Show("Field Data Generatorのファイルパスが分かりません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
