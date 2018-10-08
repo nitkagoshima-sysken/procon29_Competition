@@ -651,8 +651,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary> 
         /// 指定したところにエージェントが移動します。 
         /// </summary> 
-        /// <param name="agentActivityData"></param> 
-        public void MoveAgent(AgentsActivityData agentActivityData)
+        /// <param name="agentsActivityData"></param> 
+        public void MoveAgent(AgentsActivityData agentsActivityData)
         {
             if (Turn < MaxTurn)
             {
@@ -664,7 +664,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     History.RemoveRange(Turn + 1, History.Count - 1 - Turn);
 
                 // 不正な動きをしていないかチェック 
-                CheckAgentActivityData(agentActivityData);
+                CheckAgentActivityData(agentsActivityData);
 
                 // ターンエンドの処理 
                 TurnEnd();
@@ -673,30 +673,30 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 {
                     foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                     {
-                        History[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One].AgentStatusData = agentActivityData[Team.A, AgentNumber.One].AgentStatusData;
-                        History[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One].Destination = agentActivityData[Team.A, AgentNumber.One].Destination;
+                        History[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One].AgentStatusData = agentsActivityData[Team.A, AgentNumber.One].AgentStatusData;
+                        History[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One].Destination = agentsActivityData[Team.A, AgentNumber.One].Destination;
                     }
                 }
                 foreach (Team team in Enum.GetValues(typeof(Team)))
                 {
                     foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                     {
-                        switch (agentActivityData[team, agent].AgentStatusData)
+                        switch (agentsActivityData[team, agent].AgentStatusData)
                         {
                             case AgentStatusCode.SucceededInMoving:
-                                Agents[team, agent].Position = agentActivityData[team, agent].Destination;
+                                Agents[team, agent].Position = agentsActivityData[team, agent].Destination;
                                 PutTile(team: team, agent: agent);
                                 break;
                             case AgentStatusCode.SucceededInRemovingOurTile:
-                                RemoveTile(agentActivityData[team, agent].Destination);
+                                RemoveTile(agentsActivityData[team, agent].Destination);
                                 break;
                             case AgentStatusCode.SucceededInRemovingOpponentTile:
-                                RemoveTile(agentActivityData[team, agent].Destination);
+                                RemoveTile(agentsActivityData[team, agent].Destination);
                                 break;
                             default:
                                 break;
                         }
-                        agentActivityData[team, agent].ToSuccess();
+                        agentsActivityData[team, agent].ToSuccess();
                     }
                 }
                 CheckEnclosedArea();
