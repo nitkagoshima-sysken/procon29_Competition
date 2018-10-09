@@ -12,7 +12,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// <summary>
     /// Procon29におけるログの管理を行います。
     /// </summary>
-    class Logger
+    public class Logger
     {
         /// <summary>
         /// ログとして書き込むリッチテキストを設定または取得します
