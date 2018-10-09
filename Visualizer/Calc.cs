@@ -674,8 +674,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 {
                     foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                     {
-                        History[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One].AgentStatusData = agentsActivityData[Team.A, AgentNumber.One].AgentStatusData;
-                        History[Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One].Destination = agentsActivityData[Team.A, AgentNumber.One].Destination;
+                        History[Turn - 1].AgentActivityDatas[team, agent].AgentStatusData = agentsActivityData[team, agent].AgentStatusData;
+                        History[Turn - 1].AgentActivityDatas[team, agent].Destination = agentsActivityData[team, agent].Destination;
                     }
                 }
                 foreach (Team team in Enum.GetValues(typeof(Team)))

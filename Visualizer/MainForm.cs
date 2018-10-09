@@ -516,10 +516,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         show.agentActivityData[Team.B, AgentNumber.One] = a[0];
                         show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
                     }
-                }
+                }               
 
                 Calc.MoveAgent(show.agentActivityData);
-
+               
                 foreach (AgentActivityData item in show.agentActivityData)
                 {
                     item.AgentStatusData = AgentStatusCode.NotDoneAnything;
