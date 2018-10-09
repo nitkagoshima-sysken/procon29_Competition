@@ -28,7 +28,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 最大ターンのデフォルト値を設定または取得します。
         /// </summary>
-        public Logger log { get; set; }
+        public Logger Log { get; set; }
 
         TeamDesign[] teamDesigns;
 
@@ -79,10 +79,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             FieldDisplay.MouseMove += new MouseEventHandler(FieldDisplay_MouseMove);
             Resize += new System.EventHandler(MainForm_Resize);
 
-            log = new Logger(messageBox);
+            Log = new Logger(messageBox);
             var version = System.Diagnostics.FileVersionInfo.GetVersionInfo(
                 System.Reflection.Assembly.GetExecutingAssembly().Location);
-            log.WriteLine("Procon29 Visualizer (ver. " + version.FileMinorPart + "." + version.FileBuildPart + ")");
+            Log.WriteLine("Procon29 Visualizer (ver. " + version.FileMinorPart + "." + version.FileBuildPart + ")");
 
             // PQRファイルを直接読み込む
             // ちなみにQR_code_sample.pdfで登場したQRコード
@@ -99,7 +99,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 "-2 1 0 1 2 0 2 1 0 1 -2:" +
                 "2 2:" +
                 "7 10:";
-            log.WriteLine(reader.Stream);
+            Log.WriteLine(reader.Stream);
             var pqr = reader.ConvertToPqrData();
             Calc = new Calc(10, pqr.Fields, new Coordinate[2] { pqr.One, pqr.Two });
 
@@ -126,17 +126,17 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         private void WriteLog()
         {
-            log.WriteLine("\n" + "Turn : " + Calc.Turn);
-            log.WriteLine("A   Area Point: " + Calc.AreaPoint(Team.A).ToString(), teamDesigns[(int)Team.A].AreaColor);
-            log.WriteLine("Enclosed Point: " + Calc.EnclosedPoint(Team.A).ToString(), teamDesigns[(int)Team.A].AreaColor);
-            log.WriteLine("   Total Point: " + Calc.TotalPoint(Team.A).ToString(), teamDesigns[(int)Team.A].AreaColor);
-            log.WriteLine("agent: " + Calc.Agents[Team.A, AgentNumber.One].Position, teamDesigns[(int)Team.A].AreaColor);
-            log.WriteLine("agent: " + Calc.Agents[Team.A, AgentNumber.Two].Position, teamDesigns[(int)Team.A].AreaColor);
-            log.WriteLine("B   Area Point: " + Calc.AreaPoint(Team.B).ToString(), teamDesigns[(int)Team.B].AreaColor);
-            log.WriteLine("Enclosed Point: " + Calc.EnclosedPoint(Team.B).ToString(), teamDesigns[(int)Team.B].AreaColor);
-            log.WriteLine("   Total Point: " + Calc.TotalPoint(Team.B).ToString(), teamDesigns[(int)Team.B].AreaColor);
-            log.WriteLine("agent: " + Calc.Agents[Team.B, AgentNumber.One].Position, teamDesigns[(int)Team.B].AreaColor);
-            log.WriteLine("agent: " + Calc.Agents[Team.B, AgentNumber.Two].Position, teamDesigns[(int)Team.B].AreaColor);
+            Log.WriteLine("\n" + "Turn : " + Calc.Turn);
+            Log.WriteLine("A   Area Point: " + Calc.AreaPoint(Team.A).ToString(), teamDesigns[(int)Team.A].AreaColor);
+            Log.WriteLine("Enclosed Point: " + Calc.EnclosedPoint(Team.A).ToString(), teamDesigns[(int)Team.A].AreaColor);
+            Log.WriteLine("   Total Point: " + Calc.TotalPoint(Team.A).ToString(), teamDesigns[(int)Team.A].AreaColor);
+            Log.WriteLine("agent: " + Calc.Agents[Team.A, AgentNumber.One].Position, teamDesigns[(int)Team.A].AreaColor);
+            Log.WriteLine("agent: " + Calc.Agents[Team.A, AgentNumber.Two].Position, teamDesigns[(int)Team.A].AreaColor);
+            Log.WriteLine("B   Area Point: " + Calc.AreaPoint(Team.B).ToString(), teamDesigns[(int)Team.B].AreaColor);
+            Log.WriteLine("Enclosed Point: " + Calc.EnclosedPoint(Team.B).ToString(), teamDesigns[(int)Team.B].AreaColor);
+            Log.WriteLine("   Total Point: " + Calc.TotalPoint(Team.B).ToString(), teamDesigns[(int)Team.B].AreaColor);
+            Log.WriteLine("agent: " + Calc.Agents[Team.B, AgentNumber.One].Position, teamDesigns[(int)Team.B].AreaColor);
+            Log.WriteLine("agent: " + Calc.Agents[Team.B, AgentNumber.Two].Position, teamDesigns[(int)Team.B].AreaColor);
         }
 
         void TurnProgressCheck()
@@ -322,7 +322,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 var reader = new PqrReader(path);
                 reader.ReadPqrFile();
-                log.WriteLine(reader.Stream);
+                Log.WriteLine(reader.Stream);
                 var pqr = reader.ConvertToPqrData();
                 pqr.IsRegular();
                 Calc = new Calc(MaxTurn, pqr.Fields, new Coordinate[2] { pqr.One, pqr.Two });
@@ -361,12 +361,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 if (result.ContainsKey("A"))
                 {
-                    log.WriteLine("[Prefetching] Bot \"" + result["A"][0] + "\" was read on my team by Bot.tsv", Color.SkyBlue);
+                    Log.WriteLine("[Prefetching] Bot \"" + result["A"][0] + "\" was read on my team by Bot.tsv", Color.SkyBlue);
                     ConnectBot(0, result["A"][0]);
                 }
                 if (result.ContainsKey("B"))
                 {
-                    log.WriteLine("[Prefetching] Bot \"" + result["B"][0] + "\" was read on opponent team by Bot.tsv", Color.SkyBlue);
+                    Log.WriteLine("[Prefetching] Bot \"" + result["B"][0] + "\" was read on opponent team by Bot.tsv", Color.SkyBlue);
                     ConnectBot(1, result["B"][0]);
                 }
             }
@@ -397,13 +397,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 if (result.ContainsKey("Pqr"))
                 {
-                    log.WriteLine("[Prefetching] PQR File \"" + result["Pqr"][0] + "\" was read by Calc.tsv", Color.SkyBlue);
+                    Log.WriteLine("[Prefetching] PQR File \"" + result["Pqr"][0] + "\" was read by Calc.tsv", Color.SkyBlue);
                     OpenPQRFile(result["Pqr"][0].Trim());
                     Console.WriteLine("\"" + result["Pqr"][0] + "\"");
                 }
                 if (result.ContainsKey("MaxTurn"))
                 {
-                    log.WriteLine("[Prefetching] Max Turn " + result["MaxTurn"][0] + " was read by Calc.tsv", Color.SkyBlue);
+                    Log.WriteLine("[Prefetching] Max Turn " + result["MaxTurn"][0] + " was read by Calc.tsv", Color.SkyBlue);
                     Calc.MaxTurn = int.Parse(result["MaxTurn"][0]);
                 }
             }
@@ -434,12 +434,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 if (result.ContainsKey("QRCodeReader"))
                 {
-                    log.WriteLine("[Prefetching] QRCodeReader File Path \"" + result["Pqr"][0].Trim() + "\" was read by FilePath.tsv", Color.SkyBlue);
+                    Log.WriteLine("[Prefetching] QRCodeReader File Path \"" + result["Pqr"][0].Trim() + "\" was read by FilePath.tsv", Color.SkyBlue);
                     FieldDataGenerator_FilePath = result["QRCodeReader"][0].Trim();
                 }
                 if (result.ContainsKey("FieldDataGenerator"))
                 {
-                    log.WriteLine("[Prefetching] FieldDataGenerator File Path \"" + result["FieldDataGenerator"][0].Trim() + " was read by FilePath.tsv", Color.SkyBlue);
+                    Log.WriteLine("[Prefetching] FieldDataGenerator File Path \"" + result["FieldDataGenerator"][0].Trim() + " was read by FilePath.tsv", Color.SkyBlue);
                     FieldDataGenerator_FilePath = result["FieldDataGenerator"][0].Trim();
                 }
             }
@@ -536,19 +536,19 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 if (Bot[0] != null)
                 {
-                    log.WriteLine("[" + BotName[0] + "]", Color.SkyBlue);
+                    Log.WriteLine("[" + BotName[0] + "]", Color.SkyBlue);
                     var d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One];
-                    log.WriteLine("A1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
+                    Log.WriteLine("A1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
                     d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.Two];
-                    log.WriteLine("A2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
+                    Log.WriteLine("A2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
                 }
                 if (Bot[1] != null)
                 {
-                    log.WriteLine("[" + BotName[1] + "]");
+                    Log.WriteLine("[" + BotName[1] + "]");
                     var d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.One];
-                    log.WriteLine("B1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
+                    Log.WriteLine("B1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
                     d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.Two];
-                    log.WriteLine("B2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
+                    Log.WriteLine("B2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
                 }
 
                 if (Debug)
