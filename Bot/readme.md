@@ -1,10 +1,8 @@
-# Procon29 Bot 5.25.0
+# Procon29 Bot 6.32.0
 
-## What's new (ver. 5.25.0)
+## What's new (ver. 6.32.0)
 
-### `Team`が`OurTeam`に変更された
-
-Bot側のチームを表す、`Team`が`OurTeam`に変更されました。
+### Simulate内のAgentActivityDataをDeepCloneするように変更
 
 ## What's new
 
@@ -39,3 +37,7 @@ Bot側のチームを表す、`Team`が`OurTeam`に変更されました。
 
 - `Team`が`OurTeam`に変更された
 - readmeの微調整
+
+### ver. 6.32.0
+
+- Simulate内のAgentActivityDataをDeepCloneするように変更
