@@ -575,8 +575,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                             if (team == otherteam && agent == otheragent) continue;
                             var otheritem = agentActivityData[otherteam, otheragent];
                             var otherposition = Agents[otherteam, otheragent].Position;
-                            if ((otheritem.AgentStatusData == AgentStatusCode.RequestNotToDoAnything ||
-                                otheritem.AgentStatusData == AgentStatusCode.NotDoneAnything) &&
+                            if (otheritem.AgentStatusData != AgentStatusCode.RequestMovement &&
                                 item.Destination == otherposition)
                             {
                                 if (team == otherteam)
