@@ -337,6 +337,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
+        /// <summary>
+        /// ボット関連のプリフェッチングファイルの読み込みです。
+        /// </summary>
         public void ReadBotsTxt()
         {
             // "Prefetching" というディレクトリが存在しない場合、作成する
@@ -353,13 +356,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 if (result.ContainsKey("A"))
                 {
-                    log.WriteLine(Color.SkyBlue, "[Prefetching] Bot \"" + result["A"][0].Trim() + "\" was read on my team by Bot.tsv" + BotName[0] + "]");
+                    log.WriteLine(Color.SkyBlue, "[Prefetching] Bot \"" + result["A"][0] + "\" was read on my team by Bot.tsv");
                     ConnectBot(0, result["A"][0]);
                 }
                 if (result.ContainsKey("B"))
                 {
-                    log.WriteLine(Color.SkyBlue, "[Prefetching] Bot \"" + result["B"][0].Trim() + "\" was read on opponent team by Bot.tsv" + BotName[0] + "]");
-                    ConnectBot(0, result["B"][0]);
+                    log.WriteLine(Color.SkyBlue, "[Prefetching] Bot \"" + result["B"][0] + "\" was read on opponent team by Bot.tsv");
+                    ConnectBot(1, result["B"][0]);
                 }
             }
             // "Bots.tsv" というディレクトリが存在しない場合、作成する
@@ -375,6 +378,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
+        /// <summary>
+        /// Calc関連のプリフェッチングファイルの読み込みです。
+        /// </summary>
         public void ReadCalcTsv()
         {
             if (System.IO.File.Exists(@".\Prefetching\Calc.tsv"))
@@ -386,13 +392,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 if (result.ContainsKey("Pqr"))
                 {
-                    log.WriteLine(Color.SkyBlue, "[Prefetching] PQR File \"" + result["Pqr"][0].Trim() + "\" was read by Calc.tsv");
+                    log.WriteLine(Color.SkyBlue, "[Prefetching] PQR File \"" + result["Pqr"][0] + "\" was read by Calc.tsv");
                     OpenPQRFile(result["Pqr"][0].Trim());
-                    Console.WriteLine("\"" + result["Pqr"][0].Trim() + "\"");
+                    Console.WriteLine("\"" + result["Pqr"][0] + "\"");
                 }
                 if (result.ContainsKey("MaxTurn"))
                 {
-                    log.WriteLine(Color.SkyBlue, "[Prefetching] Max Turn " + result["MaxTurn"][0].Trim() + " was read by Calc.tsv");
+                    log.WriteLine(Color.SkyBlue, "[Prefetching] Max Turn " + result["MaxTurn"][0] + " was read by Calc.tsv");
                     Calc.MaxTurn = int.Parse(result["MaxTurn"][0]);
                 }
             }
@@ -510,10 +516,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         show.agentActivityData[Team.B, AgentNumber.One] = a[0];
                         show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
                     }
-                }
+                }               
 
                 Calc.MoveAgent(show.agentActivityData);
-
+               
                 foreach (AgentActivityData item in show.agentActivityData)
                 {
                     item.AgentStatusData = AgentStatusCode.NotDoneAnything;
