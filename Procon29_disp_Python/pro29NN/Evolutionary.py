@@ -78,7 +78,7 @@ class GeneManagement:
             self.SaveParams(child, FileName='params{}.pkl'.format(i))
             i += 1
         
-    def SelectTournament(self, params, toursize=3):
+    def SelectTournament(self, params, toursize=10):
         choice = []
         for _ in range(self.GeneNum):
             select = [random.choice(params) for j in range(toursize)]
@@ -120,25 +120,25 @@ class GeneManagement:
             shape = val.shape
             if len(shape) == 1:
                 for i in range(shape[0]):
-                    if random.random() < self.CXPB:
+                    if random.random() < self.MUTINDPB:
                         child.params[key][i] = 0.01 * random.random()
             elif len(shape) == 2:
                 for i in range(shape[0]):
                     for j in range(shape[1]):
-                        if random.random() < self.CXPB:
+                        if random.random() < self.MUTINDPB:
                             child.params[key][i][j] = 0.01 * random.random()
             elif len(shape) == 3:
                 for i in range(shape[0]):
                     for j in range(shape[1]):
                         for k in range(shape[2]):
-                            if random.random() < self.CXPB:
+                            if random.random() < self.MUTINDPB:
                                 child.params[key][i][j][k] = 0.01 * random.random()
             elif len(shape) == 4:
                 for i in range(shape[0]):
                     for j in range(shape[1]):
                         for k in range(shape[2]):
                             for l in range(shape[3]):
-                                if random.random() < self.CXPB:
+                                if random.random() < self.MUTINDPB:
                                     child.params[key][i][j][k][l] = 0.01 * random.random()
         return child
 
