@@ -1,12 +1,15 @@
-# Procon29 Visualizer 33.0
+# Procon29 Visualizer 33.1
 
 ## What's new
 
-### 同じタイル上に2人のエージェントが同衾するバグを修正
-
-ちなみに同衾とは同じ布団で寝ることを言います。。。  
-このバグはSeitaHigashi氏によって解消されました。  
-今一度、感謝を！
+- `Logger.Write(Color, string)`を廃止（開発者向け）
+- `Logger.WriteLine(Color, string)`を廃止（開発者向け）
+- `Logger.DefaultColor`を追加（開発者向け）
+- `Logger.Write(string)`を追加（開発者向け）
+- `Logger.Write(string, Color)`を追加（開発者向け）
+- `Logger.WriteLine(string)`を追加（開発者向け）
+- `Logger.WriteLine(string, Color)`を追加（開発者向け）
+- `Logger`のアクセシビリティを`public`に変更（開発者向け）
 
 ## 操作方法
 
@@ -456,6 +459,17 @@
 ### Version 33.0
 
 - 同じタイル上に2人のエージェントが同衾するバグを修正（SeitaHigashi氏によるデバッグ）
+
+#### Version 33.1
+
+- `Logger.Write(Color, string)`を廃止（開発者向け）
+- `Logger.WriteLine(Color, string)`を廃止（開発者向け）
+- `Logger.DefaultColor`を追加（開発者向け）
+- `Logger.Write(string)`を追加（開発者向け）
+- `Logger.Write(string, Color)`を追加（開発者向け）
+- `Logger.WriteLine(string)`を追加（開発者向け）
+- `Logger.WriteLine(string, Color)`を追加（開発者向け）
+- `Logger`のアクセシビリティを`public`に変更（開発者向け）
 
 ## バージョンの上がり方について
 
