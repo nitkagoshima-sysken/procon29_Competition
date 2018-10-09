@@ -37,9 +37,18 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 指定した文字列を指定した色でログに書き込みます。
         /// </summary>
-        /// <param name="color">文字色</param>
         /// <param name="message">ログに書き込むメッセージ</param>
-        public void Write(Color color, string message)
+        public void Write(string message)
+        {
+            Write(message, DefaultColor);
+        }
+
+        /// <summary>
+        /// 指定した文字列を指定した色でログに書き込みます。
+        /// </summary>
+        /// <param name="message">ログに書き込むメッセージ</param>
+        /// <param name="color">文字色</param>
+        public void Write(string message, Color color)
         {
             RichTextBox.SelectionColor = color;
             RichTextBox.SelectedText = message;
@@ -55,9 +64,18 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 指定した文字列を指定した色でログに書き込み、続けて現在の行終端記号を書き込みます。
         /// </summary>
-        /// <param name="color">文字色</param>
         /// <param name="message">ログに書き込むメッセージ</param>
-        public void WriteLine(Color color, string message)
+        public void WriteLine(string message)
+        {
+            WriteLine(message, DefaultColor);
+        }
+
+        /// <summary>
+        /// 指定した文字列を指定した色でログに書き込み、続けて現在の行終端記号を書き込みます。
+        /// </summary>
+        /// <param name="message">ログに書き込むメッセージ</param>
+        /// <param name="color">文字色</param>
+        public void WriteLine(string message, Color color)
         {
             RichTextBox.SelectionColor = color;
             RichTextBox.SelectedText = message + "\n";
