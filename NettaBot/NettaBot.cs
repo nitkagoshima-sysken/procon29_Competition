@@ -12,8 +12,8 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
         {
             var result = new AgentActivityData[2];
 
-            var agentOne = Calc.Agents[Team, AgentNumber.One];
-            var agentTwo = Calc.Agents[Team, AgentNumber.Two];
+            var agentOne = Calc.Agents[OurTeam, AgentNumber.One];
+            var agentTwo = Calc.Agents[OurTeam, AgentNumber.Two];
             var isOdd = IsOdd();
             var agentActivityDatas = new AgentActivityData[2];
             var maxpoint = int.MinValue;
@@ -46,11 +46,11 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                     Console.WriteLine(destinationOne + ":" + destinationTwo);
                     Console.WriteLine(isOdd +":"+ ((destinationOne.X + destinationOne.Y) % 2 != 0) +":"+ ((destinationTwo.X + destinationTwo.Y) % 2 != 0));
                     Console.WriteLine(agentActivityDatas[0].AgentStatusData + ":" + agentActivityDatas[1].AgentStatusData);
-                        var c = Simulate(Team, agentActivityDatas);
-                        Console.WriteLine(c.TotalPoint(Team)+":"+c.TotalPoint(Team.Opponent()));
-                        if (maxpoint < c.TotalPoint(Team) )
+                        var c = Simulate(OurTeam, agentActivityDatas);
+                        Console.WriteLine(c.TotalPoint(OurTeam)+":"+c.TotalPoint(OurTeam.Opponent()));
+                        if (maxpoint < c.TotalPoint(OurTeam) )
                         {
-                            maxpoint = c.TotalPoint(Team);
+                            maxpoint = c.TotalPoint(OurTeam);
                             result = agentActivityDatas.DeepClone();
                         }
                     }
@@ -73,7 +73,7 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
 
         private AgentActivityData MoveOrRemoveTile(Coordinate coordinate)
         {
-            if (Calc.Field[coordinate].IsTileOn[Team.Opponent()])
+            if (Calc.Field[coordinate].IsTileOn[OurTeam.Opponent()])
             {
                 return new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, coordinate);
             }

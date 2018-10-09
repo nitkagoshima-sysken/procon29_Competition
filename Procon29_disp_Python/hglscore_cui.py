@@ -57,21 +57,25 @@ class LearnClassMain():
 
     def SetLearn(self):
         parser = argparse.ArgumentParser()
-        parser.add_argument('-t', '--threads', nargs='?', const=-1, default=-1, type=int)
-        parser.add_argument('--no-parallel', help='optional', action='store_true')
-        parser.add_argument('-n', '--no-textfile', help='optional', action='store_true')
+        parser.add_argument('-s', '--no-parallel', action='store_true', help='Parallel option')
+        parser.add_argument('-n', '--no-textfile', action='store_true', help='Field data select option')
+        parser.add_argument('-t', '--threads', default=-1, type=int, help='Threads setting')
+        parser.add_argument('-g', '--generations', default=40, type=int, help='Gene num setting')
+        parser.add_argument('-f', '--field-data-directory', default='../../FieldDataGenerator', type=str, help='Field data exist directory select')
+        parser.add_argument('-o', '--logfile', default='learn.log', type=str, help='Out logfile select')
+        parser.add_argument('-d', '--gene-datas', default='gene', type=str, help='Gene data exist directory select')
         self.args = parser.parse_args()
         self.fieldatanum = 1
-        log_file = input('Log file name: ')
+        log_file = self.args.logfile
         self.log = pro29NN.SystemControl.LogControl(log_file)
         self.Evo = pro29NN.Evolutionary.GeneManagement()
-        if not os.path.isdir('gene'):
-            os.mkdir('gene')
-        if not os.path.isfile('gene/params0.pkl'):
+        if not os.path.isdir(self.args.gene_datas):
+            os.mkdir(self.args.gene_datas)
+        if not os.path.isfile(self.args.gene_datas+'/params0.pkl'):
             self.Evo.CreateGene()
-        self.GeneNum = int(input('Number of generations:'))
+        self.GeneNum = self.args.generations
         if self.args.no_textfile:
-            path = input('Field Data directory:')
+            path = self.args.field_data_directory
             self.FilePath = glob.glob(path+'/*.pqr')
         else:
             path = input('Field Files list: ')
