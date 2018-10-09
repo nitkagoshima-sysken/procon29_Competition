@@ -31,7 +31,7 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
             agentTwo = Calc.Agents[OurTeam, AgentNumber.Two];
             var result = new AgentActivityData[2];
 
-            result = BestHand(Calc, 3).AgentActivityData;
+            result = BestHand(Calc, 2).AgentActivityData;
 
             return result;
         }
@@ -85,20 +85,6 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                                 maxpoint = bestHand.point;
                                 result = agentActivityData.DeepClone(); 
                             }
-                    if (((destinationTwo.X + destinationTwo.Y) % 2 != 0) == isOdd)
-                    {
-                        agentActivityDatas[(int)AgentNumber.Two] = MoveOrRemoveTile(destinationTwo);
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                        var c = Simulate(OurTeam, agentActivityDatas);
-                        Console.WriteLine(c.TotalPoint(OurTeam)+":"+c.TotalPoint(OurTeam.Opponent()));
-                        if (maxpoint < c.TotalPoint(OurTeam) )
-                        {
-                            maxpoint = c.TotalPoint(OurTeam);
-                            result = agentActivityDatas.DeepClone();
                         }
                     }
                     catch { }
