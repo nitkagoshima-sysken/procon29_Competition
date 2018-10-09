@@ -21,7 +21,10 @@ namespace nitkagoshima_sysken
                 /// <summary>
                 /// 初期化するところです
                 /// </summary>
-                public Bot() { }
+                public Bot()
+                {
+                    Calc = new Calc();
+                }
 
                 /// <summary>
                 /// 問題が渡されます。
