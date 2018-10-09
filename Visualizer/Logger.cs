@@ -20,6 +20,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public RichTextBox RichTextBox { get; set; }
 
         /// <summary>
+        /// 色を指定しなかった場合の標準色を指定します。
+        /// </summary>
+        public Color DefaultColor { get; set; } = Color.LightGray;
+
+        /// <summary>
         /// Procon29_Loggerを初期化します
         /// </summary>
         /// <param name="richTextBox">ログとして書き込むリッチテキストを設定します</param>
