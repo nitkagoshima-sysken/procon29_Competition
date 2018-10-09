@@ -737,7 +737,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
         public Calc Simulate(AgentsActivityData action)
         {
-            MoveAgent(action);
+            MoveAgent(action.DeepClone());
             var c = new Calc(new XmlCalc(this).DeepClone());
             Undo();
             return c;
@@ -751,7 +751,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
         public Calc Simulate(Team team, AgentActivityData[] action)
         {
-            MoveAgent(team, action);
+            MoveAgent(team, action.DeepClone());
             var c = new Calc(new XmlCalc(this).DeepClone());
             Undo();
             return c;
@@ -766,7 +766,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
         public Calc Simulate(Team team, AgentNumber agentNumber, AgentActivityData action)
         {
-            MoveAgent(team, agentNumber, action);
+            MoveAgent(team, agentNumber, action.DeepClone());
             var c = new Calc(new XmlCalc(this).DeepClone());
             Undo();
             return c;
