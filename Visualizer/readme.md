@@ -1,10 +1,48 @@
-# Procon29 Visualizer 31.2
+# Procon29 Visualizer 32.0
 
 ## What's new
 
-### Visualizerから外部プログラムの起動が可能になった
+### エージェントのログが二人目以降は`NotDoneAnything`になってしまうバグを修正
 
-これで本番のときはVisualizerから直接QR Code Readerを起動することが可能となった。
+これもなかなか酷いバグでな…
+
+```cs
+// ログを取る
+foreach (Team team in Enum.GetValues(typeof(Team)))
+{
+    foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
+    {
+        History[Turn - 1].AgentActivityDatas[team, agent].AgentStatusData = agentsActivityData[team, agent].AgentStatusData;
+        History[Turn - 1].AgentActivityDatas[team, agent].Destination = agentsActivityData[team, agent].Destination;
+    }
+}
+```
+
+となるはずべきなのに、どういうわけか
+
+```cs
+// ログを取る
+foreach (Team team in Enum.GetValues(typeof(Team)))
+{
+    foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
+    {
+        History[Turn - 1].AgentActivityDatas[Team.One, AgentNumber.One].AgentStatusData = agentsActivityData[Team.One, AgentNumber.One].AgentStatusData;
+        History[Turn - 1].AgentActivityDatas[Team.One, AgentNumber.One].Destination = agentsActivityData[Team.One, AgentNumber.One].Destination;
+    }
+}
+```
+
+になっていたんぜ。怖いだろ。
+コミット番号`9ebbb842af9113a2e05a0fff20b0098f30493bfa`（Version. 18.2）でコードを改悪してたわけだ。
+
+### `TsvReader`のバグを修正（開発者向け）
+
+許してくれ！人生で初めて`Spilt()`を使ったんだ。  
+思わぬ制御文字が入ってたなんて知らなかったんだ。
+
+### `Calc`のコード最適化（開発者向け）
+
+小さな修正。
 
 ## 操作方法
 
@@ -444,6 +482,12 @@
 #### Version 31.2
 
 - 最後のターンエンドすると例外がおきるバグを修正
+
+### Version 32.0
+
+- エージェントのログが二人目以降は`NotDoneAnything`になってしまうバグを修正
+- `TsvReader`のバグを修正（開発者向け）
+- `Calc`のコード最適化（開発者向け）
 
 ## バージョンの上がり方について
 
