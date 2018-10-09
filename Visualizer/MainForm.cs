@@ -24,7 +24,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public static Calc Calc { get; set; }
 
         Show show;
-        Logger log;
+
+        /// <summary>
+        /// 最大ターンのデフォルト値を設定または取得します。
+        /// </summary>
+        public Logger log { get; set; }
+
         TeamDesign[] teamDesigns;
 
         CreateNewForm createNewForm = new CreateNewForm();
