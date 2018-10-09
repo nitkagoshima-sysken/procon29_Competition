@@ -26,7 +26,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         Show show;
 
         /// <summary>
-        /// 最大ターンのデフォルト値を設定または取得します。
+        /// ログを取ります。
         /// </summary>
         public Logger Log { get; set; }
 
