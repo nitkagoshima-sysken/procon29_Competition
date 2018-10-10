@@ -95,7 +95,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             Log.WriteLine("Procon29 Visualizer (ver. " + version.FileMinorPart + "." + version.FileBuildPart + ")");
 
             BotLog = new Logger(BotLogForm.BotLogRichText);
-            BotLogForm.Show(this);
 
             // PQRファイルを直接読み込む
             // ちなみにQR_code_sample.pdfで登場したQRコード
@@ -719,6 +718,20 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             else
             {
                 MessageBox.Show("Field Data Generatorのファイルパスが分かりません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void BotConsoleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (BotConsoleToolStripMenuItem.Checked)
+            {
+                BotConsoleToolStripMenuItem.Checked = false;
+                BotLogForm.Hide();
+            }
+            else
+            {
+                BotConsoleToolStripMenuItem.Checked = true;
+                BotLogForm.Show();
             }
         }
     }
