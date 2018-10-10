@@ -30,6 +30,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         public Logger Log { get; set; }
 
+        /// <summary>
+        /// ボットのログを取ります。
+        /// </summary>
+        public Logger BotLog { get; set; }
+
         TeamDesign[] teamDesigns;
 
         CreateNewForm createNewForm = new CreateNewForm();
