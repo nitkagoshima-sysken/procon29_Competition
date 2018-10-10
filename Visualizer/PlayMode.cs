@@ -3,7 +3,7 @@
     /// <summary>
     /// ゲームのモードを表します。
     /// </summary>
-    enum PlayMode
+    public enum PlayMode
     {
         /// <summary>
         /// 練習モード
