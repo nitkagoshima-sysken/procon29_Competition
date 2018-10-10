@@ -49,6 +49,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.BotLogRichText);
             this.Name = "BotLogForm";
+            this.Opacity = 0.9D;
             this.Text = "Bot Log";
             this.ResumeLayout(false);
 
