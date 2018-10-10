@@ -35,6 +35,7 @@
             // 
             this.BotLogRichText.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.BotLogRichText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BotLogRichText.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BotLogRichText.Location = new System.Drawing.Point(0, 0);
             this.BotLogRichText.Name = "BotLogRichText";
             this.BotLogRichText.Size = new System.Drawing.Size(800, 450);
