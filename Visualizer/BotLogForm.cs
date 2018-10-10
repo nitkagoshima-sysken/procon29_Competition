@@ -16,5 +16,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             InitializeComponent();
         }
+
+        private void BotLogForm_Closing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            Hide();
+        }
     }
 }

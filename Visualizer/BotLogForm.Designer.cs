@@ -51,6 +51,7 @@
             this.Name = "BotLogForm";
             this.Opacity = 0.9D;
             this.Text = "Bot Log";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BotLogForm_Closing);
             this.ResumeLayout(false);
 
         }
