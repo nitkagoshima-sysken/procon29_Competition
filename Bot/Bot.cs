@@ -55,18 +55,6 @@ namespace nitkagoshima_sysken
                 /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
                 public Calc Simulate(AgentsActivityData action)
                 {
-                    if (Mode == PlayMode.PracticeMode)
-                    {
-                        foreach (Team team in Enum.GetValues(typeof(Team)))
-                        {
-                            foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
-                            {
-                                Log.WriteLine(Calc.Agents[team, agent].Name);
-                                Log.WriteLine("   {" + action[team, agent].AgentStatusData + "," + action[team, agent].Destination + "}");
-                                Log.WriteLine("=> {" + action[team, agent].AgentStatusData + "," + action[team, agent].Destination + "}");
-                            }
-                        }
-                    }
                     Calc.MoveAgent(action.DeepClone());
                     var c = new Calc(new XmlCalc(Calc).DeepClone());
                     Calc.Undo();
@@ -80,15 +68,6 @@ namespace nitkagoshima_sysken
                 /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
                 public Calc Simulate(Team team, AgentActivityData[] action)
                 {
-                    if (Mode == PlayMode.PracticeMode)
-                    {
-                        foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
-                        {
-                            Log.WriteLine(Calc.Agents[team, agent].Name);
-                            Log.WriteLine("   {" + action[(int)agent].AgentStatusData + "," + action[(int)agent].Destination + "}");
-                            Log.WriteLine("=> {" + action[(int)agent].AgentStatusData + "," + action[(int)agent].Destination + "}");
-                        }
-                    }
                     Calc.MoveAgent(team, action.DeepClone());
                     var c = new Calc(new XmlCalc(Calc).DeepClone());
                     Calc.Undo();
@@ -102,12 +81,6 @@ namespace nitkagoshima_sysken
                 /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
                 public Calc Simulate(Team team, AgentNumber agentNumber, AgentActivityData action)
                 {
-                    if (Mode == PlayMode.PracticeMode)
-                    {
-                        Log.WriteLine(Calc.Agents[team, agentNumber].Name);
-                        Log.WriteLine("   {" + action.AgentStatusData + "," + action.Destination + "}");
-                        Log.WriteLine("=> {" + action.AgentStatusData + "," + action.Destination + "}");
-                    }
                     Calc.MoveAgent(team, agentNumber, action.DeepClone());
                     var c = new Calc(new XmlCalc(Calc).DeepClone());
                     Calc.Undo();
