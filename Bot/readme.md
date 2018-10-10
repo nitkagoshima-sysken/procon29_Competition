@@ -1,8 +1,8 @@
-# Procon29 Bot 6.32.0
+# Procon29 Bot 7.34.0
 
-## What's new (ver. 6.32.0)
+## What's new (ver. 7.34.0)
 
-### Simulate内のAgentActivityDataをDeepCloneするように変更
+### ボットがVisualizerのコンソール画面にログを残せるようになった
 
 ## What's new
 
@@ -41,3 +41,7 @@
 ### ver. 6.32.0
 
 - Simulate内のAgentActivityDataをDeepCloneするように変更
+
+### ver. 7.34.0
+
+- ボットがVisualizerのコンソール画面にログを残せるようになった
