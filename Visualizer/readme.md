@@ -1,15 +1,9 @@
-# Procon29 Visualizer 33.1
+# Procon29 Visualizer 34.0
 
 ## What's new
 
-- `Logger.Write(Color, string)`を廃止（開発者向け）
-- `Logger.WriteLine(Color, string)`を廃止（開発者向け）
-- `Logger.DefaultColor`を追加（開発者向け）
-- `Logger.Write(string)`を追加（開発者向け）
-- `Logger.Write(string, Color)`を追加（開発者向け）
-- `Logger.WriteLine(string)`を追加（開発者向け）
-- `Logger.WriteLine(string, Color)`を追加（開発者向け）
-- `Logger`のアクセシビリティを`public`に変更（開発者向け）
+- ボットがコンソール画面にログを表示できるようになった
+- `PlayMode`のアクセシビリティを`public`に変更（開発者向け）
 
 ## 操作方法
 
@@ -470,6 +464,11 @@
 - `Logger.WriteLine(string)`を追加（開発者向け）
 - `Logger.WriteLine(string, Color)`を追加（開発者向け）
 - `Logger`のアクセシビリティを`public`に変更（開発者向け）
+
+#### Version 34.0
+
+- ボットがコンソール画面にログを表示できるようになった
+- `PlayMode`のアクセシビリティを`public`に変更（開発者向け）
 
 ## バージョンの上がり方について
 
