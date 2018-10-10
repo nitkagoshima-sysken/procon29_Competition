@@ -40,6 +40,9 @@
             this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveAsSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.OpenQRCodeReaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenFieldDataGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UndoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RedoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,9 +55,7 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.OpenQRCodeReaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.OpenFieldDataGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BotConsoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -214,6 +215,25 @@
             this.SaveAsSToolStripMenuItem.Text = "名前をつけて保存(&A)";
             this.SaveAsSToolStripMenuItem.Click += new System.EventHandler(this.SaveAsSToolStripMenuItem_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(305, 6);
+            // 
+            // OpenQRCodeReaderToolStripMenuItem
+            // 
+            this.OpenQRCodeReaderToolStripMenuItem.Name = "OpenQRCodeReaderToolStripMenuItem";
+            this.OpenQRCodeReaderToolStripMenuItem.Size = new System.Drawing.Size(308, 28);
+            this.OpenQRCodeReaderToolStripMenuItem.Text = "QR Code Readerを開く(&Q)";
+            this.OpenQRCodeReaderToolStripMenuItem.Click += new System.EventHandler(this.OpenQRCodeReaderToolStripMenuItem_Click);
+            // 
+            // OpenFieldDataGeneratorToolStripMenuItem
+            // 
+            this.OpenFieldDataGeneratorToolStripMenuItem.Name = "OpenFieldDataGeneratorToolStripMenuItem";
+            this.OpenFieldDataGeneratorToolStripMenuItem.Size = new System.Drawing.Size(308, 28);
+            this.OpenFieldDataGeneratorToolStripMenuItem.Text = "Field Data Generatorを開く(&F)";
+            this.OpenFieldDataGeneratorToolStripMenuItem.Click += new System.EventHandler(this.OpenFieldDataGeneratorToolStripMenuItem_Click);
+            // 
             // EditToolStripMenuItem
             // 
             this.EditToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -243,6 +263,8 @@
             // 
             // ViewToolStripMenuItem
             // 
+            this.ViewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.BotConsoleToolStripMenuItem});
             this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
             this.ViewToolStripMenuItem.Size = new System.Drawing.Size(76, 27);
             this.ViewToolStripMenuItem.Text = "表示(&V)";
@@ -300,24 +322,12 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // toolStripSeparator1
+            // BotConsoleToolStripMenuItem
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(305, 6);
-            // 
-            // OpenQRCodeReaderToolStripMenuItem
-            // 
-            this.OpenQRCodeReaderToolStripMenuItem.Name = "OpenQRCodeReaderToolStripMenuItem";
-            this.OpenQRCodeReaderToolStripMenuItem.Size = new System.Drawing.Size(308, 28);
-            this.OpenQRCodeReaderToolStripMenuItem.Text = "QR Code Readerを開く(&Q)";
-            this.OpenQRCodeReaderToolStripMenuItem.Click += new System.EventHandler(this.OpenQRCodeReaderToolStripMenuItem_Click);
-            // 
-            // OpenFieldDataGeneratorToolStripMenuItem
-            // 
-            this.OpenFieldDataGeneratorToolStripMenuItem.Name = "OpenFieldDataGeneratorToolStripMenuItem";
-            this.OpenFieldDataGeneratorToolStripMenuItem.Size = new System.Drawing.Size(308, 28);
-            this.OpenFieldDataGeneratorToolStripMenuItem.Text = "Field Data Generatorを開く(&F)";
-            this.OpenFieldDataGeneratorToolStripMenuItem.Click += new System.EventHandler(this.OpenFieldDataGeneratorToolStripMenuItem_Click);
+            this.BotConsoleToolStripMenuItem.Name = "BotConsoleToolStripMenuItem";
+            this.BotConsoleToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.BotConsoleToolStripMenuItem.Text = "ボットコンソール";
+            this.BotConsoleToolStripMenuItem.Click += new System.EventHandler(this.BotConsoleToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -377,5 +387,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem OpenQRCodeReaderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OpenFieldDataGeneratorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem BotConsoleToolStripMenuItem;
     }
 }
