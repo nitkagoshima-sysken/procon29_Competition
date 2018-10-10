@@ -24,13 +24,50 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public static Calc Calc { get; set; }
 
         Show show;
-        Logger log;
+
+        /// <summary>
+        /// ログを取ります。
+        /// </summary>
+        public Logger Log { get; set; }
+
         TeamDesign[] teamDesigns;
 
         CreateNewForm createNewForm = new CreateNewForm();
-        public static dynamic[] bot = new dynamic[2];
-        public static string[] botName = new string[2];
-        public static int maxTurn = 10;
+
+        /// <summary>
+        /// ボットを設定または取得します。
+        /// </summary>
+        public static dynamic[] Bot { get; set; } = new dynamic[2];
+
+        /// <summary>
+        /// ボットの名前を設定または取得します。
+        /// </summary>
+        public static string[] BotName { get; set; } = new string[2];
+
+        /// <summary>
+        /// 最大ターンのデフォルト値を設定または取得します。
+        /// </summary>
+        public static int MaxTurn = 10;
+
+        /// <summary>
+        /// デバッグモードを設定または取得します。
+        /// </summary>
+        public bool Debug { get; set; }
+
+        /// <summary>
+        /// ゲームのモードを設定または取得します。
+        /// </summary>
+        private PlayMode Mode { get; set; } = PlayMode.PracticeMode;
+
+        /// <summary>
+        /// QRコードリーダーのファイルパスを設定または取得します。
+        /// </summary>
+        private string QRCodeReader_FilePath;
+
+        /// <summary>
+        /// FieldDataGeneratorのファイルパスを設定または取得します。
+        /// </summary>
+        private string FieldDataGenerator_FilePath;
 
         /// <summary>
         /// MainForm
@@ -39,13 +76,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             InitializeComponent();
 
-            this.FieldDisplay.MouseMove += new MouseEventHandler(FieldDisplay_MouseMove);
-            this.Resize += new System.EventHandler(this.MainForm_Resize);
+            FieldDisplay.MouseMove += new MouseEventHandler(FieldDisplay_MouseMove);
+            Resize += new System.EventHandler(MainForm_Resize);
 
-            log = new Logger(messageBox);
+            Log = new Logger(messageBox);
             var version = System.Diagnostics.FileVersionInfo.GetVersionInfo(
                 System.Reflection.Assembly.GetExecutingAssembly().Location);
-            log.WriteLine(Color.LightGray, "Procon29 Visualizer (ver. " + version.FileMinorPart + "." + version.FileBuildPart + ")");
+            Log.WriteLine("Procon29 Visualizer (ver. " + version.FileMinorPart + "." + version.FileBuildPart + ")");
 
             // PQRファイルを直接読み込む
             // ちなみにQR_code_sample.pdfで登場したQRコード
@@ -62,9 +99,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 "-2 1 0 1 2 0 2 1 0 1 -2:" +
                 "2 2:" +
                 "7 10:";
-            log.WriteLine(Color.LightGray, reader.Stream);
+            Log.WriteLine(reader.Stream);
             var pqr = reader.ConvertToPqrData();
             Calc = new Calc(10, pqr.Fields, new Coordinate[2] { pqr.One, pqr.Two });
+
+            ReadBotsTxt();
+            ReadCalcTsv();
+            ReadFilePathTsv();
 
             teamDesigns =
                 new TeamDesign[2] {
@@ -72,7 +113,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     new TeamDesign(name: "Lime", agentColor: Color.LimeGreen, areaColor: Color.LimeGreen),
                 };
             show = new Show(Calc, teamDesigns, FieldDisplay);
-            show.Showing(FieldDisplay);
+            show.Showing();
             Calc.PointMapCheck();
 
             KeyDown += new KeyEventHandler(show.KeyDown);
@@ -80,25 +121,22 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             WriteLog();
             TurnProgressCheck();
-
-            ReadBotsTxt();
-            ReadCalcTsv();
         }
 
 
         private void WriteLog()
         {
-            log.WriteLine(Color.LightGray, "\n" + "Turn : " + Calc.Turn);
-            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "A   Area Point: " + Calc.AreaPoint(Team.A).ToString());
-            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "Enclosed Point: " + Calc.EnclosedPoint(Team.A).ToString());
-            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "   Total Point: " + Calc.TotalPoint(Team.A).ToString());
-            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + Calc.Agents[Team.A, AgentNumber.One].Position);
-            log.WriteLine(teamDesigns[(int)Team.A].AreaColor, "agent: " + Calc.Agents[Team.A, AgentNumber.Two].Position);
-            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "B   Area Point: " + Calc.AreaPoint(Team.B).ToString());
-            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "Enclosed Point: " + Calc.EnclosedPoint(Team.B).ToString());
-            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "   Total Point: " + Calc.TotalPoint(Team.B).ToString());
-            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + Calc.Agents[Team.B, AgentNumber.One].Position);
-            log.WriteLine(teamDesigns[(int)Team.B].AreaColor, "agent: " + Calc.Agents[Team.B, AgentNumber.Two].Position);
+            Log.WriteLine("\n" + "Turn : " + Calc.Turn);
+            Log.WriteLine("A   Area Point: " + Calc.AreaPoint(Team.A).ToString(), teamDesigns[(int)Team.A].AreaColor);
+            Log.WriteLine("Enclosed Point: " + Calc.EnclosedPoint(Team.A).ToString(), teamDesigns[(int)Team.A].AreaColor);
+            Log.WriteLine("   Total Point: " + Calc.TotalPoint(Team.A).ToString(), teamDesigns[(int)Team.A].AreaColor);
+            Log.WriteLine("agent: " + Calc.Agents[Team.A, AgentNumber.One].Position, teamDesigns[(int)Team.A].AreaColor);
+            Log.WriteLine("agent: " + Calc.Agents[Team.A, AgentNumber.Two].Position, teamDesigns[(int)Team.A].AreaColor);
+            Log.WriteLine("B   Area Point: " + Calc.AreaPoint(Team.B).ToString(), teamDesigns[(int)Team.B].AreaColor);
+            Log.WriteLine("Enclosed Point: " + Calc.EnclosedPoint(Team.B).ToString(), teamDesigns[(int)Team.B].AreaColor);
+            Log.WriteLine("   Total Point: " + Calc.TotalPoint(Team.B).ToString(), teamDesigns[(int)Team.B].AreaColor);
+            Log.WriteLine("agent: " + Calc.Agents[Team.B, AgentNumber.One].Position, teamDesigns[(int)Team.B].AreaColor);
+            Log.WriteLine("agent: " + Calc.Agents[Team.B, AgentNumber.Two].Position, teamDesigns[(int)Team.B].AreaColor);
         }
 
         void TurnProgressCheck()
@@ -111,6 +149,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 tableLayoutPanel2.RowStyles[1] = new RowStyle(SizeType.Percent, 100);
                 tableLayoutPanel2.RowStyles[2] = new RowStyle(SizeType.Absolute, 0);
                 MessageBox.Show("試合が終了しました", "お知らせ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                var form = new HistoryForm(Calc);
+                form.ShowDialog();
             }
             else
             {
@@ -128,7 +168,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void MainForm_Resize(object sender, EventArgs e)
         {
             Control c = (Control)sender;
-            show.Showing(FieldDisplay);
+            show.Showing();
         }
 
         /// <summary>
@@ -139,6 +179,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void FieldDisplay_MouseClick(object sender, MouseEventArgs e)
         {
             show.ClickedShow(FieldDisplay);
+            show.ClickShow();
             messageBox.Select(messageBox.Text.Length, 0);
         }
 
@@ -149,8 +190,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="e"></param>
         private void FieldDisplay_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-
-            show.DoubleClickedShow();
         }
 
         /// <summary>
@@ -170,7 +209,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             var delta = DateTime.Now - time;
             if (delta.TotalMilliseconds >= 5.0)
             {
-                show.Showing(FieldDisplay);
+                show.Showing();
                 // フィールド内にいるときは、フィールドの情報を表示する。
                 if (0 <= show.CursorPosition(FieldDisplay).X &&
                     show.CursorPosition(FieldDisplay).X < Calc.Field.Width &&
@@ -222,7 +261,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter) TurnEnd();
-            show.Showing(FieldDisplay);
+            show.Showing();
         }
 
         /// <summary>
@@ -245,7 +284,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 //XmlSerializerオブジェクトを作成
                 System.Xml.Serialization.XmlSerializer serializer =
-            new System.Xml.Serialization.XmlSerializer(typeof(XmlCalc));
+                    new System.Xml.Serialization.XmlSerializer(typeof(XmlCalc));
                 //読み込むファイルを開く
                 System.IO.StreamReader sr = new System.IO.StreamReader(
                     openFileDialog1.FileName, new System.Text.UTF8Encoding(false));
@@ -253,16 +292,24 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 Calc = new Calc((XmlCalc)serializer.Deserialize(sr));
                 //ファイルを閉じる
                 sr.Close();
+                show.Calc = Calc;
+                show.Showing();
             }
         }
 
+        /// <summary>
+        /// ここで新しい試合を作成します。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             createNewForm.ShowDialog(this);
-            Calc.MaxTurn = maxTurn;
+            Calc.MaxTurn = MaxTurn;
             //OKボタンがクリックされたとき、選択されたファイル名を開き、データを読み込む    
             if (createNewForm.SelectPQRFile != ".pqr" && createNewForm.SelectPQRFile != null)
                 OpenPQRFile(createNewForm.SelectPQRFile);
+            TurnProgressCheck();
         }
 
         /// <summary>
@@ -275,12 +322,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 var reader = new PqrReader(path);
                 reader.ReadPqrFile();
-                log.WriteLine(Color.LightGray, reader.Stream);
+                Log.WriteLine(reader.Stream);
                 var pqr = reader.ConvertToPqrData();
                 pqr.IsRegular();
-                Calc = new Calc(maxTurn, pqr.Fields, new Coordinate[2] { pqr.One, pqr.Two });
+                Calc = new Calc(MaxTurn, pqr.Fields, new Coordinate[2] { pqr.One, pqr.Two });
                 show = new Show(Calc, teamDesigns, FieldDisplay);
-                show.Showing(FieldDisplay);
+                show.Showing();
             }
             catch (Exception)
             {
@@ -295,38 +342,35 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
+        /// <summary>
+        /// ボット関連のプリフェッチングファイルの読み込みです。
+        /// </summary>
         public void ReadBotsTxt()
         {
+            // "Prefetching" というディレクトリが存在しない場合、作成する
             if (!Directory.Exists("Prefetching"))
             {
                 Directory.CreateDirectory("Prefetching");
             }
             if (System.IO.File.Exists(@".\Prefetching\Bots.tsv"))
             {
-                var reader = new System.IO.StreamReader(@".\Prefetching\Bots.tsv", System.Text.Encoding.Default);
-                string result = string.Empty;
-                while (reader.Peek() >= 0)
+                var reader = new TsvReader(@".\Prefetching\Bots.tsv");
+                reader.ReadTsvFile();
+                reader.ConvertToTsvData();
+                var result = reader.TsvData;
+
+                if (result.ContainsKey("A"))
                 {
-                    string line = reader.ReadLine();
-                    if (System.Text.RegularExpressions.Regex.IsMatch(
-                        line,
-                        @"^A\t.*"))
-                    {
-                        MessageBox.Show("Bots.tsvによってボットが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        var name = line.Substring(2);
-                        ConnectBot(0, name);
-                    }
-                    else if (System.Text.RegularExpressions.Regex.IsMatch(
-                        line,
-                        @"^B\t.*"))
-                    {
-                        MessageBox.Show("Bots.tsvによってボットが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        var name = line.Substring(2);
-                        ConnectBot(1, name);
-                    }
+                    Log.WriteLine("[Prefetching] Bot \"" + result["A"][0] + "\" was read on my team by Bot.tsv", Color.SkyBlue);
+                    ConnectBot(0, result["A"][0]);
                 }
-                reader.Close();
+                if (result.ContainsKey("B"))
+                {
+                    Log.WriteLine("[Prefetching] Bot \"" + result["B"][0] + "\" was read on opponent team by Bot.tsv", Color.SkyBlue);
+                    ConnectBot(1, result["B"][0]);
+                }
             }
+            // "Bots.tsv" というディレクトリが存在しない場合、作成する
             else
             {
                 using (var file = System.IO.File.Create(@".\Prefetching\Bots.tsv"))
@@ -339,37 +383,70 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
+        /// <summary>
+        /// Calc関連のプリフェッチングファイルの読み込みです。
+        /// </summary>
         public void ReadCalcTsv()
         {
             if (System.IO.File.Exists(@".\Prefetching\Calc.tsv"))
             {
-                var reader = new System.IO.StreamReader(@".\Prefetching\Calc.tsv", System.Text.Encoding.Default);
-                string result = string.Empty;
-                while (reader.Peek() >= 0)
+                var reader = new TsvReader(@".\Prefetching\Calc.tsv");
+                reader.ReadTsvFile();
+                reader.ConvertToTsvData();
+                var result = reader.TsvData;
+
+                if (result.ContainsKey("Pqr"))
                 {
-                    string line = reader.ReadLine();
-                    if (System.Text.RegularExpressions.Regex.IsMatch(
-                        line,
-                        @"^Pqr\t.+"))
-                    {
-                        MessageBox.Show("Pqr.tsvによってPQRファイルが読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        var name = line.Substring(4);
-                        OpenPQRFile(name);
-                    }
-                    else if (System.Text.RegularExpressions.Regex.IsMatch(
-                        line,
-                        @"^MaxTurn\t\d+"))
-                    {
-                        MessageBox.Show("Pqr.tsvによって最大ターン数が読み込まれました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        var name = line.Substring(8);
-                        Calc.MaxTurn = int.Parse(name);
-                    }
+                    Log.WriteLine("[Prefetching] PQR File \"" + result["Pqr"][0] + "\" was read by Calc.tsv", Color.SkyBlue);
+                    OpenPQRFile(result["Pqr"][0].Trim());
+                    Console.WriteLine("\"" + result["Pqr"][0] + "\"");
                 }
-                reader.Close();
+                if (result.ContainsKey("MaxTurn"))
+                {
+                    Log.WriteLine("[Prefetching] Max Turn " + result["MaxTurn"][0] + " was read by Calc.tsv", Color.SkyBlue);
+                    Calc.MaxTurn = int.Parse(result["MaxTurn"][0]);
+                }
             }
+            // "Calc.tsv" というディレクトリが存在しない場合、作成する
             else
             {
                 using (var file = System.IO.File.Create(@".\Prefetching\Calc.tsv"))
+                {
+                    if (file != null)
+                    {
+                        file.Close();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// ファイルパス関連のプリフェッチングファイルの読み込みです。
+        /// </summary>
+        public void ReadFilePathTsv()
+        {
+            if (System.IO.File.Exists(@".\Prefetching\FilePath.tsv"))
+            {
+                var reader = new TsvReader(@".\Prefetching\FilePath.tsv");
+                reader.ReadTsvFile();
+                reader.ConvertToTsvData();
+                var result = reader.TsvData;
+
+                if (result.ContainsKey("QRCodeReader"))
+                {
+                    Log.WriteLine("[Prefetching] QRCodeReader File Path \"" + result["Pqr"][0].Trim() + "\" was read by FilePath.tsv", Color.SkyBlue);
+                    FieldDataGenerator_FilePath = result["QRCodeReader"][0].Trim();
+                }
+                if (result.ContainsKey("FieldDataGenerator"))
+                {
+                    Log.WriteLine("[Prefetching] FieldDataGenerator File Path \"" + result["FieldDataGenerator"][0].Trim() + " was read by FilePath.tsv", Color.SkyBlue);
+                    FieldDataGenerator_FilePath = result["FieldDataGenerator"][0].Trim();
+                }
+            }
+            // "FilePath.tsv" というディレクトリが存在しない場合、作成する
+            else
+            {
+                using (var file = System.IO.File.Create(@".\Prefetching\FilePath.tsv"))
                 {
                     if (file != null)
                     {
@@ -394,8 +471,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 foreach (System.Text.RegularExpressions.Match match in mc)
                 {
-                    bot[n] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
-                    MainForm.botName[n] = match.Groups["file"].Value;
+                    Bot[n] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
+                    MainForm.BotName[n] = match.Groups["file"].Value;
                 }
             }
             catch (Exception)
@@ -411,68 +488,119 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         private void TurnEnd()
         {
-            if (bot[0] != null)
+            if (TurnEndButton.Text == "ターンエンド")
             {
-                bot[0].Team = Team.A;
-                bot[0].Question(Calc);
-                var a = bot[0].Answer();
-                show.agentActivityData[Team.A, AgentNumber.One] = a[0];
-                show.agentActivityData[Team.A, AgentNumber.Two] = a[1];
+                if (Mode == PlayMode.ProductionMode)
+                {
+                    if (Bot[0] != null)
+                    {
+                        show.agentActivityData[Team.A, AgentNumber.One] = show.agentActivityData[Team.A, AgentNumber.One];
+                        show.agentActivityData[Team.A, AgentNumber.Two] = show.agentActivityData[Team.A, AgentNumber.Two];
+                    }
+                    if (Bot[1] != null)
+                    {
+                        show.agentActivityData[Team.B, AgentNumber.One] = show.agentActivityData[Team.B, AgentNumber.One];
+                        show.agentActivityData[Team.B, AgentNumber.Two] = show.agentActivityData[Team.B, AgentNumber.Two];
+                    }
+                }
+                else
+                {
+                    if (Bot[0] != null)
+                    {
+                        Bot[0].OurTeam = Team.A;
+                        Bot[0].Question(Calc);
+                        var a = Bot[0].Answer();
+                        show.agentActivityData[Team.A, AgentNumber.One] = a[0];
+                        show.agentActivityData[Team.A, AgentNumber.Two] = a[1];
+                    }
+                    if (Bot[1] != null)
+                    {
+                        Bot[1].OurTeam = Team.B;
+                        Bot[1].Question(Calc);
+                        var a = Bot[1].Answer();
+                        show.agentActivityData[Team.B, AgentNumber.One] = a[0];
+                        show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
+                    }
+                }
+
+                Calc.MoveAgent(show.agentActivityData);
+
+                foreach (AgentActivityData item in show.agentActivityData)
+                {
+                    item.AgentStatusData = AgentStatusCode.NotDoneAnything;
+                }
+
+                show.Showing();
+                WriteLog();
+                TurnProgressCheck();
+
+                if (Bot[0] != null)
+                {
+                    Log.WriteLine("[" + BotName[0] + "]", Color.SkyBlue);
+                    var d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One];
+                    Log.WriteLine("A1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
+                    d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.Two];
+                    Log.WriteLine("A2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
+                }
+                if (Bot[1] != null)
+                {
+                    Log.WriteLine("[" + BotName[1] + "]");
+                    var d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.One];
+                    Log.WriteLine("B1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
+                    d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.Two];
+                    Log.WriteLine("B2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
+                }
+
+                if (Debug)
+                {
+                    //XmlSerializerオブジェクトを作成
+                    //オブジェクトの型を指定する
+                    System.Xml.Serialization.XmlSerializer serializer =
+                        new System.Xml.Serialization.XmlSerializer(typeof(XmlCalc));
+                    //書き込むファイルを開く（UTF-8 BOM無し）
+                    System.IO.StreamWriter sw = new System.IO.StreamWriter(
+                        "log.xml", false, new System.Text.UTF8Encoding(false));
+                    //シリアル化し、XMLファイルに保存する
+                    serializer.Serialize(sw, new XmlCalc(Calc));
+                    //ファイルを閉じる
+                    sw.Close();
+                }
+                if (Mode == PlayMode.ProductionMode)
+                {
+                    TurnEndButton.Text = "ボットで選択";
+                    TurnEndButton.BackColor = Color.DarkGray;
+                    TurnEndButton.ForeColor = Color.White;
+                }
             }
-            if (bot[1] != null)
+            else if (TurnEndButton.Text == "ボットで選択")
             {
-                bot[1].Team = Team.B;
-                bot[1].Question(Calc);
-                var a = bot[1].Answer();
-                show.agentActivityData[Team.B, AgentNumber.One] = a[0];
-                show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
+                if (Bot[0] != null)
+                {
+                    Bot[0].OurTeam = Team.A;
+                    Bot[0].Question(Calc);
+                    var a = Bot[0].Answer();
+                    show.agentActivityData[Team.A, AgentNumber.One] = a[0];
+                    show.agentActivityData[Team.A, AgentNumber.Two] = a[1];
+                }
+                if (Bot[1] != null)
+                {
+                    Bot[1].OurTeam = Team.B;
+                    Bot[1].Question(Calc);
+                    var a = Bot[1].Answer();
+                    show.agentActivityData[Team.B, AgentNumber.One] = a[0];
+                    show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
+                }
+                TurnEndButton.Text = "ターンエンド";
+                TurnEndButton.BackColor = Color.RoyalBlue;
+                TurnEndButton.ForeColor = Color.LightGray;
+                show.Showing();
             }
-
-            Calc.MoveAgent(show.agentActivityData);
-
-            foreach (AgentActivityData item in show.agentActivityData)
-            {
-                item.AgentStatusData = AgentStatusCode.NotDoneAnything;
-            }
-
-            show.Showing(FieldDisplay);
-            WriteLog();
-            TurnProgressCheck();
-
-            if (bot[0] != null)
-            {
-                log.WriteLine(Color.SkyBlue, "[" + botName[0] + "]");
-                var d = Calc.FieldHistory[Calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One];
-                log.WriteLine(Color.SkyBlue, "A1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
-                d = Calc.FieldHistory[Calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.Two];
-                log.WriteLine(Color.SkyBlue, "A2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
-            }
-            if (bot[1] != null)
-            {
-                log.WriteLine(Color.SkyBlue, "[" + botName[1] + "]");
-                var d = Calc.FieldHistory[Calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.One];
-                log.WriteLine(Color.SkyBlue, "B1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
-                d = Calc.FieldHistory[Calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.Two];
-                log.WriteLine(Color.SkyBlue, "B2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString());
-            }
-
-            //XmlSerializerオブジェクトを作成
-            //オブジェクトの型を指定する
-            System.Xml.Serialization.XmlSerializer serializer =
-                new System.Xml.Serialization.XmlSerializer(typeof(XmlCalc));
-            //書き込むファイルを開く（UTF-8 BOM無し）
-            System.IO.StreamWriter sw = new System.IO.StreamWriter(
-                "log.xml", false, new System.Text.UTF8Encoding(false));
-            //シリアル化し、XMLファイルに保存する
-            serializer.Serialize(sw, new XmlCalc(Calc));
-            //ファイルを閉じる
-            sw.Close();
         }
 
         private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Calc.Undo();
-            show.Showing(FieldDisplay);
+            show.Showing();
             WriteLog();
             TurnProgressCheck();
         }
@@ -480,7 +608,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void RedoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Calc.Redo();
-            show.Showing(FieldDisplay);
+            show.Showing();
             WriteLog();
             TurnProgressCheck();
         }
@@ -535,6 +663,46 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             serializer.Serialize(sw, new XmlCalc(Calc));
             //ファイルを閉じる
             sw.Close();
+        }
+
+        private void PracticeModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Mode = PlayMode.PracticeMode;
+            TurnEndButton.Text = "ターンエンド";
+            TurnEndButton.BackColor = Color.RoyalBlue;
+            TurnEndButton.ForeColor = Color.LightGray;
+        }
+
+        private void ProductionModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Mode = PlayMode.ProductionMode;
+            TurnEndButton.Text = "ボットで選択";
+            TurnEndButton.BackColor = Color.DarkGray;
+            TurnEndButton.ForeColor = Color.White;
+        }
+
+        private void OpenQRCodeReaderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (System.IO.File.Exists(QRCodeReader_FilePath))
+            {
+                System.Diagnostics.Process.Start(QRCodeReader_FilePath);
+            }
+            else
+            {
+                MessageBox.Show("QR Code Readerのファイルパスが分かりません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void OpenFieldDataGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (System.IO.File.Exists(FieldDataGenerator_FilePath))
+            {
+                System.Diagnostics.Process.Start(FieldDataGenerator_FilePath);
+            }
+            else
+            {
+                MessageBox.Show("Field Data Generatorのファイルパスが分かりません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

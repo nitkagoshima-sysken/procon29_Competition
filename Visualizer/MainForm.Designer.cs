@@ -38,17 +38,23 @@
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CreateNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveAsSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UndoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RedoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PracticeModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ProductionModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.SaveAsSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.OpenQRCodeReaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.OpenFieldDataGeneratorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -156,7 +162,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileToolStripMenuItem,
             this.EditToolStripMenuItem,
-            this.ViewToolStripMenuItem});
+            this.ViewToolStripMenuItem,
+            this.ModeToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(782, 31);
@@ -169,7 +176,10 @@
             this.CreateNewToolStripMenuItem,
             this.OpenToolStripMenuItem,
             this.SaveToolStripMenuItem,
-            this.SaveAsSToolStripMenuItem});
+            this.SaveAsSToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.OpenQRCodeReaderToolStripMenuItem,
+            this.OpenFieldDataGeneratorToolStripMenuItem});
             this.FileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
             this.FileToolStripMenuItem.Size = new System.Drawing.Size(105, 27);
@@ -178,16 +188,31 @@
             // CreateNewToolStripMenuItem
             // 
             this.CreateNewToolStripMenuItem.Name = "CreateNewToolStripMenuItem";
-            this.CreateNewToolStripMenuItem.Size = new System.Drawing.Size(230, 28);
+            this.CreateNewToolStripMenuItem.Size = new System.Drawing.Size(308, 28);
             this.CreateNewToolStripMenuItem.Text = "新規作成(&N)";
             this.CreateNewToolStripMenuItem.Click += new System.EventHandler(this.CreateNewToolStripMenuItem_Click);
             // 
             // OpenToolStripMenuItem
             // 
             this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(230, 28);
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(308, 28);
             this.OpenToolStripMenuItem.Text = "開く(&O)";
             this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
+            // 
+            // SaveToolStripMenuItem
+            // 
+            this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
+            this.SaveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(308, 28);
+            this.SaveToolStripMenuItem.Text = "上書き保存(&S)";
+            this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
+            // 
+            // SaveAsSToolStripMenuItem
+            // 
+            this.SaveAsSToolStripMenuItem.Name = "SaveAsSToolStripMenuItem";
+            this.SaveAsSToolStripMenuItem.Size = new System.Drawing.Size(308, 28);
+            this.SaveAsSToolStripMenuItem.Text = "名前をつけて保存(&A)";
+            this.SaveAsSToolStripMenuItem.Click += new System.EventHandler(this.SaveAsSToolStripMenuItem_Click);
             // 
             // EditToolStripMenuItem
             // 
@@ -222,6 +247,29 @@
             this.ViewToolStripMenuItem.Size = new System.Drawing.Size(76, 27);
             this.ViewToolStripMenuItem.Text = "表示(&V)";
             // 
+            // ModeToolStripMenuItem
+            // 
+            this.ModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PracticeModeToolStripMenuItem,
+            this.ProductionModeToolStripMenuItem});
+            this.ModeToolStripMenuItem.Name = "ModeToolStripMenuItem";
+            this.ModeToolStripMenuItem.Size = new System.Drawing.Size(93, 27);
+            this.ModeToolStripMenuItem.Text = "モード(&M)";
+            // 
+            // PracticeModeToolStripMenuItem
+            // 
+            this.PracticeModeToolStripMenuItem.Name = "PracticeModeToolStripMenuItem";
+            this.PracticeModeToolStripMenuItem.Size = new System.Drawing.Size(161, 28);
+            this.PracticeModeToolStripMenuItem.Text = "練習モード";
+            this.PracticeModeToolStripMenuItem.Click += new System.EventHandler(this.PracticeModeToolStripMenuItem_Click);
+            // 
+            // ProductionModeToolStripMenuItem
+            // 
+            this.ProductionModeToolStripMenuItem.Name = "ProductionModeToolStripMenuItem";
+            this.ProductionModeToolStripMenuItem.Size = new System.Drawing.Size(161, 28);
+            this.ProductionModeToolStripMenuItem.Text = "本番モード";
+            this.ProductionModeToolStripMenuItem.Click += new System.EventHandler(this.ProductionModeToolStripMenuItem_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
@@ -248,23 +296,28 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(80, 19);
             this.toolStripStatusLabel1.Text = "{} Point:";
             // 
-            // SaveAsSToolStripMenuItem
-            // 
-            this.SaveAsSToolStripMenuItem.Name = "SaveAsSToolStripMenuItem";
-            this.SaveAsSToolStripMenuItem.Size = new System.Drawing.Size(230, 28);
-            this.SaveAsSToolStripMenuItem.Text = "名前をつけて保存(&A)";
-            this.SaveAsSToolStripMenuItem.Click += new System.EventHandler(this.SaveAsSToolStripMenuItem_Click);
-            // 
-            // SaveToolStripMenuItem
-            // 
-            this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
-            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(230, 28);
-            this.SaveToolStripMenuItem.Text = "上書き保存(&S)";
-            this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
-            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(305, 6);
+            // 
+            // OpenQRCodeReaderToolStripMenuItem
+            // 
+            this.OpenQRCodeReaderToolStripMenuItem.Name = "OpenQRCodeReaderToolStripMenuItem";
+            this.OpenQRCodeReaderToolStripMenuItem.Size = new System.Drawing.Size(308, 28);
+            this.OpenQRCodeReaderToolStripMenuItem.Text = "QR Code Readerを開く(&Q)";
+            this.OpenQRCodeReaderToolStripMenuItem.Click += new System.EventHandler(this.OpenQRCodeReaderToolStripMenuItem_Click);
+            // 
+            // OpenFieldDataGeneratorToolStripMenuItem
+            // 
+            this.OpenFieldDataGeneratorToolStripMenuItem.Name = "OpenFieldDataGeneratorToolStripMenuItem";
+            this.OpenFieldDataGeneratorToolStripMenuItem.Size = new System.Drawing.Size(308, 28);
+            this.OpenFieldDataGeneratorToolStripMenuItem.Text = "Field Data Generatorを開く(&F)";
+            this.OpenFieldDataGeneratorToolStripMenuItem.Click += new System.EventHandler(this.OpenFieldDataGeneratorToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -318,5 +371,11 @@
         private System.Windows.Forms.ToolStripMenuItem SaveAsSToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.ToolStripMenuItem ModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem PracticeModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ProductionModeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem OpenQRCodeReaderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem OpenFieldDataGeneratorToolStripMenuItem;
     }
 }

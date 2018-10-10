@@ -1,25 +1,27 @@
-# Procon29 Visualizer 17.1
+# Procon29 Visualizer 33.1
 
 ## What's new
 
-### 試合のデータを「名前をつけて保存」できるようになった
-
-### 試合のデータを「上書き保存」できるようになった
-
-### PQRファイルを開く機能が試合のデータを開く機能に変更された
-
-## What's new Version 17.1
-
-### Prefetchingディレクトリが存在しないとき例外が発生するバグを修正
+- `Logger.Write(Color, string)`を廃止（開発者向け）
+- `Logger.WriteLine(Color, string)`を廃止（開発者向け）
+- `Logger.DefaultColor`を追加（開発者向け）
+- `Logger.Write(string)`を追加（開発者向け）
+- `Logger.Write(string, Color)`を追加（開発者向け）
+- `Logger.WriteLine(string)`を追加（開発者向け）
+- `Logger.WriteLine(string, Color)`を追加（開発者向け）
+- `Logger`のアクセシビリティを`public`に変更（開発者向け）
 
 ## 操作方法
 
  1. クリックで対象のエージェントを選択しよう。
- 2. ダブルクリックで行きたい場所、またはタイルを取り除く場所を選択しよう。
+ 2. クリックで行きたい場所、またはタイルを取り除く場所を選択しよう。
  3. キミが操作可能なすべてのエージェントに対して上の操作を繰り返す。
  4. 最後にターンエンドを押す。
 
 ## ショートカットキー一覧
+
+現在(Visualizer 25.0)、謎のバグが発生して、エージェントの選択ができない状態です。  
+`Ctrl`を使ったショートカットは使えるので、そこは安心してお使いしてください。
 
 |Key|What will happen?|
 |:--:|:--:|
@@ -35,14 +37,31 @@
 |`NumPad7`| 選択されたエージェントが左上に移動する |
 |`NumPad8`| 選択されたエージェントが上に移動する |
 |`NumPad9`| 選択されたエージェントが右上に移動する |
-|`Ctrl`+`Z`| ターンを元に戻す |
+|`Ctrl`+`S`| 試合を保存する |
 |`Ctrl`+`Y`| ターンをやり直す |
+|`Ctrl`+`Z`| ターンを元に戻す |
 
-## ボットのプリフェッチング機能の使い方
+## プリフェッチング機能の使い方
 
-`Bot.tsv`を開きます。
-オレンジチームにボットをあらかじめ追加したい場合は文頭から`A`+[Tab]+[ボットのパス名]を書きます。
-ライムチームにボットをあらかじめ追加したい場合は文頭から`B`+[Tab]+[ボットのパス名]を書きます。
+`Visualizer.exe`のあるディレクトリに`Prefetching`というディレクトリが存在するはずです。  
+存在しない場合は一度、`Visualizer.exe`を実行すると、生成されます。  
+`Prefetching`の中にあるTSVファイルに特別なコマンドを入力すると、  
+次回実行時にVisualizerがそのファイルを読み、コマンドに応じた変化が生じます。
+
+### Bots.tsv
+
+|コマンド|引数|機能|
+|:-:|:-:|:-:|
+|`A`|path|オレンジチームに指定したボットが読み込まれる|
+|`B`|path|ライムチームに指定したボットが読み込まれる|
+
+### Calc.tsv
+
+|コマンド|引数|機能|
+|:-:|:-:|:-:|
+|`Pqr`|path|指定したPQRファイルが読み込まれる|
+|`Turn`|digit|指定したターンが読み込まれる|
+|`MaxTurn`|digit|指定した最大ターン数が読み込まれる|
 
 ## Version
 
@@ -189,8 +208,8 @@
 
 ### Version 14.0
 
-- AgentArrayが廃止された（開発者向け）
-- TeamArrayが廃止された（開発者向け）
+- `Calc.AgentArray`が廃止された（開発者向け）
+- `Calc.TeamArray`が廃止された（開発者向け）
 
 #### Version 14.1
 
@@ -199,11 +218,47 @@
 ### Version 15.0
 
 - BaseCalcからXmlCalcに変更された（開発者向け）
-- ExpansionがExtensionに変更された（開発者向け）
+- `XmlCalc.Sum()`が廃止された（開発者向け）
+- `XmlCalc.SumAbs()`が廃止された（開発者向け）
+- `XmlCalc.AreaPoint(Team)`が廃止された（開発者向け）
+- `XmlCalc.EnclosedPoint(Team)`が廃止された（開発者向け）
+- `XmlCalc.TotalPoint(Team)`が廃止された（開発者向け）
+- `XmlCalc.PointMapCheck()`が廃止された（開発者向け）
+- `XmlCalc.IsFillable(Team, Coordinate)`が廃止された（開発者向け）
+- `XmlCalc.FillFalseInIsEnclosed(Team, Coordinate)`が廃止された（開発者向け）
+- `XmlCalc.ResetTrueInIsEnclosed(Team)`が廃止された（開発者向け）
+- `XmlCalc.ResetTrueInIsEnclosed()`が廃止された（開発者向け）
+- `XmlCalc.CheckEnclosedArea(Team)`が廃止された（開発者向け）
+- `XmlCalc.CheckEnclosedArea()`が廃止された（開発者向け）
+- `XmlCalc.IsAgentHereOrInMooreNeighborhood(Team, AgentNumber, Coordinate)`が廃止された（開発者向け）
+- `XmlCalc.IsAgentHereOrInMooreNeighborhood(Coordinate)`が廃止された（開発者向け）
+- `XmlCalc.IsOneAgentHereOrInMooreNeighborhood(Coordinate)`が廃止された（開発者向け）
+- `XmlCalc.IsAgentHere(Coordinate)`が廃止された（開発者向け）
+- `XmlCalc.IsAgentInMooreNeighborhood(Coordinate)`が廃止された（開発者向け）
+- `XmlCalc.IsOneAgentInMooreNeighborhood(Coordinate)`が廃止された（開発者向け）
+- `XmlCalc.Undo()`が廃止された（開発者向け）
+- `XmlCalc.Redo()`が廃止された（開発者向け）
+- `XmlCalc.RemoveTile()`が廃止された（開発者向け）
+- `XmlCalc.MoveAgent(Team, AgentNumber, Coordinate)`が廃止された（開発者向け）
+- `XmlCalc.CheckAgentActivityData(AgentsActivityData)`が廃止された（開発者向け）
+- `XmlCalc.MoveAgent(AgentsActivityData)`が廃止された（開発者向け）
+- `XmlCalc.MoveAgent(Team, AgentActivityData[])`が廃止された（開発者向け）
+- `XmlCalc.MoveAgent(Team, AgentNumber, AgentActivityData)`が廃止された（開発者向け）
+- `AgentStatusCodeExpansion`が`AgentStatusCodeExtension`に変更された（開発者向け）
+- `FieldExpansion`が`FieldExtension`に変更された（開発者向け）
+- `PointExpansion`が`PointExtension`に変更された（開発者向け）
+- `PqrDataExpansion`が`PqrDataExtension`に変更された（開発者向け）
+- `TeamExpansion`が`TeamExtension`に変更された（開発者向け）
+- `TurnDataExpansion`が`TurnDataExtension`に変更された（開発者向け）
 
 ### Version 16.0
 
-- 黒歴史`DeepCopy`が抹消された
+- `AgentActivityData.DeepCopy()`が廃止された（開発者向け）
+- `Calc.DeepCopy()`が廃止された（開発者向け）
+- `Cell.DeepCopy()`が廃止された（開発者向け）
+- `FieldExtension.DeepCopy()`が廃止された（開発者向け）
+- `TurnData.DeepCopy()`が廃止された（開発者向け）
+- `XmlCalc.DeepCopy()`が廃止された（開発者向け）
 
 ### Version 17.0
 
@@ -214,6 +269,207 @@
 #### Version 17.1
 
 - Prefetchingディレクトリが存在しないとき例外が発生するバグを修正
+
+#### Version 17.2
+
+- `Ctrl`+`S`で試合を保存できるようになった
+- readme.mdの微調整
+
+### Version 18.0
+
+- 保存した試合を開けないバグを修正
+- `Agent`の引数なしコンストラクタを実装（開発者向け）
+- `TurnData`の引数なしコンストラクタを実装（開発者向け）
+- `Agents.Add()`を実装（開発者向け）
+- `AgentsActivityData.Add()`を実装（開発者向け）
+- `Field.Add()`を実装（開発者向け）
+- `XmlTurnData`を追加（開発者向け）
+- `XmlCell`を追加（開発者向け）
+- `Calc(XmlCalc)`を実装（開発者向け）
+- `XmlCalc(Calc)`を実装（開発者向け）
+- `Cell(XmlCell)`を実装（開発者向け）
+- `XmlCell(Cell)`を実装（開発者向け）
+- `TurnData(XmlTurnData)`を実装（開発者向け）
+- `XmlTurnData(TurnData)`を実装（開発者向け）
+- `XmlCalc.Agents`を廃止（開発者向け）
+- `XmlCalc.Field`を廃止（開発者向け）
+- `XmlCalc.Height`を廃止（開発者向け）
+- `XmlCalc.Width`を廃止（開発者向け）
+- `XmlCalc(int, int[,], Coordinate[])`を廃止（開発者向け）
+- `XmlCalc(int, Field, Coordinate[])`を廃止（開発者向け）
+- `XmlCalc.ComplementEnemysPosition()`を廃止（開発者向け）
+- `XmlCalc.InitializationOfField()`を廃止（開発者向け）
+- `XmlCalc.TurnEnd()`を廃止（開発者向け）
+- `XmlCalc.PutTile()`を廃止（開発者向け）
+
+#### Version 18.1
+
+- readme.mdの微調整
+- `MainForm`におけるソースコードの管理（開発者向け）
+
+#### Version 18.2
+
+- `Calc`におけるソースコードの管理（開発者向け）
+- `Show`におけるソースコードの管理（開発者向け）
+
+### Version 19.0
+
+- クリックだけで操作できるようになった
+- デバッグモードのみオートセーブされるように変更された
+- 矢印が表示されるようになった
+- ダブルクリックした直後にマウスをフィールドの外に移動させるとエラーになるバグを修正
+- `TeamDesigns`を追加（開発者向け）
+- `Direction`を追加（開発者向け）
+- `CharactorBitmap`を追加（開発者向け）
+- `DrawField`を追加（開発者向け）
+- `ClickField`を追加（開発者向け）
+
+### Version 20.0
+
+- Visualizerの起動中にスプラッシュウインドウを表示するにした
+- `Show`におけるソースコードの管理（開発者向け）
+- `DrawField`におけるソースコードの管理（開発者向け）
+- `Show.teamDesign`を廃止（開発者向け）
+- `Show.pictureBox`を廃止（開発者向け）
+- `Show.procon29_Logger`を廃止（開発者向け）
+- `Show.backGroundSolidBrush`を廃止（開発者向け）
+- `Show.selectSolidBrush`を廃止（開発者向け）
+- `Show.clickedSolidBrush`を廃止（開発者向け）
+- `Show.pointFont`を廃止（開発者向け）
+- `Show.clickedField`を廃止（開発者向け）
+- `Show.agentBitmap`を廃止（開発者向け）
+- `Show.fairyBitmap`を廃止（開発者向け）
+- `Show.PointFont`を廃止（開発者向け）
+- `Show.DrawBackground`を廃止（開発者向け）
+- `Show.DrawEnclosedCell`を廃止（開発者向け）
+- `DrawField.MoveOrRemove`を廃止（開発者向け）
+- `DrawField.PictureBox`を廃止（開発者向け）
+- `DrawField.Draw(Coordinate)`を追加（開発者向け）
+- `DrawField.DrawMouseOverCell(Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgent(Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgent(Agent, Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgent(Graphics, Agent, Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgent(Graphics, Agent)`を追加（開発者向け）
+- `DrawField.DrawAgent(Graphics, Agent, ImageAttributes)`を追加（開発者向け）
+- `DrawField.DrawAgentName(Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgentName(Agent)`を追加（開発者向け）
+- `DrawField.DrawAgentName(Graphics, Agent)`を追加（開発者向け）
+- `DrawField.Draw()`を追加（開発者向け）
+- `DrawField.DrawAgent()`を追加（開発者向け）
+- `DrawField.DrawEnclosedCell(Cell)`を追加（開発者向け）
+- `DrawField.DrawEnclosedCell(Graphics, Cell)`を追加（開発者向け）
+- `DrawField.DrawEnclosedCell(int)`を追加（開発者向け）
+- `DrawField.DrawTile(int)`を追加（開発者向け）
+- `DrawField.DrawAgent(int)`を追加（開発者向け）
+- `DrawField.DrawAgent(int, Coordinate)`を追加（開発者向け）
+- `DrawField.DrawAgentName(int)`を追加（開発者向け）
+- `DrawField.DrawAgentName(int, Coordinate)`を追加（開発者向け）
+- `DrawField.Draw(int)`を追加（開発者向け）
+- `DrawField.Draw(int, Coordinate)`を追加（開発者向け）
+- `DrawField.DrawFruitFairies(int)`を追加（開発者向け）
+
+### Version 21.0
+
+- 試合が終了した際に、リプレイが表示されるようになった
+- `TrumpMark`を追加（開発者向け）
+- `TrumpNumber`を追加（開発者向け）
+- `TsvReader`を追加（開発者向け）
+
+#### Version 21.1
+
+- readme.mdの微調整
+
+### Version 22.0
+
+- 本番モードと練習モードの実装
+
+#### Version 22.1
+
+- 本番モードのときに「ボットで選択」ボタンで再描画するように修正
+
+### Version 23.0
+
+- `Calc.Simulate(AgentsActivityData)`を追加（開発者向け）
+- `Calc.Simulate(Team, AgentActivityData[])`を追加（開発者向け）
+- `Calc.Simulate(Team, AgentNumber, AgentActivityData)`を追加（開発者向け）
+
+### Version 24.0
+
+- `Field.CellExist(Coordinate)`を追加（開発者向け）
+- `Field.CellExist(int, int)`を追加（開発者向け）
+
+### Version 25.0
+
+- 一度試合が終了した後に、ターン数を変更した場合に、ターンエンドのボタンが再び表示されるように修正しました。
+- `ClickField.PushKey(Keys)`を追加（開発者向け）
+
+### Version 26.0
+
+- `PointExtension`から`CoordinateExtension`に変更（開発者向け）
+
+### Version 27.0
+
+- C# 6にダウングレード
+
+#### Version 27.1
+
+- `Logger.richTextBox`を廃止（開発者向け）
+
+### Version 28.0
+
+- `AgentStatusCodeExtension.IsMovement(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.IsRemovementOutTile(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.IsRemovementOpponentTile(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToSucceeded(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToRequest(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToAction(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToAttribute(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.IsRequest(this AgentStatusCode)`のコード最適化（開発者向け）
+- `AgentStatusCodeExtension.IsSucceeded(this AgentStatusCode)`のコード最適化（開発者向け）
+- `AgentStatusCodeExtension.IsFailed(this AgentStatusCode)`のコード最適化（開発者向け）
+
+### Version 29.0
+
+- プリフェッチングファイルを読み込んだ際に表示されるダイアログを廃止した
+- プリフェッチングファイルを読み込んだ際にログに表示されるようにした
+- 1ターン目のときにエージェントの位置の表示がおかしいバグを修正
+
+### Version 30.0
+
+- 本番モードでターンエンドのときもボットを呼び出してしまうバグを修正
+
+### Version 31.0
+
+- Visualizerから外部プログラムの起動が可能になった
+
+#### Version 31.1
+
+- ボットが呼び出せない重大なバグを修正
+
+#### Version 31.2
+
+- 最後のターンエンドすると例外がおきるバグを修正
+
+### Version 32.0
+
+- エージェントのログが二人目以降は`NotDoneAnything`になってしまうバグを修正
+- `TsvReader`のバグを修正（開発者向け）
+- `Calc`のコード最適化（開発者向け）
+
+### Version 33.0
+
+- 同じタイル上に2人のエージェントが同衾するバグを修正（SeitaHigashi氏によるデバッグ）
+
+#### Version 33.1
+
+- `Logger.Write(Color, string)`を廃止（開発者向け）
+- `Logger.WriteLine(Color, string)`を廃止（開発者向け）
+- `Logger.DefaultColor`を追加（開発者向け）
+- `Logger.Write(string)`を追加（開発者向け）
+- `Logger.Write(string, Color)`を追加（開発者向け）
+- `Logger.WriteLine(string)`を追加（開発者向け）
+- `Logger.WriteLine(string, Color)`を追加（開発者向け）
+- `Logger`のアクセシビリティを`public`に変更（開発者向け）
 
 ## バージョンの上がり方について
 
@@ -246,8 +502,13 @@ Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバ�
 
 ## コードメトリックス
 
-commit: `21be2795a19b75c90228285b8734ed9c7781f989`
-
-|保守容易性指数|サイクロマティック複雑度|継承の深さ|クラス結合|コード行|
-|:-:|:-:|:-:|:-:|:-:|  
-|80|571|7|125|1546|
+|バージョン|保守容易性指数|サイクロマティック複雑度|継承の深さ|クラス結合|コード行|
+|:-:|:-:|:-:|:-:|:-:|:-:|  
+|3.0 β|83|286|7|97|591|
+|3.0|81|349|7|107|1068|
+|6.0|80|571|7|125|1546|
+|17.1|81|745|7|168|1902|
+|18.1|81|763|7|171|1924|
+|21.0|82|1026|7|194|2439|
+|25.0|83|1064|7|195|2509|
+|28.0|83|1079|7|198|2544|

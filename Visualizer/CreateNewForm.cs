@@ -18,6 +18,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public int MaxTrun { get; set; }
         dynamic bot0 { get; set; }
         dynamic bot1 { get; set; }
+        /// <summary>
+        /// 新たなCalcクラスを作成します。
+        /// </summary>
+        public Calc NewCalc { get; set; }
 
         private System.Windows.Forms.TableLayoutPanel Button1;
 
@@ -80,9 +84,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void OKButton_Click(object sender, EventArgs e)
         {
             SelectPQRFile = SelectedPQRFileNameLabel.Text;
-            MainForm.maxTurn = int.Parse(MaxTurnTextBox.Text);
-            MainForm.bot[0] = bot0;
-            MainForm.bot[1] = bot1;
+            MainForm.MaxTurn = int.Parse(MaxTurnTextBox.Text);
+            MainForm.Bot[0] = bot0;
+            MainForm.Bot[1] = bot1;
             Visible = false;
         }
 
@@ -120,7 +124,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     foreach (System.Text.RegularExpressions.Match match in mc)
                     {
                         bot1 = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
-                        MainForm.botName[1] = match.Groups["file"].Value;
+                        MainForm.BotName[1] = match.Groups["file"].Value;
                     }
                 }
                 catch (Exception)
@@ -164,7 +168,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     foreach (System.Text.RegularExpressions.Match match in mc)
                     {
                         bot0 = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
-                        MainForm.botName[0] = match.Groups["file"].Value;
+                        MainForm.BotName[0] = match.Groups["file"].Value;
                     }
                 }
                 catch (Exception)

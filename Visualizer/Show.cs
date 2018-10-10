@@ -7,71 +7,77 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     class Show
     {
-        private Calc calc;
-        private TeamDesign[] teamDesign;
-        private PictureBox pictureBox;
-        private Logger procon29_Logger;
-        private SolidBrush backGroundSolidBrush = new SolidBrush(Color.FromArgb(48, 48, 48));
-        private SolidBrush selectSolidBrush = new SolidBrush(Color.FromArgb(50, Color.DarkGray));
-        private SolidBrush clickedSolidBrush = new SolidBrush(Color.FromArgb(100, Color.SkyBlue));
-        private Font pointFont;
-        private System.Drawing.Point clickedField;
-        private const string pointFamilyName = "Impact";
-
-        private Bitmap[] agentBitmap;
-        private Bitmap[] fairyBitmap;
-
         public AgentsActivityData agentActivityData = new AgentsActivityData();
 
         /// <summary>
-        /// 描画する対象となるProcon29_Calcを設定または取得します。
+        /// 描画するビットマップを指定します。
         /// </summary>
-        internal Calc Calc { get => calc; set => calc = value; }
+        public Bitmap Bitmap { get; set; }
+
+        /// <summary>
+        /// 描画する対象となる計算機を設定または取得します。
+        /// </summary>
+        public Calc Calc { get; set; }
+
+        /// <summary>
+        /// マスの高さを設定または取得します。
+        /// </summary>
+        protected int CellHeight { get; set; }
+
+        /// <summary>
+        /// マスの幅を設定または取得します。
+        /// </summary>
+        protected int CellWidth { get; set; }
 
         /// <summary>
         /// 描画するときの色を設定または取得します。
         /// </summary>
-        internal TeamDesign[] TeamDesign { get => teamDesign; set => teamDesign = value; }
+        public TeamDesigns TeamDesigns { get; set; } = new TeamDesigns();
+
+        public ClickField ClickField { get; set; }
+
+
+        // not under
+
+        /// <summary>
+        /// 描画するときの色を設定または取得します。
+        /// </summary>
+        public TeamDesign[] TeamDesign { get; set; }
 
         /// <summary>
         /// 描画する対象となるPictureBoxを設定または取得します。
         /// </summary>
-        public PictureBox PictureBox { get => pictureBox; set => pictureBox = value; }
+        public PictureBox PictureBox { get; set; }
 
         /// <summary>
         /// 背景をどのように塗りつぶすか設定または取得します。
         /// </summary>
-        public SolidBrush BackGroundSolidBrush { get => backGroundSolidBrush; set => backGroundSolidBrush = value; }
+        public SolidBrush BackGroundSolidBrush { get; set; } = new SolidBrush(Color.FromArgb(48, 48, 48));
 
         /// <summary>
         /// 選択したフィールドをどのように塗りつぶすか設定または取得します。
         /// </summary>
-        public SolidBrush SelectSolidBrush { get => selectSolidBrush; set => selectSolidBrush = value; }
+        public SolidBrush SelectSolidBrush { get; set; } = new SolidBrush(Color.FromArgb(50, Color.DarkGray));
 
         /// <summary>
         /// クリックしたフィールドをどのように塗りつぶすか設定または取得します。
         /// </summary>
-        public SolidBrush ClickedSolidBrush { get => clickedSolidBrush; set => clickedSolidBrush = value; }
+        public SolidBrush ClickedSolidBrush { get; set; } = new SolidBrush(Color.FromArgb(100, Color.SkyBlue));
 
         /// <summary>
         /// フォントの設定または取得します。
         /// </summary>
-        public Font PointFont { get => pointFont; set => pointFont = value; }
-
-        /// <summary>
-        /// フォントの設定または取得します。
-        /// </summary>
-        public static string PointFamilyName => pointFamilyName;
+        public Font PointFont { get; set; }
 
         /// <summary>
         /// クリックしたときのフィールドの場所の設定または取得します。
         /// </summary>
-        public Point ClickedField { get => clickedField; set => clickedField = value; }
+        public Point ClickedField { get; set; }
 
         /// <summary>
         /// ログを書き込むためのProcon29_Loggerを設定または取得します。
         /// </summary>
-        internal Logger Procon29_Logger { get => procon29_Logger; set => procon29_Logger = value; }
+        internal Logger Procon29_Logger { get; set; }
 
         public Team SelectedTeam { get; set; }
         public AgentNumber SelecetedAgent { get; set; }
@@ -79,12 +85,45 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントの画像を設定または取得します。
         /// </summary>
-        public Bitmap[] AgentBitmap { get => agentBitmap; set => agentBitmap = value; }
+        public Bitmap[] AgentBitmap { get; set; }
 
         /// <summary>
         /// フルーツフェアリーの画像を設定または取得します。
         /// </summary>
-        public Bitmap[] FairyBitmap { get => fairyBitmap; set => fairyBitmap = value; }
+        public Bitmap[] FairyBitmap { get; set; }
+
+        /// <summary>
+        /// Procon29_Showの初期化を行います。
+        /// </summary>
+        /// <param name="procon29_Calc">表示するProcon29_Calc</param>
+        public Show(Calc procon29_Calc, PictureBox pictureBox)
+        {
+            Calc = procon29_Calc;
+            PictureBox = pictureBox;
+
+            // ResourceManagerを取得する
+            System.Resources.ResourceManager resource = Properties.Resources.ResourceManager;
+
+            //画像ファイルを読み込んで、Imageオブジェクトとして取得する
+            AgentBitmap = new Bitmap[2];
+            AgentBitmap[0] = (Bitmap)resource.GetObject("Orange");
+            AgentBitmap[1] = (Bitmap)resource.GetObject("Lime");
+            FairyBitmap = new Bitmap[4];
+            FairyBitmap[0] = (Bitmap)resource.GetObject("Strawberry");
+            FairyBitmap[1] = (Bitmap)resource.GetObject("Apple");
+            FairyBitmap[2] = (Bitmap)resource.GetObject("Kiwi");
+            FairyBitmap[3] = (Bitmap)resource.GetObject("Muscat");
+
+            foreach (Team team in Enum.GetValues(typeof(Team)))
+            {
+                foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
+                {
+                    agentActivityData[team, agent] = new AgentActivityData(AgentStatusCode.RequestMovement, Calc.Agents[team, agent].Position);
+                }
+            }
+
+            ClickField = new ClickField(Calc, PictureBox);
+        }
 
         /// <summary>
         /// Procon29_Showの初期化を行います。
@@ -117,6 +156,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     agentActivityData[team, agent] = new AgentActivityData(AgentStatusCode.RequestMovement, Calc.Agents[team, agent].Position);
                 }
             }
+
+            ClickField = new ClickField(Calc, PictureBox);
         }
 
         /// <summary>
@@ -134,6 +175,16 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
+        /// 前のカーソルの状態を設定または取得します。
+        /// </summary>
+        public Coordinate precursor { get; set; }
+
+        /// <summary>
+        /// フィールドを描画するオブジェクトを設定または取得します。
+        /// </summary>
+        public DrawField drawField { get; set; }
+
+        /// <summary>
         /// PictureBoxを新たに生成します。
         /// </summary>
         /// <param name="pictureBox">表示するPictureBox</param>
@@ -145,264 +196,122 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Calc.Field.Width;
             var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Calc.Field.Height;
 
-            PointFont = new Font(familyName: PointFamilyName, emSize: fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 2.0f);
-            //PointFont = Font;
-            //PointFont = new Font(pfc.Families[0], fieldHeight <= 0 ? 1 : fieldHeight / 4 * 3 / 2.0f);
-            for (int x = 0; x < Calc.Field.Width; x++)
+            Bitmap = canvas;
+
+            var cursor = CursorPosition(PictureBox);
+
+            drawField = new DrawField(Calc, canvas);
+            drawField.AgentsActivityData = agentActivityData;
+            drawField.Draw(cursor);
+            precursor = cursor;
+            try
             {
-                for (int y = 0; y < Calc.Field.Height; y++)
+                foreach (var agent in Calc.Agents)
                 {
-                    //背景色の表示
-                    if (!Calc.Field[x, y].IsTileOn[Team.A] && !Calc.Field[x, y].IsTileOn[Team.B])
-                        graphics.FillRectangle(
-                        brush: BackGroundSolidBrush,
-                        x: x * fieldWidth,
-                        y: y * fieldHeight,
-                        width: fieldWidth,
-                        height: fieldHeight);
-                    //囲み領域の表示
-                    if (Calc.Field[x, y].IsEnclosed[Team.A] && Calc.Field[x, y].IsEnclosed[Team.B])
+                    if (ClickField.ClickedAgent == agent && cursor.ChebyshevDistance(agent.Position) == 1)
                     {
-                        graphics.FillRectangle(
-                            brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[1].AgentColor),
-                            x: x * fieldWidth,
-                            y: y * fieldHeight,
-                            width: fieldWidth / 2,
-                            height: fieldHeight);
-                        graphics.FillRectangle(
-                            brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[0].AgentColor),
-                            x: x * fieldWidth + fieldWidth / 2,
-                            y: y * fieldHeight,
-                            width: fieldWidth / 2,
-                            height: fieldHeight);
+                        drawField.DrawArrow(agent.Team, agent.Position, cursor);
+                        break;
                     }
-                    else if (Calc.Field[x, y].IsEnclosed[Team.A])
-                        graphics.FillRectangle(
-                            brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[0].AgentColor),
-                            x: x * fieldWidth,
-                            y: y * fieldHeight,
-                            width: fieldWidth,
-                            height: fieldHeight);
-                    else if (Calc.Field[x, y].IsEnclosed[Team.B])
-                        graphics.FillRectangle(
-                            brush: new HatchBrush(HatchStyle.LargeConfetti, TeamDesign[1].AgentColor),
-                            x: x * fieldWidth,
-                            y: y * fieldHeight,
-                            width: fieldWidth,
-                            height: fieldHeight);
-                    // タイルの色表示
-                    for (int i = 0; i < 2; i++)
+                    else if (cursor.ChebyshevDistance(agent.Position) == 1 && cursor.ChebyshevDistance(ClickField.ClickedAgent.Position) != 1)
                     {
-                        if (Calc.Field[x, y].IsTileOn[(Team)i])
-                            graphics.FillRectangle(
-                            brush: new SolidBrush(TeamDesign[i].AgentColor),
-                            x: x * fieldWidth,
-                            y: y * fieldHeight,
-                            width: fieldWidth,
-                            height: fieldHeight);
-                    }
-                    // 枠の表示
-                    graphics.DrawRectangle(
-                        pen: Pens.Black,
-                        x: x * fieldWidth,
-                        y: y * fieldHeight,
-                        width: fieldWidth,
-                        height: fieldHeight);
-                    // 得点表示                    
-                    string points;
-                    if (0 <= Calc.Field[x, y].Point && Calc.Field[x, y].Point < 10)
-                        points = " " + Calc.Field[x, y].Point.ToString();
-                    else
-                        points = Calc.Field[x, y].Point.ToString();
-                    graphics.DrawString(
-                    s: points,
-                    font: PointFont,
-                    brush: new SolidBrush(color: Color.FromArgb(0x90, Color.White)),
-                    x: (float)(x + ((-10 <= Calc.Field[x, y].Point) ? 0.1 : 0.0)) * fieldWidth,
-                    y: (float)(y + 0.1) * fieldHeight);
-                }
-            }
-            pointFont.Dispose();
-
-            Point systemCursorPosition = System.Windows.Forms.Cursor.Position;
-            Point pictureBoxCursorPosition = pictureBox.PointToClient(systemCursorPosition);
-            Point selectedFieldPoint = new System.Drawing.Point(
-                x: pictureBoxCursorPosition.X / ((fieldWidth <= 0) ? 1 : fieldWidth),
-                y: pictureBoxCursorPosition.Y / ((fieldHeight <= 0) ? 1 : fieldHeight));
-            if ((selectedFieldPoint.X < Calc.Field.Width) && (selectedFieldPoint.Y < Calc.Field.Height))
-                graphics.FillRectangle(
-                    brush: SelectSolidBrush,
-                    x: selectedFieldPoint.X * fieldWidth,
-                    y: selectedFieldPoint.Y * fieldHeight,
-                    width: fieldWidth,
-                    height: fieldHeight);
-            graphics.DrawRectangle(
-                pen: new Pen(color: Color.LightSkyBlue, width: 5),
-                x: ClickedField.X * fieldWidth,
-                y: ClickedField.Y * fieldHeight,
-                width: fieldWidth,
-                height: fieldHeight);
-
-            //フルーツフェアリーたちの表示
-            foreach (Team team in Enum.GetValues(typeof(Team)))
-            {
-                foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
-                {
-                    //if (agentActivityData[team, agent] == null) continue;
-
-                    float f = canvas.Height / 12000.0f;
-
-                    var bmp = (Bitmap)FairyBitmap[(int)team * 2 + (int)agent].Clone();
-                    if (agentActivityData[team, agent].Destination.X < Calc.Field.Width / 2)
-                        bmp.RotateFlip(RotateFlipType.Rotate180FlipY);
-
-                    System.Drawing.Imaging.ColorMatrix cm =
-                        new System.Drawing.Imaging.ColorMatrix
-                        {
-                            //ColorMatrixの行列の値を変更して、アルファ値が0.5に変更されるようにする
-                            Matrix00 = 1,
-                            Matrix11 = 1,
-                            Matrix22 = 1,
-                            Matrix33 = 0.8F,
-                            Matrix44 = 1
-                        };
-
-                    //ImageAttributesオブジェクトの作成
-                    System.Drawing.Imaging.ImageAttributes ia =
-                        new System.Drawing.Imaging.ImageAttributes();
-
-                    //ColorMatrixを設定する
-                    ia.SetColorMatrix(cm);
-
-                    graphics.DrawImage(
-                        image: bmp,
-                        destRect: new Rectangle
-                        {
-                            X = (int)((agentActivityData[team, agent].Destination.X + 0.5f) * fieldWidth),
-                            Y = (int)((agentActivityData[team, agent].Destination.Y + 0.0f) * fieldHeight),
-                            Width = (int)(bmp.Width * f),
-                            Height = (int)(bmp.Height * f)
-                        },
-                        srcX: 0,
-                        srcY: 0,
-                        srcWidth: bmp.Width,
-                        srcHeight: bmp.Height,
-                        srcUnit: GraphicsUnit.Pixel,
-                        imageAttrs: ia);
-
-                    ia.Dispose();
-                    bmp.Dispose();
-                }
-            }
-
-            //エージェントを女の子にするところ
-            for (int x = 0; x < calc.Field.Width; x++)
-            {
-                for (int y = 0; y < calc.Field.Height; y++)
-                {
-                    foreach (Team team in Enum.GetValues(typeof(Team)))
-                    {
-                        foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
-                        {
-                            if (new Coordinate(x, y) == calc.Agents[team, agent].Position)
-                            {
-                                float f = canvas.Height / 3000.0f;
-
-                                var bmp = (Bitmap)AgentBitmap[(int)team].Clone();
-                                if (Calc.Agents[team, agent].Position.X > Calc.Field.Width / 2)
-                                    bmp.RotateFlip(RotateFlipType.Rotate180FlipY);
-
-                                System.Drawing.Imaging.ColorMatrix cm =
-                                    new System.Drawing.Imaging.ColorMatrix
-                                    {
-                                        //ColorMatrixの行列の値を変更して、アルファ値が0.5に変更されるようにする
-                                        Matrix00 = 1,
-                                        Matrix11 = 1,
-                                        Matrix22 = 1,
-                                        Matrix33 = 1,
-                                        Matrix44 = 1
-                                    };
-
-                                // 司令塔の邪魔にならないように、エージェントの真上のマスをマウスが通ったときに、
-                                // フルーツフェアリーたちの魔法で透明になるという設定
-                                if (CursorPosition(PictureBox).X == Calc.Agents[team, agent].Position.X && (
-                                    CursorPosition(PictureBox).Y == Calc.Agents[team, agent].Position.Y - 1 ||
-                                    CursorPosition(PictureBox).Y == Calc.Agents[team, agent].Position.Y))
-                                    cm.Matrix33 = 0.3F;
-
-                                //ImageAttributesオブジェクトの作成
-                                System.Drawing.Imaging.ImageAttributes ia =
-                                    new System.Drawing.Imaging.ImageAttributes();
-
-                                //ColorMatrixを設定する
-                                ia.SetColorMatrix(cm);
-
-                                graphics.DrawImage(
-                                    image: bmp,
-                                    destRect: new Rectangle
-                                    {
-                                        X = (int)(Calc.Agents[team, agent].Position.X * fieldWidth),
-                                        Y = (int)(Calc.Agents[team, agent].Position.Y * fieldHeight - (bmp.Height * f * 0.55f)),
-                                        Width = (int)(bmp.Width * f),
-                                        Height = (int)(bmp.Height * f)
-                                    },
-                                    srcX: 0,
-                                    srcY: 0,
-                                    srcWidth: bmp.Width,
-                                    srcHeight: bmp.Height,
-                                    srcUnit: GraphicsUnit.Pixel,
-                                    imageAttrs: ia);
-
-                                ia.Dispose();
-                                bmp.Dispose();
-                            }
-                        }
+                        drawField.DrawArrow(agent.Team, agent.Position, cursor);
+                        break;
                     }
                 }
             }
-
-            // 短い名前を表示  
-            PointFont = new Font(pointFamilyName, (fieldHeight <= 0 && fieldWidth <= 0) ? 1 : Math.Min(fieldHeight, fieldWidth) / 4 * 3 / 6.0f);
-            for (Team team = 0; (int)team < 2; team++)
+            catch (Exception)
             {
-                for (AgentNumber agent = 0; (int)agent < 2; agent++)
-                {
-                    if (!(CursorPosition(PictureBox).X == Calc.Agents[team, agent].Position.X &&
-                          CursorPosition(PictureBox).Y == Calc.Agents[team, agent].Position.Y - 1))
-                    {
-                        graphics.DrawString(
-                            s: Calc.ShortTeamAgentName[(int)team, (int)agent],
-                            font: PointFont,
-                            brush: new SolidBrush(color: Color.FromArgb(0xCC, Color.White)),
-                            x: (float)(Calc.Agents[team, agent].Position.X + 0.0) * fieldWidth,
-                            y: (float)(Calc.Agents[team, agent].Position.Y + 0.75) * fieldHeight);
-                    }
-                }
+                MessageBox.Show("フィールドの外です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            pointFont.Dispose();
 
             return canvas;
         }
-       
+
+        /// <summary>
+        /// PictureBoxを新たに生成します。
+        /// </summary>
+        /// <param name="pictureBox">表示するPictureBox</param>
+        /// <param name="canvas">表示するBitmap</param>
+        /// <param name="graphics">表示するGraphics</param>
+        /// <param name="turn">表示するターン</param>
+        /// <returns></returns>
+        public Bitmap MakePictureBox(PictureBox pictureBox, Bitmap canvas, Graphics graphics, int turn)
+        {
+            var fieldWidth = ((pictureBox.Width <= 0) ? 1 : pictureBox.Width) / Calc.Field.Width;
+            var fieldHeight = ((pictureBox.Height <= 0) ? 1 : pictureBox.Height) / Calc.Field.Height;
+
+            Bitmap = canvas;
+
+            var cursor = CursorPosition(PictureBox);
+
+            drawField = new DrawField(Calc, canvas);
+            drawField.AgentsActivityData = agentActivityData;
+            drawField.Draw(turn, cursor);
+            precursor = cursor;
+            try
+            {
+                foreach (var agent in Calc.Agents)
+                {
+                    if (ClickField.ClickedAgent == agent && cursor.ChebyshevDistance(agent.Position) == 1)
+                    {
+                        drawField.DrawArrow(agent.Team, agent.Position, cursor);
+                        break;
+                    }
+                    else if (cursor.ChebyshevDistance(agent.Position) == 1 && cursor.ChebyshevDistance(ClickField.ClickedAgent.Position) != 1)
+                    {
+                        drawField.DrawArrow(agent.Team, agent.Position, cursor);
+                        break;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("フィールドの外です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return canvas;
+        }
+
         /// <summary>
         /// 表示を行います。
         /// </summary>
-        /// <param name="pictureBox">表示するPictureBoxを指定します</param>
-        public void Showing(PictureBox pictureBox)
+        public void Showing()
         {
             //描画先とするImageオブジェクトを作成する
-            Bitmap canvas = new Bitmap(((pictureBox.Width <= 0) ? 1 : pictureBox.Width), ((pictureBox.Height <= 0) ? 1 : pictureBox.Height));
+            Bitmap canvas = new Bitmap(((PictureBox.Width <= 0) ? 1 : PictureBox.Width), ((PictureBox.Height <= 0) ? 1 : PictureBox.Height));
             //ImageオブジェクトのGraphicsオブジェクトを作成する
             Graphics graphics = Graphics.FromImage(canvas);
 
-            MakePictureBox(pictureBox, canvas, graphics);
+            MakePictureBox(PictureBox, canvas, graphics);
 
             //リソースを開放
             graphics.Dispose();
             //前のImageオブジェクトのリソースを開放してから
-            if (pictureBox.Image != null) pictureBox.Image.Dispose();
+            if (PictureBox.Image != null) PictureBox.Image.Dispose();
             //pictureBoxに表示する
-            pictureBox.Image = canvas;
+            PictureBox.Image = canvas;
+        }
+
+        /// <summary>
+        /// 表示を行います。
+        /// </summary>
+        /// <param name="turn">表示するターンを指定します</param>
+        public void Showing(int turn)
+        {
+            //描画先とするImageオブジェクトを作成する
+            Bitmap canvas = new Bitmap(((PictureBox.Width <= 0) ? 1 : PictureBox.Width), ((PictureBox.Height <= 0) ? 1 : PictureBox.Height));
+            //ImageオブジェクトのGraphicsオブジェクトを作成する
+            Graphics graphics = Graphics.FromImage(canvas);
+
+            MakePictureBox(PictureBox, canvas, graphics, turn);
+
+            //リソースを開放
+            graphics.Dispose();
+            //前のImageオブジェクトのリソースを開放してから
+            if (PictureBox.Image != null) PictureBox.Image.Dispose();
+            //pictureBoxに表示する
+            PictureBox.Image = canvas;
         }
 
         /// <summary>
@@ -458,61 +367,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             pictureBox.Image = canvas;
         }
 
-        /// <summary>
-        /// ダブルクリックした際の表示を行います。
-        /// </summary>
-        public void DoubleClickedShow()
-        {
-            //if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[(int)((SelectedTeamAndAgent.Item1 == Team.A) ? Team.B : Team.A)])
-            if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[((SelectedTeam == Team.A) ? Team.B : Team.A)])
-                agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
-            else if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[SelectedTeam])
-            {
-                //メッセージボックスを表示する
-                DialogResult result = MessageBox.Show("タイルを取り除きますか？", "質問", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
-                //何が選択されたか調べる
-                if (result == DialogResult.Yes)
-                {
-                    //「はい」が選択された時
-                    Console.WriteLine("「はい」が選択されました");
-                    agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOurTile;
-                }
-                else if (result == DialogResult.No)
-                {
-                    //「いいえ」が選択された時
-                    Console.WriteLine("「いいえ」が選択されました");
-                    agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
-                }
-            }
-            else
-                agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
-            agentActivityData[SelectedTeam, SelecetedAgent].Destination = ClickedField;
-        }
-
         public void ClickShow()
         {
-            if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[((SelectedTeam == Team.A) ? Team.B : Team.A)])
-                agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
-            else if (Calc.Field[CursorPosition(PictureBox).X, CursorPosition(PictureBox).Y].IsTileOn[SelectedTeam])
-            {
-                //メッセージボックスを表示する
-                DialogResult result = MessageBox.Show("タイルを取り除きますか？", "質問", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
-                //何が選択されたか調べる
-                if (result == DialogResult.Yes)
-                {
-                    //「はい」が選択された時
-                    Console.WriteLine("「はい」が選択されました");
-                    agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOurTile;
-                }
-                else if (result == DialogResult.No)
-                {
-                    //「いいえ」が選択された時
-                    Console.WriteLine("「いいえ」が選択されました");
-                    agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
-                }
-            }
-            else
-                agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
+            ClickField.Click();
+            agentActivityData = ClickField.AgentsActivityData;
         }
 
         public void KeyDownShow()
@@ -567,79 +425,81 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public void KeyDown(object sender, KeyEventArgs e)
         {
             e.SuppressKeyPress = true;
+            ClickField.PushKey(e.KeyCode);
+            
 
-            var current = Calc.Agents[SelectedTeam, SelecetedAgent].Position;
-            var next = agentActivityData[SelectedTeam, SelecetedAgent];
+            //var current = Calc.Agents[SelectedTeam, SelecetedAgent].Position;
+            //var next = agentActivityData[SelectedTeam, SelecetedAgent];
 
-            Console.WriteLine(e.KeyCode);
-            try
-            {
-                switch (e.KeyCode)
-                {
-                    case Keys.Q:
-                        SelectedTeam = Team.A;
-                        SelecetedAgent = AgentNumber.One;
-                        break;
-                    case Keys.W:
-                        SelectedTeam = Team.A;
-                        SelecetedAgent = AgentNumber.Two;
-                        break;
-                    case Keys.E:
-                        SelectedTeam = Team.B;
-                        SelecetedAgent = AgentNumber.One;
-                        break;
-                    case Keys.R:
-                        SelectedTeam = Team.B;
-                        SelecetedAgent = AgentNumber.Two;
-                        break;
-                    case Keys.NumPad1:
-                        next.Destination = current + Arrow.DownLeft;
-                        break;
-                    case Keys.NumPad2:
-                        next.Destination = current + Arrow.Down;
-                        break;
-                    case Keys.NumPad3:
-                        next.Destination = current + Arrow.DownRight;
-                        break;
-                    case Keys.NumPad4:
-                        next.Destination = current + Arrow.Left;
-                        break;
-                    case Keys.NumPad6:
-                        next.Destination = current + Arrow.Right;
-                        break;
-                    case Keys.NumPad7:
-                        next.Destination = current + Arrow.UpLeft;
-                        break;
-                    case Keys.NumPad8:
-                        next.Destination = current + Arrow.Up;
-                        break;
-                    case Keys.NumPad9:
-                        next.Destination = current + Arrow.UpRight;
-                        break;
-                }
+            //Console.WriteLine(e.KeyCode);
+            //try
+            //{
+            //    switch (e.KeyCode)
+            //    {
+            //        case Keys.Q:
+            //            SelectedTeam = Team.A;
+            //            SelecetedAgent = AgentNumber.One;
+            //            break;
+            //        case Keys.W:
+            //            SelectedTeam = Team.A;
+            //            SelecetedAgent = AgentNumber.Two;
+            //            break;
+            //        case Keys.E:
+            //            SelectedTeam = Team.B;
+            //            SelecetedAgent = AgentNumber.One;
+            //            break;
+            //        case Keys.R:
+            //            SelectedTeam = Team.B;
+            //            SelecetedAgent = AgentNumber.Two;
+            //            break;
+            //        case Keys.NumPad1:
+            //            next.Destination = current + Arrow.DownLeft;
+            //            break;
+            //        case Keys.NumPad2:
+            //            next.Destination = current + Arrow.Down;
+            //            break;
+            //        case Keys.NumPad3:
+            //            next.Destination = current + Arrow.DownRight;
+            //            break;
+            //        case Keys.NumPad4:
+            //            next.Destination = current + Arrow.Left;
+            //            break;
+            //        case Keys.NumPad6:
+            //            next.Destination = current + Arrow.Right;
+            //            break;
+            //        case Keys.NumPad7:
+            //            next.Destination = current + Arrow.UpLeft;
+            //            break;
+            //        case Keys.NumPad8:
+            //            next.Destination = current + Arrow.Up;
+            //            break;
+            //        case Keys.NumPad9:
+            //            next.Destination = current + Arrow.UpRight;
+            //            break;
+            //    }
 
-                current = Calc.Agents[SelectedTeam, SelecetedAgent].Position;
-                next = agentActivityData[SelectedTeam, SelecetedAgent];
+            //    current = Calc.Agents[SelectedTeam, SelecetedAgent].Position;
+            //    next = agentActivityData[SelectedTeam, SelecetedAgent];
 
-                ClickedField = current;
-                if (next.Destination.X < 0 ||
-                    next.Destination.Y < 0 ||
-                    next.Destination.X >= calc.Field.Width ||
-                    next.Destination.Y >= calc.Field.Height)
-                {
-                    next.Destination = current;
-                    throw new Exception();
-                }
-                else if (current != next.Destination)
-                {
-                    KeyDownShow();
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("不正なキー入力です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            Showing(pictureBox);
+            //    ClickedField = current;
+            //    if (next.Destination.X < 0 ||
+            //        next.Destination.Y < 0 ||
+            //        next.Destination.X >= Calc.Field.Width ||
+            //        next.Destination.Y >= Calc.Field.Height)
+            //    {
+            //        next.Destination = current;
+            //        throw new Exception();
+            //    }
+            //    else if (current != next.Destination)
+            //    {
+            //        KeyDownShow();
+            //    }
+            //}
+            //catch (Exception)
+            //{
+            //    MessageBox.Show("不正なキー入力です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
+            Showing();
         }
 
 

@@ -42,6 +42,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Procon29 Visualizer.xml</DocumentationFile>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -91,8 +92,33 @@
     <Compile Include="AgentActivityData.cs" />
     <Compile Include="AgentsActivityDataExtension.cs" />
     <Compile Include="AgentStatusCode.cs" />
+    <Compile Include="AgentStatusCodeAction.cs" />
+    <Compile Include="AgentStatusCodeAttribute.cs" />
     <Compile Include="AgentStatusCodeExtension.cs" />
     <Compile Include="Arrow.cs" />
+    <Compile Include="CharactorBitmap.cs" />
+    <Compile Include="ClickField.cs" />
+    <Compile Include="Direction.cs" />
+    <Compile Include="DrawField.cs" />
+    <Compile Include="FruitFairies.cs" />
+    <Compile Include="FruitFairy.cs" />
+    <Compile Include="HistoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HistoryForm.Designer.cs">
+      <DependentUpon>HistoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PlayMode.cs" />
+    <Compile Include="SplashForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SplashForm.Designer.cs">
+      <DependentUpon>SplashForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TeamDesigns.cs" />
+    <Compile Include="TrumpMark.cs" />
+    <Compile Include="TrumpNumber.cs" />
+    <Compile Include="TsvReader.cs" />
     <Compile Include="XmlCalc.cs" />
     <Compile Include="Calc.cs" />
     <Compile Include="Coordinate.cs" />
@@ -113,7 +139,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ObjectExtension.cs" />
-    <Compile Include="PointExtension.cs" />
+    <Compile Include="CoordinateExtension.cs" />
     <Compile Include="PqrData.cs" />
     <Compile Include="PqrDataExtension.cs" />
     <Compile Include="PqrReader.cs" />
@@ -134,8 +160,13 @@
     <Compile Include="TeamExtension.cs" />
     <Compile Include="TurnData.cs" />
     <Compile Include="AgentActivityDataExtension.cs" />
+    <Compile Include="XmlCell.cs" />
+    <Compile Include="XmlTurnData.cs" />
     <EmbeddedResource Include="CreateNewForm.resx">
       <DependentUpon>CreateNewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HistoryForm.resx">
+      <DependentUpon>HistoryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -144,6 +175,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashForm.resx">
+      <DependentUpon>SplashForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
