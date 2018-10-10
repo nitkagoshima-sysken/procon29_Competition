@@ -40,6 +40,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         CreateNewForm createNewForm = new CreateNewForm();
 
         /// <summary>
+        /// ボットのログを表示します。
+        /// </summary>
+        public BotLogForm BotLogForm { get; set; } = new BotLogForm();
+
+        /// <summary>
         /// ボットを設定または取得します。
         /// </summary>
         public static dynamic[] Bot { get; set; } = new dynamic[2];
@@ -88,6 +93,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             var version = System.Diagnostics.FileVersionInfo.GetVersionInfo(
                 System.Reflection.Assembly.GetExecutingAssembly().Location);
             Log.WriteLine("Procon29 Visualizer (ver. " + version.FileMinorPart + "." + version.FileBuildPart + ")");
+
+            BotLog = new Logger(BotLogForm.BotLogRichText);
+            BotLogForm.Show(this);
 
             // PQRファイルを直接読み込む
             // ちなみにQR_code_sample.pdfで登場したQRコード
@@ -513,6 +521,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     if (Bot[0] != null)
                     {
                         Bot[0].OurTeam = Team.A;
+                        Bot[0].Log = BotLog;
                         Bot[0].Question(Calc);
                         var a = Bot[0].Answer();
                         show.agentActivityData[Team.A, AgentNumber.One] = a[0];
@@ -521,6 +530,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     if (Bot[1] != null)
                     {
                         Bot[1].OurTeam = Team.B;
+                        Bot[1].Log = BotLog;
                         Bot[1].Question(Calc);
                         var a = Bot[1].Answer();
                         show.agentActivityData[Team.B, AgentNumber.One] = a[0];
@@ -676,6 +686,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             TurnEndButton.Text = "ターンエンド";
             TurnEndButton.BackColor = Color.RoyalBlue;
             TurnEndButton.ForeColor = Color.LightGray;
+            BotLogForm.Show();
         }
 
         private void ProductionModeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -684,6 +695,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             TurnEndButton.Text = "ボットで選択";
             TurnEndButton.BackColor = Color.DarkGray;
             TurnEndButton.ForeColor = Color.White;
+            BotLogForm.Hide();
         }
 
         private void OpenQRCodeReaderToolStripMenuItem_Click(object sender, EventArgs e)
