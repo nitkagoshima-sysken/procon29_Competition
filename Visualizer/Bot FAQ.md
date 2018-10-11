@@ -34,6 +34,15 @@ test.Y = 3; // Y軸に3をセット
 Log.WriteLine(test.ToString()); // ボットコンソールに座標を表示
 ```
 
+エージェントの座標を表示したいなら、
+
+```cs
+var posi = Calc.Agents[OurTeam, AgentNumber.One].Position;
+Log.WriteLine("一人目のエージェントは、");
+Log.WriteLine("左から" + (posi.X + 1) + "マス目に、");
+Log.WriteLine("上から" + (posi.Y + 1) + "マス目にいます。");
+```
+
 ## ボットコンソールに「あぁ^～心がぴょんぴょんするんじゃぁ^～」と表示したいのですが、どうすればいいですか？
 
 ```cs
@@ -65,18 +74,13 @@ using System.Drawing;
 ## すべてのエージェントに何らかの処理をしたい
 
 ```cs
-foreach (agent in Calc.Agents)
+foreach (var agent in Calc.Agents)
 {
     // 何らかの処理をここに書きましょう。
-    Log.Write("Team: ");
-    Log.Write(agent.Team.ToString()); // エージェントのチームを表示
-    Log.Write(" AgentNumber: ");
-    Log.Write(agent.AgentNumber.ToString()); // エージェントのエージェントナンバーを表示
-    Log.Write(" Name: ");
     Log.Write(agent.Name); // エージェントの名前を表示
-    Log.Write(" Position: ");
+    Log.Write("は、現在、");
     Log.Write(agent.Position.ToString()); // エージェントの場所を表示
-    Log.WriteLine("");
+    Log.WriteLine("のところにいます。");
     // こんな感じにね
 }
 ```
@@ -84,8 +88,39 @@ foreach (agent in Calc.Agents)
 ちなみに表示結果はこうなります。（例です。）
 
 ```表示結果
-Team: A AgentNumber: One Name: Strawberry Position: {11, 6}
-Team: A AgentNumber: Two Name: Apple Position: {9, 10}
-Team: B AgentNumber: One Name: Kiwi Position: {11, 5}
-Team: B AgentNumber: Two Name: Muscat Position: {9, 1}
+Strawberryは、現在、{11, 6}のところにいます。
+Appleは、現在、{9, 10}のところにいます。
+Kiwiは、現在、{11, 5}のところにいます。
+Muscatは、現在、{9, 1}のところにいます。
 ```
+
+## 敵チームのタイルが置いてあるマスをすべて取得したい
+
+```cs
+var list =
+    from cell in Calc.Field // フィールドからマス(cell)をひとつずつ取り出して、
+    where cell.IsTileOn[OurTeam.Opponent()] == true // もし、そのマスに敵のタイルが置いてあったら、
+    select cell.Coordinate; // そのマスの座標をリストに追加する。
+
+foreach (var item in list) // リストからひとつずつ取り出して、
+{
+    Log.WriteLine(item.ToString()); // 座標を表示する。
+}
+```
+
+ちなみに表示結果はこうなります。（例です。）
+
+```表示結果
+{7, 2}
+{8, 0}
+{8, 1}
+{9, 0}
+{9, 1}
+{9, 3}
+{10, 2}
+{11, 3}
+{11, 4}
+{11, 5}
+```
+
+クエリ式を詳しく知りたい方は、How to use Queryを見ましょう。
