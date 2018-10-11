@@ -57,20 +57,6 @@ namespace nitkagoshima_sysken
                 /// <returns>どこにエージェントに行かせるか</returns>
                 public override AgentActivityData[] Answer()
                 {
-                    foreach (var agent in Calc.Agents)
-                    {
-                        // 何らかの処理をここに書きましょう。
-                        Log.Write("Team: ");
-                        Log.Write(agent.Team.ToString());
-                        Log.Write(" AgentNumber: ");
-                        Log.Write(agent.AgentNumber.ToString());
-                        Log.Write(" Name: ");
-                        Log.Write(agent.Name);
-                        Log.Write(" Position: ");
-                        Log.Write(agent.Position.ToString());
-                        Log.WriteLine("");
-                    }
-
                     var result = new AgentActivityData[2];
 
                     // 一人目のエージェントの最高得点を保存するために使う変数
