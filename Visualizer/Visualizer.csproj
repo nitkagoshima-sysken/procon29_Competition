@@ -42,6 +42,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Procon29 Visualizer.xml</DocumentationFile>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -95,6 +96,12 @@
     <Compile Include="AgentStatusCodeAttribute.cs" />
     <Compile Include="AgentStatusCodeExtension.cs" />
     <Compile Include="Arrow.cs" />
+    <Compile Include="BotLogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BotLogForm.Designer.cs">
+      <DependentUpon>BotLogForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CharactorBitmap.cs" />
     <Compile Include="ClickField.cs" />
     <Compile Include="Direction.cs" />
@@ -161,6 +168,9 @@
     <Compile Include="AgentActivityDataExtension.cs" />
     <Compile Include="XmlCell.cs" />
     <Compile Include="XmlTurnData.cs" />
+    <EmbeddedResource Include="BotLogForm.resx">
+      <DependentUpon>BotLogForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CreateNewForm.resx">
       <DependentUpon>CreateNewForm.cs</DependentUpon>
     </EmbeddedResource>

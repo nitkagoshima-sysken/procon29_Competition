@@ -1,4 +1,5 @@
 ﻿using nitkagoshima_sysken.Procon29.Visualizer;
+using System;
 
 namespace nitkagoshima_sysken
 {
@@ -12,6 +13,16 @@ namespace nitkagoshima_sysken
                 /// 計算機を格納するところ
                 /// </summary>
                 protected Calc Calc { get; set; }
+
+                /// <summary>
+                /// ログを取ります。
+                /// </summary>
+                public Logger Log { get; set; }
+
+                /// <summary>
+                /// ログを取ります。
+                /// </summary>
+                public PlayMode Mode { get; set; }
 
                 /// <summary>
                 /// Bot側のチームを表します
@@ -44,7 +55,7 @@ namespace nitkagoshima_sysken
                 /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
                 public Calc Simulate(AgentsActivityData action)
                 {
-                    Calc.MoveAgent(action);
+                    Calc.MoveAgent(action.DeepClone());
                     var c = new Calc(new XmlCalc(Calc).DeepClone());
                     Calc.Undo();
                     return c;
@@ -57,7 +68,7 @@ namespace nitkagoshima_sysken
                 /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
                 public Calc Simulate(Team team, AgentActivityData[] action)
                 {
-                    Calc.MoveAgent(team, action);
+                    Calc.MoveAgent(team, action.DeepClone());
                     var c = new Calc(new XmlCalc(Calc).DeepClone());
                     Calc.Undo();
                     return c;
@@ -70,7 +81,7 @@ namespace nitkagoshima_sysken
                 /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
                 public Calc Simulate(Team team, AgentNumber agentNumber, AgentActivityData action)
                 {
-                    Calc.MoveAgent(team, agentNumber, action);
+                    Calc.MoveAgent(team, agentNumber, action.DeepClone());
                     var c = new Calc(new XmlCalc(Calc).DeepClone());
                     Calc.Undo();
                     return c;

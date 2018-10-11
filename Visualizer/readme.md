@@ -1,13 +1,22 @@
-# Procon29 Visualizer 26.0
+# Procon29 Visualizer 35.0
 
 ## What's new
 
-### `PointExtension`から`CoordinateExtension`に変更（開発者向け）
+### ボットコンソールのフォントが`Console`に改善された
 
-うっかり`PointExtension`から`CoordinateExtension`に変更するのを忘れてました。  
-これのせいでwikiからも漏れて、彼らの知名度が低いです。すみません。  
-ちなみに、`CoordinateExtension`の`ChebyshevDistance(this Coordinate, Coordinate)`を使用しているボットたちは一度、リビルトしなければなりません。  
-つまり、Visualizer 26.0でまた互換性のないVisualizerが完成してしまったわけです。
+MSゴシックなんて大嫌い！
+
+### ボットコンソールの非透明度が90%に変更された
+
+Visualizerより少し透明に
+
+### ボットコンソールがデフォルトで非表示になった
+
+邪魔だもんね。デバッグするときにしか使わない
+
+### ボットコンソールを閉じてもエラーにならないように修正
+  
+閉じても非表示するように変更した
 
 ## 操作方法
 
@@ -405,6 +414,82 @@
 
 - `PointExtension`から`CoordinateExtension`に変更（開発者向け）
 
+### Version 27.0
+
+- C# 6にダウングレード
+
+#### Version 27.1
+
+- `Logger.richTextBox`を廃止（開発者向け）
+
+### Version 28.0
+
+- `AgentStatusCodeExtension.IsMovement(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.IsRemovementOutTile(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.IsRemovementOpponentTile(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToSucceeded(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToRequest(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToAction(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToAttribute(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.IsRequest(this AgentStatusCode)`のコード最適化（開発者向け）
+- `AgentStatusCodeExtension.IsSucceeded(this AgentStatusCode)`のコード最適化（開発者向け）
+- `AgentStatusCodeExtension.IsFailed(this AgentStatusCode)`のコード最適化（開発者向け）
+
+### Version 29.0
+
+- プリフェッチングファイルを読み込んだ際に表示されるダイアログを廃止した
+- プリフェッチングファイルを読み込んだ際にログに表示されるようにした
+- 1ターン目のときにエージェントの位置の表示がおかしいバグを修正
+
+### Version 30.0
+
+- 本番モードでターンエンドのときもボットを呼び出してしまうバグを修正
+
+### Version 31.0
+
+- Visualizerから外部プログラムの起動が可能になった
+
+#### Version 31.1
+
+- ボットが呼び出せない重大なバグを修正
+
+#### Version 31.2
+
+- 最後のターンエンドすると例外がおきるバグを修正
+
+### Version 32.0
+
+- エージェントのログが二人目以降は`NotDoneAnything`になってしまうバグを修正
+- `TsvReader`のバグを修正（開発者向け）
+- `Calc`のコード最適化（開発者向け）
+
+### Version 33.0
+
+- 同じタイル上に2人のエージェントが同衾するバグを修正（SeitaHigashi氏によるデバッグ）
+
+#### Version 33.1
+
+- `Logger.Write(Color, string)`を廃止（開発者向け）
+- `Logger.WriteLine(Color, string)`を廃止（開発者向け）
+- `Logger.DefaultColor`を追加（開発者向け）
+- `Logger.Write(string)`を追加（開発者向け）
+- `Logger.Write(string, Color)`を追加（開発者向け）
+- `Logger.WriteLine(string)`を追加（開発者向け）
+- `Logger.WriteLine(string, Color)`を追加（開発者向け）
+- `Logger`のアクセシビリティを`public`に変更（開発者向け）
+
+### Version 34.0
+
+- ボットがコンソール画面にログを表示できるようになった
+- `PlayMode`のアクセシビリティを`public`に変更（開発者向け）
+
+### Version 35.0
+
+- ボットコンソールのフォントが`Console`に改善された
+- ボットコンソールの非透明度が90%に変更された
+- ボットコンソールがデフォルトで非表示になった
+- ボットコンソールを閉じてもエラーにならないように修正
+
 ## バージョンの上がり方について
 
 Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバージョン.マイナーバージョン.ビルドバージョン`で表されます。  
@@ -445,3 +530,5 @@ Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバ�
 |18.1|81|763|7|171|1924|
 |21.0|82|1026|7|194|2439|
 |25.0|83|1064|7|195|2509|
+|28.0|83|1079|7|198|2544|
+|34.0|83|1108|7|201|2625|
