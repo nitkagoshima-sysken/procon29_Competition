@@ -488,6 +488,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         && item.Destination == Agents[team, agent].Position)
                     {
                         item.AgentStatusData = item.AgentStatusData.ToYouHadCollisionsWithYourselfAndYouFailed();
+                        continue;
                     }
                     // 目標部が自分から遠い場所にないかチェック(3)
                     // FailedInMovingByBeingNotChebyshevNeighborhood
@@ -496,6 +497,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     if (item.Destination.ChebyshevDistance(Agents[team, agent].Position) != 1)
                     {
                         item.AgentStatusData = item.AgentStatusData.ToFailedByBeingNotMooreNeighborhood();
+                        continue;
                     }
                     // 目標部がフィールドの外にないかチェック(3)
                     // FailedInMovingByTryingToGoOutOfTheFieldWithEachOther
@@ -504,6 +506,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     if (!Field.CellExist(item.Destination))
                     {
                         item.AgentStatusData = item.AgentStatusData.ToFailedInMovingByTryingToGoOutOfTheField();
+                        continue;
                     }
                     // 剥がそうとしていたタイルが存在していないかチェック(2)
                     // FailedInRemovingOurTileByDoingTileNotExist
