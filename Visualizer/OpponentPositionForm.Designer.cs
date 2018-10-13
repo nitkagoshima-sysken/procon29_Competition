@@ -28,32 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.Position1X = new System.Windows.Forms.TextBox();
-            this.Position2X = new System.Windows.Forms.TextBox();
+            this.OpponentPosition1X = new System.Windows.Forms.TextBox();
+            this.OpponentPosition2X = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.Position1Y = new System.Windows.Forms.TextBox();
-            this.Position2Y = new System.Windows.Forms.TextBox();
+            this.OpponentPosition1Y = new System.Windows.Forms.TextBox();
+            this.OpponentPosition2Y = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // Position1X
+            // OpponentPosition1X
             // 
-            this.Position1X.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.Position1X.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Position1X.Location = new System.Drawing.Point(12, 42);
-            this.Position1X.Name = "Position1X";
-            this.Position1X.Size = new System.Drawing.Size(100, 37);
-            this.Position1X.TabIndex = 0;
+            this.OpponentPosition1X.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.OpponentPosition1X.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.OpponentPosition1X.Location = new System.Drawing.Point(12, 42);
+            this.OpponentPosition1X.Name = "OpponentPosition1X";
+            this.OpponentPosition1X.Size = new System.Drawing.Size(100, 37);
+            this.OpponentPosition1X.TabIndex = 0;
             // 
-            // Position2X
+            // OpponentPosition2X
             // 
-            this.Position2X.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.Position2X.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Position2X.Location = new System.Drawing.Point(12, 115);
-            this.Position2X.Name = "Position2X";
-            this.Position2X.Size = new System.Drawing.Size(100, 37);
-            this.Position2X.TabIndex = 1;
+            this.OpponentPosition2X.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.OpponentPosition2X.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.OpponentPosition2X.Location = new System.Drawing.Point(12, 115);
+            this.OpponentPosition2X.Name = "OpponentPosition2X";
+            this.OpponentPosition2X.Size = new System.Drawing.Size(100, 37);
+            this.OpponentPosition2X.TabIndex = 1;
             // 
             // label1
             // 
@@ -77,23 +77,23 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "2人目の位置(X, Y)";
             // 
-            // Position1Y
+            // OpponentPosition1Y
             // 
-            this.Position1Y.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.Position1Y.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Position1Y.Location = new System.Drawing.Point(118, 42);
-            this.Position1Y.Name = "Position1Y";
-            this.Position1Y.Size = new System.Drawing.Size(100, 37);
-            this.Position1Y.TabIndex = 4;
+            this.OpponentPosition1Y.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.OpponentPosition1Y.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.OpponentPosition1Y.Location = new System.Drawing.Point(118, 42);
+            this.OpponentPosition1Y.Name = "OpponentPosition1Y";
+            this.OpponentPosition1Y.Size = new System.Drawing.Size(100, 37);
+            this.OpponentPosition1Y.TabIndex = 4;
             // 
-            // Position2Y
+            // OpponentPosition2Y
             // 
-            this.Position2Y.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.Position2Y.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Position2Y.Location = new System.Drawing.Point(118, 115);
-            this.Position2Y.Name = "Position2Y";
-            this.Position2Y.Size = new System.Drawing.Size(100, 37);
-            this.Position2Y.TabIndex = 5;
+            this.OpponentPosition2Y.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.OpponentPosition2Y.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.OpponentPosition2Y.Location = new System.Drawing.Point(118, 115);
+            this.OpponentPosition2Y.Name = "OpponentPosition2Y";
+            this.OpponentPosition2Y.Size = new System.Drawing.Size(100, 37);
+            this.OpponentPosition2Y.TabIndex = 5;
             // 
             // button1
             // 
@@ -114,12 +114,12 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(235, 221);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.Position2Y);
-            this.Controls.Add(this.Position1Y);
+            this.Controls.Add(this.OpponentPosition2Y);
+            this.Controls.Add(this.OpponentPosition1Y);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.Position2X);
-            this.Controls.Add(this.Position1X);
+            this.Controls.Add(this.OpponentPosition2X);
+            this.Controls.Add(this.OpponentPosition1X);
             this.Name = "OpponentPositionForm";
             this.Text = "敵の位置は？";
             this.ResumeLayout(false);
@@ -131,9 +131,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button1;
-        public System.Windows.Forms.TextBox Position1X;
-        public System.Windows.Forms.TextBox Position2X;
-        public System.Windows.Forms.TextBox Position1Y;
-        public System.Windows.Forms.TextBox Position2Y;
+        public System.Windows.Forms.TextBox OpponentPosition1X;
+        public System.Windows.Forms.TextBox OpponentPosition2X;
+        public System.Windows.Forms.TextBox OpponentPosition1Y;
+        public System.Windows.Forms.TextBox OpponentPosition2Y;
     }
 }
