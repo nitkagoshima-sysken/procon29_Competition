@@ -474,7 +474,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // SucceededNotToDoAnything
                     if (item.AgentStatusData == AgentStatusCode.RequestNotToDoAnything)
                     {
-                        item.ToSuccess();
+                        item.AgentStatusData = AgentStatusCode.SucceededNotToDoAnything;
                         continue;
                     }
                     // リクエストの禁止や、何も命令がないときは無条件でスキップ(2)
