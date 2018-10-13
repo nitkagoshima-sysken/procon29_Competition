@@ -46,12 +46,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// フィールドの歴史を設定または取得します。
         /// </summary>
-        public List<TurnData> History { get; private set; } = new List<TurnData>();
-
-        /// <summary> 
-        /// エージェントの略称を返します。 
-        /// </summary> 
-        public static string[,] ShortTeamAgentName => new string[2, 2] { { "Strawberry", "Apple", }, { "Kiwi", "Muscat", }, };
+        public List<TurnData> History { get; private set; } = new List<TurnData>();      
 
         /// <summary>
         /// Calcを初期化します。
