@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -501,20 +501,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // FailedInRemovingOurTileByBeingNotChebyshevNeighborhood
                     // FailedInRemovingOpponentTileByBeingNotChebyshevNeighborhood
                     if (item.Destination.ChebyshevDistance(Agents[team, agent].Position) != 1)
-                        switch (item.AgentStatusData)
-                        {
-                            case AgentStatusCode.RequestMovement:
-                                item.AgentStatusData = AgentStatusCode.FailedInMovingByBeingNotMooreNeighborhood;
-                                continue;
-                            case AgentStatusCode.RequestRemovementOurTile:
-                                item.AgentStatusData = AgentStatusCode.FailedInRemovingOurTileByBeingNotMooreNeighborhood;
-                                continue;
-                            case AgentStatusCode.RequestRemovementOpponentTile:
-                                item.AgentStatusData = AgentStatusCode.FailedInRemovingOpponentTileByBeingNotMooreNeighborhood;
-                                continue;
-                            default:
-                                break;
-                        }
+                        item.AgentStatusData = item.AgentStatusData.ToFailedByBeingNotMooreNeighborhood();
                     // 目標部がフィールドの外にないかチェック(3)
                     // FailedInMovingByTryingToGoOutOfTheFieldWithEachOther
                     // FailedInRemovingOurTileByTryingToGoOutOfTheField
