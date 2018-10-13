@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
@@ -47,7 +47,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public static bool IsRemovementOpponentTile(this AgentStatusCode agentStatusData) => agentStatusData.ToAction() == AgentStatusCodeAction.RemovementOpponentTile;
 
         /// <summary>
-        /// エージェントステータスコードの属性を可能な限り成功に変更します。
+        /// エージェントステータスコードの属性を可能な限り成功に変換します。
         /// </summary>
         /// <param name="agentStatusCode"></param>
         /// <returns></returns>
@@ -70,7 +70,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// エージェントステータスコードの属性を可能な限りリクエストに変更します。
+        /// エージェントステータスコードの属性を可能な限りリクエストに変換します。
         /// </summary>
         /// <param name="agentStatusCode"></param>
         /// <returns></returns>
@@ -93,7 +93,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// エージェントステータスコードの属性を可能な限り ToYouHadCollisionsWithYourselfAndYouFailed に変更します。
+        /// エージェントステータスコードの属性を可能な限り ToYouHadCollisionsWithYourselfAndYouFailed に変換します。
         /// </summary>
         /// <param name="agentStatusCode"></param>
         /// <returns></returns>
@@ -110,7 +110,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// エージェントステータスコードの属性を可能な限り ToFailedByBeingNotMooreNeighborhood に変更します。
+        /// エージェントステータスコードの属性を可能な限り ToFailedByBeingNotMooreNeighborhood に変換します。
         /// </summary>
         /// <param name="agentStatusCode"></param>
         /// <returns></returns>
