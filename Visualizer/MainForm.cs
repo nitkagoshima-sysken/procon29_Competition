@@ -23,7 +23,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         public static Calc Calc { get; set; }
 
-        Show show;
+        /// <summary>
+        /// 描画処理をします。
+        /// </summary>
+        private new Show Show { get; set; }
 
         /// <summary>
         /// ログを取ります。
@@ -124,11 +127,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     new TeamDesign(name: "Orange", agentColor: Color.DarkOrange, areaColor: Color.DarkOrange),
                     new TeamDesign(name: "Lime", agentColor: Color.LimeGreen, areaColor: Color.LimeGreen),
                 };
-            show = new Show(Calc, teamDesigns, FieldDisplay);
-            show.Showing();
+            Show = new Show(Calc, teamDesigns, FieldDisplay);
+            Show.Showing();
             Calc.PointMapCheck();
 
-            KeyDown += new KeyEventHandler(show.KeyDown);
+            KeyDown += new KeyEventHandler(Show.KeyDown);
             KeyDown += new KeyEventHandler(MainForm_KeyDown);
 
             WriteLog();
@@ -180,7 +183,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void MainForm_Resize(object sender, EventArgs e)
         {
             Control c = (Control)sender;
-            show.Showing();
+            Show.Showing();
         }
 
         /// <summary>
@@ -190,8 +193,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="e"></param>
         private void FieldDisplay_MouseClick(object sender, MouseEventArgs e)
         {
-            show.ClickedShow(FieldDisplay);
-            show.ClickShow();
+            Show.ClickedShow(FieldDisplay);
+            Show.ClickShow();
             messageBox.Select(messageBox.Text.Length, 0);
         }
 
@@ -221,17 +224,17 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             var delta = DateTime.Now - time;
             if (delta.TotalMilliseconds >= 5.0)
             {
-                show.Showing();
+                Show.Showing();
                 // フィールド内にいるときは、フィールドの情報を表示する。
-                if (0 <= show.CursorPosition(FieldDisplay).X &&
-                    show.CursorPosition(FieldDisplay).X < Calc.Field.Width &&
-                    0 <= show.CursorPosition(FieldDisplay).Y &&
-                    show.CursorPosition(FieldDisplay).Y < Calc.Field.Height)
+                if (0 <= Show.CursorPosition(FieldDisplay).X &&
+                    Show.CursorPosition(FieldDisplay).X < Calc.Field.Width &&
+                    0 <= Show.CursorPosition(FieldDisplay).Y &&
+                    Show.CursorPosition(FieldDisplay).Y < Calc.Field.Height)
                 {
                     toolStripStatusLabel1.Text = "[Turn: " + Calc.Turn + "/" + Calc.MaxTurn + "]";
-                    var f = Calc.Field[show.CursorPosition(FieldDisplay).X, show.CursorPosition(FieldDisplay).Y];
+                    var f = Calc.Field[Show.CursorPosition(FieldDisplay).X, Show.CursorPosition(FieldDisplay).Y];
                     // 情報を表示
-                    toolStripStatusLabel1.Text += ("[Coordinate: " + show.CursorPosition(FieldDisplay) + " Point: " + f.Point);
+                    toolStripStatusLabel1.Text += ("[Coordinate: " + Show.CursorPosition(FieldDisplay) + " Point: " + f.Point);
                     // 囲まれているか判定
                     if (f.IsEnclosed[Team.A] && f.IsEnclosed[Team.B]) toolStripStatusLabel1.Text += " (Surrounded by both)";
                     else if (f.IsEnclosed[Team.A])
@@ -273,7 +276,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter) TurnEnd();
-            show.Showing();
+            Show.Showing();
         }
 
         /// <summary>
@@ -304,8 +307,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 Calc = new Calc((XmlCalc)serializer.Deserialize(sr));
                 //ファイルを閉じる
                 sr.Close();
-                show.Calc = Calc;
-                show.Showing();
+                Show.Calc = Calc;
+                Show.Showing();
             }
         }
 
@@ -338,8 +341,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 var pqr = reader.ConvertToPqrData();
                 pqr.IsRegular();
                 Calc = new Calc(MaxTurn, pqr.Fields, new Coordinate[2] { pqr.One, pqr.Two });
-                show = new Show(Calc, teamDesigns, FieldDisplay);
-                show.Showing();
+                Show = new Show(Calc, teamDesigns, FieldDisplay);
+                Show.Showing();
             }
             catch (Exception)
             {
@@ -506,13 +509,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 {
                     if (Bot[0] != null)
                     {
-                        show.agentActivityData[Team.A, AgentNumber.One] = show.agentActivityData[Team.A, AgentNumber.One];
-                        show.agentActivityData[Team.A, AgentNumber.Two] = show.agentActivityData[Team.A, AgentNumber.Two];
+                        Show.agentActivityData[Team.A, AgentNumber.One] = Show.agentActivityData[Team.A, AgentNumber.One];
+                        Show.agentActivityData[Team.A, AgentNumber.Two] = Show.agentActivityData[Team.A, AgentNumber.Two];
                     }
                     if (Bot[1] != null)
                     {
-                        show.agentActivityData[Team.B, AgentNumber.One] = show.agentActivityData[Team.B, AgentNumber.One];
-                        show.agentActivityData[Team.B, AgentNumber.Two] = show.agentActivityData[Team.B, AgentNumber.Two];
+                        Show.agentActivityData[Team.B, AgentNumber.One] = Show.agentActivityData[Team.B, AgentNumber.One];
+                        Show.agentActivityData[Team.B, AgentNumber.Two] = Show.agentActivityData[Team.B, AgentNumber.Two];
                     }
                 }
                 else
@@ -523,8 +526,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         Bot[0].Log = BotLog;
                         Bot[0].Question(Calc);
                         var a = Bot[0].Answer();
-                        show.agentActivityData[Team.A, AgentNumber.One] = a[0];
-                        show.agentActivityData[Team.A, AgentNumber.Two] = a[1];
+                        Show.agentActivityData[Team.A, AgentNumber.One] = a[0];
+                        Show.agentActivityData[Team.A, AgentNumber.Two] = a[1];
                     }
                     if (Bot[1] != null)
                     {
@@ -532,19 +535,19 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         Bot[1].Log = BotLog;
                         Bot[1].Question(Calc);
                         var a = Bot[1].Answer();
-                        show.agentActivityData[Team.B, AgentNumber.One] = a[0];
-                        show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
+                        Show.agentActivityData[Team.B, AgentNumber.One] = a[0];
+                        Show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
                     }
                 }
 
-                Calc.MoveAgent(show.agentActivityData);
+                Calc.MoveAgent(Show.agentActivityData);
 
-                foreach (AgentActivityData item in show.agentActivityData)
+                foreach (AgentActivityData item in Show.agentActivityData)
                 {
                     item.AgentStatusData = AgentStatusCode.NotDoneAnything;
                 }
 
-                show.Showing();
+                Show.Showing();
                 WriteLog();
                 TurnProgressCheck();
 
@@ -593,28 +596,28 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     Bot[0].OurTeam = Team.A;
                     Bot[0].Question(Calc);
                     var a = Bot[0].Answer();
-                    show.agentActivityData[Team.A, AgentNumber.One] = a[0];
-                    show.agentActivityData[Team.A, AgentNumber.Two] = a[1];
+                    Show.agentActivityData[Team.A, AgentNumber.One] = a[0];
+                    Show.agentActivityData[Team.A, AgentNumber.Two] = a[1];
                 }
                 if (Bot[1] != null)
                 {
                     Bot[1].OurTeam = Team.B;
                     Bot[1].Question(Calc);
                     var a = Bot[1].Answer();
-                    show.agentActivityData[Team.B, AgentNumber.One] = a[0];
-                    show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
+                    Show.agentActivityData[Team.B, AgentNumber.One] = a[0];
+                    Show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
                 }
                 TurnEndButton.Text = "ターンエンド";
                 TurnEndButton.BackColor = Color.RoyalBlue;
                 TurnEndButton.ForeColor = Color.LightGray;
-                show.Showing();
+                Show.Showing();
             }
         }
 
         private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Calc.Undo();
-            show.Showing();
+            Show.Showing();
             WriteLog();
             TurnProgressCheck();
         }
@@ -622,7 +625,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void RedoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Calc.Redo();
-            show.Showing();
+            Show.Showing();
             WriteLog();
             TurnProgressCheck();
         }
