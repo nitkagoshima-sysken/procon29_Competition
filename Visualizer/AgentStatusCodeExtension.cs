@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
@@ -124,6 +124,25 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     return AgentStatusCode.FailedInRemovingOurTileByBeingNotMooreNeighborhood;
                 case AgentStatusCodeAction.RemovementOpponentTile:
                     return AgentStatusCode.FailedInRemovingOpponentTileByBeingNotMooreNeighborhood;
+            }
+            throw new ArgumentOutOfRangeException();
+        }
+
+        /// <summary>
+        /// エージェントステータスコードの属性を可能な限り FailedInMovingByTryingToGoOutOfTheField に変換します。
+        /// </summary>
+        /// <param name="agentStatusCode"></param>
+        /// <returns></returns>
+        public static AgentStatusCode ToFailedInMovingByTryingToGoOutOfTheField(this AgentStatusCode agentStatusCode)
+        {
+            switch (agentStatusCode.ToAction())
+            {
+                case AgentStatusCodeAction.Movement:
+                    return AgentStatusCode.FailedInMovingByTryingToGoOutOfTheField;
+                case AgentStatusCodeAction.RemovementOurTile:
+                    return AgentStatusCode.FailedInRemovingOurTileByTryingToGoOutOfTheField;
+                case AgentStatusCodeAction.RemovementOpponentTile:
+                    return AgentStatusCode.FailedInRemovingOpponentTileByTryingToGoOutOfTheField;
             }
             throw new ArgumentOutOfRangeException();
         }
