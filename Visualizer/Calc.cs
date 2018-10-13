@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,7 +32,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// ターンを設定または取得します。
         /// </summary>
-        public int Turn { get; private set; }
+        public int Turn { get; private set; } = 0;
 
         /// <summary> 
         /// ターンの終わりを設定または取得します。 
