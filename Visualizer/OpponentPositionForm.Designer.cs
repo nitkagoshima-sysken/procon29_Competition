@@ -28,32 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.Position1X = new System.Windows.Forms.TextBox();
+            this.Position2X = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.Position1Y = new System.Windows.Forms.TextBox();
+            this.Position2Y = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // textBox1
+            // Position1X
             // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.textBox1.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.textBox1.Location = new System.Drawing.Point(12, 42);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 37);
-            this.textBox1.TabIndex = 0;
+            this.Position1X.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.Position1X.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Position1X.Location = new System.Drawing.Point(12, 42);
+            this.Position1X.Name = "Position1X";
+            this.Position1X.Size = new System.Drawing.Size(100, 37);
+            this.Position1X.TabIndex = 0;
             // 
-            // textBox2
+            // Position2X
             // 
-            this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.textBox2.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.textBox2.Location = new System.Drawing.Point(12, 115);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 37);
-            this.textBox2.TabIndex = 1;
+            this.Position2X.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.Position2X.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Position2X.Location = new System.Drawing.Point(12, 115);
+            this.Position2X.Name = "Position2X";
+            this.Position2X.Size = new System.Drawing.Size(100, 37);
+            this.Position2X.TabIndex = 1;
             // 
             // label1
             // 
@@ -77,23 +77,23 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "2人目の位置(X, Y)";
             // 
-            // textBox3
+            // Position1Y
             // 
-            this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.textBox3.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.textBox3.Location = new System.Drawing.Point(118, 42);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 37);
-            this.textBox3.TabIndex = 4;
+            this.Position1Y.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.Position1Y.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Position1Y.Location = new System.Drawing.Point(118, 42);
+            this.Position1Y.Name = "Position1Y";
+            this.Position1Y.Size = new System.Drawing.Size(100, 37);
+            this.Position1Y.TabIndex = 4;
             // 
-            // textBox4
+            // Position2Y
             // 
-            this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.textBox4.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.textBox4.Location = new System.Drawing.Point(118, 115);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(100, 37);
-            this.textBox4.TabIndex = 5;
+            this.Position2Y.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.Position2Y.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Position2Y.Location = new System.Drawing.Point(118, 115);
+            this.Position2Y.Name = "Position2Y";
+            this.Position2Y.Size = new System.Drawing.Size(100, 37);
+            this.Position2Y.TabIndex = 5;
             // 
             // button1
             // 
@@ -114,12 +114,12 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(235, 221);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.Position2Y);
+            this.Controls.Add(this.Position1Y);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.Position2X);
+            this.Controls.Add(this.Position1X);
             this.Name = "OpponentPositionForm";
             this.Text = "敵の位置は？";
             this.ResumeLayout(false);
@@ -128,13 +128,12 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Button button1;
+        public System.Windows.Forms.TextBox Position1X;
+        public System.Windows.Forms.TextBox Position2X;
+        public System.Windows.Forms.TextBox Position1Y;
+        public System.Windows.Forms.TextBox Position2Y;
     }
 }
