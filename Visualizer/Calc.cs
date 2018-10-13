@@ -46,7 +46,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// フィールドの歴史を設定または取得します。
         /// </summary>
-        public List<TurnData> History { get; private set; } = new List<TurnData>();      
+        public List<TurnData> History { get; private set; } = new List<TurnData>();
 
         /// <summary>
         /// Calcを初期化します。
@@ -486,33 +486,24 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // YouHadCollisionsWithYourselfAndYouFailedToRemoveTilesFromYourTeam;
                     if (item.AgentStatusData != AgentStatusCode.RequestRemovementOpponentTile
                         && item.Destination == Agents[team, agent].Position)
+                    {
                         item.AgentStatusData = item.AgentStatusData.ToYouHadCollisionsWithYourselfAndYouFailed();
+                    }
                     // 目標部が自分から遠い場所にないかチェック(3)
                     // FailedInMovingByBeingNotChebyshevNeighborhood
                     // FailedInRemovingOurTileByBeingNotChebyshevNeighborhood
                     // FailedInRemovingOpponentTileByBeingNotChebyshevNeighborhood
                     if (item.Destination.ChebyshevDistance(Agents[team, agent].Position) != 1)
+                    {
                         item.AgentStatusData = item.AgentStatusData.ToFailedByBeingNotMooreNeighborhood();
+                    }
                     // 目標部がフィールドの外にないかチェック(3)
                     // FailedInMovingByTryingToGoOutOfTheFieldWithEachOther
                     // FailedInRemovingOurTileByTryingToGoOutOfTheField
                     // FailedInRemovingOpponentTileByTryingToGoOutOfTheField
                     if (!Field.CellExist(item.Destination))
                     {
-                        switch (item.AgentStatusData)
-                        {
-                            case AgentStatusCode.RequestMovement:
-                                item.AgentStatusData = AgentStatusCode.FailedInMovingByTryingToGoOutOfTheField;
-                                continue;
-                            case AgentStatusCode.RequestRemovementOurTile:
-                                item.AgentStatusData = AgentStatusCode.FailedInRemovingOurTileByTryingToGoOutOfTheField;
-                                continue;
-                            case AgentStatusCode.RequestRemovementOpponentTile:
-                                item.AgentStatusData = AgentStatusCode.FailedInRemovingOpponentTileByTryingToGoOutOfTheField;
-                                continue;
-                            default:
-                                break;
-                        }
+                        item.AgentStatusData = item.AgentStatusData.ToFailedInMovingByTryingToGoOutOfTheField();
                     }
                     // 剥がそうとしていたタイルが存在していないかチェック(2)
                     // FailedInRemovingOurTileByDoingTileNotExist
