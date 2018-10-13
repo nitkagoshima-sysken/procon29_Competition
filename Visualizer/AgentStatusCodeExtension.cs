@@ -93,6 +93,25 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
+        /// エージェントステータスコードの属性を可能な限りToFailedByBeingNotMooreNeighborhoodに変更します。
+        /// </summary>
+        /// <param name="agentStatusCode"></param>
+        /// <returns></returns>
+        public static AgentStatusCode ToFailedByBeingNotMooreNeighborhood(this AgentStatusCode agentStatusCode)
+        {
+            switch (agentStatusCode.ToAction())
+            {
+                case AgentStatusCodeAction.Movement:
+                    return AgentStatusCode.FailedInMovingByBeingNotMooreNeighborhood;
+                case AgentStatusCodeAction.RemovementOurTile:
+                    return AgentStatusCode.FailedInRemovingOurTileByBeingNotMooreNeighborhood;
+                case AgentStatusCodeAction.RemovementOpponentTile:
+                    return AgentStatusCode.FailedInRemovingOpponentTileByBeingNotMooreNeighborhood;
+            }
+            throw new ArgumentOutOfRangeException();
+        }
+
+        /// <summary>
         /// エージェントステータスコードのアクションを求めます。
         /// </summary>
         /// <param name="agentStatusCode">対象のエージェントステータスコード</param>
