@@ -140,9 +140,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.MaskedTextBox OpponentPosition1X;
-        private System.Windows.Forms.MaskedTextBox OpponentPosition1Y;
-        private System.Windows.Forms.MaskedTextBox OpponentPosition2X;
-        private System.Windows.Forms.MaskedTextBox OpponentPosition2Y;
+        public System.Windows.Forms.MaskedTextBox OpponentPosition1X;
+        public System.Windows.Forms.MaskedTextBox OpponentPosition1Y;
+        public System.Windows.Forms.MaskedTextBox OpponentPosition2X;
+        public System.Windows.Forms.MaskedTextBox OpponentPosition2Y;
     }
 }
