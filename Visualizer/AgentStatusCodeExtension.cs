@@ -93,7 +93,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// エージェントステータスコードの属性を可能な限りToYouHadCollisionsWithYourselfAndYouFailedに変更します。
+        /// エージェントステータスコードの属性を可能な限り ToYouHadCollisionsWithYourselfAndYouFailed に変更します。
         /// </summary>
         /// <param name="agentStatusCode"></param>
         /// <returns></returns>
@@ -110,7 +110,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// エージェントステータスコードの属性を可能な限りToFailedByBeingNotMooreNeighborhoodに変更します。
+        /// エージェントステータスコードの属性を可能な限り ToFailedByBeingNotMooreNeighborhood に変更します。
         /// </summary>
         /// <param name="agentStatusCode"></param>
         /// <returns></returns>
