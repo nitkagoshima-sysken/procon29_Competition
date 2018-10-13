@@ -93,6 +93,23 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
+        /// エージェントステータスコードの属性を可能な限りToYouHadCollisionsWithYourselfAndYouFailedに変更します。
+        /// </summary>
+        /// <param name="agentStatusCode"></param>
+        /// <returns></returns>
+        public static AgentStatusCode ToYouHadCollisionsWithYourselfAndYouFailed(this AgentStatusCode agentStatusCode)
+        {
+            switch (agentStatusCode.ToAction())
+            {
+                case AgentStatusCodeAction.Movement:
+                    return AgentStatusCode.YouHadCollisionsWithYourselfAndYouFailedToMoveBecauseYouAreThereAlready;
+                case AgentStatusCodeAction.RemovementOurTile:
+                    return AgentStatusCode.YouHadCollisionsWithYourselfAndYouFailedToRemoveTilesFromYourTeamBecauseYouAreThere;
+            }
+            throw new ArgumentOutOfRangeException();
+        }
+
+        /// <summary>
         /// エージェントステータスコードの属性を可能な限りToFailedByBeingNotMooreNeighborhoodに変更します。
         /// </summary>
         /// <param name="agentStatusCode"></param>
