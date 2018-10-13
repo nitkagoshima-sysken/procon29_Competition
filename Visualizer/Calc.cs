@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -484,18 +484,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // 自分自身の衝突をチェック(2)
                     // YouHadCollisionsWithYourselfAndYouFailedToMoveBecauseYouAreThereAlready
                     // YouHadCollisionsWithYourselfAndYouFailedToRemoveTilesFromYourTeam;
-                    if (item.Destination == Agents[team, agent].Position)
-                        switch (item.AgentStatusData)
-                        {
-                            case AgentStatusCode.RequestMovement:
-                                item.AgentStatusData = AgentStatusCode.YouHadCollisionsWithYourselfAndYouFailedToMoveBecauseYouAreThereAlready;
-                                continue;
-                            case AgentStatusCode.RequestRemovementOurTile:
-                                item.AgentStatusData = AgentStatusCode.YouHadCollisionsWithYourselfAndYouFailedToRemoveTilesFromYourTeamBecauseYouAreThere;
-                                continue;
-                            default:
-                                break;
-                        }
+                    if (item.AgentStatusData != AgentStatusCode.RequestRemovementOpponentTile
+                        && item.Destination == Agents[team, agent].Position)
+                        item.AgentStatusData = item.AgentStatusData.ToYouHadCollisionsWithYourselfAndYouFailed();
                     // 目標部が自分から遠い場所にないかチェック(3)
                     // FailedInMovingByBeingNotChebyshevNeighborhood
                     // FailedInRemovingOurTileByBeingNotChebyshevNeighborhood
