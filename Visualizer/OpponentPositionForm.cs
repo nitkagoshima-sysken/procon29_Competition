@@ -19,7 +19,17 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         private void OKButton_Click(object sender, EventArgs e)
         {
-            Hide();
+            if (OpponentPosition1X.Text != string.Empty &&
+                OpponentPosition1Y.Text != string.Empty &&
+                OpponentPosition2X.Text != string.Empty &&
+                OpponentPosition2Y.Text != string.Empty)
+            {
+                Hide();
+            }
+            else
+            {
+                MessageBox.Show("空欄を埋めてください", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
