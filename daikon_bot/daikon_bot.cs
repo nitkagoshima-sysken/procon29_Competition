@@ -17,8 +17,10 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
         static int turn2 = 1;
         static int edge1 = 0;
         static int edge2 = 0;
-        static int ud = 0; //up == 偶数::down == 奇数
-        static int r = 1;
+        static int ud1 = 0; //up == 偶数::down == 奇数
+        static int ud2 = 0; //up == 偶数::down == 奇数
+        static int r1 = 1;
+        static int r2 = 1;
 
         public override AgentActivityData[] Answer()
         {
@@ -123,7 +125,8 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
 
                 if (decide == 0)
                 {
-                    if (Calc.Agents[OurTeam, AgentNumber.One].Position.Y != 0 && r % 2 == 1)
+                    
+                    if (Calc.Agents[OurTeam, AgentNumber.One].Position.Y != 0 && r1 % 2 == 1)
                     {
                      
                         if ((turn1 % 2) == 1)
@@ -141,12 +144,12 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                         {
                             num1 = Arrow.Right;
                             edge1++;
-                            ud++;
-                            r++;
+                            ud1++;
+                            r1++;
                         }
                         else
                         {
-                            if (ud % 2 == 1)
+                            if (ud1 % 2 == 1)
                             {
                                 if (turn1 % 2 == 1)
                                 {
@@ -157,7 +160,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                                     num1 = Arrow.DownLeft;
                                 }
                             }
-                            else if (ud % 2 == 0)
+                            else if (ud1 % 2 == 0)
                             {
                                 if (turn1 % 2 == 1)
                                 {
@@ -250,6 +253,70 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                 if (go[1] == new Coordinate(0, 0) || go[1] == new Coordinate((Calc.Field.Width - 1), 0) || go[1] == new Coordinate((Calc.Field.Width - 1), (Calc.Field.Height - 1)) || go[1] == new Coordinate(0, (Calc.Field.Height - 1)))
                 {
                     count2++;
+                }
+            }
+            //ジグザグ
+            else
+            {
+                turn2++;
+
+                if (decide == 0)
+                {
+
+                    if (Calc.Agents[OurTeam, AgentNumber.Two].Position.Y != 0 && r2 % 2 == 1)
+                    {
+
+                        if ((turn2 % 2) == 1)
+                        {
+                            num2 = Arrow.UpRight;
+                        }
+                        else
+                        {
+                            num2 = Arrow.UpLeft;
+                        }
+                    }
+                    else
+                    {
+                        if (edge2 == 0)
+                        {
+                            num2 = Arrow.Right;
+                            edge2++;
+                            ud2++;
+                            r2++;
+                        }
+                        else
+                        {
+                            if (ud2 % 2 == 1)
+                            {
+                                if (turn2 % 2 == 1)
+                                {
+                                    num2 = Arrow.DownRight;
+                                }
+                                else
+                                {
+                                    num2 = Arrow.DownLeft;
+                                }
+                            }
+                            else if (ud2 % 2 == 0)
+                            {
+                                if (turn2 % 2 == 1)
+                                {
+                                    num2 = Arrow.UpRight;
+                                }
+                                else
+                                {
+                                    num2 = Arrow.UpLeft;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                go[1] = Calc.Agents[OurTeam, AgentNumber.One].Position + num2;
+
+                if (go[1].Y == Calc.Field.Height - 1)
+                {
+                    edge2--;
                 }
             }
             
