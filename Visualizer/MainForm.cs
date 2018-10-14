@@ -126,6 +126,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             agents[Team.A, AgentNumber.One].Position = pqr.One;
             agents[Team.A, AgentNumber.Two].Position = pqr.Two;
 
+            OpponentPositionForm.OurTeamPositionLabel.Text = "自分:" + pqr.One + pqr.Two;
             OpponentPositionForm.ShowDialog(this);
             agents[Team.B, AgentNumber.One].Position =
                 new Coordinate(
