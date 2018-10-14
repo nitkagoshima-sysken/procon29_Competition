@@ -148,6 +148,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "OpponentPositionForm";
+            this.ShowIcon = false;
             this.Text = "敵の位置は？";
             this.ResumeLayout(false);
             this.PerformLayout();
