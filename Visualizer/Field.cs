@@ -180,5 +180,16 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             return !this[agent.Position + arrow].IsTileOn[agent.Team.Opponent()];
         }
+
+        /// <summary>
+        /// 移動先に自分のタイルが置いてあるか判定します。
+        /// </summary>
+        /// <param name="agent">対象のエージェント</param>
+        /// <param name="arrow">移動方向</param>
+        /// <returns></returns>
+        public bool IsRemoveableOurTile(Agent agent, Arrow arrow)
+        {
+            return this[agent.Position + arrow].IsTileOn[agent.Team];
+        }
     }
 }
