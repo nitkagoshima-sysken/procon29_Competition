@@ -240,5 +240,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="team">計算するチーム</param> 
         /// <returns>指定したチームの直接的なエリアのポイントの合計</returns> 
         public int AreaPoint(Team team) => this.Sum(x => ((x.IsTileOn[team] == true) ? x.Point : 0));
+
+        /// <summary> 
+        /// 指定したチームが囲んだエリアのポイントの絶対値の合計を計算します。 
+        /// </summary> 
+        /// <param name="team">計算するチーム</param> 
+        /// <returns>指定したチームが囲んだエリアのポイントの絶対値の合計</returns> 
+        public int EnclosedPoint(Team team) => this.Sum(x => ((x.IsEnclosed[team] == true) ? Math.Abs(x.Point) : 0));
     }
 }
