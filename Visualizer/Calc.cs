@@ -61,59 +61,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 History.Add(new TurnData(item));
             }
             Agents = History[Turn].Agents;
-        }
-
-        /// <summary>
-        /// Calcを初期化します。
-        /// </summary>
-        /// <param name="maxTurn">最大ターン数を設定します。</param>
-        /// <param name="point">フィールドのポイントを設定します。</param>
-        /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public Calc(int maxTurn, int[,] point, Coordinate[] initPosition)
-        {
-            MaxTurn = maxTurn;
-            // Turn -> 0
-            Turn = 0;
-            // TurnData作成
-            History.Add(new TurnData(new Field(point.GetLength(1), point.GetLength(0)), new Agents()));
-
-            InitializationOfField(point);
-            foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
-            {
-                Agents[Team.A, agent].Position = initPosition[(int)agent];
-                PutTile(team: 0, agent: agent);
-            }
-            ComplementEnemysPosition();
-
-            // Turn -> 1
-            TurnEnd();
-        }
-
-        /// <summary>
-        /// Calcを初期化します。
-        /// </summary>
-        /// <param name="maxTurn">最大ターン数を設定します。</param>
-        /// <param name="field">フィールドのポイントを設定します。</param>
-        /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public Calc(int maxTurn, Field field, Coordinate[] initPosition)
-        {
-            MaxTurn = maxTurn;
-            // Turn -> 0
-            Turn = 0;
-            // TurnData作成
-            History.Add(new TurnData(field, new Agents()));
-
-            foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
-            {
-                Agents[Team.A, agent].Position = initPosition[(int)agent];
-                PutTile(team: 0, agent: agent);
-            }
-            ComplementEnemysPosition();
-
-            // Turn -> 1
-            TurnEnd();
-        }
-
+        }       
+       
         /// <summary>
         /// Calcを初期化します。
         /// </summary>
