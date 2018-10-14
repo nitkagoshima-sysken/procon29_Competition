@@ -228,6 +228,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>すべてのフィールドのポイントの和</returns> 
         public int Sum() =>this.Sum(x => x.Point);
 
-
+        /// <summary> 
+        /// すべてのフィールドのポイントの絶対値の和を計算します。 
+        /// </summary> 
+        /// <returns>すべてのフィールドのポイントの絶対値の和</returns> 
+        public int SumAbs() => this.Sum(x => ((x.Point > 0) ? x.Point : -x.Point));
     }
 }
