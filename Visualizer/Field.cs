@@ -78,6 +78,24 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// フィールドの初期化をします。
         /// </summary>
+        /// <param name="width">フィールドの幅</param>
+        /// <param name="height">フィールドの高さ</param>
+        /// <param name="field">フィールドのデータ</param>
+        public Field(int width, int height, int[,] field)
+        {
+            Array = new Cell[width, height];
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    this[x, y] = new Cell { Point = field[y, x], Coordinate = new Coordinate(x, y) };
+                }
+            }
+        }
+
+        /// <summary>
+        /// フィールドの初期化をします。
+        /// </summary>
         /// <param name="field">コピーしたいフィールド</param>
         public Field(Field field)
         {
