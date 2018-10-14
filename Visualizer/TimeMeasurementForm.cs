@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -16,9 +17,30 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             InitializeComponent();
 
-            TimeMeasurementGridView.ColumnCount = 2;
-            TimeMeasurementGridView.Columns[0].HeaderText = "項目";
-            TimeMeasurementGridView.Columns[1].HeaderText = "処理時間";
+            var sw = new Stopwatch();
+
+            if (MainForm.Bot[0] != null)
+            {
+                sw.Start();
+                MainForm.Bot[0].OurTeam = Team.A;
+                MainForm.Bot[0].Log = MainForm.BotLog;
+                MainForm.Bot[0].Question(MainForm.Calc);
+                MainForm.Bot[0].Answer();
+                sw.Stop();
+                TimeMeasurementGridView.Rows.Add(MainForm.BotName[0] + " (Our Team)", sw.ElapsedMilliseconds);
+                sw.Reset();
+            }
+            if (MainForm.Bot[1] != null)
+            {
+                sw.Start();
+                MainForm.Bot[1].OurTeam = Team.A;
+                MainForm.Bot[1].Log = MainForm.BotLog;
+                MainForm.Bot[1].Question(MainForm.Calc);
+                MainForm.Bot[1].Answer();
+                sw.Stop();
+                TimeMeasurementGridView.Rows.Add(MainForm.BotName[1] + " (Opponent Team)", sw.ElapsedMilliseconds);
+                sw.Reset();
+            }
         }
     }
 }
