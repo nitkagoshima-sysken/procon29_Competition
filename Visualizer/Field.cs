@@ -169,5 +169,16 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             return (0 <= x) && (x < Width) && (0 <= y) && (y < Height); 
         }
+
+        /// <summary>
+        /// 移動先に敵のタイルが置いてないか判定します。
+        /// </summary>
+        /// <param name="agent">対象のエージェント</param>
+        /// <param name="arrow">移動方向</param>
+        /// <returns></returns>
+        public bool IsMoveable(Agent agent, Arrow arrow)
+        {
+            return !this[agent.Position + arrow].IsTileOn[agent.Team.Opponent()];
+        }
     }
 }
