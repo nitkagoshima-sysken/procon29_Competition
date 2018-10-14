@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -113,6 +113,47 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // Turn -> 1
             TurnEnd();
         }
+
+        /// <summary>
+        /// Calcを初期化します。
+        /// </summary>
+        /// <param name="turn">最大ターン数を設定します。</param>
+        /// <param name="field">フィールドのポイントを設定します。</param>
+        /// <param name="agents">エージェントを設定します。</param>
+        public Calc(int turn, Field field, Agents agents)
+        {
+            MaxTurn = turn;
+
+            // TurnData作成
+            History.Add(new TurnData(new Field(field.Width, field.Height), new Agents()));
+            Field = field;
+            Agents = agents;
+            foreach (var agent in Agents)
+            {
+                PutTile(team: agent.Team, agent: agent.AgentNumber);
+            }
+        }
+
+        /// <summary>
+        /// Calcを初期化します。
+        /// </summary>
+        /// <param name="turn">最大ターン数を設定します。</param>
+        /// <param name="field">フィールドのポイントを設定します。</param>
+        /// <param name="agents">エージェントを設定します。</param>
+        public Calc(int turn, int[,] field, Agents agents)
+        {
+            MaxTurn = turn;
+
+            // TurnData作成
+            History.Add(new TurnData(new Field(field.GetLength(1), field.GetLength(0)), new Agents()));
+            InitializationOfField(field);
+            Agents = agents;            
+            foreach (var agent in Agents)
+            {
+                PutTile(team: agent.Team, agent: agent.AgentNumber);
+            }
+        }
+
 
         /// <summary>
         /// QRコードには自分のチームの位置情報しか分からないため、
