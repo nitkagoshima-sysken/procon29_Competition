@@ -65,7 +65,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 最大ターンのデフォルト値を設定または取得します。
         /// </summary>
-        public static int MaxTurn = 10;
+        public static int MaxTurn = 40;
 
         /// <summary>
         /// デバッグモードを設定または取得します。
@@ -137,7 +137,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     int.Parse(OpponentPositionForm.OpponentPosition2X.Text),
                     int.Parse(OpponentPositionForm.OpponentPosition2Y.Text));
 
-            Calc = new Calc(10, pqr.Fields, agents);
+            Calc = new Calc(MaxTurn, pqr.Fields, agents);
 
             ReadBotsTxt();
             ReadCalcTsv();
