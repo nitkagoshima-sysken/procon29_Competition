@@ -813,5 +813,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 throw new ArgumentException();
             }
         }
+
+        private void TimeMeasurementToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
