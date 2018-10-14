@@ -647,6 +647,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 if (Bot[0] != null)
                 {
                     Bot[0].OurTeam = Team.A;
+                    Bot[0].Log = BotLog;
                     Bot[0].Question(Calc);
                     var a = Bot[0].Answer();
                     Show.agentActivityData[Team.A, AgentNumber.One] = a[0];
@@ -655,6 +656,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 if (Bot[1] != null)
                 {
                     Bot[1].OurTeam = Team.B;
+                    Bot[1].Log = BotLog;
                     Bot[1].Question(Calc);
                     var a = Bot[1].Answer();
                     Show.agentActivityData[Team.B, AgentNumber.One] = a[0];
