@@ -364,7 +364,24 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 Log.WriteLine(reader.Stream);
                 var pqr = reader.ConvertToPqrData();
                 pqr.IsRegular();
-                Calc = new Calc(MaxTurn, pqr.Fields, new Coordinate[2] { pqr.One, pqr.Two });
+
+                var agents = new Agents();
+                agents[Team.A, AgentNumber.One].Position = pqr.One;
+                agents[Team.A, AgentNumber.Two].Position = pqr.Two;
+
+                OpponentPositionForm.OurTeamPositionLabel.Text = "自分:" + pqr.One + pqr.Two;
+                OpponentPositionForm.ShowDialog(this);
+                agents[Team.B, AgentNumber.One].Position =
+                    new Coordinate(
+                        int.Parse(OpponentPositionForm.OpponentPosition1X.Text),
+                        int.Parse(OpponentPositionForm.OpponentPosition1Y.Text));
+                agents[Team.B, AgentNumber.Two].Position =
+                    new Coordinate(
+                        int.Parse(OpponentPositionForm.OpponentPosition2X.Text),
+                        int.Parse(OpponentPositionForm.OpponentPosition2Y.Text));
+
+                Calc = new Calc(MaxTurn, pqr.Fields, agents);
+
                 Show = new Show(Calc, teamDesigns, FieldDisplay);
                 Show.Showing();
             }
