@@ -61,8 +61,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 History.Add(new TurnData(item));
             }
             Agents = History[Turn].Agents;
-        }       
-       
+        }
+
         /// <summary>
         /// Calcを初期化します。
         /// </summary>
