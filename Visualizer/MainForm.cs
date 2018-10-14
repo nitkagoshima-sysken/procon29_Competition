@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -816,7 +816,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         private void TimeMeasurementToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            new TimeMeasurementForm().ShowDialog(this);
         }
     }
 }
