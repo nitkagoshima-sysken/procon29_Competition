@@ -123,12 +123,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public int CalcPoint(Func<Cell, bool> func) => Field.Sum(x => (func(x)) ? x.Point : 0);
 
         /// <summary> 
-        /// すべてのフィールドのポイントの絶対値の和を計算します。 
-        /// </summary> 
-        /// <returns>すべてのフィールドのポイントの絶対値の和</returns> 
-        public int SumAbs() => Field.Sum(x => ((x.Point > 0) ? x.Point : -x.Point));
-
-        /// <summary> 
         /// 指定したチームの直接的なエリアのポイントの合計を計算します。 
         /// </summary> 
         /// <param name="team">計算するチーム</param> 
