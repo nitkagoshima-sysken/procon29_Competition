@@ -145,7 +145,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 new Coordinate(
                     int.Parse(OpponentPositionForm.OpponentPosition2X.Text),
                     int.Parse(OpponentPositionForm.OpponentPosition2Y.Text));
-
             
             Calc = new Calc(MaxTurn, field, agents);
 
