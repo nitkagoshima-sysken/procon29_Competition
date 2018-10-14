@@ -35,7 +35,7 @@
             this.OpponentPosition1Y = new System.Windows.Forms.MaskedTextBox();
             this.OpponentPosition2X = new System.Windows.Forms.MaskedTextBox();
             this.OpponentPosition2Y = new System.Windows.Forms.MaskedTextBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.OurTeamPositionLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -121,16 +121,16 @@
             this.OpponentPosition2Y.Size = new System.Drawing.Size(100, 30);
             this.OpponentPosition2Y.TabIndex = 10;
             // 
-            // label3
+            // OurTeamPositionLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.label3.Location = new System.Drawing.Point(12, 148);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(182, 30);
-            this.label3.TabIndex = 11;
-            this.label3.Text = "自分：(X,Y) (X,Y)";
+            this.OurTeamPositionLabel.AutoSize = true;
+            this.OurTeamPositionLabel.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.OurTeamPositionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.OurTeamPositionLabel.Location = new System.Drawing.Point(12, 148);
+            this.OurTeamPositionLabel.Name = "OurTeamPositionLabel";
+            this.OurTeamPositionLabel.Size = new System.Drawing.Size(182, 30);
+            this.OurTeamPositionLabel.TabIndex = 11;
+            this.OurTeamPositionLabel.Text = "自分：(X,Y) (X,Y)";
             // 
             // OpponentPositionForm
             // 
@@ -138,7 +138,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(235, 238);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.OurTeamPositionLabel);
             this.Controls.Add(this.OpponentPosition2Y);
             this.Controls.Add(this.OpponentPosition2X);
             this.Controls.Add(this.OpponentPosition1Y);
@@ -161,6 +161,6 @@
         public System.Windows.Forms.MaskedTextBox OpponentPosition1Y;
         public System.Windows.Forms.MaskedTextBox OpponentPosition2X;
         public System.Windows.Forms.MaskedTextBox OpponentPosition2Y;
-        public System.Windows.Forms.Label label3;
+        public System.Windows.Forms.Label OurTeamPositionLabel;
     }
 }
