@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
@@ -220,5 +221,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             return this[agent.Position + arrow].IsTileOn[agent.Team.Opponent()];
         }
+
+        /// <summary> 
+        /// すべてのフィールドのポイントの和を計算します。 
+        /// </summary> 
+        /// <returns>すべてのフィールドのポイントの和</returns> 
+        public int Sum() =>this.Sum(x => x.Point);
+
+
     }
 }
