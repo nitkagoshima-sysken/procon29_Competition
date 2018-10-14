@@ -17,7 +17,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void OKButton_Click(object sender, EventArgs e)
         {
             Hide();
         }

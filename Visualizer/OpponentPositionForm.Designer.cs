@@ -30,7 +30,7 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.OKButton = new System.Windows.Forms.Button();
             this.OpponentPosition1X = new System.Windows.Forms.MaskedTextBox();
             this.OpponentPosition1Y = new System.Windows.Forms.MaskedTextBox();
             this.OpponentPosition2X = new System.Windows.Forms.MaskedTextBox();
@@ -60,19 +60,19 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "2人目の位置(X, Y)";
             // 
-            // button1
+            // OKButton
             // 
-            this.button1.BackColor = System.Drawing.Color.RoyalBlue;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button1.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.button1.Location = new System.Drawing.Point(12, 181);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(204, 47);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "OK";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.OKButton.BackColor = System.Drawing.Color.RoyalBlue;
+            this.OKButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.OKButton.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.OKButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.OKButton.Location = new System.Drawing.Point(12, 181);
+            this.OKButton.Name = "OKButton";
+            this.OKButton.Size = new System.Drawing.Size(204, 47);
+            this.OKButton.TabIndex = 6;
+            this.OKButton.Text = "OK";
+            this.OKButton.UseVisualStyleBackColor = false;
+            this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
             // OpponentPosition1X
             // 
@@ -144,7 +144,7 @@
             this.Controls.Add(this.OpponentPosition2X);
             this.Controls.Add(this.OpponentPosition1Y);
             this.Controls.Add(this.OpponentPosition1X);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.OKButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "OpponentPositionForm";
@@ -157,7 +157,7 @@
         #endregion
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button OKButton;
         public System.Windows.Forms.MaskedTextBox OpponentPosition1X;
         public System.Windows.Forms.MaskedTextBox OpponentPosition1Y;
         public System.Windows.Forms.MaskedTextBox OpponentPosition2X;
