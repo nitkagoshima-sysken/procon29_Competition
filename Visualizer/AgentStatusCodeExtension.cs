@@ -47,7 +47,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public static bool IsRemovementOpponentTile(this AgentStatusCode agentStatusData) => agentStatusData.ToAction() == AgentStatusCodeAction.RemovementOpponentTile;
 
         /// <summary>
-        /// エージェントステータスコードの属性を可能な限り成功に変更します。
+        /// エージェントステータスコードの属性を可能な限り成功に変換します。
         /// </summary>
         /// <param name="agentStatusCode"></param>
         /// <returns></returns>
@@ -70,7 +70,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// エージェントステータスコードの属性を可能な限りリクエストに変更します。
+        /// エージェントステータスコードの属性を可能な限りリクエストに変換します。
         /// </summary>
         /// <param name="agentStatusCode"></param>
         /// <returns></returns>
@@ -88,6 +88,61 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     return AgentStatusCode.RequestRemovementOurTile;
                 case AgentStatusCodeAction.RemovementOpponentTile:
                     return AgentStatusCode.RequestRemovementOpponentTile;
+            }
+            throw new ArgumentOutOfRangeException();
+        }
+
+        /// <summary>
+        /// エージェントステータスコードの属性を可能な限り ToYouHadCollisionsWithYourselfAndYouFailed に変換します。
+        /// </summary>
+        /// <param name="agentStatusCode"></param>
+        /// <returns></returns>
+        public static AgentStatusCode ToYouHadCollisionsWithYourselfAndYouFailed(this AgentStatusCode agentStatusCode)
+        {
+            switch (agentStatusCode.ToAction())
+            {
+                case AgentStatusCodeAction.Movement:
+                    return AgentStatusCode.YouHadCollisionsWithYourselfAndYouFailedToMoveBecauseYouAreThereAlready;
+                case AgentStatusCodeAction.RemovementOurTile:
+                    return AgentStatusCode.YouHadCollisionsWithYourselfAndYouFailedToRemoveTilesFromYourTeamBecauseYouAreThere;
+            }
+            throw new ArgumentOutOfRangeException();
+        }
+
+        /// <summary>
+        /// エージェントステータスコードの属性を可能な限り ToFailedByBeingNotMooreNeighborhood に変換します。
+        /// </summary>
+        /// <param name="agentStatusCode"></param>
+        /// <returns></returns>
+        public static AgentStatusCode ToFailedByBeingNotMooreNeighborhood(this AgentStatusCode agentStatusCode)
+        {
+            switch (agentStatusCode.ToAction())
+            {
+                case AgentStatusCodeAction.Movement:
+                    return AgentStatusCode.FailedInMovingByBeingNotMooreNeighborhood;
+                case AgentStatusCodeAction.RemovementOurTile:
+                    return AgentStatusCode.FailedInRemovingOurTileByBeingNotMooreNeighborhood;
+                case AgentStatusCodeAction.RemovementOpponentTile:
+                    return AgentStatusCode.FailedInRemovingOpponentTileByBeingNotMooreNeighborhood;
+            }
+            throw new ArgumentOutOfRangeException();
+        }
+
+        /// <summary>
+        /// エージェントステータスコードの属性を可能な限り FailedInMovingByTryingToGoOutOfTheField に変換します。
+        /// </summary>
+        /// <param name="agentStatusCode"></param>
+        /// <returns></returns>
+        public static AgentStatusCode ToFailedInMovingByTryingToGoOutOfTheField(this AgentStatusCode agentStatusCode)
+        {
+            switch (agentStatusCode.ToAction())
+            {
+                case AgentStatusCodeAction.Movement:
+                    return AgentStatusCode.FailedInMovingByTryingToGoOutOfTheField;
+                case AgentStatusCodeAction.RemovementOurTile:
+                    return AgentStatusCode.FailedInRemovingOurTileByTryingToGoOutOfTheField;
+                case AgentStatusCodeAction.RemovementOpponentTile:
+                    return AgentStatusCode.FailedInRemovingOpponentTileByTryingToGoOutOfTheField;
             }
             throw new ArgumentOutOfRangeException();
         }

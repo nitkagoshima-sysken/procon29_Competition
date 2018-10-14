@@ -96,6 +96,12 @@
     <Compile Include="AgentStatusCodeAttribute.cs" />
     <Compile Include="AgentStatusCodeExtension.cs" />
     <Compile Include="Arrow.cs" />
+    <Compile Include="BotLogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BotLogForm.Designer.cs">
+      <DependentUpon>BotLogForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CharactorBitmap.cs" />
     <Compile Include="ClickField.cs" />
     <Compile Include="Direction.cs" />
@@ -108,14 +114,20 @@
     <Compile Include="HistoryForm.Designer.cs">
       <DependentUpon>HistoryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="PlayMode.cs" />
-    <Compile Include="SplashForm.cs">
+    <Compile Include="OpponentPositionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SplashForm.Designer.cs">
-      <DependentUpon>SplashForm.cs</DependentUpon>
+    <Compile Include="OpponentPositionForm.Designer.cs">
+      <DependentUpon>OpponentPositionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PlayMode.cs" />
     <Compile Include="TeamDesigns.cs" />
+    <Compile Include="TimeMeasurementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimeMeasurementForm.Designer.cs">
+      <DependentUpon>TimeMeasurementForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TrumpMark.cs" />
     <Compile Include="TrumpNumber.cs" />
     <Compile Include="TsvReader.cs" />
@@ -162,6 +174,9 @@
     <Compile Include="AgentActivityDataExtension.cs" />
     <Compile Include="XmlCell.cs" />
     <Compile Include="XmlTurnData.cs" />
+    <EmbeddedResource Include="BotLogForm.resx">
+      <DependentUpon>BotLogForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CreateNewForm.resx">
       <DependentUpon>CreateNewForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -171,13 +186,16 @@
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="OpponentPositionForm.resx">
+      <DependentUpon>OpponentPositionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="SplashForm.resx">
-      <DependentUpon>SplashForm.cs</DependentUpon>
+    <EmbeddedResource Include="TimeMeasurementForm.resx">
+      <DependentUpon>TimeMeasurementForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">

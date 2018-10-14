@@ -104,6 +104,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     TsvData.Add(command, new List<string>());
                     TsvData[command].AddRange(line.Split('\t'));
                     TsvData[command].RemoveAt(0);
+                    for (int i = 0; i < TsvData[command].Count; i++)
+                    {
+                        TsvData[command][i] = TsvData[command][i].Trim();
+                    }
                 }
             }
         }
