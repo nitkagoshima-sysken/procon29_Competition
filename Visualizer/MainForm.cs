@@ -172,14 +172,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void WriteLog()
         {
             Log.WriteLine("\n" + "Turn : " + Calc.Turn);
-            Log.WriteLine("A   Area Point: " + Calc.AreaPoint(Team.A).ToString(), teamDesigns[(int)Team.A].AreaColor);
-            Log.WriteLine("Enclosed Point: " + Calc.EnclosedPoint(Team.A).ToString(), teamDesigns[(int)Team.A].AreaColor);
-            Log.WriteLine("   Total Point: " + Calc.TotalPoint(Team.A).ToString(), teamDesigns[(int)Team.A].AreaColor);
+            Log.WriteLine("A   Area Point: " + Calc.Field.AreaPoint(Team.A).ToString(), teamDesigns[(int)Team.A].AreaColor);
+            Log.WriteLine("Enclosed Point: " + Calc.Field.EnclosedPoint(Team.A).ToString(), teamDesigns[(int)Team.A].AreaColor);
+            Log.WriteLine("   Total Point: " + Calc.Field.TotalPoint(Team.A).ToString(), teamDesigns[(int)Team.A].AreaColor);
             Log.WriteLine("agent: " + Calc.Agents[Team.A, AgentNumber.One].Position, teamDesigns[(int)Team.A].AreaColor);
             Log.WriteLine("agent: " + Calc.Agents[Team.A, AgentNumber.Two].Position, teamDesigns[(int)Team.A].AreaColor);
-            Log.WriteLine("B   Area Point: " + Calc.AreaPoint(Team.B).ToString(), teamDesigns[(int)Team.B].AreaColor);
-            Log.WriteLine("Enclosed Point: " + Calc.EnclosedPoint(Team.B).ToString(), teamDesigns[(int)Team.B].AreaColor);
-            Log.WriteLine("   Total Point: " + Calc.TotalPoint(Team.B).ToString(), teamDesigns[(int)Team.B].AreaColor);
+            Log.WriteLine("B   Area Point: " + Calc.Field.AreaPoint(Team.B).ToString(), teamDesigns[(int)Team.B].AreaColor);
+            Log.WriteLine("Enclosed Point: " + Calc.Field.EnclosedPoint(Team.B).ToString(), teamDesigns[(int)Team.B].AreaColor);
+            Log.WriteLine("   Total Point: " + Calc.Field.TotalPoint(Team.B).ToString(), teamDesigns[(int)Team.B].AreaColor);
             Log.WriteLine("agent: " + Calc.Agents[Team.B, AgentNumber.One].Position, teamDesigns[(int)Team.B].AreaColor);
             Log.WriteLine("agent: " + Calc.Agents[Team.B, AgentNumber.Two].Position, teamDesigns[(int)Team.B].AreaColor);
         }
