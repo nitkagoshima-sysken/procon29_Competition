@@ -122,6 +122,12 @@
     </Compile>
     <Compile Include="PlayMode.cs" />
     <Compile Include="TeamDesigns.cs" />
+    <Compile Include="TimeMeasurementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimeMeasurementForm.Designer.cs">
+      <DependentUpon>TimeMeasurementForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TrumpMark.cs" />
     <Compile Include="TrumpNumber.cs" />
     <Compile Include="TsvReader.cs" />
@@ -187,6 +193,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeMeasurementForm.resx">
+      <DependentUpon>TimeMeasurementForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
