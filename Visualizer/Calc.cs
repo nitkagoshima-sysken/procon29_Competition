@@ -32,7 +32,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// ターンを設定または取得します。
         /// </summary>
-        public int Turn { get; private set; }
+        public int Turn { get; private set; } = 0;
 
         /// <summary> 
         /// ターンの終わりを設定または取得します。 
@@ -47,11 +47,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// フィールドの歴史を設定または取得します。
         /// </summary>
         public List<TurnData> History { get; private set; } = new List<TurnData>();
-
-        /// <summary> 
-        /// エージェントの略称を返します。 
-        /// </summary> 
-        public static string[,] ShortTeamAgentName => new string[2, 2] { { "Strawberry", "Apple", }, { "Kiwi", "Muscat", }, };
 
         /// <summary>
         /// Calcを初期化します。
@@ -71,52 +66,21 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// Calcを初期化します。
         /// </summary>
-        /// <param name="maxTurn">最大ターン数を設定します。</param>
-        /// <param name="point">フィールドのポイントを設定します。</param>
-        /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public Calc(int maxTurn, int[,] point, Coordinate[] initPosition)
-        {
-            MaxTurn = maxTurn;
-            // Turn -> 0
-            Turn = 0;
-            // TurnData作成
-            History.Add(new TurnData(new Field(point.GetLength(1), point.GetLength(0)), new Agents()));
-
-            InitializationOfField(point);
-            foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
-            {
-                Agents[Team.A, agent].Position = initPosition[(int)agent];
-                PutTile(team: 0, agent: agent);
-            }
-            ComplementEnemysPosition();
-
-            // Turn -> 1
-            TurnEnd();
-        }
-
-        /// <summary>
-        /// Calcを初期化します。
-        /// </summary>
-        /// <param name="maxTurn">最大ターン数を設定します。</param>
+        /// <param name="turn">最大ターン数を設定します。</param>
         /// <param name="field">フィールドのポイントを設定します。</param>
-        /// <param name="initPosition">エージェントの初期位置を設定します。</param>
-        public Calc(int maxTurn, Field field, Coordinate[] initPosition)
+        /// <param name="agents">エージェントを設定します。</param>
+        public Calc(int turn, Field field, Agents agents)
         {
-            MaxTurn = maxTurn;
-            // Turn -> 0
-            Turn = 0;
+            MaxTurn = turn;
+
             // TurnData作成
-            History.Add(new TurnData(field, new Agents()));
-
-            foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
+            History.Add(new TurnData(new Field(field.Width, field.Height), new Agents()));
+            Field = field;
+            Agents = agents;
+            foreach (var agent in Agents)
             {
-                Agents[Team.A, agent].Position = initPosition[(int)agent];
-                PutTile(team: 0, agent: agent);
+                PutTile(team: agent.Team, agent: agent.AgentNumber);
             }
-            ComplementEnemysPosition();
-
-            // Turn -> 1
-            TurnEnd();
         }
 
         /// <summary>
@@ -157,39 +121,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         public int CalcPoint(Func<Cell, bool> func) => Field.Sum(x => (func(x)) ? x.Point : 0);
-
-        /// <summary> 
-        /// すべてのフィールドのポイントの和を計算します。 
-        /// </summary> 
-        /// <returns>すべてのフィールドのポイントの和</returns> 
-        public int Sum() => Field.Sum(x => x.Point);
-
-        /// <summary> 
-        /// すべてのフィールドのポイントの絶対値の和を計算します。 
-        /// </summary> 
-        /// <returns>すべてのフィールドのポイントの絶対値の和</returns> 
-        public int SumAbs() => Field.Sum(x => ((x.Point > 0) ? x.Point : -x.Point));
-
-        /// <summary> 
-        /// 指定したチームの直接的なエリアのポイントの合計を計算します。 
-        /// </summary> 
-        /// <param name="team">計算するチーム</param> 
-        /// <returns>指定したチームの直接的なエリアのポイントの合計</returns> 
-        public int AreaPoint(Team team) => Field.Sum(x => ((x.IsTileOn[team] == true) ? x.Point : 0));
-
-        /// <summary> 
-        /// 指定したチームが囲んだエリアのポイントの絶対値の合計を計算します。 
-        /// </summary> 
-        /// <param name="team">計算するチーム</param> 
-        /// <returns>指定したチームが囲んだエリアのポイントの絶対値の合計</returns> 
-        public int EnclosedPoint(Team team) => Field.Sum(x => ((x.IsEnclosed[team] == true) ? Math.Abs(x.Point) : 0));
-
-        /// <summary> 
-        /// 指定したチームの合計ポイントを計算します。 
-        /// </summary> 
-        /// <param name="team">計算するチーム</param> 
-        /// <returns>指定したチームの合計ポイント</returns> 
-        public int TotalPoint(Team team) => AreaPoint(team) + EnclosedPoint(team);
 
         /// <summary> 
         /// マップが対称であるか規定内の大きさか判定します。 
@@ -479,7 +410,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // SucceededNotToDoAnything
                     if (item.AgentStatusData == AgentStatusCode.RequestNotToDoAnything)
                     {
-                        item.ToSuccess();
+                        item.AgentStatusData = AgentStatusCode.SucceededNotToDoAnything;
                         continue;
                     }
                     // リクエストの禁止や、何も命令がないときは無条件でスキップ(2)
@@ -489,57 +420,29 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     // 自分自身の衝突をチェック(2)
                     // YouHadCollisionsWithYourselfAndYouFailedToMoveBecauseYouAreThereAlready
                     // YouHadCollisionsWithYourselfAndYouFailedToRemoveTilesFromYourTeam;
-                    if (item.Destination == Agents[team, agent].Position)
-                        switch (item.AgentStatusData)
-                        {
-                            case AgentStatusCode.RequestMovement:
-                                item.AgentStatusData = AgentStatusCode.YouHadCollisionsWithYourselfAndYouFailedToMoveBecauseYouAreThereAlready;
-                                continue;
-                            case AgentStatusCode.RequestRemovementOurTile:
-                                item.AgentStatusData = AgentStatusCode.YouHadCollisionsWithYourselfAndYouFailedToRemoveTilesFromYourTeamBecauseYouAreThere;
-                                continue;
-                            default:
-                                break;
-                        }
+                    if (item.AgentStatusData != AgentStatusCode.RequestRemovementOpponentTile
+                        && item.Destination == Agents[team, agent].Position)
+                    {
+                        item.AgentStatusData = item.AgentStatusData.ToYouHadCollisionsWithYourselfAndYouFailed();
+                        continue;
+                    }
                     // 目標部が自分から遠い場所にないかチェック(3)
                     // FailedInMovingByBeingNotChebyshevNeighborhood
                     // FailedInRemovingOurTileByBeingNotChebyshevNeighborhood
                     // FailedInRemovingOpponentTileByBeingNotChebyshevNeighborhood
                     if (item.Destination.ChebyshevDistance(Agents[team, agent].Position) != 1)
-                        switch (item.AgentStatusData)
-                        {
-                            case AgentStatusCode.RequestMovement:
-                                item.AgentStatusData = AgentStatusCode.FailedInMovingByBeingNotMooreNeighborhood;
-                                continue;
-                            case AgentStatusCode.RequestRemovementOurTile:
-                                item.AgentStatusData = AgentStatusCode.FailedInRemovingOurTileByBeingNotMooreNeighborhood;
-                                continue;
-                            case AgentStatusCode.RequestRemovementOpponentTile:
-                                item.AgentStatusData = AgentStatusCode.FailedInRemovingOpponentTileByBeingNotMooreNeighborhood;
-                                continue;
-                            default:
-                                break;
-                        }
+                    {
+                        item.AgentStatusData = item.AgentStatusData.ToFailedByBeingNotMooreNeighborhood();
+                        continue;
+                    }
                     // 目標部がフィールドの外にないかチェック(3)
                     // FailedInMovingByTryingToGoOutOfTheFieldWithEachOther
                     // FailedInRemovingOurTileByTryingToGoOutOfTheField
                     // FailedInRemovingOpponentTileByTryingToGoOutOfTheField
                     if (!Field.CellExist(item.Destination))
                     {
-                        switch (item.AgentStatusData)
-                        {
-                            case AgentStatusCode.RequestMovement:
-                                item.AgentStatusData = AgentStatusCode.FailedInMovingByTryingToGoOutOfTheField;
-                                continue;
-                            case AgentStatusCode.RequestRemovementOurTile:
-                                item.AgentStatusData = AgentStatusCode.FailedInRemovingOurTileByTryingToGoOutOfTheField;
-                                continue;
-                            case AgentStatusCode.RequestRemovementOpponentTile:
-                                item.AgentStatusData = AgentStatusCode.FailedInRemovingOpponentTileByTryingToGoOutOfTheField;
-                                continue;
-                            default:
-                                break;
-                        }
+                        item.AgentStatusData = item.AgentStatusData.ToFailedInMovingByTryingToGoOutOfTheField();
+                        continue;
                     }
                     // 剥がそうとしていたタイルが存在していないかチェック(2)
                     // FailedInRemovingOurTileByDoingTileNotExist

@@ -47,6 +47,8 @@
             this.UndoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RedoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BotConsoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TimeMeasurementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PracticeModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ProductionModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,7 +57,6 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.BotConsoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -264,10 +265,25 @@
             // ViewToolStripMenuItem
             // 
             this.ViewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.BotConsoleToolStripMenuItem});
+            this.BotConsoleToolStripMenuItem,
+            this.TimeMeasurementToolStripMenuItem});
             this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
             this.ViewToolStripMenuItem.Size = new System.Drawing.Size(76, 27);
             this.ViewToolStripMenuItem.Text = "表示(&V)";
+            // 
+            // BotConsoleToolStripMenuItem
+            // 
+            this.BotConsoleToolStripMenuItem.Name = "BotConsoleToolStripMenuItem";
+            this.BotConsoleToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.BotConsoleToolStripMenuItem.Text = "ボットコンソール";
+            this.BotConsoleToolStripMenuItem.Click += new System.EventHandler(this.BotConsoleToolStripMenuItem_Click);
+            // 
+            // TimeMeasurementToolStripMenuItem
+            // 
+            this.TimeMeasurementToolStripMenuItem.Name = "TimeMeasurementToolStripMenuItem";
+            this.TimeMeasurementToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.TimeMeasurementToolStripMenuItem.Text = "処理時間計測";
+            this.TimeMeasurementToolStripMenuItem.Click += new System.EventHandler(this.TimeMeasurementToolStripMenuItem_Click);
             // 
             // ModeToolStripMenuItem
             // 
@@ -321,13 +337,6 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // BotConsoleToolStripMenuItem
-            // 
-            this.BotConsoleToolStripMenuItem.Name = "BotConsoleToolStripMenuItem";
-            this.BotConsoleToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
-            this.BotConsoleToolStripMenuItem.Text = "ボットコンソール";
-            this.BotConsoleToolStripMenuItem.Click += new System.EventHandler(this.BotConsoleToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -388,5 +397,6 @@
         private System.Windows.Forms.ToolStripMenuItem OpenQRCodeReaderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OpenFieldDataGeneratorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem BotConsoleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem TimeMeasurementToolStripMenuItem;
     }
 }
