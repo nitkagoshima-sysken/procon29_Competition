@@ -19,10 +19,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            // Splashを表示します。
-            SplashForm.ShowSplash();
-
             Application.Run(new MainForm());
         }
     }

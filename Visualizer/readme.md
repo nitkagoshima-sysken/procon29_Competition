@@ -1,22 +1,10 @@
-# Procon29 Visualizer 35.0
+# Procon29 Visualizer 54.0
 
 ## What's new
 
-### ボットコンソールのフォントが`Console`に改善された
-
-MSゴシックなんて大嫌い！
-
-### ボットコンソールの非透明度が90%に変更された
-
-Visualizerより少し透明に
-
-### ボットコンソールがデフォルトで非表示になった
-
-邪魔だもんね。デバッグするときにしか使わない
-
-### ボットコンソールを閉じてもエラーにならないように修正
-  
-閉じても非表示するように変更した
+**Visualizer 49.0** より、`Calc.Sum()`が廃止されました。  
+ボット開発者のみなさんは、  
+`Calc.Sum()`をお使いの方は`Calc.Field.Sum()`に変更してください。
 
 ## 操作方法
 
@@ -490,6 +478,111 @@ Visualizerより少し透明に
 - ボットコンソールがデフォルトで非表示になった
 - ボットコンソールを閉じてもエラーにならないように修正
 
+### Version 36.0
+
+- `MainForm`のコード最適化（開発者向け）
+- `AgentStatusCodeExtension.ToFailedByBeingNotMooreNeighborhood(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToYouHadCollisionsWithYourselfAndYouFailed(this AgentStatusCode)`を追加（開発者向け）
+- `AgentStatusCodeExtension.ToFailedInMovingByTryingToGoOutOfTheField(this AgentStatusCode)`を追加（開発者向け）
+
+### Version 37.0
+
+- ゲーム開始時に敵の位置を入力するように修正
+- 敵の位置を入力するフォームを追加
+
+### Version 38.0
+
+- 敵の位置を入力するテキストボックスが2桁の数値しか入れられないように修正された
+- 敵の位置を入力するフォームのフォントがメイリオに変更された
+- 敵の位置を入力するフォームの色が修正された
+
+### Version 39.0
+
+- 敵の位置を入力するフォームで自分のチームがどこにいるのか表示されるようにした
+- `MainForm`のコード最適化（開発者向け）
+
+### Version 40.0
+
+- 試合のターン数のデフォルトが10ターンから40ターンに変更された
+
+### Version 41.0
+
+- 敵の位置を入力するフォームにOKボタンがついた
+
+### Version 42.0
+
+- Visualizerの起動中に表示するスプラッシュウインドウが廃止された
+- `Program`のコード最適化（開発者向け）
+
+### Version 43.0
+
+- 敵の位置を入力するフォームのアイコンを非表示にした
+- 敵の位置を入力するフォームのコントロールボタンを非表示にした
+
+### Version 44.0
+
+- 敵の位置を入力するフォームで空白のままOKボタンを押すと、エラーダイアログが出るようになった
+
+### Version 45.0
+
+- `MainForm`のコード最適化（開発者向け）
+- `Calc.Calc(int, int[,], Coordinate)`を廃止（開発者向け）
+- `Calc.Calc(int, Field, Coordinate)`を廃止（開発者向け）
+
+### Version 46.0
+
+- 敵の位置を入力するフォームで敵の位置を自動補完するようになった
+
+### Version 47.0
+
+- `MainForm`のコード最適化（開発者向け）
+- `Field.IsMovable(Agent, Arrow)`を追加（開発者向け）
+- `Field.IsRemovableOurTile(Agent, Arrow)`を追加（開発者向け）
+- `Field.IsRemovableOpponentTile(Agent, Arrow)`を追加（開発者向け）
+
+### Version 48.0
+
+- `MainForm`のコード最適化（開発者向け）
+- `Field.Field(int, int, int[,])`を追加（開発者向け）
+- `Calc.Calc(int, int[,], Agents)`を廃止（開発者向け）
+- `Calc.Calc(int turn, Field field, Agents agents)`を追加（開発者向け）
+
+### Version 49.0
+
+- `Field.Sum()`を追加（開発者向け）
+- `Field.SumAbs()`を追加（開発者向け）
+- `Field.AreaPoint(Team)`を追加（開発者向け）
+- `Field.EnclosedPoint(Team)`を追加（開発者向け）
+- `Field.TotalPoint(Team)`を追加（開発者向け）
+
+### Version 50.0
+
+- `Calc.Sum()`を廃止（開発者向け）
+- `Calc.SumAbs()`を廃止（開発者向け）
+- `Calc.AreaPoint(Team)`を廃止（開発者向け）
+- `Calc.EnclosedPoint(Team)`を廃止（開発者向け）
+- `Calc.TotalPoint(Team)`を廃止（開発者向け）
+
+### Version 51.0
+
+- 処理時間を計測するボタンを追加した
+
+### Version 52.0
+
+- 本番モードでボットがボットコンソールに書き込もうとしたらエラーになるバグを修正
+
+### Version 53.0
+
+- 処理時間を計測するフォームの色やデザインを修正した
+
+### Version 54.0
+
+- 処理時間を計測するフォームに「ディープクローン」の項目が追加された
+
+#### Version 54.1
+
+- バージョン管理の修正
+
 ## バージョンの上がり方について
 
 Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバージョン.マイナーバージョン.ビルドバージョン`で表されます。  
@@ -532,3 +625,4 @@ Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバ�
 |25.0|83|1064|7|195|2509|
 |28.0|83|1079|7|198|2544|
 |34.0|83|1108|7|201|2625|
+|54.1|82|1145|7|217|2833|
