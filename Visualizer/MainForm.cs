@@ -40,7 +40,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         TeamDesign[] teamDesigns;
 
-        CreateNewForm CreateNewForm = new CreateNewForm();
+        /// <summary>
+        /// 新たな戦いを始めるためのフォームです。
+        /// </summary>
+        CreateNewForm CreateNewForm { get; set; } = new CreateNewForm();
 
         /// <summary>
         /// ボットのログを表示します。
