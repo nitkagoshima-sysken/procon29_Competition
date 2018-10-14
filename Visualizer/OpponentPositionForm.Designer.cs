@@ -77,6 +77,7 @@
             this.OpponentPosition1X.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.OpponentPosition1X.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.OpponentPosition1X.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.OpponentPosition1X.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.OpponentPosition1X.Location = new System.Drawing.Point(12, 42);
             this.OpponentPosition1X.Mask = "99";
             this.OpponentPosition1X.Name = "OpponentPosition1X";
@@ -88,6 +89,7 @@
             this.OpponentPosition1Y.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.OpponentPosition1Y.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.OpponentPosition1Y.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.OpponentPosition1Y.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.OpponentPosition1Y.Location = new System.Drawing.Point(118, 42);
             this.OpponentPosition1Y.Mask = "99";
             this.OpponentPosition1Y.Name = "OpponentPosition1Y";
@@ -99,6 +101,7 @@
             this.OpponentPosition2X.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.OpponentPosition2X.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.OpponentPosition2X.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.OpponentPosition2X.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.OpponentPosition2X.Location = new System.Drawing.Point(12, 115);
             this.OpponentPosition2X.Mask = "99";
             this.OpponentPosition2X.Name = "OpponentPosition2X";
@@ -110,6 +113,7 @@
             this.OpponentPosition2Y.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.OpponentPosition2Y.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.OpponentPosition2Y.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.OpponentPosition2Y.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.OpponentPosition2Y.Location = new System.Drawing.Point(118, 115);
             this.OpponentPosition2Y.Mask = "99";
             this.OpponentPosition2Y.Name = "OpponentPosition2Y";
