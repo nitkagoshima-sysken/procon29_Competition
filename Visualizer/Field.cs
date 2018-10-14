@@ -176,7 +176,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="agent">対象のエージェント</param>
         /// <param name="arrow">移動方向</param>
         /// <returns></returns>
-        public bool IsMoveable(Agent agent, Arrow arrow)
+        public bool IsMovable(Agent agent, Arrow arrow)
         {
             return !this[agent.Position + arrow].IsTileOn[agent.Team.Opponent()];
         }
@@ -187,7 +187,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="agent">対象のエージェント</param>
         /// <param name="arrow">移動方向</param>
         /// <returns></returns>
-        public bool IsRemoveableOurTile(Agent agent, Arrow arrow)
+        public bool IsRemovableOurTile(Agent agent, Arrow arrow)
         {
             return this[agent.Position + arrow].IsTileOn[agent.Team];
         }
