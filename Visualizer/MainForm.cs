@@ -36,7 +36,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// ボットのログを取ります。
         /// </summary>
-        public Logger BotLog { get; set; }
+        public static Logger BotLog { get; set; }
 
         TeamDesign[] teamDesigns;
 
