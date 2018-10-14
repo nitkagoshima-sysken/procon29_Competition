@@ -139,6 +139,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(235, 238);
+            this.ControlBox = false;
             this.Controls.Add(this.OurTeamPositionLabel);
             this.Controls.Add(this.OpponentPosition2Y);
             this.Controls.Add(this.OpponentPosition2X);
