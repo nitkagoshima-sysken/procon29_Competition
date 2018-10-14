@@ -40,7 +40,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         TeamDesign[] teamDesigns;
 
-        CreateNewForm createNewForm = new CreateNewForm();
+        CreateNewForm CreateNewForm = new CreateNewForm();
 
         /// <summary>
         /// ボットのログを表示します。
@@ -340,11 +340,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="e"></param>
         private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            createNewForm.ShowDialog(this);
+            CreateNewForm.ShowDialog(this);
             Calc.MaxTurn = MaxTurn;
             //OKボタンがクリックされたとき、選択されたファイル名を開き、データを読み込む    
-            if (createNewForm.SelectPQRFile != ".pqr" && createNewForm.SelectPQRFile != null)
-                OpenPQRFile(createNewForm.SelectPQRFile);
+            if (CreateNewForm.SelectPQRFile != ".pqr" && CreateNewForm.SelectPQRFile != null)
+                OpenPQRFile(CreateNewForm.SelectPQRFile);
             TurnProgressCheck();
         }
 
