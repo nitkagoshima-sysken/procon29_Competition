@@ -531,19 +531,23 @@
 
 ### Version 46.0
 
+- 敵の位置を入力するフォームで敵の位置を自動補完するようになった
+
+### Version 47.0
+
 - `MainForm`のコード最適化（開発者向け）
 - `Field.IsMovable(Agent, Arrow)`を追加（開発者向け）
 - `Field.IsRemovableOurTile(Agent, Arrow)`を追加（開発者向け）
 - `Field.IsRemovableOpponentTile(Agent, Arrow)`を追加（開発者向け）
 
-### Version 47.0
+### Version 48.0
 
 - `MainForm`のコード最適化（開発者向け）
 - `Field.Field(int, int, int[,])`を追加（開発者向け）
 - `Calc.Calc(int, int[,], Agents)`を廃止（開発者向け）
 - `Calc.Calc(int turn, Field field, Agents agents)`を追加（開発者向け）
 
-### Version 48.0
+### Version 49.0
 
 - `Field.Sum()`を追加（開発者向け）
 - `Field.SumAbs()`を追加（開発者向け）
@@ -551,7 +555,7 @@
 - `Field.EnclosedPoint(Team)`を追加（開発者向け）
 - `Field.TotalPoint(Team)`を追加（開発者向け）
 
-### Version 49.0
+### Version 50.0
 
 - `Calc.Sum()`を廃止（開発者向け）
 - `Calc.SumAbs()`を廃止（開発者向け）
@@ -559,11 +563,11 @@
 - `Calc.EnclosedPoint(Team)`を廃止（開発者向け）
 - `Calc.TotalPoint(Team)`を廃止（開発者向け）
 
-### Version 50.0
+### Version 51.0
 
 - 処理時間を計測するボタンを追加した
 
-### Version 51.0
+### Version 52.0
 
 - 本番モードでボットがボットコンソールに書き込もうとしたらエラーになるバグを修正
 
@@ -574,6 +578,10 @@
 ### Version 54.0
 
 - 処理時間を計測するフォームに「ディープクローン」の項目が追加された
+
+#### Version 54.1
+
+- バージョン管理の修正
 
 ## バージョンの上がり方について
 
@@ -617,3 +625,4 @@ Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバ�
 |25.0|83|1064|7|195|2509|
 |28.0|83|1079|7|198|2544|
 |34.0|83|1108|7|201|2625|
+|54.1|82|1145|7|217|2833|
