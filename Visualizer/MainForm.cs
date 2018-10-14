@@ -48,6 +48,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public BotLogForm BotLogForm { get; set; } = new BotLogForm();
 
         /// <summary>
+        /// 敵の位置の入力補助を表示します。
+        /// </summary>
+        public OpponentPositionForm OpponentPositionForm { get; set; } = new OpponentPositionForm();
+
+        /// <summary>
         /// ボットを設定または取得します。
         /// </summary>
         public static dynamic[] Bot { get; set; } = new dynamic[2];
@@ -116,7 +121,22 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 "7 10:";
             Log.WriteLine(reader.Stream);
             var pqr = reader.ConvertToPqrData();
-            Calc = new Calc(10, pqr.Fields, new Coordinate[2] { pqr.One, pqr.Two });
+
+            var agents = new Agents();
+            agents[Team.A, AgentNumber.One].Position = pqr.One;
+            agents[Team.A, AgentNumber.Two].Position = pqr.Two;
+
+            OpponentPositionForm.ShowDialog(this);
+            agents[Team.B, AgentNumber.One].Position =
+                new Coordinate(
+                    int.Parse(OpponentPositionForm.OpponentPosition1X.Text),
+                    int.Parse(OpponentPositionForm.OpponentPosition1Y.Text));
+            agents[Team.B, AgentNumber.Two].Position =
+                new Coordinate(
+                    int.Parse(OpponentPositionForm.OpponentPosition2X.Text),
+                    int.Parse(OpponentPositionForm.OpponentPosition2Y.Text));
+
+            Calc = new Calc(10, pqr.Fields, agents);
 
             ReadBotsTxt();
             ReadCalcTsv();
