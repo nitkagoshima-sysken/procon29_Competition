@@ -129,7 +129,20 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             agents[Team.A, AgentNumber.One].Position = pqr.One;
             agents[Team.A, AgentNumber.Two].Position = pqr.Two;
 
+            var field = new Field(pqr.Fields.GetLength(1), pqr.Fields.GetLength(0));
+            for (int x = 0; x < field.Width; x++)
+            {
+                for (int y = 0; y < field.Height; y++)
+                {
+                    field[x, y] = new Cell { Point = pqr.Fields[y, x], Coordinate = new Coordinate(x, y) };
+                }
+            }
             OpponentPositionForm.OurTeamPositionLabel.Text = "自分:" + pqr.One + pqr.Two;
+            OpponentPositionForm.OpponentPosition1X.Text = ComplementEnemysPosition(field, pqr.One).X.ToString();
+            OpponentPositionForm.OpponentPosition1Y.Text = ComplementEnemysPosition(field, pqr.One).Y.ToString();
+            OpponentPositionForm.OpponentPosition2X.Text = ComplementEnemysPosition(field, pqr.Two).X.ToString();
+            OpponentPositionForm.OpponentPosition2Y.Text = ComplementEnemysPosition(field, pqr.Two).Y.ToString();
+
             OpponentPositionForm.ShowDialog(this);
             agents[Team.B, AgentNumber.One].Position =
                 new Coordinate(
@@ -140,7 +153,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     int.Parse(OpponentPositionForm.OpponentPosition2X.Text),
                     int.Parse(OpponentPositionForm.OpponentPosition2Y.Text));
 
-            Calc = new Calc(MaxTurn, pqr.Fields, agents);
+            
+            Calc = new Calc(MaxTurn, field, agents);
 
             ReadBotsTxt();
             ReadCalcTsv();
@@ -369,7 +383,20 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 agents[Team.A, AgentNumber.One].Position = pqr.One;
                 agents[Team.A, AgentNumber.Two].Position = pqr.Two;
 
+                var field = new Field(pqr.Fields.GetLength(1), pqr.Fields.GetLength(0));
+                for (int x = 0; x < field.Width; x++)
+                {
+                    for (int y = 0; y < field.Height; y++)
+                    {
+                        field[x, y] = new Cell { Point = pqr.Fields[y, x], Coordinate = new Coordinate(x, y) };
+                    }
+                }
                 OpponentPositionForm.OurTeamPositionLabel.Text = "自分:" + pqr.One + pqr.Two;
+                OpponentPositionForm.OpponentPosition1X.Text = ComplementEnemysPosition(field, pqr.One).X.ToString();
+                OpponentPositionForm.OpponentPosition1Y.Text = ComplementEnemysPosition(field, pqr.One).Y.ToString();
+                OpponentPositionForm.OpponentPosition2X.Text = ComplementEnemysPosition(field, pqr.Two).X.ToString();
+                OpponentPositionForm.OpponentPosition2Y.Text = ComplementEnemysPosition(field, pqr.Two).Y.ToString();
+
                 OpponentPositionForm.ShowDialog(this);
                 agents[Team.B, AgentNumber.One].Position =
                     new Coordinate(
@@ -380,7 +407,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         int.Parse(OpponentPositionForm.OpponentPosition2X.Text),
                         int.Parse(OpponentPositionForm.OpponentPosition2Y.Text));
 
-                Calc = new Calc(MaxTurn, pqr.Fields, agents);
+                Calc = new Calc(MaxTurn, field, agents);
 
                 Show = new Show(Calc, teamDesigns, FieldDisplay);
                 Show.Showing();
@@ -776,6 +803,29 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 BotConsoleToolStripMenuItem.Checked = true;
                 BotLogForm.Show();
+            }
+        }
+
+        /// <summary>
+        /// QRコードには自分のチームの位置情報しか分からないため、
+        /// 敵の位置情報を自分の位置から補完します。
+        /// </summary>
+        /// <param name="field">対象のフィールド</param>
+        /// <param name="coordinate">対象の座標</param>
+        /// <returns></returns>
+        private Coordinate ComplementEnemysPosition(Field field, Coordinate coordinate)
+        {
+            if (field.IsVerticallySymmetrical)
+            {
+                return field.FlipVertical(coordinate);
+            }
+            else if (field.IsHorizontallySymmetrical)
+            {
+                return field.FlipHorizontal(coordinate);
+            }
+            else
+            {
+                throw new ArgumentException();
             }
         }
     }
