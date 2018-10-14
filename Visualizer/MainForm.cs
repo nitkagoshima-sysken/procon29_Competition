@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -614,7 +614,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 }
                 if (Bot[1] != null)
                 {
-                    Log.WriteLine("[" + BotName[1] + "]");
+                    Log.WriteLine("[" + BotName[1] + "]", Color.SkyBlue);
                     var d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.One];
                     Log.WriteLine("B1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
                     d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.Two];
