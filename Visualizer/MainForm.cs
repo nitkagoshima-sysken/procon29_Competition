@@ -129,14 +129,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             agents[Team.A, AgentNumber.One].Position = pqr.One;
             agents[Team.A, AgentNumber.Two].Position = pqr.Two;
 
-            var field = new Field(pqr.Fields.GetLength(1), pqr.Fields.GetLength(0));
-            for (int x = 0; x < field.Width; x++)
-            {
-                for (int y = 0; y < field.Height; y++)
-                {
-                    field[x, y] = new Cell { Point = pqr.Fields[y, x], Coordinate = new Coordinate(x, y) };
-                }
-            }
+            var field = new Field(pqr.Fields.GetLength(1), pqr.Fields.GetLength(0), pqr.Fields);
             OpponentPositionForm.OurTeamPositionLabel.Text = "自分:" + pqr.One + pqr.Two;
             OpponentPositionForm.OpponentPosition1X.Text = ComplementEnemysPosition(field, pqr.One).X.ToString();
             OpponentPositionForm.OpponentPosition1Y.Text = ComplementEnemysPosition(field, pqr.One).Y.ToString();
@@ -383,14 +376,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 agents[Team.A, AgentNumber.One].Position = pqr.One;
                 agents[Team.A, AgentNumber.Two].Position = pqr.Two;
 
-                var field = new Field(pqr.Fields.GetLength(1), pqr.Fields.GetLength(0));
-                for (int x = 0; x < field.Width; x++)
-                {
-                    for (int y = 0; y < field.Height; y++)
-                    {
-                        field[x, y] = new Cell { Point = pqr.Fields[y, x], Coordinate = new Coordinate(x, y) };
-                    }
-                }
+                var field = new Field(pqr.Fields.GetLength(1), pqr.Fields.GetLength(0), pqr.Fields);
                 OpponentPositionForm.OurTeamPositionLabel.Text = "自分:" + pqr.One + pqr.Two;
                 OpponentPositionForm.OpponentPosition1X.Text = ComplementEnemysPosition(field, pqr.One).X.ToString();
                 OpponentPositionForm.OpponentPosition1Y.Text = ComplementEnemysPosition(field, pqr.One).Y.ToString();
