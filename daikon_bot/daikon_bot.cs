@@ -35,15 +35,15 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
             Coordinate des1 = new Coordinate(0, 0);
             Coordinate des2 = new Coordinate(0, 0);
             int c1 = Calc.Agents[OurTeam, AgentNumber.One].Position.ChebyshevDistance(new Coordinate(0, 0));
-            int c2 = Calc.Agents[OurTeam, AgentNumber.One].Position.ChebyshevDistance(new Coordinate((Calc.Field.Width-1), 0));
-            int c3 = Calc.Agents[OurTeam, AgentNumber.One].Position.ChebyshevDistance(new Coordinate((Calc.Field.Width-1), (Calc.Field.Height-1)));
-            int c4 = Calc.Agents[OurTeam, AgentNumber.One].Position.ChebyshevDistance(new Coordinate(0, (Calc.Field.Height-1)));
+            int c2 = Calc.Agents[OurTeam, AgentNumber.One].Position.ChebyshevDistance(new Coordinate((Calc.Field.Width - 1), 0));
+            int c3 = Calc.Agents[OurTeam, AgentNumber.One].Position.ChebyshevDistance(new Coordinate((Calc.Field.Width - 1), (Calc.Field.Height - 1)));
+            int c4 = Calc.Agents[OurTeam, AgentNumber.One].Position.ChebyshevDistance(new Coordinate(0, (Calc.Field.Height - 1)));
             int dis1 = Math.Min((Math.Min(c1, c2)), (Math.Min(c3, c4)));
 
             int c_1 = Calc.Agents[OurTeam, AgentNumber.Two].Position.ChebyshevDistance(new Coordinate(0, 0));
-            int c_2 = Calc.Agents[OurTeam, AgentNumber.Two].Position.ChebyshevDistance(new Coordinate((Calc.Field.Width-1), 0));
-            int c_3 = Calc.Agents[OurTeam, AgentNumber.Two].Position.ChebyshevDistance(new Coordinate((Calc.Field.Width-1), (Calc.Field.Height-1)));
-            int c_4 = Calc.Agents[OurTeam, AgentNumber.Two].Position.ChebyshevDistance(new Coordinate(0, (Calc.Field.Height-1)));
+            int c_2 = Calc.Agents[OurTeam, AgentNumber.Two].Position.ChebyshevDistance(new Coordinate((Calc.Field.Width - 1), 0));
+            int c_3 = Calc.Agents[OurTeam, AgentNumber.Two].Position.ChebyshevDistance(new Coordinate((Calc.Field.Width - 1), (Calc.Field.Height - 1)));
+            int c_4 = Calc.Agents[OurTeam, AgentNumber.Two].Position.ChebyshevDistance(new Coordinate(0, (Calc.Field.Height - 1)));
             int dis2 = Math.Min((Math.Min(c_1, c_2)), (Math.Min(c_3, c_4)));
 
             //========================================================================================角にたどり着くまで========================================================================================================
@@ -202,7 +202,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                     else if (corner1[0] == 0 && corner1[1] == 0)
                     {
 
-                        if (Calc.Agents[OurTeam, AgentNumber.One].Position.Y != (Calc.Field.Height-1) && r1 % 2 == 1)
+                        if (Calc.Agents[OurTeam, AgentNumber.One].Position.Y != (Calc.Field.Height - 1) && r1 % 2 == 1)
                         {
 
                             if ((turn1 % 2) == 1)
@@ -254,15 +254,128 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                             }
                         }
                     }
+                    //from DownRight
+                    if (corner1[0] == (int)Calc.Field.Height - 1 && corner1[1] == (int)Calc.Field.Height - 1)
+                    {
+                        if (Calc.Agents[OurTeam, AgentNumber.One].Position.Y != 0 && r1 % 2 == 1)
+                        {
+
+                            if (turn1 % 2 == 1)
+                            {
+                                num1 = Arrow.UpLeft;
+                            }
+                            else
+                            {
+                                num1 = Arrow.UpRight;
+                            }
+                        }
+                        else
+                        {
+                            if (edge1 == 0)
+                            {
+                                num1 = Arrow.Left;
+                                edge1++;
+                                ud1++;
+                                r1++;
+                            }
+                            else
+                            {
+                                if (ud1 % 2 == 1)
+                                {
+                                    if (turn1 % 2 == 1)
+                                    {
+                                        num1 = Arrow.DownLeft;
+                                    }
+                                    else
+                                    {
+                                        num1 = Arrow.DownRight;
+                                    }
+                                }
+                                else if (ud1 % 2 == 0)
+                                {
+                                    if (turn1 % 2 == 1)
+                                    {
+                                        num1 = Arrow.UpLeft;
+                                    }
+                                    else
+                                    {
+                                        num1 = Arrow.UpRight;
+                                    }
+                                }
+                            }
+                            if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).Y == Calc.Field.Height - 1)
+                            {
+                                edge1--;
+                            }
+                        }
+                    }
+
+                    //from UpRight
+                    else if (corner1[0] == (int)Calc.Field.Width-1 && corner1[1] == 0)
+                    {
+
+                        if (Calc.Agents[OurTeam, AgentNumber.One].Position.Y != (Calc.Field.Height - 1) && r1 % 2 == 1)
+                        {
+
+                            if ((turn1 % 2) == 1)
+                            {
+                                num1 = Arrow.DownLeft;
+                            }
+                            else
+                            {
+                                num1 = Arrow.DownRight;
+                            }
+                        }
+                        else
+                        {
+                            if (edge1 % 2 == 0)
+                            {
+                                num1 = Arrow.Left;
+                                edge1++;
+                                ud1++;
+                                r1++;
+                            }
+                            else
+                            {
+                                if (ud1 % 2 == 1)
+                                {
+                                    if (turn1 % 2 == i)
+                                    {
+                                        num1 = Arrow.DownLeft;
+                                    }
+                                    else
+                                    {
+                                        num1 = Arrow.DownRight;
+                                    }
+                                }
+                                else if (ud1 % 2 == 0)
+                                {
+                                    if (turn1 % 2 == 1)
+                                    {
+                                        num1 = Arrow.UpLeft;
+                                    }
+                                    else
+                                    {
+                                        num1 = Arrow.UpRight;
+                                    }
+                                }
+                            }
+                            if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).Y == 0)
+                            {
+                                edge1--;
+                            }
+                        }
+                    }
 
                     go[0] = Calc.Agents[OurTeam, AgentNumber.One].Position + num1;
                 }
             }
 
-//==========================================================================================================================================================
+            //===============================================================================================================================================================================================================
 
             //No.2
-            if (count2 == 0) {
+            if (count2 == 0)
+            {
                 //目的地を決める
                 if (dis2 == c_1)
                 {
@@ -288,7 +401,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                     corner2[0] = des2.X;
                     corner2[1] = des2.Y;
                 }
-                
+
                 //どう動くか決める
                 if (des2.X < Calc.Agents[OurTeam, AgentNumber.Two].Position.X)
                 {
@@ -347,65 +460,236 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                 if (decide == 0)
                 {
 
-                    if (Calc.Agents[OurTeam, AgentNumber.Two].Position.Y != 0 && r2 % 2 == 1)
+                    //from DownLeft
+                    if (corner2[0] == 0 && corner2[1] == (int)Calc.Field.Height - 1)
                     {
-
-                        if ((turn2 % 2) == 1)
+                        if (Calc.Agents[OurTeam, AgentNumber.Two].Position.Y != 0 && r2 % 2 == 1)
                         {
-                            num2 = Arrow.UpRight;
+
+                            if (turn2 % 2 == 1)
+                            {
+                                num2 = Arrow.UpRight;
+                            }
+                            else
+                            {
+                                num2 = Arrow.UpLeft;
+                            }
                         }
                         else
                         {
-                            num2 = Arrow.UpLeft;
+                            if (edge2 == 0)
+                            {
+                                num2 = Arrow.Right;
+                                edge2++;
+                                ud2++;
+                                r2++;
+                            }
+                            else
+                            {
+                                if (ud2 % 2 == 1)
+                                {
+                                    if (turn2 % 2 == 1)
+                                    {
+                                        num2 = Arrow.DownRight;
+                                    }
+                                    else
+                                    {
+                                        num2 = Arrow.DownLeft;
+                                    }
+                                }
+                                else if (ud2 % 2 == 0)
+                                {
+                                    if (turn2 % 2 == 1)
+                                    {
+                                        num2 = Arrow.UpRight;
+                                    }
+                                    else
+                                    {
+                                        num2 = Arrow.UpLeft;
+                                    }
+                                }
+                            }
+                            if ((Calc.Agents[OurTeam, AgentNumber.Two].Position + num2).Y == Calc.Field.Height - 1)
+                            {
+                                edge2--;
+                            }
                         }
                     }
-                    else
+
+                    //from UpLeft
+                    else if (corner2[0] == 0 && corner2[1] == 0)
                     {
-                        if (edge2 == 0)
+
+                        if (Calc.Agents[OurTeam, AgentNumber.Two].Position.Y != (Calc.Field.Height - 1) && r2 % 2 == 1)
                         {
-                            num2 = Arrow.Right;
-                            edge2++;
-                            ud2++;
-                            r2++;
+
+                            if ((turn2 % 2) == 1)
+                            {
+                                num2 = Arrow.DownRight;
+                            }
+                            else
+                            {
+                                num2 = Arrow.DownLeft;
+                            }
                         }
                         else
                         {
-                            if (ud2 % 2 == 1)
+                            if (edge2 % 2 == 0)
                             {
-                                if (turn2 % 2 == 1)
+                                num2 = Arrow.Right;
+                                edge2++;
+                                ud2++;
+                                r2++;
+                            }
+                            else
+                            {
+                                if (ud2 % 2 == 1)
                                 {
-                                    num2 = Arrow.DownRight;
+                                    if (turn2 % 2 == i)
+                                    {
+                                        num2 = Arrow.DownRight;
+                                    }
+                                    else
+                                    {
+                                        num2 = Arrow.DownLeft;
+                                    }
                                 }
-                                else
+                                else if (ud2 % 2 == 0)
                                 {
-                                    num2 = Arrow.DownLeft;
+                                    if (turn2 % 2 == 1)
+                                    {
+                                        num2 = Arrow.UpRight;
+                                    }
+                                    else
+                                    {
+                                        num2 = Arrow.UpLeft;
+                                    }
                                 }
                             }
-                            else if (ud2 % 2 == 0)
+                            if ((Calc.Agents[OurTeam, AgentNumber.Two].Position + num2).Y == 0)
                             {
-                                if (turn2 % 2 == 1)
-                                {
-                                    num2 = Arrow.UpRight;
-                                }
-                                else
-                                {
-                                    num2 = Arrow.UpLeft;
-                                }
+                                edge1--;
                             }
                         }
                     }
-                }
+                    //from DownRight
+                    if (corner2[0] == (int)Calc.Field.Height - 1 && corner2[1] == (int)Calc.Field.Height - 1)
+                    {
+                        if (Calc.Agents[OurTeam, AgentNumber.Two].Position.Y != 0 && r2 % 2 == 1)
+                        {
 
-                go[1] = Calc.Agents[OurTeam, AgentNumber.One].Position + num2;
+                            if (turn2 % 2 == 1)
+                            {
+                                num2 = Arrow.UpLeft;
+                            }
+                            else
+                            {
+                                num2 = Arrow.UpRight;
+                            }
+                        }
+                        else
+                        {
+                            if (edge2 == 0)
+                            {
+                                num2 = Arrow.Left;
+                                edge2++;
+                                ud2++;
+                                r2++;
+                            }
+                            else
+                            {
+                                if (ud2 % 2 == 1)
+                                {
+                                    if (turn2 % 2 == 1)
+                                    {
+                                        num2 = Arrow.DownLeft;
+                                    }
+                                    else
+                                    {
+                                        num2 = Arrow.DownRight;
+                                    }
+                                }
+                                else if (ud2 % 2 == 0)
+                                {
+                                    if (turn2 % 2 == 1)
+                                    {
+                                        num2 = Arrow.UpLeft;
+                                    }
+                                    else
+                                    {
+                                        num2 = Arrow.UpRight;
+                                    }
+                                }
+                            }
+                            if ((Calc.Agents[OurTeam, AgentNumber.Two].Position + num2).Y == Calc.Field.Height - 1)
+                            {
+                                edge2--;
+                            }
+                        }
+                    }
 
-                if (go[1].Y == Calc.Field.Height - 1)
-                {
-                    edge2--;
+                    //from UpRight
+                    else if (corner2[0] == (int)Calc.Field.Height-1 && corner2[1] == 0)
+                    {
+
+                        if (Calc.Agents[OurTeam, AgentNumber.Two].Position.Y != (Calc.Field.Height - 1) && r2 % 2 == 1)
+                        {
+
+                            if ((turn2 % 2) == 1)
+                            {
+                                num2 = Arrow.DownLeft;
+                            }
+                            else
+                            {
+                                num2 = Arrow.DownRight;
+                            }
+                        }
+                        else
+                        {
+                            if (edge2 % 2 == 0)
+                            {
+                                num2 = Arrow.Left;
+                                edge2++;
+                                ud2++;
+                                r2++;
+                            }
+                            else
+                            {
+                                if (ud2 % 2 == 1)
+                                {
+                                    if (turn2 % 2 == i)
+                                    {
+                                        num2 = Arrow.DownLeft;
+                                    }
+                                    else
+                                    {
+                                        num2 = Arrow.DownRight;
+                                    }
+                                }
+                                else if (ud2 % 2 == 0)
+                                {
+                                    if (turn2 % 2 == 1)
+                                    {
+                                        num2 = Arrow.UpLeft;
+                                    }
+                                    else
+                                    {
+                                        num2 = Arrow.UpRight;
+                                    }
+                                }
+                            }
+                            if ((Calc.Agents[OurTeam, AgentNumber.Two].Position + num2).Y == 0)
+                            {
+                                edge2--;
+                            }
+                        }
+                    }
+
+                    go[1] = Calc.Agents[OurTeam, AgentNumber.Two].Position + num2;
                 }
             }
-            
 
-//=============最後の色々===========================================================================================================================================================================================
+            //=============最後の色々===========================================================================================================================================================================================
 
             if (0 <= go[0].X && go[0].X < Calc.Field.Width && 0 <= go[0].Y && go[0].Y < Calc.Field.Height)
             {
@@ -417,18 +701,17 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
             }
             return result;
 
-        }
 
-
-        private AgentActivityData MoveOrRemoveTile(Coordinate coordinate)
-        {
-            if (Calc.Field[coordinate].IsTileOn[OurTeam.Opponent()])
+            AgentActivityData MoveOrRemoveTile(Coordinate coordinate)
             {
-                return new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, coordinate);
+                if (Calc.Field[coordinate].IsTileOn[OurTeam.Opponent()])
+                {
+                    return new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, coordinate);
+                }
+                return new AgentActivityData(AgentStatusCode.RequestMovement, coordinate);
+
             }
-            return new AgentActivityData(AgentStatusCode.RequestMovement, coordinate);
 
         }
-
     }
 }
