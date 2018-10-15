@@ -71,9 +71,9 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                         var c = calc.Simulate(OurTeam, agentActivityData);
                         if (depth <= 1)
                         {
-                            if (maxpoint < c.TotalPoint(OurTeam) - c.TotalPoint(OurTeam.Opponent()))
+                            if (maxpoint < c.Field.TotalPoint(OurTeam) - c.Field.TotalPoint(OurTeam.Opponent()))
                             {
-                                maxpoint = c.TotalPoint(OurTeam)-c.TotalPoint(OurTeam.Opponent());
+                                maxpoint = c.Field.TotalPoint(OurTeam)-c.Field.TotalPoint(OurTeam.Opponent());
                                 result = agentActivityData.DeepClone();
                             }
                         }
