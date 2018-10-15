@@ -12,7 +12,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// ボット関連のプリフェッチングファイルの読み込みです。
         /// </summary>
-        static void BotsTsv(MainForm mainForm)
+        public static void BotsTsv(MainForm mainForm)
         {
             // "Prefetching" というディレクトリが存在しない場合、作成する
             if (!Directory.Exists("Prefetching"))
