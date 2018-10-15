@@ -108,6 +108,7 @@
     <Compile Include="DrawField.cs" />
     <Compile Include="FruitFairies.cs" />
     <Compile Include="FruitFairy.cs" />
+    <Compile Include="CalcExtension.cs" />
     <Compile Include="HistoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
