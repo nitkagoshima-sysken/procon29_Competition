@@ -32,7 +32,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// ログを取ります。
         /// </summary>
-        public Logger Log { get; set; }
+        public static Logger Log { get; set; }
 
         /// <summary>
         /// ボットのログを取ります。
@@ -536,7 +536,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public void ConnectBot(int n, string path)
+        public static void ConnectBot(int n, string path)
         {
             try
             {
