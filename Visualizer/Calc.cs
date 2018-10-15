@@ -371,20 +371,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
 
             bool movable = false;
-            foreach (Team otherteam in Enum.GetValues(typeof(Team)))
+            movable = Field[where.X, where.Y].IsTileOn[team.Opponent()];
+            if (movable)
             {
-                if (otherteam != team)
-                {
-                    movable = Field[where.X, where.Y].IsTileOn[otherteam];
-                    if (movable)
-                    {
-                        RemoveTile(point: where);
-                        CheckEnclosedArea(otherteam);
-                        break;
-                    }
-                }
+                RemoveTile(point: where);
+                CheckEnclosedArea(team.Opponent());
             }
-            if (!movable)
+            else
             {
                 Agents[team, agent].Position = where;
                 PutTile(team: team, agent: agent);
