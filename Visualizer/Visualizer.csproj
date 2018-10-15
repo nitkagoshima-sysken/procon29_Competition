@@ -108,6 +108,7 @@
     <Compile Include="DrawField.cs" />
     <Compile Include="FruitFairies.cs" />
     <Compile Include="FruitFairy.cs" />
+    <Compile Include="CalcExtension.cs" />
     <Compile Include="HistoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,6 +123,7 @@
     </Compile>
     <Compile Include="PlayMode.cs" />
     <Compile Include="TeamDesigns.cs" />
+    <Compile Include="TimeData.cs" />
     <Compile Include="TimeMeasurementForm.cs">
       <SubType>Form</SubType>
     </Compile>

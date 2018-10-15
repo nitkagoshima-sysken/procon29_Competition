@@ -371,20 +371,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
 
             bool movable = false;
-            foreach (Team otherteam in Enum.GetValues(typeof(Team)))
+            movable = Field[where.X, where.Y].IsTileOn[team.Opponent()];
+            if (movable)
             {
-                if (otherteam != team)
-                {
-                    movable = Field[where.X, where.Y].IsTileOn[otherteam];
-                    if (movable)
-                    {
-                        RemoveTile(point: where);
-                        CheckEnclosedArea(otherteam);
-                        break;
-                    }
-                }
+                RemoveTile(point: where);
+                CheckEnclosedArea(team.Opponent());
             }
-            if (!movable)
+            else
             {
                 Agents[team, agent].Position = where;
                 PutTile(team: team, agent: agent);
@@ -641,9 +634,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
         public Calc Simulate(AgentsActivityData action)
         {
-            MoveAgent(action.DeepClone());
             var c = new Calc(new XmlCalc(this).DeepClone());
-            Undo();
+            c.MoveAgent(action.DeepClone());
             return c;
         }
 
@@ -655,9 +647,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
         public Calc Simulate(Team team, AgentActivityData[] action)
         {
-            MoveAgent(team, action.DeepClone());
             var c = new Calc(new XmlCalc(this).DeepClone());
-            Undo();
+            c.MoveAgent(team, action.DeepClone());
             return c;
         }
 
@@ -670,9 +661,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
         public Calc Simulate(Team team, AgentNumber agentNumber, AgentActivityData action)
         {
-            MoveAgent(team, agentNumber, action.DeepClone());
             var c = new Calc(new XmlCalc(this).DeepClone());
-            Undo();
+            c.MoveAgent(team, agentNumber, action.DeepClone());
             return c;
         }
     }
