@@ -14,8 +14,8 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
         static int i = 1;
         static int count1 = 0;
         static int count2 = 0;
-        static int turn1 = 1;
-        static int turn2 = 1;
+        static int turn1 = 0;
+        static int turn2 = 0;
         static int edge1 = 0;
         static int edge2 = 0;
         static int ud1 = 0; //up == 偶数::down == 奇数
@@ -47,6 +47,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
             int dis2 = Math.Min((Math.Min(c_1, c_2)), (Math.Min(c_3, c_4)));
 
             //========================================================================================角にたどり着くまで========================================================================================================
+            
 
             // No.1
             if (count1 == 0)
@@ -58,19 +59,19 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                     corner1[0] = des1.X;
                     corner1[1] = des1.Y;
                 }
-                if (dis1 == c2)
+                else if (dis1 == c2)
                 {
                     des1 = new Coordinate((Calc.Field.Width - 1), 0);
                     corner1[0] = des1.X;
                     corner1[1] = des1.Y;
                 }
-                if (dis1 == c3)
+                else if (dis1 == c3)
                 {
                     des1 = new Coordinate((Calc.Field.Width - 1), (Calc.Field.Height - 1));
                     corner1[0] = des1.X;
                     corner1[1] = des1.Y;
                 }
-                if (dis1 == c4)
+                else if (dis1 == c4)
                 {
                     des1 = new Coordinate(0, (Calc.Field.Height - 1));
                     corner1[0] = des1.X;
@@ -125,15 +126,13 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
 
                 if (go[0] == new Coordinate(0, 0) || go[0] == new Coordinate((Calc.Field.Width - 1), 0) || go[0] == new Coordinate((Calc.Field.Width - 1), (Calc.Field.Height - 1)) || go[0] == new Coordinate(0, (Calc.Field.Height - 1)))
                 {
-                    turn1++;
                     count1++;
-                    if (go[0] == new Coordinate(0, 0))
+                    if (go[0] == new Coordinate(0, 0) || go[0] == new Coordinate(Calc.Field.Width - 1, 0))
                     {
                         ud1++;
                     }
                 }
             }
-
             //ジグザグ
             else
             {
@@ -255,7 +254,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                         }
                     }
                     //from DownRight
-                    if (corner1[0] == (int)Calc.Field.Height - 1 && corner1[1] == (int)Calc.Field.Height - 1)
+                    else if (corner1[0] == (int)Calc.Field.Width - 1 && corner1[1] == (int)Calc.Field.Height - 1)
                     {
                         if (Calc.Agents[OurTeam, AgentNumber.One].Position.Y != 0 && r1 % 2 == 1)
                         {
@@ -371,7 +370,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                 }
             }
 
-            //===============================================================================================================================================================================================================
+//===============================================================================================================================================================================================================
 
             //No.2
             if (count2 == 0)
@@ -383,19 +382,19 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                     corner2[0] = des2.X;
                     corner2[1] = des2.Y;
                 }
-                if (dis2 == c_2)
+                else if (dis2 == c_2)
                 {
                     des2 = new Coordinate((Calc.Field.Width - 1), 0);
                     corner2[0] = des2.X;
                     corner2[1] = des2.Y;
                 }
-                if (dis2 == c_3)
+                else if (dis2 == c_3)
                 {
                     des2 = new Coordinate((Calc.Field.Width - 1), (Calc.Field.Height - 1));
                     corner2[0] = des2.X;
                     corner2[1] = des2.Y;
                 }
-                if (dis2 == c_4)
+                else if (dis2 == c_4)
                 {
                     des2 = new Coordinate(0, (Calc.Field.Height - 1));
                     corner2[0] = des2.X;
@@ -450,6 +449,10 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                 if (go[1] == new Coordinate(0, 0) || go[1] == new Coordinate((Calc.Field.Width - 1), 0) || go[1] == new Coordinate((Calc.Field.Width - 1), (Calc.Field.Height - 1)) || go[1] == new Coordinate(0, (Calc.Field.Height - 1)))
                 {
                     count2++;
+                    if(go[1] == new Coordinate(0, 0) || go[1] == new Coordinate(Calc.Field.Width - 1, 0))
+                    {
+                        ud2++;
+                    }
                 }
             }
             //ジグザグ
@@ -573,7 +576,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                         }
                     }
                     //from DownRight
-                    if (corner2[0] == (int)Calc.Field.Height - 1 && corner2[1] == (int)Calc.Field.Height - 1)
+                    else if (corner2[0] == (int)Calc.Field.Width - 1 && corner2[1] == (int)Calc.Field.Height - 1)
                     {
                         if (Calc.Agents[OurTeam, AgentNumber.Two].Position.Y != 0 && r2 % 2 == 1)
                         {
@@ -629,7 +632,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                     }
 
                     //from UpRight
-                    else if (corner2[0] == (int)Calc.Field.Height-1 && corner2[1] == 0)
+                    else if (corner2[0] == (int)Calc.Field.Width-1 && corner2[1] == 0)
                     {
 
                         if (Calc.Agents[OurTeam, AgentNumber.Two].Position.Y != (Calc.Field.Height - 1) && r2 % 2 == 1)
@@ -684,7 +687,6 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                             }
                         }
                     }
-
                     go[1] = Calc.Agents[OurTeam, AgentNumber.Two].Position + num2;
                 }
             }
