@@ -11,7 +11,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
     {
         public daikon_bot() : base() { }
 
-        static int i = 1;
+        static int i = 0;
         static int count1 = 0;
         static int count2 = 0;
         static int count3 = 0;//bot_1
@@ -38,6 +38,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
             Arrow num2 = Arrow.Down;
             Coordinate des1 = new Coordinate(0, 0);
             Coordinate des2 = new Coordinate(0, 0);
+            int on = 0;
             int c1 = Calc.Agents[OurTeam, AgentNumber.One].Position.ChebyshevDistance(new Coordinate(0, 0));
             int c2 = Calc.Agents[OurTeam, AgentNumber.One].Position.ChebyshevDistance(new Coordinate((Calc.Field.Width - 1), 0));
             int c3 = Calc.Agents[OurTeam, AgentNumber.One].Position.ChebyshevDistance(new Coordinate((Calc.Field.Width - 1), (Calc.Field.Height - 1)));
@@ -52,6 +53,10 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
 
             int a = 0;
             int b = 0;
+            Arrow ori1 = (Arrow)8;
+            Arrow ori2 = (Arrow)8;
+            int[] point = new int[9];
+
 
             //========================================================================================角にたどり着くまで========================================================================================================
 
@@ -417,6 +422,48 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                 }
 
             }
+            //追いかけ
+            else
+            {
+                //敵のタイルがあるか
+                for (i=0; i <= 7; i++)
+                {
+                    ori1 = (Arrow)i;
+
+                    if (Calc.Field[Calc.Agents[OurTeam, AgentNumber.One].Position + ori1].IsTileOn[OurTeam.Opponent()])
+                    {
+                        num1 = ori1;
+                        break;
+                    }
+                    else
+                    {
+                        num1 = (Arrow)8;
+                    }
+                }
+                //敵のタイルがなければ、最大値を入れる
+                if (num1 == (Arrow)8)
+                {
+                    //8方位の評価
+                    for (i = 0; i <= 7; i++)
+                    {
+                        point[i] = Calc.Field[Calc.Agents[OurTeam, AgentNumber.One].Position + num1].Point;
+                    }
+
+                    //最大値を求める→行き先を決める
+                    point[8] = Math.Max(Math.Max(Math.Max(point[0], point[1]), Math.Max(point[2], point[3])),Math.Max(Math.Max(point[4], point[5]), Math.Max(point[6], point[7])));
+
+                    for (i = 0; i <= 7; i++)
+                    {
+                        ori1 = (Arrow)i;
+                        if (point[8] == point[i])
+                        {
+                            num1 = (Arrow)i;
+                        }
+                    }
+                }
+
+            }
+
             go[0] = Calc.Agents[OurTeam, AgentNumber.One].Position + num1;
 
             //===============================================================================================================================================================================================================
