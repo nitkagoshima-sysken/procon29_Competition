@@ -8,7 +8,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     static class CalcExtension
     {
-        public static string FukumocchanAdapter(this Calc calc, Team ourteam)
+        public static string HydroGoBotAdapter(this Calc calc, Team ourteam)
         {
             var arg = string.Empty;
             for (int x = 0; x < calc.Field.Width; x++)
