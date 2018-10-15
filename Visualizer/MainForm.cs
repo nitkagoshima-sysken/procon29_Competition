@@ -338,6 +338,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 //ファイルを閉じる
                 sr.Close();
                 Show.Calc = Calc;
+                Show.ClickField = new ClickField(Calc, Show.PictureBox);
                 Show.Showing();
             }
         }
