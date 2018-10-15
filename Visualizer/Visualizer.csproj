@@ -122,6 +122,7 @@
     </Compile>
     <Compile Include="PlayMode.cs" />
     <Compile Include="TeamDesigns.cs" />
+    <Compile Include="TimeData.cs" />
     <Compile Include="TimeMeasurementForm.cs">
       <SubType>Form</SubType>
     </Compile>
