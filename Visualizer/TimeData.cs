@@ -1,4 +1,4 @@
-﻿namespace TegetegeBot
+﻿namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     /// <summary>
     /// 処理時間のデータを表します。
