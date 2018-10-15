@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -91,6 +92,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private string FieldDataGenerator_FilePath;
 
         /// <summary>
+        /// 処理時間のデータのリストを表します。
+        /// </summary>
+        public static List<TimeData> TimeDataList { get; set; } = new List<TimeData>();
+
+        /// <summary>
         /// MainForm
         /// </summary>
         public MainForm()
@@ -145,7 +151,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 new Coordinate(
                     int.Parse(OpponentPositionForm.OpponentPosition2X.Text),
                     int.Parse(OpponentPositionForm.OpponentPosition2Y.Text));
-            
+
             Calc = new Calc(MaxTurn, field, agents);
 
             ReadBotsTxt();
@@ -338,6 +344,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 //ファイルを閉じる
                 sr.Close();
                 Show.Calc = Calc;
+                Show.ClickField = new ClickField(Calc, Show.PictureBox);
                 Show.Showing();
             }
         }
@@ -575,21 +582,29 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 {
                     if (Bot[0] != null)
                     {
+                        var stopwatch = new Stopwatch();
+                        stopwatch.Start();
                         Bot[0].OurTeam = Team.A;
                         Bot[0].Log = BotLog;
                         Bot[0].Question(Calc);
                         var a = Bot[0].Answer();
                         Show.agentActivityData[Team.A, AgentNumber.One] = a[0];
                         Show.agentActivityData[Team.A, AgentNumber.Two] = a[1];
+                        stopwatch.Stop();
+                        TimeDataList.Add(new TimeData(BotName[0] + " (Our Team) of " + Calc.Turn + " Turn", stopwatch.ElapsedMilliseconds));
                     }
                     if (Bot[1] != null)
                     {
+                        var stopwatch = new Stopwatch();
+                        stopwatch.Start();
                         Bot[1].OurTeam = Team.B;
                         Bot[1].Log = BotLog;
                         Bot[1].Question(Calc);
                         var a = Bot[1].Answer();
                         Show.agentActivityData[Team.B, AgentNumber.One] = a[0];
                         Show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
+                        stopwatch.Stop();
+                        TimeDataList.Add(new TimeData(BotName[0] + " (Opponent Team) of " + Calc.Turn + " Turn", stopwatch.ElapsedMilliseconds));
                     }
                 }
 

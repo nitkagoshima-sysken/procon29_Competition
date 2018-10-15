@@ -1,4 +1,4 @@
-# Procon29 Visualizer 54.0
+# Procon29 Visualizer 57.0
 
 ## What's new
 
@@ -583,6 +583,22 @@
 
 - バージョン管理の修正
 
+### Version 55.0
+
+- 処理時間を計測するフォームが1秒以内に表示できるようになった
+- 処理時間を計測するフォームに自由に検査項目を追加できるようになった
+
+### Version 56.0
+
+- `hydro_go_bot`との通信方式に対応するための機能が追加された
+
+### Version 57.0
+
+- `Calc.MoveAgent(Team, AgentNumber, Coordinate)`のコード最適化（SeitaHigashi氏によるデバッグ）
+- `Calc.Simulate(AgentsActivityData)`のコード最適化（SeitaHigashi氏によるデバッグ）
+- `Calc.Simulate(Team, AgentActivityData[])`のコード最適化（SeitaHigashi氏によるデバッグ）
+- `Calc.Simulate(Team, AgentNumber, AgentActivityData)`のコード最適化（SeitaHigashi氏によるデバッグ）
+
 ## バージョンの上がり方について
 
 Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバージョン.マイナーバージョン.ビルドバージョン`で表されます。  
@@ -626,3 +642,4 @@ Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバ�
 |28.0|83|1079|7|198|2544|
 |34.0|83|1108|7|201|2625|
 |54.1|82|1145|7|217|2833|
+|57.0|81|1162|7|218|2903|
