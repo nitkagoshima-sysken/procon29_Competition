@@ -84,12 +84,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// QRコードリーダーのファイルパスを設定または取得します。
         /// </summary>
-        private string QRCodeReader_FilePath;
+        public string QRCodeReader_FilePath;
 
         /// <summary>
         /// FieldDataGeneratorのファイルパスを設定または取得します。
         /// </summary>
-        private string FieldDataGenerator_FilePath;
+        public string FieldDataGenerator_FilePath;
 
         /// <summary>
         /// 処理時間のデータのリストを表します。
