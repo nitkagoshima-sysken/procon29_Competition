@@ -14,6 +14,10 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
         static int i = 1;
         static int count1 = 0;
         static int count2 = 0;
+        static int count3 = 0;//bot_1
+        static int count4 = 0;//bot_1
+        static int count5 = 0;//bot_2
+        static int count6 = 0;//bot_2
         static int turn1 = 0;
         static int turn2 = 0;
         static int edge1 = 0;
@@ -51,285 +55,63 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
 
             //========================================================================================角にたどり着くまで========================================================================================================
 
-
-            // No.1
-            if (count1 == 0)
+            if ((Calc.Field.Width % 2 == 0 && count3 == 0) || (Calc.Field.Width % 2 == 1 && count4 == 0))
             {
-                //目的地を決める
-                if (dis1 == c1)
+                // No.1
+                if (count1 == 0)
                 {
-                    des1 = new Coordinate(0, 0);
-                    corner1[0] = des1.X;
-                    corner1[1] = des1.Y;
-                }
-                else if (dis1 == c2)
-                {
-                    des1 = new Coordinate((Calc.Field.Width - 1), 0);
-                    corner1[0] = des1.X;
-                    corner1[1] = des1.Y;
-                }
-                else if (dis1 == c3)
-                {
-                    des1 = new Coordinate((Calc.Field.Width - 1), (Calc.Field.Height - 1));
-                    corner1[0] = des1.X;
-                    corner1[1] = des1.Y;
-                }
-                else if (dis1 == c4)
-                {
-                    des1 = new Coordinate(0, (Calc.Field.Height - 1));
-                    corner1[0] = des1.X;
-                    corner1[1] = des1.Y;
-                }
-
-                //どう動くか決める
-                if (des1.X < Calc.Agents[OurTeam, AgentNumber.One].Position.X)
-                {
-                    if (des1.Y < Calc.Agents[OurTeam, AgentNumber.One].Position.Y)
+                    //目的地を決める
+                    if (dis1 == c1)
                     {
-                        num1 = Arrow.UpLeft;
+                        des1 = new Coordinate(0, 0);
+                        corner1[0] = des1.X;
+                        corner1[1] = des1.Y;
                     }
-                    else if (des1.Y == Calc.Agents[OurTeam, AgentNumber.One].Position.Y)
+                    else if (dis1 == c2)
                     {
-                        num1 = Arrow.Left;
+                        des1 = new Coordinate((Calc.Field.Width - 1), 0);
+                        corner1[0] = des1.X;
+                        corner1[1] = des1.Y;
                     }
-                    else
+                    else if (dis1 == c3)
                     {
-                        num1 = Arrow.DownLeft;
+                        des1 = new Coordinate((Calc.Field.Width - 1), (Calc.Field.Height - 1));
+                        corner1[0] = des1.X;
+                        corner1[1] = des1.Y;
+                    }
+                    else if (dis1 == c4)
+                    {
+                        des1 = new Coordinate(0, (Calc.Field.Height - 1));
+                        corner1[0] = des1.X;
+                        corner1[1] = des1.Y;
                     }
 
-                }
-                else if (des1.X > Calc.Agents[OurTeam, AgentNumber.One].Position.X)
-                {
-                    if (des1.Y < Calc.Agents[OurTeam, AgentNumber.One].Position.Y)
+                    //どう動くか決める
+                    if (des1.X < Calc.Agents[OurTeam, AgentNumber.One].Position.X)
                     {
-                        num1 = Arrow.UpRight;
-                    }
-                    else if (des1.Y == Calc.Agents[OurTeam, AgentNumber.One].Position.Y)
-                    {
-                        num1 = Arrow.Right;
-                    }
-                    else
-                    {
-                        num1 = Arrow.DownRight;
-                    }
-                }
-                else
-                {
-                    if (des1.Y < Calc.Agents[OurTeam, AgentNumber.One].Position.Y)
-                    {
-                        num1 = Arrow.Up;
-                    }
-                    else
-                    {
-                        num1 = Arrow.Down;
-                    }
-                }
-                //行動を返す
-                go[0] = Calc.Agents[OurTeam, AgentNumber.One].Position + num1;
-
-                if (go[0] == new Coordinate(0, 0) || go[0] == new Coordinate((Calc.Field.Width - 1), 0) || go[0] == new Coordinate((Calc.Field.Width - 1), (Calc.Field.Height - 1)) || go[0] == new Coordinate(0, (Calc.Field.Height - 1)))
-                {
-                    count1++;
-                    if (go[0] == new Coordinate(0, 0) || go[0] == new Coordinate(Calc.Field.Width - 1, 0))
-                    {
-                        ud1++;
-                    }
-                }
-            }
-            //ジグザグ===============================================================================================
-            else
-            {
-                turn1++;
-                
-                if (decide == 0)
-                {
-                    a = 0;
-                    b = (int)Calc.Field.Height-1;
-                }
-                else
-                {
-                    a = 1;
-                    b = (int)Calc.Field.Height - 2;
-                }
-                
-                //from DownLeft
-                if (corner1[0] == 0 && corner1[1] == (int)Calc.Field.Height - 1)
-                {
-                    if (Calc.Agents[OurTeam, AgentNumber.One].Position.Y != a && r1 % 2 == 1)
-                    {
-
-                        if (turn1 % 2 == 1)
-                        {
-                            num1 = Arrow.UpRight;
-                        }
-                        else
+                        if (des1.Y < Calc.Agents[OurTeam, AgentNumber.One].Position.Y)
                         {
                             num1 = Arrow.UpLeft;
                         }
-                    }
-                    else
-                    {
-                        if (edge1 == 0)
-                        {
-                            num1 = Arrow.Right;
-                            edge1++;
-                            ud1++;
-                            r1++;
-                        }
-                        else
-                        {
-                            if (ud1 % 2 == 1)
-                            {
-                                if (turn1 % 2 == 1)
-                                {
-                                    num1 = Arrow.DownRight;
-                                }
-                                else
-                                {
-                                    num1 = Arrow.DownLeft;
-                                }
-                            }
-                            else if (ud1 % 2 == 0)
-                            {
-                                if (turn1 % 2 == 1)
-                                {
-                                    num1 = Arrow.UpRight;
-                                }
-                                else
-                                {
-                                    num1 = Arrow.UpLeft;
-                                }
-                            }
-                        }
-                        if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).Y == Calc.Field.Height - 1)
-                        {
-                            edge1--;
-                        }
-                    }
-                }
-
-                //from UpLeft
-                else if (corner1[0] == 0 && corner1[1] == 0)
-                {
-
-                    if (Calc.Agents[OurTeam, AgentNumber.One].Position.Y != b && r1 % 2 == 1)
-                    {
-
-                        if ((turn1 % 2) == 1)
-                        {
-                            num1 = Arrow.DownRight;
-                        }
-                        else
-                        {
-                            num1 = Arrow.DownLeft;
-                        }
-                    }
-                    else
-                    {
-                        if (edge1 % 2 == 0)
-                        {
-                            num1 = Arrow.Right;
-                            edge1++;
-                            ud1++;
-                            r1++;
-                        }
-                        else
-                        {
-                            if (ud1 % 2 == 1)
-                            {
-                                if (turn1 % 2 == i)
-                                {
-                                    num1 = Arrow.DownRight;
-                                }
-                                else
-                                {
-                                    num1 = Arrow.DownLeft;
-                                }
-                            }
-                            else if (ud1 % 2 == 0)
-                            {
-                                if (turn1 % 2 == 1)
-                                {
-                                    num1 = Arrow.UpRight;
-                                }
-                                else
-                                {
-                                    num1 = Arrow.UpLeft;
-                                }
-                            }
-                        }
-                        if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).Y == 0)
-                        {
-                            edge1--;
-                        }
-                    }
-                }
-                //from DownRight
-                else if (corner1[0] == (int)Calc.Field.Width - 1 && corner1[1] == (int)Calc.Field.Height - 1)
-                {
-                    if (Calc.Agents[OurTeam, AgentNumber.One].Position.Y != a && r1 % 2 == 1)
-                    {
-
-                        if (turn1 % 2 == 1)
-                        {
-                            num1 = Arrow.UpLeft;
-                        }
-                        else
-                        {
-                            num1 = Arrow.UpRight;
-                        }
-                    }
-                    else
-                    {
-                        if (edge1 == 0)
+                        else if (des1.Y == Calc.Agents[OurTeam, AgentNumber.One].Position.Y)
                         {
                             num1 = Arrow.Left;
-                            edge1++;
-                            ud1++;
-                            r1++;
                         }
                         else
                         {
-                            if (ud1 % 2 == 1)
-                            {
-                                if (turn1 % 2 == 1)
-                                {
-                                    num1 = Arrow.DownLeft;
-                                }
-                                else
-                                {
-                                    num1 = Arrow.DownRight;
-                                }
-                            }
-                            else if (ud1 % 2 == 0)
-                            {
-                                if (turn1 % 2 == 1)
-                                {
-                                    num1 = Arrow.UpLeft;
-                                }
-                                else
-                                {
-                                    num1 = Arrow.UpRight;
-                                }
-                            }
-                        }
-                        if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).Y == Calc.Field.Height - 1)
-                        {
-                            edge1--;
-                        }
-                    }
-                }
-
-                //from UpRight
-                else if (corner1[0] == (int)Calc.Field.Width-1 && corner1[1] == 0)
-                {
-
-                    if (Calc.Agents[OurTeam, AgentNumber.One].Position.Y != b && r1 % 2 == 1)
-                    {
-
-                        if ((turn1 % 2) == 1)
-                        {
                             num1 = Arrow.DownLeft;
+                        }
+
+                    }
+                    else if (des1.X > Calc.Agents[OurTeam, AgentNumber.One].Position.X)
+                    {
+                        if (des1.Y < Calc.Agents[OurTeam, AgentNumber.One].Position.Y)
+                        {
+                            num1 = Arrow.UpRight;
+                        }
+                        else if (des1.Y == Calc.Agents[OurTeam, AgentNumber.One].Position.Y)
+                        {
+                            num1 = Arrow.Right;
                         }
                         else
                         {
@@ -338,140 +120,396 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                     }
                     else
                     {
-                        if (edge1 % 2 == 0)
+                        if (des1.Y < Calc.Agents[OurTeam, AgentNumber.One].Position.Y)
                         {
-                            num1 = Arrow.Left;
-                            edge1++;
-                            ud1++;
-                            r1++;
+                            num1 = Arrow.Up;
                         }
                         else
                         {
-                            if (ud1 % 2 == 1)
-                            {
-                                if (turn1 % 2 == i)
-                                {
-                                    num1 = Arrow.DownLeft;
-                                }
-                                else
-                                {
-                                    num1 = Arrow.DownRight;
-                                }
-                            }
-                            else if (ud1 % 2 == 0)
-                            {
-                                if (turn1 % 2 == 1)
-                                {
-                                    num1 = Arrow.UpLeft;
-                                }
-                                else
-                                {
-                                    num1 = Arrow.UpRight;
-                                }
-                            }
+                            num1 = Arrow.Down;
                         }
-                        if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).Y == 0)
+                    }
+                    //行動を返す
+                    go[0] = Calc.Agents[OurTeam, AgentNumber.One].Position + num1;
+
+                    if (go[0] == new Coordinate(0, 0) || go[0] == new Coordinate((Calc.Field.Width - 1), 0) || go[0] == new Coordinate((Calc.Field.Width - 1), (Calc.Field.Height - 1)) || go[0] == new Coordinate(0, (Calc.Field.Height - 1)))
+                    {
+                        count1++;
+                        if (go[0] == new Coordinate(0, 0) || go[0] == new Coordinate(Calc.Field.Width - 1, 0))
                         {
-                            edge1--;
+                            ud1++;
                         }
                     }
                 }
-
-                go[0] = Calc.Agents[OurTeam, AgentNumber.One].Position + num1;
-            }
-
-//===============================================================================================================================================================================================================
-
-            //No.2
-            if (count2 == 0)
-            {
-                //目的地を決める
-                if (dis2 == c_1)
-                {
-                    des2 = new Coordinate(0, 0);
-                    corner2[0] = des2.X;
-                    corner2[1] = des2.Y;
-                }
-                else if (dis2 == c_2)
-                {
-                    des2 = new Coordinate((Calc.Field.Width - 1), 0);
-                    corner2[0] = des2.X;
-                    corner2[1] = des2.Y;
-                }
-                else if (dis2 == c_3)
-                {
-                    des2 = new Coordinate((Calc.Field.Width - 1), (Calc.Field.Height - 1));
-                    corner2[0] = des2.X;
-                    corner2[1] = des2.Y;
-                }
-                else if (dis2 == c_4)
-                {
-                    des2 = new Coordinate(0, (Calc.Field.Height - 1));
-                    corner2[0] = des2.X;
-                    corner2[1] = des2.Y;
-                }
-
-                //どう動くか決める
-                if (des2.X < Calc.Agents[OurTeam, AgentNumber.Two].Position.X)
-                {
-                    if (des2.Y < Calc.Agents[OurTeam, AgentNumber.Two].Position.Y)
-                    {
-                        num2 = Arrow.UpLeft;
-                    }
-                    else if (des2.Y == Calc.Agents[OurTeam, AgentNumber.Two].Position.Y)
-                    {
-                        num2 = Arrow.Left;
-                    }
-                    else
-                    {
-                        num2 = Arrow.DownLeft;
-                    }
-                }
-                else if (des2.X > Calc.Agents[OurTeam, AgentNumber.Two].Position.X)
-                {
-                    if (des2.Y < Calc.Agents[OurTeam, AgentNumber.Two].Position.Y)
-                    {
-                        num2 = Arrow.UpRight;
-                    }
-                    else if (des2.Y == Calc.Agents[OurTeam, AgentNumber.Two].Position.Y)
-                    {
-                        num2 = Arrow.Right;
-                    }
-                    else
-                    {
-                        num2 = Arrow.DownRight;
-                    }
-                }
+                //ジグザグ===============================================================================================
                 else
                 {
-                    if (des2.Y < Calc.Agents[OurTeam, AgentNumber.Two].Position.Y)
+                    turn1++;
+
+                    if (decide == 0)
                     {
-                        num2 = Arrow.Up;
+                        a = 0;
+                        b = (int)Calc.Field.Height - 1;
                     }
                     else
                     {
-                        num2 = Arrow.Down;
+                        a = 1;
+                        b = (int)Calc.Field.Height - 2;
                     }
-                }
-                //行動を返す
-                go[1] = Calc.Agents[OurTeam, AgentNumber.Two].Position + num2;
 
-                if (go[1] == new Coordinate(0, 0) || go[1] == new Coordinate((Calc.Field.Width - 1), 0) || go[1] == new Coordinate((Calc.Field.Width - 1), (Calc.Field.Height - 1)) || go[1] == new Coordinate(0, (Calc.Field.Height - 1)))
-                {
-                    count2++;
-                    if(go[1] == new Coordinate(0, 0) || go[1] == new Coordinate(Calc.Field.Width - 1, 0))
+                    //from DownLeft
+                    if (corner1[0] == 0 && corner1[1] == (int)Calc.Field.Height - 1)
                     {
-                        ud2++;
+                        if (Calc.Agents[OurTeam, AgentNumber.One].Position.Y != a && r1 % 2 == 1)
+                        {
+
+                            if (turn1 % 2 == 1)
+                            {
+                                num1 = Arrow.UpRight;
+                            }
+                            else
+                            {
+                                num1 = Arrow.UpLeft;
+                            }
+                        }
+                        else
+                        {
+                            if (edge1 == 0)
+                            {
+                                num1 = Arrow.Right;
+                                edge1++;
+                                ud1++;
+                                r1++;
+                            }
+                            else
+                            {
+                                if (ud1 % 2 == 1)
+                                {
+                                    if (turn1 % 2 == 1)
+                                    {
+                                        num1 = Arrow.DownRight;
+                                    }
+                                    else
+                                    {
+                                        num1 = Arrow.DownLeft;
+                                    }
+                                }
+                                else if (ud1 % 2 == 0)
+                                {
+                                    if (turn1 % 2 == 1)
+                                    {
+                                        num1 = Arrow.UpRight;
+                                    }
+                                    else
+                                    {
+                                        num1 = Arrow.UpLeft;
+                                    }
+                                }
+                            }
+                            if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).Y == Calc.Field.Height - 1)
+                            {
+                                edge1--;
+                            }
+                            if (Calc.Agents[OurTeam, AgentNumber.One].Position + num1 == new Coordinate(Calc.Field.Width - 1, 0))
+                            {
+                                count3++;
+                            }
+                            if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).X == Calc.Field.Width - 1)
+                            {
+                                count4++;
+                            }
+                        }
+                    }
+
+                    //from UpLeft
+                    else if (corner1[0] == 0 && corner1[1] == 0)
+                    {
+
+                        if (Calc.Agents[OurTeam, AgentNumber.One].Position.Y != b && r1 % 2 == 1)
+                        {
+
+                            if ((turn1 % 2) == 1)
+                            {
+                                num1 = Arrow.DownRight;
+                            }
+                            else
+                            {
+                                num1 = Arrow.DownLeft;
+                            }
+                        }
+                        else
+                        {
+                            if (edge1 % 2 == 0)
+                            {
+                                num1 = Arrow.Right;
+                                edge1++;
+                                ud1++;
+                                r1++;
+                            }
+                            else
+                            {
+                                if (ud1 % 2 == 1)
+                                {
+                                    if (turn1 % 2 == i)
+                                    {
+                                        num1 = Arrow.DownRight;
+                                    }
+                                    else
+                                    {
+                                        num1 = Arrow.DownLeft;
+                                    }
+                                }
+                                else if (ud1 % 2 == 0)
+                                {
+                                    if (turn1 % 2 == 1)
+                                    {
+                                        num1 = Arrow.UpRight;
+                                    }
+                                    else
+                                    {
+                                        num1 = Arrow.UpLeft;
+                                    }
+                                }
+                            }
+                            if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).Y == 0)
+                            {
+                                edge1--;
+                            }
+                            if (Calc.Agents[OurTeam, AgentNumber.One].Position + num1 == new Coordinate(Calc.Field.Width - 1, Calc.Field.Height - 1))
+                            {
+                                count3++;
+                            }
+                            if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).X == Calc.Field.Width - 1)
+                            {
+                                count4++;
+                            }
+                        }
+                    }
+                    //from DownRight
+                    else if (corner1[0] == (int)Calc.Field.Width - 1 && corner1[1] == (int)Calc.Field.Height - 1)
+                    {
+                        if (Calc.Agents[OurTeam, AgentNumber.One].Position.Y != a && r1 % 2 == 1)
+                        {
+
+                            if (turn1 % 2 == 1)
+                            {
+                                num1 = Arrow.UpLeft;
+                            }
+                            else
+                            {
+                                num1 = Arrow.UpRight;
+                            }
+                        }
+                        else
+                        {
+                            if (edge1 == 0)
+                            {
+                                num1 = Arrow.Left;
+                                edge1++;
+                                ud1++;
+                                r1++;
+                            }
+                            else
+                            {
+                                if (ud1 % 2 == 1)
+                                {
+                                    if (turn1 % 2 == 1)
+                                    {
+                                        num1 = Arrow.DownLeft;
+                                    }
+                                    else
+                                    {
+                                        num1 = Arrow.DownRight;
+                                    }
+                                }
+                                else if (ud1 % 2 == 0)
+                                {
+                                    if (turn1 % 2 == 1)
+                                    {
+                                        num1 = Arrow.UpLeft;
+                                    }
+                                    else
+                                    {
+                                        num1 = Arrow.UpRight;
+                                    }
+                                }
+                            }
+                            if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).Y == Calc.Field.Height - 1)
+                            {
+                                edge1--;
+                            }
+                            if (Calc.Agents[OurTeam, AgentNumber.One].Position + num1 == new Coordinate(0, Calc.Field.Height - 1))
+                            {
+                                count3++;
+                            }
+                            if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).X == 0)
+                            {
+                                count4++;
+                            }
+                        }
+                    }
+
+                    //from UpRight
+                    else if (corner1[0] == (int)Calc.Field.Width - 1 && corner1[1] == 0)
+                    {
+
+                        if (Calc.Agents[OurTeam, AgentNumber.One].Position.Y != b && r1 % 2 == 1)
+                        {
+
+                            if ((turn1 % 2) == 1)
+                            {
+                                num1 = Arrow.DownLeft;
+                            }
+                            else
+                            {
+                                num1 = Arrow.DownRight;
+                            }
+                        }
+                        else
+                        {
+                            if (edge1 % 2 == 0)
+                            {
+                                num1 = Arrow.Left;
+                                edge1++;
+                                ud1++;
+                                r1++;
+                            }
+                            else
+                            {
+                                if (ud1 % 2 == 1)
+                                {
+                                    if (turn1 % 2 == i)
+                                    {
+                                        num1 = Arrow.DownLeft;
+                                    }
+                                    else
+                                    {
+                                        num1 = Arrow.DownRight;
+                                    }
+                                }
+                                else if (ud1 % 2 == 0)
+                                {
+                                    if (turn1 % 2 == 1)
+                                    {
+                                        num1 = Arrow.UpLeft;
+                                    }
+                                    else
+                                    {
+                                        num1 = Arrow.UpRight;
+                                    }
+                                }
+                            }
+                            if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).Y == 0)
+                            {
+                                edge1--;
+                            }
+                            if (Calc.Agents[OurTeam, AgentNumber.One].Position + num1 == new Coordinate(0, Calc.Field.Height - 1))
+                            {
+                                count3++;
+                            }
+                            if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).X == 0)
+                            {
+                                count4++;
+                            }
+                        }
+                    }
+
+                }
+
+            }
+            go[0] = Calc.Agents[OurTeam, AgentNumber.One].Position + num1;
+
+            //===============================================================================================================================================================================================================
+
+            if ((Calc.Field.Width % 2 == 0 && count5 == 0) || (Calc.Field.Width % 2 == 1 && count6 == 0))
+            {
+                //No.2
+                if (count2 == 0)
+                {
+                    //目的地を決める
+                    if (dis2 == c_1)
+                    {
+                        des2 = new Coordinate(0, 0);
+                        corner2[0] = des2.X;
+                        corner2[1] = des2.Y;
+                    }
+                    else if (dis2 == c_2)
+                    {
+                        des2 = new Coordinate((Calc.Field.Width - 1), 0);
+                        corner2[0] = des2.X;
+                        corner2[1] = des2.Y;
+                    }
+                    else if (dis2 == c_3)
+                    {
+                        des2 = new Coordinate((Calc.Field.Width - 1), (Calc.Field.Height - 1));
+                        corner2[0] = des2.X;
+                        corner2[1] = des2.Y;
+                    }
+                    else if (dis2 == c_4)
+                    {
+                        des2 = new Coordinate(0, (Calc.Field.Height - 1));
+                        corner2[0] = des2.X;
+                        corner2[1] = des2.Y;
+                    }
+
+                    //どう動くか決める
+                    if (des2.X < Calc.Agents[OurTeam, AgentNumber.Two].Position.X)
+                    {
+                        if (des2.Y < Calc.Agents[OurTeam, AgentNumber.Two].Position.Y)
+                        {
+                            num2 = Arrow.UpLeft;
+                        }
+                        else if (des2.Y == Calc.Agents[OurTeam, AgentNumber.Two].Position.Y)
+                        {
+                            num2 = Arrow.Left;
+                        }
+                        else
+                        {
+                            num2 = Arrow.DownLeft;
+                        }
+                    }
+                    else if (des2.X > Calc.Agents[OurTeam, AgentNumber.Two].Position.X)
+                    {
+                        if (des2.Y < Calc.Agents[OurTeam, AgentNumber.Two].Position.Y)
+                        {
+                            num2 = Arrow.UpRight;
+                        }
+                        else if (des2.Y == Calc.Agents[OurTeam, AgentNumber.Two].Position.Y)
+                        {
+                            num2 = Arrow.Right;
+                        }
+                        else
+                        {
+                            num2 = Arrow.DownRight;
+                        }
+                    }
+                    else
+                    {
+                        if (des2.Y < Calc.Agents[OurTeam, AgentNumber.Two].Position.Y)
+                        {
+                            num2 = Arrow.Up;
+                        }
+                        else
+                        {
+                            num2 = Arrow.Down;
+                        }
+                    }
+                    //行動を返す
+                    go[1] = Calc.Agents[OurTeam, AgentNumber.Two].Position + num2;
+
+                    if (go[1] == new Coordinate(0, 0) || go[1] == new Coordinate((Calc.Field.Width - 1), 0) || go[1] == new Coordinate((Calc.Field.Width - 1), (Calc.Field.Height - 1)) || go[1] == new Coordinate(0, (Calc.Field.Height - 1)))
+                    {
+                        count2++;
+                        if (go[1] == new Coordinate(0, 0) || go[1] == new Coordinate(Calc.Field.Width - 1, 0))
+                        {
+                            ud2++;
+                        }
                     }
                 }
-            }
-            //ジグザグ
-            else
-            {
-                turn2++;
-
-                if (decide == 0)
+                //ジグザグ
+                else
                 {
+                    turn2++;
 
                     //from DownLeft
                     if (corner2[0] == 0 && corner2[1] == (int)Calc.Field.Height - 1)
@@ -525,6 +563,14 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                             if ((Calc.Agents[OurTeam, AgentNumber.Two].Position + num2).Y == Calc.Field.Height - 1)
                             {
                                 edge2--;
+                            }
+                            if (Calc.Agents[OurTeam, AgentNumber.Two].Position + num2 == new Coordinate(Calc.Field.Width - 1, 0))
+                            {
+                                count5++;
+                            }
+                            if ((Calc.Agents[OurTeam, AgentNumber.Two].Position + num2).X == Calc.Field.Width - 1)
+                            {
+                                count6++;
                             }
                         }
                     }
@@ -583,6 +629,14 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                             {
                                 edge1--;
                             }
+                            if (Calc.Agents[OurTeam, AgentNumber.Two].Position + num2 == new Coordinate(Calc.Field.Width - 1, Calc.Field.Height - 1))
+                            {
+                                count5++;
+                            }
+                            if ((Calc.Agents[OurTeam, AgentNumber.Two].Position + num2).X == Calc.Field.Width - 1)
+                            {
+                                count6++;
+                            }
                         }
                     }
                     //from DownRight
@@ -638,11 +692,19 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                             {
                                 edge2--;
                             }
+                            if (Calc.Agents[OurTeam, AgentNumber.Two].Position + num2 == new Coordinate(0, 0))
+                            {
+                                count5++;
+                            }
+                            if ((Calc.Agents[OurTeam, AgentNumber.Two].Position + num2).X == 0)
+                            {
+                                count6++;
+                            }
                         }
                     }
 
                     //from UpRight
-                    else if (corner2[0] == (int)Calc.Field.Width-1 && corner2[1] == 0)
+                    else if (corner2[0] == (int)Calc.Field.Width - 1 && corner2[1] == 0)
                     {
 
                         if (Calc.Agents[OurTeam, AgentNumber.Two].Position.Y != b && r2 % 2 == 1)
@@ -695,11 +757,20 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                             {
                                 edge2--;
                             }
+                            if (Calc.Agents[OurTeam, AgentNumber.Two].Position + num2 == new Coordinate(0, Calc.Field.Height - 1))
+                            {
+                                count5++;
+                            }
+                            if ((Calc.Agents[OurTeam, AgentNumber.Two].Position + num2).X == 0)
+                            {
+                                count6++;
+                            }
                         }
                     }
-                    go[1] = Calc.Agents[OurTeam, AgentNumber.Two].Position + num2;
+
                 }
             }
+            go[1] = Calc.Agents[OurTeam, AgentNumber.Two].Position + num2;
 
             //=============最後の色々===========================================================================================================================================================================================
 
@@ -723,7 +794,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
             }
             return result;
 
-            
+
             AgentActivityData MoveOrRemoveTile(Coordinate coordinate)
             {
                 if (Calc.Field[coordinate].IsTileOn[OurTeam.Opponent()])
@@ -731,9 +802,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                     return new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, coordinate);
                 }
                 return new AgentActivityData(AgentStatusCode.RequestMovement, coordinate);
-
             }
-
         }
     }
 }
