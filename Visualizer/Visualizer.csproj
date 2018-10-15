@@ -122,6 +122,7 @@
       <DependentUpon>OpponentPositionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="PlayMode.cs" />
+    <Compile Include="PrefetchingFileReader.cs" />
     <Compile Include="TeamDesigns.cs" />
     <Compile Include="TimeData.cs" />
     <Compile Include="TimeMeasurementForm.cs">
