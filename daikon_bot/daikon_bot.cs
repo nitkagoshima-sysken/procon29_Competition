@@ -837,8 +837,70 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                     }
 
                 }
+                
+            }
+            //追いかけ
+            else
+            {
+                //敵のタイルがあるか
+                for (i = 0; i <= 7; i++)
+                {
+                    ori2 = (Arrow)i;
+
+                    if (Calc.Field[Calc.Agents[OurTeam, AgentNumber.One].Position + ori2].IsTileOn[OurTeam.Opponent()])
+                    {
+                        num2 = ori2;
+                        break;
+                    }
+                    else
+                    {
+                        num2 = (Arrow)8;
+                    }
+                }
+                //敵のタイルがなければ、最大値を入れる
+                if (num2 == (Arrow)8)
+                {
+                    //8方位の評価
+                    //ポイントの取得
+                    for (i = 0; i <= 7; i++)
+                    {
+                        point[i] = Calc.Field[Calc.Agents[OurTeam, AgentNumber.Two].Position + num2].Point;
+                    }
+
+                    //最大値を求める→行き先を決める
+                    //自分のマスには行かない
+                    for (i = 0; i <= 7; i++)
+                    {
+                        ori1 = (Arrow)i;
+                        if (Calc.Field[Calc.Agents[OurTeam, AgentNumber.One].Position + ori2].IsTileOn[OurTeam])
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            maxpoint = (maxpoint > point[i]) ? maxpoint : point[i];
+                        }
+                    }
+
+                    for (i = 0; i <= 7; i++)
+                    {
+                        if (Calc.Field[Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2].IsTileOn[OurTeam])
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            if (maxpoint == point[i])
+                            {
+                                num2 = (Arrow)i;
+                            }
+                        }
+                    }
+                }
+
             }
             go[1] = Calc.Agents[OurTeam, AgentNumber.Two].Position + num2;
+
 
             //=============最後の色々===========================================================================================================================================================================================
 
