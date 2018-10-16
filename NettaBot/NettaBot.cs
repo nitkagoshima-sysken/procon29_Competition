@@ -48,6 +48,7 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                 foreach (Arrow arrowTwo in Enum.GetValues(typeof(Arrow)))
                 {
                     var destinationTwo = agentTwo.Position + arrowTwo;
+                    if (destinationOne == destinationTwo) continue;
                     try
                     {
 
@@ -57,7 +58,7 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                         }
                         else
                         {
-                            continue;
+                            agentActivityData[(int)AgentNumber.One] = RemoveTile(destinationOne);
                         }
 
                         if (((destinationTwo.X + destinationTwo.Y) % 2 != 0) == isOdd)
@@ -66,9 +67,9 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                         }
                         else
                         {
-                            continue;
+                            agentActivityData[(int)AgentNumber.Two] = RemoveTile(destinationOne);
                         }
-                        var c = calc.Simulate(OurTeam, agentActivityData);
+                        var c = calc.Simulate(OurTeam, agentActivityData.DeepClone());
                         if (depth <= 1)
                         {
                             if (maxpoint < c.Field.TotalPoint(OurTeam) - c.Field.TotalPoint(OurTeam.Opponent()))
@@ -82,7 +83,7 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                             var bestHand = BestHand(c, depth - 1);
                             if (maxpoint < bestHand.point)
                             {
-                                maxpoint = bestHand.point;
+                                maxpoint = bestHand.point.DeepClone();
                                 result = agentActivityData.DeepClone(); 
                             }
                         }
@@ -111,6 +112,15 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
             }
             return new AgentActivityData(AgentStatusCode.RequestMovement, coordinate);
 
+        }
+
+        private AgentActivityData RemoveTile(Coordinate coordinate)
+        {
+            if (Calc.Field[coordinate].IsTileOn[OurTeam.Opponent()])
+            {
+                return new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, coordinate);
+            }
+            return new AgentActivityData(AgentStatusCode.RequestNotToDoAnything);
         }
     }
 }
