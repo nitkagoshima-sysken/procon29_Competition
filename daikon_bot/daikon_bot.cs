@@ -110,7 +110,6 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                         else if (des1.Y == Calc.Agents[OurTeam, AgentNumber.One].Position.Y)
                         {
                             num1 = Arrow.Left;
-                            Log.WriteLine("left1");
                         }
                         else
                         {
@@ -149,9 +148,11 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
 
                     if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1) == des1)
                     {
+                        Log.WriteLine("bot_1 go to corner");
                         count1++;
                         if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).Y == 0)
                         {
+                            Log.WriteLine("bot_1 go to corner0");
                             ud1++;
                         }
                     }
@@ -301,7 +302,6 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                             if (edge1 == 0)
                             {
                                 num1 = Arrow.Left;
-                                Log.WriteLine("left2");
                                 edge1++;
                                 ud1++;
                                 r1++;
@@ -363,7 +363,6 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                             if (edge1 % 2 == 0)
                             {
                                 num1 = Arrow.Left;
-                                Log.WriteLine("left3");
                                 edge1++;
                                 ud1++;
                                 r1++;
@@ -512,7 +511,6 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                         else if (des2.Y == Calc.Agents[OurTeam, AgentNumber.Two].Position.Y)
                         {
                             num2 = Arrow.Left;
-                            Log.WriteLine("left4");
                         }
                         else
                         {
@@ -550,9 +548,11 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
 
                     if ((Calc.Agents[OurTeam, AgentNumber.Two].Position + num2) == des2)
                     {
+                        Log.WriteLine("bot_2 go to corner");
                         count2++;
                         if ((Calc.Agents[OurTeam, AgentNumber.Two].Position + num2).Y == 0)
                         {
+                            Log.WriteLine("bot_2 go to corner0");
                             ud2++;
                         }
                     }
@@ -702,7 +702,6 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                             if (edge2 == 0)
                             {
                                 num2 = Arrow.Left;
-                                Log.WriteLine("left5");
                                 edge2++;
                                 ud2++;
                                 r2++;
@@ -764,38 +763,31 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                             if (edge2 % 2 == 0)
                             {
                                 num2 = Arrow.Left;
-                                Log.WriteLine("left6");
                                 edge2++;
                                 ud2++;
                                 r2++;
                             }
                             else
                             {
-                                Log.WriteLine("hello1");
                                 if (ud2 % 2 == 1)
                                 {
                                     if (turn2 % 2 == i)
                                     {
-                                        Log.WriteLine("ok1");
                                         num2 = Arrow.DownLeft;
                                     }
                                     else
                                     {
-                                        Log.WriteLine("ok2");
                                         num2 = Arrow.DownRight;
                                     }
                                 }
                                 else if (ud2 % 2 == 0)
                                 {
-                                    Log.WriteLine("hello2");
                                     if (turn2 % 2 == 1)
                                     {
-                                        Log.WriteLine("ok3");
                                         num2 = Arrow.UpLeft;
                                     }
                                     else
                                     {
-                                        Log.WriteLine("ok4");
                                         num2 = Arrow.UpRight;
                                     }
                                 }
@@ -885,6 +877,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
 
                 if (Calc.Field[go[0]].IsTileOn[OurTeam.Opponent()])
                 {
+                    Log.WriteLine("bot_1 remove tile");
                     turn1--;
                 }
             }
