@@ -55,7 +55,10 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
             int b = 0;
             Arrow ori1 = (Arrow)8;
             Arrow ori2 = (Arrow)8;
-            int[] point = new int[9];
+            int[] point = new int[8];
+            var max = (Arrow)1;
+            int maxpoint = -15;
+
 
 
             //========================================================================================角にたどり着くまで========================================================================================================
@@ -429,7 +432,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                 for (i=0; i <= 7; i++)
                 {
                     ori1 = (Arrow)i;
-
+                    
                     if (Calc.Field[Calc.Agents[OurTeam, AgentNumber.One].Position + ori1].IsTileOn[OurTeam.Opponent()])
                     {
                         num1 = ori1;
@@ -444,19 +447,38 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                 if (num1 == (Arrow)8)
                 {
                     //8方位の評価
+                    //ポイントの取得
                     for (i = 0; i <= 7; i++)
                     {
                         point[i] = Calc.Field[Calc.Agents[OurTeam, AgentNumber.One].Position + num1].Point;
                     }
 
                     //最大値を求める→行き先を決める
-                    point[8] = Math.Max(Math.Max(Math.Max(point[0], point[1]), Math.Max(point[2], point[3])),Math.Max(Math.Max(point[4], point[5]), Math.Max(point[6], point[7])));
+                    //自分のマスには行かない
+                    for (i=0; i<=7; i++)
+                    {
+                        ori1 = (Arrow)i;
+                        if (Calc.Field[Calc.Agents[OurTeam, AgentNumber.One].Position + ori1].IsTileOn[OurTeam])
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            maxpoint = (maxpoint > point[i]) ? maxpoint : point[i];
+                        }                    }
 
                     for (i = 0; i <= 7; i++)
                     {
-                        if (point[8] == point[i])
+                        if (Calc.Field[Calc.Agents[OurTeam, AgentNumber.One].Position + ori1].IsTileOn[OurTeam])
                         {
-                            num1 = (Arrow)i;
+                            continue;
+                        }
+                        else
+                        {
+                            if (maxpoint == point[i])
+                            {
+                                num1 = (Arrow)i;
+                            }
                         }
                     }
                 }
