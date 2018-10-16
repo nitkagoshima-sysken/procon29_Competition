@@ -2,7 +2,7 @@
 
 **Capturtory** `/ˈkapCHərtôrē/`  
 blend of *capture* +‎ *territory*  
-generic name of programs used by National Institute of Technology, *Kagoshima* College in Programming Contest Competition # 29. this year's programming contest is *meguri masu.* two agents and one commander will become one team and play a crossover game.
+generic name of programs used by National Institute of Technology, *Kagoshima* College in Programming Contest Competition # 29. this year's programming contest is *meguri masu.* two agents and one commander will become one team and play a crossover game.  
 made by the captain of *Yagura* painting in 2018  
 
 ## Bot
