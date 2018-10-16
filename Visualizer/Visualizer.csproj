@@ -123,6 +123,7 @@
       <DependentUpon>OpponentPositionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="PlayMode.cs" />
+    <Compile Include="PrefetchingFileReader.cs" />
     <Compile Include="TeamDesigns.cs" />
     <Compile Include="TimeData.cs" />
     <Compile Include="TimeMeasurementForm.cs">
@@ -134,6 +135,7 @@
     <Compile Include="TrumpMark.cs" />
     <Compile Include="TrumpNumber.cs" />
     <Compile Include="TsvReader.cs" />
+    <Compile Include="VisualizerDefaultStyle.cs" />
     <Compile Include="XmlCalc.cs" />
     <Compile Include="Calc.cs" />
     <Compile Include="Coordinate.cs" />
