@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -490,7 +490,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         Show.agentActivityData[Team.B, AgentNumber.One] = a[0];
                         Show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
                         stopwatch.Stop();
-                        TimeDataList.Add(new TimeData(BotName[0] + " (Opponent Team) of " + Calc.Turn + " Turn", stopwatch.ElapsedMilliseconds));
+                        TimeDataList.Add(new TimeData(BotName[1] + " (Opponent Team) of " + Calc.Turn + " Turn", stopwatch.ElapsedMilliseconds));
                     }
                 }
 
