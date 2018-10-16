@@ -454,7 +454,6 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
 
                     for (i = 0; i <= 7; i++)
                     {
-                        ori1 = (Arrow)i;
                         if (point[8] == point[i])
                         {
                             num1 = (Arrow)i;
