@@ -115,7 +115,6 @@
     <Compile Include="HistoryForm.Designer.cs">
       <DependentUpon>HistoryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="LightCalc.cs" />
     <Compile Include="OpponentPositionForm.cs">
       <SubType>Form</SubType>
     </Compile>
