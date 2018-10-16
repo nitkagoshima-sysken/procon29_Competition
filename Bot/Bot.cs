@@ -55,7 +55,7 @@ namespace nitkagoshima_sysken
                 /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
                 public Calc Simulate(AgentsActivityData action)
                 {
-                    var c = new Calc(new XmlCalc(Calc).DeepClone());
+                    var c = new Calc(Calc);
                     c.MoveAgent(action.DeepClone());
                     return c;
                 }
@@ -67,7 +67,7 @@ namespace nitkagoshima_sysken
                 /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
                 public Calc Simulate(Team team, AgentActivityData[] action)
                 {
-                    var c = new Calc(new XmlCalc(Calc).DeepClone());
+                    var c = new Calc(Calc);
                     c.MoveAgent(team, action.DeepClone());
                     return c;
                 }
@@ -79,7 +79,7 @@ namespace nitkagoshima_sysken
                 /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
                 public Calc Simulate(Team team, AgentNumber agentNumber, AgentActivityData action)
                 {
-                    var c = new Calc(new XmlCalc(Calc).DeepClone());
+                    var c = new Calc(Calc);
                     c.MoveAgent(team, agentNumber, action.DeepClone());
                     return c;
                 }
