@@ -30,6 +30,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 }
                 arg += "}, ";
             }
+            arg = arg.Replace(", }", " }");
             arg += "\n";
             // 自分チームのエージェントがいる場所を特定の文字列に変換します。
             foreach (var agent in calc.Agents[ourteam])
@@ -78,6 +79,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     }
                 }
             }
+            arg += "\n";
+            arg = arg.Replace(", \n", "\n");
             return arg;
         }
     }

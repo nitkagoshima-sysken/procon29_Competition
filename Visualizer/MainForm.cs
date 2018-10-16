@@ -449,6 +449,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         private void TurnEnd()
         {
+            var stopwatch_all = new Stopwatch();
+            stopwatch_all.Start();
             if (TurnEndButton.Text == "ターンエンド")
             {
                 if (Mode == PlayMode.ProductionMode)
@@ -477,7 +479,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         Show.agentActivityData[Team.A, AgentNumber.One] = a[0];
                         Show.agentActivityData[Team.A, AgentNumber.Two] = a[1];
                         stopwatch.Stop();
-                        TimeDataList.Add(new TimeData(BotName[0] + " (Our Team) of " + Calc.Turn + " Turn", stopwatch.ElapsedMilliseconds));
+                        TimeDataList.Add(new TimeData(BotName[0] + " (Our Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
                     }
                     if (Bot[1] != null)
                     {
@@ -490,8 +492,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         Show.agentActivityData[Team.B, AgentNumber.One] = a[0];
                         Show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
                         stopwatch.Stop();
-                        TimeDataList.Add(new TimeData(BotName[1] + " (Opponent Team) of " + Calc.Turn + " Turn", stopwatch.ElapsedMilliseconds));
+                        TimeDataList.Add(new TimeData(BotName[1] + " (Opponent Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
                     }
+                    stopwatch_all.Stop();
+                    TimeDataList.Add(new TimeData("Turn End of " + Calc.Turn, stopwatch_all.ElapsedMilliseconds));
                 }
 
                 Calc.MoveAgent(Show.agentActivityData);
@@ -501,7 +505,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     item.AgentStatusData = AgentStatusCode.NotDoneAnything;
                 }
 
+                var stopwatch2 = new Stopwatch();
+                stopwatch2.Start();
                 Show.Showing();
+                stopwatch2.Stop();
+                TimeDataList.Add(new TimeData("Draw", stopwatch2.ElapsedMilliseconds));
+
                 WriteLog();
                 TurnProgressCheck();
 
@@ -568,6 +577,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 TurnEndButton.ForeColor = Color.LightGray;
                 Show.Showing();
             }
+            Console.WriteLine(Calc.HydroGoBotAdapter(Team.B));
         }
 
         private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -720,6 +730,54 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void TimeMeasurementToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new TimeMeasurementForm().ShowDialog(this);
+        }
+
+        static Coordinate RightClickedCellCoordinate;
+
+        private void FieldDisplay_MouseDown(object sender, MouseEventArgs e)
+        {
+            switch (e.Button)
+            {
+                case MouseButtons.Right:
+                    ContextMenuStrip.Show((Coordinate)Location + e.Location);
+                    if (Calc.Field.CellExist(FieldDisplay.ToCellCordinate(Calc, e.Location)))
+                    {
+                        RightClickedCellCoordinate = FieldDisplay.ToCellCordinate(Calc, e.Location);
+                        if (Calc.Field[RightClickedCellCoordinate].IsTileOn[Team.A])
+                        {
+                            AreaToolStripComboBox.SelectedIndex = 0;
+                        }
+                        else if (Calc.Field[RightClickedCellCoordinate].IsTileOn[Team.B])
+                        {
+                            AreaToolStripComboBox.SelectedIndex = 1;
+                        }
+                        else
+                        {
+                            AreaToolStripComboBox.SelectedIndex = 2;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        private void AreaToolStripComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (AreaToolStripComboBox.SelectedIndex)
+            {
+                case 0:
+                    Calc.Field[RightClickedCellCoordinate].IsTileOn[Team.A] = true;
+                    Calc.Field[RightClickedCellCoordinate].IsTileOn[Team.B] = false;
+                    break;
+                case 1:
+                    Calc.Field[RightClickedCellCoordinate].IsTileOn[Team.A] = false;
+                    Calc.Field[RightClickedCellCoordinate].IsTileOn[Team.B] = true;
+                    break;
+                case 2:
+                    Calc.Field[RightClickedCellCoordinate].IsTileOn[Team.A] = false;
+                    Calc.Field[RightClickedCellCoordinate].IsTileOn[Team.B] = false;
+                    break;
+            }
+            Show.Showing();
         }
     }
 }

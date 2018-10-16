@@ -121,6 +121,7 @@
     <Compile Include="OpponentPositionForm.Designer.cs">
       <DependentUpon>OpponentPositionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PictureBoxExtension.cs" />
     <Compile Include="PlayMode.cs" />
     <Compile Include="PrefetchingFileReader.cs" />
     <Compile Include="TeamDesigns.cs" />
