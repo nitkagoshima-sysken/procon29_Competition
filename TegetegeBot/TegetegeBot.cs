@@ -109,9 +109,9 @@ namespace nitkagoshima_sysken
                         var c = Simulate(team: OurTeam, action: trying);
 
                         // 今までの中で一番、得点が高かったら、得点とその座標を更新する
-                        if (agnt1maxp < c.TotalPoint(OurTeam))
+                        if (agnt1maxp < c.Field.TotalPoint(OurTeam))
                         {
-                            agnt1maxp = c.TotalPoint(OurTeam);
+                            agnt1maxp = c.Field.TotalPoint(OurTeam);
                             agnt1pos = new Coordinate(coordinate);
                         }
                     }
@@ -137,9 +137,9 @@ namespace nitkagoshima_sysken
                             AgentNumber.Two,
                             new AgentActivityData(AgentStatusCode.RequestMovement, Calc.Agents[OurTeam, AgentNumber.Two].Position + arrow));
 
-                        if (agnt2maxp < c.TotalPoint(OurTeam))
+                        if (agnt2maxp < c.Field.TotalPoint(OurTeam))
                         {
-                            agnt2maxp = c.TotalPoint(OurTeam);
+                            agnt2maxp = c.Field.TotalPoint(OurTeam);
                             agnt2pos = new Coordinate(Calc.Agents[OurTeam, AgentNumber.Two].Position + arrow);
                         }
                     }

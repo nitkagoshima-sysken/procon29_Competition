@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
@@ -73,6 +74,24 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public Field(int width, int height)
         {
             Array = new Cell[width, height];
+        }
+
+        /// <summary>
+        /// フィールドの初期化をします。
+        /// </summary>
+        /// <param name="width">フィールドの幅</param>
+        /// <param name="height">フィールドの高さ</param>
+        /// <param name="field">フィールドのデータ</param>
+        public Field(int width, int height, int[,] field)
+        {
+            Array = new Cell[width, height];
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    this[x, y] = new Cell { Point = field[y, x], Coordinate = new Coordinate(x, y) };
+                }
+            }
         }
 
         /// <summary>
@@ -169,5 +188,71 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             return (0 <= x) && (x < Width) && (0 <= y) && (y < Height); 
         }
+
+        /// <summary>
+        /// 移動先に敵のタイルが置いてないか判定します。
+        /// </summary>
+        /// <param name="agent">対象のエージェント</param>
+        /// <param name="arrow">移動方向</param>
+        /// <returns></returns>
+        public bool IsMovable(Agent agent, Arrow arrow)
+        {
+            return !this[agent.Position + arrow].IsTileOn[agent.Team.Opponent()];
+        }
+
+        /// <summary>
+        /// 移動先に自分のタイルが置いてあるか判定します。
+        /// </summary>
+        /// <param name="agent">対象のエージェント</param>
+        /// <param name="arrow">移動方向</param>
+        /// <returns></returns>
+        public bool IsRemovableOurTile(Agent agent, Arrow arrow)
+        {
+            return this[agent.Position + arrow].IsTileOn[agent.Team];
+        }
+
+        /// <summary>
+        /// 移動先に敵のタイルが置いてあるか判定します。
+        /// </summary>
+        /// <param name="agent">対象のエージェント</param>
+        /// <param name="arrow">移動方向</param>
+        /// <returns></returns>
+        public bool IsRemovableOpponentTile(Agent agent, Arrow arrow)
+        {
+            return this[agent.Position + arrow].IsTileOn[agent.Team.Opponent()];
+        }
+
+        /// <summary> 
+        /// すべてのマスのポイントの和を計算します。 
+        /// </summary> 
+        /// <returns>すべてのフィールドのポイントの和</returns> 
+        public int Sum() =>this.Sum(x => x.Point);
+
+        /// <summary> 
+        /// すべてのマスのポイントの絶対値の和を計算します。 
+        /// </summary> 
+        /// <returns>すべてのフィールドのポイントの絶対値の和</returns> 
+        public int SumAbs() => this.Sum(x => ((x.Point > 0) ? x.Point : -x.Point));
+
+        /// <summary> 
+        /// 指定したチームの直接的なエリアのポイントの合計を計算します。 
+        /// </summary> 
+        /// <param name="team">計算するチーム</param> 
+        /// <returns>指定したチームの直接的なエリアのポイントの合計</returns> 
+        public int AreaPoint(Team team) => this.Sum(x => ((x.IsTileOn[team] == true) ? x.Point : 0));
+
+        /// <summary> 
+        /// 指定したチームが囲んだエリアのポイントの絶対値の合計を計算します。 
+        /// </summary> 
+        /// <param name="team">計算するチーム</param> 
+        /// <returns>指定したチームが囲んだエリアのポイントの絶対値の合計</returns> 
+        public int EnclosedPoint(Team team) => this.Sum(x => ((x.IsEnclosed[team] == true) ? Math.Abs(x.Point) : 0));
+
+        /// <summary> 
+        /// 指定したチームの合計ポイントを計算します。 
+        /// </summary> 
+        /// <param name="team">計算するチーム</param> 
+        /// <returns>指定したチームの合計ポイント</returns> 
+        public int TotalPoint(Team team) => AreaPoint(team) + EnclosedPoint(team);
     }
 }
