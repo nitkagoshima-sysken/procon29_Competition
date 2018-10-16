@@ -662,7 +662,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
         public Calc Simulate(Team team, AgentActivityData[] action)
         {
-           // var c = new Calc(new XmlCalc(this).DeepClone());
             var c = new Calc(this);
             c.MoveAgent(team, action.DeepClone());
             return c;
