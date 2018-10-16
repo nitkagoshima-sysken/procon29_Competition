@@ -43,14 +43,17 @@ namespace nitkagoshima_sysken.Procon29.SakurajimaKomikanBot
             {
                 foreach (Arrow arrow in Enum.GetValues(typeof(Arrow)))
                 {
-                    if (Calc.Field[Calc.Agents[OurTeam, AgentNumber.One].Position + arrow].IsTileOn[OurTeam.Opponent()])
+                    if (Calc.Field.CellExist(Calc.Agents[OurTeam, AgentNumber.One].Position + arrow))
                     {
-                        result[(int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, Calc.Agents[OurTeam, AgentNumber.One].Position + arrow);
-                        break;
-                    }
-                    else
-                    {
-                        continue;
+                        if (Calc.Field[Calc.Agents[OurTeam, AgentNumber.One].Position + arrow].IsTileOn[OurTeam.Opponent()])
+                        {
+                            result[(int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, Calc.Agents[OurTeam, AgentNumber.One].Position + arrow);
+                            break;
+                        }
+                        else
+                        {
+                            continue;
+                        }
                     }
                 }
                 if (result[(int)AgentNumber.One] == null)
@@ -97,14 +100,17 @@ namespace nitkagoshima_sysken.Procon29.SakurajimaKomikanBot
             {
                 foreach (Arrow arrow in Enum.GetValues(typeof(Arrow)))
                 {
-                    if (Calc.Field[Calc.Agents[OurTeam, AgentNumber.Two].Position + arrow].IsTileOn[OurTeam.Opponent()])
+                    if (Calc.Field.CellExist(Calc.Agents[OurTeam, AgentNumber.Two].Position + arrow))
                     {
-                        result[(int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, Calc.Agents[OurTeam, AgentNumber.Two].Position + arrow);
-                        break;
-                    }
-                    else
-                    {
-                        continue;
+                        if (Calc.Field[Calc.Agents[OurTeam, AgentNumber.Two].Position + arrow].IsTileOn[OurTeam.Opponent()])
+                        {
+                            result[(int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, Calc.Agents[OurTeam, AgentNumber.Two].Position + arrow);
+                            break;
+                        }
+                        else
+                        {
+                            continue;
+                        }
                     }
                 }
                 if (result[(int)AgentNumber.Two] == null)
