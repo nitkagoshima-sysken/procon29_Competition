@@ -69,7 +69,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 最大ターンのデフォルト値を設定または取得します。
         /// </summary>
-        public static int MaxTurn = 40;
+        public static int MaxTurn = VisualizerDefaultStyle.MaxTurn;
 
         /// <summary>
         /// デバッグモードを設定または取得します。
