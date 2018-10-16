@@ -108,20 +108,28 @@
     <Compile Include="DrawField.cs" />
     <Compile Include="FruitFairies.cs" />
     <Compile Include="FruitFairy.cs" />
+    <Compile Include="CalcExtension.cs" />
     <Compile Include="HistoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="HistoryForm.Designer.cs">
       <DependentUpon>HistoryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="PlayMode.cs" />
-    <Compile Include="SplashForm.cs">
+    <Compile Include="OpponentPositionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SplashForm.Designer.cs">
-      <DependentUpon>SplashForm.cs</DependentUpon>
+    <Compile Include="OpponentPositionForm.Designer.cs">
+      <DependentUpon>OpponentPositionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PlayMode.cs" />
     <Compile Include="TeamDesigns.cs" />
+    <Compile Include="TimeData.cs" />
+    <Compile Include="TimeMeasurementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimeMeasurementForm.Designer.cs">
+      <DependentUpon>TimeMeasurementForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TrumpMark.cs" />
     <Compile Include="TrumpNumber.cs" />
     <Compile Include="TsvReader.cs" />
@@ -180,13 +188,16 @@
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="OpponentPositionForm.resx">
+      <DependentUpon>OpponentPositionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="SplashForm.resx">
-      <DependentUpon>SplashForm.cs</DependentUpon>
+    <EmbeddedResource Include="TimeMeasurementForm.resx">
+      <DependentUpon>TimeMeasurementForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">

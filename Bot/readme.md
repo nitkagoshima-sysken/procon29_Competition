@@ -1,8 +1,12 @@
-# Procon29 Bot 8.35.0
+# Procon29 Bot 9.54.1
 
-## What's new (ver. 8.35.0)
+## What's new (ver. 9.54.1)
 
-### 自動でログを表示する機能を廃止した
+### `Bot.Simulate(AgentsActivityData)`のコード最適化（SeitaHigashi氏によるデバッグ）
+
+### `Bot.Simulate(Team, AgentActivityData[])`のコード最適化（SeitaHigashi氏によるデバッグ）
+
+### `Bot.Simulate(Team, AgentNumber, AgentActivityData)`のコード最適化（SeitaHigashi氏によるデバッグ）
 
 ## What's new
 
@@ -49,3 +53,9 @@
 ### ver. 8.35.0
 
 - 自動でログを表示する機能を廃止した
+
+### ver. 9.54.1
+
+- `Bot.Simulate(AgentsActivityData)`のコード最適化（SeitaHigashi氏によるデバッグ）
+- `Bot.Simulate(Team, AgentActivityData[])`のコード最適化（SeitaHigashi氏によるデバッグ）
+- `Bot.Simulate(Team, AgentNumber, AgentActivityData)`のコード最適化（SeitaHigashi氏によるデバッグ）
