@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -508,17 +508,17 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 if (Bot[0] != null)
                 {
                     Log.WriteLine("[" + BotName[0] + "]", Color.SkyBlue);
-                    var d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One];
+                    var d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.A, AgentNumber.One];
                     Log.WriteLine("A1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
-                    d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.Two];
+                    d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.A, AgentNumber.Two];
                     Log.WriteLine("A2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
                 }
                 if (Bot[1] != null)
                 {
                     Log.WriteLine("[" + BotName[1] + "]", Color.SkyBlue);
-                    var d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.One];
+                    var d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.B, AgentNumber.One];
                     Log.WriteLine("B1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
-                    d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.Two];
+                    d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.B, AgentNumber.Two];
                     Log.WriteLine("B2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
                 }
 

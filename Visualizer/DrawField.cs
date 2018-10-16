@@ -547,7 +547,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     {
                         float f = Bitmap.Height / 12000.0f;
 
-                        var bmp = (Calc.History[turn + 1].AgentActivityDatas[team, agent].Destination.X < Calc.Field.Width / 2)
+                        var bmp = (Calc.History[turn + 1].AgentsActivityData[team, agent].Destination.X < Calc.Field.Width / 2)
                             ? FruitFairyBitmap[(int)team * 2 + (int)agent, Direction.Rightward]
                             : FruitFairyBitmap[(int)team * 2 + (int)agent, Direction.Leftward];
 
@@ -555,8 +555,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                             image: bmp,
                             destRect: new Rectangle
                             {
-                                X = (int)((Calc.History[turn + 1].AgentActivityDatas[team, agent].Destination.X + 0.5f) * CellWidth),
-                                Y = (int)((Calc.History[turn + 1].AgentActivityDatas[team, agent].Destination.Y + 0.0f) * CellHeight),
+                                X = (int)((Calc.History[turn + 1].AgentsActivityData[team, agent].Destination.X + 0.5f) * CellWidth),
+                                Y = (int)((Calc.History[turn + 1].AgentsActivityData[team, agent].Destination.Y + 0.0f) * CellHeight),
                                 Width = (int)(bmp.Width * f),
                                 Height = (int)(bmp.Height * f)
                             },

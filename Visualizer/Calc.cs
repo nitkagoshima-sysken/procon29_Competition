@@ -52,6 +52,21 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// Calcを初期化します。
         /// </summary>
         /// <param name="calc"></param>
+        public Calc(Calc calc)
+        {
+            MaxTurn = calc.MaxTurn;
+            Turn = calc.Turn;            
+            foreach (var item in calc.History)
+            {
+                History.Add(new TurnData(item));
+            }
+            Agents = History[Turn].Agents;
+        }
+
+        /// <summary>
+        /// Calcを初期化します。
+        /// </summary>
+        /// <param name="calc"></param>
         public Calc(XmlCalc calc)
         {
             MaxTurn = calc.MaxTurn;
@@ -569,8 +584,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 {
                     foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                     {
-                        History[Turn - 1].AgentActivityDatas[team, agent].AgentStatusData = agentsActivityData[team, agent].AgentStatusData;
-                        History[Turn - 1].AgentActivityDatas[team, agent].Destination = agentsActivityData[team, agent].Destination;
+                        History[Turn - 1].AgentsActivityData[team, agent].AgentStatusData = agentsActivityData[team, agent].AgentStatusData;
+                        History[Turn - 1].AgentsActivityData[team, agent].Destination = agentsActivityData[team, agent].Destination;
                     }
                 }
                 foreach (Team team in Enum.GetValues(typeof(Team)))
@@ -634,7 +649,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
         public Calc Simulate(AgentsActivityData action)
         {
-            var c = new Calc(new XmlCalc(this).DeepClone());
+            var c = new Calc(this);
             c.MoveAgent(action.DeepClone());
             return c;
         }
@@ -647,7 +662,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
         public Calc Simulate(Team team, AgentActivityData[] action)
         {
-            var c = new Calc(new XmlCalc(this).DeepClone());
+           // var c = new Calc(new XmlCalc(this).DeepClone());
+            var c = new Calc(this);
             c.MoveAgent(team, action.DeepClone());
             return c;
         }
@@ -661,7 +677,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
         public Calc Simulate(Team team, AgentNumber agentNumber, AgentActivityData action)
         {
-            var c = new Calc(new XmlCalc(this).DeepClone());
+            var c = new Calc(this);
             c.MoveAgent(team, agentNumber, action.DeepClone());
             return c;
         }

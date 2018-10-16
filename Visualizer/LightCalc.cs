@@ -252,6 +252,25 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
+        /// <summary> 
+        /// 自分のフィールドにタイルを置きます。 
+        /// </summary> 
+        /// <param name="team">対象となるチーム</param> 
+        /// <param name="agent">対象となるエージェント</param> 
+        public void PutTile(Team team, AgentNumber agent) => Field[Agents[team, agent].Position].IsTileOn[team] = true;
+
+        /// <summary> 
+        /// フィールドに置いてあるタイルを剥がします。 
+        /// </summary> 
+        /// <param name="point">対象となるエージェント</param> 
+        public void RemoveTile(Coordinate point)
+        {
+            foreach (Team team in Enum.GetValues(typeof(Team)))
+            {
+                Field[point.X, point.Y].IsTileOn[team] = false;
+            }
+        }
+
 
     }
 }
