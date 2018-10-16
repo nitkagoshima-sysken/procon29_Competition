@@ -61,7 +61,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
 
             //===============================
 
-            foreach (var agent in Calc.Agents[OurTeam])
+          /*foreach (var agent in Calc.Agents[OurTeam])
             {
                 if ((Calc.Field.Width % 2 == 0 && count3 == 0) || (Calc.Field.Width % 2 == 1 && count4 == 0))
                 {
@@ -489,7 +489,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
 
                 go[0] = agent.Position + num1;
 
-            }
+            }*/
 
 
             //========================================================================================角にたどり着くまで========================================================================================================
