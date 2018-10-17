@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -115,8 +115,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             // PQRファイルを直接読み込む
             // ちなみにQR_code_sample.pdfで登場したQRコード
-            var reader = new PqrReader();
-            reader.Stream =
+            var reader = new PqrReader
+            {
+                Stream =
                 "8 11:" +
                 "-2 1 0 1 2 0 2 1 0 1 -2:" +
                 "1 3 2 -2 0 1 0 -2 2 3 1:" +
@@ -127,7 +128,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 "1 3 2 -2 0 1 0 -2 2 3 1:" +
                 "-2 1 0 1 2 0 2 1 0 1 -2:" +
                 "2 2:" +
-                "7 10:";
+                "7 10:"
+            };
             Log.WriteLine(reader.Stream);
             var pqr = reader.ConvertToPqrData();
 
@@ -418,9 +420,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// 
+        /// ボットと接続します。
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="n">どのチームに接続するか</param>
+        /// <param name="path">パス</param>
         /// <returns></returns>
         public static void ConnectBot(int n, string path)
         {
@@ -577,7 +580,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 TurnEndButton.ForeColor = Color.LightGray;
                 Show.Showing();
             }
-            Console.WriteLine(Calc.HydroGoBotAdapter(Team.B));
         }
 
         private void UndoToolStripMenuItem_Click(object sender, EventArgs e)

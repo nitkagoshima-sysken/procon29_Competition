@@ -64,7 +64,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// エージェントを取得または設定します
         /// </summary>
         /// <param name="team">対象となる所属チーム</param>
-        /// <param name="agent">対象となるエージェント番号</param>
         /// <returns></returns>
         public TeamDesign this[Team team]
         {

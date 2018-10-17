@@ -120,14 +120,18 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // ResourceManagerを取得する
             System.Resources.ResourceManager resource = Properties.Resources.ResourceManager;
             // 画像ファイルを読み込んで、Imageオブジェクトとして取得する
-            AgentBitmap = new CharactorBitmap(2);
-            AgentBitmap[0, Direction.Rightward] = (Bitmap)resource.GetObject("Orange");
-            AgentBitmap[1, Direction.Rightward] = (Bitmap)resource.GetObject("Lime");
-            FruitFairyBitmap = new CharactorBitmap(4);
-            FruitFairyBitmap[0, Direction.Leftward] = (Bitmap)resource.GetObject("Strawberry");
-            FruitFairyBitmap[1, Direction.Leftward] = (Bitmap)resource.GetObject("Apple");
-            FruitFairyBitmap[2, Direction.Leftward] = (Bitmap)resource.GetObject("Kiwi");
-            FruitFairyBitmap[3, Direction.Leftward] = (Bitmap)resource.GetObject("Muscat");
+            AgentBitmap = new CharactorBitmap(2)
+            {
+                [0, Direction.Rightward] = (Bitmap)resource.GetObject("Orange"),
+                [1, Direction.Rightward] = (Bitmap)resource.GetObject("Lime")
+            };
+            FruitFairyBitmap = new CharactorBitmap(4)
+            {
+                [0, Direction.Leftward] = (Bitmap)resource.GetObject("Strawberry"),
+                [1, Direction.Leftward] = (Bitmap)resource.GetObject("Apple"),
+                [2, Direction.Leftward] = (Bitmap)resource.GetObject("Kiwi"),
+                [3, Direction.Leftward] = (Bitmap)resource.GetObject("Muscat")
+            };
             // 反転作業
             for (int i = 0; i < 2; i++)
             {
@@ -856,9 +860,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public void DrawArrow(Team team, Coordinate from, Coordinate to)
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
-            Pen pen = new Pen(Color.Red, 8);
-            pen.DashStyle = DashStyle.Dot;
-            pen.EndCap = LineCap.ArrowAnchor;
+            Pen pen = new Pen(Color.Red, 8)
+            {
+                DashStyle = DashStyle.Dot,
+                EndCap = LineCap.ArrowAnchor
+            };
             graphics.DrawLine(
                 pen,
                 (int)((from.X + 0.5) * CellWidth),

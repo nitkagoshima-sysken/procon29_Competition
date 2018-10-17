@@ -33,10 +33,18 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         public PictureBox PictureBox { get; set; }
 
+        /// <summary>
+        /// XML化するために宣言します
+        /// </summary>
         public ClickField()
         {
         }
 
+        /// <summary>
+        /// ClickField を初期化します。
+        /// </summary>
+        /// <param name="calc">対象の計算機</param>
+        /// <param name="pictureBox">対象のピクチャボックス</param>
         public ClickField(Calc calc, PictureBox pictureBox)
         {
             Calc = calc;

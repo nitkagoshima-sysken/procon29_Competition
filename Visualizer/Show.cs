@@ -57,7 +57,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// Procon29_Showの初期化を行います。
         /// </summary>
-        /// <param name="procon29_Calc">表示するProcon29_Calc</param>
+        /// <param name="procon29_Calc">表示する計算機</param>
+        /// <param name="pictureBox">表示するピクチャボックス</param>
         public Show(Calc procon29_Calc, PictureBox pictureBox)
         {
             Calc = procon29_Calc;
@@ -95,7 +96,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public Show(Calc procon29_Calc, TeamDesign[] teamDesigns, PictureBox pictureBox)
         {
             Calc = procon29_Calc;
-            //TeamDesign = teamDesigns;
             PictureBox = pictureBox;
 
             // ResourceManagerを取得する
@@ -160,8 +160,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             var cursor = CursorPosition(PictureBox);
 
-            DrawField = new DrawField(Calc, canvas);
-            DrawField.AgentsActivityData = agentActivityData;
+            DrawField = new DrawField(Calc, canvas)
+            {
+                AgentsActivityData = agentActivityData
+            };
             DrawField.Draw(cursor);
             precursor = cursor;
             try
@@ -205,8 +207,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             var cursor = CursorPosition(PictureBox);
 
-            DrawField = new DrawField(Calc, canvas);
-            DrawField.AgentsActivityData = agentActivityData;
+            DrawField = new DrawField(Calc, canvas)
+            {
+                AgentsActivityData = agentActivityData
+            };
             DrawField.Draw(turn, cursor);
             precursor = cursor;
             try
