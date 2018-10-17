@@ -71,6 +71,7 @@ if __name__=='__main__':
     args = parser.parse_args()
     agent = make_agentdata(args.infile)
     network = ProconNetwork.Network()
+    network.load_params('gene/params100.pkl')
     flags = WindowControl.Flags()
     log = SystemControl.LogControl('bot.log')
     bot = Bot.ProconNNControl(agent[3], log, network, flags)
