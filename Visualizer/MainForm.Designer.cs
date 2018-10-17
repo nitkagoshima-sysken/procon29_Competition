@@ -60,6 +60,7 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.AreaToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
+            this.TrumpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -271,7 +272,8 @@
             // 
             this.ViewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.BotConsoleToolStripMenuItem,
-            this.TimeMeasurementToolStripMenuItem});
+            this.TimeMeasurementToolStripMenuItem,
+            this.TrumpToolStripMenuItem});
             this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
             this.ViewToolStripMenuItem.Size = new System.Drawing.Size(76, 27);
             this.ViewToolStripMenuItem.Text = "表示(&V)";
@@ -279,14 +281,14 @@
             // BotConsoleToolStripMenuItem
             // 
             this.BotConsoleToolStripMenuItem.Name = "BotConsoleToolStripMenuItem";
-            this.BotConsoleToolStripMenuItem.Size = new System.Drawing.Size(206, 28);
+            this.BotConsoleToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
             this.BotConsoleToolStripMenuItem.Text = "ボットコンソール";
             this.BotConsoleToolStripMenuItem.Click += new System.EventHandler(this.BotConsoleToolStripMenuItem_Click);
             // 
             // TimeMeasurementToolStripMenuItem
             // 
             this.TimeMeasurementToolStripMenuItem.Name = "TimeMeasurementToolStripMenuItem";
-            this.TimeMeasurementToolStripMenuItem.Size = new System.Drawing.Size(206, 28);
+            this.TimeMeasurementToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
             this.TimeMeasurementToolStripMenuItem.Text = "処理時間計測";
             this.TimeMeasurementToolStripMenuItem.Click += new System.EventHandler(this.TimeMeasurementToolStripMenuItem_Click);
             // 
@@ -349,7 +351,7 @@
             this.ContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.AreaToolStripComboBox});
             this.ContextMenuStrip.Name = "ContextMenuStrip";
-            this.ContextMenuStrip.Size = new System.Drawing.Size(211, 67);
+            this.ContextMenuStrip.Size = new System.Drawing.Size(182, 39);
             // 
             // AreaToolStripComboBox
             // 
@@ -360,6 +362,13 @@
             this.AreaToolStripComboBox.Name = "AreaToolStripComboBox";
             this.AreaToolStripComboBox.Size = new System.Drawing.Size(121, 31);
             this.AreaToolStripComboBox.SelectedIndexChanged += new System.EventHandler(this.AreaToolStripComboBox_SelectedIndexChanged);
+            // 
+            // TrumpToolStripMenuItem
+            // 
+            this.TrumpToolStripMenuItem.Name = "TrumpToolStripMenuItem";
+            this.TrumpToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.TrumpToolStripMenuItem.Text = "トランプ";
+            this.TrumpToolStripMenuItem.Click += new System.EventHandler(this.TrumpToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -424,5 +433,6 @@
         private System.Windows.Forms.ToolStripMenuItem TimeMeasurementToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip ContextMenuStrip;
         private System.Windows.Forms.ToolStripComboBox AreaToolStripComboBox;
+        private System.Windows.Forms.ToolStripMenuItem TrumpToolStripMenuItem;
     }
 }
