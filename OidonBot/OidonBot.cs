@@ -13,17 +13,22 @@ namespace nitkagoshima_sysken.Procon29.OidonBot
         AgentActivityData[] result = new AgentActivityData[2];
         //一人目のエージェントがどの方向に行くかを保存する
         Arrow agent1dir = Arrow.Up;
+        Arrow subAgent1dir = Arrow.Up;
         //二人目のエージェントがどの方向に行くかを保存する
         Arrow agent2dir = Arrow.Up;
+        Arrow subAgent2dir = Arrow.Up;
         //エージェント1が理想的にとれる最高値
-        int agent1pmax = int.MinValue;
+        int agent1pNo1 = int.MinValue;
+        int agent1pNo2 = int.MinValue;
         //エージェント2が理想的にとれる最高値
-        int agent2pmax = int.MinValue;
+        int agent2pNo1 = int.MinValue;
+        int agent2pNo2 = int.MinValue;
         Coordinate coodinate;
         int sum = 0;
         int count = 0;
         int nowpoint = 0;
-        Coordinate pastposition;
+        Coordinate pastposition1;
+        Coordinate pastposition2;
         int enowpoint = 0;
         Calc calc;
         int[,] prob = new int[,]{
@@ -38,13 +43,15 @@ namespace nitkagoshima_sysken.Procon29.OidonBot
             };
         public override AgentActivityData[] Answer()
         {
+            agent1pNo1 = int.MinValue;
+            agent1pNo2 = int.MinValue;
             coodinate = Calc.Agents[OurTeam, AgentNumber.One].Position;
+            nowpoint = Calc.Field.TotalPoint(OurTeam);
+            enowpoint = Calc.Field.TotalPoint(OurTeam.Opponent());
             foreach (Arrow arrow in Enum.GetValues(typeof(Arrow)))
             {
                 sum = 0;
                 count = 0;
-                nowpoint = Calc.Field.TotalPoint(OurTeam);
-                enowpoint = Calc.Field.TotalPoint(OurTeam.Opponent());
                 foreach (Arrow arrow2 in Enum.GetValues(typeof(Arrow)))
                 {
                     try
@@ -54,10 +61,7 @@ namespace nitkagoshima_sysken.Procon29.OidonBot
                         if (Calc.Field[coodinate + arrow].IsTileOn[OurTeam.Opponent()])
                         {
                             sum += Calc.Field[coodinate + arrow].Point + 27 * (enowpoint - calc.Field.TotalPoint(OurTeam.Opponent()));
-                        }
-                        if (Calc.Field[coodinate + arrow].IsTileOn[OurTeam.Opponent()])
-                        {
-                            sum += 0;
+                            break;
                         }
                         else
                         {
@@ -69,30 +73,46 @@ namespace nitkagoshima_sysken.Procon29.OidonBot
                         continue;
                     }
                 }
-                if ((agent1pmax < sum)&&(count!=8))
+                if (agent1pNo1 < sum)
                 {
-                    agent1pmax = sum;
+                    agent1pNo1 = sum;
                     agent1dir = arrow;
                 }
-                pastposition = coodinate;
+                else if (agent1pNo2 < sum)
+                {
+                    agent1pNo2 = sum;
+                    subAgent1dir = arrow;
+                }
             }
+            if (pastposition1 == coodinate)
+            {
+                agent1dir = subAgent1dir;
+            }
+            pastposition1 = coodinate;
             try {
                 if (Calc.Field[Calc.Agents[OurTeam, AgentNumber.One].Position + agent1dir].IsTileOn[OurTeam.Opponent()])
                 {
                     result[(int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, Calc.Agents[OurTeam, AgentNumber.One].Position + agent1dir);
                 }
-                result[(int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestMovement, Calc.Agents[OurTeam, AgentNumber.One].Position + agent1dir);
+                else
+                {
+                    result[(int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestMovement, Calc.Agents[OurTeam, AgentNumber.One].Position + agent1dir);
+                }
             }
             catch (Exception e)
             {
             }
-    coodinate = Calc.Agents[OurTeam, AgentNumber.Two].Position;
+
+
+            agent2pNo1 = int.MinValue;
+            agent2pNo2 = int.MinValue;
+            coodinate = Calc.Agents[OurTeam, AgentNumber.Two].Position;
+            nowpoint = Calc.Field.TotalPoint(OurTeam);
+            enowpoint = Calc.Field.TotalPoint(OurTeam.Opponent());
             foreach (Arrow arrow in Enum.GetValues(typeof(Arrow)))
             {
                 sum = 0;
                 count = 0;
-                nowpoint = Calc.Field.TotalPoint(OurTeam);
-                enowpoint = Calc.Field.TotalPoint(OurTeam.Opponent());
                 foreach (Arrow arrow2 in Enum.GetValues(typeof(Arrow)))
                 {
                     try
@@ -102,10 +122,7 @@ namespace nitkagoshima_sysken.Procon29.OidonBot
                         if (Calc.Field[coodinate + arrow].IsTileOn[OurTeam.Opponent()])
                         {
                             sum += Calc.Field[coodinate + arrow].Point + 27 * (enowpoint - calc.Field.TotalPoint(OurTeam.Opponent()));
-                        }
-                        if (Calc.Field[coodinate + arrow].IsTileOn[OurTeam.Opponent()])
-                        {
-                            sum += 0;
+                            break;
                         }
                         else
                         {
@@ -118,21 +135,32 @@ namespace nitkagoshima_sysken.Procon29.OidonBot
                         continue;
                     }
                 }
-
-                if ((agent2pmax < sum)&&(count!=8))
+                if (agent2pNo1 < sum)
                 {
-                    agent2pmax = sum;
+                    agent2pNo1 = sum;
                     agent2dir = arrow;
                 }
-                pastposition = coodinate;
+                else if(agent2pNo2 < sum)
+                {
+                    agent2pNo2 = sum;
+                    subAgent2dir = arrow;
+                }
             }
+            if (pastposition2 == coodinate)
+            {
+                agent2dir = subAgent2dir;
+            }
+            pastposition2 = coodinate;
             try
             {
                 if (Calc.Field[Calc.Agents[OurTeam, AgentNumber.Two].Position + agent2dir].IsTileOn[OurTeam.Opponent()])
                 {
                     result[(int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, Calc.Agents[OurTeam, AgentNumber.Two].Position + agent2dir);
                 }
-                result[(int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestMovement, Calc.Agents[OurTeam, AgentNumber.Two].Position + agent2dir);
+                else
+                {
+                    result[(int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestMovement, Calc.Agents[OurTeam, AgentNumber.Two].Position + agent2dir);
+                }
             }
             catch (Exception e)
             {
