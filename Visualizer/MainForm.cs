@@ -740,9 +740,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 case MouseButtons.Right:
                     ContextMenuStrip.Show((Coordinate)Location + e.Location);
-                    if (Calc.Field.CellExist(FieldDisplay.ToCellCordinate(Calc, e.Location)))
+                    if (Calc.Field.CellExist(((Coordinate)e.Location).ToCellCordinate(FieldDisplay, Calc.Field)))
                     {
-                        RightClickedCellCoordinate = FieldDisplay.ToCellCordinate(Calc, e.Location);
+                        RightClickedCellCoordinate = ((Coordinate)e.Location).ToCellCordinate(FieldDisplay, Calc.Field);
                         if (Calc.Field[RightClickedCellCoordinate].IsTileOn[Team.A])
                         {
                             AreaToolStripComboBox.SelectedIndex = 0;
@@ -778,6 +778,24 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     break;
             }
             Show.Showing();
+        }
+
+        private void TrumpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (TrumpToolStripMenuItem.Checked)
+            {
+                TrumpToolStripMenuItem.Checked = false;
+                tableLayoutPanel2.RowStyles[0] = new RowStyle(SizeType.Percent, 0F);
+                tableLayoutPanel2.RowStyles[1] = new RowStyle(SizeType.Percent, 80F);
+                tableLayoutPanel2.RowStyles[2] = new RowStyle(SizeType.Percent, 20F);
+            }
+            else
+            {
+                TrumpToolStripMenuItem.Checked = true;
+                tableLayoutPanel2.RowStyles[0] = new RowStyle(SizeType.Percent, 30F);
+                tableLayoutPanel2.RowStyles[1] = new RowStyle(SizeType.Percent, 50F);
+                tableLayoutPanel2.RowStyles[2] = new RowStyle(SizeType.Percent, 20F);
+            }
         }
     }
 }
