@@ -777,6 +777,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     Calc.Field[RightClickedCellCoordinate].IsTileOn[Team.B] = false;
                     break;
             }
+            Calc.Recalculation();
             Show.Showing();
         }
 
