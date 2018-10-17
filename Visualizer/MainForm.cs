@@ -32,7 +32,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// ログを取ります。
         /// </summary>
-        public Logger Log { get; set; }
+        public static Logger Log { get; set; }
 
         /// <summary>
         /// ボットのログを取ります。
@@ -69,7 +69,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 最大ターンのデフォルト値を設定または取得します。
         /// </summary>
-        public static int MaxTurn = 40;
+        public static int MaxTurn = VisualizerDefaultStyle.MaxTurn;
 
         /// <summary>
         /// デバッグモードを設定または取得します。
@@ -84,12 +84,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// QRコードリーダーのファイルパスを設定または取得します。
         /// </summary>
-        private string QRCodeReader_FilePath;
+        public string QRCodeReader_FilePath;
 
         /// <summary>
         /// FieldDataGeneratorのファイルパスを設定または取得します。
         /// </summary>
-        private string FieldDataGenerator_FilePath;
+        public string FieldDataGenerator_FilePath;
 
         /// <summary>
         /// 処理時間のデータのリストを表します。
@@ -154,9 +154,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             Calc = new Calc(MaxTurn, field, agents);
 
-            ReadBotsTxt();
-            ReadCalcTsv();
-            ReadFilePathTsv();
+            PrefetchingFileReader.BotsTsv(this);
+            PrefetchingFileReader.CalcTsv(this);
+            PrefetchingFileReader.FilePathTsv(this);
 
             teamDesigns =
                 new TeamDesign[2] {
@@ -418,125 +418,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// ボット関連のプリフェッチングファイルの読み込みです。
-        /// </summary>
-        public void ReadBotsTxt()
-        {
-            // "Prefetching" というディレクトリが存在しない場合、作成する
-            if (!Directory.Exists("Prefetching"))
-            {
-                Directory.CreateDirectory("Prefetching");
-            }
-            if (System.IO.File.Exists(@".\Prefetching\Bots.tsv"))
-            {
-                var reader = new TsvReader(@".\Prefetching\Bots.tsv");
-                reader.ReadTsvFile();
-                reader.ConvertToTsvData();
-                var result = reader.TsvData;
-
-                if (result.ContainsKey("A"))
-                {
-                    Log.WriteLine("[Prefetching] Bot \"" + result["A"][0] + "\" was read on my team by Bot.tsv", Color.SkyBlue);
-                    ConnectBot(0, result["A"][0]);
-                }
-                if (result.ContainsKey("B"))
-                {
-                    Log.WriteLine("[Prefetching] Bot \"" + result["B"][0] + "\" was read on opponent team by Bot.tsv", Color.SkyBlue);
-                    ConnectBot(1, result["B"][0]);
-                }
-            }
-            // "Bots.tsv" というディレクトリが存在しない場合、作成する
-            else
-            {
-                using (var file = System.IO.File.Create(@".\Prefetching\Bots.tsv"))
-                {
-                    if (file != null)
-                    {
-                        file.Close();
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Calc関連のプリフェッチングファイルの読み込みです。
-        /// </summary>
-        public void ReadCalcTsv()
-        {
-            if (System.IO.File.Exists(@".\Prefetching\Calc.tsv"))
-            {
-                var reader = new TsvReader(@".\Prefetching\Calc.tsv");
-                reader.ReadTsvFile();
-                reader.ConvertToTsvData();
-                var result = reader.TsvData;
-
-                if (result.ContainsKey("Pqr"))
-                {
-                    Log.WriteLine("[Prefetching] PQR File \"" + result["Pqr"][0] + "\" was read by Calc.tsv", Color.SkyBlue);
-                    OpenPQRFile(result["Pqr"][0].Trim());
-                    Console.WriteLine("\"" + result["Pqr"][0] + "\"");
-                }
-                if (result.ContainsKey("MaxTurn"))
-                {
-                    Log.WriteLine("[Prefetching] Max Turn " + result["MaxTurn"][0] + " was read by Calc.tsv", Color.SkyBlue);
-                    Calc.MaxTurn = int.Parse(result["MaxTurn"][0]);
-                }
-            }
-            // "Calc.tsv" というディレクトリが存在しない場合、作成する
-            else
-            {
-                using (var file = System.IO.File.Create(@".\Prefetching\Calc.tsv"))
-                {
-                    if (file != null)
-                    {
-                        file.Close();
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// ファイルパス関連のプリフェッチングファイルの読み込みです。
-        /// </summary>
-        public void ReadFilePathTsv()
-        {
-            if (System.IO.File.Exists(@".\Prefetching\FilePath.tsv"))
-            {
-                var reader = new TsvReader(@".\Prefetching\FilePath.tsv");
-                reader.ReadTsvFile();
-                reader.ConvertToTsvData();
-                var result = reader.TsvData;
-
-                if (result.ContainsKey("QRCodeReader"))
-                {
-                    Log.WriteLine("[Prefetching] QRCodeReader File Path \"" + result["Pqr"][0].Trim() + "\" was read by FilePath.tsv", Color.SkyBlue);
-                    FieldDataGenerator_FilePath = result["QRCodeReader"][0].Trim();
-                }
-                if (result.ContainsKey("FieldDataGenerator"))
-                {
-                    Log.WriteLine("[Prefetching] FieldDataGenerator File Path \"" + result["FieldDataGenerator"][0].Trim() + " was read by FilePath.tsv", Color.SkyBlue);
-                    FieldDataGenerator_FilePath = result["FieldDataGenerator"][0].Trim();
-                }
-            }
-            // "FilePath.tsv" というディレクトリが存在しない場合、作成する
-            else
-            {
-                using (var file = System.IO.File.Create(@".\Prefetching\FilePath.tsv"))
-                {
-                    if (file != null)
-                    {
-                        file.Close();
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// 
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public void ConnectBot(int n, string path)
+        public static void ConnectBot(int n, string path)
         {
             try
             {
@@ -604,7 +490,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         Show.agentActivityData[Team.B, AgentNumber.One] = a[0];
                         Show.agentActivityData[Team.B, AgentNumber.Two] = a[1];
                         stopwatch.Stop();
-                        TimeDataList.Add(new TimeData(BotName[0] + " (Opponent Team) of " + Calc.Turn + " Turn", stopwatch.ElapsedMilliseconds));
+                        TimeDataList.Add(new TimeData(BotName[1] + " (Opponent Team) of " + Calc.Turn + " Turn", stopwatch.ElapsedMilliseconds));
                     }
                 }
 
@@ -622,17 +508,17 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 if (Bot[0] != null)
                 {
                     Log.WriteLine("[" + BotName[0] + "]", Color.SkyBlue);
-                    var d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.One];
+                    var d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.A, AgentNumber.One];
                     Log.WriteLine("A1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
-                    d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.A, AgentNumber.Two];
+                    d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.A, AgentNumber.Two];
                     Log.WriteLine("A2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
                 }
                 if (Bot[1] != null)
                 {
                     Log.WriteLine("[" + BotName[1] + "]", Color.SkyBlue);
-                    var d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.One];
+                    var d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.B, AgentNumber.One];
                     Log.WriteLine("B1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
-                    d = Calc.History[Calc.Turn - 1].AgentActivityDatas[Team.B, AgentNumber.Two];
+                    d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.B, AgentNumber.Two];
                     Log.WriteLine("B2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
                 }
 

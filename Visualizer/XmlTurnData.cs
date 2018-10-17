@@ -51,7 +51,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 Agents[i] = turnData.Agents[(Team)(i/2), (AgentNumber)(i%2)];
             }
-            AgentActivityDatas = turnData.AgentActivityDatas;
+            AgentActivityDatas = turnData.AgentsActivityData;
             Height = turnData.Field.Height;
             Width = turnData.Field.Width;
             var max = Height * Width;
