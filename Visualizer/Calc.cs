@@ -55,7 +55,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public Calc(Calc calc)
         {
             MaxTurn = calc.MaxTurn;
-            Turn = calc.Turn;            
+            Turn = calc.Turn;
             foreach (var item in calc.History)
             {
                 History.Add(new TurnData(item));
@@ -384,7 +384,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="where">移動する場所</param> 
         public void MoveAgent(Team team, AgentNumber agent, Coordinate where)
         {
-
             bool movable = false;
             movable = Field[where.X, where.Y].IsTileOn[team.Opponent()];
             if (movable)
@@ -405,6 +404,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 if (item.IsTileOn[Team.A]) item.IsEnclosed[Team.A] = false;
                 if (item.IsTileOn[Team.B]) item.IsEnclosed[Team.B] = false;
             }
+        }
+
+        /// <summary>
+        /// 再計算します。
+        /// </summary>
+        public void Recalculation()
+        {
+            CheckEnclosedArea();
         }
 
         void CheckAgentActivityData(AgentsActivityData agentsActivityData)
