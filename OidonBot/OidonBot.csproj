@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D2C7E214-DBE2-47AE-AFB0-9E6A4EFED7B8}</ProjectGuid>
+    <ProjectGuid>{BA5107AD-272C-4F06-8DAB-A4ABFD66E873}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TegetegeBot</RootNamespace>
-    <AssemblyName>TegetegeBot</AssemblyName>
+    <RootNamespace>OidonBot</RootNamespace>
+    <AssemblyName>OidonBot</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,7 +32,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,12 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TegetegeBot.cs" />
+    <Compile Include="OidonBot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bot\Bot.csproj">
-      <Project>{9f7412b1-836a-43d1-af00-c1fc67150b5d}</Project>
+      <Project>{9F7412B1-836A-43D1-AF00-C1FC67150B5D}</Project>
       <Name>Bot</Name>
     </ProjectReference>
     <ProjectReference Include="..\Visualizer\Visualizer.csproj">
