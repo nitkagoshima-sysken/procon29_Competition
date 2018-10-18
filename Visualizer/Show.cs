@@ -389,6 +389,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             e.SuppressKeyPress = true;
             ClickField.PushKey(e.KeyCode);
+            AgentsActivityData = ClickField.AgentsActivityData;
             Showing();
         }
     }
