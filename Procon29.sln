@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NettaBot", "NettaBot\NettaB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OidonBot", "OidonBot\OidonBot.csproj", "{BA5107AD-272C-4F06-8DAB-A4ABFD66E873}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SatsumaimoBot", "SatsumaimoBot\SatsumaimoBot.csproj", "{2F4E6FB5-5AFE-4E8F-BA01-37727A2A985E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaraimoBot", "KaraimoBot\KaraimoBot.csproj", "{2F4E6FB5-5AFE-4E8F-BA01-37727A2A985E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

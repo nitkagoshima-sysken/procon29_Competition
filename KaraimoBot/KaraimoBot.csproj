@@ -7,8 +7,8 @@
     <ProjectGuid>{2F4E6FB5-5AFE-4E8F-BA01-37727A2A985E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>nitkagoshima_sysken.Procon29.SatsumaimoBot</RootNamespace>
-    <AssemblyName>SatsumaimoBot</AssemblyName>
+    <RootNamespace>nitkagoshima_sysken.Procon29.KaraimoBot</RootNamespace>
+    <AssemblyName>KaraimoBot</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SatsumaimoBot.cs" />
+    <Compile Include="KaraimoBot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

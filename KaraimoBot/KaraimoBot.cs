@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using nitkagoshima_sysken.Procon29.Visualizer;
 
-namespace nitkagoshima_sysken.Procon29.SatsumaimoBot
+namespace nitkagoshima_sysken.Procon29.KaraimoBot
 {
-    public class SatsumaimoBot : Bot.Bot
+    public class KaraimoBot : Bot.Bot
     {
         public override AgentActivityData[] Answer()
         {
