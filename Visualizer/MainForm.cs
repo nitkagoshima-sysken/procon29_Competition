@@ -806,5 +806,26 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 tableLayoutPanel2.RowStyles[2] = new RowStyle(SizeType.Percent, 20F);
             }
         }
+
+        private void EndButtleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            switch (Mode)
+            {
+                case PlayMode.PracticeMode:
+                    if (MessageBox.Show("試合を終わらせるのに、時間がかかる場合があります。よろしいですか？", "警告", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
+                    {
+                        while (Calc.Turn < Calc.MaxTurn)
+                        {
+                            TurnEnd();
+                        }
+                    }
+                    break;
+                case PlayMode.ProductionMode:
+                    MessageBox.Show("安全のため、本番モードでは使用できません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
