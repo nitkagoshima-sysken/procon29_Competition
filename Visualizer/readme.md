@@ -1,4 +1,4 @@
-# Procon29 Visualizer 67.0
+# Procon29 Visualizer 67.1
 
 ## What's new
 
@@ -651,6 +651,10 @@ SeitaHigashi氏によるNettaBotで40ターン目に試したところ、
 ### Version 67.0
 
 - テンキーでの移動に関するバグが修正された
+
+#### Version 67.1
+
+- `AgentStatusCodeExtension`のアクセシビリティを`public`に変更（開発者向け）
 
 ## バージョンの上がり方について
 
