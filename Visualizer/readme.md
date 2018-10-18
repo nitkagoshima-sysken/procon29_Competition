@@ -1,4 +1,4 @@
-# Procon29 Visualizer 59.0
+# Procon29 Visualizer 67.0
 
 ## What's new
 
@@ -17,9 +17,6 @@ SeitaHigashi氏によるNettaBotで40ターン目に試したところ、
  4. 最後にターンエンドを押す。
 
 ## ショートカットキー一覧
-
-現在(Visualizer 25.0)、謎のバグが発生して、エージェントの選択ができない状態です。  
-`Ctrl`を使ったショートカットは使えるので、そこは安心してお使いしてください。
 
 |Key|What will happen?|
 |:--:|:--:|
@@ -50,8 +47,8 @@ SeitaHigashi氏によるNettaBotで40ターン目に試したところ、
 
 |コマンド|引数|機能|
 |:-:|:-:|:-:|
-|`A`|path|オレンジチームに指定したボットが読み込まれる|
-|`B`|path|ライムチームに指定したボットが読み込まれる|
+|`A`|path|自分チームに指定したボットが読み込まれる|
+|`B`|path|敵チームに指定したボットが読み込まれる|
 
 ### Calc.tsv
 
@@ -610,6 +607,50 @@ SeitaHigashi氏によるNettaBotで40ターン目に試したところ、
 ### Version 59.0
 
 - ボットの処理速度が最大で30倍速くなった
+
+### Version 60.0
+
+- 右クリックでいつでもマスのタイルの情報を変更できるようになった
+- `PictureBoxExtension.ToCellCordinate(this PictureBox, Calc, Coordinate)`を追加（開発者向け）
+
+### Version 61.0
+
+- トランプを表示するための領域が表示できるようになった
+- `CoordinateExtension.ToCellCordinate(this Coordinate, PictureBox, Field)`を追加（開発者向け）
+- `PictureBoxExtension.ToCellCordinate(this PictureBox, Calc, Coordinate)`を廃止（開発者向け）
+- `Show.BackGroundSolidBrush`を廃止（開発者向け）
+- `Show.SelectSolidBrush`を廃止（開発者向け）
+- `Show.ClickedSolidBrush`を廃止（開発者向け）
+- `Show.PointFont`を廃止（開発者向け）
+- `Show.Procon29_Logger`を廃止（開発者向け）
+
+### Version 62.0
+
+- 右クリックでマスのタイルの情報を書き換えた後、自動的に再計算するようになった
+- `Calc.Recalculation()`を追加（開発者向け）
+
+### Version 63.0
+
+- `TegetegeBot`にて2ターン目から試合が始まってしまうバグを修正
+- ボットに`Calc`を渡す際に、ディープコピーするように変更（開発者向け）
+- このバージョンで、足りないコメントを補完（開発者向け）
+- このバージョンで、C#の命名規則違反になっている変数名などを変更（開発者向け）
+
+### Version 64.0
+
+- エージェントがフィールドの中心を見るように修正
+
+### Version 65.0
+
+- ボットの処理速度がさらに少し速くなった
+
+### Version 66.0
+
+- 試合を強制的に終わらせるようにした
+
+### Version 67.0
+
+- テンキーでの移動に関するバグが修正された
 
 ## バージョンの上がり方について
 

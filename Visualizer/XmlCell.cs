@@ -7,6 +7,9 @@ using System.Xml.Serialization;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
+    /// <summary>
+    /// マスをXML化するためにあります。
+    /// </summary>
     [Serializable]
     [XmlRoot("Cell")]
     public class XmlCell
@@ -34,7 +37,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public Coordinate Coordinate { get; set; } = new Coordinate();
 
         /// <summary>
-        /// Fieldの初期化を行います。
+        /// XML化するために宣言します
         /// </summary>
         public XmlCell()
         {

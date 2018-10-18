@@ -10,10 +10,19 @@ using System.Windows.Forms;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
+    /// <summary>
+    /// 試合終了後に試合を見返すためのフォームです。
+    /// </summary>
     public partial class HistoryForm : Form
     {
+        /// <summary>
+        /// 表示する計算機を設定または取得します。
+        /// </summary>
         public Calc Calc { get; set; }
 
+        /// <summary>
+        /// 初期化します。
+        /// </summary>
         public HistoryForm()
         {
             InitializeComponent();

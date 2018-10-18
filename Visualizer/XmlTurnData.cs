@@ -7,6 +7,9 @@ using System.Xml.Serialization;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
+    /// <summary>
+    /// ターンデータをXML化するために使います。
+    /// </summary>
     [Serializable]
     [XmlRoot("TurnData")]
     public class XmlTurnData
@@ -44,6 +47,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
         }
 
+        /// <summary>
+        /// XmlTurnData を指定します。
+        /// </summary>
+        /// <param name="turnData">対象のターンデータ</param>
         public XmlTurnData(TurnData turnData)
         {
             Agents = new Agent[4];
