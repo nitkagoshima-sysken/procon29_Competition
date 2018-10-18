@@ -50,17 +50,17 @@
             this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BotConsoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TimeMeasurementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TrumpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PracticeModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ProductionModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.CellInformationToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.AreaToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.TrumpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -292,6 +292,13 @@
             this.TimeMeasurementToolStripMenuItem.Text = "処理時間計測";
             this.TimeMeasurementToolStripMenuItem.Click += new System.EventHandler(this.TimeMeasurementToolStripMenuItem_Click);
             // 
+            // TrumpToolStripMenuItem
+            // 
+            this.TrumpToolStripMenuItem.Name = "TrumpToolStripMenuItem";
+            this.TrumpToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.TrumpToolStripMenuItem.Text = "トランプ";
+            this.TrumpToolStripMenuItem.Click += new System.EventHandler(this.TrumpToolStripMenuItem_Click);
+            // 
             // ModeToolStripMenuItem
             // 
             this.ModeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -304,14 +311,14 @@
             // PracticeModeToolStripMenuItem
             // 
             this.PracticeModeToolStripMenuItem.Name = "PracticeModeToolStripMenuItem";
-            this.PracticeModeToolStripMenuItem.Size = new System.Drawing.Size(161, 28);
+            this.PracticeModeToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
             this.PracticeModeToolStripMenuItem.Text = "練習モード";
             this.PracticeModeToolStripMenuItem.Click += new System.EventHandler(this.PracticeModeToolStripMenuItem_Click);
             // 
             // ProductionModeToolStripMenuItem
             // 
             this.ProductionModeToolStripMenuItem.Name = "ProductionModeToolStripMenuItem";
-            this.ProductionModeToolStripMenuItem.Size = new System.Drawing.Size(161, 28);
+            this.ProductionModeToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
             this.ProductionModeToolStripMenuItem.Text = "本番モード";
             this.ProductionModeToolStripMenuItem.Click += new System.EventHandler(this.ProductionModeToolStripMenuItem_Click);
             // 
@@ -321,7 +328,7 @@
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBar1,
-            this.toolStripStatusLabel1});
+            this.CellInformationToolStripStatusLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 429);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(782, 24);
@@ -335,11 +342,11 @@
             // 
             // toolStripStatusLabel1
             // 
-            this.toolStripStatusLabel1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolStripStatusLabel1.ForeColor = System.Drawing.Color.LightGray;
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(80, 19);
-            this.toolStripStatusLabel1.Text = "{} Point:";
+            this.CellInformationToolStripStatusLabel.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CellInformationToolStripStatusLabel.ForeColor = System.Drawing.Color.LightGray;
+            this.CellInformationToolStripStatusLabel.Name = "toolStripStatusLabel1";
+            this.CellInformationToolStripStatusLabel.Size = new System.Drawing.Size(80, 19);
+            this.CellInformationToolStripStatusLabel.Text = "{} Point:";
             // 
             // openFileDialog1
             // 
@@ -363,13 +370,6 @@
             this.AreaToolStripComboBox.Size = new System.Drawing.Size(121, 31);
             this.AreaToolStripComboBox.SelectedIndexChanged += new System.EventHandler(this.AreaToolStripComboBox_SelectedIndexChanged);
             // 
-            // TrumpToolStripMenuItem
-            // 
-            this.TrumpToolStripMenuItem.Name = "TrumpToolStripMenuItem";
-            this.TrumpToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
-            this.TrumpToolStripMenuItem.Text = "トランプ";
-            this.TrumpToolStripMenuItem.Click += new System.EventHandler(this.TrumpToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -386,6 +386,7 @@
             this.Name = "MainForm";
             this.Opacity = 0.95D;
             this.Text = "Procon29 Visualizar";
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseMove);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -413,7 +414,7 @@
         private System.Windows.Forms.ToolStripMenuItem ViewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OpenToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel CellInformationToolStripStatusLabel;
         private System.Windows.Forms.ToolStripMenuItem CreateNewToolStripMenuItem;
         private System.Windows.Forms.Button TurnEndButton;
         private System.Windows.Forms.ToolStripMenuItem UndoToolStripMenuItem;

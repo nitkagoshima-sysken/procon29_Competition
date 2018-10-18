@@ -99,27 +99,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// QRコードには自分のチームの位置情報しか分からないため、
-        /// 敵の位置情報を自分の位置から補完します。
-        /// </summary>
-        private void ComplementEnemysPosition()
-        {
-            PointMapCheck();
-            if (Field.IsVerticallySymmetrical)
-            {
-                Agents[Team.B, AgentNumber.One].Position = Field.FlipVertical(Agents[Team.A, AgentNumber.One].Position);
-                Agents[Team.B, AgentNumber.Two].Position = Field.FlipVertical(Agents[Team.A, AgentNumber.Two].Position);
-            }
-            else if (Field.IsHorizontallySymmetrical)
-            {
-                Agents[Team.B, AgentNumber.One].Position = Field.FlipHorizontal(Agents[Team.A, AgentNumber.One].Position);
-                Agents[Team.B, AgentNumber.Two].Position = Field.FlipHorizontal(Agents[Team.A, AgentNumber.Two].Position);
-            }
-            PutTile(Team.B, AgentNumber.One);
-            PutTile(Team.B, AgentNumber.Two);
-        }
-
-        /// <summary>
         /// フィールドの初期化をします。
         /// </summary>
         /// <param name="point"></param>
@@ -149,9 +128,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// そのフィールドが塗れるか判定します。
         /// </summary>
         /// <param name="team">対象となるチーム</param>
-        /// <param name="point">対象となるフィールド</param>
+        /// <param name="coordinate">対象となるフィールド</param>
         /// <returns>そのフィールドが塗れるなら真、そうでなければ偽が返ってきます。</returns>
-        bool IsFillable(Team team, Coordinate point) => 0 <= point.X && point.X < Field.Width && 0 <= point.Y && point.Y < Field.Height && !Field[point.X, point.Y].IsTileOn[team];
+        bool IsFillable(Team team, Coordinate coordinate) => Field.CellExist(coordinate) && !Field[coordinate].IsTileOn[team];
 
         /// <summary>
         /// 指定したフィールドを基準にIsEnclosedをfalseで塗りつぶします。
