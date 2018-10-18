@@ -1,4 +1,6 @@
-﻿using System;
+﻿//上下対象にスポーンすると、動きがクソなdaikon_botです。
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
