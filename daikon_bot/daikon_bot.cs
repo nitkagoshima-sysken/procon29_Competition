@@ -10,8 +10,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
     public class daikon_bot : Bot.Bot
     {
         public daikon_bot() : base() { }
-
-        static int i = 0;
+        
         static int count1 = 0;
         static int count2 = 0;
         static int count3 = 0;//bot_1
@@ -36,7 +35,6 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
             Arrow num2 = Arrow.Down;
             Coordinate des1 = new Coordinate(0, 0);
             Coordinate des2 = new Coordinate(0, 0);
-            int on = 0;
             int c1 = Calc.Agents[OurTeam, AgentNumber.One].Position.ChebyshevDistance(new Coordinate(0, 0));
             int c2 = Calc.Agents[OurTeam, AgentNumber.One].Position.ChebyshevDistance(new Coordinate((Calc.Field.Width - 1), 0));
             int c3 = Calc.Agents[OurTeam, AgentNumber.One].Position.ChebyshevDistance(new Coordinate((Calc.Field.Width - 1), (Calc.Field.Height - 1)));
@@ -58,11 +56,12 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
             int maxpoint2 = -15;
             int j1 = 0;
             int j2 = 0;
+            int i = 0;
 
 
             //========================================================================================角にたどり着くまで========================================================================================================
 
-            if (decide == 0)
+          if (decide == 0)
             {
                 a = 0;
                 b = (int)Calc.Field.Height - 1;
@@ -220,7 +219,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                                 edge1--;
                             }
                         }
-                        if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).X == (Calc.Field.Width / 2))
+                        if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).X == ((Calc.Field.Width+1) / 2))
                         {
                             count3++;
                         }
@@ -255,7 +254,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                             {
                                 if (ud1 % 2 == 1)
                                 {
-                                    if (turn1 % 2 == i)
+                                    if (turn1 % 2 == 1)
                                     {
                                         num1 = Arrow.DownRight;
                                     }
@@ -281,7 +280,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                                 edge1--;
                             }
                         }
-                        if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).X == (Calc.Field.Width / 2))
+                        if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).X == ((Calc.Field.Width+1) / 2))
                         {
                             count3++;
                         }
@@ -340,7 +339,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                                 edge1--;
                             }
                         }
-                        if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).X == (Calc.Field.Width / 2))
+                        if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).X == ((Calc.Field.Width-1) / 2))
                         {
                             count3++;
                         }
@@ -375,7 +374,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                             {
                                 if (ud1 % 2 == 1)
                                 {
-                                    if (turn1 % 2 == i)
+                                    if (turn1 % 2 == 1)
                                     {
                                         num1 = Arrow.DownLeft;
                                     }
@@ -401,7 +400,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                                 edge1--;
                             }
                         }
-                        if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).X == (Calc.Field.Width / 2))
+                        if ((Calc.Agents[OurTeam, AgentNumber.One].Position + num1).X == ((Calc.Field.Width-1) / 2))
                         {
                             count3++;
                         }
@@ -418,12 +417,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                 {
                     ori1 = (Arrow)i;
                     
-                    if (0 > (Calc.Agents[OurTeam, AgentNumber.One].Position + ori1).X && (Calc.Agents[OurTeam, AgentNumber.One].Position + ori1).X >= Calc.Field.Width && 0 > (Calc.Agents[OurTeam, AgentNumber.One].Position + ori1).Y && (Calc.Agents[OurTeam, AgentNumber.One].Position + ori1).Y >= Calc.Field.Height)
-                    {
-                        Log.WriteLine("out of field0");
-                        continue;
-                    }
-                    else if (Calc.Field[Calc.Agents[OurTeam, AgentNumber.One].Position + ori1].IsTileOn[OurTeam.Opponent()])
+                    if (Calc.Field.CellExist(Calc.Agents[OurTeam, AgentNumber.One].Position + ori1) && Calc.Field[Calc.Agents[OurTeam, AgentNumber.One].Position + ori1].Point < 0 && Calc.Field[Calc.Agents[OurTeam, AgentNumber.One].Position + ori1].IsTileOn[OurTeam.Opponent()])
                     {
                         Log.WriteLine("there are opponent");
                         num1 = ori1;
@@ -440,12 +434,8 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                     for (i = 0; i <= 7; i++)
                     {
                         ori1 = (Arrow)i;
-                        if (0 > (Calc.Agents[OurTeam, AgentNumber.One].Position + ori1).X && (Calc.Agents[OurTeam, AgentNumber.One].Position + ori1).X >= Calc.Field.Width && 0 > (Calc.Agents[OurTeam, AgentNumber.One].Position + ori1).Y && (Calc.Agents[OurTeam, AgentNumber.One].Position + ori1).Y >= Calc.Field.Height)
-                        {
-                            Log.WriteLine("out of field1");
-                            continue;
-                        }
-                        else
+                        
+                        if (Calc.Field.CellExist(Calc.Agents[OurTeam, AgentNumber.One].Position + ori1) && !Calc.Field[Calc.Agents[OurTeam, AgentNumber.One].Position + ori1].IsTileOn[OurTeam])
                         {
                             point[i] = Calc.Field[Calc.Agents[OurTeam, AgentNumber.One].Position + ori1].Point;
                             Log.WriteLine("get point");
@@ -457,12 +447,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                     for (i=0; i<=7; i++)
                     {
                         ori1 = (Arrow)i;
-                        if (Calc.Field[Calc.Agents[OurTeam, AgentNumber.One].Position + ori1].IsTileOn[OurTeam] || (0 > (Calc.Agents[OurTeam, AgentNumber.One].Position + ori1).X && (Calc.Agents[OurTeam, AgentNumber.One].Position + ori1).X >= Calc.Field.Width && 0 > (Calc.Agents[OurTeam, AgentNumber.One].Position + ori1).Y && (Calc.Agents[OurTeam, AgentNumber.One].Position + ori1).Y >= Calc.Field.Height))
-                        {
-                            Log.WriteLine("out of field2");
-                            continue;
-                        }
-                        else
+                        if ((Calc.Field.CellExist(Calc.Agents[OurTeam, AgentNumber.One].Position + ori1) && !Calc.Field[Calc.Agents[OurTeam, AgentNumber.One].Position + ori1].IsTileOn[OurTeam]))
                         {
                             Log.WriteLine("dainyuu point[i]");
                             maxpoint1 = (maxpoint1 > point[i]) ? maxpoint1 : point[i];
@@ -472,12 +457,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                     for (i = 0; i <= 7; i++)
                     {
                         ori1 = (Arrow)i;
-                        if (Calc.Field[Calc.Agents[OurTeam, AgentNumber.One].Position + ori1].IsTileOn[OurTeam] || (0 > (Calc.Agents[OurTeam, AgentNumber.One].Position + ori1).X && (Calc.Agents[OurTeam, AgentNumber.One].Position + ori1).X >= Calc.Field.Width && 0 > (Calc.Agents[OurTeam, AgentNumber.One].Position + ori1).Y && (Calc.Agents[OurTeam, AgentNumber.One].Position + ori1).Y >= Calc.Field.Height))
-                        {
-                            Log.WriteLine("team's cell or out of field");
-                            continue;
-                        }
-                        else
+                        if (Calc.Field.CellExist(Calc.Agents[OurTeam, AgentNumber.One].Position + ori1) && !Calc.Field[Calc.Agents[OurTeam, AgentNumber.One].Position + ori1].IsTileOn[OurTeam])
                         {
                             if (maxpoint1 == point[i])
                             {
@@ -640,7 +620,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                                 edge2--;
                             }
                         }
-                        if ((Calc.Agents[OurTeam, AgentNumber.Two].Position + num2).X == (Calc.Field.Width / 2))
+                        if ((Calc.Agents[OurTeam, AgentNumber.Two].Position + num2).X == ((Calc.Field.Width+1) / 2))
                         {
                             count4++;
                         }
@@ -675,7 +655,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                             {
                                 if (ud2 % 2 == 1)
                                 {
-                                    if (turn2 % 2 == i)
+                                    if (turn2 % 2 == 1)
                                     {
                                         num2 = Arrow.DownRight;
                                     }
@@ -701,7 +681,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                                 edge2--;
                             }
                         }
-                        if ((Calc.Agents[OurTeam, AgentNumber.Two].Position + num2).X == (Calc.Field.Width / 2))
+                        if ((Calc.Agents[OurTeam, AgentNumber.Two].Position + num2).X == ((Calc.Field.Width+1) / 2))
                         {
                             count4++;
                         }
@@ -760,7 +740,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                                 edge2--;
                             }
                         }
-                        if ((Calc.Agents[OurTeam, AgentNumber.Two].Position + num2).X == (Calc.Field.Width / 2))
+                        if ((Calc.Agents[OurTeam, AgentNumber.Two].Position + num2).X == ((Calc.Field.Width-1) / 2))
                         {
                             count4++;
                         }
@@ -795,7 +775,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                             {
                                 if (ud2 % 2 == 1)
                                 {
-                                    if (turn2 % 2 == i)
+                                    if (turn2 % 2 == 1)
                                     {
                                         num2 = Arrow.DownLeft;
                                     }
@@ -821,7 +801,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                                 edge2--;
                             }
                         }
-                        if ((Calc.Agents[OurTeam, AgentNumber.Two].Position + num2).X == (Calc.Field.Width / 2))
+                        if ((Calc.Agents[OurTeam, AgentNumber.Two].Position + num2).X == ((Calc.Field.Width-1) / 2))
                         {
                             count4++;
                         }
@@ -838,12 +818,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                 {
                     ori2 = (Arrow)i;
 
-                    if (0 > (Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2).X && (Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2).X >= Calc.Field.Width && 0 > (Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2).Y && (Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2).Y >= Calc.Field.Height)
-                    {
-                        Log.WriteLine("2out of field0");
-                        continue;
-                    }
-                    else if (Calc.Field[Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2].IsTileOn[OurTeam.Opponent()])
+                    if (Calc.Field.CellExist(Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2) && Calc.Field[Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2].Point >= 0 && Calc.Field[Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2].IsTileOn[OurTeam.Opponent()])
                     {
                         Log.WriteLine("2there are opponent");
                         num2 = ori2;
@@ -860,12 +835,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                     for (i = 0; i <= 7; i++)
                     {
                         ori2 = (Arrow)i;
-                        if (0 > (Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2).X && (Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2).X >= Calc.Field.Width && 0 > (Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2).Y && (Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2).Y >= Calc.Field.Height)
-                        {
-                            Log.WriteLine("2out of field2");
-                            continue;
-                        }
-                        else
+                        if (Calc.Field.CellExist(Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2) && !Calc.Field[Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2].IsTileOn[OurTeam])
                         {
                             Log.WriteLine("2get point");
                             point[i] = Calc.Field[Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2].Point;
@@ -877,12 +847,8 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                     for (i = 0; i <= 7; i++)
                     {
                         ori2 = (Arrow)i;
-                        if (Calc.Field[Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2].IsTileOn[OurTeam] || (0 > (Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2).X && (Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2).X >= Calc.Field.Width && 0 > (Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2).Y && (Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2).Y >= Calc.Field.Height))
-                        {
-                            Log.WriteLine("2out of field2");
-                            continue;
-                        }
-                        else
+
+                        if (Calc.Field.CellExist(Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2) && !Calc.Field[Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2].IsTileOn[OurTeam])
                         {
                             Log.WriteLine("2dainyuu point");
                             maxpoint2 = (maxpoint2 > point[i]) ? maxpoint2 : point[i];
@@ -892,12 +858,7 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                     for (i = 0; i <= 7; i++)
                     {
                         ori2 = (Arrow)i;
-                        if (Calc.Field[Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2].IsTileOn[OurTeam] || (0 > (Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2).X && (Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2).X >= Calc.Field.Width && 0 > (Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2).Y && (Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2).Y >= Calc.Field.Height))
-                        {
-                            Log.WriteLine("2there are our team or out of field");
-                            continue;
-                        }
-                        else
+                        if (Calc.Field.CellExist(Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2) && !Calc.Field[Calc.Agents[OurTeam, AgentNumber.Two].Position + ori2].IsTileOn[OurTeam])
                         {
                             if (maxpoint2 == point[i])
                             {
