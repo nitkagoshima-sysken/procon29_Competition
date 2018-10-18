@@ -636,7 +636,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public Calc Simulate(AgentsActivityData action)
         {
             var c = new Calc(this);
-            c.MoveAgent(action.DeepClone());
+            c.MoveAgent(new AgentsActivityData(action));
             return c;
         }
 
@@ -649,7 +649,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public Calc Simulate(Team team, AgentActivityData[] action)
         {
             var c = new Calc(this);
-            c.MoveAgent(team, action.DeepClone());
+            c.MoveAgent(team, new AgentActivityData[2] { new AgentActivityData(action[0]), new AgentActivityData(action[1]) });
             return c;
         }
 
@@ -663,7 +663,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public Calc Simulate(Team team, AgentNumber agentNumber, AgentActivityData action)
         {
             var c = new Calc(this);
-            c.MoveAgent(team, agentNumber, action.DeepClone());
+            c.MoveAgent(team, agentNumber, new AgentActivityData(action));
             return c;
         }
     }
