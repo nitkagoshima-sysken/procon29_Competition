@@ -710,9 +710,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // 司令塔の邪魔にならないように、エージェントの真上のマスをマウスが通ったときに、
             // フルーツフェアリーたちの魔法で透明になるという設定
             ImageAttributes imageAttributes;
-            if (cursor.X == Calc.Agents[agent.Team, agent.AgentNumber].Position.X && (
-                cursor.Y == Calc.Agents[agent.Team, agent.AgentNumber].Position.Y - 1 ||
-                cursor.Y == Calc.Agents[agent.Team, agent.AgentNumber].Position.Y))
+            if (cursor.X == agent.Position.X && (
+                cursor.Y == agent.Position.Y - 1 ||
+                cursor.Y == agent.Position.Y))
             {
                 imageAttributes = AgentTransparentImageAttributes;
             }
@@ -744,15 +744,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         protected void DrawAgent(Graphics graphics, Agent agent, ImageAttributes imageAttributes)
         {
             float f = Bitmap.Height / 3000.0f;
-            var bmp = (Calc.Agents[agent.Team, agent.AgentNumber].Position.X > Calc.Field.Width / 2)
-                ? AgentBitmap[(int)agent.Team, Direction.Rightward]
-                : AgentBitmap[(int)agent.Team, Direction.Leftward];
+            var bmp = (agent.Position.X > Calc.Field.Width / 2)
+                ? AgentBitmap[(int)agent.Team, Direction.Leftward]
+                : AgentBitmap[(int)agent.Team, Direction.Rightward];
             graphics.DrawImage(
                 image: bmp,
                 destRect: new Rectangle
                 {
-                    X = (int)(Calc.Agents[agent.Team, agent.AgentNumber].Position.X * CellWidth),
-                    Y = (int)(Calc.Agents[agent.Team, agent.AgentNumber].Position.Y * CellHeight - (bmp.Height * f * 0.55f)),
+                    X = (int)(agent.Position.X * CellWidth),
+                    Y = (int)(agent.Position.Y * CellHeight - (bmp.Height * f * 0.55f)),
                     Width = (int)(bmp.Width * f),
                     Height = (int)(bmp.Height * f)
                 },
