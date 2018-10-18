@@ -318,8 +318,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="e"></param>
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter) TurnEnd();
-            Show.Showing();
+            if (e.KeyCode == Keys.Enter)
+            {
+                TurnEnd();
+                Show.Showing();
+            }
         }
 
         /// <summary>
