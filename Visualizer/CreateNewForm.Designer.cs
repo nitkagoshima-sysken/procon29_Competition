@@ -515,9 +515,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             this.MaxTurnTextBox.Name = "MaxTurnTextBox";
             this.MaxTurnTextBox.Size = new System.Drawing.Size(379, 30);
             this.MaxTurnTextBox.TabIndex = 5;
-            this.MaxTurnTextBox.Text = "10";
+            this.MaxTurnTextBox.Text = "40";
             this.MaxTurnTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MaxTurnTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MaxTurnTextBox_KeyPress);
             // 
             // tableLayoutPanel4
             // 

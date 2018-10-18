@@ -52,6 +52,21 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// Calcを初期化します。
         /// </summary>
         /// <param name="calc"></param>
+        public Calc(Calc calc)
+        {
+            MaxTurn = calc.MaxTurn;
+            Turn = calc.Turn;
+            foreach (var item in calc.History)
+            {
+                History.Add(new TurnData(item));
+            }
+            Agents = History[Turn].Agents;
+        }
+
+        /// <summary>
+        /// Calcを初期化します。
+        /// </summary>
+        /// <param name="calc"></param>
         public Calc(XmlCalc calc)
         {
             MaxTurn = calc.MaxTurn;
@@ -84,27 +99,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// QRコードには自分のチームの位置情報しか分からないため、
-        /// 敵の位置情報を自分の位置から補完します。
-        /// </summary>
-        private void ComplementEnemysPosition()
-        {
-            PointMapCheck();
-            if (Field.IsVerticallySymmetrical)
-            {
-                Agents[Team.B, AgentNumber.One].Position = Field.FlipVertical(Agents[Team.A, AgentNumber.One].Position);
-                Agents[Team.B, AgentNumber.Two].Position = Field.FlipVertical(Agents[Team.A, AgentNumber.Two].Position);
-            }
-            else if (Field.IsHorizontallySymmetrical)
-            {
-                Agents[Team.B, AgentNumber.One].Position = Field.FlipHorizontal(Agents[Team.A, AgentNumber.One].Position);
-                Agents[Team.B, AgentNumber.Two].Position = Field.FlipHorizontal(Agents[Team.A, AgentNumber.Two].Position);
-            }
-            PutTile(Team.B, AgentNumber.One);
-            PutTile(Team.B, AgentNumber.Two);
-        }
-
-        /// <summary>
         /// フィールドの初期化をします。
         /// </summary>
         /// <param name="point"></param>
@@ -134,9 +128,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// そのフィールドが塗れるか判定します。
         /// </summary>
         /// <param name="team">対象となるチーム</param>
-        /// <param name="point">対象となるフィールド</param>
+        /// <param name="coordinate">対象となるフィールド</param>
         /// <returns>そのフィールドが塗れるなら真、そうでなければ偽が返ってきます。</returns>
-        bool IsFillable(Team team, Coordinate point) => 0 <= point.X && point.X < Field.Width && 0 <= point.Y && point.Y < Field.Height && !Field[point.X, point.Y].IsTileOn[team];
+        bool IsFillable(Team team, Coordinate coordinate) => Field.CellExist(coordinate) && !Field[coordinate].IsTileOn[team];
 
         /// <summary>
         /// 指定したフィールドを基準にIsEnclosedをfalseで塗りつぶします。
@@ -369,7 +363,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="where">移動する場所</param> 
         public void MoveAgent(Team team, AgentNumber agent, Coordinate where)
         {
-
             bool movable = false;
             movable = Field[where.X, where.Y].IsTileOn[team.Opponent()];
             if (movable)
@@ -390,6 +383,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 if (item.IsTileOn[Team.A]) item.IsEnclosed[Team.A] = false;
                 if (item.IsTileOn[Team.B]) item.IsEnclosed[Team.B] = false;
             }
+        }
+
+        /// <summary>
+        /// 再計算します。
+        /// </summary>
+        public void Recalculation()
+        {
+            CheckEnclosedArea();
         }
 
         void CheckAgentActivityData(AgentsActivityData agentsActivityData)
@@ -569,8 +570,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 {
                     foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                     {
-                        History[Turn - 1].AgentActivityDatas[team, agent].AgentStatusData = agentsActivityData[team, agent].AgentStatusData;
-                        History[Turn - 1].AgentActivityDatas[team, agent].Destination = agentsActivityData[team, agent].Destination;
+                        History[Turn - 1].AgentsActivityData[team, agent].AgentStatusData = agentsActivityData[team, agent].AgentStatusData;
+                        History[Turn - 1].AgentsActivityData[team, agent].Destination = agentsActivityData[team, agent].Destination;
                     }
                 }
                 foreach (Team team in Enum.GetValues(typeof(Team)))
@@ -634,8 +635,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
         public Calc Simulate(AgentsActivityData action)
         {
-            var c = new Calc(new XmlCalc(this).DeepClone());
-            c.MoveAgent(action.DeepClone());
+            var c = new Calc(this);
+            c.MoveAgent(new AgentsActivityData(action));
             return c;
         }
 
@@ -647,8 +648,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
         public Calc Simulate(Team team, AgentActivityData[] action)
         {
-            var c = new Calc(new XmlCalc(this).DeepClone());
-            c.MoveAgent(team, action.DeepClone());
+            var c = new Calc(this);
+            c.MoveAgent(team, new AgentActivityData[2] { new AgentActivityData(action[0]), new AgentActivityData(action[1]) });
             return c;
         }
 
@@ -661,8 +662,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
         public Calc Simulate(Team team, AgentNumber agentNumber, AgentActivityData action)
         {
-            var c = new Calc(new XmlCalc(this).DeepClone());
-            c.MoveAgent(team, agentNumber, action.DeepClone());
+            var c = new Calc(this);
+            c.MoveAgent(team, agentNumber, new AgentActivityData(action));
             return c;
         }
     }

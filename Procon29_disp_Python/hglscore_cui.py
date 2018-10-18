@@ -23,11 +23,10 @@ def LearnProcess(FieldAgent, start, log):
     controler2 = pro29NN.Bot.ProconNNControl(TempData['agentdatablue'].AllPoint, log, network2, blue_flags)
     score = Gaming(controler, controler2, red_flags, blue_flags, TempData)
     paramsScore[start] = [network2.params, score]
-    log.LogWrite('open pickle file params{}\n'.format(start), logtype=pro29NN.LEARN)
     return paramsScore
 
 def Gaming(con, con2, flag1, flag2, TempData):
-    for i in range(random.randint(100, 150)):
+    for i in range(random.randint(40, 80)):
         con.NextSet(TempData['agentred'], TempData['agentblue'], TempData['agentdatared'], TempData['agentdatablue'], logout=False)
         con2.NextSet(TempData['agentblue'], TempData['agentred'], TempData['agentdatablue'], TempData['agentdatared'], logout=False)
         for i in range(2):

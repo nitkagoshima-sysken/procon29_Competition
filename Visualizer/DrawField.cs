@@ -120,14 +120,18 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // ResourceManagerを取得する
             System.Resources.ResourceManager resource = Properties.Resources.ResourceManager;
             // 画像ファイルを読み込んで、Imageオブジェクトとして取得する
-            AgentBitmap = new CharactorBitmap(2);
-            AgentBitmap[0, Direction.Rightward] = (Bitmap)resource.GetObject("Orange");
-            AgentBitmap[1, Direction.Rightward] = (Bitmap)resource.GetObject("Lime");
-            FruitFairyBitmap = new CharactorBitmap(4);
-            FruitFairyBitmap[0, Direction.Leftward] = (Bitmap)resource.GetObject("Strawberry");
-            FruitFairyBitmap[1, Direction.Leftward] = (Bitmap)resource.GetObject("Apple");
-            FruitFairyBitmap[2, Direction.Leftward] = (Bitmap)resource.GetObject("Kiwi");
-            FruitFairyBitmap[3, Direction.Leftward] = (Bitmap)resource.GetObject("Muscat");
+            AgentBitmap = new CharactorBitmap(2)
+            {
+                [0, Direction.Rightward] = (Bitmap)resource.GetObject("Orange"),
+                [1, Direction.Rightward] = (Bitmap)resource.GetObject("Lime")
+            };
+            FruitFairyBitmap = new CharactorBitmap(4)
+            {
+                [0, Direction.Leftward] = (Bitmap)resource.GetObject("Strawberry"),
+                [1, Direction.Leftward] = (Bitmap)resource.GetObject("Apple"),
+                [2, Direction.Leftward] = (Bitmap)resource.GetObject("Kiwi"),
+                [3, Direction.Leftward] = (Bitmap)resource.GetObject("Muscat")
+            };
             // 反転作業
             for (int i = 0; i < 2; i++)
             {
@@ -547,7 +551,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     {
                         float f = Bitmap.Height / 12000.0f;
 
-                        var bmp = (Calc.History[turn + 1].AgentActivityDatas[team, agent].Destination.X < Calc.Field.Width / 2)
+                        var bmp = (Calc.History[turn + 1].AgentsActivityData[team, agent].Destination.X < Calc.Field.Width / 2)
                             ? FruitFairyBitmap[(int)team * 2 + (int)agent, Direction.Rightward]
                             : FruitFairyBitmap[(int)team * 2 + (int)agent, Direction.Leftward];
 
@@ -555,8 +559,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                             image: bmp,
                             destRect: new Rectangle
                             {
-                                X = (int)((Calc.History[turn + 1].AgentActivityDatas[team, agent].Destination.X + 0.5f) * CellWidth),
-                                Y = (int)((Calc.History[turn + 1].AgentActivityDatas[team, agent].Destination.Y + 0.0f) * CellHeight),
+                                X = (int)((Calc.History[turn + 1].AgentsActivityData[team, agent].Destination.X + 0.5f) * CellWidth),
+                                Y = (int)((Calc.History[turn + 1].AgentsActivityData[team, agent].Destination.Y + 0.0f) * CellHeight),
                                 Width = (int)(bmp.Width * f),
                                 Height = (int)(bmp.Height * f)
                             },
@@ -706,9 +710,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // 司令塔の邪魔にならないように、エージェントの真上のマスをマウスが通ったときに、
             // フルーツフェアリーたちの魔法で透明になるという設定
             ImageAttributes imageAttributes;
-            if (cursor.X == Calc.Agents[agent.Team, agent.AgentNumber].Position.X && (
-                cursor.Y == Calc.Agents[agent.Team, agent.AgentNumber].Position.Y - 1 ||
-                cursor.Y == Calc.Agents[agent.Team, agent.AgentNumber].Position.Y))
+            if (cursor.X == agent.Position.X && (
+                cursor.Y == agent.Position.Y - 1 ||
+                cursor.Y == agent.Position.Y))
             {
                 imageAttributes = AgentTransparentImageAttributes;
             }
@@ -740,15 +744,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         protected void DrawAgent(Graphics graphics, Agent agent, ImageAttributes imageAttributes)
         {
             float f = Bitmap.Height / 3000.0f;
-            var bmp = (Calc.Agents[agent.Team, agent.AgentNumber].Position.X > Calc.Field.Width / 2)
-                ? AgentBitmap[(int)agent.Team, Direction.Rightward]
-                : AgentBitmap[(int)agent.Team, Direction.Leftward];
+            var bmp = (agent.Position.X > Calc.Field.Width / 2)
+                ? AgentBitmap[(int)agent.Team, Direction.Leftward]
+                : AgentBitmap[(int)agent.Team, Direction.Rightward];
             graphics.DrawImage(
                 image: bmp,
                 destRect: new Rectangle
                 {
-                    X = (int)(Calc.Agents[agent.Team, agent.AgentNumber].Position.X * CellWidth),
-                    Y = (int)(Calc.Agents[agent.Team, agent.AgentNumber].Position.Y * CellHeight - (bmp.Height * f * 0.55f)),
+                    X = (int)(agent.Position.X * CellWidth),
+                    Y = (int)(agent.Position.Y * CellHeight - (bmp.Height * f * 0.55f)),
                     Width = (int)(bmp.Width * f),
                     Height = (int)(bmp.Height * f)
                 },
@@ -856,9 +860,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public void DrawArrow(Team team, Coordinate from, Coordinate to)
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
-            Pen pen = new Pen(Color.Red, 8);
-            pen.DashStyle = DashStyle.Dot;
-            pen.EndCap = LineCap.ArrowAnchor;
+            Pen pen = new Pen(Color.Red, 8)
+            {
+                DashStyle = DashStyle.Dot,
+                EndCap = LineCap.ArrowAnchor
+            };
             graphics.DrawLine(
                 pen,
                 (int)((from.X + 0.5) * CellWidth),
