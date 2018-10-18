@@ -1,4 +1,4 @@
-﻿//上下対象にスポーンすると、動きがクソなdaikon_botです。
+﻿//上下対称にスポーンすると、動きがクソなdaikon_botです。
 
 using System;
 using System.Collections.Generic;
