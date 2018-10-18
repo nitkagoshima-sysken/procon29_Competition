@@ -7,7 +7,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     class Show
     {
-        public AgentsActivityData agentActivityData = new AgentsActivityData();
+        public AgentsActivityData AgentsActivityData = new AgentsActivityData();
 
         /// <summary>
         /// 描画するビットマップを指定します。
@@ -81,7 +81,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                 {
-                    agentActivityData[team, agent] = new AgentActivityData(AgentStatusCode.RequestMovement, Calc.Agents[team, agent].Position);
+                    AgentsActivityData[team, agent] = new AgentActivityData(AgentStatusCode.RequestMovement, Calc.Agents[team, agent].Position);
                 }
             }
 
@@ -115,7 +115,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                 {
-                    agentActivityData[team, agent] = new AgentActivityData(AgentStatusCode.RequestMovement, Calc.Agents[team, agent].Position);
+                    AgentsActivityData[team, agent] = new AgentActivityData(AgentStatusCode.RequestMovement, Calc.Agents[team, agent].Position);
                 }
             }
 
@@ -162,7 +162,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             DrawField = new DrawField(Calc, canvas)
             {
-                AgentsActivityData = agentActivityData
+                AgentsActivityData = AgentsActivityData
             };
             DrawField.Draw(cursor);
             precursor = cursor;
@@ -209,7 +209,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             DrawField = new DrawField(Calc, canvas)
             {
-                AgentsActivityData = agentActivityData
+                AgentsActivityData = AgentsActivityData
             };
             DrawField.Draw(turn, cursor);
             precursor = cursor;
@@ -334,15 +334,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public void ClickShow()
         {
             ClickField.Click();
-            agentActivityData = ClickField.AgentsActivityData;
+            AgentsActivityData = ClickField.AgentsActivityData;
         }
 
         public void KeyDownShow()
         {
-            var next = agentActivityData[SelectedTeam, SelecetedAgent];
+            var next = AgentsActivityData[SelectedTeam, SelecetedAgent];
 
             if (Calc.Field[next.Destination.X, next.Destination.Y].IsTileOn[((SelectedTeam == Team.A) ? Team.B : Team.A)])
-                agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
+                AgentsActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
             else if (Calc.Field[next.Destination.X, next.Destination.Y].IsTileOn[SelectedTeam])
             {
                 //メッセージボックスを表示する
@@ -352,17 +352,17 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 {
                     //「はい」が選択された時
                     Console.WriteLine("「はい」が選択されました");
-                    agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOurTile;
+                    AgentsActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOurTile;
                 }
                 else if (result == DialogResult.No)
                 {
                     //「いいえ」が選択された時
                     Console.WriteLine("「いいえ」が選択されました");
-                    agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
+                    AgentsActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
                 }
             }
             else
-                agentActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
+                AgentsActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
         }
 
         /// <summary>
