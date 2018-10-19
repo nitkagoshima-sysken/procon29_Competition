@@ -24,18 +24,15 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
         private Agent agentOne;
         private Agent agentTwo;
 
-        public override AgentActivityData[] Answer()
+        public override TwoAgentsActivityData Answer()
         {
             isOdd = IsOdd();
             agentOne = Calc.Agents[OurTeam, AgentNumber.One];
             agentTwo = Calc.Agents[OurTeam, AgentNumber.Two];
-            var buff = new TwoAgentsActivityData();
-            var result = new AgentActivityData[2];
+            var result = new TwoAgentsActivityData();
 
-            buff = BestHand(Calc, 2).AgentActivityData;
+            result = BestHand(Calc, 2).AgentActivityData;
 
-            result[(int)AgentNumber.One] = buff[AgentNumber.One];
-            result[(int)AgentNumber.Two] = buff[AgentNumber.Two];
 
             return result;
         }
