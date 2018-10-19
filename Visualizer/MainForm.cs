@@ -105,6 +105,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             FieldDisplay.MouseMove += new MouseEventHandler(FieldDisplay_MouseMove);
             Resize += new System.EventHandler(MainForm_Resize);
+            BotLogForm.FormClosing += BotLogForm_Closing;
 
             Log = new Logger(messageBox);
             var version = System.Diagnostics.FileVersionInfo.GetVersionInfo(
@@ -829,6 +830,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 default:
                     break;
             }
+        }
+
+        private void BotLogForm_Closing(object sender, FormClosingEventArgs e)
+        {
+            BotConsoleToolStripMenuItem.Checked = false;
         }
     }
 }
