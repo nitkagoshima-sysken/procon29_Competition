@@ -67,7 +67,7 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                     }
                     else
                     {
-                        agentActivityData[(int)AgentNumber.Two] = RemoveTile(destinationOne);
+                        agentActivityData[(int)AgentNumber.Two] = RemoveTile(destinationTwo);
                         if (agentActivityData[(int)AgentNumber.Two].AgentStatusData == AgentStatusCode.RequestNotToDoAnything) continue;
                     }
                     var c = calc.Simulate(OurTeam, agentActivityData);
