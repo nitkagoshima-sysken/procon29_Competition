@@ -70,8 +70,9 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                         agentActivityData[(int)AgentNumber.Two] = RemoveTile(destinationOne);
                         if (agentActivityData[(int)AgentNumber.Two].AgentStatusData == AgentStatusCode.RequestNotToDoAnything) continue;
                     }
-                    var c = calc.Simulate(OurTeam, agentActivityData.DeepClone());
+                    var c = calc.Simulate(OurTeam, agentActivityData);
                     Log.Write((c.Field.TotalPoint(OurTeam) - c.Field.TotalPoint(OurTeam.Opponent())).ToString() + ",");
+                    foreach (var item in agentActivityData) item.AgentStatusData.ToRequest();
                     if (depth <= 1)
                     {
                         if (maxpoint < (c.Field.TotalPoint(OurTeam) - c.Field.TotalPoint(OurTeam.Opponent())))
