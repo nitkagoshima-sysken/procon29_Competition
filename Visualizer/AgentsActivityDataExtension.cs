@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
-    static class FourAgentsActivityDataExtension
+    static class AgentsActivityDataExtension
     {
         public static void CheckCollision(this FourAgentsActivityData agentActivityData)
         {
