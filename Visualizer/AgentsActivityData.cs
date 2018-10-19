@@ -11,7 +11,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// エージェントたちの行動データを表します
     /// </summary>
     [Serializable]
-    public class FourAgentsActivityData : IEnumerable<AgentActivityData>
+    public class AgentsActivityData : IEnumerable<AgentActivityData>
     {
         AgentActivityData[,] Array { get; set; } = new AgentActivityData[Enum.GetValues(typeof(Team)).Length, Enum.GetValues(typeof(AgentNumber)).Length];
 
@@ -54,7 +54,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// AgentActivityDatas を初期化します。
         /// </summary>
-        public FourAgentsActivityData()
+        public AgentsActivityData()
         {
             Array[0, 0] = new AgentActivityData();
             Array[0, 1] = new AgentActivityData();
@@ -65,7 +65,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// AgentActivityDatas を初期化します。
         /// </summary>
-        public FourAgentsActivityData(FourAgentsActivityData agentsActivityData)
+        public AgentsActivityData(AgentsActivityData agentsActivityData)
         {
             Array[0, 0] = new AgentActivityData(agentsActivityData[Team.A, AgentNumber.One]);
             Array[0, 1] = new AgentActivityData(agentsActivityData[Team.A, AgentNumber.Two]);
@@ -77,7 +77,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// AgentActivityDatas を初期化します。
         /// </summary>
         /// <param name="agentStatusCode">指定した AgentStatusCode で初期化します。</param>
-        public FourAgentsActivityData(AgentStatusCode agentStatusCode)
+        public AgentsActivityData(AgentStatusCode agentStatusCode)
         {
             Array[0, 0] = new AgentActivityData(agentStatusCode);
             Array[0, 1] = new AgentActivityData(agentStatusCode);

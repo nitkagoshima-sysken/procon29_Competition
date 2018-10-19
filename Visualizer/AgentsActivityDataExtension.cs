@@ -8,7 +8,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     static class AgentsActivityDataExtension
     {
-        public static void CheckCollision(this FourAgentsActivityData agentActivityData)
+        public static void CheckCollision(this AgentsActivityData agentActivityData)
         {
             foreach (Team team in Enum.GetValues(typeof(Team)))
             {

@@ -53,7 +53,7 @@ namespace nitkagoshima_sysken
                 /// </summary>
                 /// <param name="action">どうエージェントが動くか指定します。</param>
                 /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
-                public Calc Simulate(FourAgentsActivityData action)
+                public Calc Simulate(AgentsActivityData action)
                 {
                     var c = new Calc(Calc);
                     c.MoveAgent(action.DeepClone());
