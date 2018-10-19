@@ -11,9 +11,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// エージェントたちの行動データを表します
     /// </summary>
     [Serializable]
-    public class AgentsActivityData : IEnumerable<AgentActivityData>
+    public class TwoAgentsActivityData : IEnumerable<AgentActivityData>
     {
-        AgentActivityData[,] Array { get; set; } = new AgentActivityData[Enum.GetValues(typeof(Team)).Length, Enum.GetValues(typeof(AgentNumber)).Length];
+        AgentActivityData[] Array { get; set; } = new AgentActivityData[Enum.GetValues(typeof(AgentNumber)).Length];
 
         /// <summary>
         /// 列挙します。
@@ -52,49 +52,42 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// AgentActivityDatas を初期化します。
+        /// TwoAgentsActivityData を初期化します。
         /// </summary>
-        public AgentsActivityData()
+        public TwoAgentsActivityData()
         {
-            Array[0, 0] = new AgentActivityData();
-            Array[0, 1] = new AgentActivityData();
-            Array[1, 0] = new AgentActivityData();
-            Array[1, 1] = new AgentActivityData();
+            Array[0] = new AgentActivityData();
+            Array[1] = new AgentActivityData();
         }
 
         /// <summary>
-        /// AgentActivityDatas を初期化します。
+        /// TwoAgentsActivityData を初期化します。
         /// </summary>
-        public AgentsActivityData(AgentsActivityData agentsActivityData)
+        public TwoAgentsActivityData(TwoAgentsActivityData action)
         {
-            Array[0, 0] = new AgentActivityData(agentsActivityData[Team.A, AgentNumber.One]);
-            Array[0, 1] = new AgentActivityData(agentsActivityData[Team.A, AgentNumber.Two]);
-            Array[1, 0] = new AgentActivityData(agentsActivityData[Team.B, AgentNumber.One]);
-            Array[1, 1] = new AgentActivityData(agentsActivityData[Team.B, AgentNumber.Two]);
+            Array[0] = new AgentActivityData(action[AgentNumber.One]);
+            Array[1] = new AgentActivityData(action[AgentNumber.Two]);
         }
 
         /// <summary>
-        /// AgentActivityDatas を初期化します。
+        /// TwoAgentsActivityData を初期化します。
         /// </summary>
         /// <param name="agentStatusCode">指定した AgentStatusCode で初期化します。</param>
-        public AgentsActivityData(AgentStatusCode agentStatusCode)
+        public TwoAgentsActivityData(AgentStatusCode agentStatusCode)
         {
-            Array[0, 0] = new AgentActivityData(agentStatusCode);
-            Array[0, 1] = new AgentActivityData(agentStatusCode);
-            Array[1, 0] = new AgentActivityData(agentStatusCode);
-            Array[1, 1] = new AgentActivityData(agentStatusCode);
+            Array[0] = new AgentActivityData(agentStatusCode);
+            Array[1] = new AgentActivityData(agentStatusCode);
         }
 
         /// <summary>
         /// エージェントアクティビティデータを取得または設定します
         /// </summary>
-        /// <param name="team">対象となる所属チーム</param>
         /// <param name="agent">対象となるエージェント番号</param>
         /// <returns></returns>
-        public AgentActivityData this[Team team, AgentNumber agent]
+        public AgentActivityData this[AgentNumber agent]
         {
-            set { Array[(int)team, (int)agent] = value; }
-            get { return Array[(int)team, (int)agent]; }
+            set { Array[(int)agent] = value; }
+            get { return Array[(int)agent]; }
         }
 
         /// <summary>
