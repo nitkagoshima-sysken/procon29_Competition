@@ -46,7 +46,7 @@ namespace nitkagoshima_sysken
                 /// <summary>
                 /// 答えを渡します。
                 /// </summary>
-                public abstract AgentActivityData[] Answer();
+                public abstract TwoAgentsActivityData Answer();
 
                 /// <summary>
                 /// エージェントを動かしたときに、状態がどう変化するか計算します。
