@@ -7,7 +7,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     class Show
     {
-        public AgentsActivityData AgentsActivityData = new AgentsActivityData();
+        public FourAgentsActivityData AgentsActivityData = new FourAgentsActivityData();
 
         /// <summary>
         /// 描画するビットマップを指定します。

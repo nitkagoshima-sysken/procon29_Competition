@@ -15,7 +15,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントがどこへ行きたいかを設定または取得します。
         /// </summary>
-        public AgentsActivityData AgentsActivityData { get; set; }
+        public FourAgentsActivityData AgentsActivityData { get; set; }
 
         /// <summary>
         /// エージェントの画像を設定または取得します。
