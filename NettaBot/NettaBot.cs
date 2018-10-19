@@ -7,8 +7,8 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
     struct ReturnStruct
     {
         public int point { get; set; }
-        public AgentActivityData[] AgentActivityData {get; set;}
-        public ReturnStruct(int p, AgentActivityData[] agentActivityData)
+        public TwoAgentsActivityData AgentActivityData {get; set;}
+        public ReturnStruct(int p, TwoAgentsActivityData agentActivityData)
         {
             point = p;
             AgentActivityData = agentActivityData;
@@ -29,9 +29,13 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
             isOdd = IsOdd();
             agentOne = Calc.Agents[OurTeam, AgentNumber.One];
             agentTwo = Calc.Agents[OurTeam, AgentNumber.Two];
+            var buff = new TwoAgentsActivityData();
             var result = new AgentActivityData[2];
 
-            result = BestHand(Calc, 2).AgentActivityData;
+            buff = BestHand(Calc, 2).AgentActivityData;
+
+            result[(int)AgentNumber.One] = buff[AgentNumber.One];
+            result[(int)AgentNumber.Two] = buff[AgentNumber.Two];
 
             return result;
         }
@@ -39,8 +43,8 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
         private ReturnStruct BestHand(Calc calc, int depth)
         {
             var maxpoint = int.MinValue;
-            var agentActivityData = new AgentActivityData[2];
-            var result = new AgentActivityData[2];
+            var agentActivityData = new TwoAgentsActivityData();
+            var result = new TwoAgentsActivityData();
             foreach (Arrow arrowOne in Enum.GetValues(typeof(Arrow)))
             {
                 var destinationOne = calc.Agents[OurTeam, AgentNumber.One].Position + arrowOne;
@@ -53,22 +57,22 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                     if (destinationOne == destinationTwo) continue;
                     if ((destinationOne.X + destinationOne.Y) % 2 != 0 == isOdd)
                     {
-                        agentActivityData[(int)AgentNumber.One] = MoveOrRemoveTile(destinationOne);
+                        agentActivityData[AgentNumber.One] = MoveOrRemoveTile(destinationOne);
                     }
                     else
                     {
-                        agentActivityData[(int)AgentNumber.One] = RemoveTile(destinationOne);
-                        if (agentActivityData[(int)AgentNumber.One].AgentStatusData == AgentStatusCode.RequestNotToDoAnything) continue;
+                        agentActivityData[AgentNumber.One] = RemoveTile(destinationOne);
+                        if (agentActivityData[AgentNumber.One].AgentStatusData == AgentStatusCode.RequestNotToDoAnything) continue;
                     }
 
                     if (((destinationTwo.X + destinationTwo.Y) % 2 != 0) == isOdd)
                     {
-                        agentActivityData[(int)AgentNumber.Two] = MoveOrRemoveTile(destinationTwo);
+                        agentActivityData[AgentNumber.Two] = MoveOrRemoveTile(destinationTwo);
                     }
                     else
                     {
-                        agentActivityData[(int)AgentNumber.Two] = RemoveTile(destinationTwo);
-                        if (agentActivityData[(int)AgentNumber.Two].AgentStatusData == AgentStatusCode.RequestNotToDoAnything) continue;
+                        agentActivityData[AgentNumber.Two] = RemoveTile(destinationTwo);
+                        if (agentActivityData[AgentNumber.Two].AgentStatusData == AgentStatusCode.RequestNotToDoAnything) continue;
                     }
                     var c = calc.Simulate(OurTeam, agentActivityData);
                     foreach (var item in agentActivityData) item.AgentStatusData.ToRequest();
