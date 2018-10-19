@@ -132,6 +132,7 @@
     <Compile Include="TimeMeasurementForm.Designer.cs">
       <DependentUpon>TimeMeasurementForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Trump.cs" />
     <Compile Include="TrumpMark.cs" />
     <Compile Include="TrumpNumber.cs" />
     <Compile Include="TsvReader.cs" />
