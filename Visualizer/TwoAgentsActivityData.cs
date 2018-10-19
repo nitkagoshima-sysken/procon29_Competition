@@ -63,10 +63,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// TwoAgentsActivityData を初期化します。
         /// </summary>
-        public TwoAgentsActivityData(TwoAgentsActivityData action)
+        public TwoAgentsActivityData(FourAgentsActivityData agentsActivityData)
         {
-            Array[0] = new AgentActivityData(action[AgentNumber.One]);
-            Array[1] = new AgentActivityData(action[AgentNumber.Two]);
+            Array[0] = new AgentActivityData(agentsActivityData[Team.A, AgentNumber.One]);
+            Array[1] = new AgentActivityData(agentsActivityData[Team.A, AgentNumber.Two]);
         }
 
         /// <summary>

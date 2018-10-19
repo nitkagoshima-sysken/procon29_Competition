@@ -393,13 +393,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             CheckEnclosedArea();
         }
 
-        void CheckAgentActivityData(FourAgentsActivityData action)
+        void CheckAgentActivityData(FourAgentsActivityData agentsActivityData)
         {
             foreach (Team team in Enum.GetValues(typeof(Team)))
             {
                 foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                 {
-                    var item = action[team, agent];
+                    var item = agentsActivityData[team, agent];
                     // 何もしないのは、無条件で成功する(1)
                     // SucceededNotToDoAnything
                     if (item.AgentStatusData == AgentStatusCode.RequestNotToDoAnything)
@@ -471,7 +471,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         foreach (AgentNumber otheragent in Enum.GetValues(typeof(AgentNumber)))
                         {
                             if (team == otherteam && agent == otheragent) continue;
-                            var otheritem = action[otherteam, otheragent];
+                            var otheritem = agentsActivityData[otherteam, otheragent];
                             var otherposition = Agents[otherteam, otheragent].Position;
                             if (otheritem.AgentStatusData != AgentStatusCode.RequestMovement &&
                                 item.Destination == otherposition)
@@ -496,7 +496,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // FailedInMovingByCollisionWithEachOther;
             // FailedInRemovingOurTileByCollisionWithEachOther;
             // FailedInRemovingOpponentTileByCollisionWithEachOther;
-            action.CheckCollision();
+            agentsActivityData.CheckCollision();
             // 移動先のエージェントがコリジョンを起こし、
             // 自分もそのコリジョンに巻き込まれたかチェック(3)
             // FailedInMovingByInvolvedInOtherCollisions
@@ -506,13 +506,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                 {
-                    var item = action[team, agent];
+                    var item = agentsActivityData[team, agent];
                     foreach (Team otherteam in Enum.GetValues(typeof(Team)))
                     {
                         foreach (AgentNumber otheragent in Enum.GetValues(typeof(AgentNumber)))
                         {
                             if (team == otherteam && agent == otheragent) continue;
-                            var otheritem = action[otherteam, otheragent];
+                            var otheritem = agentsActivityData[otherteam, otheragent];
                             var otherposition = Agents[otherteam, otheragent].Position;
                             if ((otheritem.AgentStatusData == AgentStatusCode.RequestNotToDoAnything ||
                                 otheritem.AgentStatusData == AgentStatusCode.NotDoneAnything ||
@@ -539,7 +539,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 }
             }
             // 全チェック後に残ったリクエストは、成功したとみなす(3)
-            foreach (var item in action)
+            foreach (var item in agentsActivityData)
             {
                 item.ToSuccess();
             }
@@ -548,8 +548,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary> 
         /// 指定したところにエージェントが移動します。 
         /// </summary> 
-        /// <param name="action"></param> 
-        public void MoveAgent(FourAgentsActivityData action)
+        /// <param name="agentsActivityData"></param> 
+        public void MoveAgent(FourAgentsActivityData agentsActivityData)
         {
             if (Turn < MaxTurn)
             {
@@ -561,7 +561,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     History.RemoveRange(Turn + 1, History.Count - 1 - Turn);
 
                 // 不正な動きをしていないかチェック 
-                CheckAgentActivityData(action);
+                CheckAgentActivityData(agentsActivityData);
 
                 // ターンエンドの処理 
                 TurnEnd();
@@ -570,30 +570,30 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 {
                     foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                     {
-                        History[Turn - 1].AgentsActivityData[team, agent].AgentStatusData = action[team, agent].AgentStatusData;
-                        History[Turn - 1].AgentsActivityData[team, agent].Destination = action[team, agent].Destination;
+                        History[Turn - 1].AgentsActivityData[team, agent].AgentStatusData = agentsActivityData[team, agent].AgentStatusData;
+                        History[Turn - 1].AgentsActivityData[team, agent].Destination = agentsActivityData[team, agent].Destination;
                     }
                 }
                 foreach (Team team in Enum.GetValues(typeof(Team)))
                 {
                     foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                     {
-                        switch (action[team, agent].AgentStatusData)
+                        switch (agentsActivityData[team, agent].AgentStatusData)
                         {
                             case AgentStatusCode.SucceededInMoving:
-                                Agents[team, agent].Position = action[team, agent].Destination;
+                                Agents[team, agent].Position = agentsActivityData[team, agent].Destination;
                                 PutTile(team: team, agent: agent);
                                 break;
                             case AgentStatusCode.SucceededInRemovingOurTile:
-                                RemoveTile(action[team, agent].Destination);
+                                RemoveTile(agentsActivityData[team, agent].Destination);
                                 break;
                             case AgentStatusCode.SucceededInRemovingOpponentTile:
-                                RemoveTile(action[team, agent].Destination);
+                                RemoveTile(agentsActivityData[team, agent].Destination);
                                 break;
                             default:
                                 break;
                         }
-                        action[team, agent].ToSuccess();
+                        agentsActivityData[team, agent].ToSuccess();
                     }
                 }
                 CheckEnclosedArea();
@@ -604,15 +604,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// 指定したところにエージェントが移動します。 
         /// </summary> 
         /// <param name="team">移動させるチーム</param> 
-        /// <param name="action"></param> 
-        public void MoveAgent(Team team, TwoAgentsActivityData action)
+        /// <param name="agentActivityData"></param> 
+        public void MoveAgent(Team team, AgentActivityData[] agentActivityData)
         {
-            var action2 = new FourAgentsActivityData(AgentStatusCode.RequestNotToDoAnything);
+            var agentActivityDatas = new FourAgentsActivityData(AgentStatusCode.RequestNotToDoAnything);
             foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
             {
-                action2[team, agent] = action[agent];
+                agentActivityDatas[team, agent] = agentActivityData[(int)agent];
             }
-            MoveAgent(action2);
+            MoveAgent(agentActivityDatas);
         }
 
         /// <summary> 
@@ -620,12 +620,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary> 
         /// <param name="team">移動させるチーム</param> 
         /// <param name="agent">移動させるエージェント</param> 
-        /// <param name="action"></param> 
-        public void MoveAgent(Team team, AgentNumber agent, AgentActivityData action)
+        /// <param name="agentActivityData"></param> 
+        public void MoveAgent(Team team, AgentNumber agent, AgentActivityData agentActivityData)
         {
-            var action2 = new FourAgentsActivityData(AgentStatusCode.RequestNotToDoAnything);
-            action2[team, agent] = action;
-            MoveAgent(action2);
+            var agentActivityDatas = new FourAgentsActivityData(AgentStatusCode.RequestNotToDoAnything);
+            agentActivityDatas[team, agent] = agentActivityData;
+            MoveAgent(agentActivityDatas);
         }
 
         /// <summary>
@@ -646,10 +646,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="team">どのチームが動くか指定します。</param>
         /// <param name="action">どうエージェントが動くか指定します。</param>
         /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
-        public Calc Simulate(Team team, TwoAgentsActivityData action)
+        public Calc Simulate(Team team, AgentActivityData[] action)
         {
             var c = new Calc(this);
-            c.MoveAgent(team, new TwoAgentsActivityData(action));
+            c.MoveAgent(team, new AgentActivityData[2] { new AgentActivityData(action[0]), new AgentActivityData(action[1]) });
             return c;
         }
 

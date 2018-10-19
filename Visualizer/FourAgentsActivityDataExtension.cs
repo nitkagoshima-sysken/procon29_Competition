@@ -8,13 +8,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     static class FourAgentsActivityDataExtension
     {
-        public static void CheckCollision(this FourAgentsActivityData action)
+        public static void CheckCollision(this FourAgentsActivityData agentActivityData)
         {
             foreach (Team team in Enum.GetValues(typeof(Team)))
             {
                 foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
                 {
-                    var item = action[team, agent];
+                    var item = agentActivityData[team, agent];
                     if (item.AgentStatusData.IsRequest())
                     {
                         foreach (Team otherteam in Enum.GetValues(typeof(Team)))
@@ -22,7 +22,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                             foreach (AgentNumber otheragent in Enum.GetValues(typeof(AgentNumber)))
                             {
                                 if (team == otherteam && agent == otheragent) continue;
-                                var otheritem = action[otherteam, otheragent];
+                                var otheritem = agentActivityData[otherteam, otheragent];
                                 if (item.Destination == otheritem.Destination)
                                 {
                                     if (team == otherteam)
