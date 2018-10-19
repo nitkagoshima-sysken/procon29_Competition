@@ -16,7 +16,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントアクティビティデータを設定または取得します。
         /// </summary>
-        public AgentsActivityData AgentsActivityData { get; set; } = new AgentsActivityData();
+        public FourAgentsActivityData AgentsActivityData { get; set; } = new FourAgentsActivityData();
 
         /// <summary>
         /// 描画する対象となる計算機を設定または取得します。
@@ -33,10 +33,18 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         public PictureBox PictureBox { get; set; }
 
+        /// <summary>
+        /// XML化するために宣言します
+        /// </summary>
         public ClickField()
         {
         }
 
+        /// <summary>
+        /// ClickField を初期化します。
+        /// </summary>
+        /// <param name="calc">対象の計算機</param>
+        /// <param name="pictureBox">対象のピクチャボックス</param>
         public ClickField(Calc calc, PictureBox pictureBox)
         {
             Calc = calc;
@@ -55,7 +63,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public void Click()
         {
             var coordinate = CursorPosition(PictureBox);
-            var agentsActivityData = new AgentsActivityData();
+            var agentsActivityData = new FourAgentsActivityData();
             try
             {
                 foreach (var agent in Calc.Agents)

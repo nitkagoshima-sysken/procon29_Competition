@@ -2,7 +2,10 @@
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
-    static class AgentStatusCodeExtension
+    /// <summary>
+    /// ASCの拡張メソッドを定義するためのクラスです。
+    /// </summary>
+    public static class AgentStatusCodeExtension
     {
         /// <summary>
         /// エージェントの行動の状態がリクエストであることを判定します
@@ -53,6 +56,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns></returns>
         public static AgentStatusCode ToSucceeded(this AgentStatusCode agentStatusCode)
         {
+            if(agentStatusCode == AgentStatusCode.NotDoneAnything)
+            {
+                return AgentStatusCode.NotDoneAnything;
+            }
             if (agentStatusCode == AgentStatusCode.RequestNotToDoAnything)
             {
                 return AgentStatusCode.SucceededNotToDoAnything;
@@ -76,6 +83,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns></returns>
         public static AgentStatusCode ToRequest(this AgentStatusCode agentStatusCode)
         {
+            if (agentStatusCode == AgentStatusCode.NotDoneAnything)
+            {
+                return AgentStatusCode.NotDoneAnything;
+            }
             if (agentStatusCode == AgentStatusCode.SucceededNotToDoAnything)
             {
                 return AgentStatusCode.RequestNotToDoAnything;

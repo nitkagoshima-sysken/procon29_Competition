@@ -7,6 +7,9 @@ using System.Xml.Serialization;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
+    /// <summary>
+    /// ターンデータをXML化するために使います。
+    /// </summary>
     [Serializable]
     [XmlRoot("TurnData")]
     public class XmlTurnData
@@ -35,7 +38,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントの行動データを設定または取得します
         /// </summary>
-        public AgentsActivityData AgentActivityDatas { get; set; }
+        public FourAgentsActivityData AgentActivityDatas { get; set; }
 
         /// <summary>
         /// XML化するために宣言します
@@ -44,6 +47,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
         }
 
+        /// <summary>
+        /// XmlTurnData を指定します。
+        /// </summary>
+        /// <param name="turnData">対象のターンデータ</param>
         public XmlTurnData(TurnData turnData)
         {
             Agents = new Agent[4];
@@ -51,7 +58,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 Agents[i] = turnData.Agents[(Team)(i/2), (AgentNumber)(i%2)];
             }
-            AgentActivityDatas = turnData.AgentActivityDatas;
+            AgentActivityDatas = turnData.AgentsActivityData;
             Height = turnData.Field.Height;
             Width = turnData.Field.Width;
             var max = Height * Width;

@@ -1,10 +1,12 @@
-# Procon29 Visualizer 57.0
+# Procon29 Visualizer 69.0
 
 ## What's new
 
-**Visualizer 49.0** より、`Calc.Sum()`が廃止されました。  
-ボット開発者のみなさんは、  
-`Calc.Sum()`をお使いの方は`Calc.Field.Sum()`に変更してください。
+### 互換性のない変更
+
+`AgentsActivityData`が`FourAgentsActivityData`に変更されました。  
+また今まで、`AgentActivityData[]`として使われていたものが、`TwoAgentsActivityData`に変更されました。  
+ボット開発者は、**Visualizer 69.0**にアップデートしたときに修正してください。
 
 ## 操作方法
 
@@ -14,9 +16,6 @@
  4. 最後にターンエンドを押す。
 
 ## ショートカットキー一覧
-
-現在(Visualizer 25.0)、謎のバグが発生して、エージェントの選択ができない状態です。  
-`Ctrl`を使ったショートカットは使えるので、そこは安心してお使いしてください。
 
 |Key|What will happen?|
 |:--:|:--:|
@@ -47,8 +46,8 @@
 
 |コマンド|引数|機能|
 |:-:|:-:|:-:|
-|`A`|path|オレンジチームに指定したボットが読み込まれる|
-|`B`|path|ライムチームに指定したボットが読み込まれる|
+|`A`|path|自分チームに指定したボットが読み込まれる|
+|`B`|path|敵チームに指定したボットが読み込まれる|
 
 ### Calc.tsv
 
@@ -599,6 +598,77 @@
 - `Calc.Simulate(Team, AgentActivityData[])`のコード最適化（SeitaHigashi氏によるデバッグ）
 - `Calc.Simulate(Team, AgentNumber, AgentActivityData)`のコード最適化（SeitaHigashi氏によるデバッグ）
 
+### Version 58.0
+
+- 新規作成で試合のターン数のデフォルトが10ターンから40ターンに変更された
+- 処理時間を計測するフォームの修正
+
+### Version 59.0
+
+- ボットの処理速度が最大で30倍速くなった
+
+### Version 60.0
+
+- 右クリックでいつでもマスのタイルの情報を変更できるようになった
+- `PictureBoxExtension.ToCellCordinate(this PictureBox, Calc, Coordinate)`を追加（開発者向け）
+
+### Version 61.0
+
+- トランプを表示するための領域が表示できるようになった
+- `CoordinateExtension.ToCellCordinate(this Coordinate, PictureBox, Field)`を追加（開発者向け）
+- `PictureBoxExtension.ToCellCordinate(this PictureBox, Calc, Coordinate)`を廃止（開発者向け）
+- `Show.BackGroundSolidBrush`を廃止（開発者向け）
+- `Show.SelectSolidBrush`を廃止（開発者向け）
+- `Show.ClickedSolidBrush`を廃止（開発者向け）
+- `Show.PointFont`を廃止（開発者向け）
+- `Show.Procon29_Logger`を廃止（開発者向け）
+
+### Version 62.0
+
+- 右クリックでマスのタイルの情報を書き換えた後、自動的に再計算するようになった
+- `Calc.Recalculation()`を追加（開発者向け）
+
+### Version 63.0
+
+- `TegetegeBot`にて2ターン目から試合が始まってしまうバグを修正
+- ボットに`Calc`を渡す際に、ディープコピーするように変更（開発者向け）
+- このバージョンで、足りないコメントを補完（開発者向け）
+- このバージョンで、C#の命名規則違反になっている変数名などを変更（開発者向け）
+
+### Version 64.0
+
+- エージェントがフィールドの中心を見るように修正
+
+### Version 65.0
+
+- ボットの処理速度がさらに少し速くなった
+
+### Version 66.0
+
+- 試合を強制的に終わらせるようにした
+
+### Version 67.0
+
+- テンキーでの移動に関するバグが修正された
+
+#### Version 67.1
+
+- `AgentStatusCodeExtension`のアクセシビリティを`public`に変更（開発者向け）
+
+### Version 68.0
+
+- ボットコンソールを閉じるとチェックが外れるように修正
+- `Trump`を追加（開発者向け）
+- トランプの画像をリソースに追加（開発者向け）
+
+### Version 69.0
+
+- `AgentsActivityData`を`FourAgentsActivityData`に変更（開発者向け）
+- `AgentsActivityDataExtension`を`FourAgentsActivityDataExtension`に変更（開発者向け）
+- `TwoAgentsActivityData`を追加（開発者向け）
+- `Calc.Simulate(Team, AgentActivityData[])`を廃止（開発者向け）
+- `Calc.Simulate(Team, TwoAgentsActivityData)`を追加（開発者向け）
+
 ## バージョンの上がり方について
 
 Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバージョン.マイナーバージョン.ビルドバージョン`で表されます。  
@@ -643,3 +713,5 @@ Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバ�
 |34.0|83|1108|7|201|2625|
 |54.1|82|1145|7|217|2833|
 |57.0|81|1162|7|218|2903|
+|59.0|81|1167|7|218|2918|
+|67.1|81|1166|7|224|2826|

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.FieldDisplay = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -46,23 +47,29 @@
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UndoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RedoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.EndButtleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BotConsoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TimeMeasurementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TrumpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PracticeModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ProductionModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.CellInformationToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.AreaToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.ContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -95,6 +102,7 @@
             this.FieldDisplay.TabStop = false;
             this.FieldDisplay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseClick);
             this.FieldDisplay.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseDoubleClick);
+            this.FieldDisplay.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseDown);
             // 
             // tableLayoutPanel2
             // 
@@ -239,7 +247,9 @@
             // 
             this.EditToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.UndoToolStripMenuItem,
-            this.RedoToolStripMenuItem});
+            this.RedoToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.EndButtleToolStripMenuItem});
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
             this.EditToolStripMenuItem.Size = new System.Drawing.Size(75, 27);
             this.EditToolStripMenuItem.Text = "編集(&E)";
@@ -262,11 +272,24 @@
             this.RedoToolStripMenuItem.Text = "やり直し(&R)";
             this.RedoToolStripMenuItem.Click += new System.EventHandler(this.RedoToolStripMenuItem_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(226, 6);
+            // 
+            // EndButtleToolStripMenuItem
+            // 
+            this.EndButtleToolStripMenuItem.Name = "EndButtleToolStripMenuItem";
+            this.EndButtleToolStripMenuItem.Size = new System.Drawing.Size(229, 28);
+            this.EndButtleToolStripMenuItem.Text = "試合を終わらせる";
+            this.EndButtleToolStripMenuItem.Click += new System.EventHandler(this.EndButtleToolStripMenuItem_Click);
+            // 
             // ViewToolStripMenuItem
             // 
             this.ViewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.BotConsoleToolStripMenuItem,
-            this.TimeMeasurementToolStripMenuItem});
+            this.TimeMeasurementToolStripMenuItem,
+            this.TrumpToolStripMenuItem});
             this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
             this.ViewToolStripMenuItem.Size = new System.Drawing.Size(76, 27);
             this.ViewToolStripMenuItem.Text = "表示(&V)";
@@ -284,6 +307,13 @@
             this.TimeMeasurementToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
             this.TimeMeasurementToolStripMenuItem.Text = "処理時間計測";
             this.TimeMeasurementToolStripMenuItem.Click += new System.EventHandler(this.TimeMeasurementToolStripMenuItem_Click);
+            // 
+            // TrumpToolStripMenuItem
+            // 
+            this.TrumpToolStripMenuItem.Name = "TrumpToolStripMenuItem";
+            this.TrumpToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.TrumpToolStripMenuItem.Text = "トランプ";
+            this.TrumpToolStripMenuItem.Click += new System.EventHandler(this.TrumpToolStripMenuItem_Click);
             // 
             // ModeToolStripMenuItem
             // 
@@ -314,7 +344,7 @@
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBar1,
-            this.toolStripStatusLabel1});
+            this.CellInformationToolStripStatusLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 429);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(782, 24);
@@ -326,17 +356,35 @@
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
             this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 18);
             // 
-            // toolStripStatusLabel1
+            // CellInformationToolStripStatusLabel
             // 
-            this.toolStripStatusLabel1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toolStripStatusLabel1.ForeColor = System.Drawing.Color.LightGray;
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(80, 19);
-            this.toolStripStatusLabel1.Text = "{} Point:";
+            this.CellInformationToolStripStatusLabel.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CellInformationToolStripStatusLabel.ForeColor = System.Drawing.Color.LightGray;
+            this.CellInformationToolStripStatusLabel.Name = "CellInformationToolStripStatusLabel";
+            this.CellInformationToolStripStatusLabel.Size = new System.Drawing.Size(80, 19);
+            this.CellInformationToolStripStatusLabel.Text = "{} Point:";
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // ContextMenuStrip
+            // 
+            this.ContextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.ContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AreaToolStripComboBox});
+            this.ContextMenuStrip.Name = "ContextMenuStrip";
+            this.ContextMenuStrip.Size = new System.Drawing.Size(182, 39);
+            // 
+            // AreaToolStripComboBox
+            // 
+            this.AreaToolStripComboBox.Items.AddRange(new object[] {
+            "自分のチーム",
+            "敵のチーム",
+            "未開拓"});
+            this.AreaToolStripComboBox.Name = "AreaToolStripComboBox";
+            this.AreaToolStripComboBox.Size = new System.Drawing.Size(121, 31);
+            this.AreaToolStripComboBox.SelectedIndexChanged += new System.EventHandler(this.AreaToolStripComboBox_SelectedIndexChanged);
             // 
             // MainForm
             // 
@@ -354,6 +402,7 @@
             this.Name = "MainForm";
             this.Opacity = 0.95D;
             this.Text = "Procon29 Visualizar";
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseMove);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -362,6 +411,7 @@
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.ContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -380,7 +430,7 @@
         private System.Windows.Forms.ToolStripMenuItem ViewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OpenToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel CellInformationToolStripStatusLabel;
         private System.Windows.Forms.ToolStripMenuItem CreateNewToolStripMenuItem;
         private System.Windows.Forms.Button TurnEndButton;
         private System.Windows.Forms.ToolStripMenuItem UndoToolStripMenuItem;
@@ -396,7 +446,12 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem OpenQRCodeReaderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OpenFieldDataGeneratorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem BotConsoleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem TimeMeasurementToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip ContextMenuStrip;
+        private System.Windows.Forms.ToolStripComboBox AreaToolStripComboBox;
+        private System.Windows.Forms.ToolStripMenuItem TrumpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem EndButtleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem BotConsoleToolStripMenuItem;
     }
 }
