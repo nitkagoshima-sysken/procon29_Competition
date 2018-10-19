@@ -16,7 +16,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントアクティビティデータを設定または取得します。
         /// </summary>
-        public FourAgentsActivityData AgentsActivityData { get; set; } = new FourAgentsActivityData();
+        public AgentsActivityData AgentsActivityData { get; set; } = new AgentsActivityData();
 
         /// <summary>
         /// 描画する対象となる計算機を設定または取得します。
@@ -63,7 +63,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public void Click()
         {
             var coordinate = CursorPosition(PictureBox);
-            var agentsActivityData = new FourAgentsActivityData();
+            var agentsActivityData = new AgentsActivityData();
             try
             {
                 foreach (var agent in Calc.Agents)
