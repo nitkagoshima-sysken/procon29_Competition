@@ -39,7 +39,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         public static Logger BotLog { get; set; }
 
-        TeamDesign[] teamDesigns;
+        /// <summary>
+        /// チームのデザインを表します。
+        /// </summary>
+        TeamDesign[] TeamDesign;
 
         /// <summary>
         /// 新たな戦いを始めるためのフォームです。
@@ -105,6 +108,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             FieldDisplay.MouseMove += new MouseEventHandler(FieldDisplay_MouseMove);
             Resize += new System.EventHandler(MainForm_Resize);
+            BotLogForm.FormClosing += BotLogForm_Closing;
 
             Log = new Logger(messageBox);
             var version = System.Diagnostics.FileVersionInfo.GetVersionInfo(
@@ -160,12 +164,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             PrefetchingFileReader.CalcTsv(this);
             PrefetchingFileReader.FilePathTsv(this);
 
-            teamDesigns =
+            TeamDesign =
                 new TeamDesign[2] {
                     new TeamDesign(name: "Orange", agentColor: Color.DarkOrange, areaColor: Color.DarkOrange),
                     new TeamDesign(name: "Lime", agentColor: Color.LimeGreen, areaColor: Color.LimeGreen),
                 };
-            Show = new Show(Calc, teamDesigns, FieldDisplay);
+            Show = new Show(Calc, TeamDesign, FieldDisplay);
             Show.Showing();
             Calc.PointMapCheck();
 
@@ -180,16 +184,16 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void WriteLog()
         {
             Log.WriteLine("\n" + "Turn : " + Calc.Turn);
-            Log.WriteLine("A   Area Point: " + Calc.Field.AreaPoint(Team.A).ToString(), teamDesigns[(int)Team.A].AreaColor);
-            Log.WriteLine("Enclosed Point: " + Calc.Field.EnclosedPoint(Team.A).ToString(), teamDesigns[(int)Team.A].AreaColor);
-            Log.WriteLine("   Total Point: " + Calc.Field.TotalPoint(Team.A).ToString(), teamDesigns[(int)Team.A].AreaColor);
-            Log.WriteLine("agent: " + Calc.Agents[Team.A, AgentNumber.One].Position, teamDesigns[(int)Team.A].AreaColor);
-            Log.WriteLine("agent: " + Calc.Agents[Team.A, AgentNumber.Two].Position, teamDesigns[(int)Team.A].AreaColor);
-            Log.WriteLine("B   Area Point: " + Calc.Field.AreaPoint(Team.B).ToString(), teamDesigns[(int)Team.B].AreaColor);
-            Log.WriteLine("Enclosed Point: " + Calc.Field.EnclosedPoint(Team.B).ToString(), teamDesigns[(int)Team.B].AreaColor);
-            Log.WriteLine("   Total Point: " + Calc.Field.TotalPoint(Team.B).ToString(), teamDesigns[(int)Team.B].AreaColor);
-            Log.WriteLine("agent: " + Calc.Agents[Team.B, AgentNumber.One].Position, teamDesigns[(int)Team.B].AreaColor);
-            Log.WriteLine("agent: " + Calc.Agents[Team.B, AgentNumber.Two].Position, teamDesigns[(int)Team.B].AreaColor);
+            Log.WriteLine("A   Area Point: " + Calc.Field.AreaPoint(Team.A).ToString(), TeamDesign[(int)Team.A].AreaColor);
+            Log.WriteLine("Enclosed Point: " + Calc.Field.EnclosedPoint(Team.A).ToString(), TeamDesign[(int)Team.A].AreaColor);
+            Log.WriteLine("   Total Point: " + Calc.Field.TotalPoint(Team.A).ToString(), TeamDesign[(int)Team.A].AreaColor);
+            Log.WriteLine("agent: " + Calc.Agents[Team.A, AgentNumber.One].Position, TeamDesign[(int)Team.A].AreaColor);
+            Log.WriteLine("agent: " + Calc.Agents[Team.A, AgentNumber.Two].Position, TeamDesign[(int)Team.A].AreaColor);
+            Log.WriteLine("B   Area Point: " + Calc.Field.AreaPoint(Team.B).ToString(), TeamDesign[(int)Team.B].AreaColor);
+            Log.WriteLine("Enclosed Point: " + Calc.Field.EnclosedPoint(Team.B).ToString(), TeamDesign[(int)Team.B].AreaColor);
+            Log.WriteLine("   Total Point: " + Calc.Field.TotalPoint(Team.B).ToString(), TeamDesign[(int)Team.B].AreaColor);
+            Log.WriteLine("agent: " + Calc.Agents[Team.B, AgentNumber.One].Position, TeamDesign[(int)Team.B].AreaColor);
+            Log.WriteLine("agent: " + Calc.Agents[Team.B, AgentNumber.Two].Position, TeamDesign[(int)Team.B].AreaColor);
         }
 
         void TurnProgressCheck()
@@ -283,18 +287,18 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 if (cell.IsEnclosed[Team.A] && cell.IsEnclosed[Team.B]) CellInformationToolStripStatusLabel.Text += " (Surrounded by both)";
                 else if (cell.IsEnclosed[Team.A])
                 {
-                    CellInformationToolStripStatusLabel.Text += " (Surrounded by " + teamDesigns[0].Name + ")";
-                    CellInformationToolStripStatusLabel.ForeColor = teamDesigns[0].AgentColor;
+                    CellInformationToolStripStatusLabel.Text += " (Surrounded by " + TeamDesign[0].Name + ")";
+                    CellInformationToolStripStatusLabel.ForeColor = TeamDesign[0].AgentColor;
                 }
                 else if (cell.IsEnclosed[Team.B])
                 {
-                    CellInformationToolStripStatusLabel.Text += " (Surrounded by " + teamDesigns[1].Name + ")";
-                    CellInformationToolStripStatusLabel.ForeColor = teamDesigns[1].AgentColor;
+                    CellInformationToolStripStatusLabel.Text += " (Surrounded by " + TeamDesign[1].Name + ")";
+                    CellInformationToolStripStatusLabel.ForeColor = TeamDesign[1].AgentColor;
                 }
                 CellInformationToolStripStatusLabel.Text += "]";
                 // タイルがおかれているか判定
-                if (cell.IsTileOn[Team.A]) CellInformationToolStripStatusLabel.ForeColor = teamDesigns[0].AgentColor;
-                else if (cell.IsTileOn[Team.B]) CellInformationToolStripStatusLabel.ForeColor = teamDesigns[1].AgentColor;
+                if (cell.IsTileOn[Team.A]) CellInformationToolStripStatusLabel.ForeColor = TeamDesign[0].AgentColor;
+                else if (cell.IsTileOn[Team.B]) CellInformationToolStripStatusLabel.ForeColor = TeamDesign[1].AgentColor;
                 else if ((!cell.IsEnclosed[Team.A] && !cell.IsEnclosed[Team.B])) CellInformationToolStripStatusLabel.ForeColor = Color.LightGray;
             }
             Show.Showing();
@@ -411,7 +415,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 Calc = new Calc(MaxTurn, field, agents);
 
-                Show = new Show(Calc, teamDesigns, FieldDisplay);
+                Show = new Show(Calc, TeamDesign, FieldDisplay);
                 Show.Showing();
             }
             catch (Exception)
@@ -829,6 +833,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 default:
                     break;
             }
+        }
+
+        private void BotLogForm_Closing(object sender, FormClosingEventArgs e)
+        {
+            BotConsoleToolStripMenuItem.Checked = false;
         }
     }
 }
