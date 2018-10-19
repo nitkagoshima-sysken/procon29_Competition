@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-# Procon29 Visualizer 69.1
-=======
-# Procon29 Visualizer 67.1
->>>>>>> parent of 8bb8a28... [Visualizer][Change] Update to 69.0
+# Procon29 Visualizer 70.0
 
 ## What's new
 
@@ -660,7 +656,6 @@ SeitaHigashi氏によるNettaBotで40ターン目に試したところ、
 
 - `AgentStatusCodeExtension`のアクセシビリティを`public`に変更（開発者向け）
 
-<<<<<<< HEAD
 ### Version 68.0
 
 - ボットコンソールを閉じるとチェックが外れるように修正
@@ -679,8 +674,10 @@ SeitaHigashi氏によるNettaBotで40ターン目に試したところ、
 
 - ボットによる緊急修正
 
-=======
->>>>>>> parent of 8bb8a28... [Visualizer][Change] Update to 69.0
+### Version 70.0
+
+- **Version 69.0** の取り消し
+
 ## バージョンの上がり方について
 
 Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバージョン.マイナーバージョン.ビルドバージョン`で表されます。  
