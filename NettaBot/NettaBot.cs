@@ -43,15 +43,15 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
             var result = new AgentActivityData[2];
             foreach (Arrow arrowOne in Enum.GetValues(typeof(Arrow)))
             {
-                var destinationOne = agentOne.Position + arrowOne;
+                var destinationOne = calc.Agents[OurTeam, AgentNumber.One].Position + arrowOne;
                 if (!calc.Field.CellExist(destinationOne)) continue;
 
                 foreach (Arrow arrowTwo in Enum.GetValues(typeof(Arrow)))
                 {
-                    var destinationTwo = agentTwo.Position + arrowTwo;
+                    var destinationTwo = calc.Agents[OurTeam, AgentNumber.Two].Position + arrowTwo;
                     if (!calc.Field.CellExist(destinationTwo)) continue;
                     if (destinationOne == destinationTwo) continue;
-                    if (((destinationOne.X + destinationOne.Y) % 2 != 0) == isOdd)
+                    if ((destinationOne.X + destinationOne.Y) % 2 != 0 == isOdd)
                     {
                         agentActivityData[(int)AgentNumber.One] = MoveOrRemoveTile(destinationOne);
                     }
@@ -92,6 +92,8 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                     }
                 }
             }
+            Log.WriteLine("\nReturn to " + result[0].AgentStatusData+":"+result[0].Destination);
+            Log.WriteLine("Return to " + result[1].AgentStatusData+":"+result[1].Destination);
             Log.WriteLine("Return to " + maxpoint);
             return new ReturnStruct(maxpoint, result);
         }
