@@ -46,7 +46,7 @@ namespace nitkagoshima_sysken
                 /// <summary>
                 /// 答えを渡します。
                 /// </summary>
-                public abstract AgentActivityData[] Answer();
+                public abstract TwoAgentsActivityData Answer();
 
                 /// <summary>
                 /// エージェントを動かしたときに、状態がどう変化するか計算します。
@@ -65,10 +65,10 @@ namespace nitkagoshima_sysken
                 /// </summary>
                 /// <param name="action">どうエージェントが動くか指定します。</param>
                 /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
-                public Calc Simulate(Team team, AgentActivityData[] action)
+                public Calc Simulate(Team team, TwoAgentsActivityData action)
                 {
                     var c = new Calc(Calc);
-                    c.MoveAgent(team, action.DeepClone());
+                    c.MoveAgent(team, new TwoAgentsActivityData(action));
                     return c;
                 }
 
