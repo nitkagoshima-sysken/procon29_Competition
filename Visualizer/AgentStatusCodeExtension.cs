@@ -56,10 +56,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns></returns>
         public static AgentStatusCode ToSucceeded(this AgentStatusCode agentStatusCode)
         {
-            if(agentStatusCode == AgentStatusCode.NotDoneAnything)
-            {
-                return AgentStatusCode.NotDoneAnything;
-            }
             if (agentStatusCode == AgentStatusCode.RequestNotToDoAnything)
             {
                 return AgentStatusCode.SucceededNotToDoAnything;
@@ -83,10 +79,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <returns></returns>
         public static AgentStatusCode ToRequest(this AgentStatusCode agentStatusCode)
         {
-            if (agentStatusCode == AgentStatusCode.NotDoneAnything)
-            {
-                return AgentStatusCode.NotDoneAnything;
-            }
             if (agentStatusCode == AgentStatusCode.SucceededNotToDoAnything)
             {
                 return AgentStatusCode.RequestNotToDoAnything;
