@@ -21,6 +21,8 @@ namespace nitkagoshima_sysken.Procon29.SatsumaimoBot
 
                     while (true)
                     {
+                        if (!Calc.Field.CellExist(agent + arrow)) continue;
+                        Arrow arrow = (Arrow)r.Next(0, 7);
                         if (Calc.Field.IsMovable(agent, arrow))
                         {
                             ret[(int)agent.AgentNumber].AgentStatusData = AgentStatusCode.RequestMovement;
