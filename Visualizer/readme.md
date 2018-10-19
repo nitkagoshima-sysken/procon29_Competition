@@ -1,13 +1,12 @@
-# Procon29 Visualizer 67.1
+# Procon29 Visualizer 69.0
 
 ## What's new
 
-### ボットの処理速度が最大で30倍速くなった
+### 互換性のない変更
 
-SeitaHigashi氏によるNettaBotで40ターン目に試したところ、  
-改善前は42.2秒かかっていた処理が、
-改善後は1.4秒に短縮された。  
-嘘だと思ったやってみてよ
+`AgentsActivityData`が`FourAgentsActivityData`に変更されました。  
+また今まで、`AgentActivityData[]`として使われていたものが、`TwoAgentsActivityData`に変更されました。  
+ボット開発者は、**Visualizer 69.0**にアップデートしたときに修正してください。
 
 ## 操作方法
 
@@ -655,6 +654,20 @@ SeitaHigashi氏によるNettaBotで40ターン目に試したところ、
 #### Version 67.1
 
 - `AgentStatusCodeExtension`のアクセシビリティを`public`に変更（開発者向け）
+
+### Version 68.0
+
+- ボットコンソールを閉じるとチェックが外れるように修正
+- `Trump`を追加（開発者向け）
+- トランプの画像をリソースに追加（開発者向け）
+
+### Version 69.0
+
+- `AgentsActivityData`を`FourAgentsActivityData`に変更（開発者向け）
+- `AgentsActivityDataExtension`を`FourAgentsActivityDataExtension`に変更（開発者向け）
+- `TwoAgentsActivityData`を追加（開発者向け）
+- `Calc.Simulate(Team, AgentActivityData[])`を廃止（開発者向け）
+- `Calc.Simulate(Team, TwoAgentsActivityData)`を追加（開発者向け）
 
 ## バージョンの上がり方について
 
