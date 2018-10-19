@@ -246,5 +246,60 @@
   <ItemGroup>
     <None Include="Resources\Lime.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Club Ace.png" />
+    <Content Include="Resources\Club Eight.png" />
+    <Content Include="Resources\Club Five.png" />
+    <Content Include="Resources\Club Four.png" />
+    <Content Include="Resources\Club Jack.png" />
+    <Content Include="Resources\Club King.png" />
+    <Content Include="Resources\Club Nine.png" />
+    <Content Include="Resources\Club Queen.png" />
+    <Content Include="Resources\Club Seven.png" />
+    <Content Include="Resources\Club Six.png" />
+    <Content Include="Resources\Club ten.png" />
+    <Content Include="Resources\Club Three.png" />
+    <Content Include="Resources\Club Two.png" />
+    <Content Include="Resources\Diamond Ace.png" />
+    <Content Include="Resources\Diamond Eight.png" />
+    <Content Include="Resources\Diamond Five.png" />
+    <Content Include="Resources\Diamond Four.png" />
+    <Content Include="Resources\Diamond Jack.png" />
+    <Content Include="Resources\Diamond King.png" />
+    <Content Include="Resources\Diamond Nine.png" />
+    <Content Include="Resources\Diamond Queen.png" />
+    <Content Include="Resources\Diamond Seven.png" />
+    <Content Include="Resources\Diamond Six.png" />
+    <Content Include="Resources\Diamond Ten.png" />
+    <Content Include="Resources\Diamond Three.png" />
+    <Content Include="Resources\Diamond Two.png" />
+    <Content Include="Resources\Heart Ace.png" />
+    <Content Include="Resources\Heart Eight.png" />
+    <Content Include="Resources\Heart Five.png" />
+    <Content Include="Resources\Heart Four.png" />
+    <Content Include="Resources\Heart Jack.png" />
+    <Content Include="Resources\Heart King.png" />
+    <Content Include="Resources\Heart Nine.png" />
+    <Content Include="Resources\Heart Queen.png" />
+    <Content Include="Resources\Heart Seven.png" />
+    <Content Include="Resources\Heart Sine.png" />
+    <Content Include="Resources\Heart Ten.png" />
+    <Content Include="Resources\Heart Trey.png" />
+    <Content Include="Resources\Heart Two.png" />
+    <Content Include="Resources\Joker.png" />
+    <Content Include="Resources\Spade Ace.png" />
+    <Content Include="Resources\Spade Eight.png" />
+    <Content Include="Resources\Spade Five.png" />
+    <Content Include="Resources\Spade Four.png" />
+    <Content Include="Resources\Spade Jack.png" />
+    <Content Include="Resources\Spade King.png" />
+    <Content Include="Resources\Spade Nine.png" />
+    <Content Include="Resources\Spade Queen.png" />
+    <Content Include="Resources\Spade Seven.png" />
+    <Content Include="Resources\Spade Six.png" />
+    <Content Include="Resources\Spade ten.png" />
+    <Content Include="Resources\Spade Three.png" />
+    <Content Include="Resources\Spade Two.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
