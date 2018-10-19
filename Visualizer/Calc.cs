@@ -393,7 +393,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             CheckEnclosedArea();
         }
 
-        void CheckAgentActivityData(AgentsActivityData agentsActivityData)
+        void CheckAgentActivityData(FourAgentsActivityData agentsActivityData)
         {
             foreach (Team team in Enum.GetValues(typeof(Team)))
             {
@@ -549,7 +549,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// 指定したところにエージェントが移動します。 
         /// </summary> 
         /// <param name="agentsActivityData"></param> 
-        public void MoveAgent(AgentsActivityData agentsActivityData)
+        public void MoveAgent(FourAgentsActivityData agentsActivityData)
         {
             if (Turn < MaxTurn)
             {
@@ -607,7 +607,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="agentActivityData"></param> 
         public void MoveAgent(Team team, AgentActivityData[] agentActivityData)
         {
-            var agentActivityDatas = new AgentsActivityData(AgentStatusCode.RequestNotToDoAnything);
+            var agentActivityDatas = new FourAgentsActivityData(AgentStatusCode.RequestNotToDoAnything);
             foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
             {
                 agentActivityDatas[team, agent] = agentActivityData[(int)agent];
@@ -623,7 +623,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="agentActivityData"></param> 
         public void MoveAgent(Team team, AgentNumber agent, AgentActivityData agentActivityData)
         {
-            var agentActivityDatas = new AgentsActivityData(AgentStatusCode.RequestNotToDoAnything);
+            var agentActivityDatas = new FourAgentsActivityData(AgentStatusCode.RequestNotToDoAnything);
             agentActivityDatas[team, agent] = agentActivityData;
             MoveAgent(agentActivityDatas);
         }
@@ -633,10 +633,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         /// <param name="action">どうエージェントが動くか指定します。</param>
         /// <returns>エージェントを動かしたときの計算データが返ってきます。</returns>
-        public Calc Simulate(AgentsActivityData action)
+        public Calc Simulate(FourAgentsActivityData action)
         {
             var c = new Calc(this);
-            c.MoveAgent(new AgentsActivityData(action));
+            c.MoveAgent(new FourAgentsActivityData(action));
             return c;
         }
 
