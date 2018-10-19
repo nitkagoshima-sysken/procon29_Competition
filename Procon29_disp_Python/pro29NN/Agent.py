@@ -225,20 +225,6 @@ class TempAgentData:
                 self.get[self.buffer[i][1]][self.buffer[i][0]] = -2
             return -2
 
-    def MovableSet(self, eget, agent):
-        movable = []
-        movable.append(agent.now -(1000 + 1))
-        movable.append(agent.now - 1000)
-        movable.append(agent.now -(1000 - 1))
-        movable.append(agent.now +(1000 + 1))
-        movable.append(agent.now + 1000)
-        movable.append(agent.now +(1000 - 1))
-        movable.append(agent.now + 1)
-        movable.append(agent.now - 1)
-        movable = [item for item in movable if item not in agent.out]
-        removable = [item for item in movable if item in eget]
-        return (movable, removable)
-
     def TurnSet(self, eget, pos):
         for i in range(len(self.Agent)):
             self.Agent[i].next = pos[i]
@@ -247,7 +233,7 @@ class TempAgentData:
     def DataCopy(self, InputData, Agent):
         self.Agent = []
         self.GetPosition = InputData.GetPosition[:]
-        self.GetField = InputData.GetField[:]
+        self.FieldPointSearch()
         for agent in Agent:
             self.Agent.append(TempAgent(agent.now, agent.out))
 
@@ -271,6 +257,9 @@ class TempAgent:
         movable = [item for item in movable if item not in self.out]
         removable = [item for item in movable if item in eget]
         return (movable, removable)
+    
+    def NextSet(self, hoge, overlap):
+        pass
 
     def TurnSet(self, eget):
         if self.next[0] or self.next[1] == 0:
