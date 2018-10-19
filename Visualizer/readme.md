@@ -1,4 +1,4 @@
-# Procon29 Visualizer 69.0
+# Procon29 Visualizer 69.1
 
 ## What's new
 
@@ -668,6 +668,10 @@
 - `TwoAgentsActivityData`を追加（開発者向け）
 - `Calc.Simulate(Team, AgentActivityData[])`を廃止（開発者向け）
 - `Calc.Simulate(Team, TwoAgentsActivityData)`を追加（開発者向け）
+
+#### Version 69.1
+
+- ボットによる緊急修正
 
 ## バージョンの上がり方について
 

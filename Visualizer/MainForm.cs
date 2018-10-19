@@ -490,9 +490,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         Bot[0].OurTeam = Team.A;
                         Bot[0].Log = BotLog;
                         Bot[0].Question(new Calc(Calc));
-                        var a = Bot[0].Answer();
-                        Show.AgentsActivityData[Team.A, AgentNumber.One] = a[0];
-                        Show.AgentsActivityData[Team.A, AgentNumber.Two] = a[1];
+                        var answer = Bot[0].Answer();
+                        Show.AgentsActivityData[Team.A, AgentNumber.One] = answer[AgentNumber.One];
+                        Show.AgentsActivityData[Team.A, AgentNumber.Two] = answer[AgentNumber.Two];
                         stopwatch.Stop();
                         TimeDataList.Add(new TimeData(BotName[0] + " (Our Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
                     }
@@ -503,9 +503,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         Bot[1].OurTeam = Team.B;
                         Bot[1].Log = BotLog;
                         Bot[1].Question(new Calc(Calc));
-                        var a = Bot[1].Answer();
-                        Show.AgentsActivityData[Team.B, AgentNumber.One] = a[0];
-                        Show.AgentsActivityData[Team.B, AgentNumber.Two] = a[1];
+                        var answer = Bot[1].Answer();
+                        Show.AgentsActivityData[Team.B, AgentNumber.One] = answer[AgentNumber.One];
+                        Show.AgentsActivityData[Team.B, AgentNumber.Two] = answer[AgentNumber.Two];
                         stopwatch.Stop();
                         TimeDataList.Add(new TimeData(BotName[1] + " (Opponent Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
                     }
