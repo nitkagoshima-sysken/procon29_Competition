@@ -21,7 +21,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントの行動データを設定または取得します
         /// </summary>
-        public FourAgentsActivityData AgentsActivityData { get; set; }
+        public AgentsActivityData AgentsActivityData { get; set; }
 
         /// <summary>
         /// TurnDataを初期化します。
@@ -29,7 +29,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public TurnData(TurnData turnData)
         {
             Agents = new Agents(turnData.Agents);
-            AgentsActivityData = new FourAgentsActivityData(turnData.AgentsActivityData);
+            AgentsActivityData = new AgentsActivityData(turnData.AgentsActivityData);
             Field = new Field(turnData.Field.Width, turnData.Field.Height);
             for (int x = 0; x < Field.Width; x++)
             {
@@ -68,7 +68,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="field">フィールドを表します</param>
         /// <param name="agents">エージェントたちを表します</param>
         /// <param name="agentActivityDatas">エージェントの行動データを表します</param>
-        public TurnData(Field field, Agents agents, FourAgentsActivityData agentActivityDatas)
+        public TurnData(Field field, Agents agents, AgentsActivityData agentActivityDatas)
         {
             Field = field;
             Agents = agents;
@@ -84,7 +84,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             Field = field;
             Agents = agents;
-            AgentsActivityData = new FourAgentsActivityData();
+            AgentsActivityData = new AgentsActivityData();
         }
     }
 }
