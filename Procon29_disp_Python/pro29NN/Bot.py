@@ -5,6 +5,7 @@ import pro29NN
 import copy
 from . import ProconNetwork
 from . import Agent
+from . import SystemControl
 import numpy as np
 from collections import OrderedDict
 
@@ -81,13 +82,13 @@ class ProconNNControl:
         Enemy.FieldPointSearch()
         My.TurnSet(Enemy.GetPosition, [pos1, pos2])
         Enemy.TurnSet(My.GetPosition, [[True, 0], [True, 0]])
-        AgentData['MyGet'], AgentData['MyExist'], AgentData['MyFill'] = My.GetPosition, [pos1[1],], My.GetField
+        AgentData['MyGet'], AgentData['MyExist'], AgentData['MyFill'] = My.GetPosition, [pos1[1], pos2[1]], My.GetField
         AgentData['MyMovable'] = My.Agent[0].movable + My.Agent[1].movable
         AgentData['MyRemovable'] = My.Agent[0].removable + My.Agent[1].removable
-        AgentData['EnemyGet'], AgentData['EnemyExist'], AgentData['EnemyFill'] = Enemy.GetPosition, [pos1[1],], Enemy.GetField
+        AgentData['EnemyGet'], AgentData['EnemyExist'], AgentData['EnemyFill'] = Enemy.GetPosition, [Enemy.Agent[0].now, Enemy.Agent[1].now], Enemy.GetField
         AgentData['EnemyMovable'] = Enemy.Agent[0].movable + Enemy.Agent[1].movable
         AgentData['EnemyRemovable'] = Enemy.Agent[0].removable + Enemy.Agent[1].removable
-        Blank = [i for i in Blank if i not in AgentData['MyGet'] + [AgentData['MyExist'],] + AgentData['MyFill']\
+        Blank = [i for i in Blank if i not in AgentData['MyGet'] + [AgentData['MyExist']] + AgentData['MyFill']\
                                             + AgentData['MyMovable'] + AgentData['MyRemovable']\
                                             + AgentData['EnemyGet'] + [AgentData['EnemyExist'],] + AgentData['EnemyFill']\
                                             + AgentData['EnemyMovable'] + AgentData['EnemyRemovable']]
