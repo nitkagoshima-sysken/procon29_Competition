@@ -980,7 +980,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var f = new ConfrontationForm();
+            var f = new BotWarsForm();
             f.Show();
         }
     }

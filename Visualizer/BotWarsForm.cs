@@ -12,9 +12,9 @@ using System.Windows.Forms;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
-    public partial class ConfrontationForm : Form
+    public partial class BotWarsForm : Form
     {
-        public ConfrontationForm()
+        public BotWarsForm()
         {
             InitializeComponent();
         }

@@ -112,11 +112,11 @@
     </Compile>
     <Compile Include="CharactorBitmap.cs" />
     <Compile Include="ClickField.cs" />
-    <Compile Include="ConfrontationForm.cs">
+    <Compile Include="BotWarsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConfrontationForm.Designer.cs">
-      <DependentUpon>ConfrontationForm.cs</DependentUpon>
+    <Compile Include="BotWarsForm.Designer.cs">
+      <DependentUpon>BotWarsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="CreateNewForm.cs">
       <SubType>Form</SubType>
@@ -207,8 +207,8 @@
     <EmbeddedResource Include="BotLogForm.resx">
       <DependentUpon>BotLogForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ConfrontationForm.resx">
-      <DependentUpon>ConfrontationForm.cs</DependentUpon>
+    <EmbeddedResource Include="BotWarsForm.resx">
+      <DependentUpon>BotWarsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CreateNewForm.resx">
       <DependentUpon>CreateNewForm.cs</DependentUpon>
