@@ -883,13 +883,23 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
             }
             go[1] = Calc.Agents[OurTeam, AgentNumber.Two].Position + num2;
 
-            if (corner1[0] == corner2[0] && ct1 == ct2)
-            {
-                go[0] = Calc.Agents[OurTeam, AgentNumber.One].Position;
-                    ct1++;
-            }
+
 
             //=============最後の色々===========================================================================================================================================================================================
+
+            //上下対称対応
+            if (corner1[0] == corner2[0] && ct1 == ct2)
+            {
+                go[1] = Calc.Agents[OurTeam, AgentNumber.One].Position;
+                ct1++;
+            }
+
+            //同じ場所に行こうとした時は bot_1 の動きを優先する。
+            if (go[0] == go[1])
+            {
+                go[1] = Calc.Agents[OurTeam, AgentNumber.Two].Position;
+                turn2--;
+            }
 
             if (0 <= go[0].X && go[0].X < Calc.Field.Width && 0 <= go[0].Y && go[0].Y < Calc.Field.Height)
             {
