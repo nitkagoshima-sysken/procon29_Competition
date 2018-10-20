@@ -97,6 +97,12 @@
     <Compile Include="AgentStatusCodeAttribute.cs" />
     <Compile Include="AgentStatusCodeExtension.cs" />
     <Compile Include="Arrow.cs" />
+    <Compile Include="BotForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BotForm.Designer.cs">
+      <DependentUpon>BotForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="BotKind.cs" />
     <Compile Include="BotLogForm.cs">
       <SubType>Form</SubType>
@@ -195,6 +201,9 @@
     <Compile Include="AgentActivityDataExtension.cs" />
     <Compile Include="XmlCell.cs" />
     <Compile Include="XmlTurnData.cs" />
+    <EmbeddedResource Include="BotForm.resx">
+      <DependentUpon>BotForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BotLogForm.resx">
       <DependentUpon>BotLogForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -52,6 +52,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         CreateNewForm2 CreateNewForm2 { get; set; } = new CreateNewForm2();
 
         /// <summary>
+        /// ボットを選択するためのフォームです。
+        /// </summary>
+        BotForm BotForm { get; set; } = new BotForm();
+
+        /// <summary>
         /// ボットのログを表示します。
         /// </summary>
         public BotLogForm BotLogForm { get; set; } = new BotLogForm();
@@ -112,6 +117,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             Resize += new System.EventHandler(MainForm_Resize);
             BotLogForm.FormClosing += BotLogForm_Closing;
             CreateNewForm2.OKButton.Click += CreateNewForm2_OKButton_Click;
+            BotForm.OKButton.Click += BotForm_OKButton_Click;
 
             Log = new Logger(messageBox);
             var version = System.Diagnostics.FileVersionInfo.GetVersionInfo(
@@ -901,6 +907,70 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     break;
             }
             TurnProgressCheck();
+        }
+
+        private void SelectBotToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            BotForm.ShowDialog();
+        }
+
+        private void BotForm_OKButton_Click(object sender, EventArgs e)
+        {
+            BotForm.Hide();
+            switch (BotForm.OrangeBotKindComboBox.SelectedIndex)
+            {
+                case 0: // 人間
+                    Bot[0] = null;
+                    BotName[0] = "Human";
+                    break;
+                case 1: // ボット
+                    try
+                    {
+                        Assembly m = Assembly.LoadFrom(BotForm.SelectedOrangeBotNameLabel.Text);
+                        System.Text.RegularExpressions.MatchCollection mc = System.Text.RegularExpressions.Regex.Matches(BotForm.SelectedOrangeBotNameLabel.Text, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
+                        foreach (System.Text.RegularExpressions.Match match in mc)
+                        {
+                            Bot[0] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
+                            BotName[0] = match.Groups["file"].Value;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("不正なdllです。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    break;
+                case 2: // Hydro Go Bot
+                    Bot[0] = null;
+                    BotName[0] = "hydro_go_bot";
+                    break;
+            }
+            switch (BotForm.LimeBotKindComboBox.SelectedIndex)
+            {
+                case 0: // 人間
+                    Bot[1] = null;
+                    BotName[1] = "Human";
+                    break;
+                case 1: // ボット
+                    try
+                    {
+                        Assembly m = Assembly.LoadFrom(BotForm.SelectedOrangeBotNameLabel.Text);
+                        System.Text.RegularExpressions.MatchCollection mc = System.Text.RegularExpressions.Regex.Matches(BotForm.SelectedOrangeBotNameLabel.Text, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
+                        foreach (System.Text.RegularExpressions.Match match in mc)
+                        {
+                            Bot[1] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
+                            BotName[1] = match.Groups["file"].Value;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("不正なdllです。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    break;
+                case 2: // Hydro Go Bot
+                    Bot[1] = null;
+                    BotName[1] = "hydro_go_bot";
+                    break;
+            }
         }
     }
 }
