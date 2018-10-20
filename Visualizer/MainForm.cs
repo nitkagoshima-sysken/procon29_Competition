@@ -951,8 +951,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 case 1: // ボット
                     try
                     {
-                        Assembly m = Assembly.LoadFrom(BotForm.SelectedOrangeBotNameLabel.Text);
-                        System.Text.RegularExpressions.MatchCollection mc = System.Text.RegularExpressions.Regex.Matches(BotForm.SelectedOrangeBotNameLabel.Text, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
+                        Assembly m = Assembly.LoadFrom(BotForm.SelectedLimeBotNameLabel.Text);
+                        System.Text.RegularExpressions.MatchCollection mc = System.Text.RegularExpressions.Regex.Matches(BotForm.SelectedLimeBotNameLabel.Text, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
                         foreach (System.Text.RegularExpressions.Match match in mc)
                         {
                             Bot[1] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
