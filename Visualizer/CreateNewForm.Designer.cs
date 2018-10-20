@@ -1,6 +1,6 @@
 ﻿namespace nitkagoshima_sysken.Procon29.Visualizer
 {
-    partial class CreateNewForm2
+    partial class CreateNewForm
     {
         /// <summary>
         /// Required designer variable.

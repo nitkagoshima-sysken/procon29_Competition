@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
-    public partial class CreateNewForm2 : Form
+    public partial class CreateNewForm : Form
     {
         VisualizerCommonFieldOpenForm VisualizerCommonFieldOpenForm { get; set; } = new VisualizerCommonFieldOpenForm();
 
         /// <summary>
         /// CreateNewForm を初期化します。
         /// </summary>
-        public CreateNewForm2()
+        public CreateNewForm()
         {
             InitializeComponent();
 
