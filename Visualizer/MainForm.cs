@@ -890,6 +890,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     Calc = new Calc(MaxTurn, field, agents);
                     Show = new Show(Calc, TeamDesign, FieldDisplay);
                     Show.Showing();
+                    Log.WriteLine("[Create New] Visualizer Common Field Code is " + CreateNewForm.SelectedPQRFileNameLabel.Text, Color.SkyBlue);
                     break;
                 case 2:
                     OpenPQRFile(CreateNewForm.SelectedPQRFileNameLabel.Text);
@@ -911,6 +912,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 case 0: // 人間
                     Bot[0] = null;
                     BotName[0] = "Human";
+                    Log.WriteLine("[Bot] Changed to Human on orange team.", Color.SkyBlue);
                     break;
                 case 1: // ボット
                     try
@@ -921,6 +923,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         {
                             Bot[0] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
                             BotName[0] = match.Groups["file"].Value;
+                            Log.WriteLine("[Bot] Bot \"" + BotName[0] + "\" was read on orange team", Color.SkyBlue);
                         }
                     }
                     catch (Exception)
@@ -938,6 +941,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 case 0: // 人間
                     Bot[1] = null;
                     BotName[1] = "Human";
+                    Log.WriteLine("[Bot] Changed to Human on lime team.", Color.SkyBlue);
                     break;
                 case 1: // ボット
                     try
@@ -948,6 +952,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         {
                             Bot[1] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
                             BotName[1] = match.Groups["file"].Value;
+                            Log.WriteLine("[Bot] Bot \"" + BotName[1] + "\" was read on lime team", Color.SkyBlue);
                         }
                     }
                     catch (Exception)
