@@ -138,6 +138,7 @@
     </Compile>
     <Compile Include="PlayMode.cs" />
     <Compile Include="PrefetchingFileReader.cs" />
+    <Compile Include="SymmetricalPattern.cs" />
     <Compile Include="TeamDesigns.cs" />
     <Compile Include="TimeData.cs" />
     <Compile Include="TimeMeasurementForm.cs">

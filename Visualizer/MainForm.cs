@@ -844,8 +844,17 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             BotConsoleToolStripMenuItem.Checked = false;
         }
 
-        private void CreateNew2ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            switch (Mode)
+            {
+                case PlayMode.PracticeMode:
+                    CreateNewForm.FieldKindComboBox.SelectedIndex = 1;
+                    break;
+                case PlayMode.ProductionMode:
+                    CreateNewForm.FieldKindComboBox.SelectedIndex = 2;
+                    break;
+            }
             CreateNewForm.ShowDialog();
         }
 
