@@ -47,6 +47,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         CreateNewForm CreateNewForm { get; set; } = new CreateNewForm();
 
         /// <summary>
+        /// ボットを選択するためのフォームです。
+        /// </summary>
+        BotForm BotForm { get; set; } = new BotForm();
+
+        /// <summary>
         /// ボットのログを表示します。
         /// </summary>
         public BotLogForm BotLogForm { get; set; } = new BotLogForm();
@@ -106,6 +111,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             FieldDisplay.MouseMove += new MouseEventHandler(FieldDisplay_MouseMove);
             Resize += new System.EventHandler(MainForm_Resize);
             BotLogForm.FormClosing += BotLogForm_Closing;
+            CreateNewForm.OKButton.Click += CreateNewForm_OKButton_Click;
+            BotForm.OKButton.Click += BotForm_OKButton_Click;
 
             Log = new Logger(messageBox);
             var version = System.Diagnostics.FileVersionInfo.GetVersionInfo(
@@ -176,7 +183,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             WriteLog();
             TurnProgressCheck();
         }
-
 
         private void WriteLog()
         {
@@ -361,21 +367,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// ここで新しい試合を作成します。
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CreateNewForm.ShowDialog(this);
-            Calc.MaxTurn = MaxTurn;
-            //OKボタンがクリックされたとき、選択されたファイル名を開き、データを読み込む    
-            if (CreateNewForm.SelectPQRFile != ".pqr" && CreateNewForm.SelectPQRFile != null)
-                OpenPQRFile(CreateNewForm.SelectPQRFile);
-            TurnProgressCheck();
-        }
-
-        /// <summary>
         /// PQRファイルを開く処理
         /// </summary>
         /// <param name="path">ファイルのパス</param>
@@ -414,6 +405,22 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 Show = new Show(Calc, TeamDesign, FieldDisplay);
                 Show.Showing();
+            }
+            catch (DirectoryNotFoundException)
+            {
+                MessageBox.Show(
+                    "そんなディレクトリは存在しません。",
+                    "エラー",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show(
+                    "そんなファイルは存在しません。",
+                    "エラー",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
             catch (Exception)
             {
@@ -835,6 +842,129 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void BotLogForm_Closing(object sender, FormClosingEventArgs e)
         {
             BotConsoleToolStripMenuItem.Checked = false;
+        }
+
+        private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            switch (Mode)
+            {
+                case PlayMode.PracticeMode:
+                    CreateNewForm.FieldKindComboBox.SelectedIndex = 1;
+                    break;
+                case PlayMode.ProductionMode:
+                    CreateNewForm.FieldKindComboBox.SelectedIndex = 2;
+                    break;
+            }
+            CreateNewForm.ShowDialog();
+        }
+
+        private void CreateNewForm_OKButton_Click(object sender, EventArgs e)
+        {
+            CreateNewForm.Hide();
+            MaxTurn = int.Parse(CreateNewForm.MaxTurnMaskedTextBox.Text);
+            switch (CreateNewForm.FieldKindComboBox.SelectedIndex)
+            {
+                case 0:
+                    break;
+                case 1:
+                    var field_generator = new FieldGenerator(CreateNewForm.SelectedPQRFileNameLabel.Text);
+                    var agents = new Agents();
+                    var coordinates = field_generator.AgentPositionGenerate();
+                    agents[Team.A, AgentNumber.One].Position = coordinates[0];
+                    agents[Team.A, AgentNumber.Two].Position = coordinates[1];
+                    var field = field_generator.Generate();
+                    OpponentPositionForm.OurTeamPositionLabel.Text = "自分:" + coordinates[0] + coordinates[1];
+                    OpponentPositionForm.OpponentPosition1X.Text = ComplementEnemysPosition(field, coordinates[0]).X.ToString();
+                    OpponentPositionForm.OpponentPosition1Y.Text = ComplementEnemysPosition(field, coordinates[0]).Y.ToString();
+                    OpponentPositionForm.OpponentPosition2X.Text = ComplementEnemysPosition(field, coordinates[1]).X.ToString();
+                    OpponentPositionForm.OpponentPosition2Y.Text = ComplementEnemysPosition(field, coordinates[1]).Y.ToString();
+                    OpponentPositionForm.ShowDialog(this);
+                    agents[Team.B, AgentNumber.One].Position =
+                        new Coordinate(
+                            int.Parse(OpponentPositionForm.OpponentPosition1X.Text),
+                            int.Parse(OpponentPositionForm.OpponentPosition1Y.Text));
+                    agents[Team.B, AgentNumber.Two].Position =
+                        new Coordinate(
+                            int.Parse(OpponentPositionForm.OpponentPosition2X.Text),
+                            int.Parse(OpponentPositionForm.OpponentPosition2Y.Text));
+                    Calc = new Calc(MaxTurn, field, agents);
+                    Show = new Show(Calc, TeamDesign, FieldDisplay);
+                    Show.Showing();
+                    Log.WriteLine("[Create New] Visualizer Common Field Code is " + CreateNewForm.SelectedPQRFileNameLabel.Text, Color.SkyBlue);
+                    break;
+                case 2:
+                    OpenPQRFile(CreateNewForm.SelectedPQRFileNameLabel.Text);
+                    break;
+            }
+            TurnProgressCheck();
+        }
+
+        private void SelectBotToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            BotForm.ShowDialog();
+        }
+
+        private void BotForm_OKButton_Click(object sender, EventArgs e)
+        {
+            BotForm.Hide();
+            switch (BotForm.OrangeBotKindComboBox.SelectedIndex)
+            {
+                case 0: // 人間
+                    Bot[0] = null;
+                    BotName[0] = "Human";
+                    Log.WriteLine("[Bot] Changed to Human on orange team.", Color.SkyBlue);
+                    break;
+                case 1: // ボット
+                    try
+                    {
+                        Assembly m = Assembly.LoadFrom(BotForm.SelectedOrangeBotNameLabel.Text);
+                        System.Text.RegularExpressions.MatchCollection mc = System.Text.RegularExpressions.Regex.Matches(BotForm.SelectedOrangeBotNameLabel.Text, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
+                        foreach (System.Text.RegularExpressions.Match match in mc)
+                        {
+                            Bot[0] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
+                            BotName[0] = match.Groups["file"].Value;
+                            Log.WriteLine("[Bot] Bot \"" + BotName[0] + "\" was read on orange team", Color.SkyBlue);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("不正なdllです。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    break;
+                case 2: // Hydro Go Bot
+                    Bot[0] = null;
+                    BotName[0] = "hydro_go_bot";
+                    break;
+            }
+            switch (BotForm.LimeBotKindComboBox.SelectedIndex)
+            {
+                case 0: // 人間
+                    Bot[1] = null;
+                    BotName[1] = "Human";
+                    Log.WriteLine("[Bot] Changed to Human on lime team.", Color.SkyBlue);
+                    break;
+                case 1: // ボット
+                    try
+                    {
+                        Assembly m = Assembly.LoadFrom(BotForm.SelectedOrangeBotNameLabel.Text);
+                        System.Text.RegularExpressions.MatchCollection mc = System.Text.RegularExpressions.Regex.Matches(BotForm.SelectedOrangeBotNameLabel.Text, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
+                        foreach (System.Text.RegularExpressions.Match match in mc)
+                        {
+                            Bot[1] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
+                            BotName[1] = match.Groups["file"].Value;
+                            Log.WriteLine("[Bot] Bot \"" + BotName[1] + "\" was read on lime team", Color.SkyBlue);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("不正なdllです。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    break;
+                case 2: // Hydro Go Bot
+                    Bot[1] = null;
+                    BotName[1] = "hydro_go_bot";
+                    break;
+            }
         }
     }
 }
