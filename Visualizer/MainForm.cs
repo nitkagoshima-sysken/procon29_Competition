@@ -177,7 +177,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             TurnProgressCheck();
         }
 
-
         private void WriteLog()
         {
             Log.WriteLine("\n" + "Turn : " + Calc.Turn);
