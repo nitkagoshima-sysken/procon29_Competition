@@ -366,7 +366,7 @@
             this.CreateNew2ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.CreateNew2ToolStripMenuItem.Size = new System.Drawing.Size(308, 28);
             this.CreateNew2ToolStripMenuItem.Text = "新規作成(&N)";
-            this.CreateNew2ToolStripMenuItem.Click += new System.EventHandler(this.CreateNew2ToolStripMenuItem_Click);
+            this.CreateNew2ToolStripMenuItem.Click += new System.EventHandler(this.CreateNewToolStripMenuItem_Click);
             // 
             // FieldDisplay
             // 

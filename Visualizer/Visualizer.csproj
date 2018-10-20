@@ -112,11 +112,11 @@
     </Compile>
     <Compile Include="CharactorBitmap.cs" />
     <Compile Include="ClickField.cs" />
-    <Compile Include="CreateNewForm2.cs">
+    <Compile Include="CreateNewForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CreateNewForm2.Designer.cs">
-      <DependentUpon>CreateNewForm2.cs</DependentUpon>
+    <Compile Include="CreateNewForm.Designer.cs">
+      <DependentUpon>CreateNewForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Direction.cs" />
     <Compile Include="DrawField.cs" />
@@ -161,12 +161,6 @@
     <Compile Include="XmlCalc.cs" />
     <Compile Include="Calc.cs" />
     <Compile Include="Coordinate.cs" />
-    <Compile Include="CreateNewForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CreateNewForm.Designer.cs">
-      <DependentUpon>CreateNewForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Cell.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="FieldExtension.cs" />
@@ -209,9 +203,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CreateNewForm.resx">
       <DependentUpon>CreateNewForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CreateNewForm2.resx">
-      <DependentUpon>CreateNewForm2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HistoryForm.resx">
       <DependentUpon>HistoryForm.cs</DependentUpon>

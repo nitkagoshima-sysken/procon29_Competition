@@ -47,11 +47,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         CreateNewForm CreateNewForm { get; set; } = new CreateNewForm();
 
         /// <summary>
-        /// 新たな戦いを始めるためのフォームです。
-        /// </summary>
-        CreateNewForm2 CreateNewForm2 { get; set; } = new CreateNewForm2();
-
-        /// <summary>
         /// ボットを選択するためのフォームです。
         /// </summary>
         BotForm BotForm { get; set; } = new BotForm();
@@ -116,7 +111,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             FieldDisplay.MouseMove += new MouseEventHandler(FieldDisplay_MouseMove);
             Resize += new System.EventHandler(MainForm_Resize);
             BotLogForm.FormClosing += BotLogForm_Closing;
-            CreateNewForm2.OKButton.Click += CreateNewForm2_OKButton_Click;
+            CreateNewForm.OKButton.Click += CreateNewForm_OKButton_Click;
             BotForm.OKButton.Click += BotForm_OKButton_Click;
 
             Log = new Logger(messageBox);
@@ -369,21 +364,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 Show.ClickField = new ClickField(Calc, Show.PictureBox);
                 Show.Showing();
             }
-        }
-
-        /// <summary>
-        /// ここで新しい試合を作成します。
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CreateNewForm.ShowDialog(this);
-            Calc.MaxTurn = MaxTurn;
-            //OKボタンがクリックされたとき、選択されたファイル名を開き、データを読み込む    
-            if (CreateNewForm.SelectPQRFile != ".pqr" && CreateNewForm.SelectPQRFile != null)
-                OpenPQRFile(CreateNewForm.SelectPQRFile);
-            TurnProgressCheck();
         }
 
         /// <summary>
@@ -864,21 +844,30 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             BotConsoleToolStripMenuItem.Checked = false;
         }
 
-        private void CreateNew2ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CreateNewForm2.ShowDialog();
+            switch (Mode)
+            {
+                case PlayMode.PracticeMode:
+                    CreateNewForm.FieldKindComboBox.SelectedIndex = 1;
+                    break;
+                case PlayMode.ProductionMode:
+                    CreateNewForm.FieldKindComboBox.SelectedIndex = 2;
+                    break;
+            }
+            CreateNewForm.ShowDialog();
         }
 
-        private void CreateNewForm2_OKButton_Click(object sender, EventArgs e)
+        private void CreateNewForm_OKButton_Click(object sender, EventArgs e)
         {
-            CreateNewForm2.Hide();
-            MaxTurn = int.Parse(CreateNewForm2.MaxTurnMaskedTextBox.Text);
-            switch (CreateNewForm2.FieldKindComboBox.SelectedIndex)
+            CreateNewForm.Hide();
+            MaxTurn = int.Parse(CreateNewForm.MaxTurnMaskedTextBox.Text);
+            switch (CreateNewForm.FieldKindComboBox.SelectedIndex)
             {
                 case 0:
                     break;
                 case 1:
-                    var field_generator = new FieldGenerator(CreateNewForm2.SelectedPQRFileNameLabel.Text);
+                    var field_generator = new FieldGenerator(CreateNewForm.SelectedPQRFileNameLabel.Text);
                     var agents = new Agents();
                     var coordinates = field_generator.AgentPositionGenerate();
                     agents[Team.A, AgentNumber.One].Position = coordinates[0];
@@ -903,7 +892,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     Show.Showing();
                     break;
                 case 2:
-                    OpenPQRFile(CreateNewForm2.SelectedPQRFileNameLabel.Text);
+                    OpenPQRFile(CreateNewForm.SelectedPQRFileNameLabel.Text);
                     break;
             }
             TurnProgressCheck();
