@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -965,6 +965,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     BotName[1] = "hydro_go_bot";
                     break;
             }
+        }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var f = new ConfrontationForm();
+            f.ShowDialog();
         }
     }
 }
