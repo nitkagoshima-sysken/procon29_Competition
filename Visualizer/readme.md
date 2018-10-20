@@ -1,4 +1,8 @@
-# Procon29 Visualizer 78.0
+# Procon29 Visualizer 79.0
+
+## Visualizer Common Field Libraryの一部にエージェントたちが同じマスに2人存在してしまうフィールドが存在しているバグを修正
+
+具体的に例を示すと、`HK960`や、`HE897`などが挙げられます。
 
 ## Visualizer Common Field Library について
 
@@ -750,6 +754,10 @@
 
 - ボットを読み込む際のバグを修正
 - デフォルトが「人間」から「ボット」に変更された
+
+### Version 79.0
+
+- Visualizer Common Field Libraryの一部にエージェントたちが同じマスに2人存在してしまうフィールドが存在しているバグを修正
 
 ## バージョンの上がり方について
 

@@ -880,10 +880,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             var field_generator = new FieldGenerator(id);
             var agents = new Agents();
-            var coordinates = field_generator.AgentPositionGenerate();
+            var field = field_generator.Generate();
+            var coordinates = field_generator.AgentPositionGenerate(field);
             agents[Team.A, AgentNumber.One].Position = coordinates[0];
             agents[Team.A, AgentNumber.Two].Position = coordinates[1];
-            var field = field_generator.Generate();
             OpponentPositionForm.OurTeamPositionLabel.Text = "自分:" + coordinates[0] + coordinates[1];
             OpponentPositionForm.OpponentPosition1X.Text = ComplementEnemysPosition(field, coordinates[0]).X.ToString();
             OpponentPositionForm.OpponentPosition1Y.Text = ComplementEnemysPosition(field, coordinates[0]).Y.ToString();
