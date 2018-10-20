@@ -21,15 +21,29 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// エージェントの行動データを設定または取得します
         /// </summary>
-        public AgentsActivityData AgentActivityDatas { get; set; }
+        public AgentsActivityData AgentsActivityData { get; set; }
+
+        /// <summary>
+        /// TurnDataを初期化します。
+        /// </summary>
+        public TurnData(TurnData turnData)
+        {
+            Agents = new Agents(turnData.Agents);
+            AgentsActivityData = new AgentsActivityData(turnData.AgentsActivityData);
+            Field = new Field(turnData.Field.Width, turnData.Field.Height);
+            for (int x = 0; x < Field.Width; x++)
+            {
+                for (int y = 0; y < Field.Height; y++)
+                {
+                    Field[x, y] = new Cell(turnData.Field[x, y]);
+                }
+            }
+        }
 
         /// <summary>
         /// XML化するために宣言します
         /// </summary>
-        public TurnData()
-        {
-        }
-
+        /// <param name="xmlTurnData">対象のXmlTurnData</param>
         public TurnData(XmlTurnData xmlTurnData)
         {
             Agents = new Agents();
@@ -37,7 +51,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 Agents[(Team)(i / 2), (AgentNumber)(i % 2)] = xmlTurnData.Agents[i];
             }
-            AgentActivityDatas = xmlTurnData.AgentActivityDatas;
+            AgentsActivityData = xmlTurnData.AgentActivityDatas;
             Field = new Field(xmlTurnData.Width, xmlTurnData.Height);
             for (int x = 0; x < xmlTurnData.Width; x++)
             {
@@ -58,7 +72,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             Field = field;
             Agents = agents;
-            AgentActivityDatas = agentActivityDatas;
+            AgentsActivityData = agentActivityDatas;
         }
 
         /// <summary>
@@ -70,7 +84,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             Field = field;
             Agents = agents;
-            AgentActivityDatas = new AgentsActivityData();
+            AgentsActivityData = new AgentsActivityData();
         }
     }
 }

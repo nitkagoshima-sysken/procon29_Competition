@@ -1,10 +1,43 @@
-# Procon29 Visualizer 57.0
+# Procon29 Visualizer 78.0
 
-## What's new
+## Visualizer Common Field Library について
 
-**Visualizer 49.0** より、`Calc.Sum()`が廃止されました。  
-ボット開発者のみなさんは、  
-`Calc.Sum()`をお使いの方は`Calc.Field.Sum()`に変更してください。
+**Visualizer 75.0** からすべてのVisualizerに**Visualizer Common Field Library**が実装されました。  
+**Visualizer Common Field Library**には、72000種類の様々なフィールドデータが収録されています。  
+すべての**Visualizer Common Field**には5桁ないし6桁のIDが割り振られています。  
+このIDが同じであれば、他のVisualizerと同じフィールドを読み込むことができるため、  
+バグが発生したときに、再現がしやすくなります。  
+また、PQRファイルのように、バグを再現するために送ったりする必要がなくなります。
+**Visualizer Common Field**のIDにつくアルファベットには次の共通点があります。
+
+|Alphabet|Meaning|
+|:--:|:--:|
+|`A`|幅7×高さ12のフィールド|
+|`B`|幅8×高さ10のフィールド|
+|`C`|幅8×高さ11のフィールド|
+|`D`|幅8×高さ12のフィールド|
+|`E`|幅9×高さ9のフィールド|
+|`F`|幅9×高さ10のフィールド|
+|`G`|幅9×高さ11のフィールド|
+|`H`|左右対称のフィールド|
+|`I`|幅9×高さ12のフィールド|
+|`J`|幅10×高さ8のフィールド|
+|`K`|幅10×高さ9のフィールド|
+|`L`|幅10×高さ10のフィールド|
+|`M`|幅10×高さ11のフィールド|
+|`N`|幅10×高さ12のフィールド|
+|`O`|幅11×高さ8のフィールド|
+|`P`|幅11×高さ9のフィールド|
+|`Q`|幅11×高さ10のフィールド|
+|`R`|幅11×高さ11のフィールド|
+|`S`|幅11×高さ12のフィールド|
+|`T`|幅12×高さ7のフィールド|
+|`U`|幅12×高さ8のフィールド|
+|`V`|上下対称のフィールド|
+|`W`|幅12×高さ9のフィールド|
+|`X`|幅12×高さ10のフィールド|
+|`Y`|幅12×高さ11のフィールド|
+|`Z`|幅12×高さ12のフィールド|
 
 ## 操作方法
 
@@ -14,9 +47,6 @@
  4. 最後にターンエンドを押す。
 
 ## ショートカットキー一覧
-
-現在(Visualizer 25.0)、謎のバグが発生して、エージェントの選択ができない状態です。  
-`Ctrl`を使ったショートカットは使えるので、そこは安心してお使いしてください。
 
 |Key|What will happen?|
 |:--:|:--:|
@@ -32,6 +62,7 @@
 |`NumPad7`| 選択されたエージェントが左上に移動する |
 |`NumPad8`| 選択されたエージェントが上に移動する |
 |`NumPad9`| 選択されたエージェントが右上に移動する |
+|`Ctrl`+`N`| 試合を新しく行う |
 |`Ctrl`+`S`| 試合を保存する |
 |`Ctrl`+`Y`| ターンをやり直す |
 |`Ctrl`+`Z`| ターンを元に戻す |
@@ -47,8 +78,8 @@
 
 |コマンド|引数|機能|
 |:-:|:-:|:-:|
-|`A`|path|オレンジチームに指定したボットが読み込まれる|
-|`B`|path|ライムチームに指定したボットが読み込まれる|
+|`A`|path|自分チームに指定したボットが読み込まれる|
+|`B`|path|敵チームに指定したボットが読み込まれる|
 
 ### Calc.tsv
 
@@ -599,6 +630,122 @@
 - `Calc.Simulate(Team, AgentActivityData[])`のコード最適化（SeitaHigashi氏によるデバッグ）
 - `Calc.Simulate(Team, AgentNumber, AgentActivityData)`のコード最適化（SeitaHigashi氏によるデバッグ）
 
+### Version 58.0
+
+- 新規作成で試合のターン数のデフォルトが10ターンから40ターンに変更された
+- 処理時間を計測するフォームの修正
+
+### Version 59.0
+
+- ボットの処理速度が最大で30倍速くなった
+
+### Version 60.0
+
+- 右クリックでいつでもマスのタイルの情報を変更できるようになった
+- `PictureBoxExtension.ToCellCordinate(this PictureBox, Calc, Coordinate)`を追加（開発者向け）
+
+### Version 61.0
+
+- トランプを表示するための領域が表示できるようになった
+- `CoordinateExtension.ToCellCordinate(this Coordinate, PictureBox, Field)`を追加（開発者向け）
+- `PictureBoxExtension.ToCellCordinate(this PictureBox, Calc, Coordinate)`を廃止（開発者向け）
+- `Show.BackGroundSolidBrush`を廃止（開発者向け）
+- `Show.SelectSolidBrush`を廃止（開発者向け）
+- `Show.ClickedSolidBrush`を廃止（開発者向け）
+- `Show.PointFont`を廃止（開発者向け）
+- `Show.Procon29_Logger`を廃止（開発者向け）
+
+### Version 62.0
+
+- 右クリックでマスのタイルの情報を書き換えた後、自動的に再計算するようになった
+- `Calc.Recalculation()`を追加（開発者向け）
+
+### Version 63.0
+
+- `TegetegeBot`にて2ターン目から試合が始まってしまうバグを修正
+- ボットに`Calc`を渡す際に、ディープコピーするように変更（開発者向け）
+- このバージョンで、足りないコメントを補完（開発者向け）
+- このバージョンで、C#の命名規則違反になっている変数名などを変更（開発者向け）
+
+### Version 64.0
+
+- エージェントがフィールドの中心を見るように修正
+
+### Version 65.0
+
+- ボットの処理速度がさらに少し速くなった
+
+### Version 66.0
+
+- 試合を強制的に終わらせるようにした
+
+### Version 67.0
+
+- テンキーでの移動に関するバグが修正された
+
+#### Version 67.1
+
+- `AgentStatusCodeExtension`のアクセシビリティを`public`に変更（開発者向け）
+
+### Version 68.0
+
+- ボットコンソールを閉じるとチェックが外れるように修正
+- `Trump`を追加（開発者向け）
+- トランプの画像をリソースに追加（開発者向け）
+
+### Version 69.0
+
+- `AgentsActivityData`を`FourAgentsActivityData`に変更（開発者向け）
+- `AgentsActivityDataExtension`を`FourAgentsActivityDataExtension`に変更（開発者向け）
+- `TwoAgentsActivityData`を追加（開発者向け）
+- `Calc.Simulate(Team, AgentActivityData[])`を廃止（開発者向け）
+- `Calc.Simulate(Team, TwoAgentsActivityData)`を追加（開発者向け）
+
+#### Version 69.1
+
+- ボットによる緊急修正
+
+### Version 70.0
+
+- **Version 69.0** の取り消し
+
+### Version 71.0
+
+- `SymmetricalPattern`を追加（開発者向け）
+- `Size.ToString()`を追加（開発者向け）
+- `FieldGenerator`を追加（開発者向け）
+
+### Version 72.0
+
+- 新規作成をリニューアル
+
+### Version 73.0
+
+- Visualizer 共通フィールドを開くためのフォームを追加
+- **Visualizer Common Field Library** を実装
+
+### Version 74.0
+
+- ボットを読み込むためのフォームを追加
+
+### Version 75.0
+
+- Visualizer 共通フィールドを開くためのフォームで「左右および上下対称」が選択できないバグを修正
+
+### Version 76.0
+
+- `CreateNewForm`を廃止（開発者向け）
+
+### Version 77.0
+
+- 本番モードでは新規作成を開くとデフォルトが「直接ファイルを開く」になるように修正
+- `CreateNewForm2`を`CreateNewForm`に変更（開発者向け）
+
+### Version 78.0
+
+- ボットを選択のときに「人間」または「Hydro Go Bot」を選択した際に、ファイルを開くボタンを非表示にするように変更
+- ボットを読み込む際や、新しく試合を開始するときに読み込んだファイル名をコンソールに表示するように変更
+
 ## バージョンの上がり方について
 
 Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバージョン.マイナーバージョン.ビルドバージョン`で表されます。  
@@ -643,3 +790,7 @@ Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバ�
 |34.0|83|1108|7|201|2625|
 |54.1|82|1145|7|217|2833|
 |57.0|81|1162|7|218|2903|
+|59.0|81|1167|7|218|2918|
+|67.1|81|1166|7|224|2826|
+|75.0|80|1266|7|238|3468|
+|77.0|80|1234|7|236|3004|

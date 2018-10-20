@@ -10,8 +10,14 @@ using System.Windows.Forms;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
+    /// <summary>
+    /// 敵の位置を修正するためフォームです。
+    /// </summary>
     public partial class OpponentPositionForm : Form
     {
+        /// <summary>
+        /// 初期化します。
+        /// </summary>
         public OpponentPositionForm()
         {
             InitializeComponent();

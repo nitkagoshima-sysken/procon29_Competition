@@ -4,178 +4,93 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
     public partial class CreateNewForm : Form
     {
-        public string SelectPQRFile { get; set; }
-        public int MaxTrun { get; set; }
-        dynamic bot0 { get; set; }
-        dynamic bot1 { get; set; }
+        VisualizerCommonFieldOpenForm VisualizerCommonFieldOpenForm { get; set; } = new VisualizerCommonFieldOpenForm();
+
         /// <summary>
-        /// 新たなCalcクラスを作成します。
+        /// CreateNewForm を初期化します。
         /// </summary>
-        public Calc NewCalc { get; set; }
-
-        private System.Windows.Forms.TableLayoutPanel Button1;
-
-
         public CreateNewForm()
         {
             InitializeComponent();
-            //フォームが最大化されないようにする
-            this.MaximizeBox = false;
-            //フォームが最小化されないようにする
-            this.MinimizeBox = false;
 
+            VisualizerCommonFieldOpenForm.OKButton.Click += VisualizerCommonFieldOpenForm_OKButton_Click;
 
-        }
-
-        private void SelectPQRFileButton_Click(object sender, EventArgs e)
-        {
-            //OpenFileDialogクラスのインスタンスを作成
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            //はじめのファイル名を指定する
-            //はじめに「ファイル名」で表示される文字列を指定する
-            openFileDialog.FileName = "";
-            //はじめに表示されるフォルダを指定する
-            //指定しない（空の文字列）の時は、現在のディレクトリが表示される
-            openFileDialog.InitialDirectory = "";
-            //[ファイルの種類]に表示される選択肢を指定する
-            //指定しないとすべてのファイルが表示される
-            openFileDialog.Filter = "PQRファイル(*.pqr)|*.pqr|すべてのファイル(*.*)|*.*";
-            //[ファイルの種類]ではじめに選択されるものを指定する
-            //1番目の「PQRファイル」が選択されているようにする
-            openFileDialog.FilterIndex = 1;
-            //タイトルを設定する
-            openFileDialog.Title = "開くファイルを選択してください";
-            //ダイアログボックスを閉じる前に現在のディレクトリを復元するようにする
-            openFileDialog.RestoreDirectory = true;
-
-            //ダイアログを表示する
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            var random = new Random();
+            switch (random.Next(0, 2))
             {
-                SelectedPQRFileNameLabel.Text = openFileDialog.FileName;
+                case 0:
+                    SelectedPQRFileNameLabel.Text = "H";
+                    break;
+                case 1:
+                    SelectedPQRFileNameLabel.Text = "V";
+                    break;
+                case 2:
+                    SelectedPQRFileNameLabel.Text = "HV";
+                    break;
             }
+            SelectedPQRFileNameLabel.Text += "ABCDEFGIJKLMNOPQRSTUWXYZ"[random.Next(0, 24)];
+            SelectedPQRFileNameLabel.Text += random.Next(0, 999).ToString("D3");
         }
 
         private void CancelButton_Click(object sender, EventArgs e)
         {
-            Visible = false;
+            Close();
         }
 
-        //MaxTrunのKeyPressイベントハンドラ
-        private void MaxTurnTextBox_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        private void FieldKindComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //if (e.KeyChar < '0' || '9' < e.KeyChar)
-            //{
-            //    //押されたキーが 0～9でない場合は、イベントをキャンセルする
-            //    e.Handled = true;
-            //}
-        }
-
-        private void OKButton_Click(object sender, EventArgs e)
-        {
-            SelectPQRFile = SelectedPQRFileNameLabel.Text;
-            MainForm.MaxTurn = int.Parse(MaxTurnTextBox.Text);
-            MainForm.Bot[0] = bot0;
-            MainForm.Bot[1] = bot1;
-            Visible = false;
-        }
-
-        private void SelectBotButton1_Click(object sender, EventArgs e)
-        {
-            //OpenFileDialogクラスのインスタンスを作成
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            //はじめのファイル名を指定する
-            //はじめに「ファイル名」で表示される文字列を指定する
-            openFileDialog.FileName = "";
-            //はじめに表示されるフォルダを指定する
-            //指定しない（空の文字列）の時は、現在のディレクトリが表示される
-            openFileDialog.InitialDirectory = "";
-            //[ファイルの種類]に表示される選択肢を指定する
-            //指定しないとすべてのファイルが表示される
-            openFileDialog.Filter = "ダイナミックリンクライブラリ(*.dll)|*.dll|すべてのファイル(*.*)|*.*";
-            //[ファイルの種類]ではじめに選択されるものを指定する
-            //1番目の「PQRファイル」が選択されているようにする
-            openFileDialog.FilterIndex = 1;
-            //タイトルを設定する
-            openFileDialog.Title = "開くファイルを選択してください";
-            //ダイアログボックスを閉じる前に現在のディレクトリを復元するようにする
-            openFileDialog.RestoreDirectory = true;
-
-            //ダイアログを表示する
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            switch (FieldKindComboBox.SelectedIndex)
             {
-                try
-                {
-                    Assembly m = Assembly.LoadFrom(openFileDialog.FileName);
-
-                    System.Text.RegularExpressions.MatchCollection mc = System.Text.RegularExpressions.Regex.Matches(openFileDialog.FileName, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
-
-                    foreach (System.Text.RegularExpressions.Match match in mc)
-                    {
-                        bot1 = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
-                        MainForm.BotName[1] = match.Groups["file"].Value;
-                    }
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("不正なdllです。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                case 0:
+                    SlecetPQRFileButton.Visible = false;
+                    break;
+                case 1:
+                    SlecetPQRFileButton.Visible = true;
+                    break;
+                case 2:
+                    SlecetPQRFileButton.Visible = true;
+                    break;
             }
         }
 
-        private void SelectBotButton0_Click(object sender, EventArgs e)
+        private void SlecetPQRFileButton_Click(object sender, EventArgs e)
         {
-            //OpenFileDialogクラスのインスタンスを作成
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            //はじめのファイル名を指定する
-            //はじめに「ファイル名」で表示される文字列を指定する
-            openFileDialog.FileName = "";
-            //はじめに表示されるフォルダを指定する
-            //指定しない（空の文字列）の時は、現在のディレクトリが表示される
-            openFileDialog.InitialDirectory = "";
-            //[ファイルの種類]に表示される選択肢を指定する
-            //指定しないとすべてのファイルが表示される
-            openFileDialog.Filter = "ダイナミックリンクライブラリ(*.dll)|*.dll|すべてのファイル(*.*)|*.*";
-            //[ファイルの種類]ではじめに選択されるものを指定する
-            //1番目の「PQRファイル」が選択されているようにする
-            openFileDialog.FilterIndex = 1;
-            //タイトルを設定する
-            openFileDialog.Title = "開くファイルを選択してください";
-            //ダイアログボックスを閉じる前に現在のディレクトリを復元するようにする
-            openFileDialog.RestoreDirectory = true;
-
-            //ダイアログを表示する
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            switch (FieldKindComboBox.SelectedIndex)
             {
-                try
-                {
-                    Assembly m = Assembly.LoadFrom(openFileDialog.FileName);
-
-                    System.Text.RegularExpressions.MatchCollection mc = System.Text.RegularExpressions.Regex.Matches(openFileDialog.FileName, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
-
-                    foreach (System.Text.RegularExpressions.Match match in mc)
+                case 1:
+                    VisualizerCommonFieldOpenForm.ShowDialog();
+                    break;
+                case 2:
+                    OpenFileDialog openFileDialog = new OpenFileDialog
                     {
-                        bot0 = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
-                        MainForm.BotName[0] = match.Groups["file"].Value;
+                        FileName = "",
+                        Filter = "PQRファイル(*.pqr)|*.pqr|すべてのファイル(*.*)|*.*",
+                        FilterIndex = 1,
+                        Title = "開くファイルを選択してください",
+                        RestoreDirectory = true
+                    };
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        SelectedPQRFileNameLabel.Text = openFileDialog.FileName;
                     }
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("不正なdllです。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                    break;
             }
+        }
+
+        private void VisualizerCommonFieldOpenForm_OKButton_Click(object sender, EventArgs e)
+        {
+            SelectedPQRFileNameLabel.Text = VisualizerCommonFieldOpenForm.VisualizerCommonFieldCode4Label.Text;
+            SelectedPQRFileNameLabel.Text += VisualizerCommonFieldOpenForm.VisualizerCommonFieldCode5Label.Text;
+            SelectedPQRFileNameLabel.Text += ((int)(VisualizerCommonFieldOpenForm.NumericUpDown.Value)).ToString("D3");
+            VisualizerCommonFieldOpenForm.Hide();
         }
     }
 }
