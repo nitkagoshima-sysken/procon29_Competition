@@ -113,7 +113,7 @@
             this.OrangeBotKindComboBox.Name = "OrangeBotKindComboBox";
             this.OrangeBotKindComboBox.Size = new System.Drawing.Size(394, 33);
             this.OrangeBotKindComboBox.TabIndex = 11;
-            this.OrangeBotKindComboBox.Text = "人間";
+            this.OrangeBotKindComboBox.Text = "ボット";
             this.OrangeBotKindComboBox.SelectedIndexChanged += new System.EventHandler(this.OrangeBotKindComboBox_SelectedIndexChanged);
             // 
             // OKButton
@@ -228,7 +228,7 @@
             this.LimeBotKindComboBox.Name = "LimeBotKindComboBox";
             this.LimeBotKindComboBox.Size = new System.Drawing.Size(394, 33);
             this.LimeBotKindComboBox.TabIndex = 12;
-            this.LimeBotKindComboBox.Text = "人間";
+            this.LimeBotKindComboBox.Text = "ボット";
             this.LimeBotKindComboBox.SelectedIndexChanged += new System.EventHandler(this.LimeBotKindComboBox_SelectedIndexChanged);
             // 
             // BotForm

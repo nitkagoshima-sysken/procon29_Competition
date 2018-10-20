@@ -92,8 +92,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             var random = new Random(Seed);
             var coordinates = new Coordinate[2];
-            coordinates[0] = new Coordinate(random.Next(0, Size.Width - 1), random.Next(0, Size.Height - 1));
-            coordinates[1] = new Coordinate(random.Next(0, Size.Width - 1), random.Next(0, Size.Height - 1));
+            do
+            {
+                coordinates[0] = new Coordinate(random.Next(0, Size.Width - 1), random.Next(0, Size.Height - 1));
+                coordinates[1] = new Coordinate(random.Next(0, Size.Width - 1), random.Next(0, Size.Height - 1));
+            } while (coordinates[0] == coordinates[1]);
             return coordinates;
         }
 
@@ -113,6 +116,29 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 }
             }
             return size_dictionary[c];
+        }
+
+        public static string RandomID
+        {
+            get
+            {
+                var random = new Random();
+                var s = new string[] { "H", "V", "HV" };
+                var id = s[random.Next(0, 2)];
+                id += "ABCDEFGIJKLMNOPQRSTUWXYZ"[random.Next(0, 24)];
+                id += random.Next(0, 999).ToString("D3");
+                return id;
+            }
+        }
+
+        public static string GetRandomID(int seed)
+        {
+            var random = new Random(seed);
+            var s = new string[] { "H", "V", "HV" };
+            var id = s[random.Next(0, 2)];
+            id += "ABCDEFGIJKLMNOPQRSTUWXYZ"[random.Next(0, 24)];
+            id += random.Next(0, 999).ToString("D3");
+            return id;
         }
     }
 }
