@@ -33,6 +33,7 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
 
             result = BestHand(Calc, 2).AgentActivityData;
 
+
             return result;
         }
 

@@ -1,12 +1,13 @@
-# Procon29 Visualizer 69.1
+# Procon29 Visualizer 70.0
 
 ## What's new
 
-### 互換性のない変更
+### ボットの処理速度が最大で30倍速くなった
 
-`AgentsActivityData`が`FourAgentsActivityData`に変更されました。  
-また今まで、`AgentActivityData[]`として使われていたものが、`TwoAgentsActivityData`に変更されました。  
-ボット開発者は、**Visualizer 69.0**にアップデートしたときに修正してください。
+SeitaHigashi氏によるNettaBotで40ターン目に試したところ、  
+改善前は42.2秒かかっていた処理が、
+改善後は1.4秒に短縮された。  
+嘘だと思ったやってみてよ
 
 ## 操作方法
 
@@ -672,6 +673,10 @@
 #### Version 69.1
 
 - ボットによる緊急修正
+
+### Version 70.0
+
+- **Version 69.0** の取り消し
 
 ## バージョンの上がり方について
 
