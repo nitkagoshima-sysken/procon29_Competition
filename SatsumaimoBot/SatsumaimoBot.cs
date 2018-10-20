@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using nitkagoshima_sysken.Procon29.Visualizer;
+﻿using nitkagoshima_sysken.Procon29.Visualizer;
 
 namespace nitkagoshima_sysken.Procon29.SatsumaimoBot
 {
@@ -21,8 +16,8 @@ namespace nitkagoshima_sysken.Procon29.SatsumaimoBot
 
                     while (true)
                     {
-                        if (!Calc.Field.CellExist(agent + arrow)) continue;
-                        Arrow arrow = (Arrow)r.Next(0, 7);
+                        if (!Calc.Field.CellExist(agent.Position + arrow)) continue;
+                        arrow = (Arrow)r.Next(0, 7);
                         if (Calc.Field.IsMovable(agent, arrow))
                         {
                             ret[(int)agent.AgentNumber].AgentStatusData = AgentStatusCode.RequestMovement;
