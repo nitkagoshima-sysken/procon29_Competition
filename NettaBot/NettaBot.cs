@@ -33,6 +33,7 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
 
             result = BestHand(Calc, 2).AgentActivityData;
 
+
             return result;
         }
 
@@ -67,11 +68,10 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                     }
                     else
                     {
-                        agentActivityData[(int)AgentNumber.Two] = RemoveTile(destinationOne);
+                        agentActivityData[(int)AgentNumber.Two] = RemoveTile(destinationTwo);
                         if (agentActivityData[(int)AgentNumber.Two].AgentStatusData == AgentStatusCode.RequestNotToDoAnything) continue;
                     }
                     var c = calc.Simulate(OurTeam, agentActivityData);
-                    Log.Write((c.Field.TotalPoint(OurTeam) - c.Field.TotalPoint(OurTeam.Opponent())).ToString() + ",");
                     foreach (var item in agentActivityData) item.AgentStatusData.ToRequest();
                     if (depth <= 1)
                     {
@@ -92,9 +92,6 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                     }
                 }
             }
-            Log.WriteLine("\nReturn to " + result[0].AgentStatusData+":"+result[0].Destination);
-            Log.WriteLine("Return to " + result[1].AgentStatusData+":"+result[1].Destination);
-            Log.WriteLine("Return to " + maxpoint);
             return new ReturnStruct(maxpoint, result);
         }
 
