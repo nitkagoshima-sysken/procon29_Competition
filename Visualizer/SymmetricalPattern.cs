@@ -3,7 +3,7 @@
     /// <summary>
     /// 対称を表します。
     /// </summary>
-    enum Symmetrical
+    enum SymmetricalPattern
     {
         /// <summary>
         /// 左右対称を表します。
