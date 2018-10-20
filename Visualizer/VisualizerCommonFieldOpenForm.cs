@@ -15,7 +15,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         private void FieldKindComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            VisualizerCommonFieldCode4Label.Text = FieldKindComboBox.Text[0].ToString();
+            VisualizerCommonFieldCode4Label.Text = FieldKindComboBox.Text.Remove(FieldKindComboBox.Text.IndexOf(' ')).ToString();
         }
 
         private void FieldSizeComboBox_SelectedIndexChanged(object sender, EventArgs e)
