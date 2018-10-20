@@ -72,6 +72,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public static string[] BotName { get; set; } = new string[2];
 
         /// <summary>
+        /// ボットのパスを設定または取得します。
+        /// </summary>
+        public static string[] BotPath { get; set; } = new string[2];
+
+        /// <summary>
         /// 最大ターンのデフォルト値を設定または取得します。
         /// </summary>
         public static int MaxTurn = VisualizerDefaultStyle.MaxTurn;
@@ -452,8 +457,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 foreach (System.Text.RegularExpressions.Match match in mc)
                 {
                     Bot[n] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
-                    MainForm.BotName[n] = match.Groups["file"].Value;
+                    BotName[n] = match.Groups["file"].Value;                    
                 }
+                BotPath[n] = path;
             }
             catch (Exception)
             {
@@ -975,7 +981,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var f = new ConfrontationForm();
-            f.ShowDialog();
+            f.Show();
         }
     }
 }
