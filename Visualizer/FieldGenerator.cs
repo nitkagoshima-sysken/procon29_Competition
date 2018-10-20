@@ -88,7 +88,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
-        public Coordinate[] AgentPositionGenerate()
+        public Coordinate[] AgentPositionGenerate(Field field)
         {
             var random = new Random(Seed);
             var coordinates = new Coordinate[2];
@@ -96,7 +96,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 coordinates[0] = new Coordinate(random.Next(0, Size.Width - 1), random.Next(0, Size.Height - 1));
                 coordinates[1] = new Coordinate(random.Next(0, Size.Width - 1), random.Next(0, Size.Height - 1));
-            } while (coordinates[0] == coordinates[1]);
+            } while (coordinates[0] == coordinates[1] ||
+            coordinates[0] == MainForm.ComplementEnemysPosition(field, coordinates[0]) ||
+            coordinates[0] == MainForm.ComplementEnemysPosition(field, coordinates[1]) ||
+            coordinates[1] == MainForm.ComplementEnemysPosition(field, coordinates[0]) ||
+            coordinates[1] == MainForm.ComplementEnemysPosition(field, coordinates[1]));
             return coordinates;
         }
 

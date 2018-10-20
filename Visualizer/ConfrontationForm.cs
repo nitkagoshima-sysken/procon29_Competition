@@ -37,7 +37,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     var field_generator = new FieldGenerator(id);
                     var field = field_generator.Generate();
                     var agents = new Agents();
-                    var coordinates = field_generator.AgentPositionGenerate();
+                    var coordinates = field_generator.AgentPositionGenerate(field);
                     agents[Team.A, AgentNumber.One].Position = coordinates[0];
                     agents[Team.A, AgentNumber.Two].Position = coordinates[1];
                     agents[Team.B, AgentNumber.One].Position = new Coordinate(MainForm.ComplementEnemysPosition(field, coordinates[0]));
