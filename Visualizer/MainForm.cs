@@ -44,11 +44,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 新たな戦いを始めるためのフォームです。
         /// </summary>
-        CreateNewForm CreateNewForm { get; set; } = new CreateNewForm();
-
-        /// <summary>
-        /// 新たな戦いを始めるためのフォームです。
-        /// </summary>
         CreateNewForm2 CreateNewForm2 { get; set; } = new CreateNewForm2();
 
         /// <summary>
@@ -369,21 +364,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 Show.ClickField = new ClickField(Calc, Show.PictureBox);
                 Show.Showing();
             }
-        }
-
-        /// <summary>
-        /// ここで新しい試合を作成します。
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CreateNewForm.ShowDialog(this);
-            Calc.MaxTurn = MaxTurn;
-            //OKボタンがクリックされたとき、選択されたファイル名を開き、データを読み込む    
-            if (CreateNewForm.SelectPQRFile != ".pqr" && CreateNewForm.SelectPQRFile != null)
-                OpenPQRFile(CreateNewForm.SelectPQRFile);
-            TurnProgressCheck();
         }
 
         /// <summary>
