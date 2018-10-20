@@ -23,21 +23,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             VisualizerCommonFieldOpenForm.OKButton.Click += VisualizerCommonFieldOpenForm_OKButton_Click;
 
-            var random = new Random();
-            switch (random.Next(0, 2))
-            {
-                case 0:
-                    SelectedPQRFileNameLabel.Text = "H";
-                    break;
-                case 1:
-                    SelectedPQRFileNameLabel.Text = "V";
-                    break;
-                case 2:
-                    SelectedPQRFileNameLabel.Text = "HV";
-                    break;
-            }
-            SelectedPQRFileNameLabel.Text += "ABCDEFGIJKLMNOPQRSTUWXYZ"[random.Next(0, 24)];
-            SelectedPQRFileNameLabel.Text += random.Next(0, 999).ToString("D3");
+            SelectedPQRFileNameLabel.Text = FieldGenerator.RandomID;
         }
 
         private void CancelButton_Click(object sender, EventArgs e)
