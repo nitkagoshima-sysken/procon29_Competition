@@ -1,6 +1,4 @@
-﻿//上下対称にスポーンすると、動きがクソなdaikon_botです。
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +25,8 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
         static int r2 = 1;
         static int[] corner1 = new int[2] { 0, 0 };
         static int[] corner2 = new int[2] { 0, 0 };
+        static int ct1 = 0;
+        static int ct2 = 0;
 
         public override AgentActivityData[] Answer()
         {
@@ -159,6 +159,10 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                         {
                             Log.WriteLine("bot_1 go to corner0");
                             ud1++;
+                        }
+                        if (decide == 1)
+                        {
+                            ct1 = Calc.Turn;
                         }
                     }
                 }
@@ -561,6 +565,10 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                         {
                             ud2++;
                         }
+                        if (decide == 1)
+                        {
+                            ct2 = Calc.Turn;
+                        }
                     }
                 }
                 //ジグザグ
@@ -875,6 +883,11 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
             }
             go[1] = Calc.Agents[OurTeam, AgentNumber.Two].Position + num2;
 
+            if (corner1[0] == corner2[0] && ct1 == ct2)
+            {
+                go[0] = Calc.Agents[OurTeam, AgentNumber.One].Position;
+                    ct1++;
+            }
 
             //=============最後の色々===========================================================================================================================================================================================
 
