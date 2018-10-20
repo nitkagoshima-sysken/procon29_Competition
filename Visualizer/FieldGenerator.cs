@@ -92,8 +92,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             var random = new Random(Seed);
             var coordinates = new Coordinate[2];
-            coordinates[0] = new Coordinate(random.Next(0, Size.Width - 1), random.Next(0, Size.Height - 1));
-            coordinates[1] = new Coordinate(random.Next(0, Size.Width - 1), random.Next(0, Size.Height - 1));
+            do
+            {
+                coordinates[0] = new Coordinate(random.Next(0, Size.Width - 1), random.Next(0, Size.Height - 1));
+                coordinates[1] = new Coordinate(random.Next(0, Size.Width - 1), random.Next(0, Size.Height - 1));
+            } while (coordinates[0] == coordinates[1] || );
             return coordinates;
         }
 
