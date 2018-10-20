@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
@@ -49,14 +46,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             switch (SymmetricalPattern)
             {
                 case SymmetricalPattern.HorizontallySymmetrical:
-                    for (int x = 0; x < Size.Width / 2; x++)
+                    for (int x = 0; x <= Size.Width / 2; x++)
                     {
-                        for (int y = 0; y <= Size.Height; y++)
+                        for (int y = 0; y < Size.Height; y++)
                         {
                             var cell = new Cell(new Coordinate(x, y));
                             cell.Point = (random.NextDouble() <= 0.9f) ? random.Next(1, 16) : random.Next(-16, 0);
                             field[x, y] = cell;
-                            field[Size.Width - 1 - x, y] = new Cell(cell);
+                            field[Size.Width - 1 - x, y] = new Cell(cell) { Coordinate = new Coordinate(Size.Width - 1 - x, y) };
                         }
                     }
                     return field;
@@ -68,27 +65,36 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                             var cell = new Cell(new Coordinate(x, y));
                             cell.Point = (random.NextDouble() <= 0.9f) ? random.Next(1, 16) : random.Next(-16, 0);
                             field[x, y] = cell;
-                            field[x, Size.Height - 1 - y] = new Cell(cell);
+                            field[x, Size.Height - 1 - y] = new Cell(cell) { Coordinate = new Coordinate(x, Size.Height - 1 - y) };
                         }
                     }
                     return field;
                 case SymmetricalPattern.HorizontallyAndVerticallySymmetrical:
-                    for (int x = 0; x < Size.Width / 2; x++)
+                    for (int x = 0; x <= Size.Width / 2; x++)
                     {
                         for (int y = 0; y <= Size.Height / 2; y++)
                         {
                             var cell = new Cell(new Coordinate(x, y));
                             cell.Point = (random.NextDouble() <= 0.9f) ? random.Next(1, 16) : random.Next(-16, 0);
                             field[x, y] = cell;
-                            field[Size.Width - 1 - x, y] = new Cell(cell);
-                            field[x, Size.Height - 1 - y] = new Cell(cell);
-                            field[Size.Width - 1 - x, Size.Height - 1 - y] = new Cell(cell);
+                            field[Size.Width - 1 - x, y] = new Cell(cell) { Coordinate = new Coordinate(Size.Width - 1 - x, y) };
+                            field[x, Size.Height - 1 - y] = new Cell(cell) { Coordinate = new Coordinate(x, Size.Height - 1 - y) };
+                            field[Size.Width - 1 - x, Size.Height - 1 - y] = new Cell(cell) { Coordinate = new Coordinate(Size.Width - 1 - x, Size.Height - 1 - y) };
                         }
                     }
                     return field;
                 default:
                     throw new Exception();
             }
+        }
+
+        public Coordinate[] AgentPositionGenerate()
+        {
+            var random = new Random(Seed);
+            var coordinates = new Coordinate[2];
+            coordinates[0] = new Coordinate(random.Next(0, Size.Width - 1), random.Next(0, Size.Height - 1));
+            coordinates[1] = new Coordinate(random.Next(0, Size.Width - 1), random.Next(0, Size.Height - 1));
+            return coordinates;
         }
 
         public static Size AlphabetSize(char c)
