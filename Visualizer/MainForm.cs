@@ -730,7 +730,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="field">対象のフィールド</param>
         /// <param name="coordinate">対象の座標</param>
         /// <returns></returns>
-        private Coordinate ComplementEnemysPosition(Field field, Coordinate coordinate)
+        public static Coordinate ComplementEnemysPosition(Field field, Coordinate coordinate)
         {
             if (field.IsVerticallySymmetrical)
             {
@@ -867,36 +867,41 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 case 0:
                     break;
                 case 1:
-                    var field_generator = new FieldGenerator(CreateNewForm.SelectedPQRFileNameLabel.Text);
-                    var agents = new Agents();
-                    var coordinates = field_generator.AgentPositionGenerate();
-                    agents[Team.A, AgentNumber.One].Position = coordinates[0];
-                    agents[Team.A, AgentNumber.Two].Position = coordinates[1];
-                    var field = field_generator.Generate();
-                    OpponentPositionForm.OurTeamPositionLabel.Text = "自分:" + coordinates[0] + coordinates[1];
-                    OpponentPositionForm.OpponentPosition1X.Text = ComplementEnemysPosition(field, coordinates[0]).X.ToString();
-                    OpponentPositionForm.OpponentPosition1Y.Text = ComplementEnemysPosition(field, coordinates[0]).Y.ToString();
-                    OpponentPositionForm.OpponentPosition2X.Text = ComplementEnemysPosition(field, coordinates[1]).X.ToString();
-                    OpponentPositionForm.OpponentPosition2Y.Text = ComplementEnemysPosition(field, coordinates[1]).Y.ToString();
-                    OpponentPositionForm.ShowDialog(this);
-                    agents[Team.B, AgentNumber.One].Position =
-                        new Coordinate(
-                            int.Parse(OpponentPositionForm.OpponentPosition1X.Text),
-                            int.Parse(OpponentPositionForm.OpponentPosition1Y.Text));
-                    agents[Team.B, AgentNumber.Two].Position =
-                        new Coordinate(
-                            int.Parse(OpponentPositionForm.OpponentPosition2X.Text),
-                            int.Parse(OpponentPositionForm.OpponentPosition2Y.Text));
-                    Calc = new Calc(MaxTurn, field, agents);
-                    Show = new Show(Calc, TeamDesign, FieldDisplay);
-                    Show.Showing();
-                    Log.WriteLine("[Create New] Visualizer Common Field Code is " + CreateNewForm.SelectedPQRFileNameLabel.Text, Color.SkyBlue);
+                    Load_FieldGenerator(CreateNewForm.SelectedPQRFileNameLabel.Text);
                     break;
                 case 2:
                     OpenPQRFile(CreateNewForm.SelectedPQRFileNameLabel.Text);
                     break;
             }
             TurnProgressCheck();
+        }
+
+        void Load_FieldGenerator(string id)
+        {
+            var field_generator = new FieldGenerator(id);
+            var agents = new Agents();
+            var coordinates = field_generator.AgentPositionGenerate();
+            agents[Team.A, AgentNumber.One].Position = coordinates[0];
+            agents[Team.A, AgentNumber.Two].Position = coordinates[1];
+            var field = field_generator.Generate();
+            OpponentPositionForm.OurTeamPositionLabel.Text = "自分:" + coordinates[0] + coordinates[1];
+            OpponentPositionForm.OpponentPosition1X.Text = ComplementEnemysPosition(field, coordinates[0]).X.ToString();
+            OpponentPositionForm.OpponentPosition1Y.Text = ComplementEnemysPosition(field, coordinates[0]).Y.ToString();
+            OpponentPositionForm.OpponentPosition2X.Text = ComplementEnemysPosition(field, coordinates[1]).X.ToString();
+            OpponentPositionForm.OpponentPosition2Y.Text = ComplementEnemysPosition(field, coordinates[1]).Y.ToString();
+            OpponentPositionForm.ShowDialog(this);
+            agents[Team.B, AgentNumber.One].Position =
+                new Coordinate(
+                    int.Parse(OpponentPositionForm.OpponentPosition1X.Text),
+                    int.Parse(OpponentPositionForm.OpponentPosition1Y.Text));
+            agents[Team.B, AgentNumber.Two].Position =
+                new Coordinate(
+                    int.Parse(OpponentPositionForm.OpponentPosition2X.Text),
+                    int.Parse(OpponentPositionForm.OpponentPosition2Y.Text));
+            Calc = new Calc(MaxTurn, field, agents);
+            Show = new Show(Calc, TeamDesign, FieldDisplay);
+            Show.Showing();
+            Log.WriteLine("[Create New] Visualizer Common Field Code is " + id, Color.SkyBlue);
         }
 
         private void SelectBotToolStripMenuItem_Click(object sender, EventArgs e)
@@ -946,8 +951,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 case 1: // ボット
                     try
                     {
-                        Assembly m = Assembly.LoadFrom(BotForm.SelectedOrangeBotNameLabel.Text);
-                        System.Text.RegularExpressions.MatchCollection mc = System.Text.RegularExpressions.Regex.Matches(BotForm.SelectedOrangeBotNameLabel.Text, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
+                        Assembly m = Assembly.LoadFrom(BotForm.SelectedLimeBotNameLabel.Text);
+                        System.Text.RegularExpressions.MatchCollection mc = System.Text.RegularExpressions.Regex.Matches(BotForm.SelectedLimeBotNameLabel.Text, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
                         foreach (System.Text.RegularExpressions.Match match in mc)
                         {
                             Bot[1] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
@@ -965,6 +970,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     BotName[1] = "hydro_go_bot";
                     break;
             }
+        }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var f = new ConfrontationForm();
+            f.ShowDialog();
         }
     }
 }
