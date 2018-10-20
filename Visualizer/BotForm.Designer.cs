@@ -29,16 +29,16 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.LimeLabel = new System.Windows.Forms.Label();
+            this.OrangeLabel = new System.Windows.Forms.Label();
+            this.OrangeBotKindComboBox = new System.Windows.Forms.ComboBox();
             this.OKButton = new System.Windows.Forms.Button();
-            this.OragenBotOpenButton = new System.Windows.Forms.Button();
+            this.CancelButton = new System.Windows.Forms.Button();
+            this.OrageBotOpenButton = new System.Windows.Forms.Button();
             this.LimeBotOpenButton = new System.Windows.Forms.Button();
             this.SelectedOrangeBotNameLabel = new System.Windows.Forms.TextBox();
             this.SelectedLimeBotNameLabel = new System.Windows.Forms.TextBox();
-            this.OrangeBotKindComboBox = new System.Windows.Forms.ComboBox();
             this.LimeBotKindComboBox = new System.Windows.Forms.ComboBox();
-            this.OrangeLabel = new System.Windows.Forms.Label();
-            this.LimeLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,7 +52,7 @@
             this.tableLayoutPanel1.Controls.Add(this.OrangeBotKindComboBox, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.OKButton, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.CancelButton, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.OragenBotOpenButton, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.OrageBotOpenButton, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.LimeBotOpenButton, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.SelectedOrangeBotNameLabel, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.SelectedLimeBotNameLabel, 1, 3);
@@ -69,6 +69,68 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(800, 450);
             this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // LimeLabel
+            // 
+            this.LimeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.LimeLabel.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.LimeLabel.ForeColor = System.Drawing.Color.LightGray;
+            this.LimeLabel.Location = new System.Drawing.Point(3, 180);
+            this.LimeLabel.Name = "LimeLabel";
+            this.LimeLabel.Size = new System.Drawing.Size(394, 90);
+            this.LimeLabel.TabIndex = 14;
+            this.LimeLabel.Text = "ライムチーム";
+            this.LimeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // OrangeLabel
+            // 
+            this.OrangeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.OrangeLabel.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.OrangeLabel.ForeColor = System.Drawing.Color.LightGray;
+            this.OrangeLabel.Location = new System.Drawing.Point(3, 0);
+            this.OrangeLabel.Name = "OrangeLabel";
+            this.OrangeLabel.Size = new System.Drawing.Size(394, 90);
+            this.OrangeLabel.TabIndex = 13;
+            this.OrangeLabel.Text = "オレンジチーム";
+            this.OrangeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // OrangeBotKindComboBox
+            // 
+            this.OrangeBotKindComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.OrangeBotKindComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.OrangeBotKindComboBox.Font = new System.Drawing.Font("メイリオ", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.OrangeBotKindComboBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.OrangeBotKindComboBox.FormattingEnabled = true;
+            this.OrangeBotKindComboBox.Items.AddRange(new object[] {
+            "人間",
+            "ボット",
+            "Hydro Go Bot"});
+            this.OrangeBotKindComboBox.Location = new System.Drawing.Point(3, 118);
+            this.OrangeBotKindComboBox.Name = "OrangeBotKindComboBox";
+            this.OrangeBotKindComboBox.Size = new System.Drawing.Size(394, 33);
+            this.OrangeBotKindComboBox.TabIndex = 11;
+            this.OrangeBotKindComboBox.Text = "人間";
+            this.OrangeBotKindComboBox.SelectedIndexChanged += new System.EventHandler(this.OrangeBotKindComboBox_SelectedIndexChanged);
+            // 
+            // OKButton
+            // 
+            this.OKButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.OKButton.BackColor = System.Drawing.Color.RoyalBlue;
+            this.OKButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.OKButton.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.OKButton.ForeColor = System.Drawing.Color.LightGray;
+            this.OKButton.Location = new System.Drawing.Point(3, 363);
+            this.OKButton.Name = "OKButton";
+            this.OKButton.Size = new System.Drawing.Size(394, 84);
+            this.OKButton.TabIndex = 4;
+            this.OKButton.Text = "はじめる";
+            this.OKButton.UseVisualStyleBackColor = false;
             // 
             // CancelButton
             // 
@@ -87,38 +149,22 @@
             this.CancelButton.UseVisualStyleBackColor = false;
             this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
-            // OKButton
+            // OrageBotOpenButton
             // 
-            this.OKButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.OrageBotOpenButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.OKButton.BackColor = System.Drawing.Color.RoyalBlue;
-            this.OKButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.OKButton.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.OKButton.ForeColor = System.Drawing.Color.LightGray;
-            this.OKButton.Location = new System.Drawing.Point(3, 363);
-            this.OKButton.Name = "OKButton";
-            this.OKButton.Size = new System.Drawing.Size(394, 84);
-            this.OKButton.TabIndex = 4;
-            this.OKButton.Text = "はじめる";
-            this.OKButton.UseVisualStyleBackColor = false;
-            // 
-            // OragenBotOpenButton
-            // 
-            this.OragenBotOpenButton.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.OragenBotOpenButton.BackColor = System.Drawing.Color.DimGray;
-            this.OragenBotOpenButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.OragenBotOpenButton.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.OragenBotOpenButton.ForeColor = System.Drawing.Color.LightGray;
-            this.OragenBotOpenButton.Location = new System.Drawing.Point(403, 3);
-            this.OragenBotOpenButton.Name = "OragenBotOpenButton";
-            this.OragenBotOpenButton.Size = new System.Drawing.Size(394, 84);
-            this.OragenBotOpenButton.TabIndex = 5;
-            this.OragenBotOpenButton.Text = "開く";
-            this.OragenBotOpenButton.UseVisualStyleBackColor = false;
-            this.OragenBotOpenButton.Click += new System.EventHandler(this.OragenBotOpenButton_Click);
+            this.OrageBotOpenButton.BackColor = System.Drawing.Color.DimGray;
+            this.OrageBotOpenButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.OrageBotOpenButton.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.OrageBotOpenButton.ForeColor = System.Drawing.Color.LightGray;
+            this.OrageBotOpenButton.Location = new System.Drawing.Point(403, 3);
+            this.OrageBotOpenButton.Name = "OrageBotOpenButton";
+            this.OrageBotOpenButton.Size = new System.Drawing.Size(394, 84);
+            this.OrageBotOpenButton.TabIndex = 5;
+            this.OrageBotOpenButton.Text = "開く";
+            this.OrageBotOpenButton.UseVisualStyleBackColor = false;
+            this.OrageBotOpenButton.Click += new System.EventHandler(this.OragenBotOpenButton_Click);
             // 
             // LimeBotOpenButton
             // 
@@ -167,23 +213,6 @@
             this.SelectedLimeBotNameLabel.TabIndex = 10;
             this.SelectedLimeBotNameLabel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // OrangeBotKindComboBox
-            // 
-            this.OrangeBotKindComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.OrangeBotKindComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.OrangeBotKindComboBox.Font = new System.Drawing.Font("メイリオ", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.OrangeBotKindComboBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.OrangeBotKindComboBox.FormattingEnabled = true;
-            this.OrangeBotKindComboBox.Items.AddRange(new object[] {
-            "人間",
-            "ボット",
-            "Hydro Go Bot"});
-            this.OrangeBotKindComboBox.Location = new System.Drawing.Point(3, 118);
-            this.OrangeBotKindComboBox.Name = "OrangeBotKindComboBox";
-            this.OrangeBotKindComboBox.Size = new System.Drawing.Size(394, 33);
-            this.OrangeBotKindComboBox.TabIndex = 11;
-            this.OrangeBotKindComboBox.Text = "人間";
-            // 
             // LimeBotKindComboBox
             // 
             this.LimeBotKindComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -200,34 +229,7 @@
             this.LimeBotKindComboBox.Size = new System.Drawing.Size(394, 33);
             this.LimeBotKindComboBox.TabIndex = 12;
             this.LimeBotKindComboBox.Text = "人間";
-            // 
-            // OrangeLabel
-            // 
-            this.OrangeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.OrangeLabel.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.OrangeLabel.ForeColor = System.Drawing.Color.LightGray;
-            this.OrangeLabel.Location = new System.Drawing.Point(3, 0);
-            this.OrangeLabel.Name = "OrangeLabel";
-            this.OrangeLabel.Size = new System.Drawing.Size(394, 90);
-            this.OrangeLabel.TabIndex = 13;
-            this.OrangeLabel.Text = "オレンジチーム";
-            this.OrangeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // LimeLabel
-            // 
-            this.LimeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.LimeLabel.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.LimeLabel.ForeColor = System.Drawing.Color.LightGray;
-            this.LimeLabel.Location = new System.Drawing.Point(3, 180);
-            this.LimeLabel.Name = "LimeLabel";
-            this.LimeLabel.Size = new System.Drawing.Size(394, 90);
-            this.LimeLabel.TabIndex = 14;
-            this.LimeLabel.Text = "ライムチーム";
-            this.LimeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LimeBotKindComboBox.SelectedIndexChanged += new System.EventHandler(this.LimeBotKindComboBox_SelectedIndexChanged);
             // 
             // BotForm
             // 
@@ -249,7 +251,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button CancelButton;
         public System.Windows.Forms.Button OKButton;
-        private System.Windows.Forms.Button OragenBotOpenButton;
+        private System.Windows.Forms.Button OrageBotOpenButton;
         private System.Windows.Forms.Button LimeBotOpenButton;
         public System.Windows.Forms.TextBox SelectedOrangeBotNameLabel;
         public System.Windows.Forms.TextBox SelectedLimeBotNameLabel;
