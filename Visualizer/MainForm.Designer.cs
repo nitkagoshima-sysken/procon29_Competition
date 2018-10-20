@@ -30,14 +30,11 @@
         {
             this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.FieldDisplay = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.messageBox = new System.Windows.Forms.RichTextBox();
             this.TurnEndButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.CreateNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveAsSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,13 +60,18 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.AreaToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
+            this.CreateNew2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FieldDisplay = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.SelectBotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.ContextMenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -89,21 +91,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(757, 394);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
-            // FieldDisplay
-            // 
-            this.FieldDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.FieldDisplay.Location = new System.Drawing.Point(4, 4);
-            this.FieldDisplay.Margin = new System.Windows.Forms.Padding(4);
-            this.FieldDisplay.Name = "FieldDisplay";
-            this.FieldDisplay.Size = new System.Drawing.Size(521, 386);
-            this.FieldDisplay.TabIndex = 0;
-            this.FieldDisplay.TabStop = false;
-            this.FieldDisplay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseClick);
-            this.FieldDisplay.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseDoubleClick);
-            this.FieldDisplay.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseDown);
-            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -122,15 +109,6 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(222, 388);
             this.tableLayoutPanel2.TabIndex = 3;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox2.Location = new System.Drawing.Point(153, 3);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(66, 1);
-            this.pictureBox2.TabIndex = 2;
-            this.pictureBox2.TabStop = false;
             // 
             // messageBox
             // 
@@ -183,7 +161,7 @@
             // FileToolStripMenuItem
             // 
             this.FileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.CreateNewToolStripMenuItem,
+            this.CreateNew2ToolStripMenuItem,
             this.OpenToolStripMenuItem,
             this.SaveToolStripMenuItem,
             this.SaveAsSToolStripMenuItem,
@@ -194,13 +172,6 @@
             this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
             this.FileToolStripMenuItem.Size = new System.Drawing.Size(105, 27);
             this.FileToolStripMenuItem.Text = "ファイル(&F)";
-            // 
-            // CreateNewToolStripMenuItem
-            // 
-            this.CreateNewToolStripMenuItem.Name = "CreateNewToolStripMenuItem";
-            this.CreateNewToolStripMenuItem.Size = new System.Drawing.Size(308, 28);
-            this.CreateNewToolStripMenuItem.Text = "新規作成(&N)";
-            this.CreateNewToolStripMenuItem.Click += new System.EventHandler(this.CreateNewToolStripMenuItem_Click);
             // 
             // OpenToolStripMenuItem
             // 
@@ -248,6 +219,8 @@
             this.EditToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.UndoToolStripMenuItem,
             this.RedoToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.SelectBotToolStripMenuItem,
             this.toolStripSeparator2,
             this.EndButtleToolStripMenuItem});
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
@@ -297,21 +270,21 @@
             // BotConsoleToolStripMenuItem
             // 
             this.BotConsoleToolStripMenuItem.Name = "BotConsoleToolStripMenuItem";
-            this.BotConsoleToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.BotConsoleToolStripMenuItem.Size = new System.Drawing.Size(206, 28);
             this.BotConsoleToolStripMenuItem.Text = "ボットコンソール";
             this.BotConsoleToolStripMenuItem.Click += new System.EventHandler(this.BotConsoleToolStripMenuItem_Click);
             // 
             // TimeMeasurementToolStripMenuItem
             // 
             this.TimeMeasurementToolStripMenuItem.Name = "TimeMeasurementToolStripMenuItem";
-            this.TimeMeasurementToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.TimeMeasurementToolStripMenuItem.Size = new System.Drawing.Size(206, 28);
             this.TimeMeasurementToolStripMenuItem.Text = "処理時間計測";
             this.TimeMeasurementToolStripMenuItem.Click += new System.EventHandler(this.TimeMeasurementToolStripMenuItem_Click);
             // 
             // TrumpToolStripMenuItem
             // 
             this.TrumpToolStripMenuItem.Name = "TrumpToolStripMenuItem";
-            this.TrumpToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.TrumpToolStripMenuItem.Size = new System.Drawing.Size(206, 28);
             this.TrumpToolStripMenuItem.Text = "トランプ";
             this.TrumpToolStripMenuItem.Click += new System.EventHandler(this.TrumpToolStripMenuItem_Click);
             // 
@@ -386,6 +359,51 @@
             this.AreaToolStripComboBox.Size = new System.Drawing.Size(121, 31);
             this.AreaToolStripComboBox.SelectedIndexChanged += new System.EventHandler(this.AreaToolStripComboBox_SelectedIndexChanged);
             // 
+            // CreateNew2ToolStripMenuItem
+            // 
+            this.CreateNew2ToolStripMenuItem.Name = "CreateNew2ToolStripMenuItem";
+            this.CreateNew2ToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+N";
+            this.CreateNew2ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.CreateNew2ToolStripMenuItem.Size = new System.Drawing.Size(308, 28);
+            this.CreateNew2ToolStripMenuItem.Text = "新規作成(&N)";
+            this.CreateNew2ToolStripMenuItem.Click += new System.EventHandler(this.CreateNew2ToolStripMenuItem_Click);
+            // 
+            // FieldDisplay
+            // 
+            this.FieldDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FieldDisplay.Location = new System.Drawing.Point(4, 4);
+            this.FieldDisplay.Margin = new System.Windows.Forms.Padding(4);
+            this.FieldDisplay.Name = "FieldDisplay";
+            this.FieldDisplay.Size = new System.Drawing.Size(521, 386);
+            this.FieldDisplay.TabIndex = 0;
+            this.FieldDisplay.TabStop = false;
+            this.FieldDisplay.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseClick);
+            this.FieldDisplay.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseDoubleClick);
+            this.FieldDisplay.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseDown);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox2.Location = new System.Drawing.Point(153, 3);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(66, 1);
+            this.pictureBox2.TabIndex = 2;
+            this.pictureBox2.TabStop = false;
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(226, 6);
+            // 
+            // SelectBotToolStripMenuItem
+            // 
+            this.SelectBotToolStripMenuItem.Name = "SelectBotToolStripMenuItem";
+            this.SelectBotToolStripMenuItem.Size = new System.Drawing.Size(229, 28);
+            this.SelectBotToolStripMenuItem.Text = "ボットを選択する";
+            this.SelectBotToolStripMenuItem.Click += new System.EventHandler(this.SelectBotToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -404,14 +422,14 @@
             this.Text = "Procon29 Visualizar";
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseMove);
             this.tableLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ContextMenuStrip.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -431,7 +449,6 @@
         private System.Windows.Forms.ToolStripMenuItem OpenToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel CellInformationToolStripStatusLabel;
-        private System.Windows.Forms.ToolStripMenuItem CreateNewToolStripMenuItem;
         private System.Windows.Forms.Button TurnEndButton;
         private System.Windows.Forms.ToolStripMenuItem UndoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RedoToolStripMenuItem;
@@ -453,5 +470,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem EndButtleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem BotConsoleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem CreateNew2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem SelectBotToolStripMenuItem;
     }
 }

@@ -97,6 +97,12 @@
     <Compile Include="AgentStatusCodeAttribute.cs" />
     <Compile Include="AgentStatusCodeExtension.cs" />
     <Compile Include="Arrow.cs" />
+    <Compile Include="BotForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BotForm.Designer.cs">
+      <DependentUpon>BotForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="BotKind.cs" />
     <Compile Include="BotLogForm.cs">
       <SubType>Form</SubType>
@@ -106,8 +112,15 @@
     </Compile>
     <Compile Include="CharactorBitmap.cs" />
     <Compile Include="ClickField.cs" />
+    <Compile Include="CreateNewForm2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateNewForm2.Designer.cs">
+      <DependentUpon>CreateNewForm2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Direction.cs" />
     <Compile Include="DrawField.cs" />
+    <Compile Include="FieldGenerator.cs" />
     <Compile Include="FruitFairies.cs" />
     <Compile Include="FruitFairy.cs" />
     <Compile Include="CalcExtension.cs" />
@@ -125,6 +138,7 @@
     </Compile>
     <Compile Include="PlayMode.cs" />
     <Compile Include="PrefetchingFileReader.cs" />
+    <Compile Include="SymmetricalPattern.cs" />
     <Compile Include="TeamDesigns.cs" />
     <Compile Include="TimeData.cs" />
     <Compile Include="TimeMeasurementForm.cs">
@@ -137,6 +151,12 @@
     <Compile Include="TrumpMark.cs" />
     <Compile Include="TrumpNumber.cs" />
     <Compile Include="TsvReader.cs" />
+    <Compile Include="VisualizerCommonFieldOpenForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VisualizerCommonFieldOpenForm.Designer.cs">
+      <DependentUpon>VisualizerCommonFieldOpenForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="VisualizerDefaultStyle.cs" />
     <Compile Include="XmlCalc.cs" />
     <Compile Include="Calc.cs" />
@@ -181,11 +201,17 @@
     <Compile Include="AgentActivityDataExtension.cs" />
     <Compile Include="XmlCell.cs" />
     <Compile Include="XmlTurnData.cs" />
+    <EmbeddedResource Include="BotForm.resx">
+      <DependentUpon>BotForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BotLogForm.resx">
       <DependentUpon>BotLogForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CreateNewForm.resx">
       <DependentUpon>CreateNewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreateNewForm2.resx">
+      <DependentUpon>CreateNewForm2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HistoryForm.resx">
       <DependentUpon>HistoryForm.cs</DependentUpon>
@@ -203,6 +229,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TimeMeasurementForm.resx">
       <DependentUpon>TimeMeasurementForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VisualizerCommonFieldOpenForm.resx">
+      <DependentUpon>VisualizerCommonFieldOpenForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
