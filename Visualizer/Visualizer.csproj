@@ -88,10 +88,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FourAgentsActivityData.cs" />
+    <Compile Include="AgentsActivityData.cs" />
     <Compile Include="AgentNumber.cs" />
     <Compile Include="AgentActivityData.cs" />
-    <Compile Include="FourAgentsActivityDataExtension.cs" />
+    <Compile Include="AgentsActivityDataExtension.cs" />
     <Compile Include="AgentStatusCode.cs" />
     <Compile Include="AgentStatusCodeAction.cs" />
     <Compile Include="AgentStatusCodeAttribute.cs" />
@@ -137,7 +137,6 @@
     <Compile Include="TrumpMark.cs" />
     <Compile Include="TrumpNumber.cs" />
     <Compile Include="TsvReader.cs" />
-    <Compile Include="TwoAgentsActivityData.cs" />
     <Compile Include="VisualizerDefaultStyle.cs" />
     <Compile Include="XmlCalc.cs" />
     <Compile Include="Calc.cs" />
