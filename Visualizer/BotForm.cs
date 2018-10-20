@@ -50,7 +50,39 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                SelectedOrangeBotNameLabel.Text = openFileDialog.FileName;
+                SelectedLimeBotNameLabel.Text = openFileDialog.FileName;
+            }
+        }
+
+        private void OrangeBotKindComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (OrangeBotKindComboBox.SelectedIndex)
+            {
+                case 0:
+                    OrageBotOpenButton.Visible = false;
+                    break;
+                case 1:
+                    OrageBotOpenButton.Visible = true;
+                    break;
+                case 2:
+                    OrageBotOpenButton.Visible = false;
+                    break;
+            }
+        }
+
+        private void LimeBotKindComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (LimeBotKindComboBox.SelectedIndex)
+            {
+                case 0:
+                    LimeBotOpenButton.Visible = false;
+                    break;
+                case 1:
+                    LimeBotOpenButton.Visible = true;
+                    break;
+                case 2:
+                    LimeBotOpenButton.Visible = false;
+                    break;
             }
         }
     }
