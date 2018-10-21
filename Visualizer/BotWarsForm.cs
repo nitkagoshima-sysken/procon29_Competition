@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,22 +17,33 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
     /// </summary>
     public partial class BotWarsForm : Form
     {
+
+        CancellationTokenSource CancellationTokenSource = new CancellationTokenSource();
+        CancellationToken CancellationToken;
+        List<Task> tasks = new List<Task>();
+
+        /// <summary>
+        /// BotWarsForm を初期化します。
+        /// </summary>
         public BotWarsForm()
         {
             InitializeComponent();
+            DataGridView.Columns["Orange"].HeaderText = MainForm.BotName[0];
+            DataGridView.Columns["Lime"].HeaderText = MainForm.BotName[1];
+            CancellationToken = CancellationTokenSource.Token;
         }
 
         private void TurnEndButton_Click(object sender, EventArgs e)
         {
-            Run();
+            tasks.Add(Run(CancellationToken));
         }
 
-        private Task Run()
+        private Task Run(CancellationToken cancellationToken)
         {
             var log = new Logger(new RichTextBox());
             var tasks = new List<Task>();
             var random = new Random();
-            var task = Task.Run(() =>
+            return Task.Run(() =>
             {
                 var id = FieldGenerator.GetRandomID(random.Next());
                 var field_generator = new FieldGenerator(id);
@@ -63,7 +76,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 agents[Team.B, AgentNumber.One].Position = new Coordinate(MainForm.ComplementEnemysPosition(field, coordinates[0]));
                 agents[Team.B, AgentNumber.Two].Position = new Coordinate(MainForm.ComplementEnemysPosition(field, coordinates[1]));
                 var calc = new Calc(MainForm.MaxTurn, field, agents);
-                Invoke(new delegate1(Add), id, calc.Turn, calc.Field.TotalPoint(Team.A), calc.Field.TotalPoint(Team.B));
+                Invoke(new add_delegate(Add), id, calc.Turn, calc.Field.Sum(cell => cell.Point), calc.Field.TotalPoint(Team.A), calc.Field.TotalPoint(Team.B));
                 while (calc.Turn < calc.MaxTurn)
                 {
                     var action = new AgentsActivityData();
@@ -93,54 +106,108 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         action[Team.B, AgentNumber.One] = answer[0];
                         action[Team.B, AgentNumber.Two] = answer[1];
                     }
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        Console.WriteLine("Canceled!");
+                        return "Canceled";
+                    }
                     calc.MoveAgent(action);
-                    Invoke(new delegate1(Edit), id, calc.Turn, calc.Field.TotalPoint(Team.A), calc.Field.TotalPoint(Team.B));
+                    Invoke(new edit_delegate(Edit), id, calc.Turn, calc.Field.Sum(cell => cell.Point), calc.Field.TotalPoint(Team.A), calc.Field.TotalPoint(Team.B));
                 }
-                Invoke(new delegate1(End), id, calc.Turn, calc.Field.TotalPoint(Team.A), calc.Field.TotalPoint(Team.B));
+                Invoke(new end_delegate(End), id);
+                return "Succeed";
             });
-            return Task.WhenAll(task);
         }
 
-        delegate void delegate1(string id, int turn, int orange, int lime);
-        delegate void delegate2(Calc calc, Logger logger, dynamic[] bot);
+        delegate void add_delegate(string id, int turn, int total, int orange, int lime);
+        delegate void edit_delegate(string id, int turn, int total, int orange, int lime);
+        delegate void end_delegate(string id);
 
-        private void Add(string id, int turn, int orange, int lime)
+        private void Add(string id, int turn, int total, int orange, int lime)
         {
-            DataGridView.Rows.Add(id, turn, orange, lime);
+            var orangepercent = ((double)orange / total).ToString("P");
+            var limepercent = ((double)lime / total).ToString("P");
+            DataGridView.Rows.Add(id, turn, total, orange, orangepercent, lime, limepercent);
         }
 
-        private void Edit(string id, int turn, int orange, int lime)
+        private void Edit(string id, int turn, int total, int orange, int lime)
         {
             var row = DataGridView.Rows.Cast<DataGridViewRow>().First(row2 => row2.Cells[0].Value.ToString() == id);
-            row.Cells[1].Value = turn;
-            row.Cells[2].Value = orange;
-            row.Cells[3].Value = lime;
+            row.Cells["Turn"].Value = turn;
+            row.Cells["Orange"].Value = orange;
+            row.Cells["Lime"].Value = lime;
+            var orangepercent = ((double)orange / total).ToString("P");
+            var limepercent = ((double)lime / total).ToString("P");
+            try
+            {
+                row.Cells["OrangePercent"].Value = orangepercent;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("CAUGHT!");
+                throw;
+            }
+            row.Cells["LimePercent"].Value = limepercent;
             if (orange >= lime)
             {
-                row.Cells[2].Style.BackColor = Color.Orange;
-                row.Cells[2].Style.ForeColor = Color.Black;
+                row.Cells["Orange"].Style.BackColor = Color.Orange;
+                row.Cells["OrangePercent"].Style.BackColor = Color.Orange;
+                row.Cells["Orange"].Style.ForeColor = Color.Black;
+                row.Cells["OrangePercent"].Style.ForeColor = Color.Black;
             }
             else
             {
-                row.Cells[2].Style.BackColor = Color.FromArgb(32, 32, 32);
-                row.Cells[2].Style.ForeColor = Color.LightGray;
+                row.Cells["Orange"].Style.BackColor = Color.FromArgb(32, 32, 32);
+                row.Cells["OrangePercent"].Style.BackColor = Color.FromArgb(32, 32, 32);
+                row.Cells["Orange"].Style.ForeColor = Color.LightGray;
+                row.Cells["OrangePercent"].Style.ForeColor = Color.LightGray;
             }
             if (lime >= orange)
             {
-                row.Cells[3].Style.BackColor = Color.Lime;
-                row.Cells[3].Style.ForeColor = Color.Black;
+                row.Cells["Lime"].Style.BackColor = Color.Lime;
+                row.Cells["LimePercent"].Style.BackColor = Color.Lime;
+                row.Cells["Lime"].Style.ForeColor = Color.Black;
+                row.Cells["LimePercent"].Style.ForeColor = Color.Black;
             }
             else
             {
-                row.Cells[3].Style.BackColor = Color.FromArgb(32, 32, 32);
-                row.Cells[3].Style.ForeColor = Color.LightGray;
+                row.Cells["Lime"].Style.BackColor = Color.FromArgb(32, 32, 32);
+                row.Cells["LimePercent"].Style.BackColor = Color.FromArgb(32, 32, 32);
+                row.Cells["Lime"].Style.ForeColor = Color.LightGray;
+                row.Cells["LimePercent"].Style.ForeColor = Color.LightGray;
             }
         }
 
-        private void End(string id, int turn, int orange, int lime)
+        private void End(string id)
         {
             var row = DataGridView.Rows.Cast<DataGridViewRow>().First(row2 => row2.Cells[0].Value.ToString() == id);
-            row.Cells[1].Style.ForeColor = Color.Red;
+            row.Cells["Turn"].Style.ForeColor = Color.Red;
+        }
+
+        private void BotWarsForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            CancellationTokenSource.Cancel();
+
+            if (tasks.Count == 0) return;
+
+            StreamWriter writer = new StreamWriter(MainForm.BotName[0] + " vs " + MainForm.BotName[1] + ".csv", true);
+
+            foreach (var row in DataGridView.Rows.Cast<DataGridViewRow>())
+            {
+                try
+                {
+                    foreach (var cell in row.Cells.Cast<DataGridViewCell>())
+                    {
+                        writer.Write(cell.Value.ToString() + "\t");
+                    }
+                    writer.WriteLine(DateTime.Now);
+                }
+                catch (NullReferenceException)
+                {
+                    Console.WriteLine("Ignore!");
+                }
+            }
+            writer.Close();
         }
     }
 }
