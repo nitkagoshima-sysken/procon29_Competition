@@ -180,7 +180,7 @@
             this.NumericUpDown.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.NumericUpDown.Location = new System.Drawing.Point(535, 159);
             this.NumericUpDown.Maximum = new decimal(new int[] {
-            9999,
+            999,
             0,
             0,
             0});
