@@ -97,6 +97,7 @@
     <Compile Include="AgentStatusCodeAttribute.cs" />
     <Compile Include="AgentStatusCodeExtension.cs" />
     <Compile Include="Arrow.cs" />
+    <Compile Include="Bot.cs" />
     <Compile Include="BotForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -51,14 +51,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         for (int y = 0; y < Size.Height; y++)
                         {
                             var cell = new Cell(new Coordinate(x, y));
-                            if (Seed <= 999)
-                            {
-                                cell.Point = (random.NextDouble() <= 0.9f) ? random.Next(1, 16) : random.Next(-16, 0);
-                            }
-                            else
-                            {
-                                cell.Point = (random.NextDouble() <= 0.9f) ? random.Next(1, 17) : random.Next(-17, 0);
-                            }
+                            cell.Point = GetPoint(random);
                             field[x, y] = cell;
                             field[Size.Width - 1 - x, y] = new Cell(cell) { Coordinate = new Coordinate(Size.Width - 1 - x, y) };
                         }
@@ -70,14 +63,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         for (int y = 0; y <= Size.Height / 2; y++)
                         {
                             var cell = new Cell(new Coordinate(x, y));
-                            if (Seed <= 999)
-                            {
-                                cell.Point = (random.NextDouble() <= 0.9f) ? random.Next(1, 16) : random.Next(-16, 0);
-                            }
-                            else
-                            {
-                                cell.Point = (random.NextDouble() <= 0.9f) ? random.Next(1, 17) : random.Next(-17, 0);
-                            }
+                            cell.Point = GetPoint(random);
                             field[x, y] = cell;
                             field[x, Size.Height - 1 - y] = new Cell(cell) { Coordinate = new Coordinate(x, Size.Height - 1 - y) };
                         }
@@ -89,14 +75,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         for (int y = 0; y <= Size.Height / 2; y++)
                         {
                             var cell = new Cell(new Coordinate(x, y));
-                            if (Seed <= 999)
-                            {
-                                cell.Point = (random.NextDouble() <= 0.9f) ? random.Next(1, 16) : random.Next(-16, 0);
-                            }
-                            else
-                            {
-                                cell.Point = (random.NextDouble() <= 0.9f) ? random.Next(1, 17) : random.Next(-17, 0);
-                            }
+                            cell.Point = GetPoint(random);
                             field[x, y] = cell;
                             field[Size.Width - 1 - x, y] = new Cell(cell) { Coordinate = new Coordinate(Size.Width - 1 - x, y) };
                             field[x, Size.Height - 1 - y] = new Cell(cell) { Coordinate = new Coordinate(x, Size.Height - 1 - y) };
@@ -107,6 +86,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 default:
                     throw new Exception();
             }
+        }
+
+        private int GetPoint(Random random)
+        {
+            return (random.NextDouble() <= 0.9f) ? random.Next(1, 17) : random.Next(-17, 0);
         }
 
         public Coordinate[] AgentPositionGenerate(Field field)

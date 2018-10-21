@@ -31,7 +31,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public Logger(RichTextBox richTextBox)
         {
             RichTextBox = richTextBox;
-            Console.WriteLine("");
         }
 
         /// <summary>

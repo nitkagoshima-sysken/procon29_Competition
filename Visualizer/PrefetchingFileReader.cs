@@ -66,7 +66,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 {
                     MainForm.Log.WriteLine("[Prefetching] PQR File \"" + result["Pqr"][0] + "\" was read by Calc.tsv", Color.SkyBlue);
                     mainForm.OpenPQRFile(result["Pqr"][0].Trim());
-                    Console.WriteLine("\"" + result["Pqr"][0] + "\"");
                 }
                 if (result.ContainsKey("MaxTurn"))
                 {
