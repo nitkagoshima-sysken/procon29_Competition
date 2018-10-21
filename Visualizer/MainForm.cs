@@ -44,7 +44,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 新たな戦いを始めるためのフォームです。
         /// </summary>
-        CreateNewForm CreateNewForm { get; set; } = new CreateNewForm();
+        public CreateNewForm CreateNewForm { get; set; } = new CreateNewForm();
 
         /// <summary>
         /// ボットを選択するためのフォームです。
@@ -64,17 +64,22 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// ボットを設定または取得します。
         /// </summary>
-        public static dynamic[] Bot { get; set; } = new dynamic[2];
+        //public static dynamic[] Bot { get; set; } = new dynamic[2];
 
         /// <summary>
         /// ボットの名前を設定または取得します。
         /// </summary>
-        public static string[] BotName { get; set; } = new string[2];
+        //public static string[] BotName { get; set; } = new string[2];
 
         /// <summary>
         /// ボットのパスを設定または取得します。
         /// </summary>
-        public static string[] BotPath { get; set; } = new string[2];
+        //public static string[] BotPath { get; set; } = new string[2];
+
+        /// <summary>
+        /// ボットを設定または取得します。
+        /// </summary>
+        public static Bot[] Bot { get; set; } = new Bot[2];
 
         /// <summary>
         /// 最大ターンのデフォルト値を設定または取得します。
@@ -456,10 +461,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 foreach (System.Text.RegularExpressions.Match match in mc)
                 {
-                    Bot[n] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
-                    BotName[n] = match.Groups["file"].Value;
+                    Bot[n].Body = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
+                    Bot[n].Name = match.Groups["file"].Value;
                 }
-                BotPath[n] = path;
+                Bot[n].Path = path;
             }
             catch (Exception)
             {
@@ -480,12 +485,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 if (Mode == PlayMode.ProductionMode)
                 {
-                    if (Bot[0] != null)
+                    if (Bot[0].Body != null)
                     {
                         Show.AgentsActivityData[Team.A, AgentNumber.One] = Show.AgentsActivityData[Team.A, AgentNumber.One];
                         Show.AgentsActivityData[Team.A, AgentNumber.Two] = Show.AgentsActivityData[Team.A, AgentNumber.Two];
                     }
-                    if (Bot[1] != null)
+                    if (Bot[1].Body != null)
                     {
                         Show.AgentsActivityData[Team.B, AgentNumber.One] = Show.AgentsActivityData[Team.B, AgentNumber.One];
                         Show.AgentsActivityData[Team.B, AgentNumber.Two] = Show.AgentsActivityData[Team.B, AgentNumber.Two];
@@ -493,116 +498,104 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 }
                 else
                 {
-                    if (Bot[0] != null)
-                    {
-                        var stopwatch = new Stopwatch();
-                        stopwatch.Start();
-                        Bot[0].OurTeam = Team.A;
-                        Bot[0].Log = BotLog;
-                        Bot[0].Question(new Calc(Calc));
-                        var answer = Bot[0].Answer();
-                        Show.AgentsActivityData[Team.A, AgentNumber.One] = answer[0];
-                        Show.AgentsActivityData[Team.A, AgentNumber.Two] = answer[1];
-                        stopwatch.Stop();
-                        TimeDataList.Add(new TimeData(BotName[0] + " (Our Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
-                    }
-                    if (Bot[1] != null)
-                    {
-                        var stopwatch = new Stopwatch();
-                        stopwatch.Start();
-                        Bot[1].OurTeam = Team.B;
-                        Bot[1].Log = BotLog;
-                        Bot[1].Question(new Calc(Calc));
-                        var answer = Bot[1].Answer();
-                        Show.AgentsActivityData[Team.B, AgentNumber.One] = answer[0];
-                        Show.AgentsActivityData[Team.B, AgentNumber.Two] = answer[1];
-                        stopwatch.Stop();
-                        TimeDataList.Add(new TimeData(BotName[1] + " (Opponent Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
-                    }
-                    stopwatch_all.Stop();
-                    TimeDataList.Add(new TimeData("Turn End of " + Calc.Turn, stopwatch_all.ElapsedMilliseconds));
+                    var stopwatch = new Stopwatch();
+                    stopwatch.Start();
+                    BotAnswer((int)Team.A);
+                    stopwatch.Stop();
+                    TimeDataList.Add(new TimeData(Bot[0].Name + " (Our Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
+                    stopwatch = new Stopwatch();
+                    stopwatch.Start();
+                    BotAnswer((int)Team.B);
+                    stopwatch.Stop();
+                    TimeDataList.Add(new TimeData(Bot[1].Name + " (Opponent Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
                 }
+                stopwatch_all.Stop();
+                TimeDataList.Add(new TimeData("Turn End of " + Calc.Turn, stopwatch_all.ElapsedMilliseconds));
+            }
 
-                Calc.MoveAgent(Show.AgentsActivityData);
+            Calc.MoveAgent(Show.AgentsActivityData);
 
-                foreach (AgentActivityData item in Show.AgentsActivityData)
-                {
-                    item.AgentStatusData = AgentStatusCode.NotDoneAnything;
-                }
+            foreach (AgentActivityData item in Show.AgentsActivityData)
+            {
+                item.AgentStatusData = AgentStatusCode.NotDoneAnything;
+            }
 
-                var stopwatch2 = new Stopwatch();
-                stopwatch2.Start();
-                Show.Showing();
-                stopwatch2.Stop();
-                TimeDataList.Add(new TimeData("Draw", stopwatch2.ElapsedMilliseconds));
+            var stopwatch2 = new Stopwatch();
+            stopwatch2.Start();
+            Show.Showing();
+            stopwatch2.Stop();
+            TimeDataList.Add(new TimeData("Draw", stopwatch2.ElapsedMilliseconds));
 
-                WriteLog();
-                TurnProgressCheck();
+            WriteLog();
+            TurnProgressCheck();
 
-                if (Bot[0] != null)
-                {
-                    Log.WriteLine("[" + BotName[0] + "]", Color.SkyBlue);
-                    var d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.A, AgentNumber.One];
-                    Log.WriteLine("A1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
-                    d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.A, AgentNumber.Two];
-                    Log.WriteLine("A2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
-                }
-                if (Bot[1] != null)
-                {
-                    Log.WriteLine("[" + BotName[1] + "]", Color.SkyBlue);
-                    var d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.B, AgentNumber.One];
-                    Log.WriteLine("B1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
-                    d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.B, AgentNumber.Two];
-                    Log.WriteLine("B2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
-                }
+            if (Bot[0].Body != null)
+            {
+                Log.WriteLine("[" + Bot[0].Name + "]", Color.SkyBlue);
+                var d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.A, AgentNumber.One];
+                Log.WriteLine("A1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
+                d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.A, AgentNumber.Two];
+                Log.WriteLine("A2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
+            }
+            if (Bot[1].Body != null)
+            {
+                Log.WriteLine("[" + Bot[1].Name + "]", Color.SkyBlue);
+                var d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.B, AgentNumber.One];
+                Log.WriteLine("B1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
+                d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.B, AgentNumber.Two];
+                Log.WriteLine("B2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
+            }
 
-                if (Debug)
-                {
-                    //XmlSerializerオブジェクトを作成
-                    //オブジェクトの型を指定する
-                    System.Xml.Serialization.XmlSerializer serializer =
-                        new System.Xml.Serialization.XmlSerializer(typeof(XmlCalc));
-                    //書き込むファイルを開く（UTF-8 BOM無し）
-                    System.IO.StreamWriter sw = new System.IO.StreamWriter(
-                        "log.xml", false, new System.Text.UTF8Encoding(false));
-                    //シリアル化し、XMLファイルに保存する
-                    serializer.Serialize(sw, new XmlCalc(Calc));
-                    //ファイルを閉じる
-                    sw.Close();
-                }
-                if (Mode == PlayMode.ProductionMode)
-                {
-                    TurnEndButton.Text = "ボットで選択";
-                    TurnEndButton.BackColor = Color.DarkGray;
-                    TurnEndButton.ForeColor = Color.White;
-                }
+            if (Debug)
+            {
+                //XmlSerializerオブジェクトを作成
+                //オブジェクトの型を指定する
+                System.Xml.Serialization.XmlSerializer serializer =
+                    new System.Xml.Serialization.XmlSerializer(typeof(XmlCalc));
+                //書き込むファイルを開く（UTF-8 BOM無し）
+                System.IO.StreamWriter sw = new System.IO.StreamWriter(
+                    "log.xml", false, new System.Text.UTF8Encoding(false));
+                //シリアル化し、XMLファイルに保存する
+                serializer.Serialize(sw, new XmlCalc(Calc));
+                //ファイルを閉じる
+                sw.Close();
+            }
+            if (Mode == PlayMode.ProductionMode)
+            {
+                TurnEndButton.Text = "ボットで選択";
+                TurnEndButton.BackColor = Color.DarkGray;
+                TurnEndButton.ForeColor = Color.White;
             }
             else if (TurnEndButton.Text == "ボットで選択")
             {
-                if (Bot[0] != null)
-                {
-                    Bot[0].OurTeam = Team.A;
-                    Bot[0].Log = BotLog;
-                    Bot[0].Question(Calc);
-                    var a = Bot[0].Answer();
-                    Show.AgentsActivityData[Team.A, AgentNumber.One] = a[0];
-                    Show.AgentsActivityData[Team.A, AgentNumber.Two] = a[1];
-                }
-                if (Bot[1] != null)
-                {
-                    Bot[1].OurTeam = Team.B;
-                    Bot[1].Log = BotLog;
-                    Bot[1].Question(Calc);
-                    var a = Bot[1].Answer();
-                    Show.AgentsActivityData[Team.B, AgentNumber.One] = a[0];
-                    Show.AgentsActivityData[Team.B, AgentNumber.Two] = a[1];
-                }
+                BotAnswer();
                 TurnEndButton.Text = "ターンエンド";
                 TurnEndButton.BackColor = Color.RoyalBlue;
                 TurnEndButton.ForeColor = Color.LightGray;
                 Show.Showing();
             }
             CellInformationToolStripStatusLabel_Review(new Coordinate());
+        }
+
+        private void BotAnswer()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                BotAnswer(i);
+            }
+        }
+
+        private void BotAnswer(int i)
+        {
+            if (Bot[i].Body != null)
+            {
+                Bot[i].Body.OurTeam = (Team)i;
+                Bot[i].Body.Log = BotLog;
+                Bot[i].Body.Question(new Calc(Calc));
+                var answer = Bot[i].Body.Answer();
+                Show.AgentsActivityData[(Team)i, AgentNumber.One] = answer[0];
+                Show.AgentsActivityData[(Team)i, AgentNumber.Two] = answer[1];
+            }
         }
 
         private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -628,9 +621,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             saveFileDialog1.RestoreDirectory = true;
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                //OKボタンがクリックされたとき、選択されたファイル名を表示する
-                Console.WriteLine(saveFileDialog1.FileName);
-
                 //XmlSerializerオブジェクトを作成
                 //オブジェクトの型を指定する
                 System.Xml.Serialization.XmlSerializer serializer =
@@ -657,9 +647,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     return;
                 }
             }
-            //OKボタンがクリックされたとき、選択されたファイル名を表示する
-            Console.WriteLine(saveFileDialog1.FileName);
-
             //XmlSerializerオブジェクトを作成
             //オブジェクトの型を指定する
             System.Xml.Serialization.XmlSerializer serializer =
@@ -923,8 +910,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             switch (BotForm.OrangeBotKindComboBox.SelectedIndex)
             {
                 case 0: // 人間
-                    Bot[0] = null;
-                    BotName[0] = "Human";
+                    Bot[0].Body = null;
+                    Bot[0].Name = "Human";
                     Log.WriteLine("[Bot] Changed to Human on orange team.", Color.SkyBlue);
                     break;
                 case 1: // ボット
@@ -934,11 +921,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         System.Text.RegularExpressions.MatchCollection mc = System.Text.RegularExpressions.Regex.Matches(BotForm.SelectedOrangeBotNameLabel.Text, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
                         foreach (System.Text.RegularExpressions.Match match in mc)
                         {
-                            Bot[0] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
-                            BotName[0] = match.Groups["file"].Value;
-                            Log.WriteLine("[Bot] Bot \"" + BotName[0] + "\" was read on orange team", Color.SkyBlue);
-                            BotPath[0] = BotForm.SelectedLimeBotNameLabel.Text;
+                            Bot[0].Body = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
+                            Bot[0].Name = match.Groups["file"].Value;
+                            Log.WriteLine("[Bot] Bot \"" + Bot[0].Name + "\" was read on orange team", Color.SkyBlue);
                         }
+                        Bot[0].Path = BotForm.SelectedOrangeBotNameLabel.Text;
                     }
                     catch (Exception)
                     {
@@ -946,15 +933,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     }
                     break;
                 case 2: // Hydro Go Bot
-                    Bot[0] = null;
-                    BotName[0] = "hydro_go_bot";
+                    Bot[0].Body = null;
+                    Bot[0].Name = "hydro_go_bot";
                     break;
             }
             switch (BotForm.LimeBotKindComboBox.SelectedIndex)
             {
                 case 0: // 人間
-                    Bot[1] = null;
-                    BotName[1] = "Human";
+                    Bot[1].Body = null;
+                    Bot[1].Name = "Human";
                     Log.WriteLine("[Bot] Changed to Human on lime team.", Color.SkyBlue);
                     break;
                 case 1: // ボット
@@ -964,11 +951,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         System.Text.RegularExpressions.MatchCollection mc = System.Text.RegularExpressions.Regex.Matches(BotForm.SelectedLimeBotNameLabel.Text, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
                         foreach (System.Text.RegularExpressions.Match match in mc)
                         {
-                            Bot[1] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
-                            BotName[1] = match.Groups["file"].Value;
-                            Log.WriteLine("[Bot] Bot \"" + BotName[1] + "\" was read on lime team", Color.SkyBlue);
+                            Bot[1].Body = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
+                            Bot[1].Name = match.Groups["file"].Value;
+                            Log.WriteLine("[Bot] Bot \"" + Bot[1].Name + "\" was read on lime team", Color.SkyBlue);
                         }
-                        BotPath[1] = BotForm.SelectedLimeBotNameLabel.Text;
+                        Bot[1].Path = BotForm.SelectedLimeBotNameLabel.Text;
                     }
                     catch (Exception)
                     {
@@ -976,16 +963,16 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     }
                     break;
                 case 2: // Hydro Go Bot
-                    Bot[1] = null;
-                    BotName[1] = "hydro_go_bot";
+                    Bot[1].Body = null;
+                    Bot[1].Name = "hydro_go_bot";
                     break;
             }
         }
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var f = new BotWarsForm();
-            f.ShowDialog();
+            var form = new BotWarsForm(this);
+            form.Show();
         }
     }
 }

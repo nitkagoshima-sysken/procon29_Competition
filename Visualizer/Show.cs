@@ -350,14 +350,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 //何が選択されたか調べる
                 if (result == DialogResult.Yes)
                 {
-                    //「はい」が選択された時
-                    Console.WriteLine("「はい」が選択されました");
                     AgentsActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestRemovementOurTile;
                 }
                 else if (result == DialogResult.No)
                 {
-                    //「いいえ」が選択された時
-                    Console.WriteLine("「いいえ」が選択されました");
                     AgentsActivityData[SelectedTeam, SelecetedAgent].AgentStatusData = AgentStatusCode.RequestMovement;
                 }
             }

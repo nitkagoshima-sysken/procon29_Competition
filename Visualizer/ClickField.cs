@@ -123,7 +123,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         public void PushKey(Keys keys)
         {
-            Console.WriteLine(keys);
             try
             {
                 switch (keys)
