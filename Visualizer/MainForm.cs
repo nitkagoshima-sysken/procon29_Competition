@@ -895,8 +895,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             Show = new Show(Calc, TeamDesign, FieldDisplay);
             Show.Showing();
             Log.WriteLine("[Create New] Visualizer Common Field Code is " + id, Color.SkyBlue);
-
-            Console.WriteLine(Calc.Field.Sum());
         }
 
         private void SelectBotToolStripMenuItem_Click(object sender, EventArgs e)
