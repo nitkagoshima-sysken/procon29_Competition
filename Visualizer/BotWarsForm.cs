@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace nitkagoshima_sysken.Procon29.Visualizer
 {
+    /// <summary>
+    /// ボット同士を戦わせます。
+    /// </summary>
     public partial class BotWarsForm : Form
     {
         public BotWarsForm()
@@ -61,48 +62,41 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 agents[Team.A, AgentNumber.Two].Position = coordinates[1];
                 agents[Team.B, AgentNumber.One].Position = new Coordinate(MainForm.ComplementEnemysPosition(field, coordinates[0]));
                 agents[Team.B, AgentNumber.Two].Position = new Coordinate(MainForm.ComplementEnemysPosition(field, coordinates[1]));
-                var calc = new Calc(40, field, agents);
+                var calc = new Calc(MainForm.MaxTurn, field, agents);
                 Invoke(new delegate1(Add), id, calc.Turn, calc.Field.TotalPoint(Team.A), calc.Field.TotalPoint(Team.B));
                 while (calc.Turn < calc.MaxTurn)
                 {
-                    try
+                    var action = new AgentsActivityData();
+                    if (bot[0] != null)
                     {
-                        var action = new AgentsActivityData();
-                        if (bot[0] != null)
+                        dynamic answer;
+                        lock (bot[0])
                         {
-                            dynamic answer;
-                            lock (bot[0])
-                            {
-                                bot[0].OurTeam = Team.A;
-                                bot[0].Log = log;
-                                bot[0].Question(new Calc(calc));
-                                answer = bot[0].Answer();
-                            }
-                            action[Team.A, AgentNumber.One] = answer[0];
-                            action[Team.A, AgentNumber.Two] = answer[1];
+                            bot[0].OurTeam = Team.A;
+                            bot[0].Log = log;
+                            bot[0].Question(new Calc(calc));
+                            answer = bot[0].Answer();
                         }
-                        if (bot[1] != null)
-                        {
-                            dynamic answer;
-                            lock (bot[1])
-                            {
-                                bot[1].OurTeam = Team.B;
-                                bot[1].Log = log;
-                                bot[1].Question(new Calc(calc));
-                                answer = bot[1].Answer();
-                            }
-                            action[Team.B, AgentNumber.One] = answer[0];
-                            action[Team.B, AgentNumber.Two] = answer[1];
-                        }
-                        calc.MoveAgent(action);
+                        action[Team.A, AgentNumber.One] = answer[0];
+                        action[Team.A, AgentNumber.Two] = answer[1];
                     }
-                    catch (Exception)
+                    if (bot[1] != null)
                     {
-                        Console.WriteLine("caught!");
-                        throw;
+                        dynamic answer;
+                        lock (bot[1])
+                        {
+                            bot[1].OurTeam = Team.B;
+                            bot[1].Log = log;
+                            bot[1].Question(new Calc(calc));
+                            answer = bot[1].Answer();
+                        }
+                        action[Team.B, AgentNumber.One] = answer[0];
+                        action[Team.B, AgentNumber.Two] = answer[1];
                     }
+                    calc.MoveAgent(action);
                     Invoke(new delegate1(Edit), id, calc.Turn, calc.Field.TotalPoint(Team.A), calc.Field.TotalPoint(Team.B));
                 }
+                Invoke(new delegate1(End), id, calc.Turn, calc.Field.TotalPoint(Team.A), calc.Field.TotalPoint(Team.B));
             });
             return Task.WhenAll(task);
         }
@@ -128,7 +122,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
             else
             {
-                row.Cells[2].Style.BackColor = Color.FromArgb(64,64,64);
+                row.Cells[2].Style.BackColor = Color.FromArgb(32, 32, 32);
                 row.Cells[2].Style.ForeColor = Color.LightGray;
             }
             if (lime >= orange)
@@ -138,41 +132,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
             else
             {
-                row.Cells[3].Style.BackColor = Color.FromArgb(64, 64, 64);
+                row.Cells[3].Style.BackColor = Color.FromArgb(32, 32, 32);
                 row.Cells[3].Style.ForeColor = Color.LightGray;
             }
         }
 
-        private void TurnEnd(Calc calc, Logger logger, dynamic[] bot)
+        private void End(string id, int turn, int orange, int lime)
         {
-            var action = new AgentsActivityData();
-            if (bot[0] != null)
-            {
-                dynamic answer;
-                lock (bot[0])
-                {
-                    bot[0].OurTeam = Team.A;
-                    bot[0].Log = logger;
-                    bot[0].Question(new Calc(calc));
-                    answer = bot[0].Answer();
-                }
-                action[Team.A, AgentNumber.One] = answer[0];
-                action[Team.A, AgentNumber.Two] = answer[1];
-            }
-            if (bot[1] != null)
-            {
-                dynamic answer;
-                lock (bot[1])
-                {
-                    bot[1].OurTeam = Team.B;
-                    bot[1].Log = logger;
-                    bot[1].Question(new Calc(calc));
-                    answer = bot[1].Answer();
-                }
-                action[Team.B, AgentNumber.One] = answer[0];
-                action[Team.B, AgentNumber.Two] = answer[1];
-            }
-            calc.MoveAgent(action);
+            var row = DataGridView.Rows.Cast<DataGridViewRow>().First(row2 => row2.Cells[0].Value.ToString() == id);
+            row.Cells[1].Style.ForeColor = Color.Red;
         }
     }
 }
