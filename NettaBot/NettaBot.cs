@@ -6,9 +6,9 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
 {
     struct ReturnStruct
     {
-        public int point { get; set; }
+        public double point { get; set; }
         public AgentActivityData[] AgentActivityData {get; set;}
-        public ReturnStruct(int p, AgentActivityData[] agentActivityData)
+        public ReturnStruct(double p, AgentActivityData[] agentActivityData)
         {
             point = p;
             AgentActivityData = agentActivityData;
@@ -39,9 +39,10 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
 
         private ReturnStruct BestHand(Calc calc, int depth)
         {
-            var maxpoint = int.MinValue;
+            var maxpoint = double.MinValue;
             var agentActivityData = new AgentActivityData[2];
             var result = new AgentActivityData[2];
+            var rate = 1.0;
             foreach (Arrow arrowOne in Enum.GetValues(typeof(Arrow)))
             {
                 var destinationOne = calc.Agents[OurTeam, AgentNumber.One].Position + arrowOne;
@@ -49,44 +50,49 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
 
                 foreach (Arrow arrowTwo in Enum.GetValues(typeof(Arrow)))
                 {
+                    rate = 1.0;
                     var destinationTwo = calc.Agents[OurTeam, AgentNumber.Two].Position + arrowTwo;
                     if (!calc.Field.CellExist(destinationTwo)) continue;
                     if (destinationOne == destinationTwo) continue;
                     if ((destinationOne.X + destinationOne.Y) % 2 != 0 == isOdd)
                     {
                         agentActivityData[(int)AgentNumber.One] = MoveOrRemoveTile(destinationOne);
+                        rate *= 1.1;
                     }
                     else
                     {
                         agentActivityData[(int)AgentNumber.One] = RemoveTile(destinationOne);
                         if (agentActivityData[(int)AgentNumber.One].AgentStatusData == AgentStatusCode.RequestNotToDoAnything) continue;
+                        rate *= 0.9;
                     }
 
                     if (((destinationTwo.X + destinationTwo.Y) % 2 != 0) == isOdd)
                     {
                         agentActivityData[(int)AgentNumber.Two] = MoveOrRemoveTile(destinationTwo);
+                        rate *= 1.1;
                     }
                     else
                     {
                         agentActivityData[(int)AgentNumber.Two] = RemoveTile(destinationTwo);
                         if (agentActivityData[(int)AgentNumber.Two].AgentStatusData == AgentStatusCode.RequestNotToDoAnything) continue;
+                        rate *= 0.9;
                     }
                     var c = calc.Simulate(OurTeam, agentActivityData);
                     foreach (var item in agentActivityData) item.AgentStatusData.ToRequest();
                     if (depth <= 1)
                     {
-                        if (maxpoint < (c.Field.TotalPoint(OurTeam) - c.Field.TotalPoint(OurTeam.Opponent())))
+                        if (maxpoint < rate * (c.Field.TotalPoint(OurTeam) - c.Field.TotalPoint(OurTeam.Opponent()))) ;
                         {
-                            maxpoint = c.Field.TotalPoint(OurTeam) - c.Field.TotalPoint(OurTeam.Opponent());
+                            maxpoint = rate * (c.Field.TotalPoint(OurTeam) - c.Field.TotalPoint(OurTeam.Opponent()));
                             result = agentActivityData.DeepClone();
                         }
                     }
                     else
                     {
                         var bestHand = BestHand(c, depth - 1);
-                        if (maxpoint < bestHand.point)
+                        if (maxpoint < rate*bestHand.point)
                         {
-                            maxpoint = bestHand.point;
+                            maxpoint = rate*bestHand.point;
                             result = agentActivityData.DeepClone();
                         }
                     }
