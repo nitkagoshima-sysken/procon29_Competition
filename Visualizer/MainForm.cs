@@ -457,7 +457,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 foreach (System.Text.RegularExpressions.Match match in mc)
                 {
                     Bot[n] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
-                    BotName[n] = match.Groups["file"].Value;                    
+                    BotName[n] = match.Groups["file"].Value;
                 }
                 BotPath[n] = path;
             }
@@ -937,6 +937,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                             Bot[0] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
                             BotName[0] = match.Groups["file"].Value;
                             Log.WriteLine("[Bot] Bot \"" + BotName[0] + "\" was read on orange team", Color.SkyBlue);
+                            BotPath[0] = BotForm.SelectedLimeBotNameLabel.Text;
                         }
                     }
                     catch (Exception)
@@ -967,6 +968,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                             BotName[1] = match.Groups["file"].Value;
                             Log.WriteLine("[Bot] Bot \"" + BotName[1] + "\" was read on lime team", Color.SkyBlue);
                         }
+                        BotPath[1] = BotForm.SelectedLimeBotNameLabel.Text;
                     }
                     catch (Exception)
                     {
