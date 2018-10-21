@@ -29,16 +29,16 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.VisualizerCommonFieldCode5Label = new System.Windows.Forms.Label();
+            this.VisualizerCommonFieldCode4Label = new System.Windows.Forms.Label();
+            this.VisualizerCommonFieldCode3Label = new System.Windows.Forms.Label();
+            this.VisualizerCommonFieldCode2Label = new System.Windows.Forms.Label();
+            this.VisualizerCommonFieldCode1Label = new System.Windows.Forms.Label();
             this.OKButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
             this.NumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.VisualizerCommonFieldCode1Label = new System.Windows.Forms.Label();
-            this.VisualizerCommonFieldCode2Label = new System.Windows.Forms.Label();
-            this.VisualizerCommonFieldCode3Label = new System.Windows.Forms.Label();
             this.FieldKindComboBox = new System.Windows.Forms.ComboBox();
             this.FieldSizeComboBox = new System.Windows.Forms.ComboBox();
-            this.VisualizerCommonFieldCode4Label = new System.Windows.Forms.Label();
-            this.VisualizerCommonFieldCode5Label = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown)).BeginInit();
             this.SuspendLayout();
@@ -69,6 +69,74 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(800, 450);
             this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // VisualizerCommonFieldCode5Label
+            // 
+            this.VisualizerCommonFieldCode5Label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.VisualizerCommonFieldCode5Label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.VisualizerCommonFieldCode5Label.Font = new System.Drawing.Font("Consolas", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VisualizerCommonFieldCode5Label.ForeColor = System.Drawing.Color.LightGray;
+            this.VisualizerCommonFieldCode5Label.Location = new System.Drawing.Point(269, 159);
+            this.VisualizerCommonFieldCode5Label.Name = "VisualizerCommonFieldCode5Label";
+            this.VisualizerCommonFieldCode5Label.Size = new System.Drawing.Size(260, 42);
+            this.VisualizerCommonFieldCode5Label.TabIndex = 13;
+            this.VisualizerCommonFieldCode5Label.Text = "A";
+            this.VisualizerCommonFieldCode5Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // VisualizerCommonFieldCode4Label
+            // 
+            this.VisualizerCommonFieldCode4Label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.VisualizerCommonFieldCode4Label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.VisualizerCommonFieldCode4Label.Font = new System.Drawing.Font("Consolas", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VisualizerCommonFieldCode4Label.ForeColor = System.Drawing.Color.LightGray;
+            this.VisualizerCommonFieldCode4Label.Location = new System.Drawing.Point(3, 159);
+            this.VisualizerCommonFieldCode4Label.Name = "VisualizerCommonFieldCode4Label";
+            this.VisualizerCommonFieldCode4Label.Size = new System.Drawing.Size(260, 42);
+            this.VisualizerCommonFieldCode4Label.TabIndex = 12;
+            this.VisualizerCommonFieldCode4Label.Text = "V";
+            this.VisualizerCommonFieldCode4Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // VisualizerCommonFieldCode3Label
+            // 
+            this.VisualizerCommonFieldCode3Label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.VisualizerCommonFieldCode3Label.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.VisualizerCommonFieldCode3Label.ForeColor = System.Drawing.Color.LightGray;
+            this.VisualizerCommonFieldCode3Label.Location = new System.Drawing.Point(535, 0);
+            this.VisualizerCommonFieldCode3Label.Name = "VisualizerCommonFieldCode3Label";
+            this.VisualizerCommonFieldCode3Label.Size = new System.Drawing.Size(262, 135);
+            this.VisualizerCommonFieldCode3Label.TabIndex = 8;
+            this.VisualizerCommonFieldCode3Label.Text = "シード値";
+            this.VisualizerCommonFieldCode3Label.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // VisualizerCommonFieldCode2Label
+            // 
+            this.VisualizerCommonFieldCode2Label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.VisualizerCommonFieldCode2Label.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.VisualizerCommonFieldCode2Label.ForeColor = System.Drawing.Color.LightGray;
+            this.VisualizerCommonFieldCode2Label.Location = new System.Drawing.Point(269, 0);
+            this.VisualizerCommonFieldCode2Label.Name = "VisualizerCommonFieldCode2Label";
+            this.VisualizerCommonFieldCode2Label.Size = new System.Drawing.Size(260, 135);
+            this.VisualizerCommonFieldCode2Label.TabIndex = 7;
+            this.VisualizerCommonFieldCode2Label.Text = "サイズ";
+            this.VisualizerCommonFieldCode2Label.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
+            // VisualizerCommonFieldCode1Label
+            // 
+            this.VisualizerCommonFieldCode1Label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.VisualizerCommonFieldCode1Label.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.VisualizerCommonFieldCode1Label.ForeColor = System.Drawing.Color.LightGray;
+            this.VisualizerCommonFieldCode1Label.Location = new System.Drawing.Point(3, 0);
+            this.VisualizerCommonFieldCode1Label.Name = "VisualizerCommonFieldCode1Label";
+            this.VisualizerCommonFieldCode1Label.Size = new System.Drawing.Size(260, 135);
+            this.VisualizerCommonFieldCode1Label.TabIndex = 6;
+            this.VisualizerCommonFieldCode1Label.Text = "対称性";
+            this.VisualizerCommonFieldCode1Label.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // OKButton
             // 
@@ -112,7 +180,7 @@
             this.NumericUpDown.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.NumericUpDown.Location = new System.Drawing.Point(535, 159);
             this.NumericUpDown.Maximum = new decimal(new int[] {
-            999,
+            9999,
             0,
             0,
             0});
@@ -120,48 +188,6 @@
             this.NumericUpDown.Size = new System.Drawing.Size(262, 42);
             this.NumericUpDown.TabIndex = 4;
             this.NumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // VisualizerCommonFieldCode1Label
-            // 
-            this.VisualizerCommonFieldCode1Label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.VisualizerCommonFieldCode1Label.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.VisualizerCommonFieldCode1Label.ForeColor = System.Drawing.Color.LightGray;
-            this.VisualizerCommonFieldCode1Label.Location = new System.Drawing.Point(3, 0);
-            this.VisualizerCommonFieldCode1Label.Name = "VisualizerCommonFieldCode1Label";
-            this.VisualizerCommonFieldCode1Label.Size = new System.Drawing.Size(260, 135);
-            this.VisualizerCommonFieldCode1Label.TabIndex = 6;
-            this.VisualizerCommonFieldCode1Label.Text = "対称性";
-            this.VisualizerCommonFieldCode1Label.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            // 
-            // VisualizerCommonFieldCode2Label
-            // 
-            this.VisualizerCommonFieldCode2Label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.VisualizerCommonFieldCode2Label.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.VisualizerCommonFieldCode2Label.ForeColor = System.Drawing.Color.LightGray;
-            this.VisualizerCommonFieldCode2Label.Location = new System.Drawing.Point(269, 0);
-            this.VisualizerCommonFieldCode2Label.Name = "VisualizerCommonFieldCode2Label";
-            this.VisualizerCommonFieldCode2Label.Size = new System.Drawing.Size(260, 135);
-            this.VisualizerCommonFieldCode2Label.TabIndex = 7;
-            this.VisualizerCommonFieldCode2Label.Text = "サイズ";
-            this.VisualizerCommonFieldCode2Label.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            // 
-            // VisualizerCommonFieldCode3Label
-            // 
-            this.VisualizerCommonFieldCode3Label.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.VisualizerCommonFieldCode3Label.Font = new System.Drawing.Font("メイリオ", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.VisualizerCommonFieldCode3Label.ForeColor = System.Drawing.Color.LightGray;
-            this.VisualizerCommonFieldCode3Label.Location = new System.Drawing.Point(535, 0);
-            this.VisualizerCommonFieldCode3Label.Name = "VisualizerCommonFieldCode3Label";
-            this.VisualizerCommonFieldCode3Label.Size = new System.Drawing.Size(262, 135);
-            this.VisualizerCommonFieldCode3Label.TabIndex = 8;
-            this.VisualizerCommonFieldCode3Label.Text = "シード値";
-            this.VisualizerCommonFieldCode3Label.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // FieldKindComboBox
             // 
@@ -219,32 +245,6 @@
             this.FieldSizeComboBox.TabIndex = 11;
             this.FieldSizeComboBox.Text = "A (W7 x H12)";
             this.FieldSizeComboBox.SelectedIndexChanged += new System.EventHandler(this.FieldSizeComboBox_SelectedIndexChanged);
-            // 
-            // VisualizerCommonFieldCode4Label
-            // 
-            this.VisualizerCommonFieldCode4Label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.VisualizerCommonFieldCode4Label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.VisualizerCommonFieldCode4Label.Font = new System.Drawing.Font("Consolas", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.VisualizerCommonFieldCode4Label.ForeColor = System.Drawing.Color.LightGray;
-            this.VisualizerCommonFieldCode4Label.Location = new System.Drawing.Point(3, 159);
-            this.VisualizerCommonFieldCode4Label.Name = "VisualizerCommonFieldCode4Label";
-            this.VisualizerCommonFieldCode4Label.Size = new System.Drawing.Size(260, 42);
-            this.VisualizerCommonFieldCode4Label.TabIndex = 12;
-            this.VisualizerCommonFieldCode4Label.Text = "V";
-            this.VisualizerCommonFieldCode4Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // VisualizerCommonFieldCode5Label
-            // 
-            this.VisualizerCommonFieldCode5Label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.VisualizerCommonFieldCode5Label.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.VisualizerCommonFieldCode5Label.Font = new System.Drawing.Font("Consolas", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.VisualizerCommonFieldCode5Label.ForeColor = System.Drawing.Color.LightGray;
-            this.VisualizerCommonFieldCode5Label.Location = new System.Drawing.Point(269, 159);
-            this.VisualizerCommonFieldCode5Label.Name = "VisualizerCommonFieldCode5Label";
-            this.VisualizerCommonFieldCode5Label.Size = new System.Drawing.Size(260, 42);
-            this.VisualizerCommonFieldCode5Label.TabIndex = 13;
-            this.VisualizerCommonFieldCode5Label.Text = "A";
-            this.VisualizerCommonFieldCode5Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // VisualizerCommonFieldOpenForm
             // 
