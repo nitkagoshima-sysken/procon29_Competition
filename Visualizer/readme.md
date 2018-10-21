@@ -771,6 +771,17 @@
 
 - Bot Warsでボットがうまく読み込まれていないバグを修正
 
+### Version 83.0
+
+- Bot Warsでボットがうまく読み込まれていないバグを修正
+- Bot Warsをしながら試合をすることできるように修正
+- `Bot`を追加（開発者向け）
+- **Visualizer Common Field Library Gen 3** に以降
+
+前の世代では、得点が15点までしか生成しないため、本番とは違う可能性がありました。  
+**Visualizer Common Field Library Gen 3** ではそこを修正しました。  
+前のVisualizer Common Field Libraryとは互換性がありませんので、ご注意ください。
+
 ## バージョンの上がり方について
 
 Visualizerの正式なバージョンは`1.14.1`のように、`メジャーバージョン.マイナーバージョン.ビルドバージョン`で表されます。  

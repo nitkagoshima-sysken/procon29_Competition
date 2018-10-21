@@ -21,15 +21,16 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         CancellationTokenSource CancellationTokenSource = new CancellationTokenSource();
         CancellationToken CancellationToken;
         List<Task> tasks = new List<Task>();
+        Bot[] Bot { get; set; } = new Bot[2] { MainForm.Bot[0], MainForm.Bot[1] };
 
         /// <summary>
         /// BotWarsForm を初期化します。
         /// </summary>
-        public BotWarsForm()
+        public BotWarsForm(MainForm main)
         {
             InitializeComponent();
-            DataGridView.Columns["Orange"].HeaderText = MainForm.BotName[0];
-            DataGridView.Columns["Lime"].HeaderText = MainForm.BotName[1];
+            DataGridView.Columns["Orange"].HeaderText = Bot[(int)Team.A].Name;
+            DataGridView.Columns["Lime"].HeaderText = Bot[(int)Team.B].Name;
             CancellationToken = CancellationTokenSource.Token;
         }
 
@@ -52,22 +53,22 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 var coordinates = field_generator.AgentPositionGenerate(field);
 
                 var bot = new dynamic[2];
-                if (MainForm.BotName[0] != "Human")
+                if (Bot[(int)Team.A].Name != "Human")
                 {
-                    Assembly m = Assembly.LoadFrom(MainForm.BotPath[0]);
-                    MatchCollection mc = Regex.Matches(MainForm.BotPath[0], @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
+                    Assembly m = Assembly.LoadFrom(Bot[(int)Team.A].Path);
+                    MatchCollection mc = Regex.Matches(Bot[(int)Team.A].Path, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
                     foreach (Match match in mc)
                     {
-                        bot[0] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
+                        bot[(int)Team.A] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
                     }
                 }
-                if (MainForm.BotName[1] != "Human")
+                if (Bot[(int)Team.B].Name != "Human")
                 {
-                    Assembly m = Assembly.LoadFrom(MainForm.BotPath[1]);
-                    MatchCollection mc = Regex.Matches(MainForm.BotPath[1], @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
+                    Assembly m = Assembly.LoadFrom(Bot[(int)Team.B].Path);
+                    MatchCollection mc = Regex.Matches(Bot[(int)Team.B].Path, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
                     foreach (Match match in mc)
                     {
-                        bot[1] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
+                        bot[(int)Team.B] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
                     }
                 }
 
@@ -76,7 +77,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 agents[Team.B, AgentNumber.One].Position = new Coordinate(MainForm.ComplementEnemysPosition(field, coordinates[0]));
                 agents[Team.B, AgentNumber.Two].Position = new Coordinate(MainForm.ComplementEnemysPosition(field, coordinates[1]));
                 var calc = new Calc(MainForm.MaxTurn, field, agents);
-                Invoke(new add_delegate(Add), id, calc.Turn, calc.Field.Sum(cell => cell.Point), calc.Field.TotalPoint(Team.A), calc.Field.TotalPoint(Team.B));
+                Invoke(
+                    new add_delegate(Add),
+                    id,
+                    calc.Turn,
+                    calc.Field.Sum(cell => cell.Point),
+                    calc.Field.TotalPoint(Team.A),
+                    calc.Field.TotalPoint(Team.B),
+                    ((double)calc.Field.Count(cell => cell.IsTileOn[Team.A]) / calc.Field.Count()).ToString("P"),
+                    ((double)calc.Field.Count(cell => cell.IsTileOn[Team.B]) / calc.Field.Count()).ToString("P"));
                 while (calc.Turn < calc.MaxTurn)
                 {
                     var action = new AgentsActivityData();
@@ -112,41 +121,37 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         return "Canceled";
                     }
                     calc.MoveAgent(action);
-                    Invoke(new edit_delegate(Edit), id, calc.Turn, calc.Field.Sum(cell => cell.Point), calc.Field.TotalPoint(Team.A), calc.Field.TotalPoint(Team.B));
+                    Invoke(
+                        new edit_delegate(Edit),
+                        id,
+                        calc.Turn,
+                        calc.Field.Sum(cell => cell.Point),
+                        calc.Field.TotalPoint(Team.A),
+                        calc.Field.TotalPoint(Team.B),
+                        ((double)calc.Field.Count(cell => cell.IsTileOn[Team.A]) / calc.Field.Count()).ToString("P"),
+                        ((double)calc.Field.Count(cell => cell.IsTileOn[Team.B]) / calc.Field.Count()).ToString("P"));
                 }
                 Invoke(new end_delegate(End), id);
                 return "Succeed";
             });
         }
 
-        delegate void add_delegate(string id, int turn, int total, int orange, int lime);
-        delegate void edit_delegate(string id, int turn, int total, int orange, int lime);
+        delegate void add_delegate(string id, int turn, int total, int orange, int lime, string orangepercent, string limepercent);
+        delegate void edit_delegate(string id, int turn, int total, int orange, int lime, string orangepercent, string limepercent);
         delegate void end_delegate(string id);
 
-        private void Add(string id, int turn, int total, int orange, int lime)
+        private void Add(string id, int turn, int total, int orange, int lime, string orangepercent, string limepercent)
         {
-            var orangepercent = ((double)orange / total).ToString("P");
-            var limepercent = ((double)lime / total).ToString("P");
             DataGridView.Rows.Add(id, turn, total, orange, orangepercent, lime, limepercent);
         }
 
-        private void Edit(string id, int turn, int total, int orange, int lime)
+        private void Edit(string id, int turn, int total, int orange, int lime, string orangepercent, string limepercent)
         {
             var row = DataGridView.Rows.Cast<DataGridViewRow>().First(row2 => row2.Cells[0].Value.ToString() == id);
             row.Cells["Turn"].Value = turn;
             row.Cells["Orange"].Value = orange;
             row.Cells["Lime"].Value = lime;
-            var orangepercent = ((double)orange / total).ToString("P");
-            var limepercent = ((double)lime / total).ToString("P");
-            try
-            {
-                row.Cells["OrangePercent"].Value = orangepercent;
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("CAUGHT!");
-                throw;
-            }
+            row.Cells["OrangePercent"].Value = orangepercent;
             row.Cells["LimePercent"].Value = limepercent;
             if (orange >= lime)
             {
@@ -157,8 +162,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
             else
             {
-                row.Cells["Orange"].Style.BackColor = Color.FromArgb(32, 32, 32);
-                row.Cells["OrangePercent"].Style.BackColor = Color.FromArgb(32, 32, 32);
+                row.Cells["Orange"].Style.BackColor = Color.FromArgb(48, 48, 48);
+                row.Cells["OrangePercent"].Style.BackColor = Color.FromArgb(48, 48, 48);
                 row.Cells["Orange"].Style.ForeColor = Color.LightGray;
                 row.Cells["OrangePercent"].Style.ForeColor = Color.LightGray;
             }
@@ -171,8 +176,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
             else
             {
-                row.Cells["Lime"].Style.BackColor = Color.FromArgb(32, 32, 32);
-                row.Cells["LimePercent"].Style.BackColor = Color.FromArgb(32, 32, 32);
+                row.Cells["Lime"].Style.BackColor = Color.FromArgb(48, 48, 48);
+                row.Cells["LimePercent"].Style.BackColor = Color.FromArgb(48, 48, 48);
                 row.Cells["Lime"].Style.ForeColor = Color.LightGray;
                 row.Cells["LimePercent"].Style.ForeColor = Color.LightGray;
             }
@@ -190,7 +195,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             if (tasks.Count == 0) return;
 
-            StreamWriter writer = new StreamWriter(MainForm.BotName[0] + " vs " + MainForm.BotName[1] + ".csv", true);
+            StreamWriter writer = new StreamWriter(MainForm.Bot[0].Name + " vs " + MainForm.Bot[1].Name + ".csv", true);
 
             foreach (var row in DataGridView.Rows.Cast<DataGridViewRow>())
             {
