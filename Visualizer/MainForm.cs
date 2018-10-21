@@ -72,6 +72,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public static string[] BotName { get; set; } = new string[2];
 
         /// <summary>
+        /// ボットのパスを設定または取得します。
+        /// </summary>
+        public static string[] BotPath { get; set; } = new string[2];
+
+        /// <summary>
         /// 最大ターンのデフォルト値を設定または取得します。
         /// </summary>
         public static int MaxTurn = VisualizerDefaultStyle.MaxTurn;
@@ -452,8 +457,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 foreach (System.Text.RegularExpressions.Match match in mc)
                 {
                     Bot[n] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
-                    MainForm.BotName[n] = match.Groups["file"].Value;
+                    BotName[n] = match.Groups["file"].Value;                    
                 }
+                BotPath[n] = path;
             }
             catch (Exception)
             {
@@ -880,10 +886,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             var field_generator = new FieldGenerator(id);
             var agents = new Agents();
-            var coordinates = field_generator.AgentPositionGenerate();
+            var field = field_generator.Generate();
+            var coordinates = field_generator.AgentPositionGenerate(field);
             agents[Team.A, AgentNumber.One].Position = coordinates[0];
             agents[Team.A, AgentNumber.Two].Position = coordinates[1];
-            var field = field_generator.Generate();
             OpponentPositionForm.OurTeamPositionLabel.Text = "自分:" + coordinates[0] + coordinates[1];
             OpponentPositionForm.OpponentPosition1X.Text = ComplementEnemysPosition(field, coordinates[0]).X.ToString();
             OpponentPositionForm.OpponentPosition1Y.Text = ComplementEnemysPosition(field, coordinates[0]).Y.ToString();
@@ -902,6 +908,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             Show = new Show(Calc, TeamDesign, FieldDisplay);
             Show.Showing();
             Log.WriteLine("[Create New] Visualizer Common Field Code is " + id, Color.SkyBlue);
+
+            Console.WriteLine(Calc.Field.Sum());
         }
 
         private void SelectBotToolStripMenuItem_Click(object sender, EventArgs e)
@@ -974,7 +982,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var f = new ConfrontationForm();
+            var f = new BotWarsForm();
             f.ShowDialog();
         }
     }

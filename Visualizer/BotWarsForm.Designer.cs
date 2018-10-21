@@ -1,6 +1,6 @@
 ﻿namespace nitkagoshima_sysken.Procon29.Visualizer
 {
-    partial class ConfrontationForm
+    partial class BotWarsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -36,8 +36,11 @@
             this.DataGridView = new System.Windows.Forms.DataGridView();
             this.FieldID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Turn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Orange = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OrangePercent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Lime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LimePercent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView)).BeginInit();
             this.SuspendLayout();
@@ -90,14 +93,17 @@
             this.DataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.FieldID,
             this.Turn,
+            this.Total,
             this.Orange,
-            this.Lime});
+            this.OrangePercent,
+            this.Lime,
+            this.LimePercent});
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
             dataGridViewCellStyle5.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.DataGridView.DefaultCellStyle = dataGridViewCellStyle5;
             this.DataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -128,25 +134,41 @@
             this.Turn.HeaderText = "ターン";
             this.Turn.Name = "Turn";
             // 
+            // Total
+            // 
+            this.Total.HeaderText = "Total";
+            this.Total.Name = "Total";
+            // 
             // Orange
             // 
             this.Orange.HeaderText = "Orange";
             this.Orange.Name = "Orange";
+            // 
+            // OrangePercent
+            // 
+            this.OrangePercent.HeaderText = " (占有率)";
+            this.OrangePercent.Name = "OrangePercent";
             // 
             // Lime
             // 
             this.Lime.HeaderText = "Lime";
             this.Lime.Name = "Lime";
             // 
-            // ConfrontationForm
+            // LimePercent
+            // 
+            this.LimePercent.HeaderText = " (占有率)";
+            this.LimePercent.Name = "LimePercent";
+            // 
+            // BotWarsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "ConfrontationForm";
-            this.Text = "大乱闘スマッシュブラザーズ";
+            this.Name = "BotWarsForm";
+            this.Text = "Bot Wars";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BotWarsForm_FormClosing);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView)).EndInit();
             this.ResumeLayout(false);
@@ -160,7 +182,10 @@
         private System.Windows.Forms.DataGridView DataGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn FieldID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Turn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
         private System.Windows.Forms.DataGridViewTextBoxColumn Orange;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OrangePercent;
         private System.Windows.Forms.DataGridViewTextBoxColumn Lime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LimePercent;
     }
 }
