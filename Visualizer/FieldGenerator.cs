@@ -51,7 +51,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         for (int y = 0; y < Size.Height; y++)
                         {
                             var cell = new Cell(new Coordinate(x, y));
-                            cell.Point = (random.NextDouble() <= 0.9f) ? random.Next(1, 16) : random.Next(-16, 0);
+                            if (Seed <= 999)
+                            {
+                                cell.Point = (random.NextDouble() <= 0.9f) ? random.Next(1, 16) : random.Next(-16, 0);
+                            }
+                            else
+                            {
+                                cell.Point = (random.NextDouble() <= 0.9f) ? random.Next(1, 17) : random.Next(-17, 0);
+                            }
                             field[x, y] = cell;
                             field[Size.Width - 1 - x, y] = new Cell(cell) { Coordinate = new Coordinate(Size.Width - 1 - x, y) };
                         }
@@ -63,7 +70,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         for (int y = 0; y <= Size.Height / 2; y++)
                         {
                             var cell = new Cell(new Coordinate(x, y));
-                            cell.Point = (random.NextDouble() <= 0.9f) ? random.Next(1, 16) : random.Next(-16, 0);
+                            if (Seed <= 999)
+                            {
+                                cell.Point = (random.NextDouble() <= 0.9f) ? random.Next(1, 16) : random.Next(-16, 0);
+                            }
+                            else
+                            {
+                                cell.Point = (random.NextDouble() <= 0.9f) ? random.Next(1, 17) : random.Next(-17, 0);
+                            }
                             field[x, y] = cell;
                             field[x, Size.Height - 1 - y] = new Cell(cell) { Coordinate = new Coordinate(x, Size.Height - 1 - y) };
                         }
@@ -75,7 +89,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         for (int y = 0; y <= Size.Height / 2; y++)
                         {
                             var cell = new Cell(new Coordinate(x, y));
-                            cell.Point = (random.NextDouble() <= 0.9f) ? random.Next(1, 16) : random.Next(-16, 0);
+                            if (Seed <= 999)
+                            {
+                                cell.Point = (random.NextDouble() <= 0.9f) ? random.Next(1, 16) : random.Next(-16, 0);
+                            }
+                            else
+                            {
+                                cell.Point = (random.NextDouble() <= 0.9f) ? random.Next(1, 17) : random.Next(-17, 0);
+                            }
                             field[x, y] = cell;
                             field[Size.Width - 1 - x, y] = new Cell(cell) { Coordinate = new Coordinate(Size.Width - 1 - x, y) };
                             field[x, Size.Height - 1 - y] = new Cell(cell) { Coordinate = new Coordinate(x, Size.Height - 1 - y) };
@@ -128,7 +149,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 var random = new Random();
                 var s = new string[] { "H", "V", "HV" };
-                var id = s[random.Next(0, 2)];
+                var id = s[random.Next(0, 3)];
                 id += "ABCDEFGIJKLMNOPQRSTUWXYZ"[random.Next(0, 24)];
                 id += random.Next(0, 999).ToString("D3");
                 return id;
@@ -139,7 +160,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             var random = new Random(seed);
             var s = new string[] { "H", "V", "HV" };
-            var id = s[random.Next(0, 2)];
+            var id = s[random.Next(0, 3)];
             id += "ABCDEFGIJKLMNOPQRSTUWXYZ"[random.Next(0, 24)];
             id += random.Next(0, 999).ToString("D3");
             return id;
