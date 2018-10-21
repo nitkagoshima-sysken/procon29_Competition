@@ -1,4 +1,4 @@
-# Procon29 Visualizer 81.0
+# Procon29 Visualizer 82.0
 
 ## Visualizer Common Field Libraryの一部にエージェントたちが同じマスに2人存在してしまうフィールドが存在しているバグを修正
 
@@ -766,6 +766,10 @@
 ### Version 81.0
 
 - Bot Warsのフォームを閉じたときに自動的に対戦結果を保存
+
+### Version 82.0
+
+- Bot Warsでボットがうまく読み込まれていないバグを修正
 
 ## バージョンの上がり方について
 
