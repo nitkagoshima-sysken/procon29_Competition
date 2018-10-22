@@ -1,4 +1,4 @@
-# Procon29 Visualizer 82.0
+# Procon29 Visualizer 84.0
 
 ## Visualizer Common Field Libraryの一部にエージェントたちが同じマスに2人存在してしまうフィールドが存在しているバグを修正
 
@@ -776,10 +776,19 @@
 - Bot Warsでボットがうまく読み込まれていないバグを修正
 - Bot Warsをしながら試合をすることできるように修正
 - `Bot`を追加（開発者向け）
-- **Visualizer Common Field Library Gen 3** に以降
+- **Visualizer Common Field Library 3 Gen** に以降
 
 前の世代では、得点が15点までしか生成しないため、本番とは違う可能性がありました。  
-**Visualizer Common Field Library Gen 3** ではそこを修正しました。  
+**Visualizer Common Field Library 3 Gen** ではそこを修正しました。  
+前のVisualizer Common Field Libraryとは互換性がありませんので、ご注意ください。
+
+### Version 84.0
+
+- 試合終了後の疑似実況のセリフを修正
+- **Visualizer Common Field Library 4 Gen** に以降
+
+前の世代では、得点が-17点の点数が生成されたため、本番とは違う可能性がありました。  
+**Visualizer Common Field Library 4 Gen** ではそこを修正しました。  
 前のVisualizer Common Field Libraryとは互換性がありませんので、ご注意ください。
 
 ## バージョンの上がり方について

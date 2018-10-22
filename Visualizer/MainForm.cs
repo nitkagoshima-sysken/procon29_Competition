@@ -64,21 +64,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// ボットを設定または取得します。
         /// </summary>
-        //public static dynamic[] Bot { get; set; } = new dynamic[2];
-
-        /// <summary>
-        /// ボットの名前を設定または取得します。
-        /// </summary>
-        //public static string[] BotName { get; set; } = new string[2];
-
-        /// <summary>
-        /// ボットのパスを設定または取得します。
-        /// </summary>
-        //public static string[] BotPath { get; set; } = new string[2];
-
-        /// <summary>
-        /// ボットを設定または取得します。
-        /// </summary>
         public static Bot[] Bot { get; set; } = new Bot[2];
 
         /// <summary>
@@ -192,6 +177,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             WriteLog();
             TurnProgressCheck();
+            Log.CursorScroll();
         }
 
         private void WriteLog()
@@ -575,6 +561,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 Show.Showing();
             }
             CellInformationToolStripStatusLabel_Review(new Coordinate());
+            Log.CursorScroll();
         }
 
         private void BotAnswer()

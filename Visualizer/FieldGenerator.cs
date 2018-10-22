@@ -90,7 +90,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         private int GetPoint(Random random)
         {
-            return (random.NextDouble() <= 0.9f) ? random.Next(1, 17) : random.Next(-17, 0);
+            return (random.NextDouble() <= 0.9f) ? random.Next(1, 17) : random.Next(-16, 0);
         }
 
         public Coordinate[] AgentPositionGenerate(Field field)
