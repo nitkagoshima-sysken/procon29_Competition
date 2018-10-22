@@ -252,6 +252,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         System.DateTime time = System.DateTime.Now;
 
+        Coordinate precursor = new Coordinate(-1, -1);
+
         /// <summary>
         /// マウスが動いたときのイベント
         /// </summary>
@@ -262,11 +264,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // 最後にイベントが実行された時刻から何ミリ秒たったかを計算し、それが1ミリ秒以上だった場合は、画面を更新する。
             // こうすることによって、イベントの渋滞を防ぐ。
             var delta = DateTime.Now - time;
-            if (delta.TotalMilliseconds >= 5.0)
+            if (precursor == ((Coordinate)e.Location).ToCellCordinate(FieldDisplay, Calc.Field))
             {
-                CellInformationToolStripStatusLabel_Review(e.Location);
+                if (delta.TotalMilliseconds >= 5.0)
+                {
+                    CellInformationToolStripStatusLabel_Review(e.Location);
+                }
+                time = DateTime.Now;
             }
-            time = DateTime.Now;
+            precursor = ((Coordinate)e.Location).ToCellCordinate(FieldDisplay, Calc.Field);
         }
 
         /// <summary>
@@ -431,33 +437,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
         }
 
-        /// <summary>
-        /// ボットと接続します。
-        /// </summary>
-        /// <param name="n">どのチームに接続するか</param>
-        /// <param name="path">パス</param>
-        /// <returns></returns>
-        public static void ConnectBot(int n, string path)
-        {
-            try
-            {
-                Assembly m = Assembly.LoadFrom(path);
-
-                System.Text.RegularExpressions.MatchCollection mc = System.Text.RegularExpressions.Regex.Matches(path, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
-
-                foreach (System.Text.RegularExpressions.Match match in mc)
-                {
-                    Bot[n].Body = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
-                    Bot[n].Name = match.Groups["file"].Value;
-                }
-                Bot[n].Path = path;
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("不正なdllです。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private void TurnEndButton_Click(object sender, EventArgs e)
         {
             TurnEnd();
@@ -488,12 +467,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     stopwatch.Start();
                     BotAnswer((int)Team.A);
                     stopwatch.Stop();
-                    TimeDataList.Add(new TimeData(Bot[0].Name + " (Our Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
+                    TimeDataList.Add(new TimeData(Bot[0].AssemblyName.Name + " (Our Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
                     stopwatch = new Stopwatch();
                     stopwatch.Start();
                     BotAnswer((int)Team.B);
                     stopwatch.Stop();
-                    TimeDataList.Add(new TimeData(Bot[1].Name + " (Opponent Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
+                    TimeDataList.Add(new TimeData(Bot[1].AssemblyName.Name + " (Opponent Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
                 }
                 stopwatch_all.Stop();
                 TimeDataList.Add(new TimeData("Turn End of " + Calc.Turn, stopwatch_all.ElapsedMilliseconds));
@@ -517,7 +496,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             if (Bot[0].Body != null)
             {
-                Log.WriteLine("[" + Bot[0].Name + "]", Color.SkyBlue);
+                Log.WriteLine("[" + Bot[0].AssemblyName.Name + "]", Color.SkyBlue);
                 var d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.A, AgentNumber.One];
                 Log.WriteLine("A1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
                 d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.A, AgentNumber.Two];
@@ -525,7 +504,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
             if (Bot[1].Body != null)
             {
-                Log.WriteLine("[" + Bot[1].Name + "]", Color.SkyBlue);
+                Log.WriteLine("[" + Bot[1].AssemblyName.Name + "]", Color.SkyBlue);
                 var d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.B, AgentNumber.One];
                 Log.WriteLine("B1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
                 d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.B, AgentNumber.Two];
@@ -896,60 +875,46 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 case 0: // 人間
                     Bot[0].Body = null;
-                    Bot[0].Name = "Human";
+                    Bot[0].AssemblyName.Name = "Human";
                     Log.WriteLine("[Bot] Changed to Human on orange team.", Color.SkyBlue);
                     break;
                 case 1: // ボット
-                    try
-                    {
-                        Assembly m = Assembly.LoadFrom(BotForm.SelectedOrangeBotNameLabel.Text);
-                        System.Text.RegularExpressions.MatchCollection mc = System.Text.RegularExpressions.Regex.Matches(BotForm.SelectedOrangeBotNameLabel.Text, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
-                        foreach (System.Text.RegularExpressions.Match match in mc)
-                        {
-                            Bot[0].Body = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
-                            Bot[0].Name = match.Groups["file"].Value;
-                            Log.WriteLine("[Bot] Bot \"" + Bot[0].Name + "\" was read on orange team", Color.SkyBlue);
-                        }
-                        Bot[0].Path = BotForm.SelectedOrangeBotNameLabel.Text;
-                    }
-                    catch (Exception)
-                    {
-                        MessageBox.Show("不正なdllです。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    Bot[0] = Visualizer.Bot.Connect(BotForm.SelectedOrangeBotNameLabel.Text);
+                    Log.WriteLine("[Bot] \"" + Bot[0].AssemblyName.Name + "\" was read on lime team", Color.SkyBlue);
+                    Log.WriteLine("[" + Bot[0].AssemblyName.Name + "]", Color.SkyBlue);
+                    Log.WriteLine("Code Base: " + Bot[0].AssemblyName.CodeBase.ToString(), Color.SkyBlue);
+                    Log.WriteLine("Flags: " + Bot[0].AssemblyName.Flags.ToString(), Color.SkyBlue);
+                    Log.WriteLine("Hash Algorithm: " + Bot[0].AssemblyName.HashAlgorithm.ToString(), Color.SkyBlue);
+                    Log.WriteLine("Processor Architecture: " + Bot[0].AssemblyName.ProcessorArchitecture.ToString(), Color.SkyBlue);
+                    Log.WriteLine("Version: " + Bot[0].AssemblyName.Version.ToString(), Color.SkyBlue);
+                    Log.WriteLine("Version Compatibility: " + Bot[0].AssemblyName.VersionCompatibility.ToString(), Color.SkyBlue);
                     break;
                 case 2: // Hydro Go Bot
                     Bot[0].Body = null;
-                    Bot[0].Name = "hydro_go_bot";
+                    Bot[0].AssemblyName.Name = "hydro_go_bot";
                     break;
             }
             switch (BotForm.LimeBotKindComboBox.SelectedIndex)
             {
                 case 0: // 人間
                     Bot[1].Body = null;
-                    Bot[1].Name = "Human";
+                    Bot[1].AssemblyName.Name = "Human";
                     Log.WriteLine("[Bot] Changed to Human on lime team.", Color.SkyBlue);
                     break;
                 case 1: // ボット
-                    try
-                    {
-                        Assembly m = Assembly.LoadFrom(BotForm.SelectedLimeBotNameLabel.Text);
-                        System.Text.RegularExpressions.MatchCollection mc = System.Text.RegularExpressions.Regex.Matches(BotForm.SelectedLimeBotNameLabel.Text, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
-                        foreach (System.Text.RegularExpressions.Match match in mc)
-                        {
-                            Bot[1].Body = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
-                            Bot[1].Name = match.Groups["file"].Value;
-                            Log.WriteLine("[Bot] Bot \"" + Bot[1].Name + "\" was read on lime team", Color.SkyBlue);
-                        }
-                        Bot[1].Path = BotForm.SelectedLimeBotNameLabel.Text;
-                    }
-                    catch (Exception)
-                    {
-                        MessageBox.Show("不正なdllです。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    Bot[1] = Visualizer.Bot.Connect(BotForm.SelectedLimeBotNameLabel.Text);
+                    Log.WriteLine("[Bot] \"" + Bot[1].AssemblyName.Name + "\" was read on lime team", Color.SkyBlue);
+                    Log.WriteLine("[" + Bot[1].AssemblyName.Name + "]", Color.SkyBlue);
+                    Log.WriteLine("Code Base: " + Bot[1].AssemblyName.CodeBase.ToString(), Color.SkyBlue);
+                    Log.WriteLine("Flags: " + Bot[1].AssemblyName.Flags.ToString(), Color.SkyBlue);
+                    Log.WriteLine("Hash Algorithm: " + Bot[1].AssemblyName.HashAlgorithm.ToString(), Color.SkyBlue);
+                    Log.WriteLine("Processor Architecture: " + Bot[1].AssemblyName.ProcessorArchitecture.ToString(), Color.SkyBlue);
+                    Log.WriteLine("Version: " + Bot[1].AssemblyName.Version.ToString(), Color.SkyBlue);
+                    Log.WriteLine("Version Compatibility: " + Bot[1].AssemblyName.VersionCompatibility.ToString(), Color.SkyBlue);
                     break;
                 case 2: // Hydro Go Bot
                     Bot[1].Body = null;
-                    Bot[1].Name = "hydro_go_bot";
+                    Bot[1].AssemblyName.Name = "hydro_go_bot";
                     break;
             }
         }
@@ -958,6 +923,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             var form = new BotWarsForm(this);
             form.Show();
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (Mode == PlayMode.ProductionMode)
+            {
+                MessageBox.Show("本番中です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.Cancel = true;
+            }
         }
     }
 }

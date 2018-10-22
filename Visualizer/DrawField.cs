@@ -201,16 +201,18 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="cursor">描画するマスを指定します</param>
         public void Draw(Coordinate cursor)
         {
+            var graphics = Graphics.FromImage(Bitmap);
             Ready();
-            DrawBackground();
-            DrawEnclosedCell();
-            DrawTile();
+            DrawBackground(graphics);
+            DrawEnclosedCell(graphics);
+            DrawTile(graphics);
             DrawEdge();
-            DrawPoint();
-            DrawFruitFairies();
+            DrawPoint(graphics);
+            DrawFruitFairies(graphics);
             DrawMouseOverCell(cursor);
             DrawAgent(cursor);
             DrawAgentName(cursor);
+            graphics.Dispose();
         }
 
         /// <summary>
@@ -266,13 +268,22 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         protected void DrawBackground()
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
+            DrawBackground(graphics);
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// フィールドの背景を描画します。
+        /// </summary>
+        /// <param name="graphics"></param>
+        protected void DrawBackground(Graphics graphics)
+        {
             graphics.FillRectangle(
                 brush: BackColorSolidBrush,
                 x: 0,
                 y: 0,
                 width: Bitmap.Width / Calc.Field.Width * Calc.Field.Width,
                 height: Bitmap.Height / Calc.Field.Height * Calc.Field.Height);
-            graphics.Dispose();
         }
 
         /// <summary>
@@ -281,11 +292,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         protected void DrawEnclosedCell()
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
-            // 囲み領域の表示
-            foreach (var cell in Calc.Field)
-            {
-                DrawEnclosedCell(graphics, cell);
-            }
+            DrawEnclosedCell(Calc.Turn);
             graphics.Dispose();
         }
 
@@ -296,12 +303,30 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         protected void DrawEnclosedCell(int turn)
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
-            // 囲み領域の表示
+            DrawEnclosedCell(graphics, turn);
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// フィールドの囲み領域を描画します。
+        /// </summary>
+        /// <param name="graphics">描画サーフェスを指定します</param>
+        protected void DrawEnclosedCell(Graphics graphics)
+        {
+            DrawEnclosedCell(graphics, Calc.Turn);
+        }
+
+        /// <summary>
+        /// フィールドの囲み領域を描画します。
+        /// </summary>
+        /// <param name="graphics">描画サーフェスを指定します</param>
+        /// <param name="turn">描画するマスを指定します</param>
+        protected void DrawEnclosedCell(Graphics graphics, int turn)
+        {
             foreach (var cell in Calc.History[turn].Field)
             {
                 DrawEnclosedCell(graphics, cell);
             }
-            graphics.Dispose();
         }
 
         /// <summary>
@@ -376,15 +401,37 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// タイルを描画します。
         /// </summary>
+        /// <param name="graphics">描画サーフェスを指定します</param>
+        protected void DrawTile(Graphics graphics)
+        {
+            foreach (var cell in Calc.Field)
+            {
+                DrawTile(graphics, cell);
+            }
+        }
+
+        /// <summary>
+        /// タイルを描画します。
+        /// </summary>
         /// <param name="turn">描画するマスを指定します</param>
         protected void DrawTile(int turn)
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
+            DrawTile(graphics, turn);
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// タイルを描画します。
+        /// </summary>
+        /// <param name="graphics">描画サーフェスを指定します</param>
+        /// <param name="turn">描画するマスを指定します</param>
+        protected void DrawTile(Graphics graphics, int turn)
+        {
             foreach (var cell in Calc.History[turn].Field)
             {
                 DrawTile(graphics, cell);
             }
-            graphics.Dispose();
         }
 
         /// <summary>
@@ -444,7 +491,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             Graphics graphics = Graphics.FromImage(Bitmap);
             DrawEdge(graphics, cell);
             graphics.Dispose();
-
         }
 
         /// <summary>
@@ -455,11 +501,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         protected void DrawEdge(Graphics graphics, Cell cell)
         {
             graphics.DrawRectangle(
-                    pen: EdgePen,
-                    x: cell.Coordinate.X * CellWidth,
-                    y: cell.Coordinate.Y * CellHeight,
-                    width: CellWidth,
-                    height: CellHeight);
+                pen: EdgePen,
+                x: cell.Coordinate.X * CellWidth,
+                y: cell.Coordinate.Y * CellHeight,
+                width: CellWidth,
+                height: CellHeight);
         }
 
         /// <summary>
@@ -468,11 +514,20 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         protected void DrawPoint()
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
+            DrawPoint(graphics);
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// マスの得点を描画します。
+        /// </summary>
+        /// <param name="graphics">描画サーフェスを指定します</param>
+        protected void DrawPoint(Graphics graphics)
+        {
             foreach (var cell in Calc.Field)
             {
                 DrawPoint(graphics, cell);
             }
-            graphics.Dispose();
         }
 
         /// <summary>
@@ -507,6 +562,16 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         protected void DrawFruitFairies()
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
+            DrawFruitFairies(graphics);
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// フルーツフェアリーたちを描画します。
+        /// </summary>
+        /// <param name="graphics">描画サーフェスを指定します</param>
+        protected void DrawFruitFairies(Graphics graphics)
+        {
             foreach (Team team in Enum.GetValues(typeof(Team)))
             {
                 foreach (AgentNumber agent in Enum.GetValues(typeof(AgentNumber)))
@@ -534,15 +599,26 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         imageAttrs: FruitFairyImageAttributes);
                 }
             }
+        }
+
+        /// <summary>
+        /// フルーツフェアリーたちを描画します。
+        /// </summary>
+        /// <param name="turn">描画するターンを指定します</param>
+        protected void DrawFruitFairies(int turn)
+        {
+            Graphics graphics = Graphics.FromImage(Bitmap);
+            DrawFruitFairies(graphics, turn);
             graphics.Dispose();
         }
 
         /// <summary>
         /// フルーツフェアリーたちを描画します。
         /// </summary>
-        protected void DrawFruitFairies(int turn)
+        /// <param name="graphics">描画サーフェスを指定します</param>
+        /// <param name="turn">描画するターンを指定します</param>
+        protected void DrawFruitFairies(Graphics graphics, int turn)
         {
-            Graphics graphics = Graphics.FromImage(Bitmap);
             try
             {
                 foreach (Team team in Enum.GetValues(typeof(Team)))
@@ -575,9 +651,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
             catch (Exception)
             {
-                Console.WriteLine("catch Exception");
+                Console.WriteLine("turn >= Calc.turn");
             }
-            graphics.Dispose();
         }
 
         /// <summary>
@@ -605,6 +680,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         protected void DrawAgent()
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
+            DrawAgent(graphics);
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// エージェントを表示します。
+        /// </summary>
+        protected void DrawAgent(Graphics graphics)
+        {
             // 上から順に描画するためにリスト化してソートする。
             List<Agent> list = new List<Agent>();
             foreach (var item in Calc.Agents)
@@ -617,7 +701,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 DrawAgent(graphics, agent);
             }
-            graphics.Dispose();
         }
 
         /// <summary>
@@ -821,11 +904,20 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         protected void DrawAgentName()
         {
             Graphics graphics = Graphics.FromImage(Bitmap);
+            DrawAgentName(graphics);
+            graphics.Dispose();
+        }
+
+        /// <summary>
+        /// 短い名前を表示します。
+        /// </summary>
+        /// <param name="graphics">描画サーフェスを指定します</param>
+        protected void DrawAgentName(Graphics graphics)
+        {
             foreach (var agent in Calc.Agents)
             {
                 DrawAgentName(graphics, agent);
             }
-            graphics.Dispose();
         }
 
         /// <summary>
@@ -847,11 +939,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         protected void DrawAgentName(Graphics graphics, Agent agent)
         {
             graphics.DrawString(
-                    s: agent.Name,
-                    font: NameFont,
-                    brush: new SolidBrush(color: Color.FromArgb(0xCC, Color.White)),
-                    x: (float)(agent.Position.X + 0.0) * CellWidth,
-                    y: (float)(agent.Position.Y + 0.75) * CellHeight);
+                s: agent.Name,
+                font: NameFont,
+                brush: new SolidBrush(color: Color.FromArgb(0xCC, Color.White)),
+                x: (float)(agent.Position.X + 0.0) * CellWidth,
+                y: (float)(agent.Position.Y + 0.75) * CellHeight);
         }
 
         /// <summary>
