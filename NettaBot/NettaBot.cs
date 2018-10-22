@@ -57,31 +57,31 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                     if ((destinationOne.X + destinationOne.Y) % 2 != 0 == isOdd)
                     {
                         agentActivityData[(int)AgentNumber.One] = MoveOrRemoveTile(destinationOne);
-                        rate *= 1.1;
+                        rate *= 1.2;
                     }
                     else
                     {
                         agentActivityData[(int)AgentNumber.One] = RemoveTile(destinationOne);
                         if (agentActivityData[(int)AgentNumber.One].AgentStatusData == AgentStatusCode.RequestNotToDoAnything) continue;
-                        rate *= 0.9;
+                        rate *= 0.5;
                     }
 
                     if (((destinationTwo.X + destinationTwo.Y) % 2 != 0) == isOdd)
                     {
                         agentActivityData[(int)AgentNumber.Two] = MoveOrRemoveTile(destinationTwo);
-                        rate *= 1.1;
+                        rate *= 1.2;
                     }
                     else
                     {
                         agentActivityData[(int)AgentNumber.Two] = RemoveTile(destinationTwo);
                         if (agentActivityData[(int)AgentNumber.Two].AgentStatusData == AgentStatusCode.RequestNotToDoAnything) continue;
-                        rate *= 0.9;
+                        rate *= 0.5;
                     }
                     var c = calc.Simulate(OurTeam, agentActivityData);
                     foreach (var item in agentActivityData) item.AgentStatusData.ToRequest();
                     if (depth <= 1)
                     {
-                        if (maxpoint < rate * (c.Field.TotalPoint(OurTeam) - c.Field.TotalPoint(OurTeam.Opponent()))) ;
+                        if (maxpoint < (rate * (c.Field.TotalPoint(OurTeam) - c.Field.TotalPoint(OurTeam.Opponent()))));
                         {
                             maxpoint = rate * (c.Field.TotalPoint(OurTeam) - c.Field.TotalPoint(OurTeam.Opponent()));
                             result = agentActivityData.DeepClone();
@@ -89,15 +89,16 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                     }
                     else
                     {
-                        var bestHand = BestHand(c, depth - 1);
-                        if (maxpoint < rate*bestHand.point)
+                        var bestHand = rate*BestHand(c, depth - 1).point;
+                        if (maxpoint < bestHand)
                         {
-                            maxpoint = rate*bestHand.point;
+                            maxpoint = bestHand;
                             result = agentActivityData.DeepClone();
                         }
                     }
                 }
             }
+            Log.WriteLine("Return point to " + maxpoint);
             return new ReturnStruct(maxpoint, result);
         }
 
