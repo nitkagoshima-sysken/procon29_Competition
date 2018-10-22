@@ -1,4 +1,4 @@
-# Procon29 Visualizer 84.0
+# Procon29 Visualizer 88.0
 
 ## Visualizer Common Field Libraryの一部にエージェントたちが同じマスに2人存在してしまうフィールドが存在しているバグを修正
 
@@ -790,6 +790,22 @@
 前の世代では、得点が-17点の点数が生成されたため、本番とは違う可能性がありました。  
 **Visualizer Common Field Library 4 Gen** ではそこを修正しました。  
 前のVisualizer Common Field Libraryとは互換性がありませんので、ご注意ください。
+
+### Version 85.0
+
+- 描画の速度が向上
+
+### Version 86.0
+
+- `Bot`の変更（開発者向け）
+
+### Version 87.0
+
+- 本番モードでVisualizerを閉じようとしても閉じないように修正
+
+### Version 88.0
+
+- ボットを読み込んだときにボットの情報を表示するように修正
 
 ## バージョンの上がり方について
 
