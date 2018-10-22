@@ -43,6 +43,7 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
             var agentActivityData = new AgentActivityData[2];
             var result = new AgentActivityData[2];
             var rate = 1.0;
+            var failed = false;
             foreach (Arrow arrowOne in Enum.GetValues(typeof(Arrow)))
             {
                 var destinationOne = calc.Agents[OurTeam, AgentNumber.One].Position + arrowOne;
@@ -51,6 +52,7 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                 foreach (Arrow arrowTwo in Enum.GetValues(typeof(Arrow)))
                 {
                     rate = 1.0;
+                    failed = false;
                     var destinationTwo = calc.Agents[OurTeam, AgentNumber.Two].Position + arrowTwo;
                     if (!calc.Field.CellExist(destinationTwo)) continue;
                     if (destinationOne == destinationTwo) continue;
@@ -78,10 +80,12 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                         rate *= 0.5;
                     }
                     var c = calc.Simulate(OurTeam, agentActivityData);
+                    foreach (var item in agentActivityData) failed = item.AgentStatusData.IsFailed() ? true : failed;
+                    if (failed) continue;
                     foreach (var item in agentActivityData) item.AgentStatusData.ToRequest();
                     if (depth <= 1)
                     {
-                        if (maxpoint < (rate * (c.Field.TotalPoint(OurTeam) - c.Field.TotalPoint(OurTeam.Opponent()))));
+                        if (maxpoint < (rate * (c.Field.TotalPoint(OurTeam) - c.Field.TotalPoint(OurTeam.Opponent()))))
                         {
                             maxpoint = rate * (c.Field.TotalPoint(OurTeam) - c.Field.TotalPoint(OurTeam.Opponent()));
                             result = agentActivityData.DeepClone();
@@ -96,6 +100,7 @@ namespace nitkagoshima_sysken.Procon29.NettaBot
                             result = agentActivityData.DeepClone();
                         }
                     }
+                    Log.WriteLine("maxpoint=" + maxpoint + " rate=" + rate + " TotalPoint=" + rate * (c.Field.TotalPoint(OurTeam) - c.Field.TotalPoint(OurTeam.Opponent())) +" originalpoint="+(c.Field.TotalPoint(OurTeam) - c.Field.TotalPoint(OurTeam.Opponent())));
                 }
             }
             Log.WriteLine("Return point to " + maxpoint);
