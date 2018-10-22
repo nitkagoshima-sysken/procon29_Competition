@@ -25,6 +25,8 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
         static int r2 = 1;
         static int[] corner1 = new int[2] { 0, 0 };
         static int[] corner2 = new int[2] { 0, 0 };
+        static int[] before1 = new int[2] { 100, 100 };
+        static int[] before2 = new int[2] { 100, 100 };
         static int ct1 = 0;
         static int ct2 = 0;
 
@@ -60,10 +62,21 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
             int j2 = 0;
             int i = 0;
 
+            //動けなかった時
+            //bot_1
+            if (Calc.Turn > 1 && Calc.History[Calc.Turn - 1].AgentsActivityData[OurTeam, AgentNumber.One].AgentStatusData.IsFailed())
+            {
+                turn1--;
+            }
+            //bot_2
+            if (Calc.Turn > 1 && Calc.History[Calc.Turn - 1].AgentsActivityData[OurTeam, AgentNumber.Two].AgentStatusData.IsFailed())
+            {
+                turn2--;
+            }
 
             //========================================================================================角にたどり着くまで========================================================================================================
 
-          if (decide == 0)
+            if (decide == 0)
             {
                 a = 0;
                 b = (int)Calc.Field.Height - 1;
@@ -73,6 +86,12 @@ namespace nitkagoshima_sysken.Procon29.daikon_bot
                 a = 1;
                 b = (int)Calc.Field.Height - 2;
             }
+
+            /*before1[0] = Calc.Agents[OurTeam, AgentNumber.One].Position.X;
+            before1[1] = Calc.Agents[OurTeam, AgentNumber.One].Position.Y;
+
+            before2[0] = Calc.Agents[OurTeam, AgentNumber.Two].Position.X;
+            before2[1] = Calc.Agents[OurTeam, AgentNumber.Two].Position.Y;*/
 
             if (count3 == 0)
             {
