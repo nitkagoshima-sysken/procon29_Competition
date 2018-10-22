@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9F7412B1-836A-43D1-AF00-C1FC67150B5D}</ProjectGuid>
+    <ProjectGuid>{C045F551-6026-498E-A77E-AEEAAC0A8508}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bot</RootNamespace>
-    <AssemblyName>Bot</AssemblyName>
+    <RootNamespace>HeBot</RootNamespace>
+    <AssemblyName>HeBot</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,7 +33,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,10 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bot.cs" />
+    <Compile Include="HeBot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bot\Bot.csproj">
+      <Project>{9f7412b1-836a-43d1-af00-c1fc67150b5d}</Project>
+      <Name>Bot</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Visualizer\Visualizer.csproj">
       <Project>{518c428c-fe3b-4d37-8287-8f009864850c}</Project>
       <Name>Visualizer</Name>
