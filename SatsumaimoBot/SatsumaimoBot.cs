@@ -1,4 +1,5 @@
-﻿using nitkagoshima_sysken.Procon29.Visualizer;
+﻿using System;
+using nitkagoshima_sysken.Procon29.Visualizer;
 
 namespace nitkagoshima_sysken.Procon29.SatsumaimoBot
 {
@@ -11,13 +12,13 @@ namespace nitkagoshima_sysken.Procon29.SatsumaimoBot
             {
                 if (ret[(int)agent.AgentNumber].AgentStatusData == AgentStatusCode.RequestNotToDoAnything)
                 {
-                    System.Random r = new System.Random();
-                    Arrow arrow = (Arrow)r.Next(0, 7);
+                    System.Random r = new System.Random(100);
+                    Arrow arrow = (Arrow)r.Next(Enum.GetNames(typeof(Arrow)).Length);
 
                     while (true)
                     {
                         if (!Calc.Field.CellExist(agent.Position + arrow)) continue;
-                        arrow = (Arrow)r.Next(0, 7);
+                        arrow = (Arrow)r.Next(Enum.GetNames(typeof(Arrow)).Length);
                         if (Calc.Field.IsMovable(agent, arrow))
                         {
                             ret[(int)agent.AgentNumber].AgentStatusData = AgentStatusCode.RequestMovement;
