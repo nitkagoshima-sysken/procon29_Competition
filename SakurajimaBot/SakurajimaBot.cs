@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using nitkagoshima_sysken.Procon29.Visualizer;
 
@@ -16,22 +15,19 @@ namespace nitkagoshima_sysken.Procon29.SakurajimaBot
                 AgentStatusCode.RequestRemovementOurTile,
             };
 
-        struct ReturnStruct
+        struct ReturnStruct : IComparable<ReturnStruct>
         {
             public double Evaluation { get; set; }
             public AgentActivityData[] ActivityData { get; set; }
+
+            public int CompareTo(ReturnStruct other)
+            {
+                return (int)(Evaluation - other.Evaluation);
+            }
         }
 
         public override AgentActivityData[] Answer()
         {
-            //foreach (var agent in Calc.Agents[OurTeam])
-            //{
-            //    foreach (Arrow arrow in Enum.GetValues(typeof(Arrow)))
-            //    {
-            //        Log.WriteLine(EvaluationFunction(agent.Position + arrow).ToString() + "\t" + arrow.ToString());
-            //    }
-            //    Log.WriteLine(EvaluationFunction(agent.Position).ToString(), Color.Red);
-            //}
             var list = new List<ReturnStruct>();
             foreach (Arrow arrow1 in Enum.GetValues(typeof(Arrow)))
             {
@@ -57,6 +53,11 @@ namespace nitkagoshima_sysken.Procon29.SakurajimaBot
                                 new AgentActivityData(asc2, position[(int)AgentNumber.Two]),
                             };
                             var next_calc = Simulate(OurTeam, action);
+                            if (next_calc.History[Calc.Turn].AgentsActivityData[OurTeam, AgentNumber.One].AgentStatusData.IsFailed() ||
+                                next_calc.History[Calc.Turn].AgentsActivityData[OurTeam, AgentNumber.One].AgentStatusData.IsFailed())
+                            {
+                                continue;
+                            }
                             list.Add(
                                 new ReturnStruct
                                 {
@@ -66,7 +67,6 @@ namespace nitkagoshima_sysken.Procon29.SakurajimaBot
                                         - (Calc.Field.TotalPoint(OurTeam) - Calc.Field.TotalPoint(OurTeam.Opponent())),
                                     ActivityData = action,
                                 });
-                            Log.WriteLine(list.Last().ActivityData[(int)AgentNumber.One].Destination + "\t" + list.Last().ActivityData[(int)AgentNumber.Two].Destination + "\t" + list.Last().Evaluation);
                         }
                     }
                 }
