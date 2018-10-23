@@ -29,7 +29,7 @@ namespace nitkagoshima_sysken.Procon29.HeBot
             agentTwo = Calc.Agents[OurTeam, AgentNumber.Two];
             var result = new AgentActivityData[2];
 
-            result = BestHand(Calc, 2).AgentActivityData;
+            result = BestHand(Calc, 1).AgentActivityData;
 
 
             return result;
