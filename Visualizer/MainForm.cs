@@ -44,7 +44,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// 新たな戦いを始めるためのフォームです。
         /// </summary>
-        CreateNewForm CreateNewForm { get; set; } = new CreateNewForm();
+        public CreateNewForm CreateNewForm { get; set; } = new CreateNewForm();
+
+        /// <summary>
+        /// ボットを選択するためのフォームです。
+        /// </summary>
+        BotForm BotForm { get; set; } = new BotForm();
 
         /// <summary>
         /// ボットのログを表示します。
@@ -59,12 +64,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <summary>
         /// ボットを設定または取得します。
         /// </summary>
-        public static dynamic[] Bot { get; set; } = new dynamic[2];
-
-        /// <summary>
-        /// ボットの名前を設定または取得します。
-        /// </summary>
-        public static string[] BotName { get; set; } = new string[2];
+        public static Bot[] Bot { get; set; } = new Bot[2];
 
         /// <summary>
         /// 最大ターンのデフォルト値を設定または取得します。
@@ -106,6 +106,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             FieldDisplay.MouseMove += new MouseEventHandler(FieldDisplay_MouseMove);
             Resize += new System.EventHandler(MainForm_Resize);
             BotLogForm.FormClosing += BotLogForm_Closing;
+            CreateNewForm.OKButton.Click += CreateNewForm_OKButton_Click;
+            BotForm.OKButton.Click += BotForm_OKButton_Click;
 
             Log = new Logger(messageBox);
             var version = System.Diagnostics.FileVersionInfo.GetVersionInfo(
@@ -175,8 +177,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             WriteLog();
             TurnProgressCheck();
+            Log.CursorScroll();
         }
-
 
         private void WriteLog()
         {
@@ -250,6 +252,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         System.DateTime time = System.DateTime.Now;
 
+        Coordinate precursor = new Coordinate(-1, -1);
+
         /// <summary>
         /// マウスが動いたときのイベント
         /// </summary>
@@ -260,11 +264,15 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             // 最後にイベントが実行された時刻から何ミリ秒たったかを計算し、それが1ミリ秒以上だった場合は、画面を更新する。
             // こうすることによって、イベントの渋滞を防ぐ。
             var delta = DateTime.Now - time;
-            if (delta.TotalMilliseconds >= 5.0)
+            if (precursor == ((Coordinate)e.Location).ToCellCordinate(FieldDisplay, Calc.Field))
             {
-                CellInformationToolStripStatusLabel_Review(e.Location);
+                if (delta.TotalMilliseconds >= 5.0)
+                {
+                    CellInformationToolStripStatusLabel_Review(e.Location);
+                }
+                time = DateTime.Now;
             }
-            time = DateTime.Now;
+            precursor = ((Coordinate)e.Location).ToCellCordinate(FieldDisplay, Calc.Field);
         }
 
         /// <summary>
@@ -361,21 +369,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
-        /// ここで新しい試合を作成します。
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CreateNewForm.ShowDialog(this);
-            Calc.MaxTurn = MaxTurn;
-            //OKボタンがクリックされたとき、選択されたファイル名を開き、データを読み込む    
-            if (CreateNewForm.SelectPQRFile != ".pqr" && CreateNewForm.SelectPQRFile != null)
-                OpenPQRFile(CreateNewForm.SelectPQRFile);
-            TurnProgressCheck();
-        }
-
-        /// <summary>
         /// PQRファイルを開く処理
         /// </summary>
         /// <param name="path">ファイルのパス</param>
@@ -415,6 +408,22 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 Show = new Show(Calc, TeamDesign, FieldDisplay);
                 Show.Showing();
             }
+            catch (DirectoryNotFoundException)
+            {
+                MessageBox.Show(
+                    "そんなディレクトリは存在しません。",
+                    "エラー",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show(
+                    "そんなファイルは存在しません。",
+                    "エラー",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
             catch (Exception)
             {
                 MessageBox.Show(
@@ -425,32 +434,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     "エラー",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
-            }
-        }
-
-        /// <summary>
-        /// ボットと接続します。
-        /// </summary>
-        /// <param name="n">どのチームに接続するか</param>
-        /// <param name="path">パス</param>
-        /// <returns></returns>
-        public static void ConnectBot(int n, string path)
-        {
-            try
-            {
-                Assembly m = Assembly.LoadFrom(path);
-
-                System.Text.RegularExpressions.MatchCollection mc = System.Text.RegularExpressions.Regex.Matches(path, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
-
-                foreach (System.Text.RegularExpressions.Match match in mc)
-                {
-                    Bot[n] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
-                    MainForm.BotName[n] = match.Groups["file"].Value;
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("不正なdllです。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -467,12 +450,12 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 if (Mode == PlayMode.ProductionMode)
                 {
-                    if (Bot[0] != null)
+                    if (Bot[0].Body != null)
                     {
                         Show.AgentsActivityData[Team.A, AgentNumber.One] = Show.AgentsActivityData[Team.A, AgentNumber.One];
                         Show.AgentsActivityData[Team.A, AgentNumber.Two] = Show.AgentsActivityData[Team.A, AgentNumber.Two];
                     }
-                    if (Bot[1] != null)
+                    if (Bot[1].Body != null)
                     {
                         Show.AgentsActivityData[Team.B, AgentNumber.One] = Show.AgentsActivityData[Team.B, AgentNumber.One];
                         Show.AgentsActivityData[Team.B, AgentNumber.Two] = Show.AgentsActivityData[Team.B, AgentNumber.Two];
@@ -480,116 +463,105 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 }
                 else
                 {
-                    if (Bot[0] != null)
-                    {
-                        var stopwatch = new Stopwatch();
-                        stopwatch.Start();
-                        Bot[0].OurTeam = Team.A;
-                        Bot[0].Log = BotLog;
-                        Bot[0].Question(new Calc(Calc));
-                        var answer = Bot[0].Answer();
-                        Show.AgentsActivityData[Team.A, AgentNumber.One] = answer[0];
-                        Show.AgentsActivityData[Team.A, AgentNumber.Two] = answer[1];
-                        stopwatch.Stop();
-                        TimeDataList.Add(new TimeData(BotName[0] + " (Our Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
-                    }
-                    if (Bot[1] != null)
-                    {
-                        var stopwatch = new Stopwatch();
-                        stopwatch.Start();
-                        Bot[1].OurTeam = Team.B;
-                        Bot[1].Log = BotLog;
-                        Bot[1].Question(new Calc(Calc));
-                        var answer = Bot[1].Answer();
-                        Show.AgentsActivityData[Team.B, AgentNumber.One] = answer[0];
-                        Show.AgentsActivityData[Team.B, AgentNumber.Two] = answer[1];
-                        stopwatch.Stop();
-                        TimeDataList.Add(new TimeData(BotName[1] + " (Opponent Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
-                    }
-                    stopwatch_all.Stop();
-                    TimeDataList.Add(new TimeData("Turn End of " + Calc.Turn, stopwatch_all.ElapsedMilliseconds));
+                    var stopwatch = new Stopwatch();
+                    stopwatch.Start();
+                    BotAnswer((int)Team.A);
+                    stopwatch.Stop();
+                    TimeDataList.Add(new TimeData(Bot[0].AssemblyName.Name + " (Our Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
+                    stopwatch = new Stopwatch();
+                    stopwatch.Start();
+                    BotAnswer((int)Team.B);
+                    stopwatch.Stop();
+                    TimeDataList.Add(new TimeData(Bot[1].AssemblyName.Name + " (Opponent Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
                 }
+                stopwatch_all.Stop();
+                TimeDataList.Add(new TimeData("Turn End of " + Calc.Turn, stopwatch_all.ElapsedMilliseconds));
+            }
 
-                Calc.MoveAgent(Show.AgentsActivityData);
+            Calc.MoveAgent(Show.AgentsActivityData);
 
-                foreach (AgentActivityData item in Show.AgentsActivityData)
-                {
-                    item.AgentStatusData = AgentStatusCode.NotDoneAnything;
-                }
+            foreach (AgentActivityData item in Show.AgentsActivityData)
+            {
+                item.AgentStatusData = AgentStatusCode.NotDoneAnything;
+            }
 
-                var stopwatch2 = new Stopwatch();
-                stopwatch2.Start();
-                Show.Showing();
-                stopwatch2.Stop();
-                TimeDataList.Add(new TimeData("Draw", stopwatch2.ElapsedMilliseconds));
+            var stopwatch2 = new Stopwatch();
+            stopwatch2.Start();
+            Show.Showing();
+            stopwatch2.Stop();
+            TimeDataList.Add(new TimeData("Draw", stopwatch2.ElapsedMilliseconds));
 
-                WriteLog();
-                TurnProgressCheck();
+            WriteLog();
+            TurnProgressCheck();
 
-                if (Bot[0] != null)
-                {
-                    Log.WriteLine("[" + BotName[0] + "]", Color.SkyBlue);
-                    var d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.A, AgentNumber.One];
-                    Log.WriteLine("A1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
-                    d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.A, AgentNumber.Two];
-                    Log.WriteLine("A2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
-                }
-                if (Bot[1] != null)
-                {
-                    Log.WriteLine("[" + BotName[1] + "]", Color.SkyBlue);
-                    var d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.B, AgentNumber.One];
-                    Log.WriteLine("B1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
-                    d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.B, AgentNumber.Two];
-                    Log.WriteLine("B2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
-                }
+            if (Bot[0].Body != null)
+            {
+                Log.WriteLine("[" + Bot[0].AssemblyName.Name + "]", Color.SkyBlue);
+                var d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.A, AgentNumber.One];
+                Log.WriteLine("A1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
+                d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.A, AgentNumber.Two];
+                Log.WriteLine("A2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
+            }
+            if (Bot[1].Body != null)
+            {
+                Log.WriteLine("[" + Bot[1].AssemblyName.Name + "]", Color.SkyBlue);
+                var d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.B, AgentNumber.One];
+                Log.WriteLine("B1 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
+                d = Calc.History[Calc.Turn - 1].AgentsActivityData[Team.B, AgentNumber.Two];
+                Log.WriteLine("B2 => " + d.Destination.ToString() + " " + d.AgentStatusData.ToString(), Color.SkyBlue);
+            }
 
-                if (Debug)
-                {
-                    //XmlSerializerオブジェクトを作成
-                    //オブジェクトの型を指定する
-                    System.Xml.Serialization.XmlSerializer serializer =
-                        new System.Xml.Serialization.XmlSerializer(typeof(XmlCalc));
-                    //書き込むファイルを開く（UTF-8 BOM無し）
-                    System.IO.StreamWriter sw = new System.IO.StreamWriter(
-                        "log.xml", false, new System.Text.UTF8Encoding(false));
-                    //シリアル化し、XMLファイルに保存する
-                    serializer.Serialize(sw, new XmlCalc(Calc));
-                    //ファイルを閉じる
-                    sw.Close();
-                }
-                if (Mode == PlayMode.ProductionMode)
-                {
-                    TurnEndButton.Text = "ボットで選択";
-                    TurnEndButton.BackColor = Color.DarkGray;
-                    TurnEndButton.ForeColor = Color.White;
-                }
+            if (Debug)
+            {
+                //XmlSerializerオブジェクトを作成
+                //オブジェクトの型を指定する
+                System.Xml.Serialization.XmlSerializer serializer =
+                    new System.Xml.Serialization.XmlSerializer(typeof(XmlCalc));
+                //書き込むファイルを開く（UTF-8 BOM無し）
+                System.IO.StreamWriter sw = new System.IO.StreamWriter(
+                    "log.xml", false, new System.Text.UTF8Encoding(false));
+                //シリアル化し、XMLファイルに保存する
+                serializer.Serialize(sw, new XmlCalc(Calc));
+                //ファイルを閉じる
+                sw.Close();
+            }
+            if (Mode == PlayMode.ProductionMode)
+            {
+                TurnEndButton.Text = "ボットで選択";
+                TurnEndButton.BackColor = Color.DarkGray;
+                TurnEndButton.ForeColor = Color.White;
             }
             else if (TurnEndButton.Text == "ボットで選択")
             {
-                if (Bot[0] != null)
-                {
-                    Bot[0].OurTeam = Team.A;
-                    Bot[0].Log = BotLog;
-                    Bot[0].Question(Calc);
-                    var a = Bot[0].Answer();
-                    Show.AgentsActivityData[Team.A, AgentNumber.One] = a[0];
-                    Show.AgentsActivityData[Team.A, AgentNumber.Two] = a[1];
-                }
-                if (Bot[1] != null)
-                {
-                    Bot[1].OurTeam = Team.B;
-                    Bot[1].Log = BotLog;
-                    Bot[1].Question(Calc);
-                    var a = Bot[1].Answer();
-                    Show.AgentsActivityData[Team.B, AgentNumber.One] = a[0];
-                    Show.AgentsActivityData[Team.B, AgentNumber.Two] = a[1];
-                }
+                BotAnswer();
                 TurnEndButton.Text = "ターンエンド";
                 TurnEndButton.BackColor = Color.RoyalBlue;
                 TurnEndButton.ForeColor = Color.LightGray;
                 Show.Showing();
             }
             CellInformationToolStripStatusLabel_Review(new Coordinate());
+            Log.CursorScroll();
+        }
+
+        private void BotAnswer()
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                BotAnswer(i);
+            }
+        }
+
+        private void BotAnswer(int i)
+        {
+            if (Bot[i].Body != null)
+            {
+                Bot[i].Body.OurTeam = (Team)i;
+                Bot[i].Body.Log = BotLog;
+                Bot[i].Body.Question(new Calc(Calc));
+                var answer = Bot[i].Body.Answer();
+                Show.AgentsActivityData[(Team)i, AgentNumber.One] = answer[0];
+                Show.AgentsActivityData[(Team)i, AgentNumber.Two] = answer[1];
+            }
         }
 
         private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -615,9 +587,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             saveFileDialog1.RestoreDirectory = true;
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                //OKボタンがクリックされたとき、選択されたファイル名を表示する
-                Console.WriteLine(saveFileDialog1.FileName);
-
                 //XmlSerializerオブジェクトを作成
                 //オブジェクトの型を指定する
                 System.Xml.Serialization.XmlSerializer serializer =
@@ -644,9 +613,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     return;
                 }
             }
-            //OKボタンがクリックされたとき、選択されたファイル名を表示する
-            Console.WriteLine(saveFileDialog1.FileName);
-
             //XmlSerializerオブジェクトを作成
             //オブジェクトの型を指定する
             System.Xml.Serialization.XmlSerializer serializer =
@@ -723,7 +689,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// <param name="field">対象のフィールド</param>
         /// <param name="coordinate">対象の座標</param>
         /// <returns></returns>
-        private Coordinate ComplementEnemysPosition(Field field, Coordinate coordinate)
+        public static Coordinate ComplementEnemysPosition(Field field, Coordinate coordinate)
         {
             if (field.IsVerticallySymmetrical)
             {
@@ -835,6 +801,137 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void BotLogForm_Closing(object sender, FormClosingEventArgs e)
         {
             BotConsoleToolStripMenuItem.Checked = false;
+        }
+
+        private void CreateNewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            switch (Mode)
+            {
+                case PlayMode.PracticeMode:
+                    CreateNewForm.FieldKindComboBox.SelectedIndex = 1;
+                    break;
+                case PlayMode.ProductionMode:
+                    CreateNewForm.FieldKindComboBox.SelectedIndex = 2;
+                    break;
+            }
+            CreateNewForm.ShowDialog();
+        }
+
+        private void CreateNewForm_OKButton_Click(object sender, EventArgs e)
+        {
+            CreateNewForm.Hide();
+            MaxTurn = int.Parse(CreateNewForm.MaxTurnMaskedTextBox.Text);
+            switch (CreateNewForm.FieldKindComboBox.SelectedIndex)
+            {
+                case 0:
+                    break;
+                case 1:
+                    Load_FieldGenerator(CreateNewForm.SelectedPQRFileNameLabel.Text);
+                    break;
+                case 2:
+                    OpenPQRFile(CreateNewForm.SelectedPQRFileNameLabel.Text);
+                    break;
+            }
+            TurnProgressCheck();
+        }
+
+        void Load_FieldGenerator(string id)
+        {
+            var field_generator = new FieldGenerator(id);
+            var agents = new Agents();
+            var field = field_generator.Generate();
+            var coordinates = field_generator.AgentPositionGenerate(field);
+            agents[Team.A, AgentNumber.One].Position = coordinates[0];
+            agents[Team.A, AgentNumber.Two].Position = coordinates[1];
+            OpponentPositionForm.OurTeamPositionLabel.Text = "自分:" + coordinates[0] + coordinates[1];
+            OpponentPositionForm.OpponentPosition1X.Text = ComplementEnemysPosition(field, coordinates[0]).X.ToString();
+            OpponentPositionForm.OpponentPosition1Y.Text = ComplementEnemysPosition(field, coordinates[0]).Y.ToString();
+            OpponentPositionForm.OpponentPosition2X.Text = ComplementEnemysPosition(field, coordinates[1]).X.ToString();
+            OpponentPositionForm.OpponentPosition2Y.Text = ComplementEnemysPosition(field, coordinates[1]).Y.ToString();
+            OpponentPositionForm.ShowDialog(this);
+            agents[Team.B, AgentNumber.One].Position =
+                new Coordinate(
+                    int.Parse(OpponentPositionForm.OpponentPosition1X.Text),
+                    int.Parse(OpponentPositionForm.OpponentPosition1Y.Text));
+            agents[Team.B, AgentNumber.Two].Position =
+                new Coordinate(
+                    int.Parse(OpponentPositionForm.OpponentPosition2X.Text),
+                    int.Parse(OpponentPositionForm.OpponentPosition2Y.Text));
+            Calc = new Calc(MaxTurn, field, agents);
+            Show = new Show(Calc, TeamDesign, FieldDisplay);
+            Show.Showing();
+            Log.WriteLine("[Create New] Visualizer Common Field Code is " + id, Color.SkyBlue);
+        }
+
+        private void SelectBotToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            BotForm.ShowDialog();
+        }
+
+        private void BotForm_OKButton_Click(object sender, EventArgs e)
+        {
+            BotForm.Hide();
+            switch (BotForm.OrangeBotKindComboBox.SelectedIndex)
+            {
+                case 0: // 人間
+                    Bot[0].Body = null;
+                    Bot[0].AssemblyName.Name = "Human";
+                    Log.WriteLine("[Bot] Changed to Human on orange team.", Color.SkyBlue);
+                    break;
+                case 1: // ボット
+                    Bot[0] = Visualizer.Bot.Connect(BotForm.SelectedOrangeBotNameLabel.Text);
+                    Log.WriteLine("[Bot] \"" + Bot[0].AssemblyName.Name + "\" was read on lime team", Color.SkyBlue);
+                    Log.WriteLine("[" + Bot[0].AssemblyName.Name + "]", Color.SkyBlue);
+                    Log.WriteLine("Code Base: " + Bot[0].AssemblyName.CodeBase.ToString(), Color.SkyBlue);
+                    Log.WriteLine("Flags: " + Bot[0].AssemblyName.Flags.ToString(), Color.SkyBlue);
+                    Log.WriteLine("Hash Algorithm: " + Bot[0].AssemblyName.HashAlgorithm.ToString(), Color.SkyBlue);
+                    Log.WriteLine("Processor Architecture: " + Bot[0].AssemblyName.ProcessorArchitecture.ToString(), Color.SkyBlue);
+                    Log.WriteLine("Version: " + Bot[0].AssemblyName.Version.ToString(), Color.SkyBlue);
+                    Log.WriteLine("Version Compatibility: " + Bot[0].AssemblyName.VersionCompatibility.ToString(), Color.SkyBlue);
+                    break;
+                case 2: // Hydro Go Bot
+                    Bot[0].Body = null;
+                    Bot[0].AssemblyName.Name = "hydro_go_bot";
+                    break;
+            }
+            switch (BotForm.LimeBotKindComboBox.SelectedIndex)
+            {
+                case 0: // 人間
+                    Bot[1].Body = null;
+                    Bot[1].AssemblyName.Name = "Human";
+                    Log.WriteLine("[Bot] Changed to Human on lime team.", Color.SkyBlue);
+                    break;
+                case 1: // ボット
+                    Bot[1] = Visualizer.Bot.Connect(BotForm.SelectedLimeBotNameLabel.Text);
+                    Log.WriteLine("[Bot] \"" + Bot[1].AssemblyName.Name + "\" was read on lime team", Color.SkyBlue);
+                    Log.WriteLine("[" + Bot[1].AssemblyName.Name + "]", Color.SkyBlue);
+                    Log.WriteLine("Code Base: " + Bot[1].AssemblyName.CodeBase.ToString(), Color.SkyBlue);
+                    Log.WriteLine("Flags: " + Bot[1].AssemblyName.Flags.ToString(), Color.SkyBlue);
+                    Log.WriteLine("Hash Algorithm: " + Bot[1].AssemblyName.HashAlgorithm.ToString(), Color.SkyBlue);
+                    Log.WriteLine("Processor Architecture: " + Bot[1].AssemblyName.ProcessorArchitecture.ToString(), Color.SkyBlue);
+                    Log.WriteLine("Version: " + Bot[1].AssemblyName.Version.ToString(), Color.SkyBlue);
+                    Log.WriteLine("Version Compatibility: " + Bot[1].AssemblyName.VersionCompatibility.ToString(), Color.SkyBlue);
+                    break;
+                case 2: // Hydro Go Bot
+                    Bot[1].Body = null;
+                    Bot[1].AssemblyName.Name = "hydro_go_bot";
+                    break;
+            }
+        }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new BotWarsForm(this);
+            form.Show();
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (Mode == PlayMode.ProductionMode)
+            {
+                MessageBox.Show("本番中です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.Cancel = true;
+            }
         }
     }
 }

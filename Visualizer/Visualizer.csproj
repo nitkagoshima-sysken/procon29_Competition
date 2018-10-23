@@ -35,7 +35,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -97,6 +97,13 @@
     <Compile Include="AgentStatusCodeAttribute.cs" />
     <Compile Include="AgentStatusCodeExtension.cs" />
     <Compile Include="Arrow.cs" />
+    <Compile Include="Bot.cs" />
+    <Compile Include="BotForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BotForm.Designer.cs">
+      <DependentUpon>BotForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="BotKind.cs" />
     <Compile Include="BotLogForm.cs">
       <SubType>Form</SubType>
@@ -106,8 +113,21 @@
     </Compile>
     <Compile Include="CharactorBitmap.cs" />
     <Compile Include="ClickField.cs" />
+    <Compile Include="BotWarsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BotWarsForm.Designer.cs">
+      <DependentUpon>BotWarsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreateNewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateNewForm.Designer.cs">
+      <DependentUpon>CreateNewForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Direction.cs" />
     <Compile Include="DrawField.cs" />
+    <Compile Include="FieldGenerator.cs" />
     <Compile Include="FruitFairies.cs" />
     <Compile Include="FruitFairy.cs" />
     <Compile Include="CalcExtension.cs" />
@@ -125,6 +145,7 @@
     </Compile>
     <Compile Include="PlayMode.cs" />
     <Compile Include="PrefetchingFileReader.cs" />
+    <Compile Include="SymmetricalPattern.cs" />
     <Compile Include="TeamDesigns.cs" />
     <Compile Include="TimeData.cs" />
     <Compile Include="TimeMeasurementForm.cs">
@@ -137,16 +158,16 @@
     <Compile Include="TrumpMark.cs" />
     <Compile Include="TrumpNumber.cs" />
     <Compile Include="TsvReader.cs" />
+    <Compile Include="VisualizerCommonFieldOpenForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VisualizerCommonFieldOpenForm.Designer.cs">
+      <DependentUpon>VisualizerCommonFieldOpenForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="VisualizerDefaultStyle.cs" />
     <Compile Include="XmlCalc.cs" />
     <Compile Include="Calc.cs" />
     <Compile Include="Coordinate.cs" />
-    <Compile Include="CreateNewForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CreateNewForm.Designer.cs">
-      <DependentUpon>CreateNewForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Cell.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="FieldExtension.cs" />
@@ -181,8 +202,14 @@
     <Compile Include="AgentActivityDataExtension.cs" />
     <Compile Include="XmlCell.cs" />
     <Compile Include="XmlTurnData.cs" />
+    <EmbeddedResource Include="BotForm.resx">
+      <DependentUpon>BotForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BotLogForm.resx">
       <DependentUpon>BotLogForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BotWarsForm.resx">
+      <DependentUpon>BotWarsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CreateNewForm.resx">
       <DependentUpon>CreateNewForm.cs</DependentUpon>
@@ -203,6 +230,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TimeMeasurementForm.resx">
       <DependentUpon>TimeMeasurementForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VisualizerCommonFieldOpenForm.resx">
+      <DependentUpon>VisualizerCommonFieldOpenForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">

@@ -31,7 +31,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public Logger(RichTextBox richTextBox)
         {
             RichTextBox = richTextBox;
-            Console.WriteLine("");
         }
 
         /// <summary>
@@ -52,13 +51,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             RichTextBox.SelectionColor = color;
             RichTextBox.SelectedText = message;
-
-            //カレット位置を末尾に移動
-            RichTextBox.SelectionStart = RichTextBox.Text.Length;
-            //テキストボックスにフォーカスを移動
-            RichTextBox.Focus();
-            //カレット位置までスクロール
-            RichTextBox.ScrollToCaret();
         }
 
         /// <summary>
@@ -79,7 +71,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             RichTextBox.SelectionColor = color;
             RichTextBox.SelectedText = message + "\n";
+        }
 
+        /// <summary>
+        /// カーソルを終わりまで移動します。
+        /// </summary>
+        public void CursorScroll()
+        {
             //カレット位置を末尾に移動
             RichTextBox.SelectionStart = RichTextBox.Text.Length;
             //テキストボックスにフォーカスを移動

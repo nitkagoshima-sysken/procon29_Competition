@@ -37,7 +37,7 @@
             this.TurnEndButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.CreateNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CreateNew2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveAsSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,12 +47,15 @@
             this.EditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UndoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RedoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.SelectBotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.EndButtleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BotConsoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TimeMeasurementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TrumpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.BotWarsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PracticeModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ProductionModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -183,7 +186,7 @@
             // FileToolStripMenuItem
             // 
             this.FileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.CreateNewToolStripMenuItem,
+            this.CreateNew2ToolStripMenuItem,
             this.OpenToolStripMenuItem,
             this.SaveToolStripMenuItem,
             this.SaveAsSToolStripMenuItem,
@@ -195,12 +198,14 @@
             this.FileToolStripMenuItem.Size = new System.Drawing.Size(105, 27);
             this.FileToolStripMenuItem.Text = "ファイル(&F)";
             // 
-            // CreateNewToolStripMenuItem
+            // CreateNew2ToolStripMenuItem
             // 
-            this.CreateNewToolStripMenuItem.Name = "CreateNewToolStripMenuItem";
-            this.CreateNewToolStripMenuItem.Size = new System.Drawing.Size(308, 28);
-            this.CreateNewToolStripMenuItem.Text = "新規作成(&N)";
-            this.CreateNewToolStripMenuItem.Click += new System.EventHandler(this.CreateNewToolStripMenuItem_Click);
+            this.CreateNew2ToolStripMenuItem.Name = "CreateNew2ToolStripMenuItem";
+            this.CreateNew2ToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+N";
+            this.CreateNew2ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.CreateNew2ToolStripMenuItem.Size = new System.Drawing.Size(308, 28);
+            this.CreateNew2ToolStripMenuItem.Text = "新規作成(&N)";
+            this.CreateNew2ToolStripMenuItem.Click += new System.EventHandler(this.CreateNewToolStripMenuItem_Click);
             // 
             // OpenToolStripMenuItem
             // 
@@ -248,6 +253,8 @@
             this.EditToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.UndoToolStripMenuItem,
             this.RedoToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.SelectBotToolStripMenuItem,
             this.toolStripSeparator2,
             this.EndButtleToolStripMenuItem});
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
@@ -272,6 +279,18 @@
             this.RedoToolStripMenuItem.Text = "やり直し(&R)";
             this.RedoToolStripMenuItem.Click += new System.EventHandler(this.RedoToolStripMenuItem_Click);
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(226, 6);
+            // 
+            // SelectBotToolStripMenuItem
+            // 
+            this.SelectBotToolStripMenuItem.Name = "SelectBotToolStripMenuItem";
+            this.SelectBotToolStripMenuItem.Size = new System.Drawing.Size(229, 28);
+            this.SelectBotToolStripMenuItem.Text = "ボットを選択する";
+            this.SelectBotToolStripMenuItem.Click += new System.EventHandler(this.SelectBotToolStripMenuItem_Click);
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
@@ -289,7 +308,8 @@
             this.ViewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.BotConsoleToolStripMenuItem,
             this.TimeMeasurementToolStripMenuItem,
-            this.TrumpToolStripMenuItem});
+            this.TrumpToolStripMenuItem,
+            this.BotWarsToolStripMenuItem});
             this.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem";
             this.ViewToolStripMenuItem.Size = new System.Drawing.Size(76, 27);
             this.ViewToolStripMenuItem.Text = "表示(&V)";
@@ -297,23 +317,30 @@
             // BotConsoleToolStripMenuItem
             // 
             this.BotConsoleToolStripMenuItem.Name = "BotConsoleToolStripMenuItem";
-            this.BotConsoleToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.BotConsoleToolStripMenuItem.Size = new System.Drawing.Size(206, 28);
             this.BotConsoleToolStripMenuItem.Text = "ボットコンソール";
             this.BotConsoleToolStripMenuItem.Click += new System.EventHandler(this.BotConsoleToolStripMenuItem_Click);
             // 
             // TimeMeasurementToolStripMenuItem
             // 
             this.TimeMeasurementToolStripMenuItem.Name = "TimeMeasurementToolStripMenuItem";
-            this.TimeMeasurementToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.TimeMeasurementToolStripMenuItem.Size = new System.Drawing.Size(206, 28);
             this.TimeMeasurementToolStripMenuItem.Text = "処理時間計測";
             this.TimeMeasurementToolStripMenuItem.Click += new System.EventHandler(this.TimeMeasurementToolStripMenuItem_Click);
             // 
             // TrumpToolStripMenuItem
             // 
             this.TrumpToolStripMenuItem.Name = "TrumpToolStripMenuItem";
-            this.TrumpToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.TrumpToolStripMenuItem.Size = new System.Drawing.Size(206, 28);
             this.TrumpToolStripMenuItem.Text = "トランプ";
             this.TrumpToolStripMenuItem.Click += new System.EventHandler(this.TrumpToolStripMenuItem_Click);
+            // 
+            // BotWarsToolStripMenuItem
+            // 
+            this.BotWarsToolStripMenuItem.Name = "BotWarsToolStripMenuItem";
+            this.BotWarsToolStripMenuItem.Size = new System.Drawing.Size(206, 28);
+            this.BotWarsToolStripMenuItem.Text = "Bot Wars";
+            this.BotWarsToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
             // ModeToolStripMenuItem
             // 
@@ -402,6 +429,7 @@
             this.Name = "MainForm";
             this.Opacity = 0.95D;
             this.Text = "Procon29 Visualizar";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FieldDisplay_MouseMove);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).EndInit();
@@ -431,7 +459,6 @@
         private System.Windows.Forms.ToolStripMenuItem OpenToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel CellInformationToolStripStatusLabel;
-        private System.Windows.Forms.ToolStripMenuItem CreateNewToolStripMenuItem;
         private System.Windows.Forms.Button TurnEndButton;
         private System.Windows.Forms.ToolStripMenuItem UndoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RedoToolStripMenuItem;
@@ -453,5 +480,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem EndButtleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem BotConsoleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem CreateNew2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem SelectBotToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem BotWarsToolStripMenuItem;
     }
 }

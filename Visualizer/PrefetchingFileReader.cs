@@ -28,13 +28,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
                 if (result.ContainsKey("A"))
                 {
-                    MainForm.Log.WriteLine("[Prefetching] Bot \"" + result["A"][0] + "\" was read on my team by Bot.tsv", Color.SkyBlue);
-                    MainForm.ConnectBot(0, result["A"][0]);
+                    MainForm.Log.WriteLine("[Prefetching] Bot \"" + result["A"][0] + "\" was read on orange team by Bot.tsv", Color.SkyBlue);
+                    MainForm.Bot[0] = Bot.Connect(result["A"][0]);
                 }
                 if (result.ContainsKey("B"))
                 {
-                    MainForm.Log.WriteLine("[Prefetching] Bot \"" + result["B"][0] + "\" was read on opponent team by Bot.tsv", Color.SkyBlue);
-                    MainForm.ConnectBot(1, result["B"][0]);
+                    MainForm.Log.WriteLine("[Prefetching] Bot \"" + result["B"][0] + "\" was read on lime team by Bot.tsv", Color.SkyBlue);
+                    MainForm.Bot[1] = Bot.Connect(result["B"][0]);
                 }
             }
             // "Bots.tsv" というディレクトリが存在しない場合、作成する
@@ -66,7 +66,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 {
                     MainForm.Log.WriteLine("[Prefetching] PQR File \"" + result["Pqr"][0] + "\" was read by Calc.tsv", Color.SkyBlue);
                     mainForm.OpenPQRFile(result["Pqr"][0].Trim());
-                    Console.WriteLine("\"" + result["Pqr"][0] + "\"");
                 }
                 if (result.ContainsKey("MaxTurn"))
                 {

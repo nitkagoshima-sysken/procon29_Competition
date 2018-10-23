@@ -32,7 +32,7 @@
             this.TurnTrackBar = new System.Windows.Forms.TrackBar();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.InfoLabel = new System.Windows.Forms.Label();
+            this.InfoLabel = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TurnTrackBar)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -91,15 +91,18 @@
             // 
             // InfoLabel
             // 
+            this.InfoLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.InfoLabel.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.InfoLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.InfoLabel.Font = new System.Drawing.Font("游明朝 Demibold", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.InfoLabel.Font = new System.Drawing.Font("游ゴシック", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.InfoLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.InfoLabel.Location = new System.Drawing.Point(560, 5);
-            this.InfoLabel.Margin = new System.Windows.Forms.Padding(5);
+            this.InfoLabel.Location = new System.Drawing.Point(558, 3);
             this.InfoLabel.Name = "InfoLabel";
-            this.InfoLabel.Size = new System.Drawing.Size(229, 372);
+            this.InfoLabel.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.InfoLabel.Size = new System.Drawing.Size(233, 376);
             this.InfoLabel.TabIndex = 1;
-            this.InfoLabel.Text = "これはテストです。\r\nこれはテストです。\r\nこれはテストです。\r\nこれはテストです。\r\nこれはテストです。";
+            this.InfoLabel.Text = "これはテストです。これはテストです。これはテストです。\nこれはテストです。これはテストです。\nこれはテストです。\nこれはテストです。これはテストです。\nこれはテス" +
+    "トです。これはテストです。これはテストです。";
             // 
             // HistoryForm
             // 
@@ -126,6 +129,6 @@
         private System.Windows.Forms.TrackBar TurnTrackBar;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label InfoLabel;
+        private System.Windows.Forms.RichTextBox InfoLabel;
     }
 }
