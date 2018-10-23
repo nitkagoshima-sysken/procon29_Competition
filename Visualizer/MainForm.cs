@@ -879,15 +879,22 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     Log.WriteLine("[Bot] Changed to Human on orange team.", Color.SkyBlue);
                     break;
                 case 1: // ボット
-                    Bot[0] = Visualizer.Bot.Connect(BotForm.SelectedOrangeBotNameLabel.Text);
-                    Log.WriteLine("[Bot] \"" + Bot[0].AssemblyName.Name + "\" was read on lime team", Color.SkyBlue);
-                    Log.WriteLine("[" + Bot[0].AssemblyName.Name + "]", Color.SkyBlue);
-                    Log.WriteLine("Code Base: " + Bot[0].AssemblyName.CodeBase.ToString(), Color.SkyBlue);
-                    Log.WriteLine("Flags: " + Bot[0].AssemblyName.Flags.ToString(), Color.SkyBlue);
-                    Log.WriteLine("Hash Algorithm: " + Bot[0].AssemblyName.HashAlgorithm.ToString(), Color.SkyBlue);
-                    Log.WriteLine("Processor Architecture: " + Bot[0].AssemblyName.ProcessorArchitecture.ToString(), Color.SkyBlue);
-                    Log.WriteLine("Version: " + Bot[0].AssemblyName.Version.ToString(), Color.SkyBlue);
-                    Log.WriteLine("Version Compatibility: " + Bot[0].AssemblyName.VersionCompatibility.ToString(), Color.SkyBlue);
+                    try
+                    {
+                        Bot[0] = Visualizer.Bot.Connect(BotForm.SelectedOrangeBotNameLabel.Text);
+                        Log.WriteLine("[Bot] \"" + Bot[0].AssemblyName.Name + "\" was read on lime team", Color.SkyBlue);
+                        Log.WriteLine("[" + Bot[0].AssemblyName.Name + "]", Color.SkyBlue);
+                        Log.WriteLine("Code Base: " + Bot[0].AssemblyName.CodeBase.ToString(), Color.SkyBlue);
+                        Log.WriteLine("Flags: " + Bot[0].AssemblyName.Flags.ToString(), Color.SkyBlue);
+                        Log.WriteLine("Hash Algorithm: " + Bot[0].AssemblyName.HashAlgorithm.ToString(), Color.SkyBlue);
+                        Log.WriteLine("Processor Architecture: " + Bot[0].AssemblyName.ProcessorArchitecture.ToString(), Color.SkyBlue);
+                        Log.WriteLine("Version: " + Bot[0].AssemblyName.Version.ToString(), Color.SkyBlue);
+                        Log.WriteLine("Version Compatibility: " + Bot[0].AssemblyName.VersionCompatibility.ToString(), Color.SkyBlue);
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Caught Exception");
+                    }
                     break;
                 case 2: // Hydro Go Bot
                     Bot[0].Body = null;
@@ -902,15 +909,22 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     Log.WriteLine("[Bot] Changed to Human on lime team.", Color.SkyBlue);
                     break;
                 case 1: // ボット
-                    Bot[1] = Visualizer.Bot.Connect(BotForm.SelectedLimeBotNameLabel.Text);
-                    Log.WriteLine("[Bot] \"" + Bot[1].AssemblyName.Name + "\" was read on lime team", Color.SkyBlue);
-                    Log.WriteLine("[" + Bot[1].AssemblyName.Name + "]", Color.SkyBlue);
-                    Log.WriteLine("Code Base: " + Bot[1].AssemblyName.CodeBase.ToString(), Color.SkyBlue);
-                    Log.WriteLine("Flags: " + Bot[1].AssemblyName.Flags.ToString(), Color.SkyBlue);
-                    Log.WriteLine("Hash Algorithm: " + Bot[1].AssemblyName.HashAlgorithm.ToString(), Color.SkyBlue);
-                    Log.WriteLine("Processor Architecture: " + Bot[1].AssemblyName.ProcessorArchitecture.ToString(), Color.SkyBlue);
-                    Log.WriteLine("Version: " + Bot[1].AssemblyName.Version.ToString(), Color.SkyBlue);
-                    Log.WriteLine("Version Compatibility: " + Bot[1].AssemblyName.VersionCompatibility.ToString(), Color.SkyBlue);
+                    try
+                    {
+                        Bot[1] = Visualizer.Bot.Connect(BotForm.SelectedLimeBotNameLabel.Text);
+                        Log.WriteLine("[Bot] \"" + Bot[1].AssemblyName.Name + "\" was read on lime team", Color.SkyBlue);
+                        Log.WriteLine("[" + Bot[1].AssemblyName.Name + "]", Color.SkyBlue);
+                        Log.WriteLine("Code Base: " + Bot[1].AssemblyName.CodeBase.ToString(), Color.SkyBlue);
+                        Log.WriteLine("Flags: " + Bot[1].AssemblyName.Flags.ToString(), Color.SkyBlue);
+                        Log.WriteLine("Hash Algorithm: " + Bot[1].AssemblyName.HashAlgorithm.ToString(), Color.SkyBlue);
+                        Log.WriteLine("Processor Architecture: " + Bot[1].AssemblyName.ProcessorArchitecture.ToString(), Color.SkyBlue);
+                        Log.WriteLine("Version: " + Bot[1].AssemblyName.Version.ToString(), Color.SkyBlue);
+                        Log.WriteLine("Version Compatibility: " + Bot[1].AssemblyName.VersionCompatibility.ToString(), Color.SkyBlue);
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Caught Exception");
+                    }
                     break;
                 case 2: // Hydro Go Bot
                     Bot[1].Body = null;
