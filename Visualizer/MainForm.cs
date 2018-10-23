@@ -463,16 +463,22 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 }
                 else
                 {
-                    var stopwatch = new Stopwatch();
-                    stopwatch.Start();
-                    BotAnswer((int)Team.A);
-                    stopwatch.Stop();
-                    TimeDataList.Add(new TimeData(Bot[0].AssemblyName.Name + " (Our Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
-                    stopwatch = new Stopwatch();
-                    stopwatch.Start();
-                    BotAnswer((int)Team.B);
-                    stopwatch.Stop();
-                    TimeDataList.Add(new TimeData(Bot[1].AssemblyName.Name + " (Opponent Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
+                    if (Bot[0].Body != null)
+                    {
+                        var stopwatch = new Stopwatch();
+                        stopwatch.Start();
+                        BotAnswer((int)Team.A);
+                        stopwatch.Stop();
+                        TimeDataList.Add(new TimeData(Bot[0].AssemblyName.Name + " (Our Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
+                    }
+                    if (Bot[1].Body != null)
+                    {
+                        var stopwatch = new Stopwatch();
+                        stopwatch.Start();
+                        BotAnswer((int)Team.B);
+                        stopwatch.Stop();
+                        TimeDataList.Add(new TimeData(Bot[1].AssemblyName.Name + " (Opponent Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
+                    }
                 }
                 stopwatch_all.Stop();
                 TimeDataList.Add(new TimeData("Turn End of " + Calc.Turn, stopwatch_all.ElapsedMilliseconds));
