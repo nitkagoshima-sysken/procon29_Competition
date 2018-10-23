@@ -157,6 +157,7 @@
     <Compile Include="Trump.cs" />
     <Compile Include="TrumpMark.cs" />
     <Compile Include="TrumpNumber.cs" />
+    <Compile Include="TrumpShow.cs" />
     <Compile Include="TsvReader.cs" />
     <Compile Include="VisualizerCommonFieldOpenForm.cs">
       <SubType>Form</SubType>
@@ -289,7 +290,7 @@
     <Content Include="Resources\Club Queen.png" />
     <Content Include="Resources\Club Seven.png" />
     <Content Include="Resources\Club Six.png" />
-    <Content Include="Resources\Club ten.png" />
+    <Content Include="Resources\Club Ten.png" />
     <Content Include="Resources\Club Three.png" />
     <Content Include="Resources\Club Two.png" />
     <Content Include="Resources\Diamond Ace.png" />
@@ -329,7 +330,7 @@
     <Content Include="Resources\Spade Queen.png" />
     <Content Include="Resources\Spade Seven.png" />
     <Content Include="Resources\Spade Six.png" />
-    <Content Include="Resources\Spade ten.png" />
+    <Content Include="Resources\Spade Ten.png" />
     <Content Include="Resources\Spade Three.png" />
     <Content Include="Resources\Spade Two.png" />
   </ItemGroup>
