@@ -32,6 +32,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public ClickField ClickField { get; set; }
 
         /// <summary>
+        /// フィールドを描画するオブジェクトを設定または取得します。
+        /// </summary>
+        public DrawField DrawField { get; set; }
+
+        /// <summary>
         /// 描画する対象となるPictureBoxを設定または取得します。
         /// </summary>
         public PictureBox PictureBox { get; set; }
@@ -86,6 +91,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
 
             ClickField = new ClickField(Calc, PictureBox);
+            DrawField = new DrawField(Calc, new Bitmap(pictureBox.Width, pictureBox.Height));
         }
 
         /// <summary>
@@ -120,6 +126,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             }
 
             ClickField = new ClickField(Calc, PictureBox);
+            DrawField = new DrawField(Calc, new Bitmap(pictureBox.Width, pictureBox.Height));
         }
 
         /// <summary>
@@ -140,11 +147,6 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public Coordinate precursor { get; set; }
 
         /// <summary>
-        /// フィールドを描画するオブジェクトを設定または取得します。
-        /// </summary>
-        public DrawField DrawField { get; set; }
-
-        /// <summary>
         /// PictureBoxを新たに生成します。
         /// </summary>
         /// <param name="pictureBox">表示するPictureBox</param>
@@ -160,10 +162,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             var cursor = CursorPosition(PictureBox);
 
-            DrawField = new DrawField(Calc, canvas)
-            {
-                AgentsActivityData = AgentsActivityData
-            };
+            DrawField.Bitmap = canvas;
+            DrawField.AgentsActivityData = AgentsActivityData;
             DrawField.Draw(cursor);
             precursor = cursor;
             try
@@ -207,10 +207,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             var cursor = CursorPosition(PictureBox);
 
-            DrawField = new DrawField(Calc, canvas)
-            {
-                AgentsActivityData = AgentsActivityData
-            };
+            DrawField.Bitmap = canvas;
+            DrawField.AgentsActivityData = AgentsActivityData;
             DrawField.Draw(turn, cursor);
             precursor = cursor;
             try
@@ -237,6 +235,16 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             return canvas;
         }
 
+
+        public Bitmap NoCursorMakePictureBox(PictureBox pictureBox, Bitmap canvas, Graphics graphics, int turn)
+        {
+            Bitmap = canvas;
+            DrawField.Bitmap = canvas;
+            DrawField.AgentsActivityData = AgentsActivityData;
+            DrawField.Draw(turn);
+            return canvas;
+        }
+
         /// <summary>
         /// 表示を行います。
         /// </summary>
@@ -250,7 +258,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             MakePictureBox(PictureBox, canvas, graphics);
 
             //リソースを開放
-            graphics.Dispose();
+            //graphics.Dispose();
             //前のImageオブジェクトのリソースを開放してから
             if (PictureBox.Image != null) PictureBox.Image.Dispose();
             //pictureBoxに表示する
@@ -269,6 +277,23 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             Graphics graphics = Graphics.FromImage(canvas);
 
             MakePictureBox(PictureBox, canvas, graphics, turn);
+
+            //リソースを開放
+            graphics.Dispose();
+            //前のImageオブジェクトのリソースを開放してから
+            if (PictureBox.Image != null) PictureBox.Image.Dispose();
+            //pictureBoxに表示する
+            PictureBox.Image = canvas;
+        }
+
+        public void NoCursorShowing(int turn)
+        {
+            //描画先とするImageオブジェクトを作成する
+            Bitmap canvas = new Bitmap(((PictureBox.Width <= 0) ? 1 : PictureBox.Width), ((PictureBox.Height <= 0) ? 1 : PictureBox.Height));
+            //ImageオブジェクトのGraphicsオブジェクトを作成する
+            Graphics graphics = Graphics.FromImage(canvas);
+
+            NoCursorMakePictureBox(PictureBox, canvas, graphics, turn);
 
             //リソースを開放
             graphics.Dispose();

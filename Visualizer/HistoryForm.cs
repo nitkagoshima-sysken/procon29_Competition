@@ -58,7 +58,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             Show show;
             show = new Show(Calc, pictureBox1);
-            show.Showing(TurnTrackBar.Value);
+            show.NoCursorShowing(TurnTrackBar.Value);
 
         }
 
@@ -150,13 +150,13 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     Log.Write("は、");
                     if (MainForm.Bot[i].Body != null)
                     {
-                        Log.Write(MainForm.Bot[i].Name, TeamColor(i));
+                        Log.Write(MainForm.Bot[i].AssemblyName.Name, TeamColor(i));
                     }
-                    else if (MainForm.Bot[i].Name == "Human")
+                    else if (MainForm.Bot[i].AssemblyName.Name == "Human")
                     {
                         Log.Write("人間", TeamColor(i));
                     }
-                    else if (MainForm.Bot[i].Name == "Hydro Go Bot")
+                    else if (MainForm.Bot[i].AssemblyName.Name == "Hydro Go Bot")
                     {
                         Log.Write("Hydro Go Bot", TeamColor(i));
                     }

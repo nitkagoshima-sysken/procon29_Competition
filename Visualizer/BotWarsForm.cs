@@ -29,8 +29,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public BotWarsForm(MainForm main)
         {
             InitializeComponent();
-            DataGridView.Columns["Orange"].HeaderText = Bot[(int)Team.A].Name;
-            DataGridView.Columns["Lime"].HeaderText = Bot[(int)Team.B].Name;
+            DataGridView.Columns["Orange"].HeaderText = Bot[(int)Team.A].AssemblyName.Name;
+            DataGridView.Columns["Lime"].HeaderText = Bot[(int)Team.B].AssemblyName.Name;
             CancellationToken = CancellationTokenSource.Token;
         }
 
@@ -53,7 +53,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 var coordinates = field_generator.AgentPositionGenerate(field);
 
                 var bot = new dynamic[2];
-                if (Bot[(int)Team.A].Name != "Human")
+                if (Bot[(int)Team.A].AssemblyName.Name != "Human")
                 {
                     Assembly m = Assembly.LoadFrom(Bot[(int)Team.A].Path);
                     MatchCollection mc = Regex.Matches(Bot[(int)Team.A].Path, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
@@ -62,7 +62,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         bot[(int)Team.A] = Activator.CreateInstance(m.GetType("nitkagoshima_sysken.Procon29." + match.Groups["file"].Value + "." + match.Groups["file"].Value));
                     }
                 }
-                if (Bot[(int)Team.B].Name != "Human")
+                if (Bot[(int)Team.B].AssemblyName.Name != "Human")
                 {
                     Assembly m = Assembly.LoadFrom(Bot[(int)Team.B].Path);
                     MatchCollection mc = Regex.Matches(Bot[(int)Team.B].Path, @"^[A-Z]:\\(.*\\)+(?<file>.*).dll$");
@@ -195,7 +195,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             if (tasks.Count == 0) return;
 
-            StreamWriter writer = new StreamWriter(MainForm.Bot[0].Name + " vs " + MainForm.Bot[1].Name + ".csv", true);
+            StreamWriter writer = new StreamWriter(MainForm.Bot[0].AssemblyName.Name + " vs " + MainForm.Bot[1].AssemblyName.Name + ".csv", true);
 
             foreach (var row in DataGridView.Rows.Cast<DataGridViewRow>())
             {
