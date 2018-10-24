@@ -96,6 +96,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary>
         public static List<TimeData> TimeDataList { get; set; } = new List<TimeData>();
 
+        private TrumpShow TrumpShow = new TrumpShow();
+
         /// <summary>
         /// MainForm
         /// </summary>
@@ -224,6 +226,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void MainForm_Resize(object sender, EventArgs e)
         {
             Show.Showing();
+            TrumpShowing();
         }
 
         /// <summary>
@@ -236,6 +239,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             Show.ClickedShow(FieldDisplay);
             Show.ClickShow();
             messageBox.Select(messageBox.Text.Length, 0);
+            try
+            {
+                TrumpShowing();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("なぜかここでエラーになります。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>
@@ -444,6 +455,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         private void TurnEnd()
         {
+            var action = new AgentsActivityData();
             var stopwatch_all = new Stopwatch();
             stopwatch_all.Start();
             if (TurnEndButton.Text == "ターンエンド")
@@ -460,6 +472,9 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         Show.AgentsActivityData[Team.B, AgentNumber.One] = Show.AgentsActivityData[Team.B, AgentNumber.One];
                         Show.AgentsActivityData[Team.B, AgentNumber.Two] = Show.AgentsActivityData[Team.B, AgentNumber.Two];
                     }
+                    TurnEndButton.Text = "ボットで選択";
+                    TurnEndButton.BackColor = Color.DarkGray;
+                    TurnEndButton.ForeColor = Color.White;
                 }
                 else
                 {
@@ -482,6 +497,33 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 }
                 stopwatch_all.Stop();
                 TimeDataList.Add(new TimeData("Turn End of " + Calc.Turn, stopwatch_all.ElapsedMilliseconds));
+            }
+            else
+            {
+                if (Bot[0].Body != null)
+                {
+                    Bot[0].Body.OurTeam = (Team)0;
+                    Bot[0].Body.Log = BotLog;
+                    Bot[0].Body.Question(new Calc(Calc));
+                    var answer = Bot[0].Body.Answer();
+                    Show.AgentsActivityData[(Team)0, AgentNumber.One] = answer[0];
+                    Show.AgentsActivityData[(Team)0, AgentNumber.Two] = answer[1];
+                }
+                if (Bot[1].Body != null)
+                {
+                    Bot[1].Body.OurTeam = (Team)1;
+                    Bot[1].Body.Log = BotLog;
+                    Bot[1].Body.Question(new Calc(Calc));
+                    var answer = Bot[1].Body.Answer();
+                    Show.AgentsActivityData[(Team)1, AgentNumber.One] = answer[0];
+                    Show.AgentsActivityData[(Team)1, AgentNumber.Two] = answer[1];
+                }
+                TurnEndButton.Text = "ターンエンド";
+                TurnEndButton.BackColor = Color.RoyalBlue;
+                TurnEndButton.ForeColor = Color.LightGray;
+                Show.Showing();
+                TrumpShowing();
+                return;
             }
 
             Calc.MoveAgent(Show.AgentsActivityData);
@@ -531,22 +573,18 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 //ファイルを閉じる
                 sw.Close();
             }
-            if (Mode == PlayMode.ProductionMode)
-            {
-                TurnEndButton.Text = "ボットで選択";
-                TurnEndButton.BackColor = Color.DarkGray;
-                TurnEndButton.ForeColor = Color.White;
-            }
-            else if (TurnEndButton.Text == "ボットで選択")
-            {
-                BotAnswer();
-                TurnEndButton.Text = "ターンエンド";
-                TurnEndButton.BackColor = Color.RoyalBlue;
-                TurnEndButton.ForeColor = Color.LightGray;
-                Show.Showing();
-            }
+
             CellInformationToolStripStatusLabel_Review(new Coordinate());
             Log.CursorScroll();
+        }
+
+        private void TrumpShowing()
+        {
+            if (TrumpToolStripMenuItem.Checked)
+            {
+                TrumpShow.PictureBox = TrumpPictureBox;
+                TrumpShow.Showing(Calc, Team.A, new AgentActivityData[] { Show.AgentsActivityData[Team.A, AgentNumber.One], Show.AgentsActivityData[Team.A, AgentNumber.Two] });
+            }
         }
 
         private void BotAnswer()

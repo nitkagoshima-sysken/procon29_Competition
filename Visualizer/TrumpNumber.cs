@@ -42,6 +42,10 @@
         /// </summary>
         Nine,
         /// <summary>
+        /// 10を表します。
+        /// </summary>
+        Ten,
+        /// <summary>
         /// ジャックを表します。
         /// </summary>
         Jack,
