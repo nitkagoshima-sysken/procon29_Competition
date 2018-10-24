@@ -4,17 +4,6 @@ using nitkagoshima_sysken.Procon29.Visualizer;
 
 namespace nitkagoshima_sysken.Procon29.HeBot
 {
-    struct ReturnStruct
-    {
-        public int point { get; set; }
-        public AgentActivityData[] AgentActivityData { get; set; }
-        public ReturnStruct(int p, AgentActivityData[] agentActivityData)
-        {
-            point = p;
-            AgentActivityData = agentActivityData;
-        }
-    }
-
     class HeBot : Bot.Bot
     {
         public HeBot() : base(){}
