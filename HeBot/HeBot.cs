@@ -22,12 +22,12 @@ namespace nitkagoshima_sysken.Procon29.HeBot
         public override AgentActivityData[] Answer()
         {
             var result = new AgentActivityData[2];
-            var maxpoint = int.MinValue;
+            var maxpoint = double.MinValue;
             var agentActivityData = new AgentActivityData[2];
             Calc calc;
             Coordinate destinationOne;
             Coordinate destinationTwo;
-            int nowpoint;
+            double nowpoint;
 
             foreach (Arrow arrowOne in Enum.GetValues(typeof(Arrow)))
             {
@@ -50,7 +50,7 @@ namespace nitkagoshima_sysken.Procon29.HeBot
 
                     //AgentStatusCode transform RequestCode
                     foreach (var item in agentActivityData) item.AgentStatusData.ToRequest();
-                    nowpoint = calc.Field.TotalPoint(OurTeam) - calc.Field.TotalPoint(OurTeam.Opponent());
+                    nowpoint = (double)calc.Field.TotalPoint(OurTeam) - (double)calc.Field.TotalPoint(OurTeam.Opponent());
                     if (maxpoint < nowpoint)
                     {
                         maxpoint = nowpoint;
