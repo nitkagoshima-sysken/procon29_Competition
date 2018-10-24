@@ -12,6 +12,7 @@ namespace nitkagoshima_sysken.Procon29.HeBot
         {
             var result = new AgentActivityData[2];
             var maxpoint = double.MinValue;
+            var rate = 1.0;
             var agentActivityData = new AgentActivityData[2];
             Calc calc;
             Coordinate destinationOne;
@@ -31,15 +32,37 @@ namespace nitkagoshima_sysken.Procon29.HeBot
                     if (destinationOne == destinationTwo) continue;
 
                     //Setting AgentActivityData
-                    agentActivityData[(int)AgentNumber.One] = MoveOrRemoveTile(destinationOne);
-                    agentActivityData[(int)AgentNumber.Two] = MoveOrRemoveTile(destinationTwo);
+                    //AgentNumber.One
+                    rate  = 1.0;
+                    if(Clac.Field[destinationOne].IsTileOn[OurTeam.Opponent()])
+                    {
+                        agentActivityData[(int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, destinationOne);
+                        rate *= 1.1;
+                    }
+                    else
+                    {
+                        agentActivityData[(int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestMovement, destinationOne);
+                        rate *= 0.9;
+                    }
+                    //AgentNumber.Two
+                    if(Clac.Field[destinationTwo].IsTileOn[OurTeam.Opponent()])
+                    {
+                        agentActivityData[(int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, destinationTwo);
+                        rate *= 1.1;
+                    }
+                    else
+                    {
+                        agentActivityData[(int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestMovement, destinationTwo);
+                        rate *= 0.9;
+                    }
+
 
                     //Simulate
                     calc = Calc.Simulate(OurTeam, agentActivityData);
 
                     //AgentStatusCode transform RequestCode
                     foreach (var item in agentActivityData) item.AgentStatusData.ToRequest();
-                    nowpoint = (double)calc.Field.TotalPoint(OurTeam) - (double)calc.Field.TotalPoint(OurTeam.Opponent());
+                    nowpoint = rate*((double)calc.Field.TotalPoint(OurTeam) - (double)calc.Field.TotalPoint(OurTeam.Opponent()));
                     if (maxpoint < nowpoint)
                     {
                         maxpoint = nowpoint;
@@ -47,13 +70,7 @@ namespace nitkagoshima_sysken.Procon29.HeBot
                     }
                 }
             }
-
             return result;
-        }
-        private AgentActivityData MoveOrRemoveTile(Coordinate coordinate)
-        {
-            if (Calc.Field[coordinate].IsTileOn[OurTeam.Opponent()])return new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, coordinate);
-            return new AgentActivityData(AgentStatusCode.RequestMovement, coordinate);
         }
     }
 }
