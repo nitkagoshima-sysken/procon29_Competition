@@ -53,6 +53,10 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 MessageBox.Show("フィールドが見つかりませんでした。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch (ArgumentException)
+            {
+                MessageBox.Show("不正なボット名です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             catch (Exception)
             {
                 MessageBox.Show("不明なエラーです。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);

@@ -32,7 +32,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.FieldDisplay = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.TrumpPictureBox = new System.Windows.Forms.PictureBox();
             this.messageBox = new System.Windows.Forms.RichTextBox();
             this.TurnEndButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -69,7 +69,7 @@
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TrumpPictureBox)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.ContextMenuStrip.SuspendLayout();
@@ -114,7 +114,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.pictureBox2, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.TrumpPictureBox, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.messageBox, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.TurnEndButton, 0, 2);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(532, 3);
@@ -126,14 +126,14 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(222, 388);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
-            // pictureBox2
+            // TrumpPictureBox
             // 
-            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox2.Location = new System.Drawing.Point(153, 3);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(66, 1);
-            this.pictureBox2.TabIndex = 2;
-            this.pictureBox2.TabStop = false;
+            this.TrumpPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TrumpPictureBox.Location = new System.Drawing.Point(3, 3);
+            this.TrumpPictureBox.Name = "TrumpPictureBox";
+            this.TrumpPictureBox.Size = new System.Drawing.Size(216, 1);
+            this.TrumpPictureBox.TabIndex = 2;
+            this.TrumpPictureBox.TabStop = false;
             // 
             // messageBox
             // 
@@ -317,28 +317,28 @@
             // BotConsoleToolStripMenuItem
             // 
             this.BotConsoleToolStripMenuItem.Name = "BotConsoleToolStripMenuItem";
-            this.BotConsoleToolStripMenuItem.Size = new System.Drawing.Size(206, 28);
+            this.BotConsoleToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
             this.BotConsoleToolStripMenuItem.Text = "ボットコンソール";
             this.BotConsoleToolStripMenuItem.Click += new System.EventHandler(this.BotConsoleToolStripMenuItem_Click);
             // 
             // TimeMeasurementToolStripMenuItem
             // 
             this.TimeMeasurementToolStripMenuItem.Name = "TimeMeasurementToolStripMenuItem";
-            this.TimeMeasurementToolStripMenuItem.Size = new System.Drawing.Size(206, 28);
+            this.TimeMeasurementToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
             this.TimeMeasurementToolStripMenuItem.Text = "処理時間計測";
             this.TimeMeasurementToolStripMenuItem.Click += new System.EventHandler(this.TimeMeasurementToolStripMenuItem_Click);
             // 
             // TrumpToolStripMenuItem
             // 
             this.TrumpToolStripMenuItem.Name = "TrumpToolStripMenuItem";
-            this.TrumpToolStripMenuItem.Size = new System.Drawing.Size(206, 28);
+            this.TrumpToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
             this.TrumpToolStripMenuItem.Text = "トランプ";
             this.TrumpToolStripMenuItem.Click += new System.EventHandler(this.TrumpToolStripMenuItem_Click);
             // 
             // BotWarsToolStripMenuItem
             // 
             this.BotWarsToolStripMenuItem.Name = "BotWarsToolStripMenuItem";
-            this.BotWarsToolStripMenuItem.Size = new System.Drawing.Size(206, 28);
+            this.BotWarsToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
             this.BotWarsToolStripMenuItem.Text = "Bot Wars";
             this.BotWarsToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
@@ -354,14 +354,14 @@
             // PracticeModeToolStripMenuItem
             // 
             this.PracticeModeToolStripMenuItem.Name = "PracticeModeToolStripMenuItem";
-            this.PracticeModeToolStripMenuItem.Size = new System.Drawing.Size(161, 28);
+            this.PracticeModeToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
             this.PracticeModeToolStripMenuItem.Text = "練習モード";
             this.PracticeModeToolStripMenuItem.Click += new System.EventHandler(this.PracticeModeToolStripMenuItem_Click);
             // 
             // ProductionModeToolStripMenuItem
             // 
             this.ProductionModeToolStripMenuItem.Name = "ProductionModeToolStripMenuItem";
-            this.ProductionModeToolStripMenuItem.Size = new System.Drawing.Size(161, 28);
+            this.ProductionModeToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
             this.ProductionModeToolStripMenuItem.Text = "本番モード";
             this.ProductionModeToolStripMenuItem.Click += new System.EventHandler(this.ProductionModeToolStripMenuItem_Click);
             // 
@@ -434,7 +434,7 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TrumpPictureBox)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -450,7 +450,7 @@
         private System.Windows.Forms.PictureBox FieldDisplay;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.RichTextBox messageBox;
-        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.PictureBox TrumpPictureBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem FileToolStripMenuItem;
