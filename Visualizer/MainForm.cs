@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -92,9 +93,16 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         public string FieldDataGenerator_FilePath;
 
         /// <summary>
+        /// HydroGoBotのファイルパスを設定または取得します。
+        /// </summary>
+        public string HydroGoBot_FilePath;
+
+        /// <summary>
         /// 処理時間のデータのリストを表します。
         /// </summary>
         public static List<TimeData> TimeDataList { get; set; } = new List<TimeData>();
+
+        private TrumpShow TrumpShow = new TrumpShow();
 
         /// <summary>
         /// MainForm
@@ -224,6 +232,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         private void MainForm_Resize(object sender, EventArgs e)
         {
             Show.Showing();
+            TrumpShowing();
         }
 
         /// <summary>
@@ -236,6 +245,14 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             Show.ClickedShow(FieldDisplay);
             Show.ClickShow();
             messageBox.Select(messageBox.Text.Length, 0);
+            try
+            {
+                TrumpShowing();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("なぜかここでエラーになります。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>
@@ -444,6 +461,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
         private void TurnEnd()
         {
+            var action = new AgentsActivityData();
             var stopwatch_all = new Stopwatch();
             stopwatch_all.Start();
             if (TurnEndButton.Text == "ターンエンド")
@@ -460,22 +478,156 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         Show.AgentsActivityData[Team.B, AgentNumber.One] = Show.AgentsActivityData[Team.B, AgentNumber.One];
                         Show.AgentsActivityData[Team.B, AgentNumber.Two] = Show.AgentsActivityData[Team.B, AgentNumber.Two];
                     }
+                    TurnEndButton.Text = "ボットで選択";
+                    TurnEndButton.BackColor = Color.DarkGray;
+                    TurnEndButton.ForeColor = Color.White;
                 }
                 else
                 {
-                    var stopwatch = new Stopwatch();
-                    stopwatch.Start();
-                    BotAnswer((int)Team.A);
-                    stopwatch.Stop();
-                    TimeDataList.Add(new TimeData(Bot[0].AssemblyName.Name + " (Our Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
-                    stopwatch = new Stopwatch();
-                    stopwatch.Start();
-                    BotAnswer((int)Team.B);
-                    stopwatch.Stop();
-                    TimeDataList.Add(new TimeData(Bot[1].AssemblyName.Name + " (Opponent Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
+                    if (Bot[0].Body != null)
+                    {
+                        var stopwatch = new Stopwatch();
+                        stopwatch.Start();
+                        BotAnswer((int)Team.A);
+                        stopwatch.Stop();
+                        TimeDataList.Add(new TimeData(Bot[0].AssemblyName.Name + " (Our Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
+                    }
+                    if (Bot[1].Body != null)
+                    {
+                        var stopwatch = new Stopwatch();
+                        stopwatch.Start();
+                        BotAnswer((int)Team.B);
+                        stopwatch.Stop();
+                        TimeDataList.Add(new TimeData(Bot[1].AssemblyName.Name + " (Opponent Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
+                    }
+                    if (Bot[0].AssemblyName.Name == "hydro_go_bot")
+                    {
+                        using (var sw = new StreamWriter("object.in", false))
+                        {
+                            sw.Write(CalcExtension.HydroGoBotAdapter(Calc, Team.A));
+                        }
+                        Log.WriteLine("[HGbot] Calling now...");
+                        using (var p = new Process())
+                        {
+                            p.StartInfo.FileName = System.Environment.GetEnvironmentVariable("ComSpec");
+                            p.StartInfo.CreateNoWindow = true;
+                            p.StartInfo.UseShellExecute = false;
+                            p.StartInfo.RedirectStandardOutput = true;
+                            p.StartInfo.RedirectStandardInput = false;
+                            p.StartInfo.Arguments = @"/c "+ HydroGoBot_FilePath;
+                            p.Start();
+                            p.WaitForExit();
+                            string results = p.StandardOutput.ReadToEnd();
+                            BotLog.WriteLine(results);
+                            BotLog.CursorScroll();
+                        }
+                        var data = string.Empty;
+                        using (var sr = new StreamReader("object.out"))
+                        {
+                            data= sr.ReadToEnd();
+                        }
+                        var re = new Regex(@"\[\[(?<onex>\d+), (?<oney>\d+)\], \[(?<twox>\d+), (?<twoy>\d+)\]\]");
+                        var m = re.Match(data);
+                        Show.AgentsActivityData[Team.A, AgentNumber.One].Destination = new Coordinate(int.Parse(m.Groups["onex"].Value), int.Parse(m.Groups["oney"].Value));
+                        Show.AgentsActivityData[Team.A, AgentNumber.Two].Destination = new Coordinate(int.Parse(m.Groups["twox"].Value), int.Parse(m.Groups["twoy"].Value));
+                        var d = Show.AgentsActivityData[Team.A, AgentNumber.One].Destination;
+                        if (Calc.Field.CellExist(d) && Calc.Field[d].IsTileOn[Team.A.Opponent()])
+                        {
+                            Show.AgentsActivityData[Team.A, AgentNumber.One].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
+                        }
+                        else
+                        {
+                            Show.AgentsActivityData[Team.A, AgentNumber.One].AgentStatusData = AgentStatusCode.RequestMovement;
+                        }
+                        d = Show.AgentsActivityData[Team.A, AgentNumber.Two].Destination;
+                        if (Calc.Field.CellExist(d) && Calc.Field[d].IsTileOn[Team.A.Opponent()])
+                        {
+                            Show.AgentsActivityData[Team.A, AgentNumber.Two].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
+                        }
+                        else
+                        {
+                            Show.AgentsActivityData[Team.A, AgentNumber.Two].AgentStatusData = AgentStatusCode.RequestMovement;
+                        }
+                    }
+                    if (Bot[1].AssemblyName.Name == "hydro_go_bot")
+                    {
+                        using (var sw = new StreamWriter("object.in", false))
+                        {
+                            sw.Write(CalcExtension.HydroGoBotAdapter(Calc, Team.B));
+                        }
+                        Log.WriteLine("[HGbot] Calling now...");
+                        using (var p = new Process())
+                        {
+                            p.StartInfo.FileName = System.Environment.GetEnvironmentVariable("ComSpec");
+                            p.StartInfo.CreateNoWindow = true;
+                            p.StartInfo.UseShellExecute = false;
+                            p.StartInfo.RedirectStandardOutput = true;
+                            p.StartInfo.RedirectStandardInput = false;
+                            p.StartInfo.Arguments = @"/c " + HydroGoBot_FilePath;
+                            p.Start();
+                            p.WaitForExit();
+                            string results = p.StandardOutput.ReadToEnd();
+                            BotLog.WriteLine(results);
+                            BotLog.CursorScroll();
+                        }
+                        var data = string.Empty;
+                        using (var sr = new StreamReader("object.out"))
+                        {
+                            data = sr.ReadToEnd();
+                        }
+                        var re = new Regex(@"\[\[(?<onex>\d+), (?<oney>\d+)\], \[(?<twox>\d+), (?<twoy>\d+)\]\]");
+                        var m = re.Match(data);
+                        Show.AgentsActivityData[Team.B, AgentNumber.One].Destination = new Coordinate(int.Parse(m.Groups["onex"].Value), int.Parse(m.Groups["oney"].Value));
+                        Show.AgentsActivityData[Team.B, AgentNumber.Two].Destination = new Coordinate(int.Parse(m.Groups["twox"].Value), int.Parse(m.Groups["twoy"].Value));
+                        var d = Show.AgentsActivityData[Team.B, AgentNumber.One].Destination;
+                        if (Calc.Field.CellExist(d) && Calc.Field[d].IsTileOn[Team.B.Opponent()])
+                        {
+                            Show.AgentsActivityData[Team.B, AgentNumber.One].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
+                        }
+                        else
+                        {
+                            Show.AgentsActivityData[Team.B, AgentNumber.One].AgentStatusData = AgentStatusCode.RequestMovement;
+                        }
+                        d = Show.AgentsActivityData[Team.B, AgentNumber.Two].Destination;
+                        if (Calc.Field.CellExist(d) && Calc.Field[d].IsTileOn[Team.B.Opponent()])
+                        {
+                            Show.AgentsActivityData[Team.B, AgentNumber.Two].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
+                        }
+                        else
+                        {
+                            Show.AgentsActivityData[Team.B, AgentNumber.Two].AgentStatusData = AgentStatusCode.RequestMovement;
+                        }
+                    }
                 }
                 stopwatch_all.Stop();
                 TimeDataList.Add(new TimeData("Turn End of " + Calc.Turn, stopwatch_all.ElapsedMilliseconds));
+            }
+            else
+            {
+                if (Bot[0].Body != null)
+                {
+                    Bot[0].Body.OurTeam = (Team)0;
+                    Bot[0].Body.Log = BotLog;
+                    Bot[0].Body.Question(new Calc(Calc));
+                    var answer = Bot[0].Body.Answer();
+                    Show.AgentsActivityData[(Team)0, AgentNumber.One] = answer[0];
+                    Show.AgentsActivityData[(Team)0, AgentNumber.Two] = answer[1];
+                }
+                if (Bot[1].Body != null)
+                {
+                    Bot[1].Body.OurTeam = (Team)1;
+                    Bot[1].Body.Log = BotLog;
+                    Bot[1].Body.Question(new Calc(Calc));
+                    var answer = Bot[1].Body.Answer();
+                    Show.AgentsActivityData[(Team)1, AgentNumber.One] = answer[0];
+                    Show.AgentsActivityData[(Team)1, AgentNumber.Two] = answer[1];
+                }
+                TurnEndButton.Text = "ターンエンド";
+                TurnEndButton.BackColor = Color.RoyalBlue;
+                TurnEndButton.ForeColor = Color.LightGray;
+                Show.Showing();
+                TrumpShowing();
+                return;
             }
 
             Calc.MoveAgent(Show.AgentsActivityData);
@@ -525,22 +677,18 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 //ファイルを閉じる
                 sw.Close();
             }
-            if (Mode == PlayMode.ProductionMode)
-            {
-                TurnEndButton.Text = "ボットで選択";
-                TurnEndButton.BackColor = Color.DarkGray;
-                TurnEndButton.ForeColor = Color.White;
-            }
-            else if (TurnEndButton.Text == "ボットで選択")
-            {
-                BotAnswer();
-                TurnEndButton.Text = "ターンエンド";
-                TurnEndButton.BackColor = Color.RoyalBlue;
-                TurnEndButton.ForeColor = Color.LightGray;
-                Show.Showing();
-            }
+
             CellInformationToolStripStatusLabel_Review(new Coordinate());
             Log.CursorScroll();
+        }
+
+        private void TrumpShowing()
+        {
+            if (TrumpToolStripMenuItem.Checked)
+            {
+                TrumpShow.PictureBox = TrumpPictureBox;
+                TrumpShow.Showing(Calc, Team.A, new AgentActivityData[] { Show.AgentsActivityData[Team.A, AgentNumber.One], Show.AgentsActivityData[Team.A, AgentNumber.Two] });
+            }
         }
 
         private void BotAnswer()
@@ -879,15 +1027,22 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     Log.WriteLine("[Bot] Changed to Human on orange team.", Color.SkyBlue);
                     break;
                 case 1: // ボット
-                    Bot[0] = Visualizer.Bot.Connect(BotForm.SelectedOrangeBotNameLabel.Text);
-                    Log.WriteLine("[Bot] \"" + Bot[0].AssemblyName.Name + "\" was read on lime team", Color.SkyBlue);
-                    Log.WriteLine("[" + Bot[0].AssemblyName.Name + "]", Color.SkyBlue);
-                    Log.WriteLine("Code Base: " + Bot[0].AssemblyName.CodeBase.ToString(), Color.SkyBlue);
-                    Log.WriteLine("Flags: " + Bot[0].AssemblyName.Flags.ToString(), Color.SkyBlue);
-                    Log.WriteLine("Hash Algorithm: " + Bot[0].AssemblyName.HashAlgorithm.ToString(), Color.SkyBlue);
-                    Log.WriteLine("Processor Architecture: " + Bot[0].AssemblyName.ProcessorArchitecture.ToString(), Color.SkyBlue);
-                    Log.WriteLine("Version: " + Bot[0].AssemblyName.Version.ToString(), Color.SkyBlue);
-                    Log.WriteLine("Version Compatibility: " + Bot[0].AssemblyName.VersionCompatibility.ToString(), Color.SkyBlue);
+                    try
+                    {
+                        Bot[0] = Visualizer.Bot.Connect(BotForm.SelectedOrangeBotNameLabel.Text);
+                        Log.WriteLine("[Bot] \"" + Bot[0].AssemblyName.Name + "\" was read on lime team", Color.SkyBlue);
+                        Log.WriteLine("[" + Bot[0].AssemblyName.Name + "]", Color.SkyBlue);
+                        Log.WriteLine("Code Base: " + Bot[0].AssemblyName.CodeBase.ToString(), Color.SkyBlue);
+                        Log.WriteLine("Flags: " + Bot[0].AssemblyName.Flags.ToString(), Color.SkyBlue);
+                        Log.WriteLine("Hash Algorithm: " + Bot[0].AssemblyName.HashAlgorithm.ToString(), Color.SkyBlue);
+                        Log.WriteLine("Processor Architecture: " + Bot[0].AssemblyName.ProcessorArchitecture.ToString(), Color.SkyBlue);
+                        Log.WriteLine("Version: " + Bot[0].AssemblyName.Version.ToString(), Color.SkyBlue);
+                        Log.WriteLine("Version Compatibility: " + Bot[0].AssemblyName.VersionCompatibility.ToString(), Color.SkyBlue);
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Caught Exception");
+                    }
                     break;
                 case 2: // Hydro Go Bot
                     Bot[0].Body = null;
@@ -902,15 +1057,22 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     Log.WriteLine("[Bot] Changed to Human on lime team.", Color.SkyBlue);
                     break;
                 case 1: // ボット
-                    Bot[1] = Visualizer.Bot.Connect(BotForm.SelectedLimeBotNameLabel.Text);
-                    Log.WriteLine("[Bot] \"" + Bot[1].AssemblyName.Name + "\" was read on lime team", Color.SkyBlue);
-                    Log.WriteLine("[" + Bot[1].AssemblyName.Name + "]", Color.SkyBlue);
-                    Log.WriteLine("Code Base: " + Bot[1].AssemblyName.CodeBase.ToString(), Color.SkyBlue);
-                    Log.WriteLine("Flags: " + Bot[1].AssemblyName.Flags.ToString(), Color.SkyBlue);
-                    Log.WriteLine("Hash Algorithm: " + Bot[1].AssemblyName.HashAlgorithm.ToString(), Color.SkyBlue);
-                    Log.WriteLine("Processor Architecture: " + Bot[1].AssemblyName.ProcessorArchitecture.ToString(), Color.SkyBlue);
-                    Log.WriteLine("Version: " + Bot[1].AssemblyName.Version.ToString(), Color.SkyBlue);
-                    Log.WriteLine("Version Compatibility: " + Bot[1].AssemblyName.VersionCompatibility.ToString(), Color.SkyBlue);
+                    try
+                    {
+                        Bot[1] = Visualizer.Bot.Connect(BotForm.SelectedLimeBotNameLabel.Text);
+                        Log.WriteLine("[Bot] \"" + Bot[1].AssemblyName.Name + "\" was read on lime team", Color.SkyBlue);
+                        Log.WriteLine("[" + Bot[1].AssemblyName.Name + "]", Color.SkyBlue);
+                        Log.WriteLine("Code Base: " + Bot[1].AssemblyName.CodeBase.ToString(), Color.SkyBlue);
+                        Log.WriteLine("Flags: " + Bot[1].AssemblyName.Flags.ToString(), Color.SkyBlue);
+                        Log.WriteLine("Hash Algorithm: " + Bot[1].AssemblyName.HashAlgorithm.ToString(), Color.SkyBlue);
+                        Log.WriteLine("Processor Architecture: " + Bot[1].AssemblyName.ProcessorArchitecture.ToString(), Color.SkyBlue);
+                        Log.WriteLine("Version: " + Bot[1].AssemblyName.Version.ToString(), Color.SkyBlue);
+                        Log.WriteLine("Version Compatibility: " + Bot[1].AssemblyName.VersionCompatibility.ToString(), Color.SkyBlue);
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Caught Exception");
+                    }
                     break;
                 case 2: // Hydro Go Bot
                     Bot[1].Body = null;
