@@ -29,7 +29,6 @@ namespace nitkagoshima_sysken.Procon29.HeBot
             var destinationOne = new Coordinate();
             var destinationTwo = new Coordinate();
 
-            result = BestHand(Calc, 1).AgentActivityData;
             foreach (Arrow arrowOne in Enum.GetValues(typeof(Arrow)))
             {
                 destinationOne = calc.Agents[OurTeam, AgentNumber.One].Position + arrowOne; if (!calc.Field.CellExist(destinationOne)) continue;
