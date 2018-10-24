@@ -23,21 +23,22 @@ namespace nitkagoshima_sysken.Procon29.HeBot
         {
             var result = new AgentActivityData[2];
             var maxpoint = int.MinValue;
-            var nowpoint = 0;
             var agentActivityData = new AgentActivityData[2];
-            var c = new Calc();
-            var destinationOne = new Coordinate();
-            var destinationTwo = new Coordinate();
+            Calc calc;
+            Coordinate destinationOne;
+            Coordinate destinationTwo;
+            int nowpoint;
 
             foreach (Arrow arrowOne in Enum.GetValues(typeof(Arrow)))
             {
-                destinationOne = calc.Agents[OurTeam, AgentNumber.One].Position + arrowOne; if (!calc.Field.CellExist(destinationOne)) continue;
+                destinationOne = Calc.Agents[OurTeam, AgentNumber.One].Position + arrowOne;
+                if (!Calc.Field.CellExist(destinationOne)) continue;
 
                 foreach (Arrow arrowTwo in Enum.GetValues(typeof(Arrow)))
                 {
-                    destinationTwo = calc.Agents[OurTeam, AgentNumber.Two].Position + arrowTwo;
+                    destinationTwo = Calc.Agents[OurTeam, AgentNumber.Two].Position + arrowTwo;
+                    if (!Calc.Field.CellExist(destinationTwo)) continue;
 
-                    if (!calc.Field.CellExist(destinationTwo)) continue;
                     if (destinationOne == destinationTwo) continue;
 
                     //Setting AgentActivityData
@@ -45,11 +46,11 @@ namespace nitkagoshima_sysken.Procon29.HeBot
                     agentActivityData[(int)AgentNumber.Two] = MoveOrRemoveTile(destinationTwo);
 
                     //Simulate
-                    c = calc.Simulate(OurTeam, agentActivityData);
+                    calc = Calc.Simulate(OurTeam, agentActivityData);
 
                     //AgentStatusCode transform RequestCode
                     foreach (var item in agentActivityData) item.AgentStatusData.ToRequest();
-                    nowpoint = c.Field.TotalPoint(OurTeam) - c.Field.TotalPoint(OurTeam.Opponent());
+                    nowpoint = calc.Field.TotalPoint(OurTeam) - calc.Field.TotalPoint(OurTeam.Opponent());
                     if (maxpoint < nowpoint)
                     {
                         maxpoint = nowpoint;
