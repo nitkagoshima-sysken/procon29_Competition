@@ -36,23 +36,19 @@ namespace nitkagoshima_sysken.Procon29.HeBot
                     if(Calc.Field[destinationOne].IsTileOn[OurTeam.Opponent()])
                     {
                         agentActivityData[(int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, destinationOne);
-                        rate *= 0.9;
                     }
                     else
                     {
                         agentActivityData[(int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestMovement, destinationOne);
-                        rate *= 1.1;
                     }
                     //AgentNumber.Two
                     if(Calc.Field[destinationTwo].IsTileOn[OurTeam.Opponent()])
                     {
                         agentActivityData[(int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, destinationTwo);
-                        rate *= 0.9;
                     }
                     else
                     {
                         agentActivityData[(int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestMovement, destinationTwo);
-                        rate *= 1.1;
                     }
 
 
