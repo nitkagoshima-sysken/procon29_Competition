@@ -33,7 +33,7 @@ namespace nitkagoshima_sysken.Procon29.HeBot
                     //Setting AgentActivityData
                     //AgentNumber.One
                     rate  = 1.0;
-                    if(Clac.Field[destinationOne].IsTileOn[OurTeam.Opponent()])
+                    if(Calc.Field[destinationOne].IsTileOn[OurTeam.Opponent()])
                     {
                         agentActivityData[(int)AgentNumber.One] = new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, destinationOne);
                         rate *= 0.9;
@@ -44,7 +44,7 @@ namespace nitkagoshima_sysken.Procon29.HeBot
                         rate *= 1.1;
                     }
                     //AgentNumber.Two
-                    if(Clac.Field[destinationTwo].IsTileOn[OurTeam.Opponent()])
+                    if(Calc.Field[destinationTwo].IsTileOn[OurTeam.Opponent()])
                     {
                         agentActivityData[(int)AgentNumber.Two] = new AgentActivityData(AgentStatusCode.RequestRemovementOpponentTile, destinationTwo);
                         rate *= 0.9;
