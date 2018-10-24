@@ -108,6 +108,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                     MainForm.Log.WriteLine("[Prefetching] FieldDataGenerator File Path \"" + result["FieldDataGenerator"][0].Trim() + " was read by FilePath.tsv", Color.SkyBlue);
                     mainForm.FieldDataGenerator_FilePath = result["FieldDataGenerator"][0].Trim();
                 }
+                if (result.ContainsKey("HydroGoBot"))
+                {
+                    MainForm.Log.WriteLine("[Prefetching] HydroGoBot File Path \"" + result["HydroGoBot"][0].Trim() + " was read by FilePath.tsv", Color.SkyBlue);
+                    mainForm.HydroGoBot_FilePath = result["HydroGoBot"][0].Trim();
+                }
             }
             // "FilePath.tsv" というディレクトリが存在しない場合、作成する
             else

@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -90,6 +91,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// FieldDataGeneratorのファイルパスを設定または取得します。
         /// </summary>
         public string FieldDataGenerator_FilePath;
+
+        /// <summary>
+        /// HydroGoBotのファイルパスを設定または取得します。
+        /// </summary>
+        public string HydroGoBot_FilePath;
 
         /// <summary>
         /// 処理時間のデータのリストを表します。
@@ -493,6 +499,104 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         BotAnswer((int)Team.B);
                         stopwatch.Stop();
                         TimeDataList.Add(new TimeData(Bot[1].AssemblyName.Name + " (Opponent Team) of " + Calc.Turn, stopwatch.ElapsedMilliseconds));
+                    }
+                    if (Bot[0].AssemblyName.Name == "hydro_go_bot")
+                    {
+                        using (var sw = new StreamWriter("object.in", false))
+                        {
+                            sw.Write(CalcExtension.HydroGoBotAdapter(Calc, Team.A));
+                        }
+                        Log.WriteLine("[HGbot] Calling now...");
+                        using (var p = new Process())
+                        {
+                            p.StartInfo.FileName = System.Environment.GetEnvironmentVariable("ComSpec");
+                            p.StartInfo.CreateNoWindow = true;
+                            p.StartInfo.UseShellExecute = false;
+                            p.StartInfo.RedirectStandardOutput = true;
+                            p.StartInfo.RedirectStandardInput = false;
+                            p.StartInfo.Arguments = @"/c "+ HydroGoBot_FilePath;
+                            p.Start();
+                            p.WaitForExit();
+                            string results = p.StandardOutput.ReadToEnd();
+                            BotLog.WriteLine(results);
+                            BotLog.CursorScroll();
+                        }
+                        var data = string.Empty;
+                        using (var sr = new StreamReader("object.out"))
+                        {
+                            data= sr.ReadToEnd();
+                        }
+                        var re = new Regex(@"\[\[(?<onex>\d+), (?<oney>\d+)\], \[(?<twox>\d+), (?<twoy>\d+)\]\]");
+                        var m = re.Match(data);
+                        Show.AgentsActivityData[Team.A, AgentNumber.One].Destination = new Coordinate(int.Parse(m.Groups["onex"].Value), int.Parse(m.Groups["oney"].Value));
+                        Show.AgentsActivityData[Team.A, AgentNumber.Two].Destination = new Coordinate(int.Parse(m.Groups["twox"].Value), int.Parse(m.Groups["twoy"].Value));
+                        var d = Show.AgentsActivityData[Team.A, AgentNumber.One].Destination;
+                        if (Calc.Field.CellExist(d) && Calc.Field[d].IsTileOn[Team.A.Opponent()])
+                        {
+                            Show.AgentsActivityData[Team.A, AgentNumber.One].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
+                        }
+                        else
+                        {
+                            Show.AgentsActivityData[Team.A, AgentNumber.One].AgentStatusData = AgentStatusCode.RequestMovement;
+                        }
+                        d = Show.AgentsActivityData[Team.A, AgentNumber.Two].Destination;
+                        if (Calc.Field.CellExist(d) && Calc.Field[d].IsTileOn[Team.A.Opponent()])
+                        {
+                            Show.AgentsActivityData[Team.A, AgentNumber.Two].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
+                        }
+                        else
+                        {
+                            Show.AgentsActivityData[Team.A, AgentNumber.Two].AgentStatusData = AgentStatusCode.RequestMovement;
+                        }
+                    }
+                    if (Bot[1].AssemblyName.Name == "hydro_go_bot")
+                    {
+                        using (var sw = new StreamWriter("object.in", false))
+                        {
+                            sw.Write(CalcExtension.HydroGoBotAdapter(Calc, Team.B));
+                        }
+                        Log.WriteLine("[HGbot] Calling now...");
+                        using (var p = new Process())
+                        {
+                            p.StartInfo.FileName = System.Environment.GetEnvironmentVariable("ComSpec");
+                            p.StartInfo.CreateNoWindow = true;
+                            p.StartInfo.UseShellExecute = false;
+                            p.StartInfo.RedirectStandardOutput = true;
+                            p.StartInfo.RedirectStandardInput = false;
+                            p.StartInfo.Arguments = @"/c " + HydroGoBot_FilePath;
+                            p.Start();
+                            p.WaitForExit();
+                            string results = p.StandardOutput.ReadToEnd();
+                            BotLog.WriteLine(results);
+                            BotLog.CursorScroll();
+                        }
+                        var data = string.Empty;
+                        using (var sr = new StreamReader("object.out"))
+                        {
+                            data = sr.ReadToEnd();
+                        }
+                        var re = new Regex(@"\[\[(?<onex>\d+), (?<oney>\d+)\], \[(?<twox>\d+), (?<twoy>\d+)\]\]");
+                        var m = re.Match(data);
+                        Show.AgentsActivityData[Team.B, AgentNumber.One].Destination = new Coordinate(int.Parse(m.Groups["onex"].Value), int.Parse(m.Groups["oney"].Value));
+                        Show.AgentsActivityData[Team.B, AgentNumber.Two].Destination = new Coordinate(int.Parse(m.Groups["twox"].Value), int.Parse(m.Groups["twoy"].Value));
+                        var d = Show.AgentsActivityData[Team.B, AgentNumber.One].Destination;
+                        if (Calc.Field.CellExist(d) && Calc.Field[d].IsTileOn[Team.B.Opponent()])
+                        {
+                            Show.AgentsActivityData[Team.B, AgentNumber.One].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
+                        }
+                        else
+                        {
+                            Show.AgentsActivityData[Team.B, AgentNumber.One].AgentStatusData = AgentStatusCode.RequestMovement;
+                        }
+                        d = Show.AgentsActivityData[Team.B, AgentNumber.Two].Destination;
+                        if (Calc.Field.CellExist(d) && Calc.Field[d].IsTileOn[Team.B.Opponent()])
+                        {
+                            Show.AgentsActivityData[Team.B, AgentNumber.Two].AgentStatusData = AgentStatusCode.RequestRemovementOpponentTile;
+                        }
+                        else
+                        {
+                            Show.AgentsActivityData[Team.B, AgentNumber.Two].AgentStatusData = AgentStatusCode.RequestMovement;
+                        }
                     }
                 }
                 stopwatch_all.Stop();
