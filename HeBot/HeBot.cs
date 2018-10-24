@@ -37,11 +37,18 @@ namespace nitkagoshima_sysken.Procon29.HeBot
                 foreach (Arrow arrowTwo in Enum.GetValues(typeof(Arrow)))
                 {
                     destinationTwo = calc.Agents[OurTeam, AgentNumber.Two].Position + arrowTwo;
+
                     if (!calc.Field.CellExist(destinationTwo)) continue;
                     if (destinationOne == destinationTwo) continue;
+
+                    //Setting AgentActivityData
                     agentActivityData[(int)AgentNumber.One] = MoveOrRemoveTile(destinationOne);
                     agentActivityData[(int)AgentNumber.Two] = MoveOrRemoveTile(destinationTwo);
+
+                    //Simulate
                     c = calc.Simulate(OurTeam, agentActivityData);
+
+                    //AgentStatusCode transform RequestCode
                     foreach (var item in agentActivityData) item.AgentStatusData.ToRequest();
                     nowpoint = c.Field.TotalPoint(OurTeam) - c.Field.TotalPoint(OurTeam.Opponent());
                     if (maxpoint < nowpoint)
