@@ -49,6 +49,7 @@
             this.RedoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.SelectBotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SwapAgentPositionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.EndButtleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,6 +67,7 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.AreaToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
+            this.ChangeAgentNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -255,6 +257,8 @@
             this.RedoToolStripMenuItem,
             this.toolStripSeparator3,
             this.SelectBotToolStripMenuItem,
+            this.SwapAgentPositionToolStripMenuItem,
+            this.ChangeAgentNameToolStripMenuItem,
             this.toolStripSeparator2,
             this.EndButtleToolStripMenuItem});
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
@@ -266,7 +270,7 @@
             this.UndoToolStripMenuItem.Name = "UndoToolStripMenuItem";
             this.UndoToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Z";
             this.UndoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.UndoToolStripMenuItem.Size = new System.Drawing.Size(229, 28);
+            this.UndoToolStripMenuItem.Size = new System.Drawing.Size(296, 28);
             this.UndoToolStripMenuItem.Text = "元に戻す(&U)";
             this.UndoToolStripMenuItem.Click += new System.EventHandler(this.UndoToolStripMenuItem_Click);
             // 
@@ -275,31 +279,38 @@
             this.RedoToolStripMenuItem.Name = "RedoToolStripMenuItem";
             this.RedoToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Y";
             this.RedoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.RedoToolStripMenuItem.Size = new System.Drawing.Size(229, 28);
+            this.RedoToolStripMenuItem.Size = new System.Drawing.Size(296, 28);
             this.RedoToolStripMenuItem.Text = "やり直し(&R)";
             this.RedoToolStripMenuItem.Click += new System.EventHandler(this.RedoToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(226, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(293, 6);
             // 
             // SelectBotToolStripMenuItem
             // 
             this.SelectBotToolStripMenuItem.Name = "SelectBotToolStripMenuItem";
-            this.SelectBotToolStripMenuItem.Size = new System.Drawing.Size(229, 28);
+            this.SelectBotToolStripMenuItem.Size = new System.Drawing.Size(296, 28);
             this.SelectBotToolStripMenuItem.Text = "ボットを選択する";
             this.SelectBotToolStripMenuItem.Click += new System.EventHandler(this.SelectBotToolStripMenuItem_Click);
+            // 
+            // SwapAgentPositionToolStripMenuItem
+            // 
+            this.SwapAgentPositionToolStripMenuItem.Name = "SwapAgentPositionToolStripMenuItem";
+            this.SwapAgentPositionToolStripMenuItem.Size = new System.Drawing.Size(296, 28);
+            this.SwapAgentPositionToolStripMenuItem.Text = "エージェントの位置を交換する";
+            this.SwapAgentPositionToolStripMenuItem.Click += new System.EventHandler(this.SwapAgentPositionToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(226, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(293, 6);
             // 
             // EndButtleToolStripMenuItem
             // 
             this.EndButtleToolStripMenuItem.Name = "EndButtleToolStripMenuItem";
-            this.EndButtleToolStripMenuItem.Size = new System.Drawing.Size(229, 28);
+            this.EndButtleToolStripMenuItem.Size = new System.Drawing.Size(296, 28);
             this.EndButtleToolStripMenuItem.Text = "試合を終わらせる";
             this.EndButtleToolStripMenuItem.Click += new System.EventHandler(this.EndButtleToolStripMenuItem_Click);
             // 
@@ -317,28 +328,28 @@
             // BotConsoleToolStripMenuItem
             // 
             this.BotConsoleToolStripMenuItem.Name = "BotConsoleToolStripMenuItem";
-            this.BotConsoleToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.BotConsoleToolStripMenuItem.Size = new System.Drawing.Size(206, 28);
             this.BotConsoleToolStripMenuItem.Text = "ボットコンソール";
             this.BotConsoleToolStripMenuItem.Click += new System.EventHandler(this.BotConsoleToolStripMenuItem_Click);
             // 
             // TimeMeasurementToolStripMenuItem
             // 
             this.TimeMeasurementToolStripMenuItem.Name = "TimeMeasurementToolStripMenuItem";
-            this.TimeMeasurementToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.TimeMeasurementToolStripMenuItem.Size = new System.Drawing.Size(206, 28);
             this.TimeMeasurementToolStripMenuItem.Text = "処理時間計測";
             this.TimeMeasurementToolStripMenuItem.Click += new System.EventHandler(this.TimeMeasurementToolStripMenuItem_Click);
             // 
             // TrumpToolStripMenuItem
             // 
             this.TrumpToolStripMenuItem.Name = "TrumpToolStripMenuItem";
-            this.TrumpToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.TrumpToolStripMenuItem.Size = new System.Drawing.Size(206, 28);
             this.TrumpToolStripMenuItem.Text = "トランプ";
             this.TrumpToolStripMenuItem.Click += new System.EventHandler(this.TrumpToolStripMenuItem_Click);
             // 
             // BotWarsToolStripMenuItem
             // 
             this.BotWarsToolStripMenuItem.Name = "BotWarsToolStripMenuItem";
-            this.BotWarsToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.BotWarsToolStripMenuItem.Size = new System.Drawing.Size(206, 28);
             this.BotWarsToolStripMenuItem.Text = "Bot Wars";
             this.BotWarsToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
@@ -354,14 +365,14 @@
             // PracticeModeToolStripMenuItem
             // 
             this.PracticeModeToolStripMenuItem.Name = "PracticeModeToolStripMenuItem";
-            this.PracticeModeToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.PracticeModeToolStripMenuItem.Size = new System.Drawing.Size(161, 28);
             this.PracticeModeToolStripMenuItem.Text = "練習モード";
             this.PracticeModeToolStripMenuItem.Click += new System.EventHandler(this.PracticeModeToolStripMenuItem_Click);
             // 
             // ProductionModeToolStripMenuItem
             // 
             this.ProductionModeToolStripMenuItem.Name = "ProductionModeToolStripMenuItem";
-            this.ProductionModeToolStripMenuItem.Size = new System.Drawing.Size(216, 28);
+            this.ProductionModeToolStripMenuItem.Size = new System.Drawing.Size(161, 28);
             this.ProductionModeToolStripMenuItem.Text = "本番モード";
             this.ProductionModeToolStripMenuItem.Click += new System.EventHandler(this.ProductionModeToolStripMenuItem_Click);
             // 
@@ -412,6 +423,13 @@
             this.AreaToolStripComboBox.Name = "AreaToolStripComboBox";
             this.AreaToolStripComboBox.Size = new System.Drawing.Size(121, 31);
             this.AreaToolStripComboBox.SelectedIndexChanged += new System.EventHandler(this.AreaToolStripComboBox_SelectedIndexChanged);
+            // 
+            // ChangeAgentNameToolStripMenuItem
+            // 
+            this.ChangeAgentNameToolStripMenuItem.Name = "ChangeAgentNameToolStripMenuItem";
+            this.ChangeAgentNameToolStripMenuItem.Size = new System.Drawing.Size(296, 28);
+            this.ChangeAgentNameToolStripMenuItem.Text = "エージェントの名前を変更する";
+            this.ChangeAgentNameToolStripMenuItem.Click += new System.EventHandler(this.ChangeAgentNameToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -484,5 +502,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem SelectBotToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem BotWarsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SwapAgentPositionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ChangeAgentNameToolStripMenuItem;
     }
 }

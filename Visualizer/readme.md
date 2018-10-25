@@ -1,4 +1,4 @@
-# Procon29 Visualizer 97.0
+# Procon29 Visualizer 99.0
 
 ## Visualizer Common Field Library について
 
@@ -838,6 +838,15 @@
 ### Version 97.0
 
 - 本番モードが本来の仕様と異なる挙動を示すバグを修正
+
+### Version 98.0
+
+- 1ターン目でリドゥできないバグを修正
+
+### Version 99.0
+
+- エージェントの位置を交換するボタンを実装
+- エージェントの名前を設定するボタンを実装
 
 ## バージョンの上がり方について
 

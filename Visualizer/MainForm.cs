@@ -207,7 +207,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         {
             toolStripProgressBar1.Maximum = Calc.MaxTurn;
             toolStripProgressBar1.Value = Calc.Turn;
-            if (Calc.MaxTurn <= Calc.Turn)
+            if (Calc.IsEnd)
             {
                 TurnEndButton.Visible = false;
                 tableLayoutPanel2.RowStyles[1] = new RowStyle(SizeType.Percent, 100);
@@ -1094,6 +1094,28 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                 MessageBox.Show("本番中です。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 e.Cancel = true;
             }
+        }
+
+        private void SwapAgentPositionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var temp = Calc.Agents[Team.A, AgentNumber.One].Position;
+            Calc.Agents[Team.A, AgentNumber.One].Position = Calc.Agents[Team.A, AgentNumber.Two].Position;
+            Calc.Agents[Team.A, AgentNumber.Two].Position = temp;
+        }
+
+        NameForm NameForm;
+        private void ChangeAgentNameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NameForm = new NameForm(Calc);
+            NameForm.OKButton.Click += NameForm_OKButton_Click;
+            NameForm.ShowDialog();
+        }
+
+        private void NameForm_OKButton_Click(object sender, EventArgs e)
+        {
+            Calc.Agents[Team.A, AgentNumber.One].Name = NameForm.NameTextBox1.Text;
+            Calc.Agents[Team.A, AgentNumber.Two].Name = NameForm.NameTextBox2.Text;
+            NameForm.Close();
         }
     }
 }

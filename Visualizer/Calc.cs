@@ -44,6 +44,11 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         }
 
         /// <summary>
+        /// 試合が終わったかを設定または取得します。
+        /// </summary>
+        public bool IsEnd { get { return MaxTurn <= Turn; } }
+
+        /// <summary>
         /// フィールドの歴史を設定または取得します。
         /// </summary>
         public List<TurnData> History { get; private set; } = new List<TurnData>();
@@ -323,7 +328,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
         /// </summary> 
         public void Undo()
         {
-            if (Turn == 1) return;
+            if (Turn == 0) return;
             Turn--;
         }
 
