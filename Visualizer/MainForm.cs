@@ -1023,6 +1023,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 case 0: // 人間
                     Bot[0].Body = null;
+                    Bot[0].AssemblyName = new AssemblyName();
                     Bot[0].AssemblyName.Name = "Human";
                     Log.WriteLine("[Bot] Changed to Human on orange team.", Color.SkyBlue);
                     break;
@@ -1053,6 +1054,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             {
                 case 0: // 人間
                     Bot[1].Body = null;
+                    Bot[1].AssemblyName = new AssemblyName();
                     Bot[1].AssemblyName.Name = "Human";
                     Log.WriteLine("[Bot] Changed to Human on lime team.", Color.SkyBlue);
                     break;
