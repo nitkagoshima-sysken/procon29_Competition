@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9F7412B1-836A-43D1-AF00-C1FC67150B5D}</ProjectGuid>
+    <ProjectGuid>{56873586-8E2B-454F-94E0-4A666CCB44B0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bot</RootNamespace>
-    <AssemblyName>Bot</AssemblyName>
+    <RootNamespace>nitkagoshima_sysken.Procon29.SakurajimaBot</RootNamespace>
+    <AssemblyName>SakurajimaBot</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,10 +41,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bot.cs" />
+    <Compile Include="SakurajimaBot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Bot\Bot.csproj">
+      <Project>{9f7412b1-836a-43d1-af00-c1fc67150b5d}</Project>
+      <Name>Bot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KaraimoBot\KaraimoBot.csproj">
+      <Project>{2F4E6FB5-5AFE-4E8F-BA01-37727A2A985E}</Project>
+      <Name>KaraimoBot</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SatsumaimoBot\SatsumaimoBot.csproj">
+      <Project>{bac4e201-3f57-41b3-8eaa-3f4a80fc091b}</Project>
+      <Name>SatsumaimoBot</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Visualizer\Visualizer.csproj">
       <Project>{518c428c-fe3b-4d37-8287-8f009864850c}</Project>
       <Name>Visualizer</Name>
