@@ -17,6 +17,7 @@ Visualizerにボットを入れることで、多種多様なアルゴリズム�
 ## NettaBot
 
 SeitaHigashi氏によるボット。
+※弱い為凍結しました。
 
 ## Procon29_Algo
 
