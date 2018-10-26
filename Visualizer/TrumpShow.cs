@@ -41,31 +41,31 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             switch (arrow)
             {
                 case Arrow.Up:
-                    Trumps1.Add(new Trump { TrumpMark = ReturnBlack(), TrumpNumber = TrumpNumber.Queen });
+                    Trumps1.Add(new Trump { TrumpMark = ReturnBlack(), TrumpNumber = TrumpNumber.Six });
                     break;
                 case Arrow.UpRight:
-                    Trumps1.Add(new Trump { TrumpMark = ReturnBlack(), TrumpNumber = TrumpNumber.Queen });
+                    Trumps1.Add(new Trump { TrumpMark = ReturnBlack(), TrumpNumber = TrumpNumber.Six });
                     Trumps1.Add(new Trump { TrumpMark = ReturnBlack(), TrumpNumber = ReturnAnotherNumber() });
                     break;
                 case Arrow.Right:
-                    Trumps1.Add(new Trump { TrumpMark = ReturnBlack(), TrumpNumber = TrumpNumber.Three });
+                    Trumps1.Add(new Trump { TrumpMark = ReturnBlack(), TrumpNumber = TrumpNumber.Nine });
                     break;
                 case Arrow.DownRight:
-                    Trumps1.Add(new Trump { TrumpMark = ReturnBlack(), TrumpNumber = TrumpNumber.Three });
+                    Trumps1.Add(new Trump { TrumpMark = ReturnBlack(), TrumpNumber = TrumpNumber.Nine });
                     Trumps1.Add(new Trump { TrumpMark = ReturnBlack(), TrumpNumber = ReturnAnotherNumber() });
                     break;
                 case Arrow.Down:
-                    Trumps1.Add(new Trump { TrumpMark = ReturnBlack(), TrumpNumber = TrumpNumber.Six });
+                    Trumps1.Add(new Trump { TrumpMark = ReturnBlack(), TrumpNumber = TrumpNumber.Queen });
                     break;
                 case Arrow.DownLeft:
-                    Trumps1.Add(new Trump { TrumpMark = ReturnBlack(), TrumpNumber = TrumpNumber.Six });
+                    Trumps1.Add(new Trump { TrumpMark = ReturnBlack(), TrumpNumber = TrumpNumber.Queen });
                     Trumps1.Add(new Trump { TrumpMark = ReturnBlack(), TrumpNumber = ReturnAnotherNumber() });
                     break;
                 case Arrow.Left:
-                    Trumps1.Add(new Trump { TrumpMark = ReturnBlack(), TrumpNumber = TrumpNumber.Nine });
+                    Trumps1.Add(new Trump { TrumpMark = ReturnBlack(), TrumpNumber = TrumpNumber.Three });
                     break;
                 case Arrow.UpLeft:
-                    Trumps1.Add(new Trump { TrumpMark = ReturnBlack(), TrumpNumber = TrumpNumber.Nine });
+                    Trumps1.Add(new Trump { TrumpMark = ReturnBlack(), TrumpNumber = TrumpNumber.Three });
                     Trumps1.Add(new Trump { TrumpMark = ReturnBlack(), TrumpNumber = ReturnAnotherNumber() });
                     break;
             }
@@ -80,31 +80,31 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             switch (arrow)
             {
                 case Arrow.Up:
-                    Trumps2.Add(new Trump { TrumpMark = ReturnRed(), TrumpNumber = TrumpNumber.Queen });
+                    Trumps2.Add(new Trump { TrumpMark = ReturnRed(), TrumpNumber = TrumpNumber.Six });
                     break;
                 case Arrow.UpRight:
-                    Trumps2.Add(new Trump { TrumpMark = ReturnRed(), TrumpNumber = TrumpNumber.Queen });
+                    Trumps2.Add(new Trump { TrumpMark = ReturnRed(), TrumpNumber = TrumpNumber.Six });
                     Trumps2.Add(new Trump { TrumpMark = ReturnRed(), TrumpNumber = ReturnAnotherNumber() });
                     break;
                 case Arrow.Right:
-                    Trumps2.Add(new Trump { TrumpMark = ReturnRed(), TrumpNumber = TrumpNumber.Three });
+                    Trumps2.Add(new Trump { TrumpMark = ReturnRed(), TrumpNumber = TrumpNumber.Nine });
                     break;
                 case Arrow.DownRight:
-                    Trumps2.Add(new Trump { TrumpMark = ReturnRed(), TrumpNumber = TrumpNumber.Three });
+                    Trumps2.Add(new Trump { TrumpMark = ReturnRed(), TrumpNumber = TrumpNumber.Nine });
                     Trumps2.Add(new Trump { TrumpMark = ReturnRed(), TrumpNumber = ReturnAnotherNumber() });
                     break;
                 case Arrow.Down:
-                    Trumps2.Add(new Trump { TrumpMark = ReturnRed(), TrumpNumber = TrumpNumber.Six });
+                    Trumps2.Add(new Trump { TrumpMark = ReturnRed(), TrumpNumber = TrumpNumber.Queen });
                     break;
                 case Arrow.DownLeft:
-                    Trumps2.Add(new Trump { TrumpMark = ReturnRed(), TrumpNumber = TrumpNumber.Six });
+                    Trumps2.Add(new Trump { TrumpMark = ReturnRed(), TrumpNumber = TrumpNumber.Queen });
                     Trumps2.Add(new Trump { TrumpMark = ReturnRed(), TrumpNumber = ReturnAnotherNumber() });
                     break;
                 case Arrow.Left:
-                    Trumps2.Add(new Trump { TrumpMark = ReturnRed(), TrumpNumber = TrumpNumber.Nine });
+                    Trumps2.Add(new Trump { TrumpMark = ReturnRed(), TrumpNumber = TrumpNumber.Three });
                     break;
                 case Arrow.UpLeft:
-                    Trumps2.Add(new Trump { TrumpMark = ReturnRed(), TrumpNumber = TrumpNumber.Nine });
+                    Trumps2.Add(new Trump { TrumpMark = ReturnRed(), TrumpNumber = TrumpNumber.Three });
                     Trumps2.Add(new Trump { TrumpMark = ReturnRed(), TrumpNumber = ReturnAnotherNumber() });
                     break;
             }
