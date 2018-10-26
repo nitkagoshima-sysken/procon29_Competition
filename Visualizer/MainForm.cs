@@ -514,7 +514,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                             p.StartInfo.UseShellExecute = false;
                             p.StartInfo.RedirectStandardOutput = true;
                             p.StartInfo.RedirectStandardInput = false;
-                            p.StartInfo.Arguments = @"/c "+ HydroGoBot_FilePath;
+                            p.StartInfo.Arguments = @"/c " + HydroGoBot_FilePath;
                             p.Start();
                             p.WaitForExit();
                             string results = p.StandardOutput.ReadToEnd();
@@ -524,7 +524,7 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
                         var data = string.Empty;
                         using (var sr = new StreamReader("object.out"))
                         {
-                            data= sr.ReadToEnd();
+                            data = sr.ReadToEnd();
                         }
                         var re = new Regex(@"\[\[(?<onex>\d+), (?<oney>\d+)\], \[(?<twox>\d+), (?<twoy>\d+)\]\]");
                         var m = re.Match(data);
@@ -1118,6 +1118,63 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             Calc.Agents[Team.A, AgentNumber.One].Name = NameForm.NameTextBox1.Text;
             Calc.Agents[Team.A, AgentNumber.Two].Name = NameForm.NameTextBox2.Text;
             NameForm.Close();
+        }
+
+        private void FieldRotation90ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Calc.RotationField();
+            Show.Showing();
+        }
+
+        private void FieldRotation180StripMenuItem_Click(object sender, EventArgs e)
+        {
+            Calc.RotationField();
+            Calc.RotationField();
+            Show.Showing();
+        }
+
+        private void FieldRotation270ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Calc.RotationField();
+            Calc.RotationField();
+            Calc.RotationField();
+            Show.Showing();
+        }
+
+        private void ContextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+            strawberryToolStripMenuItem.Text = Calc.Agents[Team.A, AgentNumber.One].Name + "の位置にする";
+            appleToolStripMenuItem.Text = Calc.Agents[Team.A, AgentNumber.Two].Name + "の位置にする";
+            kiwiToolStripMenuItem.Text = Calc.Agents[Team.B, AgentNumber.One].Name + "の位置にする";
+            muscatToolStripMenuItem.Text = Calc.Agents[Team.B, AgentNumber.Two].Name + "の位置にする";
+        }
+
+        private void strawberryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Calc.Field[Calc.Agents[Team.A, AgentNumber.One].Position].IsTileOn[Team.A] = false;
+            Calc.Agents[Team.A, AgentNumber.One].Position = RightClickedCellCoordinate;
+            Calc.Field[Calc.Agents[Team.A, AgentNumber.One].Position].IsTileOn[Team.A] = true;
+        }
+
+        private void appleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Calc.Field[Calc.Agents[Team.A, AgentNumber.Two].Position].IsTileOn[Team.A] = false;
+            Calc.Agents[Team.A, AgentNumber.Two].Position = RightClickedCellCoordinate;
+            Calc.Field[Calc.Agents[Team.A, AgentNumber.Two].Position].IsTileOn[Team.A] = true;
+        }
+
+        private void kiwiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Calc.Field[Calc.Agents[Team.B, AgentNumber.One].Position].IsTileOn[Team.B] = false;
+            Calc.Agents[Team.B, AgentNumber.One].Position = RightClickedCellCoordinate;
+            Calc.Field[Calc.Agents[Team.B, AgentNumber.One].Position].IsTileOn[Team.B] = true;
+        }
+
+        private void muscatToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Calc.Field[Calc.Agents[Team.B, AgentNumber.Two].Position].IsTileOn[Team.B] = false;
+            Calc.Agents[Team.B, AgentNumber.Two].Position = RightClickedCellCoordinate;
+            Calc.Field[Calc.Agents[Team.B, AgentNumber.Two].Position].IsTileOn[Team.B] = true;
         }
     }
 }

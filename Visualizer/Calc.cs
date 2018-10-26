@@ -671,5 +671,27 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
             c.MoveAgent(team, agentNumber, new AgentActivityData(action));
             return c;
         }
+
+        /// <summary>
+        /// フィールドを時計回りに90度回転させます。
+        /// </summary>
+        public void RotationField()
+        {
+            var field = new Field(Field.Height, Field.Width);
+            for (int x = 0; x < Field.Width; x++)
+            {
+                for (int y = 0; y < Field.Height; y++)
+                {
+                    field[Field.Height - 1 - y, x] = Field[x, y];
+                    field[Field.Height - 1 - y, x].Coordinate = new Coordinate(Field.Height - 1 - y, x);
+                }
+            }
+            Field = field;
+            foreach (var agent in Agents)
+            {
+                var c = agent.Position;
+                agent.Position = new Coordinate(Field.Width - 1 - c.Y, c.X);
+            }
+        }
     }
 }

@@ -137,6 +137,8 @@ namespace nitkagoshima_sysken.Procon29.Visualizer
 
             //前後の改行を削除しておく
             var str = Stream.Trim(new char[] { '\r', '\n' });
+            str = str.Replace("\r", string.Empty);
+            str = str.Replace("\n", string.Empty);
             //1行のCSVから各フィールドを取得するための正規表現
             System.Text.RegularExpressions.Regex regex =
                 new System.Text.RegularExpressions.Regex(

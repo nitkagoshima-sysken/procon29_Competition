@@ -50,6 +50,11 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.SelectBotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SwapAgentPositionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ChangeAgentNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.FieldRotation90ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FieldRotation180StripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FieldRotation270ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.EndButtleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,7 +72,10 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.AreaToolStripComboBox = new System.Windows.Forms.ToolStripComboBox();
-            this.ChangeAgentNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.strawberryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.appleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kiwiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.muscatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FieldDisplay)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -259,6 +267,10 @@
             this.SelectBotToolStripMenuItem,
             this.SwapAgentPositionToolStripMenuItem,
             this.ChangeAgentNameToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.FieldRotation90ToolStripMenuItem,
+            this.FieldRotation180StripMenuItem,
+            this.FieldRotation270ToolStripMenuItem,
             this.toolStripSeparator2,
             this.EndButtleToolStripMenuItem});
             this.EditToolStripMenuItem.Name = "EditToolStripMenuItem";
@@ -270,7 +282,7 @@
             this.UndoToolStripMenuItem.Name = "UndoToolStripMenuItem";
             this.UndoToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Z";
             this.UndoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.UndoToolStripMenuItem.Size = new System.Drawing.Size(296, 28);
+            this.UndoToolStripMenuItem.Size = new System.Drawing.Size(368, 28);
             this.UndoToolStripMenuItem.Text = "元に戻す(&U)";
             this.UndoToolStripMenuItem.Click += new System.EventHandler(this.UndoToolStripMenuItem_Click);
             // 
@@ -279,38 +291,71 @@
             this.RedoToolStripMenuItem.Name = "RedoToolStripMenuItem";
             this.RedoToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Y";
             this.RedoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.RedoToolStripMenuItem.Size = new System.Drawing.Size(296, 28);
+            this.RedoToolStripMenuItem.Size = new System.Drawing.Size(368, 28);
             this.RedoToolStripMenuItem.Text = "やり直し(&R)";
             this.RedoToolStripMenuItem.Click += new System.EventHandler(this.RedoToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(293, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(365, 6);
             // 
             // SelectBotToolStripMenuItem
             // 
             this.SelectBotToolStripMenuItem.Name = "SelectBotToolStripMenuItem";
-            this.SelectBotToolStripMenuItem.Size = new System.Drawing.Size(296, 28);
+            this.SelectBotToolStripMenuItem.Size = new System.Drawing.Size(368, 28);
             this.SelectBotToolStripMenuItem.Text = "ボットを選択する";
             this.SelectBotToolStripMenuItem.Click += new System.EventHandler(this.SelectBotToolStripMenuItem_Click);
             // 
             // SwapAgentPositionToolStripMenuItem
             // 
             this.SwapAgentPositionToolStripMenuItem.Name = "SwapAgentPositionToolStripMenuItem";
-            this.SwapAgentPositionToolStripMenuItem.Size = new System.Drawing.Size(296, 28);
+            this.SwapAgentPositionToolStripMenuItem.Size = new System.Drawing.Size(368, 28);
             this.SwapAgentPositionToolStripMenuItem.Text = "エージェントの位置を交換する";
             this.SwapAgentPositionToolStripMenuItem.Click += new System.EventHandler(this.SwapAgentPositionToolStripMenuItem_Click);
+            // 
+            // ChangeAgentNameToolStripMenuItem
+            // 
+            this.ChangeAgentNameToolStripMenuItem.Name = "ChangeAgentNameToolStripMenuItem";
+            this.ChangeAgentNameToolStripMenuItem.Size = new System.Drawing.Size(368, 28);
+            this.ChangeAgentNameToolStripMenuItem.Text = "エージェントの名前を変更する";
+            this.ChangeAgentNameToolStripMenuItem.Click += new System.EventHandler(this.ChangeAgentNameToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(365, 6);
+            // 
+            // FieldRotation90ToolStripMenuItem
+            // 
+            this.FieldRotation90ToolStripMenuItem.Name = "FieldRotation90ToolStripMenuItem";
+            this.FieldRotation90ToolStripMenuItem.Size = new System.Drawing.Size(368, 28);
+            this.FieldRotation90ToolStripMenuItem.Text = "時計回りにフィールドを90度回転させる";
+            this.FieldRotation90ToolStripMenuItem.Click += new System.EventHandler(this.FieldRotation90ToolStripMenuItem_Click);
+            // 
+            // FieldRotation180StripMenuItem
+            // 
+            this.FieldRotation180StripMenuItem.Name = "FieldRotation180StripMenuItem";
+            this.FieldRotation180StripMenuItem.Size = new System.Drawing.Size(368, 28);
+            this.FieldRotation180StripMenuItem.Text = "時計回りにフィールドを180度回転させる";
+            this.FieldRotation180StripMenuItem.Click += new System.EventHandler(this.FieldRotation180StripMenuItem_Click);
+            // 
+            // FieldRotation270ToolStripMenuItem
+            // 
+            this.FieldRotation270ToolStripMenuItem.Name = "FieldRotation270ToolStripMenuItem";
+            this.FieldRotation270ToolStripMenuItem.Size = new System.Drawing.Size(368, 28);
+            this.FieldRotation270ToolStripMenuItem.Text = "時計回りにフィールドを270度回転させる";
+            this.FieldRotation270ToolStripMenuItem.Click += new System.EventHandler(this.FieldRotation270ToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(293, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(365, 6);
             // 
             // EndButtleToolStripMenuItem
             // 
             this.EndButtleToolStripMenuItem.Name = "EndButtleToolStripMenuItem";
-            this.EndButtleToolStripMenuItem.Size = new System.Drawing.Size(296, 28);
+            this.EndButtleToolStripMenuItem.Size = new System.Drawing.Size(368, 28);
             this.EndButtleToolStripMenuItem.Text = "試合を終わらせる";
             this.EndButtleToolStripMenuItem.Click += new System.EventHandler(this.EndButtleToolStripMenuItem_Click);
             // 
@@ -410,9 +455,14 @@
             // 
             this.ContextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.ContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AreaToolStripComboBox});
+            this.AreaToolStripComboBox,
+            this.strawberryToolStripMenuItem,
+            this.appleToolStripMenuItem,
+            this.kiwiToolStripMenuItem,
+            this.muscatToolStripMenuItem});
             this.ContextMenuStrip.Name = "ContextMenuStrip";
-            this.ContextMenuStrip.Size = new System.Drawing.Size(182, 39);
+            this.ContextMenuStrip.Size = new System.Drawing.Size(211, 179);
+            this.ContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip_Opening);
             // 
             // AreaToolStripComboBox
             // 
@@ -424,12 +474,33 @@
             this.AreaToolStripComboBox.Size = new System.Drawing.Size(121, 31);
             this.AreaToolStripComboBox.SelectedIndexChanged += new System.EventHandler(this.AreaToolStripComboBox_SelectedIndexChanged);
             // 
-            // ChangeAgentNameToolStripMenuItem
+            // strawberryToolStripMenuItem
             // 
-            this.ChangeAgentNameToolStripMenuItem.Name = "ChangeAgentNameToolStripMenuItem";
-            this.ChangeAgentNameToolStripMenuItem.Size = new System.Drawing.Size(296, 28);
-            this.ChangeAgentNameToolStripMenuItem.Text = "エージェントの名前を変更する";
-            this.ChangeAgentNameToolStripMenuItem.Click += new System.EventHandler(this.ChangeAgentNameToolStripMenuItem_Click);
+            this.strawberryToolStripMenuItem.Name = "strawberryToolStripMenuItem";
+            this.strawberryToolStripMenuItem.Size = new System.Drawing.Size(210, 28);
+            this.strawberryToolStripMenuItem.Text = "Strawberry";
+            this.strawberryToolStripMenuItem.Click += new System.EventHandler(this.strawberryToolStripMenuItem_Click);
+            // 
+            // appleToolStripMenuItem
+            // 
+            this.appleToolStripMenuItem.Name = "appleToolStripMenuItem";
+            this.appleToolStripMenuItem.Size = new System.Drawing.Size(210, 28);
+            this.appleToolStripMenuItem.Text = "Apple";
+            this.appleToolStripMenuItem.Click += new System.EventHandler(this.appleToolStripMenuItem_Click);
+            // 
+            // kiwiToolStripMenuItem
+            // 
+            this.kiwiToolStripMenuItem.Name = "kiwiToolStripMenuItem";
+            this.kiwiToolStripMenuItem.Size = new System.Drawing.Size(210, 28);
+            this.kiwiToolStripMenuItem.Text = "Kiwi";
+            this.kiwiToolStripMenuItem.Click += new System.EventHandler(this.kiwiToolStripMenuItem_Click);
+            // 
+            // muscatToolStripMenuItem
+            // 
+            this.muscatToolStripMenuItem.Name = "muscatToolStripMenuItem";
+            this.muscatToolStripMenuItem.Size = new System.Drawing.Size(210, 28);
+            this.muscatToolStripMenuItem.Text = "Muscat";
+            this.muscatToolStripMenuItem.Click += new System.EventHandler(this.muscatToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -504,5 +575,13 @@
         private System.Windows.Forms.ToolStripMenuItem BotWarsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SwapAgentPositionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ChangeAgentNameToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem FieldRotation90ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FieldRotation270ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem FieldRotation180StripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem strawberryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem appleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem kiwiToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem muscatToolStripMenuItem;
     }
 }
