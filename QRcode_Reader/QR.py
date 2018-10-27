@@ -7,13 +7,13 @@ import cv2
 
 cap = cv2.VideoCapture(0)
 
-
 def decodes():
     image = 'photo.png'
     data = decode(Image.open(image))
     try:
         outt = data[0][0].decode('utf-8', 'ignore')
     except:
+        os.remove(image)
         return False
     outt = outt.split(':')
     y, _ = outt[0].strip().split(' ')
@@ -21,12 +21,13 @@ def decodes():
     print(outt)
     if len(outt) == int(y)+3:
         with open('output.pqr','w') as f:
-            for i in range(len(outt)-1):
+            for i in range(len(outt)):
                 f.write(outt[i].strip()+':'+'\n')
                 print(outt[i].strip()+':')
         Flag = True
     else:
         Flag = False
+    os.remove(image)
     return Flag
 
 while(True):
